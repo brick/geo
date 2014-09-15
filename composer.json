@@ -1,0 +1,26 @@
+{
+    "name": "brick/geo",
+    "description": "GIS geometry library",
+    "type": "library",
+    "keywords": [
+        "Brick",
+        "Geo",
+        "GIS",
+        "Geography",
+        "Geometry"
+    ],
+    "license": "MIT",
+    "require": {
+        "php": ">=5.5"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "*",
+        "satooshi/php-coveralls": "dev-master"
+    },
+    "autoload": {
+        "psr-4": {
+            "Brick\\Geo\\": "src/",
+            "Brick\\Geo\\Tests\\": "tests/"
+        }
+    }
+}
