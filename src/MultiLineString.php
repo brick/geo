@@ -8,10 +8,12 @@ namespace Brick\Geo;
 class MultiLineString extends MultiCurve
 {
     /**
-     * Builds a MultiLineString from an array of LineString objects
+     * Builds a MultiLineString from an array of LineString objects.
      *
-     * @param  LineString[]      $lineStrings
+     * @param LineString[] $lineStrings
+     *
      * @return MultiLineString
+     *
      * @throws GeometryException
      */
     public static function factory(array $lineStrings)

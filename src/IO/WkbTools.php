@@ -26,6 +26,7 @@ abstract class WkbTools
      * Detects the machine byte order (big endian or little endian).
      *
      * @return integer
+     *
      * @throws \Brick\Geo\GeometryException
      */
     public static function getMachineByteOrder()

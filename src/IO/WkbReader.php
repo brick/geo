@@ -3,7 +3,6 @@
 namespace Brick\Geo\IO;
 
 use Brick\Geo\GeometryException;
-
 use Brick\Geo\Geometry;
 use Brick\Geo\Point;
 use Brick\Geo\LineString;
@@ -21,8 +20,10 @@ use Brick\Geo\TIN;
 abstract class WkbReader
 {
     /**
-     * @param  string                        $wkb
+     * @param string $wkb
+     *
      * @return \Brick\Geo\Geometry
+     *
      * @throws \Brick\Geo\GeometryException
      */
     public static function read($wkb)
@@ -38,8 +39,10 @@ abstract class WkbReader
     }
 
     /**
-     * @param  WkbBuffer                     $buffer
+     * @param WkbBuffer $buffer
+     *
      * @return \Brick\Geo\Geometry
+     *
      * @throws \Brick\Geo\GeometryException
      */
     protected static function readGeometry(WkbBuffer $buffer)
@@ -73,7 +76,8 @@ abstract class WkbReader
     }
 
     /**
-     * @param  WkbBuffer         $buffer
+     * @param WkbBuffer $buffer
+     *
      * @return \Brick\Geo\Point
      */
     protected static function readPoint(WkbBuffer $buffer)
@@ -85,7 +89,8 @@ abstract class WkbReader
     }
 
     /**
-     * @param  WkbBuffer              $buffer
+     * @param WkbBuffer $buffer
+     *
      * @return \Brick\Geo\LineString
      */
     protected static function readLineString(WkbBuffer $buffer)
@@ -101,7 +106,8 @@ abstract class WkbReader
     }
 
     /**
-     * @param  WkbBuffer           $buffer
+     * @param WkbBuffer $buffer
+     *
      * @return \Brick\Geo\Polygon
      */
     protected static function readPolygon(WkbBuffer $buffer)
@@ -117,7 +123,8 @@ abstract class WkbReader
     }
 
     /**
-     * @param  WkbBuffer              $buffer
+     * @param WkbBuffer $buffer
+     *
      * @return \Brick\Geo\MultiPoint
      */
     protected static function readMultiPoint(WkbBuffer $buffer)
@@ -133,7 +140,8 @@ abstract class WkbReader
     }
 
     /**
-     * @param  WkbBuffer                   $buffer
+     * @param WkbBuffer $buffer
+     *
      * @return \Brick\Geo\MultiLineString
      */
     protected static function readMultiLineString(WkbBuffer $buffer)
@@ -149,7 +157,8 @@ abstract class WkbReader
     }
 
     /**
-     * @param  WkbBuffer                $buffer
+     * @param WkbBuffer $buffer
+     *
      * @return \Brick\Geo\MultiPolygon
      */
     protected static function readMultiPolygon(WkbBuffer $buffer)
@@ -165,7 +174,8 @@ abstract class WkbReader
     }
 
     /**
-     * @param  WkbBuffer                      $buffer
+     * @param WkbBuffer $buffer
+     *
      * @return \Brick\Geo\GeometryCollection
      */
     protected static function readGeometryCollection(WkbBuffer $buffer)
@@ -181,7 +191,8 @@ abstract class WkbReader
     }
 
     /**
-     * @param  WkbBuffer                     $buffer
+     * @param WkbBuffer $buffer
+     *
      * @return \Brick\Geo\PolyhedralSurface
      */
     protected static function readPolyhedralSurface(WkbBuffer $buffer)
@@ -197,7 +208,8 @@ abstract class WkbReader
     }
 
     /**
-     * @param  WkbBuffer       $buffer
+     * @param WkbBuffer $buffer
+     *
      * @return \Brick\Geo\TIN
      */
     protected static function readTIN(WkbBuffer $buffer)

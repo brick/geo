@@ -8,10 +8,12 @@ namespace Brick\Geo;
 class LinearRing extends LineString
 {
     /**
-     * Builds a LinearRing from an array of Point objects
+     * Builds a LinearRing from an array of Point objects.
      *
-     * @param  Point[]           $points
+     * @param Point[] $points
+     *
      * @return LinearRing
+     *
      * @throws GeometryException
      */
     public static function factory(array $points)

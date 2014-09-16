@@ -3,23 +3,24 @@
 namespace Brick\Geo;
 
 /**
- * @todo this class is not supported yet,
- * but stays here for now as a sample.
+ * @todo this class is not supported yet, but stays here for now as a draft.
  */
 class PolyhedralSurface extends Surface implements \Countable, \IteratorAggregate
 {
     /**
-     * An array of Polygon objects
+     * An array of Polygon objects.
      *
      * @var array
      */
     protected $patches = [];
 
     /**
-     * Class constructor
-     * Internal use only, consumer code must use factory() instead
+     * Class constructor.
      *
-     * @param array $patches An array on Polygon objects
+     * Internal use only, consumer code must use factory() instead.
+     *
+     * @param array $patches An array on Polygon objects.
+     *
      * @throws GeometryException
      */
     protected function __construct(array $patches)
@@ -46,7 +47,8 @@ class PolyhedralSurface extends Surface implements \Countable, \IteratorAggregat
     /**
      * Factory method to create a new PolyhedralSurface.
      *
-     * @param  Polygon[]         $polygons
+     * @param Polygon[] $polygons
+     *
      * @return PolyhedralSurface
      */
     public static function factory(array $polygons)
@@ -64,10 +66,13 @@ class PolyhedralSurface extends Surface implements \Countable, \IteratorAggregat
 
     /**
      * Returns the specified patch N in this PolyhedralSurface.
+     *
      * The patch number is 1-based.
      *
-     * @param  integer $n
+     * @param integer $n
+     *
      * @return Polygon
+     *
      * @throws GeometryException
      */
     public function patchN($n)
@@ -89,8 +94,10 @@ class PolyhedralSurface extends Surface implements \Countable, \IteratorAggregat
     /**
      * @todo needs implementation
      *
-     * @param  Polygon      $p
+     * @param Polygon $p
+     *
      * @return MultiPolygon
+     *
      * @throws GeometryException
      */
     public function boundingPolygons(Polygon $p)
@@ -100,7 +107,9 @@ class PolyhedralSurface extends Surface implements \Countable, \IteratorAggregat
 
     /**
      * @todo needs implementation
+     *
      * @return boolean
+     *
      * @throws GeometryException
      */
     public function isClosed()
@@ -158,6 +167,7 @@ class PolyhedralSurface extends Surface implements \Countable, \IteratorAggregat
 
     /**
      * Returns the total number of rings in this Polygon (exterior + interior).
+     *
      * Required by interface Countable.
      *
      * @return integer
@@ -168,7 +178,7 @@ class PolyhedralSurface extends Surface implements \Countable, \IteratorAggregat
     }
 
     /**
-     * Required by interface InteratorAggregate.
+     * Required by interface IteratorAggregate.
      *
      * @return \ArrayIterator
      */

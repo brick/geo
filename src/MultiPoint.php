@@ -4,6 +4,7 @@ namespace Brick\Geo;
 
 /**
  * A MultiPoint is a geometry collection composed of Point elements.
+ *
  * The points are not connected or ordered in any way.
  */
 class MultiPoint extends GeometryCollection
@@ -11,8 +12,10 @@ class MultiPoint extends GeometryCollection
     /**
      * Builds a MultiPoint from an array of Point objects
      *
-     * @param  Point[]           $points
+     * @param Point[] $points
+     *
      * @return MultiPoint
+     *
      * @throws GeometryException
      */
     public static function factory(array $points)

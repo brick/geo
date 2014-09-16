@@ -11,12 +11,13 @@ use Brick\Geo\GeometryException;
 
 /**
  * Database implementation of the GeometryService.
+ *
  * The target database must have support for GIS functions.
  */
 class DatabaseService implements GeometryService
 {
     /**
-     * The database connection
+     * The database connection.
      *
      * @var \PDO
      */
@@ -24,7 +25,8 @@ class DatabaseService implements GeometryService
 
     /**
      * Class constructor.
-     * Note: this changes the PDO error handling to ERRMODE_EXCEPTION
+     *
+     * Note: this changes the PDO error handling to `ERRMODE_EXCEPTION`.
      *
      * @param \PDO $pdo
      */
@@ -37,9 +39,10 @@ class DatabaseService implements GeometryService
     /**
      * Builds a SQL query for a GIS function
      *
-     * @param  string  $function        The SQL GIS function to execute
-     * @param  array   $parameters      The Geometry objects or scalar values to pass as parameters
-     * @param  boolean $returnsGeometry Whether the GIS function returns a Geometry
+     * @param string  $function        The SQL GIS function to execute.
+     * @param array   $parameters      The Geometry objects or scalar values to pass as parameters.
+     * @param boolean $returnsGeometry Whether the GIS function returns a Geometry.
+     *
      * @return string
      */
     protected function buildQuery($function, array $parameters, $returnsGeometry)
@@ -66,12 +69,14 @@ class DatabaseService implements GeometryService
     }
 
     /**
-     * Builds and executes a SQL query for a GIS function
+     * Builds and executes a SQL query for a GIS function.
      *
-     * @param  string  $function        The SQL GIS function to execute
-     * @param  array   $parameters      The Geometry objects or scalar values to pass as parameters
-     * @param  boolean $returnsGeometry Whether the GIS function returns a Geometry
+     * @param string  $function        The SQL GIS function to execute.
+     * @param array   $parameters      The Geometry objects or scalar values to pass as parameters.
+     * @param boolean $returnsGeometry Whether the GIS function returns a Geometry.
+     *
      * @return mixed
+     *
      * @throws GeometryException
      */
     protected function query($function, array $parameters, $returnsGeometry)
@@ -103,10 +108,11 @@ class DatabaseService implements GeometryService
     }
 
     /**
-     * Executes a SQL query returning a boolean value
+     * Executes a SQL query returning a boolean value.
      *
-     * @param  string  $function   The SQL GIS function to execute
-     * @param  array   $parameters The Geometry objects or scalar values to pass as parameters
+     * @param string $function   The SQL GIS function to execute.
+     * @param array  $parameters The Geometry objects or scalar values to pass as parameters.
+     *
      * @return boolean
      */
     protected function queryBoolean($function, array $parameters)
@@ -117,10 +123,11 @@ class DatabaseService implements GeometryService
     }
 
     /**
-     * Executes a SQL query returning a floating point value
+     * Executes a SQL query returning a floating point value.
      *
-     * @param  string $function   The SQL GIS function to execute
-     * @param  array  $parameters The Geometry objects or scalar values to pass as parameters
+     * @param string $function   The SQL GIS function to execute.
+     * @param array  $parameters The Geometry objects or scalar values to pass as parameters.
+     *
      * @return float
      */
     protected function queryFloat($function, array $parameters)
@@ -131,10 +138,11 @@ class DatabaseService implements GeometryService
     }
 
     /**
-     * Executes a SQL query returning a Geometry object
+     * Executes a SQL query returning a Geometry object.
      *
-     * @param  string               $function   The SQL GIS function to execute
-     * @param  array                $parameters The Geometry objects or scalar values to pass as parameters
+     * @param string $function   The SQL GIS function to execute.
+     * @param array  $parameters The Geometry objects or scalar values to pass as parameters.
+     *
      * @return \Brick\Geo\Geometry
      */
     protected function queryGeometry($function, array $parameters)

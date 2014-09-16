@@ -4,6 +4,7 @@ namespace Brick\Geo;
 
 /**
  * A Curve is a one-dimensional geometry, usually represented by a sequence of points.
+ *
  * Particular subclasses of Curve define the type of interpolation between points.
  * Curve is a noninstantiable class.
  */

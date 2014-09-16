@@ -17,8 +17,10 @@ use Brick\Geo\GeometryException;
 abstract class WktReader
 {
     /**
-     * @param  string               $wkt
+     * @param string $wkt
+     *
      * @return \Brick\Geo\Geometry
+     *
      * @throws GeometryException
      */
     public static function read($wkt)
@@ -34,8 +36,10 @@ abstract class WktReader
     }
 
     /**
-     * @param  WktParser                     $parser
+     * @param WktParser $parser
+     *
      * @return \Brick\Geo\Geometry
+     *
      * @throws \Brick\Geo\GeometryException
      */
     public static function readGeometry(WktParser $parser)
@@ -65,7 +69,8 @@ abstract class WktReader
     /**
      * x y
      *
-     * @param  WktParser         $parser
+     * @param WktParser $parser
+     *
      * @return \Brick\Geo\Point
      */
     protected static function readPoint(WktParser $parser)
@@ -79,7 +84,8 @@ abstract class WktReader
     /**
      * (x y)
      *
-     * @param  WktParser         $parser
+     * @param WktParser  $parser
+     *
      * @return \Brick\Geo\Point
      */
     protected static function readPointText(WktParser $parser)
@@ -94,7 +100,8 @@ abstract class WktReader
     /**
      * (x y, ...)
      *
-     * @param  WktParser           $parser
+     * @param WktParser $parser
+     *
      * @return \Brick\Geo\Point[]
      */
     protected static function readMultiPoint(WktParser $parser)
@@ -113,7 +120,8 @@ abstract class WktReader
     /**
      * (x y, ...)
      *
-     * @param  WktParser              $parser
+     * @param WktParser $parser
+     *
      * @return \Brick\Geo\LineString
      */
     protected static function readLineStringText(WktParser $parser)
@@ -126,7 +134,8 @@ abstract class WktReader
     /**
      * (x y, ...)
      *
-     * @param  WktParser              $parser
+     * @param WktParser $parser
+     *
      * @return \Brick\Geo\MultiPoint
      */
     protected static function readMultiPointText(WktParser $parser)
@@ -139,7 +148,8 @@ abstract class WktReader
     /**
      * ((x y, ...), ...)
      *
-     * @param  WktParser                $parser
+     * @param WktParser $parser
+     *
      * @return \Brick\Geo\LineString[]
      */
     protected static function readMultiLineString(WktParser $parser)
@@ -158,7 +168,8 @@ abstract class WktReader
     /**
      * ((x y, ...), ...)
      *
-     * @param  WktParser           $parser
+     * @param WktParser $parser
+     *
      * @return \Brick\Geo\Polygon
      */
     protected static function readPolygonText(WktParser $parser)
@@ -171,7 +182,8 @@ abstract class WktReader
     /**
      * ((x y, ...), ...)
      *
-     * @param  WktParser                   $parser
+     * @param WktParser $parser
+     *
      * @return \Brick\Geo\MultiLineString
      */
     protected static function readMultiLineStringText(WktParser $parser)
@@ -184,7 +196,8 @@ abstract class WktReader
     /**
      * (((x y, ...), ...), ...)
      *
-     * @param  WktParser                $parser
+     * @param WktParser $parser
+     *
      * @return \Brick\Geo\MultiPolygon
      */
     protected static function readMultiPolygonText(WktParser $parser)
@@ -201,7 +214,8 @@ abstract class WktReader
     }
 
     /**
-     * @param  WktParser                      $parser
+     * @param WktParser $parser
+     *
      * @return \Brick\Geo\GeometryCollection
      */
     protected static function readGeometryCollectionText(WktParser $parser)

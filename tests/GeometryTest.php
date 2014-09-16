@@ -14,7 +14,8 @@ use Brick\Geo\MultiPolygon;
 use Brick\Geo\GeometryCollection;
 
 /**
- * Unit test for geometries
+ * Unit tests for geometries.
+ *
  * @todo needs more tests
  */
 class GeometryTest extends \PHPUnit_Framework_TestCase

@@ -23,6 +23,7 @@ class Point extends Geometry
 
     /**
      * Class constructor.
+     *
      * Internal use only, consumer code must use factory() instead.
      *
      * @param float $x
@@ -37,8 +38,9 @@ class Point extends Geometry
     /**
      * Factory method to create a new Point from x,y coordinates.
      *
-     * @param  float $x
-     * @param  float $y
+     * @param float $x
+     * @param float $y
+     *
      * @return Point
      */
     public static function factory($x, $y)
@@ -76,6 +78,7 @@ class Point extends Geometry
 
     /**
      * {@inheritdoc}
+     *
      * A Point is a 0-dimensional geometric object.
      */
     public function dimension()
@@ -102,7 +105,8 @@ class Point extends Geometry
     }
 
     /**
-     * @param  string $wkt
+     * @param string $wkt
+     *
      * @return Point
      */
     public static function fromText($wkt)

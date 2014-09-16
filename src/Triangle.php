@@ -8,10 +8,12 @@ namespace Brick\Geo;
 class Triangle extends Polygon
 {
     /**
-     * Builds a Triangle from an array of LinearRing objects
+     * Builds a Triangle from an array of LinearRing objects.
      *
-     * @param  LinearRing[]      $rings
+     * @param LinearRing[] $rings
+     *
      * @return Triangle
+     *
      * @throws GeometryException
      */
     public static function factory(array $rings)
@@ -26,11 +28,12 @@ class Triangle extends Polygon
     }
 
     /**
-     * Builds a Triangle from three Point objects
+     * Builds a Triangle from three Point objects.
      *
-     * @param  Point    $p1
-     * @param  Point    $p2
-     * @param  Point    $p3
+     * @param Point $p1
+     * @param Point $p2
+     * @param Point $p3
+     *
      * @return Triangle
      */
     public static function create(Point $p1, Point $p2, Point $p3)

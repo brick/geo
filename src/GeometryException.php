@@ -16,7 +16,8 @@ class GeometryException extends \Exception
     }
 
     /**
-     * @param  string            $methodName
+     * @param string $methodName
+     *
      * @return GeometryException
      */
     public static function unimplementedMethod($methodName)
@@ -43,7 +44,8 @@ class GeometryException extends \Exception
     }
 
     /**
-     * @param  string            $wkbType
+     * @param string $wkbType
+     *
      * @return GeometryException
      */
     public static function unsupportedWkbType($wkbType)
@@ -54,7 +56,8 @@ class GeometryException extends \Exception
     }
 
     /**
-     * @param  Geometry          $geometry
+     * @param Geometry $geometry
+     *
      * @return GeometryException
      */
     public static function unsupportedGeometryType(Geometry $geometry)
@@ -65,8 +68,9 @@ class GeometryException extends \Exception
     }
 
     /**
-     * @param  string            $expectedClass
-     * @param  string            $actualClass
+     * @param string $expectedClass
+     * @param string $actualClass
+     *
      * @return GeometryException
      */
     public static function unexpectedGeometryType($expectedClass, $actualClass)

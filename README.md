@@ -6,6 +6,11 @@ A collection of classes to work with GIS geometries.
 [![Build Status](https://secure.travis-ci.org/brick/geo.png?branch=master)](http://travis-ci.org/brick/geo)
 [![Coverage Status](https://coveralls.io/repos/brick/geo/badge.png?branch=master)](https://coveralls.io/r/brick/geo?branch=master)
 
+Introduction
+------------
+
+This library is an implementation of the [OpenGIS specification](http://www.opengeospatial.org/standards/sfa).
+
 Installation
 ------------
 

@@ -49,8 +49,10 @@ class WkbBuffer
     /**
      * Reads $length bytes from the buffer.
      *
-     * @param  integer                       $length
+     * @param integer $length
+     *
      * @return string
+     *
      * @throws \Brick\Geo\GeometryException
      */
     protected function read($length)

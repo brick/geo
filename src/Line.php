@@ -10,8 +10,10 @@ class Line extends LineString
     /**
      * Builds a Line from an array of Point objects
      *
-     * @param  Point[]           $points
+     * @param Point[] $points
+     *
      * @return Line
+     *
      * @throws GeometryException
      */
     public static function factory(array $points)
@@ -28,8 +30,9 @@ class Line extends LineString
     /**
      * Builds a Line from two Point objects
      *
-     * @param  Point $p1
-     * @param  Point $p2
+     * @param Point $p1
+     * @param Point $p2
+     *
      * @return Line
      */
     public static function create(Point $p1, Point $p2)
@@ -39,6 +42,7 @@ class Line extends LineString
 
     /**
      * {@inheritdoc}
+     *
      * A Point is a simple Geometry.
      */
     public function isSimple()
@@ -48,6 +52,7 @@ class Line extends LineString
 
     /**
      * {@inheritdoc}
+     *
      * A Point is a non-empty Geometry.
      */
     public function isEmpty()

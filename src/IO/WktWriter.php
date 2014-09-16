@@ -3,7 +3,6 @@
 namespace Brick\Geo\IO;
 
 use Brick\Geo\GeometryException;
-
 use Brick\Geo\Geometry;
 use Brick\Geo\Point;
 use Brick\Geo\LineString;
@@ -19,8 +18,10 @@ use Brick\Geo\GeometryCollection;
 abstract class WktWriter
 {
     /**
-     * @param  \Brick\Geo\Geometry          $geometry
+     * @param \Brick\Geo\Geometry $geometry
+     *
      * @return string
+     *
      * @throws \Brick\Geo\GeometryException
      */
     public static function write(Geometry $geometry)
@@ -47,7 +48,8 @@ abstract class WktWriter
     }
 
     /**
-     * @param  \Brick\Geo\Point $point
+     * @param \Brick\Geo\Point $point
+     *
      * @return string
      */
     protected static function writePoint(Point $point)
@@ -56,7 +58,8 @@ abstract class WktWriter
     }
 
     /**
-     * @param  \Brick\Geo\LineString $lineString
+     * @param \Brick\Geo\LineString $lineString
+     *
      * @return string
      */
     protected static function writeLineString(LineString $lineString)
@@ -70,7 +73,8 @@ abstract class WktWriter
     }
 
     /**
-     * @param  \Brick\Geo\Polygon $polygon
+     * @param \Brick\Geo\Polygon $polygon
+     *
      * @return string
      */
     protected static function writePolygon(Polygon $polygon)
@@ -84,7 +88,8 @@ abstract class WktWriter
     }
 
     /**
-     * @param  \Brick\Geo\MultiPoint $multiPoint
+     * @param \Brick\Geo\MultiPoint $multiPoint
+     *
      * @return string
      */
     protected static function writeMultiPoint(MultiPoint $multiPoint)
@@ -98,7 +103,8 @@ abstract class WktWriter
     }
 
     /**
-     * @param  \Brick\Geo\MultiLineString $multiLineString
+     * @param \Brick\Geo\MultiLineString $multiLineString
+     *
      * @return string
      */
     protected static function writeMultiLineString(MultiLineString $multiLineString)
@@ -112,7 +118,8 @@ abstract class WktWriter
     }
 
     /**
-     * @param  \Brick\Geo\MultiPolygon $multiPolygon
+     * @param \Brick\Geo\MultiPolygon $multiPolygon
+     *
      * @return string
      */
     protected static function writeMultiPolygon(MultiPolygon $multiPolygon)
@@ -126,7 +133,8 @@ abstract class WktWriter
     }
 
     /**
-     * @param  \Brick\Geo\GeometryCollection $collection
+     * @param \Brick\Geo\GeometryCollection $collection
+     *
      * @return string
      */
     protected static function writeGeometryCollection(GeometryCollection $collection)

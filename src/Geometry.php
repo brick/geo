@@ -10,8 +10,7 @@ use Brick\Geo\IO\WkbReader;
 use Brick\Geo\IO\WkbWriter;
 
 /**
- * Geometry hierarchy implementing the OpenGIS specification
- * @see http://www.opengeospatial.org/standards/sfa
+ * Geometry is the root class of the hierarchy.
  */
 abstract class Geometry
 {
@@ -58,7 +57,9 @@ abstract class Geometry
 
     /**
      * @todo document & implement
+     *
      * @return integer
+     *
      * @throws GeometryException
      */
     public function coordinateDimension()
@@ -68,7 +69,9 @@ abstract class Geometry
 
     /**
      * @todo document & implement
+     *
      * @return integer
+     *
      * @throws GeometryException
      */
     public function spatialDimension()
@@ -140,6 +143,7 @@ abstract class Geometry
 
     /**
      * Returns true if this geometric object has z coordinate values.
+     *
      * @todo add support for z coordinates
      *
      * @return boolean
@@ -151,6 +155,7 @@ abstract class Geometry
 
     /**
      * Returns true if this geometric object has m coordinate values.
+     *
      * @todo add support for m coordinates
      *
      * @return boolean
@@ -176,7 +181,8 @@ abstract class Geometry
     /**
      * Returns true if this geometric object is "spatially equal" to $geometry.
      *
-     * @param  Geometry $geometry
+     * @param Geometry $geometry
+     *
      * @return boolean
      */
     public function equals(Geometry $geometry)
@@ -194,7 +200,8 @@ abstract class Geometry
     /**
      * Returns true if this geometric object is "spatially disjoint" from $geometry.
      *
-     * @param  Geometry $geometry
+     * @param Geometry $geometry
+     *
      * @return boolean
      */
     public function disjoint(Geometry $geometry)
@@ -205,7 +212,8 @@ abstract class Geometry
     /**
      * Returns true if this geometric object "spatially intersects" $geometry.
      *
-     * @param  Geometry $geometry
+     * @param Geometry $geometry
+     *
      * @return boolean
      */
     public function intersects(Geometry $geometry)
@@ -220,7 +228,8 @@ abstract class Geometry
     /**
      * Returns true if this geometric object "spatially touches" $geometry.
      *
-     * @param  Geometry $geometry
+     * @param Geometry $geometry
+     *
      * @return boolean
      */
     public function touches(Geometry $geometry)
@@ -231,7 +240,8 @@ abstract class Geometry
     /**
      * Returns true if this geometric object "spatially crosses" $geometry.
      *
-     * @param  Geometry $geometry
+     * @param Geometry $geometry
+     *
      * @return boolean
      */
     public function crosses(Geometry $geometry)
@@ -242,7 +252,8 @@ abstract class Geometry
     /**
      * Returns true if this geometric object is "spatially within" $geometry.
      *
-     * @param  Geometry $geometry
+     * @param Geometry $geometry
+     *
      * @return boolean
      */
     public function within(Geometry $geometry)
@@ -253,7 +264,8 @@ abstract class Geometry
     /**
      * Returns true if this geometric object "spatially contains" $geometry.
      *
-     * @param  Geometry $geometry
+     * @param Geometry $geometry
+     *
      * @return boolean
      */
     public function contains(Geometry $geometry)
@@ -268,7 +280,8 @@ abstract class Geometry
     /**
      * Returns true if this geometric object "spatially overlaps" $geometry.
      *
-     * @param  Geometry $geometry
+     * @param Geometry $geometry
+     *
      * @return boolean
      */
     public function overlaps(Geometry $geometry)
@@ -283,8 +296,9 @@ abstract class Geometry
      * This returns false if all the tested intersections are empty except
      * exterior (this) intersect exterior (geometry).
      *
-     * @param  Geometry $geometry
-     * @param  string   $intersectionPatternMatrix
+     * @param Geometry $geometry
+     * @param string   $intersectionPatternMatrix
+     *
      * @return boolean
      */
     public function relate(Geometry $geometry, $intersectionPatternMatrix)
@@ -296,7 +310,8 @@ abstract class Geometry
      * Returns a derived geometry collection value that matches
      * the specified m coordinate value.
      *
-     * @param  float    $mValue
+     * @param float $mValue
+     *
      * @return Geometry
      */
     public function locateAlong($mValue)
@@ -308,8 +323,9 @@ abstract class Geometry
      * Returns a derived geometry collection value that matches
      * the specified range of m coordinate values inclusively.
      *
-     * @param  float    $mStart
-     * @param  float    $mEnd
+     * @param float $mStart
+     * @param float $mEnd
+     *
      * @return Geometry
      */
     public function locateBetween($mStart, $mEnd)
@@ -325,7 +341,8 @@ abstract class Geometry
      * that the distance between these 2 points is the returned distance
      * between their geometric objects.
      *
-     * @param  Geometry $geometry
+     * @param Geometry $geometry
+     *
      * @return float
      */
     public function distance(Geometry $geometry)
@@ -341,7 +358,8 @@ abstract class Geometry
      * some relatively small error in this distance, but it should be near the
      * resolution of the coordinates used.
      *
-     * @param  float    $distance
+     * @param float $distance
+     *
      * @return Geometry
      */
     public function buffer($distance)
@@ -379,7 +397,8 @@ abstract class Geometry
      * Returns a geometric object that represents the Point set union
      * of this geometric object with $geometry.
      *
-     * @param  Geometry $geometry
+     * @param Geometry $geometry
+     *
      * @return Geometry
      */
     public function union(Geometry $geometry)
@@ -391,7 +410,8 @@ abstract class Geometry
      * Returns a geometric object that represents the Point set
      * difference of this geometric object with $geometry.
      *
-     * @param  Geometry $geometry
+     * @param Geometry $geometry
+     *
      * @return Geometry
      */
     public function difference(Geometry $geometry)
@@ -403,7 +423,8 @@ abstract class Geometry
      * Returns a geometric object that represents the Point set
      * symmetric difference of this geometric object with $geometry.
      *
-     * @param  Geometry $geometry
+     * @param Geometry $geometry
+     *
      * @return Geometry
      */
     public function symDifference(Geometry $geometry)
@@ -446,7 +467,8 @@ abstract class Geometry
     /**
      * Builds a Geometry from a WKT representation
      *
-     * @param  string   $wkt
+     * @param string $wkt
+     *
      * @return Geometry
      */
     public static function fromText($wkt)
@@ -459,7 +481,8 @@ abstract class Geometry
     /**
      * Builds a Geometry from a WKB representation
      *
-     * @param  string   $wkb
+     * @param string $wkb
+     *
      * @return Geometry
      */
     final public static function fromBinary($wkb)
@@ -472,8 +495,10 @@ abstract class Geometry
     /**
      * Checks that the Geometry is an instance of the expected class
      *
-     * @param  Geometry          $geometry
+     * @param Geometry $geometry
+     *
      * @return Geometry
+     *
      * @throws GeometryException
      */
     private static function checkExpectedClass(Geometry $geometry)
@@ -487,6 +512,8 @@ abstract class Geometry
 
     /**
      * @param Service\GeometryService $service
+     *
+     * @return void
      */
     final public static function injectService(GeometryService $service)
     {
@@ -495,6 +522,7 @@ abstract class Geometry
 
     /**
      * @return Service\GeometryService
+     *
      * @throws GeometryException
      */
     final public static function getService()

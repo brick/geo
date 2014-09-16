@@ -3,16 +3,17 @@
 namespace Brick\Geo;
 
 /**
- * @todo this class is not supported yet,
- * but stays here for now as a sample.
+ * @todo this class is not supported yet, but stays here for now as a draft.
  */
 class TIN extends PolyhedralSurface
 {
     /**
      * Builds a TIN from an array of Triangle objects
      *
-     * @param  Triangle[]        $patches
+     * @param Triangle[] $patches
+     *
      * @return TIN
+     *
      * @throws GeometryException
      */
     public static function factory(array $patches)

@@ -22,8 +22,10 @@ use Brick\Geo\TIN;
 abstract class WkbWriter
 {
     /**
-     * @param  \Brick\Geo\Geometry          $geometry
+     * @param \Brick\Geo\Geometry $geometry
+     *
      * @return string
+     *
      * @throws \Brick\Geo\GeometryException
      */
     public static function write(Geometry $geometry)
@@ -73,7 +75,8 @@ abstract class WkbWriter
     }
 
     /**
-     * @param  integer $byte
+     * @param integer $byte
+     *
      * @return string
      */
     protected static function packByte($byte)
@@ -82,7 +85,8 @@ abstract class WkbWriter
     }
 
     /**
-     * @param  integer $uint
+     * @param integer $uint
+     *
      * @return string
      */
     protected static function packUnsignedInteger($uint)
@@ -91,7 +95,8 @@ abstract class WkbWriter
     }
 
     /**
-     * @param  float  $double
+     * @param float $double
+     *
      * @return string
      */
     protected static function packDouble($double)
@@ -100,7 +105,8 @@ abstract class WkbWriter
     }
 
     /**
-     * @param  \Brick\Geo\Point $point
+     * @param \Brick\Geo\Point $point
+     *
      * @return string
      */
     protected static function packPoint(Point $point)
@@ -112,7 +118,8 @@ abstract class WkbWriter
     }
 
     /**
-     * @param  \Brick\Geo\LineString $lineString
+     * @param \Brick\Geo\LineString $lineString
+     *
      * @return string
      */
     protected static function packLineString(LineString $lineString)
@@ -127,7 +134,8 @@ abstract class WkbWriter
     }
 
     /**
-     * @param  \Brick\Geo\Point $point
+     * @param \Brick\Geo\Point $point
+     *
      * @return string
      */
     protected static function writePoint(Point $point)
@@ -140,7 +148,8 @@ abstract class WkbWriter
     }
 
     /**
-     * @param  \Brick\Geo\LineString $lineString
+     * @param \Brick\Geo\LineString $lineString
+     *
      * @return string
      */
     protected static function writeLineString(LineString $lineString)
@@ -153,7 +162,8 @@ abstract class WkbWriter
     }
 
     /**
-     * @param  \Brick\Geo\Polygon $polygon
+     * @param \Brick\Geo\Polygon $polygon
+     *
      * @return string
      */
     protected static function writePolygon(Polygon $polygon)
@@ -170,7 +180,8 @@ abstract class WkbWriter
     }
 
     /**
-     * @param  \Brick\Geo\Triangle $triangle
+     * @param \Brick\Geo\Triangle $triangle
+     *
      * @return string
      */
     protected static function writeTriangle(Triangle $triangle)
@@ -187,7 +198,8 @@ abstract class WkbWriter
     }
 
     /**
-     * @param  \Brick\Geo\MultiPoint $multiPoint
+     * @param \Brick\Geo\MultiPoint $multiPoint
+     *
      * @return string
      */
     protected static function writeMultiPoint(MultiPoint $multiPoint)
@@ -204,7 +216,8 @@ abstract class WkbWriter
     }
 
     /**
-     * @param  \Brick\Geo\MultiLineString $multiLineString
+     * @param \Brick\Geo\MultiLineString $multiLineString
+     *
      * @return string
      */
     protected static function writeMultiLineString(MultiLineString $multiLineString)
@@ -221,7 +234,8 @@ abstract class WkbWriter
     }
 
     /**
-     * @param  \Brick\Geo\MultiPolygon $multiPolygon
+     * @param \Brick\Geo\MultiPolygon $multiPolygon
+     *
      * @return string
      */
     protected static function writeMultiPolygon(MultiPolygon $multiPolygon)
@@ -238,7 +252,8 @@ abstract class WkbWriter
     }
 
     /**
-     * @param  \Brick\Geo\GeometryCollection $collection
+     * @param \Brick\Geo\GeometryCollection $collection
+     *
      * @return string
      */
     protected static function writeGeometryCollection(GeometryCollection $collection)
@@ -255,7 +270,8 @@ abstract class WkbWriter
     }
 
     /**
-     * @param  \Brick\Geo\PolyhedralSurface $surface
+     * @param \Brick\Geo\PolyhedralSurface $surface
+     *
      * @return string
      */
     protected static function writePolyhedralSurface(PolyhedralSurface $surface)
@@ -272,7 +288,8 @@ abstract class WkbWriter
     }
 
     /**
-     * @param  \Brick\Geo\TIN $tin
+     * @param \Brick\Geo\TIN $tin
+     *
      * @return string
      */
     protected static function writeTIN(TIN $tin)

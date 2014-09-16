@@ -8,10 +8,12 @@ namespace Brick\Geo;
 class MultiPolygon extends MultiSurface
 {
     /**
-     * Builds a MultiPolygon from an array of Polygon objects
+     * Builds a MultiPolygon from an array of Polygon objects.
      *
-     * @param  Polygon[]         $polygons
+     * @param Polygon[] $polygons
+     *
      * @return MultiPolygon
+     *
      * @throws GeometryException
      */
     public static function factory(array $polygons = [])
@@ -34,7 +36,8 @@ class MultiPolygon extends MultiSurface
     }
 
     /**
-     * @param  string       $wkt
+     * @param string $wkt
+     *
      * @return MultiPolygon
      */
     public static function fromText($wkt)

@@ -3,26 +3,30 @@
 namespace Brick\Geo;
 
 /**
- * A Polygon is a planar Surface representing a multisided geometry.
+ * A Polygon is a planar Surface representing a multi-sided geometry.
+ *
  * It is defined by a single exterior boundary and zero or more interior boundaries,
  * where each interior boundary defines a hole in the Polygon.
  */
 class Polygon extends Surface implements \Countable, \IteratorAggregate
 {
     /**
-     * An array of LinearRing objects, the first one representing
-     * the exterior ring, and the (optional) other ones representing
-     * the interior rings of the Polygon.
+     * An array of LinearRing objects.
+     *
+     * The first one represents the exterior ring, and the
+     * (optional) other ones represent the interior rings of the Polygon.
      *
      * @var array
      */
     protected $rings = [];
 
     /**
-     * Class constructor
-     * Internal use only, consumer code must use factory() instead
+     * Class constructor.
      *
-     * @param array $rings An array on LinearRing objects
+     * Internal use only, consumer code must use factory() instead.
+     *
+     * @param array $rings An array on LinearRing objects.
+     *
      * @throws GeometryException
      */
     protected function __construct(array $rings)
@@ -47,7 +51,8 @@ class Polygon extends Surface implements \Countable, \IteratorAggregate
     }
 
     /**
-     * @param  LinearRing[] $rings
+     * @param LinearRing[] $rings
+     *
      * @return Polygon
      */
     public static function factory(array $rings)
@@ -62,8 +67,9 @@ class Polygon extends Surface implements \Countable, \IteratorAggregate
     }
 
     /**
-     * @param  Point   $a
-     * @param  Point   $b
+     * @param Point $a
+     * @param Point $b
+     *
      * @return Polygon
      */
     public static function createRectangle(Point $a, Point $b)
@@ -130,10 +136,13 @@ class Polygon extends Surface implements \Countable, \IteratorAggregate
 
     /**
      * Returns the Nth interior ring for this Polygon as a LineString.
+     *
      * The ring number is 1-based.
      *
      * @param integer $n
+     *
      * @return LinearRing
+     *
      * @throws GeometryException
      */
     public function interiorRingN($n)
@@ -159,6 +168,7 @@ class Polygon extends Surface implements \Countable, \IteratorAggregate
 
     /**
      * {@inheritdoc}
+     *
      * A Polygon is a 2-dimensional geometric object.
      */
     public function dimension()
@@ -176,6 +186,7 @@ class Polygon extends Surface implements \Countable, \IteratorAggregate
 
     /**
      * Returns the total number of rings in this Polygon (exterior + interior).
+     *
      * Required by interface Countable.
      *
      * @return integer
@@ -186,7 +197,7 @@ class Polygon extends Surface implements \Countable, \IteratorAggregate
     }
 
     /**
-     * Required by interface InteratorAggregate.
+     * Required by interface IteratorAggregate.
      *
      * @return \ArrayIterator
      */

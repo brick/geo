@@ -4,13 +4,13 @@ namespace Brick\Geo;
 
 /**
  * A MultiSurface is a geometry collection composed of surface elements.
- * MultiSurface is a noninstantiable class.
+ *
+ * MultiSurface is a non-instantiable class.
  */
 abstract class MultiSurface extends GeometryCollection
 {
     /**
-     * The area of this MultiSurface, as measured in
-     * the spatial reference system of this MultiSurface.
+     * The area of this MultiSurface, as measured in the spatial reference system of this MultiSurface.
      *
      * @return float
      */
@@ -18,6 +18,7 @@ abstract class MultiSurface extends GeometryCollection
 
     /**
      * The mathematical centroid for this MultiSurface.
+     *
      * The result is not guaranteed to be on this MultiSurface.
      *
      * @return Point

@@ -8,14 +8,15 @@ namespace Brick\Geo;
 class LineString extends Curve implements \Countable, \IteratorAggregate
 {
     /**
-     * An array of Point objects
+     * An array of Point objects.
      *
      * @var array
      */
     protected $points = [];
 
     /**
-     * Class constructor
+     * Class constructor.
+     *
      * Internal use only, consumer code must use factory() instead
      *
      * @param \Brick\Geo\Point[] $points
@@ -38,8 +39,10 @@ class LineString extends Curve implements \Countable, \IteratorAggregate
     }
 
     /**
-     * @param  Point[]           $points
+     * @param Point[] $points
+     *
      * @return LineString
+     *
      * @throws GeometryException
      */
     public static function factory(array $points)
@@ -61,6 +64,7 @@ class LineString extends Curve implements \Countable, \IteratorAggregate
 
     /**
      * {@inheritdoc}
+     *
      * Implemented using a GeometryService.
      */
     public function length()
@@ -112,10 +116,13 @@ class LineString extends Curve implements \Countable, \IteratorAggregate
 
     /**
      * Returns the specified Point N in this LineString.
+     *
      * The point number is 1-based.
      *
-     * @param  integer $n
+     * @param integer $n
+     *
      * @return Point
+     *
      * @throws GeometryException
      */
     public function pointN($n)
@@ -136,6 +143,7 @@ class LineString extends Curve implements \Countable, \IteratorAggregate
 
     /**
      * {@inheritdoc}
+     *
      * A LineString is a 1-dimensional geometric object.
      */
     public function dimension()
@@ -161,6 +169,7 @@ class LineString extends Curve implements \Countable, \IteratorAggregate
 
     /**
      * Returns the total number of points in this LineString.
+     *
      * Required by interface Countable.
      *
      * @return integer
@@ -171,7 +180,7 @@ class LineString extends Curve implements \Countable, \IteratorAggregate
     }
 
     /**
-     * Required by interface InteratorAggregate.
+     * Required by interface IteratorAggregate.
      *
      * @return \ArrayIterator
      */

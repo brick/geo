@@ -15,8 +15,9 @@ class GeometryCollection extends Geometry implements \Countable, \IteratorAggreg
     protected $geometries = [];
 
     /**
-     * Class constructor
-     * Internal use only, consumer code must use factory() instead
+     * Class constructor.
+     *
+     * Internal use only, consumer code must use factory() instead.
      *
      * @param array $geometries An array of Geometry objects
      */
@@ -31,6 +32,8 @@ class GeometryCollection extends Geometry implements \Countable, \IteratorAggreg
      * Internal function for the constructor, to provide strong typing.
      *
      * @param Geometry $geometry
+     *
+     * @return void
      */
     private function addGeometry(Geometry $geometry)
     {
@@ -38,7 +41,8 @@ class GeometryCollection extends Geometry implements \Countable, \IteratorAggreg
     }
 
     /**
-     * @param  array              $geometries An array of Geometry objects
+     * @param array $geometries An array of Geometry objects.
+     *
      * @return GeometryCollection
      */
     public static function factory(array $geometries)
@@ -58,10 +62,13 @@ class GeometryCollection extends Geometry implements \Countable, \IteratorAggreg
 
     /**
      * Returns the Nth geometry in this GeometryCollection.
+     *
      * The geometry number is 1-based.
      *
-     * @param  integer  $n
+     * @param integer $n
+     *
      * @return Geometry
+     *
      * @throws GeometryException
      */
     public function geometryN($n)
@@ -90,7 +97,8 @@ class GeometryCollection extends Geometry implements \Countable, \IteratorAggreg
 
     /**
      * {@inheritdoc}
-     * Returns the largest dimension of the geometries of the collection
+     *
+     * Returns the largest dimension of the geometries of the collection.
      */
     public function dimension()
     {
@@ -119,6 +127,7 @@ class GeometryCollection extends Geometry implements \Countable, \IteratorAggreg
 
     /**
      * Returns the total number of geometries in this GeometryCollection.
+     *
      * Required by interface Countable.
      *
      * @return integer
@@ -129,7 +138,7 @@ class GeometryCollection extends Geometry implements \Countable, \IteratorAggreg
     }
 
     /**
-     * Required by interface InteratorAggregate.
+     * Required by interface IteratorAggregate.
      *
      * @return \ArrayIterator
      */
