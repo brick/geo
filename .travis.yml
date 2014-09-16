@@ -4,6 +4,7 @@ php:
   - 5.5
   - 5.6
   - hhvm
+  - hhvm-nightly
 
 env:
   - DB=mysql
@@ -19,3 +20,13 @@ script:
 
 after_script:
   - vendor/bin/coveralls -v
+
+matrix:
+  exclude:
+    - env: DB=mysql # travis does not support MySQL 5.6 yet
+    - php: hhvm
+      env: DB=pgsql # driver currently unsupported by HHVM
+    - php: hhvm-nightly
+      env: DB=pgsql # driver currently unsupported by HHVM
+  allow_failures:
+    - php: hhvm-nightly
