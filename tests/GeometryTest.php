@@ -51,7 +51,7 @@ class GeometryTest extends \PHPUnit_Framework_TestCase
     {
         $clone = $this->cloneByText($geometry);
         $this->assertTrue($clone->equals($geometry));
-        $this->assertEquals($clone->asText(), $geometry->asText());
+        $this->assertSame($geometry->asText(), $clone->asText());
     }
 
     /**
@@ -64,7 +64,17 @@ class GeometryTest extends \PHPUnit_Framework_TestCase
     {
         $clone = $this->cloneByBinary($geometry);
         $this->assertTrue($clone->equals($geometry));
-        $this->assertEquals($clone->asBinary(), $geometry->asBinary());
+        $this->assertSame($geometry->asBinary(), $clone->asBinary());
+    }
+
+    /**
+     * @param string $type
+     *
+     * @param Geometry $geometry
+     */
+    private function assertGeometryType($type, Geometry $geometry)
+    {
+        $this->assertSame($type, $geometry->geometryType());
     }
 
     /**
@@ -89,50 +99,50 @@ class GeometryTest extends \PHPUnit_Framework_TestCase
 
         foreach ([$p1, $p2, $p3, $p4] as $point) {
             /** @var Point $point */
-            $this->assertEquals($point->geometryType(), 'Point');
+            $this->assertGeometryType('Point', $point);
             $this->checkCloneIsEqual($point);
         }
 
         // LineString
         $lineString = LineString::factory([$p1, $p2, $p3]);
 
-        $this->assertEquals($lineString->geometryType(), 'LineString');
+        $this->assertGeometryType('LineString', $lineString);
         $this->checkCloneIsEqual($lineString);
 
         // LinearRing
         $linearRing = LinearRing::factory([$p1, $p2, $p3, $p4, $p1]);
 
-        // $this->assertEquals($linearRing->geometryType(), 'LinearRing');
+        // $this->assertGeometryType('LinearRing', $linearRing);
         $this->checkCloneIsEqual($linearRing);
 
         // Line
         $line = Line::create($p1, $p2);
 
-        // $this->assertEquals($line->geometryType(), 'Line');
+        // $this->assertGeometryType('Line', $line);
         $this->checkCloneIsEqual($line);
 
         // Polygon
         $polygon = Polygon::factory([$linearRing]);
 
-        $this->assertEquals($polygon->geometryType(), 'Polygon');
+        $this->assertGeometryType('Polygon', $polygon);
         $this->checkCloneIsEqual($polygon);
 
         // MultiPoint
         $multiPoint = MultiPoint::factory([$p2, $p3, $p1]);
 
-        $this->assertEquals($multiPoint->geometryType(), 'MultiPoint');
+        $this->assertGeometryType('MultiPoint', $multiPoint);
         $this->checkCloneIsEqual($multiPoint);
 
         // MultiLineString
         $multiLineString = MultiLineString::factory([$lineString, $linearRing, $line]);
 
-        $this->assertEquals($multiLineString->geometryType(), 'MultiLineString');
+        $this->assertGeometryType('MultiLineString', $multiLineString);
         $this->checkCloneIsEqual($multiLineString);
 
         // MultiPolygon
         $multiPolygon = MultiPolygon::factory([$polygon]);
 
-        $this->assertEquals($multiPolygon->geometryType(), 'MultiPolygon');
+        $this->assertGeometryType('MultiPolygon', $multiPolygon);
         $this->checkCloneIsEqual($multiPolygon);
 
         // GeometryCollection
@@ -150,12 +160,12 @@ class GeometryTest extends \PHPUnit_Framework_TestCase
             $multiPolygon
         ]);
 
-        $this->assertEquals($collection->geometryType(), 'GeometryCollection');
+        $this->assertGeometryType('GeometryCollection', $collection);
 
         // PostGIS does not support ST_Equals() on GEOMETRYCOLLECTION yet.
         // Testing only the binary equality for now.
         // $this->checkCloneIsEqual($collection);
-        $this->assertEquals($collection->asBinary(), $this->cloneByText($collection)->asBinary());
-        $this->assertEquals($collection->asBinary(), $this->cloneByBinary($collection)->asBinary());
+        $this->assertSame($collection->asBinary(), $this->cloneByText($collection)->asBinary());
+        $this->assertSame($collection->asBinary(), $this->cloneByBinary($collection)->asBinary());
     }
 }
