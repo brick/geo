@@ -8,26 +8,6 @@ namespace Brick\Geo;
 class MultiPolygon extends MultiSurface
 {
     /**
-     * Builds a MultiPolygon from an array of Polygon objects.
-     *
-     * @param Polygon[] $polygons
-     *
-     * @return MultiPolygon
-     *
-     * @throws GeometryException
-     */
-    public static function factory(array $polygons = [])
-    {
-        foreach ($polygons as $polygon) {
-            if (! $polygon instanceof Polygon) {
-                throw new GeometryException('A MultiPolygon can only contain Polygon objects');
-            }
-        }
-
-        return new MultiPolygon($polygons);
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function geometryType()

@@ -8,46 +8,38 @@ namespace Brick\Geo;
 class GeometryCollection extends Geometry implements \Countable, \IteratorAggregate
 {
     /**
-     * An array of Geometry objects in the collection
+     * An array of Geometry objects in the collection.
      *
      * @var Geometry[]
      */
     protected $geometries = [];
 
     /**
-     * Class constructor.
+     * Class constructor. Use the factory methods to obtain an instance.
      *
-     * Internal use only, consumer code must use factory() instead.
-     *
-     * @param array $geometries An array of Geometry objects
+     * @param array $geometries An array of Geometry objects, validated.
      */
     protected function __construct(array $geometries)
     {
-        foreach ($geometries as $geometry) {
-            $this->addGeometry($geometry);
-        }
-    }
-
-    /**
-     * Internal function for the constructor, to provide strong typing.
-     *
-     * @param Geometry $geometry
-     *
-     * @return void
-     */
-    private function addGeometry(Geometry $geometry)
-    {
-        $this->geometries[] = $geometry;
+        $this->geometries = $geometries;
     }
 
     /**
      * @param array $geometries An array of Geometry objects.
      *
      * @return GeometryCollection
+     *
+     * @throws GeometryException If the array contains objects not of the current type.
      */
     public static function factory(array $geometries)
     {
-        return new GeometryCollection($geometries);
+        foreach ($geometries as $geometry) {
+            if (! $geometry instanceof static) {
+                throw GeometryException::unexpectedGeometryType(get_called_class(), $geometry);
+            }
+        }
+
+        return new static($geometries);
     }
 
     /**

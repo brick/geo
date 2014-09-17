@@ -69,13 +69,14 @@ class GeometryException extends \Exception
 
     /**
      * @param string $expectedClass
-     * @param string $actualClass
+     * @param mixed  $value
      *
      * @return GeometryException
      */
-    public static function unexpectedGeometryType($expectedClass, $actualClass)
+    public static function unexpectedGeometryType($expectedClass, $value)
     {
-        $message = sprintf('Unexpected geometry type: %s expected, %s actual', $expectedClass, $actualClass);
+        $value = is_object($value) ? get_class($value) : gettype($value);
+        $message = sprintf('Unexpected geometry type: expected %s, got %s.', $expectedClass, $value);
 
         return new self($message);
     }

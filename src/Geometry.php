@@ -474,7 +474,7 @@ abstract class Geometry
         $geometry = WktReader::read($wkt);
 
         if (! $geometry instanceof static) {
-            throw GeometryException::unexpectedGeometryType(get_called_class(), get_class($geometry));
+            throw GeometryException::unexpectedGeometryType(get_called_class(), $geometry);
         }
 
         return $geometry;
@@ -494,7 +494,7 @@ abstract class Geometry
         $geometry = WkbReader::read($wkb);
 
         if (! $geometry instanceof static) {
-            throw GeometryException::unexpectedGeometryType(get_called_class(), get_class($geometry));
+            throw GeometryException::unexpectedGeometryType(get_called_class(), $geometry);
         }
 
         return $geometry;
