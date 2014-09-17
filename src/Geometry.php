@@ -47,6 +47,70 @@ abstract class Geometry
     private static $service = null;
 
     /**
+     * @param Service\GeometryService $service
+     *
+     * @return void
+     */
+    final public static function injectService(GeometryService $service)
+    {
+        self::$service = $service;
+    }
+
+    /**
+     * @return Service\GeometryService
+     *
+     * @throws GeometryException
+     */
+    final public static function getService()
+    {
+        if (self::$service === null) {
+            throw GeometryException::noServiceInjected();
+        }
+
+        return self::$service;
+    }
+
+    /**
+     * Builds a Geometry from a WKT representation.
+     *
+     * @param string $wkt The Well-Known Text representation.
+     *
+     * @return static
+     *
+     * @throws GeometryException If the geometry is not of this type.
+     */
+    public static function fromText($wkt)
+    {
+        $geometry = WktReader::read($wkt);
+
+        if (! $geometry instanceof static) {
+            throw GeometryException::unexpectedGeometryType(get_called_class(), $geometry);
+        }
+
+        return $geometry;
+    }
+
+    /**
+     * Builds a Geometry from a WKB representation.
+     *
+     * @param string $wkb The Well-Known Binary representation.
+     *
+     * @return static
+     *
+     * @throws GeometryException If the geometry is not of this type.
+     */
+    final public static function fromBinary($wkb)
+    {
+        $geometry = WkbReader::read($wkb);
+
+        if (! $geometry instanceof static) {
+            throw GeometryException::unexpectedGeometryType(get_called_class(), $geometry);
+        }
+
+        return $geometry;
+    }
+
+    /**
      * Returns the inherent dimension of this geometric object.
      *
      * This dimension must be less than or equal to the coordinate dimension. In non-homogeneous collections,
@@ -95,13 +159,14 @@ abstract class Geometry
      *
      * @return integer
      */
-    public function srid()
+    public function SRID()
     {
         return self::WGS84;
     }
 
     /**
-     * The minimum bounding box for this Geometry, returned as a Geometry.
+     * Returns the minimum bounding box for this Geometry.
+     *
      * The polygon is defined by the corner points of the bounding box
      * [(MINX, MINY), (MAXX, MINY), (MAXX, MAXY), (MINX, MAXY), (MINX, MINY)].
      * Minimums for Z and M may be added. The simplest representation of an Envelope
@@ -114,6 +179,26 @@ abstract class Geometry
     public function envelope()
     {
         return self::getService()->envelope($this);
+    }
+
+    /**
+     * Returns the WKT representation of this Geometry.
+     *
+     * @return string
+     */
+    final public function asText()
+    {
+        return WktWriter::write($this);
+    }
+
+    /**
+     * Returns the WKB representation of this Geometry.
+     *
+     * @return string
+     */
+    final public function asBinary()
+    {
+        return WkbWriter::write($this);
     }
 
     /**
@@ -167,10 +252,10 @@ abstract class Geometry
     }
 
     /**
-     * Returns the closure of the combinatorial boundary of this
-     * geometric object. Because the result of this function is a
-     * closure, and hence topologically closed, the resulting boundary
-     * can be represented using representational Geometry primitives.
+     * Returns the closure of the combinatorial boundary of this geometric object.
+     *
+     * Because the result of this function is a closure, and hence topologically closed,
+     * the resulting boundary can be represented using representational Geometry primitives.
      *
      * @return Geometry
      */
@@ -191,6 +276,7 @@ abstract class Geometry
         if ($this->isEmpty() and $geometry->isEmpty()) {
             return true;
         }
+
         if ($this->isEmpty() xor $geometry->isEmpty()) {
             return false;
         }
@@ -298,18 +384,17 @@ abstract class Geometry
      * exterior (this) intersect exterior (geometry).
      *
      * @param Geometry $geometry
-     * @param string   $intersectionPatternMatrix
+     * @param string   $matrix
      *
      * @return boolean
      */
-    public function relate(Geometry $geometry, $intersectionPatternMatrix)
+    public function relate(Geometry $geometry, $matrix)
     {
-        return self::getService()->relate($this, $geometry, $intersectionPatternMatrix);
+        return self::getService()->relate($this, $geometry, $matrix);
     }
 
     /**
-     * Returns a derived geometry collection value that matches
-     * the specified m coordinate value.
+     * Returns a derived geometry collection value that matches the specified m coordinate value.
      *
      * @param float $mValue
      *
@@ -321,8 +406,7 @@ abstract class Geometry
     }
 
     /**
-     * Returns a derived geometry collection value that matches
-     * the specified range of m coordinate values inclusively.
+     * Returns a derived geometry collection value that matches the specified range of m coordinate values inclusively.
      *
      * @param float $mStart
      * @param float $mEnd
@@ -335,8 +419,9 @@ abstract class Geometry
     }
 
     /**
-     * Returns the shortest distance between any two Points in the two
-     * geometric objects as calculated in the spatial reference system of
+     * Returns the shortest distance between any two Points in the two geometric objects.
+     *
+     * The distance is calculated in the spatial reference system of
      * this geometric object. Because the geometries are closed, it is
      * possible to find a point on each geometric object involved, such
      * that the distance between these 2 points is the returned distance
@@ -431,26 +516,6 @@ abstract class Geometry
     }
 
     /**
-     * Returns the WKT representation of this Geometry.
-     *
-     * @return string
-     */
-    final public function asText()
-    {
-        return WktWriter::write($this);
-    }
-
-    /**
-     * Returns the WKB representation of this Geometry.
-     *
-     * @return string
-     */
-    final public function asBinary()
-    {
-        return WkbWriter::write($this);
-    }
-
-    /**
      * Returns a text representation of this Geometry
      *
      * @return string
@@ -458,69 +523,5 @@ abstract class Geometry
     final public function __toString()
     {
         return $this->asText();
-    }
-
-    /**
-     * Builds a Geometry from a WKT representation.
-     *
-     * @param string $wkt The Well-Known Text representation.
-     *
-     * @return static
-     *
-     * @throws GeometryException If the geometry is not of this type.
-     */
-    public static function fromText($wkt)
-    {
-        $geometry = WktReader::read($wkt);
-
-        if (! $geometry instanceof static) {
-            throw GeometryException::unexpectedGeometryType(get_called_class(), $geometry);
-        }
-
-        return $geometry;
-    }
-
-    /**
-     * Builds a Geometry from a WKB representation.
-     *
-     * @param string $wkb The Well-Known Binary representation.
-     *
-     * @return static
-     *
-     * @throws GeometryException If the geometry is not of this type.
-     */
-    final public static function fromBinary($wkb)
-    {
-        $geometry = WkbReader::read($wkb);
-
-        if (! $geometry instanceof static) {
-            throw GeometryException::unexpectedGeometryType(get_called_class(), $geometry);
-        }
-
-        return $geometry;
-    }
-
-    /**
-     * @param Service\GeometryService $service
-     *
-     * @return void
-     */
-    final public static function injectService(GeometryService $service)
-    {
-        self::$service = $service;
-    }
-
-    /**
-     * @return Service\GeometryService
-     *
-     * @throws GeometryException
-     */
-    final public static function getService()
-    {
-        if (self::$service === null) {
-            throw GeometryException::noServiceInjected();
-        }
-
-        return self::$service;
     }
 }

@@ -184,11 +184,11 @@ interface GeometryService
      *
      * @param Geometry $a
      * @param Geometry $b
-     * @param string   $intersectionMatrixPattern
+     * @param string   $matrix
      *
      * @return boolean
      */
-    public function relate(Geometry $a, Geometry $b, $intersectionMatrixPattern);
+    public function relate(Geometry $a, Geometry $b, $matrix);
 
     /**
      * Returns a derived geometry collection value with elements that match the specified measure.
