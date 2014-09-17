@@ -145,16 +145,4 @@ class Point extends Geometry
     {
         return false;
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function equals(Geometry $geometry)
-    {
-        return $geometry instanceof Point
-            && $geometry->x === $this->x
-            && $geometry->y === $this->y
-            && $geometry->z === $this->z
-            && $geometry->m === $this->m;
-    }
 }

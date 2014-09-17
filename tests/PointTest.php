@@ -2,6 +2,7 @@
 
 namespace Brick\Geo\Tests;
 
+use Brick\Geo\Geometry;
 use Brick\Geo\Point;
 
 /**
@@ -54,13 +55,16 @@ class PointTest extends AbstractTestCase
     /**
      * @dataProvider providerEquals
      *
-     * @param Point   $a
-     * @param Point   $b
-     * @param boolean $isEqual
+     * @param string  $geometry The WKT representation of the Geometry to compare to.
+     * @param boolean $isEqual  Whether the geometries are equal.
      */
-    public function testEquals(Point $a, Point $b, $isEqual)
+    public function testEquals($geometry, $isEqual)
     {
-        $this->assertSame($isEqual, $a->equals($b));
+        $point = Point::factory(1, 2);
+        $geometry = Geometry::fromText($geometry);
+
+        $this->assertSame($isEqual, $point->equals($geometry));
+        $this->assertSame($isEqual, $geometry->equals($point));
     }
 
     /**
@@ -68,34 +72,16 @@ class PointTest extends AbstractTestCase
      */
     public function providerEquals()
     {
-        $points = [
-            [1.2, 2.3, null, null],
-            [1.2, 3.4, null, null],
-            [0.1, 2.3, null, null],
-            [2.3, 3.4,  4.5, null],
-            [1.2, 3.4,  4.5, null],
-            [2.3, 4.5,  4.5, null],
-            [2.3, 3.4,  5.6, null],
-            [3.4, 4.5, null,  5.6],
-            [2.3, 4.5, null,  5.6],
-            [3.4, 5.6, null,  5.6],
-            [3.4, 4.5, null,  6.7],
-            [4.5, 5.6,  6.7,  7.8],
-            [3.4, 5.6,  6.7,  7.8],
-            [4.5, 6.7,  6.7,  7.8],
-            [4.5, 5.6,  7.8,  7.8],
-            [3.4, 4/5,  6.7,  8.9]
+        return [
+            ['POINT(1 2)', true],
+            ['POINT(3 2)', false],
+            ['POINT(1 3)', false],
+            ['POINT(2 3)', false],
+            ['LINESTRING(1 2, 1 2)', true],
+            ['LINESTRING(1 2, 1 3)', false],
+            ['GEOMETRYCOLLECTION(POINT(1 2))', true],
+            ['GEOMETRYCOLLECTION(POINT(1 2), POINT(1 2))', true],
+            ['GEOMETRYCOLLECTION(POINT(1 2), POINT(1 3))', false]
         ];
-
-        foreach ($points as list($x1, $y1, $z1, $m1)) {
-            $p1 = Point::factory($x1, $y1, $z1, $m1);
-            foreach ($points as list($x2, $y2, $z2, $m2)) {
-                $p2 = Point::factory($x2, $y2, $z2, $m2);
-
-                $isEqual = ($x1 === $x2 && $y1 === $y2 && $z1 === $z2 && $m1 === $m2);
-
-                yield [$p1, $p2, $isEqual];
-            }
-        }
     }
 }
