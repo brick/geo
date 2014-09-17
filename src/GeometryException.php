@@ -12,7 +12,7 @@ class GeometryException extends \Exception
      */
     public static function unsupportedPlatform()
     {
-        return new self('This platform has an unsupported endianness');
+        return new self('This platform has an unsupported endianness.');
     }
 
     /**
@@ -22,7 +22,7 @@ class GeometryException extends \Exception
      */
     public static function unimplementedMethod($methodName)
     {
-        $message = sprintf('%s() is currently not implemented', $methodName);
+        $message = sprintf('%s() is currently not implemented.', $methodName);
 
         return new self($message);
     }
@@ -32,7 +32,7 @@ class GeometryException extends \Exception
      */
     public static function invalidWkt()
     {
-        return new self('Invalid WKT');
+        return new self('Invalid WKT.');
     }
 
     /**
@@ -40,7 +40,7 @@ class GeometryException extends \Exception
      */
     public static function invalidWkb()
     {
-        return new self('Invalid WKB');
+        return new self('Invalid WKB.');
     }
 
     /**
@@ -50,7 +50,7 @@ class GeometryException extends \Exception
      */
     public static function unsupportedWkbType($wkbType)
     {
-        $message = sprintf('Unsupported WKB type: %s', $wkbType);
+        $message = sprintf('Unsupported WKB type: %s.', $wkbType);
 
         return new self($message);
     }
@@ -62,7 +62,7 @@ class GeometryException extends \Exception
      */
     public static function unsupportedGeometryType(Geometry $geometry)
     {
-        $message = sprintf('Unsupported geometry type: ' . $geometry->geometryType());
+        $message = sprintf('Unsupported geometry type: %s.', $geometry->geometryType());
 
         return new self($message);
     }
@@ -86,6 +86,6 @@ class GeometryException extends \Exception
      */
     public static function noServiceInjected()
     {
-        return new self('No GeometryService has been injected to support this feature');
+        return new self('A GeometryService must be set to support this feature.');
     }
 }

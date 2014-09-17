@@ -3,7 +3,7 @@
 namespace Brick\Geo;
 
 /**
- * @todo this class is not supported yet, but stays here for now as a sample.
+ * A Triangle is a Polygon with 3 distinct, non-collinear vertices and no interior boundary.
  */
 class Triangle extends Polygon
 {

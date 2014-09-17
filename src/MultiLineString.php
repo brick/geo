@@ -3,7 +3,7 @@
 namespace Brick\Geo;
 
 /**
- * A MultiLineString is a MultiCurve geometry collection composed of LineString elements.
+ * A MultiLineString is a MultiCurve whose elements are LineStrings.
  */
 class MultiLineString extends MultiCurve
 {

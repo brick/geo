@@ -3,7 +3,7 @@
 namespace Brick\Geo;
 
 /**
- * @todo this class is not supported yet, but stays here for now as a draft.
+ * A TIN (triangulated irregular network) is a PolyhedralSurface consisting only of Triangle patches.
  */
 class TIN extends PolyhedralSurface
 {

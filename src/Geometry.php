@@ -113,15 +113,15 @@ abstract class Geometry
     /**
      * Returns the inherent dimension of this geometric object.
      *
-     * This dimension must be less than or equal to the coordinate dimension. In non-homogeneous collections,
-     * this will return the largest topological dimension of the contained objects.
+     * This dimension must be less than or equal to the coordinate dimension.
+     * In non-homogeneous collections, this will return the largest topological dimension of the contained objects.
      *
      * @return integer
      */
     abstract public function dimension();
 
     /**
-     * @todo document & implement
+     * Returns the coordinate dimension of this Geometry.
      *
      * @return integer
      *
@@ -133,7 +133,7 @@ abstract class Geometry
     }
 
     /**
-     * @todo document & implement
+     * Returns the spatial dimension of this Geometry.
      *
      * @return integer
      *
@@ -145,9 +145,7 @@ abstract class Geometry
     }
 
     /**
-     * Returns the name of the instantiable subtype of Geometry of which this
-     * geometric object is an instantiable member. The name of the subtype of
-     * Geometry is returned as a string.
+     * Returns the name of the instantiable subtype of Geometry of which this Geometry is an instantiable member.
      *
      * @return string
      */
@@ -155,6 +153,7 @@ abstract class Geometry
 
     /**
      * Returns the Spatial Reference System ID for this geometric object.
+     *
      * @todo only WGS84 is supported right now.
      *
      * @return integer
@@ -203,22 +202,23 @@ abstract class Geometry
 
     /**
      * Returns true if this geometric object is the empty Geometry.
-     * If true, then this geometric object represents the empty point set
-     * for the coordinate space.
+     *
+     * If true, then this geometric object represents the empty point set for the coordinate space.
      *
      * @return boolean
      */
     abstract public function isEmpty();
 
     /**
+     * Returns whether this Geometry is simple/
+     *
      * Returns true if this geometric object has no anomalous geometric points,
      * such as self intersection or self tangency. The description of each
      * instantiable geometric class will include the specific conditions that
      * cause an instance of that class to be classified as not simple.
      * Implemented using a GeometryService.
      *
-     * @todo implement this method in PHP, to avoid a database round trip when
-     *       creating LinearRing, Polygon, and so on.
+     * @todo implement this method in PHP, to avoid a database round trip when creating LinearRing, Polygon, and so on.
      *
      * @return boolean
      */
@@ -516,7 +516,7 @@ abstract class Geometry
     }
 
     /**
-     * Returns a text representation of this Geometry
+     * Returns a text representation of this Geometry.
      *
      * @return string
      */
