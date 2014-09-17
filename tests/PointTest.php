@@ -70,9 +70,21 @@ class PointTest extends AbstractTestCase
     {
         $points = [
             [1.2, 2.3, null, null],
+            [1.2, 3.4, null, null],
+            [0.1, 2.3, null, null],
             [2.3, 3.4,  4.5, null],
+            [1.2, 3.4,  4.5, null],
+            [2.3, 4.5,  4.5, null],
+            [2.3, 3.4,  5.6, null],
             [3.4, 4.5, null,  5.6],
-            [4.5, 5.6,  6.7,  7.8]
+            [2.3, 4.5, null,  5.6],
+            [3.4, 5.6, null,  5.6],
+            [3.4, 4.5, null,  6.7],
+            [4.5, 5.6,  6.7,  7.8],
+            [3.4, 5.6,  6.7,  7.8],
+            [4.5, 6.7,  6.7,  7.8],
+            [4.5, 5.6,  7.8,  7.8],
+            [3.4, 4/5,  6.7,  8.9]
         ];
 
         foreach ($points as list($x1, $y1, $z1, $m1)) {
@@ -80,7 +92,7 @@ class PointTest extends AbstractTestCase
             foreach ($points as list($x2, $y2, $z2, $m2)) {
                 $p2 = Point::factory($x2, $y2, $z2, $m2);
 
-                $isEqual = $x1 === $x2 && $y1 === $y2 && $z1 === $z2 && $m1 === $m2;
+                $isEqual = ($x1 === $x2 && $y1 === $y2 && $z1 === $z2 && $m1 === $m2);
 
                 yield [$p1, $p2, $isEqual];
             }
