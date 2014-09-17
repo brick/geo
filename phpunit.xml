@@ -1,11 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit colors="true" bootstrap="phpunit-bootstrap.php">
-    <php>
-        <env name="PDO_DSN" value="pgsql:host=localhost;" />
-        <env name="PDO_USERNAME" value="postgres" />
-        <env name="PDO_PASSWORD" value="" />
-    </php>
-
     <testsuites>
         <testsuite name="Brick\Geo test suite">
             <directory>tests</directory>

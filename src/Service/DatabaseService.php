@@ -14,28 +14,8 @@ use Brick\Geo\GeometryException;
  *
  * The target database must have support for GIS functions.
  */
-class DatabaseService implements GeometryService
+abstract class DatabaseService implements GeometryService
 {
-    /**
-     * The database connection.
-     *
-     * @var \PDO
-     */
-    protected $pdo;
-
-    /**
-     * Class constructor.
-     *
-     * Note: this changes the PDO error handling to `ERRMODE_EXCEPTION`.
-     *
-     * @param \PDO $pdo
-     */
-    public function __construct(\PDO $pdo)
-    {
-        $pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
-        $this->pdo = $pdo;
-    }
-
     /**
      * Builds a SQL query for a GIS function
      *
@@ -69,6 +49,18 @@ class DatabaseService implements GeometryService
     }
 
     /**
+     * Executes a SQL query.
+     *
+     * @param string  $query      The SQL query to execute.
+     * @param array   $parameters The Geometry objects or scalar values to pass as parameters.
+     *
+     * @return mixed
+     *
+     * @throws GeometryException
+     */
+    abstract protected function executeQuery($query, array $parameters);
+
+    /**
      * Builds and executes a SQL query for a GIS function.
      *
      * @param string  $function        The SQL GIS function to execute.
@@ -83,28 +75,7 @@ class DatabaseService implements GeometryService
     {
         $query = $this->buildQuery($function, $parameters, $returnsGeometry);
 
-        try {
-            $statement = $this->pdo->prepare($query);
-
-            foreach ($parameters as $index => $parameter) {
-                if ($parameter instanceof Geometry) {
-                    /** @var Geometry $parameter */
-                    $statement->bindValue(1 + $index, $parameter->asBinary(), \PDO::PARAM_LOB);
-                } elseif (is_scalar($parameter)) {
-                    $statement->bindValue(1 + $index, $parameter, \PDO::PARAM_STR);
-                } else {
-                    $message = 'The Geometry Service does not support parameters of type ' ;
-                    throw new GeometryException($message . gettype($parameter));
-                }
-            }
-
-            $statement->execute();
-        } catch (\PDOException $e) {
-            $message = 'The Geometry Service failed to query the database: ';
-            throw new GeometryException($message . $e->getMessage(), 0, $e);
-        }
-
-        return $statement->fetchColumn();
+        return $this->executeQuery($query, $parameters);
     }
 
     /**

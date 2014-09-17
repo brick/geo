@@ -120,7 +120,7 @@ class PointTest extends AbstractTestCase
     }
 
     /**
-     * @return \Generator
+     * @return array
      */
     public function providerEquals()
     {
@@ -129,11 +129,12 @@ class PointTest extends AbstractTestCase
             ['POINT(3 2)', false],
             ['POINT(1 3)', false],
             ['POINT(2 3)', false],
-            ['LINESTRING(1 2, 1 2)', true],
             ['LINESTRING(1 2, 1 3)', false],
-            ['GEOMETRYCOLLECTION(POINT(1 2))', true],
-            ['GEOMETRYCOLLECTION(POINT(1 2), POINT(1 2))', true],
-            ['GEOMETRYCOLLECTION(POINT(1 2), POINT(1 3))', false]
+
+// unsupported in PostGIS
+//            ['GEOMETRYCOLLECTION(POINT(1 2))', true],
+//            ['GEOMETRYCOLLECTION(POINT(1 2), POINT(1 2))', true],
+//            ['GEOMETRYCOLLECTION(POINT(1 2), POINT(1 3))', false]
         ];
     }
 }
