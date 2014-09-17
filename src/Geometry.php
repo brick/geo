@@ -51,7 +51,7 @@ abstract class Geometry
      *
      * @return void
      */
-    final public static function injectService(GeometryService $service)
+    final public static function setService(GeometryService $service)
     {
         self::$service = $service;
     }
