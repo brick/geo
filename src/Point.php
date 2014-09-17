@@ -43,10 +43,10 @@ class Point extends Geometry
     /**
      * Internal constructor. Use a factory method to obtain an instance.
      *
-     * @param float      $x
-     * @param float      $y
-     * @param float|null $z
-     * @param float|null $m
+     * @param float      $x The x-coordinate, validated as a float.
+     * @param float      $y The y-coordinate, validated as a float.
+     * @param float|null $z The z-coordinate, validated as a float or null.
+     * @param float|null $m The m-coordinate, validated as a float or null.
      */
     protected function __construct($x, $y, $z = null, $m = null)
     {
@@ -66,7 +66,7 @@ class Point extends Geometry
      */
     public static function factory($x, $y)
     {
-        return new Point($x, $y);
+        return new Point((float) $x, (float) $y);
     }
 
     /**

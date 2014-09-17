@@ -27,24 +27,28 @@ abstract class WktWriter
     public static function write(Geometry $geometry)
     {
         if ($geometry instanceof Point) {
-            $result = self::writePoint($geometry);
-        } elseif ($geometry instanceof LineString) {
-            $result = self::writeLineString($geometry);
-        } elseif ($geometry instanceof Polygon) {
-            $result = self::writePolygon($geometry);
-        } elseif ($geometry instanceof MultiPoint) {
-            $result = self::writeMultiPoint($geometry);
-        } elseif ($geometry instanceof MultiLineString) {
-            $result = self::writeMultiLineString($geometry);
-        } elseif ($geometry instanceof MultiPolygon) {
-            $result = self::writeMultiPolygon($geometry);
-        } elseif ($geometry instanceof GeometryCollection) {
-            $result = self::writeGeometryCollection($geometry);
-        } else {
-            throw GeometryException::unsupportedGeometryType($geometry);
+            return sprintf('POINT(%s)', self::writePoint($geometry));
+        }
+        if ($geometry instanceof LineString) {
+            return sprintf('LINESTRING(%s)', self::writeLineString($geometry));
+        }
+        if ($geometry instanceof Polygon) {
+            return sprintf('POLYGON(%s)', self::writePolygon($geometry));
+        }
+        if ($geometry instanceof MultiPoint) {
+            return sprintf('MULTIPOINT(%s)', self::writeMultiPoint($geometry));
+        }
+        if ($geometry instanceof MultiLineString) {
+            return sprintf('MULTILINESTRING(%s)', self::writeMultiLineString($geometry));
+        }
+        if ($geometry instanceof MultiPolygon) {
+            return sprintf('MULTIPOLYGON(%s)', self::writeMultiPolygon($geometry));
+        }
+        if ($geometry instanceof GeometryCollection) {
+            return sprintf('GEOMETRYCOLLECTION(%s)', self::writeGeometryCollection($geometry));
         }
 
-        return sprintf('%s(%s)', $geometry->geometryType(), $result);
+        throw GeometryException::unsupportedGeometryType($geometry);
     }
 
     /**

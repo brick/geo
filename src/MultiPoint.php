@@ -20,4 +20,12 @@ class MultiPoint extends GeometryCollection
     {
         return 'MultiPoint';
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected static function containedGeometryType()
+    {
+        return Point::class;
+    }
 }

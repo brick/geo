@@ -44,9 +44,11 @@ class GeometryCollection extends Geometry implements \Countable, \IteratorAggreg
      */
     public static function factory(array $geometries)
     {
+        $geometryType = static::containedGeometryType();
+
         foreach ($geometries as $geometry) {
-            if (! $geometry instanceof static) {
-                throw GeometryException::unexpectedGeometryType(get_called_class(), $geometry);
+            if (! $geometry instanceof $geometryType) {
+                throw GeometryException::unexpectedGeometryType($geometryType, $geometry);
             }
         }
 
@@ -148,5 +150,15 @@ class GeometryCollection extends Geometry implements \Countable, \IteratorAggreg
     public function getIterator()
     {
         return new \ArrayIterator($this->geometries);
+    }
+
+    /**
+     * Returns the FQCN of the contained Geometry type.
+     *
+     * @return string
+     */
+    protected static function containedGeometryType()
+    {
+        return Geometry::class;
     }
 }

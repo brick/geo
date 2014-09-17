@@ -13,6 +13,8 @@ abstract class WkbTools
     const LITTLE_ENDIAN = 1;
 
     /**
+     * @return void
+     *
      * @throws \Brick\Geo\GeometryException
      */
     protected static function checkDoubleIs64Bit()

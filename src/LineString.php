@@ -62,7 +62,7 @@ class LineString extends Curve implements \Countable, \IteratorAggregate
         }
 
         if (! $result instanceof static) {
-            throw GeometryException::unexpectedGeometryType(get_called_class(), $result);
+            throw GeometryException::unexpectedGeometryType(static::class, $result);
         }
 
         return $result;

@@ -62,4 +62,12 @@ class MultiPolygon extends MultiSurface
     {
         return $this->geometries;
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected static function containedGeometryType()
+    {
+        return Polygon::class;
+    }
 }

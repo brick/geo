@@ -44,4 +44,12 @@ class MultiLineString extends MultiCurve
 
         return $length;
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected static function containedGeometryType()
+    {
+        return LineString::class;
+    }
 }
