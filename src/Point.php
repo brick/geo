@@ -59,14 +59,27 @@ class Point extends Geometry
     /**
      * Factory method to create a new Point from x,y coordinates.
      *
-     * @param float $x
-     * @param float $y
+     * @param float      $x
+     * @param float      $y
+     * @param float|null $z
+     * @param float|null $m
      *
      * @return Point
      */
-    public static function factory($x, $y)
+    public static function factory($x, $y, $z = null, $m = null)
     {
-        return new Point((float) $x, (float) $y);
+        $x = (float) $x;
+        $y = (float) $y;
+
+        if ($z !== null) {
+            $z = (float) $z;
+        }
+
+        if ($m !== null) {
+            $m = (float) $m;
+        }
+
+        return new Point($x, $y, $z, $m);
     }
 
     /**
