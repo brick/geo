@@ -8,31 +8,47 @@ namespace Brick\Geo;
 class Point extends Geometry
 {
     /**
-     * The x-coordinate of the Point
+     * The x-coordinate value for this Point.
      *
      * @var float
      */
     protected $x;
 
     /**
-     * The y-coordinate of the Point
+     * The y-coordinate value for this Point.
      *
      * @var float
      */
     protected $y;
 
     /**
-     * Class constructor.
+     * The z-coordinate value for this Point, or null if it does not have one.
      *
-     * Internal use only, consumer code must use factory() instead.
-     *
-     * @param float $x
-     * @param float $y
+     * @var float|null
      */
-    protected function __construct($x, $y)
+    protected $z;
+
+    /**
+     * The m-coordinate value for this Point, or null if it does not have one.
+     *
+     * @var float|null
+     */
+    protected $m;
+
+    /**
+     * Internal constructor. Use a factory method to obtain an instance.
+     *
+     * @param float      $x
+     * @param float      $y
+     * @param float|null $z
+     * @param float|null $m
+     */
+    protected function __construct($x, $y, $z = null, $m = null)
     {
-        $this->x = (float) $x;
-        $this->y = (float) $y;
+        $this->x = $x;
+        $this->y = $y;
+        $this->z = $z;
+        $this->m = $m;
     }
 
     /**
@@ -49,7 +65,7 @@ class Point extends Geometry
     }
 
     /**
-     * The x-coordinate value for this Point.
+     * Returns the x-coordinate value for this Point.
      *
      * @return float
      */
@@ -59,11 +75,31 @@ class Point extends Geometry
     }
 
     /**
-     * The y-coordinate value for this Point.
+     * Returns the y-coordinate value for this Point.
      *
      * @return float
      */
     public function y()
+    {
+        return $this->y;
+    }
+
+    /**
+     * Returns the z-coordinate value for this Point, if it has one. Returns NULL otherwise.
+     *
+     * @return float|null
+     */
+    public function z()
+    {
+        return $this->x;
+    }
+
+    /**
+     * Returns the m-coordinate value for this Point, if it has one. Returns NULL otherwise.
+     *
+     * @return float|null
+     */
+    public function m()
     {
         return $this->y;
     }
@@ -78,8 +114,6 @@ class Point extends Geometry
 
     /**
      * {@inheritdoc}
-     *
-     * A Point is a 0-dimensional geometric object.
      */
     public function dimension()
     {
@@ -100,7 +134,9 @@ class Point extends Geometry
     public function equals(Geometry $geometry)
     {
         return $geometry instanceof Point
-            && $geometry->x() == $this->x
-            && $geometry->y() == $this->y;
+            && $geometry->x === $this->x
+            && $geometry->y === $this->y
+            && $geometry->z === $this->z
+            && $geometry->m === $this->m;
     }
 }
