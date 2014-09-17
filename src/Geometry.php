@@ -230,7 +230,7 @@ abstract class Geometry
     /**
      * Returns true if this geometric object has z coordinate values.
      *
-     * @todo add support for z coordinates
+     * @todo This should be abstract: each subclass should implement it.
      *
      * @return boolean
      */
@@ -242,7 +242,7 @@ abstract class Geometry
     /**
      * Returns true if this geometric object has m coordinate values.
      *
-     * @todo add support for m coordinates
+     * @todo This should be abstract: each subclass should implement it.
      *
      * @return boolean
      */

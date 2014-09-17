@@ -145,4 +145,20 @@ class Point extends Geometry
     {
         return false;
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function is3D()
+    {
+        return $this->z !== null;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isMeasured()
+    {
+        return $this->m !== null;
+    }
 }
