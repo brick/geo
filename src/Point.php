@@ -96,7 +96,7 @@ class Point extends Geometry
      */
     public function z()
     {
-        return $this->x;
+        return $this->z;
     }
 
     /**
@@ -106,7 +106,7 @@ class Point extends Geometry
      */
     public function m()
     {
-        return $this->y;
+        return $this->m;
     }
 
     /**
