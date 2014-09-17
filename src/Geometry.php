@@ -42,13 +42,14 @@ abstract class Geometry
     const WGS84 = 4326;
 
     /**
-     * @var Service\GeometryService
+     * @var Service\GeometryService|null
      */
     private static $service = null;
 
     /**
-     * The inherent dimension of this geometric object, which must be less than
-     * or equal to the coordinate dimension. In non-homogeneous collections,
+     * Returns the inherent dimension of this geometric object.
+     *
+     * This dimension must be less than or equal to the coordinate dimension. In non-homogeneous collections,
      * this will return the largest topological dimension of the contained objects.
      *
      * @return integer
@@ -368,8 +369,9 @@ abstract class Geometry
     }
 
     /**
-     * Returns a geometric object that represents the convex hull of this
-     * geometric object. Convex hulls, being dependent on straight lines,
+     * Returns a geometric object that represents the convex hull of this geometric object.
+     *
+     * Convex hulls, being dependent on straight lines,
      * can be accurately represented in linear interpolations for any
      * geometry restricted to linear interpolations.
      *
@@ -381,8 +383,7 @@ abstract class Geometry
     }
 
     /**
-     * Returns a geometric object that represents the Point set intersection
-     * of this geometric object with $geometry.
+     * Returns a geometric object that represents the Point set intersection of this geometric object with `$geometry`.
      *
      * @param Geometry $geometry
      *
@@ -394,8 +395,7 @@ abstract class Geometry
     }
 
     /**
-     * Returns a geometric object that represents the Point set union
-     * of this geometric object with $geometry.
+     * Returns a geometric object that represents the Point set union of this geometric object with `$geometry`.
      *
      * @param Geometry $geometry
      *
@@ -407,8 +407,7 @@ abstract class Geometry
     }
 
     /**
-     * Returns a geometric object that represents the Point set
-     * difference of this geometric object with $geometry.
+     * Returns a geometric object that represents the Point set difference of this geometric object with `$geometry`.
      *
      * @param Geometry $geometry
      *
@@ -420,8 +419,7 @@ abstract class Geometry
     }
 
     /**
-     * Returns a geometric object that represents the Point set
-     * symmetric difference of this geometric object with $geometry.
+     * Returns a geometric object that represents the Point set symmetric difference of this Geometry with `$geometry`.
      *
      * @param Geometry $geometry
      *
@@ -433,8 +431,7 @@ abstract class Geometry
     }
 
     /**
-     * Exports this geometric object to a specific Well-known Text
-     * Representation of Geometry.
+     * Returns the WKT representation of this Geometry.
      *
      * @return string
      */
@@ -444,8 +441,7 @@ abstract class Geometry
     }
 
     /**
-     * Exports this geometric object to a specific Well-known Binary
-     * Representation of Geometry.
+     * Returns the WKB representation of this Geometry.
      *
      * @return string
      */
@@ -465,44 +461,38 @@ abstract class Geometry
     }
 
     /**
-     * Builds a Geometry from a WKT representation
+     * Builds a Geometry from a WKT representation.
      *
-     * @param string $wkt
+     * @param string $wkt The Well-Known Text representation.
      *
-     * @return Geometry
+     * @return static
+     *
+     * @throws GeometryException If the geometry is not of this type.
      */
     public static function fromText($wkt)
     {
         $geometry = WktReader::read($wkt);
 
-        return static::checkExpectedClass($geometry);
+        if (! $geometry instanceof static) {
+            throw GeometryException::unexpectedGeometryType(get_called_class(), get_class($geometry));
+        }
+
+        return $geometry;
     }
 
     /**
-     * Builds a Geometry from a WKB representation
+     * Builds a Geometry from a WKB representation.
      *
-     * @param string $wkb
+     * @param string $wkb The Well-Known Binary representation.
      *
-     * @return Geometry
+     * @return static
+     *
+     * @throws GeometryException If the geometry is not of this type.
      */
     final public static function fromBinary($wkb)
     {
         $geometry = WkbReader::read($wkb);
 
-        return static::checkExpectedClass($geometry);
-    }
-
-    /**
-     * Checks that the Geometry is an instance of the expected class
-     *
-     * @param Geometry $geometry
-     *
-     * @return Geometry
-     *
-     * @throws GeometryException
-     */
-    private static function checkExpectedClass(Geometry $geometry)
-    {
         if (! $geometry instanceof static) {
             throw GeometryException::unexpectedGeometryType(get_called_class(), get_class($geometry));
         }

@@ -36,16 +36,6 @@ class MultiPolygon extends MultiSurface
     }
 
     /**
-     * @param string $wkt
-     *
-     * @return MultiPolygon
-     */
-    public static function fromText($wkt)
-    {
-        return parent::fromText($wkt);
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function area()

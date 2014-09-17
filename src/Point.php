@@ -103,14 +103,4 @@ class Point extends Geometry
             && $geometry->x() == $this->x
             && $geometry->y() == $this->y;
     }
-
-    /**
-     * @param string $wkt
-     *
-     * @return Point
-     */
-    public static function fromText($wkt)
-    {
-        return parent::fromText($wkt);
-    }
 }
