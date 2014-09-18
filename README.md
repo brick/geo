@@ -28,13 +28,28 @@ Requirements
 
 This library requires PHP 5.5 or higher. [HHVM](http://hhvm.com/) is officially supported.
 
-Many functions in this library are not yet implemented natively, and delegate calculations to a database with GIS support.
+This library is essentially a wrapper around a third-party GIS engine, and delegates the complexity of the
+geometry calculations to a `GeometryService` implementation. The following implementations are available:
 
-The following databases are currently supported:
+- `PDOService`: communicates with a compatible GIS database over a `PDO` connection. The following databases are currently supported:
+  - [MySQL](http://php.net/manual/en/ref.pdo-mysql.php) version 5.6 or greater (earlier versions only have a partial GIS support based on bounding boxes)
+  - [PostgreSQL](http://php.net/manual/en/ref.pdo-pgsql.php) *with the [PostGIS](http://postgis.net/install) extension installed*
+- `SQLite3Service`: communicates with a [SQLite](http://php.net/manual/en/book.sqlite3.php) database, *with the [SpatiaLite](https://www.gaia-gis.it/fossil/libspatialite/index) extension loaded*
+- `GEOSService`: uses the [GEOS](https://github.com/libgeos/libgeos) PHP bindings. You will need to compile the GEOS engine with the `--enable-php` flag and add the `geos.so` extension to your php.ini
 
-- [MySQL](http://dev.mysql.com/downloads/mysql/) 5.6 or greater via [PDO](http://php.net/manual/en/ref.pdo-mysql.php)
-- [PostgreSQL](http://www.postgresql.org/download/) with the [PostGIS](http://postgis.net/install) extension via [PDO](http://php.net/manual/en/ref.pdo-pgsql.php)
-- [SQLite](http://www.sqlite.org/) with the [SpatiaLite](https://www.gaia-gis.it/fossil/libspatialite/index) extension via the [SQLite3](http://php.net/manual/en/book.sqlite3.php) class
+You will need to configure one of these services to use the advanced functions of the library.
+
+If you try to use a function that requires such a service, and none is set, this will result in a `GeometryException`.
+
+**You may already have access to a GIS engine** if your project uses one of the supported databases.
+For example, if you're using MySQL 5.6 or 5.7 over a `PDO` connection, just put this code in your bootstrap file:
+
+    use Brick\Geo\Service\GeometryServiceRegistry;
+    use Brick\Geo\Service\PDOService;
+
+    GeometryServiceRegistry::set(new PDOService($pdo));
+
+And you will have the full power of GIS readily available!
 
 Overview
 --------
