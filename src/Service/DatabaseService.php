@@ -270,9 +270,9 @@ abstract class DatabaseService implements GeometryService
     /**
      * {@inheritdoc}
      */
-    public function relate(Geometry $a, Geometry $b, $intersectionPatternMatrix)
+    public function relate(Geometry $a, Geometry $b, $matrix)
     {
-        return $this->queryBoolean('ST_Relate', [$a, $b, $intersectionPatternMatrix]);
+        return $this->queryBoolean('ST_Relate', [$a, $b, $matrix]);
     }
 
     /**
