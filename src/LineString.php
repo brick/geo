@@ -2,6 +2,8 @@
 
 namespace Brick\Geo;
 
+use Brick\Geo\Service\GeometryServiceRegistry;
+
 /**
  * A LineString is a Curve with linear interpolation between Points.
  *
@@ -73,7 +75,7 @@ class LineString extends Curve implements \Countable, \IteratorAggregate
      */
     public function length()
     {
-        return self::getService()->length($this);
+        return GeometryServiceRegistry::get()->length($this);
     }
 
     /**

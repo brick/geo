@@ -84,7 +84,7 @@ class GeometryException extends \Exception
     /**
      * @return GeometryException
      */
-    public static function noServiceInjected()
+    public static function noServiceSet()
     {
         return new self('A GeometryService must be set to support this feature.');
     }

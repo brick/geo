@@ -2,6 +2,8 @@
 
 namespace Brick\Geo;
 
+use Brick\Geo\Service\GeometryServiceRegistry;
+
 /**
  * A PolyhedralSurface is a contiguous collection of polygons, which share common boundary segments.
  *
@@ -147,7 +149,7 @@ class PolyhedralSurface extends Surface implements \Countable, \IteratorAggregat
      */
     public function area()
     {
-        return self::getService()->area($this);
+        return GeometryServiceRegistry::get()->area($this);
     }
 
     /**

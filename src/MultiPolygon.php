@@ -2,6 +2,8 @@
 
 namespace Brick\Geo;
 
+use Brick\Geo\Service\GeometryServiceRegistry;
+
 /**
  * A MultiPolygon is a MultiSurface whose elements are Polygons.
  *
@@ -34,7 +36,7 @@ class MultiPolygon extends MultiSurface
      */
     public function area()
     {
-        return self::getService()->area($this);
+        return GeometryServiceRegistry::get()->area($this);
     }
 
     /**
@@ -42,7 +44,7 @@ class MultiPolygon extends MultiSurface
      */
     public function centroid()
     {
-        return self::getService()->centroid($this);
+        return GeometryServiceRegistry::get()->centroid($this);
     }
 
     /**

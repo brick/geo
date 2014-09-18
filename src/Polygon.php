@@ -2,6 +2,8 @@
 
 namespace Brick\Geo;
 
+use Brick\Geo\Service\GeometryServiceRegistry;
+
 /**
  * A Polygon is a planar Surface defined by 1 exterior boundary and 0 or more interior boundaries.
  *
@@ -112,7 +114,7 @@ class Polygon extends Surface implements \Countable, \IteratorAggregate
      */
     public function area()
     {
-        return self::getService()->area($this);
+        return GeometryServiceRegistry::get()->area($this);
     }
 
     /**

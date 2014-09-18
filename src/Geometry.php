@@ -2,7 +2,7 @@
 
 namespace Brick\Geo;
 
-use Brick\Geo\Service\GeometryService;
+use Brick\Geo\Service\GeometryServiceRegistry;
 
 use Brick\Geo\IO\WktReader;
 use Brick\Geo\IO\WktWriter;
@@ -40,35 +40,6 @@ abstract class Geometry
      * @const integer
      */
     const WGS84 = 4326;
-
-    /**
-     * @var Service\GeometryService|null
-     */
-    private static $service = null;
-
-    /**
-     * @param Service\GeometryService $service
-     *
-     * @return void
-     */
-    final public static function setService(GeometryService $service)
-    {
-        self::$service = $service;
-    }
-
-    /**
-     * @return Service\GeometryService
-     *
-     * @throws GeometryException
-     */
-    final public static function getService()
-    {
-        if (self::$service === null) {
-            throw GeometryException::noServiceInjected();
-        }
-
-        return self::$service;
-    }
 
     /**
      * Builds a Geometry from a WKT representation.
@@ -177,7 +148,7 @@ abstract class Geometry
      */
     public function envelope()
     {
-        return self::getService()->envelope($this);
+        return GeometryServiceRegistry::get()->envelope($this);
     }
 
     /**
@@ -224,7 +195,7 @@ abstract class Geometry
      */
     public function isSimple()
     {
-        return self::getService()->isSimple($this);
+        return GeometryServiceRegistry::get()->isSimple($this);
     }
 
     /**
@@ -261,7 +232,7 @@ abstract class Geometry
      */
     public function boundary()
     {
-        return self::getService()->boundary($this);
+        return GeometryServiceRegistry::get()->boundary($this);
     }
 
     /**
@@ -281,7 +252,7 @@ abstract class Geometry
             return false;
         }
 
-        return self::getService()->equals($this, $geometry);
+        return GeometryServiceRegistry::get()->equals($this, $geometry);
     }
 
     /**
@@ -293,7 +264,7 @@ abstract class Geometry
      */
     public function disjoint(Geometry $geometry)
     {
-        return self::getService()->disjoint($this, $geometry);
+        return GeometryServiceRegistry::get()->disjoint($this, $geometry);
     }
 
     /**
@@ -309,7 +280,7 @@ abstract class Geometry
             return false;
         }
 
-        return self::getService()->intersects($this, $geometry);
+        return GeometryServiceRegistry::get()->intersects($this, $geometry);
     }
 
     /**
@@ -321,7 +292,7 @@ abstract class Geometry
      */
     public function touches(Geometry $geometry)
     {
-        return self::getService()->touches($this, $geometry);
+        return GeometryServiceRegistry::get()->touches($this, $geometry);
     }
 
     /**
@@ -333,7 +304,7 @@ abstract class Geometry
      */
     public function crosses(Geometry $geometry)
     {
-        return self::getService()->crosses($this, $geometry);
+        return GeometryServiceRegistry::get()->crosses($this, $geometry);
     }
 
     /**
@@ -345,7 +316,7 @@ abstract class Geometry
      */
     public function within(Geometry $geometry)
     {
-        return self::getService()->within($this, $geometry);
+        return GeometryServiceRegistry::get()->within($this, $geometry);
     }
 
     /**
@@ -361,7 +332,7 @@ abstract class Geometry
             return false;
         }
 
-        return self::getService()->contains($this, $geometry);
+        return GeometryServiceRegistry::get()->contains($this, $geometry);
     }
 
     /**
@@ -373,7 +344,7 @@ abstract class Geometry
      */
     public function overlaps(Geometry $geometry)
     {
-        return self::getService()->overlaps($this, $geometry);
+        return GeometryServiceRegistry::get()->overlaps($this, $geometry);
     }
 
     /**
@@ -390,7 +361,7 @@ abstract class Geometry
      */
     public function relate(Geometry $geometry, $matrix)
     {
-        return self::getService()->relate($this, $geometry, $matrix);
+        return GeometryServiceRegistry::get()->relate($this, $geometry, $matrix);
     }
 
     /**
@@ -402,7 +373,7 @@ abstract class Geometry
      */
     public function locateAlong($mValue)
     {
-        return self::getService()->locateAlong($this, $mValue);
+        return GeometryServiceRegistry::get()->locateAlong($this, $mValue);
     }
 
     /**
@@ -415,7 +386,7 @@ abstract class Geometry
      */
     public function locateBetween($mStart, $mEnd)
     {
-        return self::getService()->locateBetween($this, $mStart, $mEnd);
+        return GeometryServiceRegistry::get()->locateBetween($this, $mStart, $mEnd);
     }
 
     /**
@@ -433,7 +404,7 @@ abstract class Geometry
      */
     public function distance(Geometry $geometry)
     {
-        return self::getService()->distance($this, $geometry);
+        return GeometryServiceRegistry::get()->distance($this, $geometry);
     }
 
     /**
@@ -450,7 +421,7 @@ abstract class Geometry
      */
     public function buffer($distance)
     {
-        return self::getService()->buffer($this, $distance);
+        return GeometryServiceRegistry::get()->buffer($this, $distance);
     }
 
     /**
@@ -464,7 +435,7 @@ abstract class Geometry
      */
     public function convexHull()
     {
-        return self::getService()->convexHull($this);
+        return GeometryServiceRegistry::get()->convexHull($this);
     }
 
     /**
@@ -476,7 +447,7 @@ abstract class Geometry
      */
     public function intersection(Geometry $geometry)
     {
-        return self::getService()->intersection($this, $geometry);
+        return GeometryServiceRegistry::get()->intersection($this, $geometry);
     }
 
     /**
@@ -488,7 +459,7 @@ abstract class Geometry
      */
     public function union(Geometry $geometry)
     {
-        return self::getService()->union($this, $geometry);
+        return GeometryServiceRegistry::get()->union($this, $geometry);
     }
 
     /**
@@ -500,7 +471,7 @@ abstract class Geometry
      */
     public function difference(Geometry $geometry)
     {
-        return self::getService()->difference($this, $geometry);
+        return GeometryServiceRegistry::get()->difference($this, $geometry);
     }
 
     /**
@@ -512,7 +483,7 @@ abstract class Geometry
      */
     public function symDifference(Geometry $geometry)
     {
-        return self::getService()->symDifference($this, $geometry);
+        return GeometryServiceRegistry::get()->symDifference($this, $geometry);
     }
 
     /**

@@ -1,7 +1,7 @@
 <?php
 
-use Brick\Geo\Geometry;
 use Brick\Geo\Service\GeometryService;
+use Brick\Geo\Service\GeometryServiceRegistry;
 use Brick\Geo\Service\PDOService;
 use Brick\Geo\Service\SQLite3Service;
 
@@ -43,4 +43,4 @@ function getGeometryService()
     }
 }
 
-Geometry::setService(getGeometryService());
+GeometryServiceRegistry::set(getGeometryService());
