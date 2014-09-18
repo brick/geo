@@ -4,6 +4,7 @@ use Brick\Geo\Service\GeometryService;
 use Brick\Geo\Service\GeometryServiceRegistry;
 use Brick\Geo\Service\PDOService;
 use Brick\Geo\Service\SQLite3Service;
+use Brick\Geo\Service\GEOSService;
 
 require 'vendor/autoload.php';
 
@@ -32,14 +33,7 @@ function getGeometryService()
             return new SQLite3Service($sqlite3);
 
         default:
-            if ($db === false) {
-                echo 'DB environment variable not set!' . PHP_EOL;
-            } else {
-                echo 'Unknown DB: ' . $db . PHP_EOL;
-            }
-
-            echo 'Use: DB=mysql|pgsql|sqlite vendor/bin/phpunit' . PHP_EOL;
-            exit(1);
+            return new GEOSService();
     }
 }
 
