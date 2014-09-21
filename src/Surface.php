@@ -2,7 +2,7 @@
 
 namespace Brick\Geo;
 
-use Brick\Geo\Service\GeometryServiceRegistry;
+use Brick\Geo\Engine\GeometryEngineRegistry;
 
 /**
  * A Surface is a 2-dimensional geometric object.
@@ -44,7 +44,7 @@ abstract class Surface extends Geometry
      */
     public function centroid()
     {
-        return GeometryServiceRegistry::get()->centroid($this);
+        return GeometryEngineRegistry::get()->centroid($this);
     }
 
     /**

@@ -1,13 +1,13 @@
 <?php
 
-namespace Brick\Geo\Service;
+namespace Brick\Geo\Engine;
 
 use Brick\Geo\Geometry;
 
 /**
- * Database service based on a PDO driver.
+ * Database engine based on a PDO driver.
  */
-class PDOService extends DatabaseService
+class PDOEngine extends DatabaseEngine
 {
     /**
      * The database connection.

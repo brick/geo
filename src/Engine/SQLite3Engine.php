@@ -1,15 +1,15 @@
 <?php
 
-namespace Brick\Geo\Service;
+namespace Brick\Geo\Engine;
 
 use Brick\Geo\Geometry;
 
 /**
- * Database service based on a SQLite3 driver.
+ * Database engine based on a SQLite3 driver.
  *
  * The spatialite extension must be loaded in this driver.
  */
-class SQLite3Service extends DatabaseService
+class SQLite3Engine extends DatabaseEngine
 {
     /**
      * @var \SQLite3

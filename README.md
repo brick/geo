@@ -19,7 +19,7 @@ Requirements and installation
 
 This library requires PHP 5.5 or higher. [HHVM](http://hhvm.com/) is officially supported.
 
-We recommended to install it with [Composer](https://getcomposer.org/).
+We recommended installing it with [Composer](https://getcomposer.org/).
 Just define the following requirement in your `composer.json` file:
 
     {
@@ -35,15 +35,15 @@ Failure to configure a geometry engine would result in a `GeometryException` whe
 Configuration
 -------------
 
-Configuring the library consists in choosing the most convenient `GeometryService` implementation for your installation. The following implementations are available:
+Configuring the library consists in choosing the most convenient `GeometryEngine` implementation for your installation. The following implementations are available:
 
-- `PDOService`: communicates with a GIS-compatible database over a `PDO` connection.  
-  This service currently supports the following databases:
+- `PDOEngine`: communicates with a GIS-compatible database over a `PDO` connection.  
+  This engine currently supports the following databases:
   - [MySQL](http://php.net/manual/en/ref.pdo-mysql.php) version 5.6 or greater;  
     (earlier versions only have partial GIS support based on bounding boxes)
   - [PostgreSQL](http://php.net/manual/en/ref.pdo-pgsql.php) with the [PostGIS](http://postgis.net/install) extension.
-- `SQLite3Service`: communicates with a [SQLite3](http://php.net/manual/en/book.sqlite3.php) database with the [SpatiaLite](https://www.gaia-gis.it/fossil/libspatialite/index) extension.
-- `GEOSService`: uses the [GEOS](https://github.com/libgeos/libgeos) PHP bindings.
+- `SQLite3Engine`: communicates with a [SQLite3](http://php.net/manual/en/book.sqlite3.php) database with the [SpatiaLite](https://www.gaia-gis.it/fossil/libspatialite/index) extension.
+- `GEOSEngine`: uses the [GEOS](https://github.com/libgeos/libgeos) PHP bindings.
 
 Following is a step-by-step guide for all the possible configurations:
 
@@ -52,11 +52,11 @@ Following is a step-by-step guide for all the possible configurations:
 - Ensure that your MySQL version is at least `5.6`.
 - Use this bootstrap code in your project:
 
-        use Brick\Geo\Service\GeometryServiceRegistry;
-        use Brick\Geo\Service\PDOService;
+        use Brick\Geo\Engine\GeometryEngineRegistry;
+        use Brick\Geo\Engine\PDOEngine;
 
         $pdo = new PDO('mysql:host=localhost', 'root', '');
-        GeometryServiceRegistry::set(new PDOService($pdo));
+        GeometryEngineRegistry::set(new PDOEngine($pdo));
 
 Update the code with your own connection parameters, or re-use your existing `PDO` connection if you have one (recommended).
 
@@ -69,11 +69,11 @@ Update the code with your own connection parameters, or re-use your existing `PD
 
 - Use this bootstrap code in your project:
 
-        use Brick\Geo\Service\GeometryServiceRegistry;
-        use Brick\Geo\Service\PDOService;
+        use Brick\Geo\Engine\GeometryEngineRegistry;
+        use Brick\Geo\Engine\PDOEngine;
 
         $pdo = new PDO('pgsql:host=localhost', 'postgres', '');
-        GeometryServiceRegistry::set(new PDOService($pdo));
+        GeometryEngineRegistry::set(new PDOEngine($pdo));
 
 Update the code with your own connection parameters, or re-use your existing `PDO` connection if you have one (recommended).
 
@@ -91,12 +91,12 @@ Update the code with your own connection parameters, or re-use your existing `PD
 
 - Use this bootstrap code in your project:
 
-        use Brick\Geo\Service\GeometryServiceRegistry;
-        use Brick\Geo\Service\SQLite3Service;
+        use Brick\Geo\Engine\GeometryEngineRegistry;
+        use Brick\Geo\Engine\SQLite3Engine;
 
         $sqlite3 = new SQLite3(':memory:');
         $sqlite3->loadExtension('libspatialite.so.3');
-        GeometryServiceRegistry::set(new SQLite3Service($sqlite3));
+        GeometryEngineRegistry::set(new SQLite3Engine($sqlite3));
 
 Update the `libspatialite` extension name as required. In this example we have created an in-memory database for our GIS calculations, but you can also re-use an existing `SQLite3` connection.
 
@@ -109,10 +109,10 @@ Update the `libspatialite` extension name as required. In this example we have c
 
 - Use this bootstrap code in your project:
 
-        use Brick\Geo\Service\GeometryServiceRegistry;
-        use Brick\Geo\Service\GEOSService;
+        use Brick\Geo\Engine\GeometryEngineRegistry;
+        use Brick\Geo\Engine\GEOSEngine;
 
-        GeometryServiceRegistry::set(new GEOSService());
+        GeometryEngineRegistry::set(new GEOSEngine());
 
 Usage
 -----

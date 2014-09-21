@@ -1,14 +1,14 @@
 <?php
 
-namespace Brick\Geo\Service;
+namespace Brick\Geo\Engine;
 
 use Brick\Geo\Geometry;
 use Brick\Geo\GeometryException;
 
 /**
- * GeometryService implementation based on the GEOS PHP bindings.
+ * GeometryEngine implementation based on the GEOS PHP bindings.
  */
-class GEOSService implements GeometryService
+class GEOSEngine implements GeometryEngine
 {
     /**
      * @var \GEOSWKBReader

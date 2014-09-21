@@ -6,15 +6,15 @@ php:
   - hhvm
 
 env:
-  - SERVICE=PDO_MYSQL
-  - SERVICE=PDO_PGSQL
-  - SERVICE=SQLite3
-  - SERVICE=GEOS
+  - ENGINE=PDO_MYSQL
+  - ENGINE=PDO_PGSQL
+  - ENGINE=SQLite3
+  - ENGINE=GEOS
 
 before_script:
-  - if [[ $SERVICE = GEOS ]]; then travis_wait bash .travis.install-php-nts.sh; fi;
-  - if [[ $SERVICE = GEOS ]]; then bash .travis.install-geos.sh; fi;
-  - if [[ $SERVICE = SQLite3 ]]; then bash .travis.install-sqlite3.sh; fi;
+  - if [[ $ENGINE = GEOS ]]; then travis_wait bash .travis.install-php-nts.sh; fi;
+  - if [[ $ENGINE = GEOS ]]; then bash .travis.install-geos.sh; fi;
+  - if [[ $ENGINE = SQLite3 ]]; then bash .travis.install-sqlite3.sh; fi;
   - wget https://getcomposer.org/composer.phar
   - php composer.phar install
 
@@ -27,8 +27,8 @@ after_script:
 
 matrix:
   exclude:
-    - env: SERVICE=PDO_MYSQL # travis does not support MySQL 5.6 yet
+    - env: ENGINE=PDO_MYSQL # travis does not support MySQL 5.6 yet
     - php: hhvm
-      env: SERVICE=PDO_PGSQL # driver currently unsupported by HHVM
+      env: ENGINE=PDO_PGSQL # driver currently unsupported by HHVM
     - php: hhvm
-      env: SERVICE=GEOS # extension currently unsupported by HHVM
+      env: ENGINE=GEOS # extension currently unsupported by HHVM

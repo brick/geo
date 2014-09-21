@@ -1,16 +1,13 @@
 <?php
 
-namespace Brick\Geo\Service;
+namespace Brick\Geo\Engine;
 
 use Brick\Geo\Geometry;
 
 /**
- * Interface for geometry services.
- *
- * Services implementing this interface can be statically injected
- * into the Geometry class, to provide it with missing PHP implementations.
+ * Interface for geometry engines.
  */
-interface GeometryService
+interface GeometryEngine
 {
     /**
      * Returns a geometry that represents the point set union of the geometries.

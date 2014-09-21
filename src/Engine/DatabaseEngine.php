@@ -1,6 +1,6 @@
 <?php
 
-namespace Brick\Geo\Service;
+namespace Brick\Geo\Engine;
 
 use Brick\Geo\Geometry;
 use Brick\Geo\Curve;
@@ -10,11 +10,11 @@ use Brick\Geo\MultiSurface;
 use Brick\Geo\GeometryException;
 
 /**
- * Database implementation of the GeometryService.
+ * Database implementation of the GeometryEngine.
  *
  * The target database must have support for GIS functions.
  */
-abstract class DatabaseService implements GeometryService
+abstract class DatabaseEngine implements GeometryEngine
 {
     /**
      * Builds a SQL query for a GIS function
