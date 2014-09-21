@@ -21,12 +21,23 @@ class GEOSEngine implements GeometryEngine
     private $wkbWriter;
 
     /**
+     * Whether the GEOS version in use has support for binary read() and write() methods.
+     *
+     * @var boolean
+     */
+    private $hasReadWrite;
+
+    /**
      * Class constructor.
      */
     public function __construct()
     {
         $this->wkbReader = new \GEOSWKBReader();
         $this->wkbWriter = new \GEOSWKBWriter();
+
+        $this->hasReadWrite =
+            method_exists($this->wkbReader, 'read') &&
+            method_exists($this->wkbWriter, 'write');
     }
 
     /**
@@ -36,6 +47,10 @@ class GEOSEngine implements GeometryEngine
      */
     private function toGEOS(Geometry $geometry)
     {
+        if ($this->hasReadWrite) {
+            return $this->wkbReader->read($geometry->asBinary());
+        }
+
         return $this->wkbReader->readHEX(bin2hex($geometry->asBinary()));
     }
 
@@ -46,6 +61,10 @@ class GEOSEngine implements GeometryEngine
      */
     private function fromGEOS(\GEOSGeometry $geometry)
     {
+        if ($this->hasReadWrite) {
+            return Geometry::fromBinary($this->wkbWriter->write($geometry));
+        }
+
         return Geometry::fromBinary(hex2bin($this->wkbWriter->writeHEX($geometry)));
     }
 
