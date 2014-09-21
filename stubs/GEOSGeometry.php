@@ -27,7 +27,7 @@ class GEOSGeometry
      *
      * @return float|null Returns NULL on error.
      */
-    public function project(GEOSGeometry $other, $normalized) {}
+    public function project(GEOSGeometry $other, $normalized = false) {}
 
     /**
      * @param float   $dist
@@ -35,7 +35,7 @@ class GEOSGeometry
      *
      * @return GEOSGeometry|null Returns NULL on error.
      */
-    public function interpolate($dist, $normalized) {}
+    public function interpolate($dist, $normalized = false) {}
 
     /**
      * @param float $dist
@@ -90,11 +90,11 @@ class GEOSGeometry
     public function boundary() {}
 
     /**
-     * @param GEOSGeometry $otherGeom
+     * @param GEOSGeometry $otherGeom Optional, but explicit NULL is not allowed.
      *
      * @return GEOSGeometry|null Returns NULL on error.
      */
-    public function union(GEOSGeometry $otherGeom) {}
+    public function union(GEOSGeometry $otherGeom = null) {}
 
     /**
      * @return GEOSGeometry|null Returns NULL on error.
@@ -390,15 +390,16 @@ class GEOSGeometry
      *
      * @return GEOSGeometry|null Returns NULL on error.
      */
-    public function delaunayTriangulation($tolerance, $onlyEdges) {}
+    public function delaunayTriangulation($tolerance = 0.0, $onlyEdges = false) {}
 
     /**
      * @param float        $tolerance Snapping tolerance to use for improved robustness.
      * @param boolean      $onlyEdges If true will return a MULTILINESTRING, otherwise (the default)
      *                                it will return a GEOMETRYCOLLECTION containing POLYGONs.
      * @param GEOSGeometry $extent    Clip returned diagram by the extent of the given geometry.
+     *                                Optional, but explicit NULL value is not allowed.
      *
      * @return GEOSGeometry|null Returns NULL on error.
      */
-    public function voronoiDiagram($tolerance = 0.0, $onlyEdges = false, GEOSGeometry $extent) {}
+    public function voronoiDiagram($tolerance = 0.0, $onlyEdges = false, GEOSGeometry $extent = null) {}
 }
