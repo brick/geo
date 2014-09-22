@@ -7,9 +7,9 @@ use Brick\Geo\IO\WkbReader;
 use Brick\Geo\IO\WktReader;
 
 /**
- * Proxy class for Brick\Geo\Geometry.
+ * Proxy class for Brick\Geo\LineString.
  */
-class GeometryProxy extends \Brick\Geo\Geometry
+class LineStringProxy extends \Brick\Geo\LineString
 {
     /**
      * The WKT or WKB data.
@@ -28,7 +28,7 @@ class GeometryProxy extends \Brick\Geo\Geometry
     /**
      * The underlying geometry, or NULL if not yet loaded.
      *
-     * @var \Brick\Geo\Geometry|null
+     * @var \Brick\Geo\LineString|null
      */
     private $geometry;
 
@@ -55,8 +55,8 @@ class GeometryProxy extends \Brick\Geo\Geometry
             ? WkbReader::read($this->data)
             : WktReader::read($this->data);
 
-        if (! $geometry instanceof \Brick\Geo\Geometry) {
-            throw GeometryException::unexpectedGeometryType(\Brick\Geo\Geometry::class, $geometry);
+        if (! $geometry instanceof \Brick\Geo\LineString) {
+            throw GeometryException::unexpectedGeometryType(\Brick\Geo\LineString::class, $geometry);
         }
 
         $this->geometry = $geometry;
@@ -75,7 +75,7 @@ class GeometryProxy extends \Brick\Geo\Geometry
     /**
      * Loads and returns the underlying geometry.
      *
-     * @return \Brick\Geo\Geometry
+     * @return \Brick\Geo\LineString
      */
     public function getGeometry()
     {
@@ -136,6 +136,90 @@ class GeometryProxy extends \Brick\Geo\Geometry
     /**
      * {@inheritdoc}
      */
+    public function length()
+    {
+        if ($this->geometry === null) {
+            $this->load();
+        }
+
+        return $this->geometry->length();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function startPoint()
+    {
+        if ($this->geometry === null) {
+            $this->load();
+        }
+
+        return $this->geometry->startPoint();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function endPoint()
+    {
+        if ($this->geometry === null) {
+            $this->load();
+        }
+
+        return $this->geometry->endPoint();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isClosed()
+    {
+        if ($this->geometry === null) {
+            $this->load();
+        }
+
+        return $this->geometry->isClosed();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isRing()
+    {
+        if ($this->geometry === null) {
+            $this->load();
+        }
+
+        return $this->geometry->isRing();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function numPoints()
+    {
+        if ($this->geometry === null) {
+            $this->load();
+        }
+
+        return $this->geometry->numPoints();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function pointN($n)
+    {
+        if ($this->geometry === null) {
+            $this->load();
+        }
+
+        return $this->geometry->pointN($n);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function dimension()
     {
         if ($this->geometry === null) {
@@ -143,6 +227,54 @@ class GeometryProxy extends \Brick\Geo\Geometry
         }
 
         return $this->geometry->dimension();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function geometryType()
+    {
+        if ($this->geometry === null) {
+            $this->load();
+        }
+
+        return $this->geometry->geometryType();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isEmpty()
+    {
+        if ($this->geometry === null) {
+            $this->load();
+        }
+
+        return $this->geometry->isEmpty();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function count()
+    {
+        if ($this->geometry === null) {
+            $this->load();
+        }
+
+        return $this->geometry->count();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getIterator()
+    {
+        if ($this->geometry === null) {
+            $this->load();
+        }
+
+        return $this->geometry->getIterator();
     }
 
     /**
@@ -172,18 +304,6 @@ class GeometryProxy extends \Brick\Geo\Geometry
     /**
      * {@inheritdoc}
      */
-    public function geometryType()
-    {
-        if ($this->geometry === null) {
-            $this->load();
-        }
-
-        return $this->geometry->geometryType();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function SRID()
     {
         if ($this->geometry === null) {
@@ -203,18 +323,6 @@ class GeometryProxy extends \Brick\Geo\Geometry
         }
 
         return $this->geometry->envelope();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function isEmpty()
-    {
-        if ($this->geometry === null) {
-            $this->load();
-        }
-
-        return $this->geometry->isEmpty();
     }
 
     /**
@@ -268,7 +376,7 @@ class GeometryProxy extends \Brick\Geo\Geometry
     /**
      * {@inheritdoc}
      */
-    public function equals(\Brick\Geo\Geometry $geometry)
+    public function equals(\Brick\Geo\LineString $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -280,7 +388,7 @@ class GeometryProxy extends \Brick\Geo\Geometry
     /**
      * {@inheritdoc}
      */
-    public function disjoint(\Brick\Geo\Geometry $geometry)
+    public function disjoint(\Brick\Geo\LineString $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -292,7 +400,7 @@ class GeometryProxy extends \Brick\Geo\Geometry
     /**
      * {@inheritdoc}
      */
-    public function intersects(\Brick\Geo\Geometry $geometry)
+    public function intersects(\Brick\Geo\LineString $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -304,7 +412,7 @@ class GeometryProxy extends \Brick\Geo\Geometry
     /**
      * {@inheritdoc}
      */
-    public function touches(\Brick\Geo\Geometry $geometry)
+    public function touches(\Brick\Geo\LineString $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -316,7 +424,7 @@ class GeometryProxy extends \Brick\Geo\Geometry
     /**
      * {@inheritdoc}
      */
-    public function crosses(\Brick\Geo\Geometry $geometry)
+    public function crosses(\Brick\Geo\LineString $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -328,7 +436,7 @@ class GeometryProxy extends \Brick\Geo\Geometry
     /**
      * {@inheritdoc}
      */
-    public function within(\Brick\Geo\Geometry $geometry)
+    public function within(\Brick\Geo\LineString $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -340,7 +448,7 @@ class GeometryProxy extends \Brick\Geo\Geometry
     /**
      * {@inheritdoc}
      */
-    public function contains(\Brick\Geo\Geometry $geometry)
+    public function contains(\Brick\Geo\LineString $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -352,7 +460,7 @@ class GeometryProxy extends \Brick\Geo\Geometry
     /**
      * {@inheritdoc}
      */
-    public function overlaps(\Brick\Geo\Geometry $geometry)
+    public function overlaps(\Brick\Geo\LineString $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -364,7 +472,7 @@ class GeometryProxy extends \Brick\Geo\Geometry
     /**
      * {@inheritdoc}
      */
-    public function relate(\Brick\Geo\Geometry $geometry, $matrix)
+    public function relate(\Brick\Geo\LineString $geometry, $matrix)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -400,7 +508,7 @@ class GeometryProxy extends \Brick\Geo\Geometry
     /**
      * {@inheritdoc}
      */
-    public function distance(\Brick\Geo\Geometry $geometry)
+    public function distance(\Brick\Geo\LineString $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -436,7 +544,7 @@ class GeometryProxy extends \Brick\Geo\Geometry
     /**
      * {@inheritdoc}
      */
-    public function intersection(\Brick\Geo\Geometry $geometry)
+    public function intersection(\Brick\Geo\LineString $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -448,7 +556,7 @@ class GeometryProxy extends \Brick\Geo\Geometry
     /**
      * {@inheritdoc}
      */
-    public function union(\Brick\Geo\Geometry $geometry)
+    public function union(\Brick\Geo\LineString $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -460,7 +568,7 @@ class GeometryProxy extends \Brick\Geo\Geometry
     /**
      * {@inheritdoc}
      */
-    public function difference(\Brick\Geo\Geometry $geometry)
+    public function difference(\Brick\Geo\LineString $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -472,7 +580,7 @@ class GeometryProxy extends \Brick\Geo\Geometry
     /**
      * {@inheritdoc}
      */
-    public function symDifference(\Brick\Geo\Geometry $geometry)
+    public function symDifference(\Brick\Geo\LineString $geometry)
     {
         if ($this->geometry === null) {
             $this->load();

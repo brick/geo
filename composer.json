@@ -14,6 +14,7 @@
         "php": ">=5.5"
     },
     "require-dev": {
+        "brick/reflection": "dev-master",
         "phpunit/phpunit": "*",
         "satooshi/php-coveralls": "dev-master"
     },

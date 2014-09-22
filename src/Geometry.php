@@ -70,7 +70,7 @@ abstract class Geometry
      *
      * @throws GeometryException If the geometry is not of this type.
      */
-    final public static function fromBinary($wkb)
+    public static function fromBinary($wkb)
     {
         $geometry = WkbReader::read($wkb);
 
@@ -156,7 +156,7 @@ abstract class Geometry
      *
      * @return string
      */
-    final public function asText()
+    public function asText()
     {
         return WktWriter::write($this);
     }
@@ -166,7 +166,7 @@ abstract class Geometry
      *
      * @return string
      */
-    final public function asBinary()
+    public function asBinary()
     {
         return WkbWriter::write($this);
     }
