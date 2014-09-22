@@ -13,6 +13,8 @@ class GEOSWKBReader
     public function __construct() {}
 
     /**
+     * Reads a geometry out of the given hex-encoded WKB.
+     *
      * @param string $wkb
      *
      * @return GEOSGeometry|null The geometry, or NULL on failure.

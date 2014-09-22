@@ -13,35 +13,47 @@ class GEOSWKBWriter
     public function __construct() {}
 
     /**
-     * @return integer
+     * Returns the output dimension.
+     *
+     * @return integer 2 or 2D, 3 for 3D.
      */
     public function getOutputDimension() {}
 
     /**
-     * @param integer $dim
+     * Sets the output dimension.
+     *
+     * @param integer $dim 2 or 2D, 3 for 3D.
      *
      * @return void
      */
     public function setOutputDimension($dim) {}
 
     /**
-     * @return integer
+     * Returns the output WKB byte order.
+     *
+     * @return integer 0 for BIG endian, 1 for LITTLE endian.
      */
     public function getByteOrder() {}
 
     /**
-     * @param integer $dim
+     * Sets the output WKB byte order.
+     *
+     * @param integer $byteOrder 0 for BIG endian, 1 for LITTLE endian.
      *
      * @return void
      */
-    public function setByteOrder($dim) {}
+    public function setByteOrder($byteOrder) {}
 
     /**
+     * Returns whether the output includes SRID.
+     *
      * @return boolean
      */
     public function getIncludeSRID() {}
 
     /**
+     * Sets whether the output includes SRID.
+     *
      * @param boolean $inc
      *
      * @return void
@@ -49,6 +61,8 @@ class GEOSWKBWriter
     public function setIncludeSRID($inc) {}
 
     /**
+     * Writes the given geometry as hex-encoded WKB.
+     *
      * @param GEOSGeometry $geom
      *
      * @return string|null The WKB, or NULL on failure.
