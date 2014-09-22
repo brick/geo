@@ -61,6 +61,15 @@ class GEOSWKBWriter
     public function setIncludeSRID($inc) {}
 
     /**
+     * Writes the given geometry as WKB.
+     *
+     * @param GEOSGeometry $geom
+     *
+     * @return string|null The WKB, or NULL on failure.
+     */
+    public function write(GEOSGeometry $geom) {}
+
+    /**
      * Writes the given geometry as hex-encoded WKB.
      *
      * @param GEOSGeometry $geom
