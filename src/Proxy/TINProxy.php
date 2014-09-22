@@ -376,7 +376,7 @@ class TINProxy extends \Brick\Geo\TIN
     /**
      * {@inheritdoc}
      */
-    public function equals(\Brick\Geo\TIN $geometry)
+    public function equals(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -388,7 +388,7 @@ class TINProxy extends \Brick\Geo\TIN
     /**
      * {@inheritdoc}
      */
-    public function disjoint(\Brick\Geo\TIN $geometry)
+    public function disjoint(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -400,7 +400,7 @@ class TINProxy extends \Brick\Geo\TIN
     /**
      * {@inheritdoc}
      */
-    public function intersects(\Brick\Geo\TIN $geometry)
+    public function intersects(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -412,7 +412,7 @@ class TINProxy extends \Brick\Geo\TIN
     /**
      * {@inheritdoc}
      */
-    public function touches(\Brick\Geo\TIN $geometry)
+    public function touches(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -424,7 +424,7 @@ class TINProxy extends \Brick\Geo\TIN
     /**
      * {@inheritdoc}
      */
-    public function crosses(\Brick\Geo\TIN $geometry)
+    public function crosses(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -436,7 +436,7 @@ class TINProxy extends \Brick\Geo\TIN
     /**
      * {@inheritdoc}
      */
-    public function within(\Brick\Geo\TIN $geometry)
+    public function within(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -448,7 +448,7 @@ class TINProxy extends \Brick\Geo\TIN
     /**
      * {@inheritdoc}
      */
-    public function contains(\Brick\Geo\TIN $geometry)
+    public function contains(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -460,7 +460,7 @@ class TINProxy extends \Brick\Geo\TIN
     /**
      * {@inheritdoc}
      */
-    public function overlaps(\Brick\Geo\TIN $geometry)
+    public function overlaps(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -472,7 +472,7 @@ class TINProxy extends \Brick\Geo\TIN
     /**
      * {@inheritdoc}
      */
-    public function relate(\Brick\Geo\TIN $geometry, $matrix)
+    public function relate(\Brick\Geo\Geometry $geometry, $matrix)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -508,7 +508,7 @@ class TINProxy extends \Brick\Geo\TIN
     /**
      * {@inheritdoc}
      */
-    public function distance(\Brick\Geo\TIN $geometry)
+    public function distance(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -544,7 +544,7 @@ class TINProxy extends \Brick\Geo\TIN
     /**
      * {@inheritdoc}
      */
-    public function intersection(\Brick\Geo\TIN $geometry)
+    public function intersection(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -556,7 +556,7 @@ class TINProxy extends \Brick\Geo\TIN
     /**
      * {@inheritdoc}
      */
-    public function union(\Brick\Geo\TIN $geometry)
+    public function union(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -568,7 +568,7 @@ class TINProxy extends \Brick\Geo\TIN
     /**
      * {@inheritdoc}
      */
-    public function difference(\Brick\Geo\TIN $geometry)
+    public function difference(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -580,7 +580,7 @@ class TINProxy extends \Brick\Geo\TIN
     /**
      * {@inheritdoc}
      */
-    public function symDifference(\Brick\Geo\TIN $geometry)
+    public function symDifference(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();

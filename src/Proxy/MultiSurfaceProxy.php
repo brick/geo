@@ -352,7 +352,7 @@ class MultiSurfaceProxy extends \Brick\Geo\MultiSurface
     /**
      * {@inheritdoc}
      */
-    public function equals(\Brick\Geo\MultiSurface $geometry)
+    public function equals(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -364,7 +364,7 @@ class MultiSurfaceProxy extends \Brick\Geo\MultiSurface
     /**
      * {@inheritdoc}
      */
-    public function disjoint(\Brick\Geo\MultiSurface $geometry)
+    public function disjoint(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -376,7 +376,7 @@ class MultiSurfaceProxy extends \Brick\Geo\MultiSurface
     /**
      * {@inheritdoc}
      */
-    public function intersects(\Brick\Geo\MultiSurface $geometry)
+    public function intersects(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -388,7 +388,7 @@ class MultiSurfaceProxy extends \Brick\Geo\MultiSurface
     /**
      * {@inheritdoc}
      */
-    public function touches(\Brick\Geo\MultiSurface $geometry)
+    public function touches(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -400,7 +400,7 @@ class MultiSurfaceProxy extends \Brick\Geo\MultiSurface
     /**
      * {@inheritdoc}
      */
-    public function crosses(\Brick\Geo\MultiSurface $geometry)
+    public function crosses(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -412,7 +412,7 @@ class MultiSurfaceProxy extends \Brick\Geo\MultiSurface
     /**
      * {@inheritdoc}
      */
-    public function within(\Brick\Geo\MultiSurface $geometry)
+    public function within(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -424,7 +424,7 @@ class MultiSurfaceProxy extends \Brick\Geo\MultiSurface
     /**
      * {@inheritdoc}
      */
-    public function contains(\Brick\Geo\MultiSurface $geometry)
+    public function contains(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -436,7 +436,7 @@ class MultiSurfaceProxy extends \Brick\Geo\MultiSurface
     /**
      * {@inheritdoc}
      */
-    public function overlaps(\Brick\Geo\MultiSurface $geometry)
+    public function overlaps(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -448,7 +448,7 @@ class MultiSurfaceProxy extends \Brick\Geo\MultiSurface
     /**
      * {@inheritdoc}
      */
-    public function relate(\Brick\Geo\MultiSurface $geometry, $matrix)
+    public function relate(\Brick\Geo\Geometry $geometry, $matrix)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -484,7 +484,7 @@ class MultiSurfaceProxy extends \Brick\Geo\MultiSurface
     /**
      * {@inheritdoc}
      */
-    public function distance(\Brick\Geo\MultiSurface $geometry)
+    public function distance(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -520,7 +520,7 @@ class MultiSurfaceProxy extends \Brick\Geo\MultiSurface
     /**
      * {@inheritdoc}
      */
-    public function intersection(\Brick\Geo\MultiSurface $geometry)
+    public function intersection(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -532,7 +532,7 @@ class MultiSurfaceProxy extends \Brick\Geo\MultiSurface
     /**
      * {@inheritdoc}
      */
-    public function union(\Brick\Geo\MultiSurface $geometry)
+    public function union(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -544,7 +544,7 @@ class MultiSurfaceProxy extends \Brick\Geo\MultiSurface
     /**
      * {@inheritdoc}
      */
-    public function difference(\Brick\Geo\MultiSurface $geometry)
+    public function difference(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -556,7 +556,7 @@ class MultiSurfaceProxy extends \Brick\Geo\MultiSurface
     /**
      * {@inheritdoc}
      */
-    public function symDifference(\Brick\Geo\MultiSurface $geometry)
+    public function symDifference(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();

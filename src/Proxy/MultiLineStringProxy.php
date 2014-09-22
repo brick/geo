@@ -340,7 +340,7 @@ class MultiLineStringProxy extends \Brick\Geo\MultiLineString
     /**
      * {@inheritdoc}
      */
-    public function equals(\Brick\Geo\MultiLineString $geometry)
+    public function equals(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -352,7 +352,7 @@ class MultiLineStringProxy extends \Brick\Geo\MultiLineString
     /**
      * {@inheritdoc}
      */
-    public function disjoint(\Brick\Geo\MultiLineString $geometry)
+    public function disjoint(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -364,7 +364,7 @@ class MultiLineStringProxy extends \Brick\Geo\MultiLineString
     /**
      * {@inheritdoc}
      */
-    public function intersects(\Brick\Geo\MultiLineString $geometry)
+    public function intersects(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -376,7 +376,7 @@ class MultiLineStringProxy extends \Brick\Geo\MultiLineString
     /**
      * {@inheritdoc}
      */
-    public function touches(\Brick\Geo\MultiLineString $geometry)
+    public function touches(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -388,7 +388,7 @@ class MultiLineStringProxy extends \Brick\Geo\MultiLineString
     /**
      * {@inheritdoc}
      */
-    public function crosses(\Brick\Geo\MultiLineString $geometry)
+    public function crosses(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -400,7 +400,7 @@ class MultiLineStringProxy extends \Brick\Geo\MultiLineString
     /**
      * {@inheritdoc}
      */
-    public function within(\Brick\Geo\MultiLineString $geometry)
+    public function within(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -412,7 +412,7 @@ class MultiLineStringProxy extends \Brick\Geo\MultiLineString
     /**
      * {@inheritdoc}
      */
-    public function contains(\Brick\Geo\MultiLineString $geometry)
+    public function contains(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -424,7 +424,7 @@ class MultiLineStringProxy extends \Brick\Geo\MultiLineString
     /**
      * {@inheritdoc}
      */
-    public function overlaps(\Brick\Geo\MultiLineString $geometry)
+    public function overlaps(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -436,7 +436,7 @@ class MultiLineStringProxy extends \Brick\Geo\MultiLineString
     /**
      * {@inheritdoc}
      */
-    public function relate(\Brick\Geo\MultiLineString $geometry, $matrix)
+    public function relate(\Brick\Geo\Geometry $geometry, $matrix)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -472,7 +472,7 @@ class MultiLineStringProxy extends \Brick\Geo\MultiLineString
     /**
      * {@inheritdoc}
      */
-    public function distance(\Brick\Geo\MultiLineString $geometry)
+    public function distance(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -508,7 +508,7 @@ class MultiLineStringProxy extends \Brick\Geo\MultiLineString
     /**
      * {@inheritdoc}
      */
-    public function intersection(\Brick\Geo\MultiLineString $geometry)
+    public function intersection(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -520,7 +520,7 @@ class MultiLineStringProxy extends \Brick\Geo\MultiLineString
     /**
      * {@inheritdoc}
      */
-    public function union(\Brick\Geo\MultiLineString $geometry)
+    public function union(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -532,7 +532,7 @@ class MultiLineStringProxy extends \Brick\Geo\MultiLineString
     /**
      * {@inheritdoc}
      */
-    public function difference(\Brick\Geo\MultiLineString $geometry)
+    public function difference(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -544,7 +544,7 @@ class MultiLineStringProxy extends \Brick\Geo\MultiLineString
     /**
      * {@inheritdoc}
      */
-    public function symDifference(\Brick\Geo\MultiLineString $geometry)
+    public function symDifference(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();

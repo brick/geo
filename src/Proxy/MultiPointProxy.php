@@ -316,7 +316,7 @@ class MultiPointProxy extends \Brick\Geo\MultiPoint
     /**
      * {@inheritdoc}
      */
-    public function equals(\Brick\Geo\MultiPoint $geometry)
+    public function equals(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -328,7 +328,7 @@ class MultiPointProxy extends \Brick\Geo\MultiPoint
     /**
      * {@inheritdoc}
      */
-    public function disjoint(\Brick\Geo\MultiPoint $geometry)
+    public function disjoint(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -340,7 +340,7 @@ class MultiPointProxy extends \Brick\Geo\MultiPoint
     /**
      * {@inheritdoc}
      */
-    public function intersects(\Brick\Geo\MultiPoint $geometry)
+    public function intersects(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -352,7 +352,7 @@ class MultiPointProxy extends \Brick\Geo\MultiPoint
     /**
      * {@inheritdoc}
      */
-    public function touches(\Brick\Geo\MultiPoint $geometry)
+    public function touches(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -364,7 +364,7 @@ class MultiPointProxy extends \Brick\Geo\MultiPoint
     /**
      * {@inheritdoc}
      */
-    public function crosses(\Brick\Geo\MultiPoint $geometry)
+    public function crosses(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -376,7 +376,7 @@ class MultiPointProxy extends \Brick\Geo\MultiPoint
     /**
      * {@inheritdoc}
      */
-    public function within(\Brick\Geo\MultiPoint $geometry)
+    public function within(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -388,7 +388,7 @@ class MultiPointProxy extends \Brick\Geo\MultiPoint
     /**
      * {@inheritdoc}
      */
-    public function contains(\Brick\Geo\MultiPoint $geometry)
+    public function contains(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -400,7 +400,7 @@ class MultiPointProxy extends \Brick\Geo\MultiPoint
     /**
      * {@inheritdoc}
      */
-    public function overlaps(\Brick\Geo\MultiPoint $geometry)
+    public function overlaps(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -412,7 +412,7 @@ class MultiPointProxy extends \Brick\Geo\MultiPoint
     /**
      * {@inheritdoc}
      */
-    public function relate(\Brick\Geo\MultiPoint $geometry, $matrix)
+    public function relate(\Brick\Geo\Geometry $geometry, $matrix)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -448,7 +448,7 @@ class MultiPointProxy extends \Brick\Geo\MultiPoint
     /**
      * {@inheritdoc}
      */
-    public function distance(\Brick\Geo\MultiPoint $geometry)
+    public function distance(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -484,7 +484,7 @@ class MultiPointProxy extends \Brick\Geo\MultiPoint
     /**
      * {@inheritdoc}
      */
-    public function intersection(\Brick\Geo\MultiPoint $geometry)
+    public function intersection(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -496,7 +496,7 @@ class MultiPointProxy extends \Brick\Geo\MultiPoint
     /**
      * {@inheritdoc}
      */
-    public function union(\Brick\Geo\MultiPoint $geometry)
+    public function union(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -508,7 +508,7 @@ class MultiPointProxy extends \Brick\Geo\MultiPoint
     /**
      * {@inheritdoc}
      */
-    public function difference(\Brick\Geo\MultiPoint $geometry)
+    public function difference(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -520,7 +520,7 @@ class MultiPointProxy extends \Brick\Geo\MultiPoint
     /**
      * {@inheritdoc}
      */
-    public function symDifference(\Brick\Geo\MultiPoint $geometry)
+    public function symDifference(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();

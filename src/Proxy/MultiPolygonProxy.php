@@ -364,7 +364,7 @@ class MultiPolygonProxy extends \Brick\Geo\MultiPolygon
     /**
      * {@inheritdoc}
      */
-    public function equals(\Brick\Geo\MultiPolygon $geometry)
+    public function equals(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -376,7 +376,7 @@ class MultiPolygonProxy extends \Brick\Geo\MultiPolygon
     /**
      * {@inheritdoc}
      */
-    public function disjoint(\Brick\Geo\MultiPolygon $geometry)
+    public function disjoint(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -388,7 +388,7 @@ class MultiPolygonProxy extends \Brick\Geo\MultiPolygon
     /**
      * {@inheritdoc}
      */
-    public function intersects(\Brick\Geo\MultiPolygon $geometry)
+    public function intersects(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -400,7 +400,7 @@ class MultiPolygonProxy extends \Brick\Geo\MultiPolygon
     /**
      * {@inheritdoc}
      */
-    public function touches(\Brick\Geo\MultiPolygon $geometry)
+    public function touches(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -412,7 +412,7 @@ class MultiPolygonProxy extends \Brick\Geo\MultiPolygon
     /**
      * {@inheritdoc}
      */
-    public function crosses(\Brick\Geo\MultiPolygon $geometry)
+    public function crosses(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -424,7 +424,7 @@ class MultiPolygonProxy extends \Brick\Geo\MultiPolygon
     /**
      * {@inheritdoc}
      */
-    public function within(\Brick\Geo\MultiPolygon $geometry)
+    public function within(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -436,7 +436,7 @@ class MultiPolygonProxy extends \Brick\Geo\MultiPolygon
     /**
      * {@inheritdoc}
      */
-    public function contains(\Brick\Geo\MultiPolygon $geometry)
+    public function contains(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -448,7 +448,7 @@ class MultiPolygonProxy extends \Brick\Geo\MultiPolygon
     /**
      * {@inheritdoc}
      */
-    public function overlaps(\Brick\Geo\MultiPolygon $geometry)
+    public function overlaps(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -460,7 +460,7 @@ class MultiPolygonProxy extends \Brick\Geo\MultiPolygon
     /**
      * {@inheritdoc}
      */
-    public function relate(\Brick\Geo\MultiPolygon $geometry, $matrix)
+    public function relate(\Brick\Geo\Geometry $geometry, $matrix)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -496,7 +496,7 @@ class MultiPolygonProxy extends \Brick\Geo\MultiPolygon
     /**
      * {@inheritdoc}
      */
-    public function distance(\Brick\Geo\MultiPolygon $geometry)
+    public function distance(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -532,7 +532,7 @@ class MultiPolygonProxy extends \Brick\Geo\MultiPolygon
     /**
      * {@inheritdoc}
      */
-    public function intersection(\Brick\Geo\MultiPolygon $geometry)
+    public function intersection(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -544,7 +544,7 @@ class MultiPolygonProxy extends \Brick\Geo\MultiPolygon
     /**
      * {@inheritdoc}
      */
-    public function union(\Brick\Geo\MultiPolygon $geometry)
+    public function union(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -556,7 +556,7 @@ class MultiPolygonProxy extends \Brick\Geo\MultiPolygon
     /**
      * {@inheritdoc}
      */
-    public function difference(\Brick\Geo\MultiPolygon $geometry)
+    public function difference(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -568,7 +568,7 @@ class MultiPolygonProxy extends \Brick\Geo\MultiPolygon
     /**
      * {@inheritdoc}
      */
-    public function symDifference(\Brick\Geo\MultiPolygon $geometry)
+    public function symDifference(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();

@@ -69,12 +69,12 @@ foreach ($classes as $class) {
     }
 
     $proxyCode = $proxyTemplate;
+    $proxyCode = str_replace(Brick\Geo\Geometry::class, $fqcn, $proxyCode);
 
     $proxyCode = str_replace('/* {CLASSNAME} */', $class->getShortName(), $proxyCode);
     $proxyCode = str_replace('/* {EXTENDS} */', 'extends ' . '\\' . $class->getName(), $proxyCode);
     $proxyCode = str_replace('/* {METHODS} */', $methods, $proxyCode);
 
-    $proxyCode = str_replace(Brick\Geo\Geometry::class, $fqcn, $proxyCode);
 
     file_put_contents($proxyDir . $class->getShortName() . 'Proxy.php', $proxyCode);
 }

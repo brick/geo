@@ -376,7 +376,7 @@ class LinearRingProxy extends \Brick\Geo\LinearRing
     /**
      * {@inheritdoc}
      */
-    public function equals(\Brick\Geo\LinearRing $geometry)
+    public function equals(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -388,7 +388,7 @@ class LinearRingProxy extends \Brick\Geo\LinearRing
     /**
      * {@inheritdoc}
      */
-    public function disjoint(\Brick\Geo\LinearRing $geometry)
+    public function disjoint(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -400,7 +400,7 @@ class LinearRingProxy extends \Brick\Geo\LinearRing
     /**
      * {@inheritdoc}
      */
-    public function intersects(\Brick\Geo\LinearRing $geometry)
+    public function intersects(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -412,7 +412,7 @@ class LinearRingProxy extends \Brick\Geo\LinearRing
     /**
      * {@inheritdoc}
      */
-    public function touches(\Brick\Geo\LinearRing $geometry)
+    public function touches(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -424,7 +424,7 @@ class LinearRingProxy extends \Brick\Geo\LinearRing
     /**
      * {@inheritdoc}
      */
-    public function crosses(\Brick\Geo\LinearRing $geometry)
+    public function crosses(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -436,7 +436,7 @@ class LinearRingProxy extends \Brick\Geo\LinearRing
     /**
      * {@inheritdoc}
      */
-    public function within(\Brick\Geo\LinearRing $geometry)
+    public function within(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -448,7 +448,7 @@ class LinearRingProxy extends \Brick\Geo\LinearRing
     /**
      * {@inheritdoc}
      */
-    public function contains(\Brick\Geo\LinearRing $geometry)
+    public function contains(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -460,7 +460,7 @@ class LinearRingProxy extends \Brick\Geo\LinearRing
     /**
      * {@inheritdoc}
      */
-    public function overlaps(\Brick\Geo\LinearRing $geometry)
+    public function overlaps(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -472,7 +472,7 @@ class LinearRingProxy extends \Brick\Geo\LinearRing
     /**
      * {@inheritdoc}
      */
-    public function relate(\Brick\Geo\LinearRing $geometry, $matrix)
+    public function relate(\Brick\Geo\Geometry $geometry, $matrix)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -508,7 +508,7 @@ class LinearRingProxy extends \Brick\Geo\LinearRing
     /**
      * {@inheritdoc}
      */
-    public function distance(\Brick\Geo\LinearRing $geometry)
+    public function distance(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -544,7 +544,7 @@ class LinearRingProxy extends \Brick\Geo\LinearRing
     /**
      * {@inheritdoc}
      */
-    public function intersection(\Brick\Geo\LinearRing $geometry)
+    public function intersection(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -556,7 +556,7 @@ class LinearRingProxy extends \Brick\Geo\LinearRing
     /**
      * {@inheritdoc}
      */
-    public function union(\Brick\Geo\LinearRing $geometry)
+    public function union(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -568,7 +568,7 @@ class LinearRingProxy extends \Brick\Geo\LinearRing
     /**
      * {@inheritdoc}
      */
-    public function difference(\Brick\Geo\LinearRing $geometry)
+    public function difference(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -580,7 +580,7 @@ class LinearRingProxy extends \Brick\Geo\LinearRing
     /**
      * {@inheritdoc}
      */
-    public function symDifference(\Brick\Geo\LinearRing $geometry)
+    public function symDifference(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();

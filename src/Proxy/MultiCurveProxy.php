@@ -340,7 +340,7 @@ class MultiCurveProxy extends \Brick\Geo\MultiCurve
     /**
      * {@inheritdoc}
      */
-    public function equals(\Brick\Geo\MultiCurve $geometry)
+    public function equals(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -352,7 +352,7 @@ class MultiCurveProxy extends \Brick\Geo\MultiCurve
     /**
      * {@inheritdoc}
      */
-    public function disjoint(\Brick\Geo\MultiCurve $geometry)
+    public function disjoint(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -364,7 +364,7 @@ class MultiCurveProxy extends \Brick\Geo\MultiCurve
     /**
      * {@inheritdoc}
      */
-    public function intersects(\Brick\Geo\MultiCurve $geometry)
+    public function intersects(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -376,7 +376,7 @@ class MultiCurveProxy extends \Brick\Geo\MultiCurve
     /**
      * {@inheritdoc}
      */
-    public function touches(\Brick\Geo\MultiCurve $geometry)
+    public function touches(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -388,7 +388,7 @@ class MultiCurveProxy extends \Brick\Geo\MultiCurve
     /**
      * {@inheritdoc}
      */
-    public function crosses(\Brick\Geo\MultiCurve $geometry)
+    public function crosses(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -400,7 +400,7 @@ class MultiCurveProxy extends \Brick\Geo\MultiCurve
     /**
      * {@inheritdoc}
      */
-    public function within(\Brick\Geo\MultiCurve $geometry)
+    public function within(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -412,7 +412,7 @@ class MultiCurveProxy extends \Brick\Geo\MultiCurve
     /**
      * {@inheritdoc}
      */
-    public function contains(\Brick\Geo\MultiCurve $geometry)
+    public function contains(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -424,7 +424,7 @@ class MultiCurveProxy extends \Brick\Geo\MultiCurve
     /**
      * {@inheritdoc}
      */
-    public function overlaps(\Brick\Geo\MultiCurve $geometry)
+    public function overlaps(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -436,7 +436,7 @@ class MultiCurveProxy extends \Brick\Geo\MultiCurve
     /**
      * {@inheritdoc}
      */
-    public function relate(\Brick\Geo\MultiCurve $geometry, $matrix)
+    public function relate(\Brick\Geo\Geometry $geometry, $matrix)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -472,7 +472,7 @@ class MultiCurveProxy extends \Brick\Geo\MultiCurve
     /**
      * {@inheritdoc}
      */
-    public function distance(\Brick\Geo\MultiCurve $geometry)
+    public function distance(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -508,7 +508,7 @@ class MultiCurveProxy extends \Brick\Geo\MultiCurve
     /**
      * {@inheritdoc}
      */
-    public function intersection(\Brick\Geo\MultiCurve $geometry)
+    public function intersection(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -520,7 +520,7 @@ class MultiCurveProxy extends \Brick\Geo\MultiCurve
     /**
      * {@inheritdoc}
      */
-    public function union(\Brick\Geo\MultiCurve $geometry)
+    public function union(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -532,7 +532,7 @@ class MultiCurveProxy extends \Brick\Geo\MultiCurve
     /**
      * {@inheritdoc}
      */
-    public function difference(\Brick\Geo\MultiCurve $geometry)
+    public function difference(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -544,7 +544,7 @@ class MultiCurveProxy extends \Brick\Geo\MultiCurve
     /**
      * {@inheritdoc}
      */
-    public function symDifference(\Brick\Geo\MultiCurve $geometry)
+    public function symDifference(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();

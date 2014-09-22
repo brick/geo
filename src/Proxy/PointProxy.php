@@ -316,7 +316,7 @@ class PointProxy extends \Brick\Geo\Point
     /**
      * {@inheritdoc}
      */
-    public function equals(\Brick\Geo\Point $geometry)
+    public function equals(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -328,7 +328,7 @@ class PointProxy extends \Brick\Geo\Point
     /**
      * {@inheritdoc}
      */
-    public function disjoint(\Brick\Geo\Point $geometry)
+    public function disjoint(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -340,7 +340,7 @@ class PointProxy extends \Brick\Geo\Point
     /**
      * {@inheritdoc}
      */
-    public function intersects(\Brick\Geo\Point $geometry)
+    public function intersects(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -352,7 +352,7 @@ class PointProxy extends \Brick\Geo\Point
     /**
      * {@inheritdoc}
      */
-    public function touches(\Brick\Geo\Point $geometry)
+    public function touches(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -364,7 +364,7 @@ class PointProxy extends \Brick\Geo\Point
     /**
      * {@inheritdoc}
      */
-    public function crosses(\Brick\Geo\Point $geometry)
+    public function crosses(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -376,7 +376,7 @@ class PointProxy extends \Brick\Geo\Point
     /**
      * {@inheritdoc}
      */
-    public function within(\Brick\Geo\Point $geometry)
+    public function within(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -388,7 +388,7 @@ class PointProxy extends \Brick\Geo\Point
     /**
      * {@inheritdoc}
      */
-    public function contains(\Brick\Geo\Point $geometry)
+    public function contains(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -400,7 +400,7 @@ class PointProxy extends \Brick\Geo\Point
     /**
      * {@inheritdoc}
      */
-    public function overlaps(\Brick\Geo\Point $geometry)
+    public function overlaps(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -412,7 +412,7 @@ class PointProxy extends \Brick\Geo\Point
     /**
      * {@inheritdoc}
      */
-    public function relate(\Brick\Geo\Point $geometry, $matrix)
+    public function relate(\Brick\Geo\Geometry $geometry, $matrix)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -448,7 +448,7 @@ class PointProxy extends \Brick\Geo\Point
     /**
      * {@inheritdoc}
      */
-    public function distance(\Brick\Geo\Point $geometry)
+    public function distance(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -484,7 +484,7 @@ class PointProxy extends \Brick\Geo\Point
     /**
      * {@inheritdoc}
      */
-    public function intersection(\Brick\Geo\Point $geometry)
+    public function intersection(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -496,7 +496,7 @@ class PointProxy extends \Brick\Geo\Point
     /**
      * {@inheritdoc}
      */
-    public function union(\Brick\Geo\Point $geometry)
+    public function union(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -508,7 +508,7 @@ class PointProxy extends \Brick\Geo\Point
     /**
      * {@inheritdoc}
      */
-    public function difference(\Brick\Geo\Point $geometry)
+    public function difference(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -520,7 +520,7 @@ class PointProxy extends \Brick\Geo\Point
     /**
      * {@inheritdoc}
      */
-    public function symDifference(\Brick\Geo\Point $geometry)
+    public function symDifference(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();

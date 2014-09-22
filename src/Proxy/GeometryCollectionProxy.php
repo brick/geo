@@ -9,7 +9,7 @@ use Brick\Geo\IO\WktReader;
 /**
  * Proxy class for Brick\Geo\GeometryCollection.
  */
-class GeometryCollectionProxy extends \Brick\Geo\GeometryCollectionCollection
+class GeometryCollectionProxy extends \Brick\Geo\GeometryCollection
 {
     /**
      * The WKT or WKB data.
@@ -316,7 +316,7 @@ class GeometryCollectionProxy extends \Brick\Geo\GeometryCollectionCollection
     /**
      * {@inheritdoc}
      */
-    public function equals(\Brick\Geo\GeometryCollection $geometry)
+    public function equals(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -328,7 +328,7 @@ class GeometryCollectionProxy extends \Brick\Geo\GeometryCollectionCollection
     /**
      * {@inheritdoc}
      */
-    public function disjoint(\Brick\Geo\GeometryCollection $geometry)
+    public function disjoint(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -340,7 +340,7 @@ class GeometryCollectionProxy extends \Brick\Geo\GeometryCollectionCollection
     /**
      * {@inheritdoc}
      */
-    public function intersects(\Brick\Geo\GeometryCollection $geometry)
+    public function intersects(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -352,7 +352,7 @@ class GeometryCollectionProxy extends \Brick\Geo\GeometryCollectionCollection
     /**
      * {@inheritdoc}
      */
-    public function touches(\Brick\Geo\GeometryCollection $geometry)
+    public function touches(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -364,7 +364,7 @@ class GeometryCollectionProxy extends \Brick\Geo\GeometryCollectionCollection
     /**
      * {@inheritdoc}
      */
-    public function crosses(\Brick\Geo\GeometryCollection $geometry)
+    public function crosses(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -376,7 +376,7 @@ class GeometryCollectionProxy extends \Brick\Geo\GeometryCollectionCollection
     /**
      * {@inheritdoc}
      */
-    public function within(\Brick\Geo\GeometryCollection $geometry)
+    public function within(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -388,7 +388,7 @@ class GeometryCollectionProxy extends \Brick\Geo\GeometryCollectionCollection
     /**
      * {@inheritdoc}
      */
-    public function contains(\Brick\Geo\GeometryCollection $geometry)
+    public function contains(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -400,7 +400,7 @@ class GeometryCollectionProxy extends \Brick\Geo\GeometryCollectionCollection
     /**
      * {@inheritdoc}
      */
-    public function overlaps(\Brick\Geo\GeometryCollection $geometry)
+    public function overlaps(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -412,7 +412,7 @@ class GeometryCollectionProxy extends \Brick\Geo\GeometryCollectionCollection
     /**
      * {@inheritdoc}
      */
-    public function relate(\Brick\Geo\GeometryCollection $geometry, $matrix)
+    public function relate(\Brick\Geo\Geometry $geometry, $matrix)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -448,7 +448,7 @@ class GeometryCollectionProxy extends \Brick\Geo\GeometryCollectionCollection
     /**
      * {@inheritdoc}
      */
-    public function distance(\Brick\Geo\GeometryCollection $geometry)
+    public function distance(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -484,7 +484,7 @@ class GeometryCollectionProxy extends \Brick\Geo\GeometryCollectionCollection
     /**
      * {@inheritdoc}
      */
-    public function intersection(\Brick\Geo\GeometryCollection $geometry)
+    public function intersection(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -496,7 +496,7 @@ class GeometryCollectionProxy extends \Brick\Geo\GeometryCollectionCollection
     /**
      * {@inheritdoc}
      */
-    public function union(\Brick\Geo\GeometryCollection $geometry)
+    public function union(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -508,7 +508,7 @@ class GeometryCollectionProxy extends \Brick\Geo\GeometryCollectionCollection
     /**
      * {@inheritdoc}
      */
-    public function difference(\Brick\Geo\GeometryCollection $geometry)
+    public function difference(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -520,7 +520,7 @@ class GeometryCollectionProxy extends \Brick\Geo\GeometryCollectionCollection
     /**
      * {@inheritdoc}
      */
-    public function symDifference(\Brick\Geo\GeometryCollection $geometry)
+    public function symDifference(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();

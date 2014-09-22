@@ -364,7 +364,7 @@ class PolygonProxy extends \Brick\Geo\Polygon
     /**
      * {@inheritdoc}
      */
-    public function equals(\Brick\Geo\Polygon $geometry)
+    public function equals(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -376,7 +376,7 @@ class PolygonProxy extends \Brick\Geo\Polygon
     /**
      * {@inheritdoc}
      */
-    public function disjoint(\Brick\Geo\Polygon $geometry)
+    public function disjoint(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -388,7 +388,7 @@ class PolygonProxy extends \Brick\Geo\Polygon
     /**
      * {@inheritdoc}
      */
-    public function intersects(\Brick\Geo\Polygon $geometry)
+    public function intersects(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -400,7 +400,7 @@ class PolygonProxy extends \Brick\Geo\Polygon
     /**
      * {@inheritdoc}
      */
-    public function touches(\Brick\Geo\Polygon $geometry)
+    public function touches(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -412,7 +412,7 @@ class PolygonProxy extends \Brick\Geo\Polygon
     /**
      * {@inheritdoc}
      */
-    public function crosses(\Brick\Geo\Polygon $geometry)
+    public function crosses(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -424,7 +424,7 @@ class PolygonProxy extends \Brick\Geo\Polygon
     /**
      * {@inheritdoc}
      */
-    public function within(\Brick\Geo\Polygon $geometry)
+    public function within(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -436,7 +436,7 @@ class PolygonProxy extends \Brick\Geo\Polygon
     /**
      * {@inheritdoc}
      */
-    public function contains(\Brick\Geo\Polygon $geometry)
+    public function contains(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -448,7 +448,7 @@ class PolygonProxy extends \Brick\Geo\Polygon
     /**
      * {@inheritdoc}
      */
-    public function overlaps(\Brick\Geo\Polygon $geometry)
+    public function overlaps(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -460,7 +460,7 @@ class PolygonProxy extends \Brick\Geo\Polygon
     /**
      * {@inheritdoc}
      */
-    public function relate(\Brick\Geo\Polygon $geometry, $matrix)
+    public function relate(\Brick\Geo\Geometry $geometry, $matrix)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -496,7 +496,7 @@ class PolygonProxy extends \Brick\Geo\Polygon
     /**
      * {@inheritdoc}
      */
-    public function distance(\Brick\Geo\Polygon $geometry)
+    public function distance(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -532,7 +532,7 @@ class PolygonProxy extends \Brick\Geo\Polygon
     /**
      * {@inheritdoc}
      */
-    public function intersection(\Brick\Geo\Polygon $geometry)
+    public function intersection(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -544,7 +544,7 @@ class PolygonProxy extends \Brick\Geo\Polygon
     /**
      * {@inheritdoc}
      */
-    public function union(\Brick\Geo\Polygon $geometry)
+    public function union(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -556,7 +556,7 @@ class PolygonProxy extends \Brick\Geo\Polygon
     /**
      * {@inheritdoc}
      */
-    public function difference(\Brick\Geo\Polygon $geometry)
+    public function difference(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
@@ -568,7 +568,7 @@ class PolygonProxy extends \Brick\Geo\Polygon
     /**
      * {@inheritdoc}
      */
-    public function symDifference(\Brick\Geo\Polygon $geometry)
+    public function symDifference(\Brick\Geo\Geometry $geometry)
     {
         if ($this->geometry === null) {
             $this->load();
