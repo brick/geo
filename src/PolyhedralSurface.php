@@ -3,6 +3,7 @@
 namespace Brick\Geo;
 
 use Brick\Geo\Engine\GeometryEngineRegistry;
+use Brick\Geo\Exception\GeometryException;
 
 /**
  * A PolyhedralSurface is a contiguous collection of polygons, which share common boundary segments.

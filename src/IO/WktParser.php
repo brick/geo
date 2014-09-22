@@ -2,7 +2,7 @@
 
 namespace Brick\Geo\IO;
 
-use Brick\Geo\GeometryException;
+use Brick\Geo\Exception\GeometryException;
 
 /**
  * Well-Known Text parser.
@@ -104,7 +104,7 @@ class WktParser
     /**
      * @return void
      *
-     * @throws \Brick\Geo\GeometryException
+     * @throws \Brick\Geo\Exception\GeometryException
      */
     public function matchOpener()
     {
@@ -121,7 +121,7 @@ class WktParser
     /**
      * @return void
      *
-     * @throws \Brick\Geo\GeometryException
+     * @throws \Brick\Geo\Exception\GeometryException
      */
     public function matchCloser()
     {
@@ -138,7 +138,7 @@ class WktParser
     /**
      * @return string
      *
-     * @throws \Brick\Geo\GeometryException
+     * @throws \Brick\Geo\Exception\GeometryException
      */
     public function getNextWord()
     {
@@ -157,7 +157,7 @@ class WktParser
     /**
      * @return string
      *
-     * @throws \Brick\Geo\GeometryException
+     * @throws \Brick\Geo\Exception\GeometryException
      */
     public function getNextNumber()
     {
@@ -176,7 +176,7 @@ class WktParser
     /**
      * @return string
      *
-     * @throws \Brick\Geo\GeometryException
+     * @throws \Brick\Geo\Exception\GeometryException
      */
     public function getNextCloserOrComma()
     {

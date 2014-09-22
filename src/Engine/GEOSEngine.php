@@ -3,7 +3,7 @@
 namespace Brick\Geo\Engine;
 
 use Brick\Geo\Geometry;
-use Brick\Geo\GeometryException;
+use Brick\Geo\Exception\GeometryException;
 
 /**
  * GeometryEngine implementation based on the GEOS PHP bindings.

@@ -2,6 +2,8 @@
 
 namespace Brick\Geo;
 
+use Brick\Geo\Exception\GeometryException;
+
 /**
  * A TIN (triangulated irregular network) is a PolyhedralSurface consisting only of Triangle patches.
  */

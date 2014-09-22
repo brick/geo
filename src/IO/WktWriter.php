@@ -2,7 +2,7 @@
 
 namespace Brick\Geo\IO;
 
-use Brick\Geo\GeometryException;
+use Brick\Geo\Exception\GeometryException;
 use Brick\Geo\Geometry;
 use Brick\Geo\Point;
 use Brick\Geo\LineString;
@@ -22,7 +22,7 @@ abstract class WktWriter
      *
      * @return string
      *
-     * @throws \Brick\Geo\GeometryException
+     * @throws \Brick\Geo\Exception\GeometryException
      */
     public static function write(Geometry $geometry)
     {

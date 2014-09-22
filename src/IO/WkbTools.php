@@ -2,7 +2,7 @@
 
 namespace Brick\Geo\IO;
 
-use Brick\Geo\GeometryException;
+use Brick\Geo\Exception\GeometryException;
 
 /**
  * Helper class for WKB calculations.
@@ -15,7 +15,7 @@ abstract class WkbTools
     /**
      * @return void
      *
-     * @throws \Brick\Geo\GeometryException
+     * @throws \Brick\Geo\Exception\GeometryException
      */
     protected static function checkDoubleIs64Bit()
     {
@@ -29,7 +29,7 @@ abstract class WkbTools
      *
      * @return integer
      *
-     * @throws \Brick\Geo\GeometryException
+     * @throws \Brick\Geo\Exception\GeometryException
      */
     public static function getMachineByteOrder()
     {

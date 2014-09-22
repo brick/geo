@@ -9,7 +9,7 @@ use Brick\Geo\MultiPoint;
 use Brick\Geo\MultiLineString;
 use Brick\Geo\MultiPolygon;
 use Brick\Geo\GeometryCollection;
-use Brick\Geo\GeometryException;
+use Brick\Geo\Exception\GeometryException;
 
 /**
  * Builds geometries out of Well-Known Text strings.
@@ -40,7 +40,7 @@ abstract class WktReader
      *
      * @return \Brick\Geo\Geometry
      *
-     * @throws \Brick\Geo\GeometryException
+     * @throws \Brick\Geo\Exception\GeometryException
      */
     public static function readGeometry(WktParser $parser)
     {

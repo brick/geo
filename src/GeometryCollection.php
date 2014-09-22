@@ -2,6 +2,8 @@
 
 namespace Brick\Geo;
 
+use Brick\Geo\Exception\GeometryException;
+
 /**
  * A GeometryCollection is a geometric object that is a collection of some number of geometric objects.
  *

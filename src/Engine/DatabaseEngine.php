@@ -7,7 +7,7 @@ use Brick\Geo\Curve;
 use Brick\Geo\MultiCurve;
 use Brick\Geo\Surface;
 use Brick\Geo\MultiSurface;
-use Brick\Geo\GeometryException;
+use Brick\Geo\Exception\GeometryException;
 
 /**
  * Database implementation of the GeometryEngine.
@@ -69,7 +69,7 @@ abstract class DatabaseEngine implements GeometryEngine
      *
      * @return mixed
      *
-     * @throws GeometryException
+     * @throws \Brick\Geo\Exception\GeometryException
      */
     protected function query($function, array $parameters, $returnsGeometry)
     {

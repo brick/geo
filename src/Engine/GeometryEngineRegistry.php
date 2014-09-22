@@ -2,7 +2,7 @@
 
 namespace Brick\Geo\Engine;
 
-use Brick\Geo\GeometryException;
+use Brick\Geo\Exception\GeometryException;
 
 /**
  * This class holds the GeometryEngine implementation to use for calculations.
@@ -31,7 +31,7 @@ class GeometryEngineRegistry
      *
      * @return GeometryEngine
      *
-     * @throws GeometryException
+     * @throws \Brick\Geo\Exception\GeometryException
      */
     final public static function get()
     {

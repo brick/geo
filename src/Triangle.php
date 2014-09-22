@@ -2,6 +2,8 @@
 
 namespace Brick\Geo;
 
+use Brick\Geo\Exception\GeometryException;
+
 /**
  * A Triangle is a Polygon with 3 distinct, non-collinear vertices and no interior boundary.
  */

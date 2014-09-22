@@ -3,7 +3,7 @@
 namespace Brick\Geo;
 
 use Brick\Geo\Engine\GeometryEngineRegistry;
-
+use Brick\Geo\Exception\GeometryException;
 use Brick\Geo\IO\WktReader;
 use Brick\Geo\IO\WktWriter;
 use Brick\Geo\IO\WkbReader;

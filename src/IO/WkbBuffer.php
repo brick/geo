@@ -2,7 +2,7 @@
 
 namespace Brick\Geo\IO;
 
-use Brick\Geo\GeometryException;
+use Brick\Geo\Exception\GeometryException;
 
 /**
  * Buffer class for reading binary data out of a WKB binary string.
@@ -53,7 +53,7 @@ class WkbBuffer
      *
      * @return string
      *
-     * @throws \Brick\Geo\GeometryException
+     * @throws \Brick\Geo\Exception\GeometryException
      */
     protected function read($length)
     {
@@ -82,7 +82,7 @@ class WkbBuffer
     /**
      * Reads the machine byte order from the buffer and stores the result to act accordingly.
      *
-     * @throws \Brick\Geo\GeometryException
+     * @throws \Brick\Geo\Exception\GeometryException
      */
     public function readByteOrder()
     {

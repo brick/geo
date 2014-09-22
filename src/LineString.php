@@ -3,6 +3,7 @@
 namespace Brick\Geo;
 
 use Brick\Geo\Engine\GeometryEngineRegistry;
+use Brick\Geo\Exception\GeometryException;
 
 /**
  * A LineString is a Curve with linear interpolation between Points.
