@@ -1,6 +1,6 @@
 <?php
 
-namespace Brick\Doctrine\Types\Geometry;
+namespace Brick\Geo\Doctrine\Types;
 
 use Brick\Geo\Proxy\MultiPointProxy;
 
