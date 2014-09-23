@@ -14,7 +14,7 @@ class MultiLineStringType extends GeometryType
      */
     public function getName()
     {
-        return GeometryType::MULTILINESTRING;
+        return 'MultiLineString';
     }
 
     /**

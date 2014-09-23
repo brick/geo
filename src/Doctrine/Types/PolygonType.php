@@ -14,7 +14,7 @@ class PolygonType extends GeometryType
      */
     public function getName()
     {
-        return GeometryType::POLYGON;
+        return 'Polygon';
     }
 
     /**

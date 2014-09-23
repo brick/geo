@@ -13,15 +13,6 @@ use Doctrine\DBAL\Platforms\AbstractPlatform;
  */
 class GeometryType extends Type
 {
-    const GEOMETRY           = 'Geometry';
-    const POINT              = 'Point';
-    const LINESTRING         = 'LineString';
-    const POLYGON            = 'Polygon';
-    const MULTIPOINT         = 'MultiPoint';
-    const MULTILINESTRING    = 'MultiLineString';
-    const MULTIPOLYGON       = 'MultiPolygon';
-    const GEOMETRYCOLLECTION = 'GeometryCollection';
-
     /**
      * Default SRID for Geometries;
      * This library assumes that all Geometries are in WGS84 Lon/Lat.
@@ -47,7 +38,7 @@ class GeometryType extends Type
      */
     public function getName()
     {
-        return self::GEOMETRY;
+        return 'Geometry';
     }
 
     /**

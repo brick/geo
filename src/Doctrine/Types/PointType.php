@@ -14,7 +14,7 @@ class PointType extends GeometryType
      */
     public function getName()
     {
-        return GeometryType::POINT;
+        return 'Point';
     }
 
     /**
