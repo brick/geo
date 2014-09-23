@@ -12,27 +12,27 @@ class WkbBuffer
     /**
      * @var string
      */
-    protected $wkb;
+    private $wkb;
 
     /**
      * @var integer
      */
-    protected $length;
+    private $length;
 
     /**
      * @var integer
      */
-    protected $position = 0;
+    private $position = 0;
 
     /**
      * @var integer
      */
-    protected $machineByteOrder;
+    private $machineByteOrder;
 
     /**
      * @var boolean
      */
-    protected $invert = false;
+    private $invert = false;
 
     /**
      * Class constructor.
@@ -55,7 +55,7 @@ class WkbBuffer
      *
      * @throws \Brick\Geo\Exception\GeometryException
      */
-    protected function read($length)
+    private function read($length)
     {
         if ($this->position + $length > $this->length) {
             throw GeometryException::invalidWkb();
@@ -72,7 +72,7 @@ class WkbBuffer
      *
      * @return integer
      */
-    protected function readByte()
+    private function readByte()
     {
         $data = unpack('cbyte', $this->read(1));
 

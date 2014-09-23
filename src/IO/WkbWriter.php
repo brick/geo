@@ -67,7 +67,7 @@ abstract class WkbWriter
     /**
      * @return string
      */
-    protected static function packByteOrder()
+    private static function packByteOrder()
     {
         $byteOrder = WkbTools::getMachineByteOrder();
 
@@ -79,7 +79,7 @@ abstract class WkbWriter
      *
      * @return string
      */
-    protected static function packByte($byte)
+    private static function packByte($byte)
     {
         return pack('c', $byte);
     }
@@ -89,7 +89,7 @@ abstract class WkbWriter
      *
      * @return string
      */
-    protected static function packUnsignedInteger($uint)
+    private static function packUnsignedInteger($uint)
     {
         return pack('L', $uint);
     }
@@ -99,7 +99,7 @@ abstract class WkbWriter
      *
      * @return string
      */
-    protected static function packDouble($double)
+    private static function packDouble($double)
     {
         return pack('d', $double);
     }
@@ -109,7 +109,7 @@ abstract class WkbWriter
      *
      * @return string
      */
-    protected static function packPoint(Point $point)
+    private static function packPoint(Point $point)
     {
         $binary = self::packDouble($point->x());
         $binary.= self::packDouble($point->y());
@@ -122,7 +122,7 @@ abstract class WkbWriter
      *
      * @return string
      */
-    protected static function packLineString(LineString $lineString)
+    private static function packLineString(LineString $lineString)
     {
         $wkb = self::packUnsignedInteger($lineString->count());
 
@@ -138,7 +138,7 @@ abstract class WkbWriter
      *
      * @return string
      */
-    protected static function writePoint(Point $point)
+    private static function writePoint(Point $point)
     {
         $wkb = self::packByteOrder();
         $wkb.= self::packUnsignedInteger(Geometry::POINT);
@@ -152,7 +152,7 @@ abstract class WkbWriter
      *
      * @return string
      */
-    protected static function writeLineString(LineString $lineString)
+    private static function writeLineString(LineString $lineString)
     {
         $wkb = self::packByteOrder();
         $wkb.= self::packUnsignedInteger(Geometry::LINESTRING);
@@ -166,7 +166,7 @@ abstract class WkbWriter
      *
      * @return string
      */
-    protected static function writePolygon(Polygon $polygon)
+    private static function writePolygon(Polygon $polygon)
     {
         $wkb = self::packByteOrder();
         $wkb.= self::packUnsignedInteger(Geometry::POLYGON);
@@ -184,7 +184,7 @@ abstract class WkbWriter
      *
      * @return string
      */
-    protected static function writeTriangle(Triangle $triangle)
+    private static function writeTriangle(Triangle $triangle)
     {
         $wkb = self::packByteOrder();
         $wkb.= self::packUnsignedInteger(Geometry::TRIANGLE);
@@ -202,7 +202,7 @@ abstract class WkbWriter
      *
      * @return string
      */
-    protected static function writeMultiPoint(MultiPoint $multiPoint)
+    private static function writeMultiPoint(MultiPoint $multiPoint)
     {
         $wkb = self::packByteOrder();
         $wkb.= self::packUnsignedInteger(Geometry::MULTIPOINT);
@@ -220,7 +220,7 @@ abstract class WkbWriter
      *
      * @return string
      */
-    protected static function writeMultiLineString(MultiLineString $multiLineString)
+    private static function writeMultiLineString(MultiLineString $multiLineString)
     {
         $wkb = self::packByteOrder();
         $wkb.= self::packUnsignedInteger(Geometry::MULTILINESTRING);
@@ -238,7 +238,7 @@ abstract class WkbWriter
      *
      * @return string
      */
-    protected static function writeMultiPolygon(MultiPolygon $multiPolygon)
+    private static function writeMultiPolygon(MultiPolygon $multiPolygon)
     {
         $wkb = self::packByteOrder();
         $wkb.= self::packUnsignedInteger(Geometry::MULTIPOLYGON);
@@ -256,7 +256,7 @@ abstract class WkbWriter
      *
      * @return string
      */
-    protected static function writeGeometryCollection(GeometryCollection $collection)
+    private static function writeGeometryCollection(GeometryCollection $collection)
     {
         $wkb = self::packByteOrder();
         $wkb.= self::packUnsignedInteger(Geometry::GEOMETRYCOLLECTION);
@@ -274,7 +274,7 @@ abstract class WkbWriter
      *
      * @return string
      */
-    protected static function writePolyhedralSurface(PolyhedralSurface $surface)
+    private static function writePolyhedralSurface(PolyhedralSurface $surface)
     {
         $wkb = self::packByteOrder();
         $wkb.= self::packUnsignedInteger(Geometry::POLYHEDRALSURFACE);
@@ -292,7 +292,7 @@ abstract class WkbWriter
      *
      * @return string
      */
-    protected static function writeTIN(TIN $tin)
+    private static function writeTIN(TIN $tin)
     {
         $wkb = self::packByteOrder();
         $wkb.= self::packUnsignedInteger(Geometry::TIN);

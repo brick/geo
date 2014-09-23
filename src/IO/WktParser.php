@@ -27,7 +27,7 @@ class WktParser
      *
      * @var array
      */
-    protected static $regex = [
+    private static $regex = [
         self::REGEX_WORD,
         self::REGEX_NUMBER,
         self::REGEX_WHITESPACE,
@@ -39,14 +39,14 @@ class WktParser
      *
      * @var array
      */
-    protected $tokens = [];
+    private $tokens = [];
 
     /**
      * The current token.
      *
      * @var array
      */
-    protected $currentToken;
+    private $currentToken;
 
     /**
      * Class constructor.
@@ -64,7 +64,7 @@ class WktParser
      *
      * @return void
      */
-    protected function scan($wkt)
+    private function scan($wkt)
     {
         $regex = '/' . implode('|', self::$regex) . '/';
 
@@ -93,7 +93,7 @@ class WktParser
     /**
      * @return array
      */
-    protected function nextToken()
+    private function nextToken()
     {
         $token = current($this->tokens);
         next($this->tokens);
@@ -205,7 +205,7 @@ class WktParser
     //	 *
     //	 * @return integer T_EOF | T_WORD | T_NUMBER | T_OTHER
     //	 */
-    //	protected function currentType()
+    //	private function currentType()
     //	{
     //		if (is_array($this->currentToken)) {
     //			return $this->currentToken[self::INDEX_TYPE];

@@ -73,7 +73,7 @@ abstract class WktReader
      *
      * @return \Brick\Geo\Point
      */
-    protected static function readPoint(WktParser $parser)
+    private static function readPoint(WktParser $parser)
     {
         $x = $parser->getNextNumber();
         $y = $parser->getNextNumber();
@@ -88,7 +88,7 @@ abstract class WktReader
      *
      * @return \Brick\Geo\Point
      */
-    protected static function readPointText(WktParser $parser)
+    private static function readPointText(WktParser $parser)
     {
         $parser->matchOpener();
         $point = self::readPoint($parser);
@@ -104,7 +104,7 @@ abstract class WktReader
      *
      * @return \Brick\Geo\Point[]
      */
-    protected static function readMultiPoint(WktParser $parser)
+    private static function readMultiPoint(WktParser $parser)
     {
         $parser->matchOpener();
         $points = [];
@@ -124,7 +124,7 @@ abstract class WktReader
      *
      * @return \Brick\Geo\LineString
      */
-    protected static function readLineStringText(WktParser $parser)
+    private static function readLineStringText(WktParser $parser)
     {
         $points = self::readMultiPoint($parser);
 
@@ -138,7 +138,7 @@ abstract class WktReader
      *
      * @return \Brick\Geo\MultiPoint
      */
-    protected static function readMultiPointText(WktParser $parser)
+    private static function readMultiPointText(WktParser $parser)
     {
         $points = self::readMultiPoint($parser);
 
@@ -152,7 +152,7 @@ abstract class WktReader
      *
      * @return \Brick\Geo\LineString[]
      */
-    protected static function readMultiLineString(WktParser $parser)
+    private static function readMultiLineString(WktParser $parser)
     {
         $parser->matchOpener();
         $lineStrings = [];
@@ -172,7 +172,7 @@ abstract class WktReader
      *
      * @return \Brick\Geo\Polygon
      */
-    protected static function readPolygonText(WktParser $parser)
+    private static function readPolygonText(WktParser $parser)
     {
         $rings = self::readMultiLineString($parser);
 
@@ -186,7 +186,7 @@ abstract class WktReader
      *
      * @return \Brick\Geo\MultiLineString
      */
-    protected static function readMultiLineStringText(WktParser $parser)
+    private static function readMultiLineStringText(WktParser $parser)
     {
         $rings = self::readMultiLineString($parser);
 
@@ -200,7 +200,7 @@ abstract class WktReader
      *
      * @return \Brick\Geo\MultiPolygon
      */
-    protected static function readMultiPolygonText(WktParser $parser)
+    private static function readMultiPolygonText(WktParser $parser)
     {
         $parser->matchOpener();
         $polygons = [];
@@ -218,7 +218,7 @@ abstract class WktReader
      *
      * @return \Brick\Geo\GeometryCollection
      */
-    protected static function readGeometryCollectionText(WktParser $parser)
+    private static function readGeometryCollectionText(WktParser $parser)
     {
         $parser->matchOpener();
         $geometries = [];

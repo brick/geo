@@ -25,7 +25,7 @@ abstract class DatabaseEngine implements GeometryEngine
      *
      * @return string
      */
-    protected function buildQuery($function, array $parameters, $returnsGeometry)
+    private function buildQuery($function, array $parameters, $returnsGeometry)
     {
         $geometryPlaceholder = sprintf('ST_GeomFromWkb(?, %s)', Geometry::WGS84);
         $standardPlaceholder = '?';
@@ -71,7 +71,7 @@ abstract class DatabaseEngine implements GeometryEngine
      *
      * @throws \Brick\Geo\Exception\GeometryException
      */
-    protected function query($function, array $parameters, $returnsGeometry)
+    private function query($function, array $parameters, $returnsGeometry)
     {
         $query = $this->buildQuery($function, $parameters, $returnsGeometry);
 
@@ -86,7 +86,7 @@ abstract class DatabaseEngine implements GeometryEngine
      *
      * @return boolean
      */
-    protected function queryBoolean($function, array $parameters)
+    private function queryBoolean($function, array $parameters)
     {
         $result = $this->query($function, $parameters, false);
 
@@ -101,7 +101,7 @@ abstract class DatabaseEngine implements GeometryEngine
      *
      * @return float
      */
-    protected function queryFloat($function, array $parameters)
+    private function queryFloat($function, array $parameters)
     {
         $result = $this->query($function, $parameters, false);
 
@@ -116,7 +116,7 @@ abstract class DatabaseEngine implements GeometryEngine
      *
      * @return \Brick\Geo\Geometry
      */
-    protected function queryGeometry($function, array $parameters)
+    private function queryGeometry($function, array $parameters)
     {
         $result = $this->query($function, $parameters, true);
 

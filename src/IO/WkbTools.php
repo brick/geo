@@ -17,7 +17,7 @@ abstract class WkbTools
      *
      * @throws \Brick\Geo\Exception\GeometryException
      */
-    protected static function checkDoubleIs64Bit()
+    private static function checkDoubleIs64Bit()
     {
         if (strlen(pack('d', 0.0)) != 8) {
             throw new GeometryException('The double type is not 64 bit on this platform');

@@ -56,7 +56,7 @@ abstract class WktWriter
      *
      * @return string
      */
-    protected static function writePoint(Point $point)
+    private static function writePoint(Point $point)
     {
         return sprintf('%s %s', $point->x(), $point->y());
     }
@@ -66,7 +66,7 @@ abstract class WktWriter
      *
      * @return string
      */
-    protected static function writeLineString(LineString $lineString)
+    private static function writeLineString(LineString $lineString)
     {
         $result = [];
         foreach ($lineString as $point) {
@@ -81,7 +81,7 @@ abstract class WktWriter
      *
      * @return string
      */
-    protected static function writePolygon(Polygon $polygon)
+    private static function writePolygon(Polygon $polygon)
     {
         $result = [];
         foreach ($polygon as $ring) {
@@ -96,7 +96,7 @@ abstract class WktWriter
      *
      * @return string
      */
-    protected static function writeMultiPoint(MultiPoint $multiPoint)
+    private static function writeMultiPoint(MultiPoint $multiPoint)
     {
         $result = [];
         foreach ($multiPoint as $point) {
@@ -111,7 +111,7 @@ abstract class WktWriter
      *
      * @return string
      */
-    protected static function writeMultiLineString(MultiLineString $multiLineString)
+    private static function writeMultiLineString(MultiLineString $multiLineString)
     {
         $result = [];
         foreach ($multiLineString as $lineString) {
@@ -126,7 +126,7 @@ abstract class WktWriter
      *
      * @return string
      */
-    protected static function writeMultiPolygon(MultiPolygon $multiPolygon)
+    private static function writeMultiPolygon(MultiPolygon $multiPolygon)
     {
         $result = [];
         foreach ($multiPolygon as $polygon) {
@@ -141,7 +141,7 @@ abstract class WktWriter
      *
      * @return string
      */
-    protected static function writeGeometryCollection(GeometryCollection $collection)
+    private static function writeGeometryCollection(GeometryCollection $collection)
     {
         $result = [];
         foreach ($collection as $geometry) {

@@ -80,7 +80,7 @@ abstract class WkbReader
      *
      * @return \Brick\Geo\Point
      */
-    protected static function readPoint(WkbBuffer $buffer)
+    private static function readPoint(WkbBuffer $buffer)
     {
         $x = $buffer->readDouble();
         $y = $buffer->readDouble();
@@ -93,7 +93,7 @@ abstract class WkbReader
      *
      * @return \Brick\Geo\LineString
      */
-    protected static function readLineString(WkbBuffer $buffer)
+    private static function readLineString(WkbBuffer $buffer)
     {
         $numPoints = $buffer->readUnsignedInteger();
         $points = [];
@@ -110,7 +110,7 @@ abstract class WkbReader
      *
      * @return \Brick\Geo\Polygon
      */
-    protected static function readPolygon(WkbBuffer $buffer)
+    private static function readPolygon(WkbBuffer $buffer)
     {
         $numRings = $buffer->readUnsignedInteger();
         $rings = [];
@@ -127,7 +127,7 @@ abstract class WkbReader
      *
      * @return \Brick\Geo\MultiPoint
      */
-    protected static function readMultiPoint(WkbBuffer $buffer)
+    private static function readMultiPoint(WkbBuffer $buffer)
     {
         $numPoints = $buffer->readUnsignedInteger();
         $points = [];
@@ -144,7 +144,7 @@ abstract class WkbReader
      *
      * @return \Brick\Geo\MultiLineString
      */
-    protected static function readMultiLineString(WkbBuffer $buffer)
+    private static function readMultiLineString(WkbBuffer $buffer)
     {
         $numLineStrings = $buffer->readUnsignedInteger();
         $lineStrings = [];
@@ -161,7 +161,7 @@ abstract class WkbReader
      *
      * @return \Brick\Geo\MultiPolygon
      */
-    protected static function readMultiPolygon(WkbBuffer $buffer)
+    private static function readMultiPolygon(WkbBuffer $buffer)
     {
         $numPolygons = $buffer->readUnsignedInteger();
         $polygons = [];
@@ -178,7 +178,7 @@ abstract class WkbReader
      *
      * @return \Brick\Geo\GeometryCollection
      */
-    protected static function readGeometryCollection(WkbBuffer $buffer)
+    private static function readGeometryCollection(WkbBuffer $buffer)
     {
         $numGeometries = $buffer->readUnsignedInteger();
         $geometries = [];
@@ -195,7 +195,7 @@ abstract class WkbReader
      *
      * @return \Brick\Geo\PolyhedralSurface
      */
-    protected static function readPolyhedralSurface(WkbBuffer $buffer)
+    private static function readPolyhedralSurface(WkbBuffer $buffer)
     {
         $numPolygons = $buffer->readUnsignedInteger();
         $polygons = [];
@@ -212,7 +212,7 @@ abstract class WkbReader
      *
      * @return \Brick\Geo\TIN
      */
-    protected static function readTIN(WkbBuffer $buffer)
+    private static function readTIN(WkbBuffer $buffer)
     {
         $numPolygons = $buffer->readUnsignedInteger();
         $polygons = [];
