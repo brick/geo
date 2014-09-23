@@ -15,6 +15,7 @@
     },
     "require-dev": {
         "brick/reflection": "dev-master",
+        "doctrine/orm": "*",
         "phpunit/phpunit": "*",
         "satooshi/php-coveralls": "dev-master"
     },
