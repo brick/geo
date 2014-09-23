@@ -2,7 +2,7 @@
 
 namespace Brick\Doctrine\Types\Geometry;
 
-use Brick\Geo\MultiPolygon;
+use Brick\Geo\Proxy\MultiPolygonProxy;
 
 /**
  * Doctrine type for MultiPolygon.
@@ -20,8 +20,8 @@ class MultiPolygonType extends GeometryType
     /**
      * {@inheritdoc}
      */
-    protected static function convertFromWkb($wkb)
+    protected function createGeometryProxy($wkb)
     {
-        return MultiPolygon::fromBinary($wkb);
+        return new MultiPolygonProxy($wkb, true);
     }
 }

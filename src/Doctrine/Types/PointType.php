@@ -2,7 +2,7 @@
 
 namespace Brick\Doctrine\Types\Geometry;
 
-use Brick\Geo\Point;
+use Brick\Geo\Proxy\PointProxy;
 
 /**
  * Doctrine type for Point.
@@ -20,8 +20,8 @@ class PointType extends GeometryType
     /**
      * {@inheritdoc}
      */
-    protected static function convertFromWkb($wkb)
+    protected function createGeometryProxy($wkb)
     {
-        return Point::fromBinary($wkb);
+        return new PointProxy($wkb, true);
     }
 }

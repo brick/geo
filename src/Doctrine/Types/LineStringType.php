@@ -2,7 +2,7 @@
 
 namespace Brick\Doctrine\Types\Geometry;
 
-use Brick\Geo\LineString;
+use Brick\Geo\Proxy\LineStringProxy;
 
 /**
  * Doctrine type for LineString.
@@ -20,8 +20,8 @@ class LineStringType extends GeometryType
     /**
      * {@inheritdoc}
      */
-    protected static function convertFromWkb($wkb)
+    protected function createGeometryProxy($wkb)
     {
-        return LineString::fromBinary($wkb);
+        return new LineStringProxy($wkb, true);
     }
 }

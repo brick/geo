@@ -2,7 +2,7 @@
 
 namespace Brick\Doctrine\Types\Geometry;
 
-use Brick\Geo\MultiPoint;
+use Brick\Geo\Proxy\MultiPointProxy;
 
 /**
  * Doctrine type for MultiPoint.
@@ -20,8 +20,8 @@ class MultiPointType extends GeometryType
     /**
      * {@inheritdoc}
      */
-    protected static function convertFromWkb($wkb)
+    protected function createGeometryProxy($wkb)
     {
-        return MultiPoint::fromBinary($wkb);
+        return new MultiPointProxy($wkb, true);
     }
 }

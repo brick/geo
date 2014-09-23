@@ -2,7 +2,7 @@
 
 namespace Brick\Doctrine\Types\Geometry;
 
-use Brick\Geo\Polygon;
+use Brick\Geo\Proxy\PolygonProxy;
 
 /**
  * Doctrine type for Polygon.
@@ -20,8 +20,8 @@ class PolygonType extends GeometryType
     /**
      * {@inheritdoc}
      */
-    protected static function convertFromWkb($wkb)
+    protected function createGeometryProxy($wkb)
     {
-        return Polygon::fromBinary($wkb);
+        return new PolygonProxy($wkb, true);
     }
 }

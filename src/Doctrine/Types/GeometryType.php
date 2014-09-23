@@ -3,6 +3,7 @@
 namespace Brick\Doctrine\Types\Geometry;
 
 use Brick\Geo\Geometry;
+use Brick\Geo\Proxy\GeometryProxy;
 
 use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
@@ -30,16 +31,15 @@ class GeometryType extends Type
     const WGS84 = 4326;
 
     /**
-     * Child classes will override this method,
-     * to ensure that the returned Geometry is of the expected type.
+     * Child classes will override this method to return the proper type.
      *
      * @param string $wkb
      *
      * @return Geometry
      */
-    protected static function convertFromWkb($wkb)
+    protected function createGeometryProxy($wkb)
     {
-        return Geometry::fromBinary($wkb);
+        return new GeometryProxy($wkb, true);
     }
 
     /**
@@ -67,7 +67,7 @@ class GeometryType extends Type
             return null;
         }
 
-        return static::convertFromWkb($value);
+        return $this->createGeometryProxy($value);
     }
 
     /**
