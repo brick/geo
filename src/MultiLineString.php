@@ -8,6 +8,8 @@ namespace Brick\Geo;
 class MultiLineString extends MultiCurve
 {
     /**
+     * @noproxy
+     *
      * {@inheritdoc}
      */
     public function geometryType()

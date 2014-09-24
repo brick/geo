@@ -21,6 +21,8 @@ class Line extends LineString
     }
 
     /**
+     * @noproxy
+     *
      * {@inheritdoc}
      */
     public function isSimple()
@@ -29,6 +31,8 @@ class Line extends LineString
     }
 
     /**
+     * @noproxy
+     *
      * {@inheritdoc}
      */
      public function geometryType()

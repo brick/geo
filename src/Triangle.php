@@ -46,6 +46,8 @@ class Triangle extends Polygon
     }
 
     /**
+     * @noproxy
+     *
      * {@inheritdoc}
      */
     public function geometryType()

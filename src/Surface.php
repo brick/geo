@@ -41,6 +41,8 @@ abstract class Surface extends Geometry
      *
      * The result is not guaranteed to be on this Surface.
      *
+     * @noproxy
+     *
      * @return Point
      */
     public function centroid()
@@ -56,6 +58,8 @@ abstract class Surface extends Geometry
     abstract public function pointOnSurface();
 
     /**
+     * @noproxy
+     *
      * {@inheritdoc}
      *
      * @return MultiCurve

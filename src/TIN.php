@@ -30,6 +30,8 @@ class TIN extends PolyhedralSurface
     }
 
     /**
+     * @noproxy
+     *
      * {@inheritdoc}
      */
     public function geometryType()

@@ -4,7 +4,6 @@ $proxyDir          = __DIR__ . '/src/Proxy/';
 $proxyTemplate     = __DIR__ . '/proxy-template.php';
 $classFiles        = __DIR__ . '/src/*.php';
 $classNamespace    = 'Brick\Geo';
-$nonProxiedMethods = ['asText', 'asBinary', '__toString'];
 
 define('EOL', "\n");
 define('TAB', '    ');
@@ -37,7 +36,7 @@ foreach ($classes as $class) {
             continue;
         }
 
-        if (in_array($method->getShortName(), $nonProxiedMethods)) {
+        if (strpos($method->getDocComment(), '@noproxy') !== false) {
             continue;
         }
 
@@ -75,6 +74,7 @@ foreach ($classes as $class) {
     $proxyCode = str_replace('/* {EXTENDS} */', 'extends ' . '\\' . $class->getName(), $proxyCode);
     $proxyCode = str_replace('/* {METHODS} */', $methods, $proxyCode);
 
-
     file_put_contents($proxyDir . $class->getShortName() . 'Proxy.php', $proxyCode);
+
+    echo 'Generated proxy for ' . $class->getShortName() . PHP_EOL;
 }

@@ -123,6 +123,8 @@ class Point extends Geometry
     }
 
     /**
+     * @noproxy
+     *
      * {@inheritdoc}
      */
     public function geometryType()
@@ -131,6 +133,8 @@ class Point extends Geometry
     }
 
     /**
+     * @noproxy
+     *
      * {@inheritdoc}
      */
     public function dimension()
@@ -139,6 +143,8 @@ class Point extends Geometry
     }
 
     /**
+     * @noproxy
+     *
      * {@inheritdoc}
      */
     public function isEmpty()

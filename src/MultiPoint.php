@@ -14,6 +14,8 @@ namespace Brick\Geo;
 class MultiPoint extends GeometryCollection
 {
     /**
+     * @noproxy
+     *
      * {@inheritdoc}
      */
     public function geometryType()

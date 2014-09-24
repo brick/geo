@@ -114,6 +114,8 @@ class PolyhedralSurface extends Surface implements \Countable, \IteratorAggregat
     /**
      * @todo needs implementation
      *
+     * @noproxy
+     *
      * @param Polygon $p
      *
      * @return MultiPolygon
@@ -127,6 +129,8 @@ class PolyhedralSurface extends Surface implements \Countable, \IteratorAggregat
 
     /**
      * @todo needs implementation
+     *
+     * @noproxy
      *
      * @return boolean
      *
@@ -146,6 +150,8 @@ class PolyhedralSurface extends Surface implements \Countable, \IteratorAggregat
     }
 
     /**
+     * @noproxy
+     *
      * {@inheritdoc}
      */
     public function area()
@@ -154,6 +160,8 @@ class PolyhedralSurface extends Surface implements \Countable, \IteratorAggregat
     }
 
     /**
+     * @noproxy
+     *
      * {@inheritdoc}
      */
     public function geometryType()
@@ -162,6 +170,8 @@ class PolyhedralSurface extends Surface implements \Countable, \IteratorAggregat
     }
 
     /**
+     * @noproxy
+     *
      * {@inheritdoc}
      */
     public function dimension()
@@ -170,6 +180,8 @@ class PolyhedralSurface extends Surface implements \Countable, \IteratorAggregat
     }
 
     /**
+     * @noproxy
+     *
      * {@inheritdoc}
      */
     public function isEmpty()

@@ -111,6 +111,8 @@ class Polygon extends Surface implements \Countable, \IteratorAggregate
     }
 
     /**
+     * @noproxy
+     *
      * {@inheritdoc}
      */
     public function area()
@@ -119,6 +121,8 @@ class Polygon extends Surface implements \Countable, \IteratorAggregate
     }
 
     /**
+     * @noproxy
+     *
      * {@inheritdoc}
      */
     public function pointOnSurface()
@@ -171,6 +175,8 @@ class Polygon extends Surface implements \Countable, \IteratorAggregate
     }
 
     /**
+     * @noproxy
+     *
      * {@inheritdoc}
      */
     public function geometryType()
@@ -179,6 +185,8 @@ class Polygon extends Surface implements \Countable, \IteratorAggregate
     }
 
     /**
+     * @noproxy
+     *
      * {@inheritdoc}
      *
      * A Polygon is a 2-dimensional geometric object.
@@ -189,6 +197,8 @@ class Polygon extends Surface implements \Countable, \IteratorAggregate
     }
 
     /**
+     * @noproxy
+     *
      * {@inheritdoc}
      */
     public function isEmpty()

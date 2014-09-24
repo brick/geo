@@ -133,6 +133,7 @@ class CurveProxy extends \Brick\Geo\Curve
 
         return $this->geometry->asBinary();
     }
+
     /**
      * {@inheritdoc}
      */
@@ -256,18 +257,6 @@ class CurveProxy extends \Brick\Geo\Curve
     /**
      * {@inheritdoc}
      */
-    public function envelope()
-    {
-        if ($this->geometry === null) {
-            $this->load();
-        }
-
-        return $this->geometry->envelope();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function isEmpty()
     {
         if ($this->geometry === null) {
@@ -275,18 +264,6 @@ class CurveProxy extends \Brick\Geo\Curve
         }
 
         return $this->geometry->isEmpty();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function isSimple()
-    {
-        if ($this->geometry === null) {
-            $this->load();
-        }
-
-        return $this->geometry->isSimple();
     }
 
     /**
@@ -311,234 +288,6 @@ class CurveProxy extends \Brick\Geo\Curve
         }
 
         return $this->geometry->isMeasured();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function boundary()
-    {
-        if ($this->geometry === null) {
-            $this->load();
-        }
-
-        return $this->geometry->boundary();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function equals(\Brick\Geo\Geometry $geometry)
-    {
-        if ($this->geometry === null) {
-            $this->load();
-        }
-
-        return $this->geometry->equals($geometry);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function disjoint(\Brick\Geo\Geometry $geometry)
-    {
-        if ($this->geometry === null) {
-            $this->load();
-        }
-
-        return $this->geometry->disjoint($geometry);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function intersects(\Brick\Geo\Geometry $geometry)
-    {
-        if ($this->geometry === null) {
-            $this->load();
-        }
-
-        return $this->geometry->intersects($geometry);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function touches(\Brick\Geo\Geometry $geometry)
-    {
-        if ($this->geometry === null) {
-            $this->load();
-        }
-
-        return $this->geometry->touches($geometry);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function crosses(\Brick\Geo\Geometry $geometry)
-    {
-        if ($this->geometry === null) {
-            $this->load();
-        }
-
-        return $this->geometry->crosses($geometry);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function within(\Brick\Geo\Geometry $geometry)
-    {
-        if ($this->geometry === null) {
-            $this->load();
-        }
-
-        return $this->geometry->within($geometry);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function contains(\Brick\Geo\Geometry $geometry)
-    {
-        if ($this->geometry === null) {
-            $this->load();
-        }
-
-        return $this->geometry->contains($geometry);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function overlaps(\Brick\Geo\Geometry $geometry)
-    {
-        if ($this->geometry === null) {
-            $this->load();
-        }
-
-        return $this->geometry->overlaps($geometry);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function relate(\Brick\Geo\Geometry $geometry, $matrix)
-    {
-        if ($this->geometry === null) {
-            $this->load();
-        }
-
-        return $this->geometry->relate($geometry, $matrix);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function locateAlong($mValue)
-    {
-        if ($this->geometry === null) {
-            $this->load();
-        }
-
-        return $this->geometry->locateAlong($mValue);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function locateBetween($mStart, $mEnd)
-    {
-        if ($this->geometry === null) {
-            $this->load();
-        }
-
-        return $this->geometry->locateBetween($mStart, $mEnd);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function distance(\Brick\Geo\Geometry $geometry)
-    {
-        if ($this->geometry === null) {
-            $this->load();
-        }
-
-        return $this->geometry->distance($geometry);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function buffer($distance)
-    {
-        if ($this->geometry === null) {
-            $this->load();
-        }
-
-        return $this->geometry->buffer($distance);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function convexHull()
-    {
-        if ($this->geometry === null) {
-            $this->load();
-        }
-
-        return $this->geometry->convexHull();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function intersection(\Brick\Geo\Geometry $geometry)
-    {
-        if ($this->geometry === null) {
-            $this->load();
-        }
-
-        return $this->geometry->intersection($geometry);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function union(\Brick\Geo\Geometry $geometry)
-    {
-        if ($this->geometry === null) {
-            $this->load();
-        }
-
-        return $this->geometry->union($geometry);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function difference(\Brick\Geo\Geometry $geometry)
-    {
-        if ($this->geometry === null) {
-            $this->load();
-        }
-
-        return $this->geometry->difference($geometry);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function symDifference(\Brick\Geo\Geometry $geometry)
-    {
-        if ($this->geometry === null) {
-            $this->load();
-        }
-
-        return $this->geometry->symDifference($geometry);
     }
 
 }

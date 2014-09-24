@@ -144,6 +144,8 @@ abstract class Geometry
      * the maximums. In some cases, this coordinate will be outside the range of
      * validity for the Spatial Reference System.
      *
+     * @noproxy
+     *
      * @return Geometry
      */
     public function envelope()
@@ -154,6 +156,8 @@ abstract class Geometry
     /**
      * Returns the WKT representation of this Geometry.
      *
+     * @noproxy
+     *
      * @return string
      */
     public function asText()
@@ -163,6 +167,8 @@ abstract class Geometry
 
     /**
      * Returns the WKB representation of this Geometry.
+     *
+     * @noproxy
      *
      * @return string
      */
@@ -190,6 +196,8 @@ abstract class Geometry
      * Implemented using a GeometryEngine.
      *
      * @todo implement this method in PHP, to avoid a database round trip when creating LinearRing, Polygon, and so on.
+     *
+     * @noproxy
      *
      * @return boolean
      */
@@ -228,6 +236,8 @@ abstract class Geometry
      * Because the result of this function is a closure, and hence topologically closed,
      * the resulting boundary can be represented using representational Geometry primitives.
      *
+     * @noproxy
+     *
      * @return Geometry
      */
     public function boundary()
@@ -238,25 +248,21 @@ abstract class Geometry
     /**
      * Returns true if this geometric object is "spatially equal" to $geometry.
      *
+     * @noproxy
+     *
      * @param Geometry $geometry
      *
      * @return boolean
      */
     public function equals(Geometry $geometry)
     {
-        if ($this->isEmpty() and $geometry->isEmpty()) {
-            return true;
-        }
-
-        if ($this->isEmpty() xor $geometry->isEmpty()) {
-            return false;
-        }
-
         return GeometryEngineRegistry::get()->equals($this, $geometry);
     }
 
     /**
      * Returns true if this geometric object is "spatially disjoint" from $geometry.
+     *
+     * @noproxy
      *
      * @param Geometry $geometry
      *
@@ -270,21 +276,21 @@ abstract class Geometry
     /**
      * Returns true if this geometric object "spatially intersects" $geometry.
      *
+     * @noproxy
+     *
      * @param Geometry $geometry
      *
      * @return boolean
      */
     public function intersects(Geometry $geometry)
     {
-        if ($this->isEmpty() or $geometry->isEmpty()) {
-            return false;
-        }
-
         return GeometryEngineRegistry::get()->intersects($this, $geometry);
     }
 
     /**
      * Returns true if this geometric object "spatially touches" $geometry.
+     *
+     * @noproxy
      *
      * @param Geometry $geometry
      *
@@ -298,6 +304,8 @@ abstract class Geometry
     /**
      * Returns true if this geometric object "spatially crosses" $geometry.
      *
+     * @noproxy
+     *
      * @param Geometry $geometry
      *
      * @return boolean
@@ -309,6 +317,8 @@ abstract class Geometry
 
     /**
      * Returns true if this geometric object is "spatially within" $geometry.
+     *
+     * @noproxy
      *
      * @param Geometry $geometry
      *
@@ -322,21 +332,21 @@ abstract class Geometry
     /**
      * Returns true if this geometric object "spatially contains" $geometry.
      *
+     * @noproxy
+     *
      * @param Geometry $geometry
      *
      * @return boolean
      */
     public function contains(Geometry $geometry)
     {
-        if ($this->isEmpty() or $geometry->isEmpty()) {
-            return false;
-        }
-
         return GeometryEngineRegistry::get()->contains($this, $geometry);
     }
 
     /**
      * Returns true if this geometric object "spatially overlaps" $geometry.
+     *
+     * @noproxy
      *
      * @param Geometry $geometry
      *
@@ -354,6 +364,8 @@ abstract class Geometry
      * This returns false if all the tested intersections are empty except
      * exterior (this) intersect exterior (geometry).
      *
+     * @noproxy
+     *
      * @param Geometry $geometry
      * @param string   $matrix
      *
@@ -367,6 +379,8 @@ abstract class Geometry
     /**
      * Returns a derived geometry collection value that matches the specified m coordinate value.
      *
+     * @noproxy
+     *
      * @param float $mValue
      *
      * @return Geometry
@@ -378,6 +392,8 @@ abstract class Geometry
 
     /**
      * Returns a derived geometry collection value that matches the specified range of m coordinate values inclusively.
+     *
+     * @noproxy
      *
      * @param float $mStart
      * @param float $mEnd
@@ -398,6 +414,8 @@ abstract class Geometry
      * that the distance between these 2 points is the returned distance
      * between their geometric objects.
      *
+     * @noproxy
+     *
      * @param Geometry $geometry
      *
      * @return float
@@ -415,6 +433,8 @@ abstract class Geometry
      * some relatively small error in this distance, but it should be near the
      * resolution of the coordinates used.
      *
+     * @noproxy
+     *
      * @param float $distance
      *
      * @return Geometry
@@ -431,6 +451,8 @@ abstract class Geometry
      * can be accurately represented in linear interpolations for any
      * geometry restricted to linear interpolations.
      *
+     * @noproxy
+     *
      * @return Geometry
      */
     public function convexHull()
@@ -440,6 +462,8 @@ abstract class Geometry
 
     /**
      * Returns a geometric object that represents the Point set intersection of this geometric object with `$geometry`.
+     *
+     * @noproxy
      *
      * @param Geometry $geometry
      *
@@ -453,6 +477,8 @@ abstract class Geometry
     /**
      * Returns a geometric object that represents the Point set union of this geometric object with `$geometry`.
      *
+     * @noproxy
+     *
      * @param Geometry $geometry
      *
      * @return Geometry
@@ -464,6 +490,8 @@ abstract class Geometry
 
     /**
      * Returns a geometric object that represents the Point set difference of this geometric object with `$geometry`.
+     *
+     * @noproxy
      *
      * @param Geometry $geometry
      *
@@ -477,6 +505,8 @@ abstract class Geometry
     /**
      * Returns a geometric object that represents the Point set symmetric difference of this Geometry with `$geometry`.
      *
+     * @noproxy
+     *
      * @param Geometry $geometry
      *
      * @return Geometry
@@ -488,6 +518,8 @@ abstract class Geometry
 
     /**
      * Returns a text representation of this Geometry.
+     *
+     * @noproxy
      *
      * @return string
      */

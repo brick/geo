@@ -95,6 +95,8 @@ class GeometryCollection extends Geometry implements \Countable, \IteratorAggreg
     }
 
     /**
+     * @noproxy
+     *
      * {@inheritdoc}
      */
     public function geometryType()

@@ -8,6 +8,8 @@ namespace Brick\Geo;
 class LinearRing extends LineString
 {
     /**
+     * @noproxy
+     *
      * {@inheritdoc}
      */
      public function geometryType()

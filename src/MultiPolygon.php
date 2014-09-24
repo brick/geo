@@ -25,6 +25,8 @@ use Brick\Geo\Exception\GeometryException;
 class MultiPolygon extends MultiSurface
 {
     /**
+     * @noproxy
+     *
      * {@inheritdoc}
      */
     public function geometryType()
@@ -33,6 +35,8 @@ class MultiPolygon extends MultiSurface
     }
 
     /**
+     * @noproxy
+     *
      * {@inheritdoc}
      */
     public function area()
@@ -41,6 +45,8 @@ class MultiPolygon extends MultiSurface
     }
 
     /**
+     * @noproxy
+     *
      * {@inheritdoc}
      */
     public function centroid()
@@ -49,6 +55,8 @@ class MultiPolygon extends MultiSurface
     }
 
     /**
+     * @noproxy
+     *
      * {@inheritdoc}
      */
     public function pointOnSurface()

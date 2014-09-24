@@ -133,4 +133,5 @@ class /* {CLASSNAME} */Proxy /* {EXTENDS} */
 
         return $this->geometry->asBinary();
     }
+
 /* {METHODS} */}

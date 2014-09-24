@@ -72,6 +72,8 @@ class LineString extends Curve implements \Countable, \IteratorAggregate
     }
 
     /**
+     * @noproxy
+     *
      * {@inheritdoc}
      */
     public function length()
@@ -96,6 +98,8 @@ class LineString extends Curve implements \Countable, \IteratorAggregate
     }
 
     /**
+     * @noproxy
+     *
      * {@inheritdoc}
      */
     public function isClosed()
@@ -104,6 +108,8 @@ class LineString extends Curve implements \Countable, \IteratorAggregate
     }
 
     /**
+     * @noproxy
+     *
      * {@inheritdoc}
      */
     public function isRing()
@@ -144,6 +150,8 @@ class LineString extends Curve implements \Countable, \IteratorAggregate
     }
 
     /**
+     * @noproxy
+     *
      * {@inheritdoc}
      *
      * A LineString is a 1-dimensional geometric object.
@@ -154,6 +162,8 @@ class LineString extends Curve implements \Countable, \IteratorAggregate
     }
 
     /**
+     * @noproxy
+     *
      * {@inheritdoc}
      */
     public function geometryType()
@@ -162,6 +172,8 @@ class LineString extends Curve implements \Countable, \IteratorAggregate
     }
 
     /**
+     * @noproxy
+     *
      * {@inheritdoc}
      */
     public function isEmpty()
