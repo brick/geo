@@ -61,7 +61,10 @@ class MultiPolygon extends MultiSurface
      */
     public function pointOnSurface()
     {
-        throw GeometryException::unimplementedMethod(__METHOD__);
+        /** @var Polygon $polygon */
+        $polygon = $this->geometryN(1);
+
+        return $polygon->pointOnSurface();
     }
 
     /**

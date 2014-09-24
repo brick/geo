@@ -37,6 +37,8 @@ abstract class MultiSurface extends GeometryCollection
      * A Point guaranteed to be on this MultiSurface.
      *
      * @return Point
+     *
+     * @throws Exception\GeometryException If this MultiSurface is empty.
      */
     abstract public function pointOnSurface();
 }
