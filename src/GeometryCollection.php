@@ -28,13 +28,31 @@ class GeometryCollection extends Geometry implements \Countable, \IteratorAggreg
     protected $geometries = [];
 
     /**
+     * Whether the geometries have Z coordinates.
+     *
+     * @var boolean
+     */
+    protected $is3D;
+
+    /**
+     * Whether the geometries have Z coordinates.
+     *
+     * @var boolean
+     */
+    protected $isMeasured;
+
+    /**
      * Class constructor. Use the factory methods to obtain an instance.
      *
-     * @param array $geometries An array of Geometry objects, validated.
+     * @param Geometry[] $geometries An array of Geometry objects, validated.
+     * @param boolean    $is3D       Whether the geometries have Z coordinates.
+     * @param boolean    $isMeasured Whether the geometries have M coordinates.
      */
-    protected function __construct(array $geometries)
+    protected function __construct(array $geometries, $is3D, $isMeasured)
     {
         $this->geometries = $geometries;
+        $this->is3D       = $is3D;
+        $this->isMeasured = $isMeasured;
     }
 
     /**
@@ -54,7 +72,25 @@ class GeometryCollection extends Geometry implements \Countable, \IteratorAggreg
             }
         }
 
-        return new static($geometries);
+        self::getDimensions($geometries, $is3D, $isMeasured);
+
+        return new static(array_values($geometries), $is3D, $isMeasured);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function is3D()
+    {
+        return $this->is3D;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isMeasured()
+    {
+        return $this->isMeasured;
     }
 
     /**
@@ -115,6 +151,10 @@ class GeometryCollection extends Geometry implements \Countable, \IteratorAggreg
 
         foreach ($this->geometries as $geometry) {
             $dimension = max($dimension, $geometry->dimension());
+        }
+
+        if ($dimension === -1) {
+            throw new GeometryException('Empty geometries have no dimension.');
         }
 
         return $dimension;

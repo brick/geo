@@ -20,13 +20,31 @@ class LineString extends Curve implements \Countable, \IteratorAggregate
     protected $points = [];
 
     /**
+     * Whether the points have Z coordinates.
+     *
+     * @var boolean
+     */
+    protected $is3D;
+
+    /**
+     * Whether the points have M coordinates.
+     *
+     * @var boolean
+     */
+    protected $isMeasured;
+
+    /**
      * Internal constructor. Use a factory method to obtain an instance.
      *
-     * @param Point[] $points The points, validated.
+     * @param Point[] $points     The points, validated.
+     * @param boolean $is3D       Whether the points have Z coordinates.
+     * @param boolean $isMeasured WHether the points have M coordinates.
      */
-    protected function __construct(array $points)
+    protected function __construct(array $points, $is3D, $isMeasured)
     {
-        $this->points = $points;
+        $this->points     = $points;
+        $this->is3D       = $is3D;
+        $this->isMeasured = $isMeasured;
     }
 
     /**
@@ -38,7 +56,9 @@ class LineString extends Curve implements \Countable, \IteratorAggregate
      *
      * @return static The LineString instance.
      *
-     * @throws GeometryException If the array contains non-Point objects, or if the result is not of the expected type.
+     * @throws GeometryException If the array contains non-Point objects,
+     *                           the result is not of the expected type,
+     *                           or dimensionality is mixed.
      */
     public static function factory(array $points)
     {
@@ -47,6 +67,8 @@ class LineString extends Curve implements \Countable, \IteratorAggregate
                 throw GeometryException::unexpectedGeometryType(Point::class, $point);
             }
         }
+
+        self::getDimensions($points, $is3D, $isMeasured);
 
         /** @var Point[] $points */
         $points = array_values($points);
@@ -57,11 +79,11 @@ class LineString extends Curve implements \Countable, \IteratorAggregate
         }
 
         if ($count === 2) {
-            $result = new Line($points);
+            $result = new Line($points, $is3D, $isMeasured);
         } elseif ($points[0]->equals($points[$count - 1])) {
-            $result = new LinearRing($points);
+            $result = new LinearRing($points, $is3D, $isMeasured);
         } else {
-            $result = new LineString($points);
+            $result = new LineString($points, $is3D, $isMeasured);
         }
 
         if (! $result instanceof static) {
@@ -69,6 +91,22 @@ class LineString extends Curve implements \Countable, \IteratorAggregate
         }
 
         return $result;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function is3D()
+    {
+        return $this->is3D;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isMeasured()
+    {
+        return $this->isMeasured;
     }
 
     /**

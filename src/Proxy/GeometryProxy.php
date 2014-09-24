@@ -149,18 +149,6 @@ class GeometryProxy extends \Brick\Geo\Geometry
     /**
      * {@inheritdoc}
      */
-    public function coordinateDimension()
-    {
-        if ($this->geometry === null) {
-            $this->load();
-        }
-
-        return $this->geometry->coordinateDimension();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function spatialDimension()
     {
         if ($this->geometry === null) {

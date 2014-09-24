@@ -137,6 +137,30 @@ class PolyhedralSurfaceProxy extends \Brick\Geo\PolyhedralSurface
     /**
      * {@inheritdoc}
      */
+    public function is3D()
+    {
+        if ($this->geometry === null) {
+            $this->load();
+        }
+
+        return $this->geometry->is3D();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isMeasured()
+    {
+        if ($this->geometry === null) {
+            $this->load();
+        }
+
+        return $this->geometry->isMeasured();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function numPatches()
     {
         if ($this->geometry === null) {
@@ -197,18 +221,6 @@ class PolyhedralSurfaceProxy extends \Brick\Geo\PolyhedralSurface
     /**
      * {@inheritdoc}
      */
-    public function coordinateDimension()
-    {
-        if ($this->geometry === null) {
-            $this->load();
-        }
-
-        return $this->geometry->coordinateDimension();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function spatialDimension()
     {
         if ($this->geometry === null) {
@@ -228,30 +240,6 @@ class PolyhedralSurfaceProxy extends \Brick\Geo\PolyhedralSurface
         }
 
         return $this->geometry->SRID();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function is3D()
-    {
-        if ($this->geometry === null) {
-            $this->load();
-        }
-
-        return $this->geometry->is3D();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function isMeasured()
-    {
-        if ($this->geometry === null) {
-            $this->load();
-        }
-
-        return $this->geometry->isMeasured();
     }
 
 }

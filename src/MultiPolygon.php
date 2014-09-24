@@ -3,7 +3,6 @@
 namespace Brick\Geo;
 
 use Brick\Geo\Engine\GeometryEngineRegistry;
-use Brick\Geo\Exception\GeometryException;
 
 /**
  * A MultiPolygon is a MultiSurface whose elements are Polygons.

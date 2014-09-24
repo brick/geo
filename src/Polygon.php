@@ -41,52 +41,74 @@ class Polygon extends Surface implements \Countable, \IteratorAggregate
     protected $rings = [];
 
     /**
+     * Whether the rings have Z coordinates.
+     *
+     * @var boolean
+     */
+    protected $is3D;
+
+    /**
+     * Whether the rings have M coordinates.
+     *
+     * @var boolean
+     */
+    protected $isMeasured;
+
+    /**
      * Class constructor.
      *
      * Internal use only, consumer code must use factory() instead.
      *
-     * @param array $rings An array on LinearRing objects.
+     * @param LinearRing[] $rings      An array on LinearRing objects, validated.
+     * @param boolean      $is3D       Whether the rings have Z coordinates.
+     * @param boolean      $isMeasured WHether the rings have M coordinates.
      *
      * @throws GeometryException
      */
-    protected function __construct(array $rings)
+    protected function __construct(array $rings, $is3D, $isMeasured)
     {
-        if (count($rings) == 0) {
-            throw new GeometryException('A Polygon must be constructed with at least one ring (the exterior ring)');
-        }
-
-        foreach ($rings as $ring) {
-            $this->addRing($ring);
-        }
-    }
-
-    /**
-     * Internal function for the class constructor.
-     *
-     * @param LinearRing $ring
-     */
-    private function addRing(LinearRing $ring)
-    {
-        $this->rings[] = $ring;
+        $this->rings      = $rings;
+        $this->is3D       = $is3D;
+        $this->isMeasured = $isMeasured;
     }
 
     /**
      * @param LinearRing[] $rings
      *
      * @return Polygon
+     *
+     * @throws GeometryException
      */
     public static function factory(array $rings)
     {
-        if (count($rings) == 1) {
-            if (count(reset($rings)) == 3 + 1) {
-                return new Triangle($rings);
+        foreach ($rings as $ring) {
+            if (! $ring instanceof LinearRing) {
+                throw GeometryException::unexpectedGeometryType(LinearRing::class, $ring);
             }
         }
 
-        return new Polygon($rings);
+        /** @var LinearRing[] $rings */
+        $rings = array_values($rings);
+        $count = count($rings);
+
+        if ($count === 0) {
+            throw new GeometryException('A Polygon must have at least 1 ring (the exterior ring).');
+        }
+
+        self::getDimensions($rings, $is3D, $isMeasured);
+
+        if (count($rings) === 1) {
+            if (count($rings[0]) === 3 + 1) {
+                return new Triangle($rings, $is3D, $isMeasured);
+            }
+        }
+
+        return new Polygon($rings, $is3D, $isMeasured);
     }
 
     /**
+     * Creates a rectangle from two corner 2D points.
+     *
      * @param Point $a
      * @param Point $b
      *
@@ -108,6 +130,22 @@ class Polygon extends Surface implements \Countable, \IteratorAggregate
         $ring = LinearRing::factory([$p1, $p2, $p3, $p4, $p1]);
 
         return Polygon::factory([$ring]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function is3D()
+    {
+        return $this->is3D;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isMeasured()
+    {
+        return $this->isMeasured;
     }
 
     /**

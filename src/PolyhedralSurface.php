@@ -30,50 +30,84 @@ class PolyhedralSurface extends Surface implements \Countable, \IteratorAggregat
     /**
      * An array of Polygon objects.
      *
-     * @var array
+     * @var Polygon[]
      */
     protected $patches = [];
+
+    /**
+     * Whether the polygons have Z coordinates.
+     *
+     * @var boolean
+     */
+    protected $is3D;
+
+    /**
+     * Whether the polygons have M coordinates.
+     *
+     * @var boolean
+     */
+    protected $isMeasured;
 
     /**
      * Class constructor.
      *
      * Internal use only, consumer code must use factory() instead.
      *
-     * @param array $patches An array on Polygon objects.
+     * @param Polygon[] $patches    An array on Polygon objects.
+     * @param boolean   $is3D       Whether the polygons have Z coordinates.
+     * @param boolean   $isMeasured Whether the polygons have M coordinates.
      *
      * @throws GeometryException
      */
-    protected function __construct(array $patches)
+    protected function __construct(array $patches, $is3D, $isMeasured)
     {
-        if (count($patches) == 0) {
-            throw new GeometryException('A PolyhedralSurface must be constructed with at least one patch');
-        }
-
-        foreach ($patches as $patch) {
-            $this->addPatch($patch);
-        }
-    }
-
-    /**
-     * Internal function for the constructor, to provide strong typing.
-     *
-     * @param Polygon $patch
-     */
-    private function addPatch(Polygon $patch)
-    {
-        $this->patches[] = $patch;
+        $this->patches    = $patches;
+        $this->is3D       = $is3D;
+        $this->isMeasured = $isMeasured;
     }
 
     /**
      * Factory method to create a new PolyhedralSurface.
      *
-     * @param Polygon[] $polygons
+     * @param Polygon[] $patches
      *
      * @return PolyhedralSurface
+     *
+     * @throws GeometryException
      */
-    public static function factory(array $polygons)
+    public static function factory(array $patches)
     {
-        return new PolyhedralSurface($polygons);
+        if (count($patches) === 0) {
+            throw new GeometryException('A PolyhedralSurface must be constructed with at least one patch.');
+        }
+
+        $geometryType = static::containedGeometryType();
+
+        foreach ($patches as $patch) {
+            if (! $patch instanceof $geometryType) {
+                throw GeometryException::unexpectedGeometryType($geometryType, $patch);
+            }
+        }
+
+        self::getDimensions($patches, $is3D, $isMeasured);
+
+        return new static(array_values($patches), $is3D, $isMeasured);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function is3D()
+    {
+        return $this->is3D;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isMeasured()
+    {
+        return $this->isMeasured;
     }
 
     /**
@@ -209,5 +243,15 @@ class PolyhedralSurface extends Surface implements \Countable, \IteratorAggregat
     public function getIterator()
     {
         return new \ArrayIterator($this->patches);
+    }
+
+    /**
+     * Returns the FQCN of the contained Geometry type.
+     *
+     * @return string
+     */
+    protected static function containedGeometryType()
+    {
+        return Polygon::class;
     }
 }

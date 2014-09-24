@@ -88,11 +88,18 @@ abstract class Geometry
      * In non-homogeneous collections, this will return the largest topological dimension of the contained objects.
      *
      * @return integer
+     *
+     * @throws GeometryException If the geometry is empty.
      */
     abstract public function dimension();
 
     /**
      * Returns the coordinate dimension of this Geometry.
+     *
+     * The coordinate dimension can be 2 (for x and y), 3 (with z or m added), or 4 (with both z and m added).
+     * The ordinates x, y and z are spatial, and the ordinate m is a measure.
+     *
+     * @noproxy
      *
      * @return integer
      *
@@ -100,11 +107,24 @@ abstract class Geometry
      */
     public function coordinateDimension()
     {
-        throw GeometryException::unimplementedMethod(__METHOD__);
+        $coordinateDimension = 2;
+
+        if ($this->is3D()) {
+            $coordinateDimension++;
+        }
+
+        if ($this->isMeasured()) {
+            $coordinateDimension++;
+        }
+
+        return $coordinateDimension;
     }
 
     /**
      * Returns the spatial dimension of this Geometry.
+     *
+     * The spatial dimension is the number of measurements or axes needed to describe the
+     * spatial position of this geometry in a coordinate system.
      *
      * @return integer
      *
@@ -195,7 +215,7 @@ abstract class Geometry
      * cause an instance of that class to be classified as not simple.
      * Implemented using a GeometryEngine.
      *
-     * @todo implement this method in PHP, to avoid a database round trip when creating LinearRing, Polygon, and so on.
+     * @todo implement this method in PHP, to avoid an engine call when creating LinearRing, Polygon, and so on.
      *
      * @noproxy
      *
@@ -209,26 +229,16 @@ abstract class Geometry
     /**
      * Returns true if this geometric object has z coordinate values.
      *
-     * @todo This should be abstract: each subclass should implement it.
-     *
      * @return boolean
      */
-    public function is3D()
-    {
-        return false;
-    }
+    abstract public function is3D();
 
     /**
      * Returns true if this geometric object has m coordinate values.
      *
-     * @todo This should be abstract: each subclass should implement it.
-     *
      * @return boolean
      */
-    public function isMeasured()
-    {
-        return false;
-    }
+    abstract public function isMeasured();
 
     /**
      * Returns the closure of the combinatorial boundary of this geometric object.
@@ -526,5 +536,37 @@ abstract class Geometry
     final public function __toString()
     {
         return $this->asText();
+    }
+
+    /**
+     * Gets the dimensions of an array of geometries.
+     *
+     * If dimensionality is mixed, an exception is thrown.
+     *
+     * @internal
+     *
+     * @param Geometry[] $geometries The geometries, validated as such.
+     * @param boolean    $is3D       A variable to store whether the geometries have Z coordinates.
+     * @param boolean    $isMeasured A variable to store whether the geometries have M coordinates.
+     *
+     * @return void
+     *
+     * @throws GeometryException If dimensionality is mixed.
+     */
+    protected static function getDimensions(array $geometries, & $is3D, & $isMeasured)
+    {
+        $previous = null;
+
+        foreach ($geometries as $geometry) {
+            if ($previous === null) {
+                $is3D       = $geometry->is3D();
+                $isMeasured = $geometry->isMeasured();
+                $previous   = $geometry;
+            } else {
+                if ($geometry->is3D() !== $is3D || $geometry->isMeasured() !== $isMeasured) {
+                    throw GeometryException::dimensionalityMix($previous, $geometry);
+                }
+            }
+        }
     }
 }
