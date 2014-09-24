@@ -12,10 +12,10 @@ env:
   - ENGINE=GEOS
 
 before_script:
+  - if [[ $ENGINE = PDO_MYSQL ]]; then bash .travis.install-mysql.sh; fi;
   - if [[ $ENGINE = GEOS ]]; then bash .travis.install-geos.sh; fi;
   - if [[ $ENGINE = SQLite3 ]]; then bash .travis.install-sqlite3.sh; fi;
-  - wget https://getcomposer.org/composer.phar
-  - php composer.phar install
+  - composer install
 
 script:
   - mkdir -p build/logs
@@ -26,7 +26,6 @@ after_script:
 
 matrix:
   exclude:
-    - env: ENGINE=PDO_MYSQL # travis does not support MySQL 5.6 yet
     - php: hhvm
       env: ENGINE=PDO_PGSQL # driver currently unsupported by HHVM
     - php: hhvm
