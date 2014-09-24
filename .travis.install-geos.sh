@@ -1,4 +1,4 @@
-GEOS_VERSION=3.4.2
+GEOS_VERSION=svn-trunk
 
 wget https://github.com/libgeos/libgeos/archive/$GEOS_VERSION.tar.gz
 tar zxf $GEOS_VERSION.tar.gz

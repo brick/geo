@@ -12,7 +12,6 @@ env:
   - ENGINE=GEOS
 
 before_script:
-  - if [[ $ENGINE = GEOS ]]; then travis_wait bash .travis.install-php-nts.sh; fi;
   - if [[ $ENGINE = GEOS ]]; then bash .travis.install-geos.sh; fi;
   - if [[ $ENGINE = SQLite3 ]]; then bash .travis.install-sqlite3.sh; fi;
   - wget https://getcomposer.org/composer.phar
