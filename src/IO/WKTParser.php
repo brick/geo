@@ -9,18 +9,13 @@ use Brick\Geo\Exception\GeometryException;
  */
 class WKTParser
 {
-    const T_EOF    = 0;
     const T_WORD   = 1;
     const T_NUMBER = 2;
-    const T_OTHER  = 3;
 
     const REGEX_WORD       = '([a-zA-Z]+)';
     const REGEX_NUMBER     = '(\-?[0-9]+(?:\.[0-9]+)?(?:[eE][+-]?[0-9]+)?)';
     const REGEX_OTHER      = '(.)';
     const REGEX_WHITESPACE = '\s+';
-
-    const INDEX_TYPE  = 0;
-    const INDEX_VALUE = 1;
 
     /**
      * Array of all regex. The order is important!
@@ -55,7 +50,7 @@ class WKTParser
      */
     public function __construct($wkt)
     {
-        $this->scan(strtoupper($wkt));
+        $this->scan($wkt);
         $this->currentToken = current($this->tokens);
     }
 
@@ -68,20 +63,15 @@ class WKTParser
     {
         $regex = '/' . implode('|', self::$regex) . '/';
 
-        preg_match_all($regex, $wkt, $matches, PREG_PATTERN_ORDER);
-        assert(count($matches) == count(self::$regex));
+        preg_match_all($regex, $wkt, $matches);
 
         foreach ($matches as $type => $values) {
-            if ($type == 0) {
+            if ($type === 0) {
                 continue;
             }
             foreach ($values as $index => $value) {
-                if ($value != '') {
-                    assert(! isset($this->tokens[$index]));
-                    $this->tokens[$index] = [
-                        self::INDEX_TYPE => $type,
-                        self::INDEX_VALUE => $value
-                    ];
+                if ($value !== '') {
+                    $this->tokens[$index] = [$type, $value];
                 }
             }
         }
@@ -91,12 +81,15 @@ class WKTParser
     }
 
     /**
-     * @return array
+     * @return array|false The next token, or false if there are no more tokens.
      */
     private function nextToken()
     {
         $token = current($this->tokens);
-        next($this->tokens);
+
+        if ($token !== false) {
+            next($this->tokens);
+        }
 
         return $token;
     }
@@ -113,7 +106,7 @@ class WKTParser
         if ($token === false) {
             throw new GeometryException("Expected '(' but encountered end of stream");
         }
-        if ($token[1] != '(') {
+        if ($token[1] !== '(') {
             throw new GeometryException("Expected '(' but encountered '" . $token[1] . "'");
         }
     }
@@ -130,7 +123,7 @@ class WKTParser
         if ($token === false) {
             throw new GeometryException("Expected ')' but encountered end of stream");
         }
-        if ($token[1] != ')') {
+        if ($token[1] !== ')') {
             throw new GeometryException("Expected ')' but encountered '" . $token[1] . "'");
         }
     }
@@ -147,9 +140,28 @@ class WKTParser
         if ($token === false) {
             throw new GeometryException("Expected word but encountered end of stream");
         }
-        if ($token[0] != self::T_WORD) {
+        if ($token[0] !== self::T_WORD) {
             throw new GeometryException("Expected word but encountered '" . $token[1] . "'");
         }
+
+        return $token[1];
+    }
+
+    /**
+     * @return string|null The next word, or NULL if the next token is not a word, or there are no more tokens.
+     */
+    public function getOptionalNextWord()
+    {
+        $token = current($this->tokens);
+
+        if ($token === false) {
+            return null;
+        }
+        if ($token[0] !== self::T_WORD) {
+            return null;
+        }
+
+        next($this->tokens);
 
         return $token[1];
     }
@@ -166,7 +178,7 @@ class WKTParser
         if ($token === false) {
             throw new GeometryException("Expected number but encountered end of stream");
         }
-        if ($token[0] != self::T_NUMBER) {
+        if ($token[0] !== self::T_NUMBER) {
             throw new GeometryException("Expected number but encountered '" . $token[1] . "'");
         }
 
@@ -185,7 +197,7 @@ class WKTParser
         if ($token === false) {
             throw new GeometryException("Expected ')' or ',' but encountered end of stream");
         }
-        if ($token[1] != ')' && $token[1] != ',') {
+        if ($token[1] !== ')' && $token[1] !== ',') {
             throw new GeometryException("Expected ')' or ',' but encountered '" . $token[1] . "'");
         }
 
@@ -199,50 +211,4 @@ class WKTParser
     {
         return $this->nextToken() === false;
     }
-
-    //	/**
-    //	 * Returns the type of the current token.
-    //	 *
-    //	 * @return integer T_EOF | T_WORD | T_NUMBER | T_OTHER
-    //	 */
-    //	private function currentType()
-    //	{
-    //		if (is_array($this->currentToken)) {
-    //			return $this->currentToken[self::INDEX_TYPE];
-    //		}
-    //		return self::T_EOF;
-    //	}
-    //
-    //	/**
-    //	 * Returns the value of the current token as a string,
-    //	 * or null if EOF has been reached.
-    //	 *
-    //	 * @return string|null
-    //	 */
-    //	public function currentValue()
-    //	{
-    //		return is_array($this->currentToken)
-    //		     ? $this->currentToken[self::INDEX_VALUE]
-    //		     : null;
-    //	}
-    //
-    //	public function moveNext()
-    //	{
-    //		$this->currentToken = next($this->tokens);
-    //	}
-    //
-    //	public function isEof()
-    //	{
-    //		return $this->currentType() == self::T_EOF;
-    //	}
-    //
-    //	public function isWord()
-    //	{
-    //		return $this->currentType() == self::T_WORD;
-    //	}
-    //
-    //	public function isNumber()
-    //	{
-    //		return $this->currentType() == self::T_NUMBER;
-    //	}
 }

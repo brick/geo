@@ -18,7 +18,7 @@ class PointProxyTest extends AbstractTestCase
         $this->assertInstanceOf(Point::class, $pointProxy);
         $this->assertFalse($pointProxy->isLoaded());
 
-        $this->assertPointEquals(1.0, 2.0, null, null, $pointProxy);
+        $this->assertPointEquals([1, 2], false, false, $pointProxy);
         $this->assertTrue($pointProxy->isLoaded());
 
         $this->assertInstanceOf(Point::class, $pointProxy->getGeometry());

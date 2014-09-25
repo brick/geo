@@ -13,15 +13,15 @@ class PointTest extends AbstractTestCase
     /**
      * @dataProvider providerFactory
      *
-     * @param Point      $point
-     * @param float      $x
-     * @param float      $y
-     * @param float|null $z
-     * @param float|null $m
+     * @param array   $arguments  The arguments to pass to the factory method.
+     * @param array   $coords     The expected coordinates of the resulting point.
+     * @param boolean $is3D       Whether the resulting point is expected to have a Z coordinate.
+     * @param boolean $isMeasured Whether the resulting point is expected to have a M coordinate.
      */
-    public function testFactory(Point $point, $x, $y, $z, $m)
+    public function testFactory(array $arguments, array $coords, $is3D, $isMeasured)
     {
-        $this->assertPointEquals($x, $y, $z, $m, $point);
+        $point = call_user_func_array([Point::class, 'factory'], $arguments);
+        $this->assertPointEquals($coords, $is3D, $isMeasured, $point);
     }
 
     /**
@@ -30,10 +30,10 @@ class PointTest extends AbstractTestCase
     public function providerFactory()
     {
         return [
-            [Point::factory('1.2', '3.4'), 1.2, 3.4, null, null],
-            [Point::factory('1.2', '3.4', '5.6'), 1.2, 3.4, 5.6, null],
-            [Point::factory('1.2', '3.4', null, '5.6'), 1.2, 3.4, null, 5.6],
-            [Point::factory('1.2', '3.4', '5.6', '7.8'), 1.2, 3.4, 5.6, 7.8],
+            [['1.2', '3.4'], [1.2, 3.4], false, false],
+            [['1.2', '3.4', 5.6], [1.2, 3.4, 5.6], true, false],
+            [['1.2', '3.4', null, '5.6'], [1.2, 3.4, 5.6], false, true],
+            [['1.2', '3.4', '5.6', '7.8'], [1.2, 3.4, 5.6, 7.8], true, true],
         ];
     }
 

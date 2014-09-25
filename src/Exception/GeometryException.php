@@ -84,17 +84,35 @@ class GeometryException extends \Exception
     }
 
     /**
-     * @param Geometry $a
-     * @param Geometry $b
+     * @param Geometry|string $a
+     * @param Geometry|string $b
      *
      * @return GeometryException
      */
-    public static function dimensionalityMix(Geometry $a, Geometry $b)
+    public static function dimensionalityMix($a, $b)
     {
         $message = 'Cannot mix dimensionality in a geometry: %s and %s.';
-        $message = sprintf($message, self::typeOf($a), self::typeOf($b));
 
-        return new self($message);
+        if ($a instanceof Geometry) {
+            $a = self::typeOf($a);
+        }
+        if ($b instanceof Geometry) {
+            $b = self::typeOf($b);
+        }
+
+        return new self(sprintf($message, $a, $b));
+    }
+
+    /**
+     * @param boolean  $is3D
+     * @param boolean  $isMeasured
+     * @param Geometry $geometry
+     *
+     * @return GeometryException
+     */
+    public static function collectionDimensionalityMix($is3D, $isMeasured, Geometry $geometry)
+    {
+        return self::dimensionalityMix(self::geometryZM('GeometryCollection', $is3D, $isMeasured), $geometry);
     }
 
     /**
@@ -106,22 +124,34 @@ class GeometryException extends \Exception
      */
     private static function typeOf(Geometry $geometry)
     {
-        $type = $geometry->geometryType();
+        return self::geometryZM(
+            $geometry->geometryType(),
+            $geometry->is3D(),
+            $geometry->isMeasured()
+        );
+    }
 
-        $z = $geometry->is3D();
-        $m = $geometry->isMeasured();
+    /**
+     * @param string  $geometryType
+     * @param boolean $is3D
+     * @param boolean $isMeasured
+     *
+     * @return string
+     */
+    private static function geometryZM($geometryType, $is3D, $isMeasured)
+    {
+        if ($is3D || $isMeasured) {
+            $geometryType .= ' ';
+        }
 
-        if ($z || $m) {
-            $type .= ' ';
+        if ($is3D) {
+            $geometryType .= 'Z';
         }
-        if ($z) {
-            $type .= 'Z';
-        }
-        if ($m) {
-            $type .= 'M';
+        if ($isMeasured) {
+            $geometryType .= 'M';
         }
 
-        return $type;
+        return $geometryType;
     }
 
     /**

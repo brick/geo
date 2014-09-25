@@ -15,18 +15,104 @@ use Brick\Geo\Polygon;
 class AbstractTestCase extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @param float      $x
-     * @param float      $y
-     * @param float|null $z
-     * @param float|null $m
-     * @param Point      $point
+     * @param array   $coords     The expected coordinates of the Point as returned by toArray().
+     * @param boolean $is3D       Whether the Point is expected to contain a Z coordinate.
+     * @param boolean $isMeasured Whether the Point is expected to contain a M coordinate.
+     * @param Point   $point      The Point to test.
      */
-    final protected function assertPointEquals($x, $y, $z, $m, Point $point)
+    final protected function assertPointEquals(array $coords, $is3D, $isMeasured, Point $point)
     {
-        $this->assertSame($x, $point->x());
-        $this->assertSame($y, $point->y());
-        $this->assertSame($z, $point->z());
-        $this->assertSame($m, $point->m());
+        $this->castToFloat($coords);
+        $this->assertSame($coords, $point->toArray());
+        $this->assertSame($is3D, $point->is3D());
+        $this->assertSame($isMeasured, $point->isMeasured());
+    }
+
+    /**
+     * @param array      $coords     The expected coordinates of the LineString as returned by toArray().
+     * @param boolean    $is3D       Whether the LineString is expected to contain Z coordinates.
+     * @param boolean    $isMeasured Whether the LineString is expected to contain M coordinates.
+     * @param LineString $lineString The LineString to test.
+     */
+    final protected function assertLineStringEquals(array $coords, $is3D, $isMeasured, LineString $lineString)
+    {
+        $this->castToFloat($coords);
+        $this->assertSame($coords, $lineString->toArray());
+        $this->assertSame($is3D, $lineString->is3D());
+        $this->assertSame($isMeasured, $lineString->isMeasured());
+    }
+
+    /**
+     * @param array   $coords     The expected coordinates of the Polygon as returned by toArray().
+     * @param boolean $is3D       Whether the Polygon is expected to contain Z coordinates.
+     * @param boolean $isMeasured Whether the Polygon is expected to contain M coordinates.
+     * @param Polygon $polygon    The Polygon to test.
+     */
+    final protected function assertPolygonEquals(array $coords, $is3D, $isMeasured, Polygon $polygon)
+    {
+        $this->castToFloat($coords);
+        $this->assertSame($coords, $polygon->toArray());
+        $this->assertSame($is3D, $polygon->is3D());
+        $this->assertSame($isMeasured, $polygon->isMeasured());
+    }
+
+    /**
+     * @param array      $coords     The expected coordinates of the MultiPoint as returned by toArray().
+     * @param boolean    $is3D       Whether the MultiPoint is expected to contain Z coordinates.
+     * @param boolean    $isMeasured Whether the MultiPoint is expected to contain M coordinates.
+     * @param MultiPoint $multiPoint The MultiPoint to test.
+     */
+    final protected function assertMultiPointEquals(array $coords, $is3D, $isMeasured, MultiPoint $multiPoint)
+    {
+        $this->castToFloat($coords);
+        $this->assertSame($coords, $multiPoint->toArray());
+        $this->assertSame($is3D, $multiPoint->is3D());
+        $this->assertSame($isMeasured, $multiPoint->isMeasured());
+    }
+
+    /**
+     * @param array           $coords          The expected coordinates of the MultiLineString as returned by toArray().
+     * @param boolean         $is3D            Whether the MultiLineString is expected to contain Z coordinates.
+     * @param boolean         $isMeasured      Whether the MultiLineString is expected to contain M coordinates.
+     * @param MultiLineString $multiLineString The MultiLineString to test.
+     */
+    final protected function assertMultiLineStringEquals(array $coords, $is3D, $isMeasured, MultiLineString $multiLineString)
+    {
+        $this->castToFloat($coords);
+        $this->assertSame($coords, $multiLineString->toArray());
+        $this->assertSame($is3D, $multiLineString->is3D());
+        $this->assertSame($isMeasured, $multiLineString->isMeasured());
+    }
+
+    /**
+     * @param array        $coords       The expected coordinates of the MultiPolygon as returned by toArray().
+     * @param boolean      $is3D         Whether the MultiPolygon is expected to contain Z coordinates.
+     * @param boolean      $isMeasured   Whether the MultiPolygon is expected to contain M coordinates.
+     * @param MultiPolygon $multiPolygon The MultiPolygon to test.
+     */
+    final protected function assertMultiPolygonEquals(array $coords, $is3D, $isMeasured, MultiPolygon $multiPolygon)
+    {
+        $this->castToFloat($coords);
+        $this->assertSame($coords, $multiPolygon->toArray());
+        $this->assertSame($is3D, $multiPolygon->is3D());
+        $this->assertSame($isMeasured, $multiPolygon->isMeasured());
+    }
+
+    /**
+     * Casts all values in the array to floats.
+     *
+     * This allows to write more concise data providers such as [1 2] instead of [1.0, 2.0]
+     * while still strictly enforcing that the toArray() methods of the geometries return float values.
+     *
+     * @param array $coords
+     *
+     * @return void
+     */
+    private function castToFloat(array & $coords)
+    {
+        array_walk_recursive($coords, function (& $value) {
+            $value = (float) $value;
+        });
     }
 
     /**

@@ -179,15 +179,15 @@ class WKTWriterTest extends AbstractTestCase
     /**
      * @dataProvider providerWriteGeometryCollection
      *
-     * @param boolean $z   Whether to include Z-coordinates.
-     * @param boolean $m   Whether to include M-coordinates.
+     * @param boolean $is3D   Whether to include Z-coordinates.
+     * @param boolean $isMeasured   Whether to include M-coordinates.
      * @param string  $wkt The expected WKT.
      */
-    public function testWriteGeometryCollection($z, $m, $wkt)
+    public function testWriteGeometryCollection($is3D, $isMeasured, $wkt)
     {
-        $a = [1, 2, $z ? 3 : null, $m ? 4 : null];
-        $b = [2, 3, $z ? 4 : null, $m ? 5 : null];
-        $c = [3, 4, $z ? 5 : null, $m ? 6 : null];
+        $a = [1, 2, $is3D ? 3 : null, $isMeasured ? 4 : null];
+        $b = [2, 3, $is3D ? 4 : null, $isMeasured ? 5 : null];
+        $c = [3, 4, $is3D ? 5 : null, $isMeasured ? 6 : null];
 
         $point = self::createPoint($a);
         $lineString = self::createLineString([$b, $c]);
