@@ -4,10 +4,10 @@ namespace Brick\Geo;
 
 use Brick\Geo\Engine\GeometryEngineRegistry;
 use Brick\Geo\Exception\GeometryException;
-use Brick\Geo\IO\WktReader;
-use Brick\Geo\IO\WktWriter;
-use Brick\Geo\IO\WkbReader;
-use Brick\Geo\IO\WkbWriter;
+use Brick\Geo\IO\WKTReader;
+use Brick\Geo\IO\WKTWriter;
+use Brick\Geo\IO\WKBReader;
+use Brick\Geo\IO\WKBWriter;
 
 /**
  * Geometry is the root class of the hierarchy.
@@ -52,7 +52,7 @@ abstract class Geometry
      */
     public static function fromText($wkt)
     {
-        $geometry = WktReader::read($wkt);
+        $geometry = WKTReader::read($wkt);
 
         if (! $geometry instanceof static) {
             throw GeometryException::unexpectedGeometryType(static::class, $geometry);
@@ -72,7 +72,7 @@ abstract class Geometry
      */
     public static function fromBinary($wkb)
     {
-        $geometry = WkbReader::read($wkb);
+        $geometry = WKBReader::read($wkb);
 
         if (! $geometry instanceof static) {
             throw GeometryException::unexpectedGeometryType(static::class, $geometry);
@@ -182,7 +182,7 @@ abstract class Geometry
      */
     public function asText()
     {
-        return WktWriter::write($this);
+        return WKTWriter::write($this);
     }
 
     /**
@@ -194,7 +194,7 @@ abstract class Geometry
      */
     public function asBinary()
     {
-        return WkbWriter::write($this);
+        return WKBWriter::write($this);
     }
 
     /**

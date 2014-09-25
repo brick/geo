@@ -3,8 +3,8 @@
 namespace Brick\Geo\Proxy;
 
 use Brick\Geo\Exception\GeometryException;
-use Brick\Geo\IO\WkbReader;
-use Brick\Geo\IO\WktReader;
+use Brick\Geo\IO\WKBReader;
+use Brick\Geo\IO\WKTReader;
 
 /**
  * Proxy class for Brick\Geo\Point.
@@ -52,8 +52,8 @@ class PointProxy extends \Brick\Geo\Point
     private function load()
     {
         $geometry = $this->isBinary
-            ? WkbReader::read($this->data)
-            : WktReader::read($this->data);
+            ? WKBReader::read($this->data)
+            : WKTReader::read($this->data);
 
         if (! $geometry instanceof \Brick\Geo\Point) {
             throw GeometryException::unexpectedGeometryType(\Brick\Geo\Point::class, $geometry);

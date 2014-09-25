@@ -7,7 +7,7 @@ use Brick\Geo\Exception\GeometryException;
 /**
  * Well-Known Text parser.
  */
-class WktParser
+class WKTParser
 {
     const T_EOF    = 0;
     const T_WORD   = 1;

@@ -7,7 +7,7 @@ use Brick\Geo\Exception\GeometryException;
 /**
  * Helper class for WKB calculations.
  */
-abstract class WkbTools
+abstract class WKBTools
 {
     const BIG_ENDIAN = 0;
     const LITTLE_ENDIAN = 1;

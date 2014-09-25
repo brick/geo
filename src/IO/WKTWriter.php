@@ -15,7 +15,7 @@ use Brick\Geo\GeometryCollection;
 /**
  * Converter class from Geometry to WKT.
  */
-abstract class WktWriter
+abstract class WKTWriter
 {
     /**
      * @param \Brick\Geo\Geometry $geometry

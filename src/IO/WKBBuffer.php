@@ -7,7 +7,7 @@ use Brick\Geo\Exception\GeometryException;
 /**
  * Buffer class for reading binary data out of a WKB binary string.
  */
-class WkbBuffer
+class WKBBuffer
 {
     /**
      * @var string
@@ -43,7 +43,7 @@ class WkbBuffer
     {
         $this->wkb = $wkb;
         $this->length = strlen($wkb);
-        $this->machineByteOrder = WkbTools::getMachineByteOrder();
+        $this->machineByteOrder = WKBTools::getMachineByteOrder();
     }
 
     /**
@@ -88,7 +88,7 @@ class WkbBuffer
     {
         $byteOrder = $this->readByte();
 
-        if ($byteOrder != WkbTools::BIG_ENDIAN && $byteOrder != WkbTools::LITTLE_ENDIAN) {
+        if ($byteOrder != WKBTools::BIG_ENDIAN && $byteOrder != WKBTools::LITTLE_ENDIAN) {
             throw GeometryException::invalidWkb();
         }
 

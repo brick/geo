@@ -19,7 +19,7 @@ use Brick\Geo\TIN;
 /**
  * Converter class from Geometry to WKB.
  */
-abstract class WkbWriter
+abstract class WKBWriter
 {
     /**
      * @param \Brick\Geo\Geometry $geometry
@@ -69,7 +69,7 @@ abstract class WkbWriter
      */
     private static function packByteOrder()
     {
-        $byteOrder = WkbTools::getMachineByteOrder();
+        $byteOrder = WKBTools::getMachineByteOrder();
 
         return self::packByte($byteOrder);
     }
