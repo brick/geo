@@ -221,6 +221,18 @@ class PolygonProxy extends \Brick\Geo\Polygon
     /**
      * {@inheritdoc}
      */
+    public function toArray()
+    {
+        if ($this->geometry === null) {
+            $this->load();
+        }
+
+        return $this->geometry->toArray();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function spatialDimension()
     {
         if ($this->geometry === null) {

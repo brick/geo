@@ -167,4 +167,24 @@ class Point extends Geometry
     {
         return $this->m !== null;
     }
+
+    /**
+     * Returns an array representing the coordinates of this Point.
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        $result = [$this->x, $this->y];
+
+        if ($this->z !== null) {
+            $result[] = $this->z;
+        }
+
+        if ($this->m !== null) {
+            $result[] = $this->m;
+        }
+
+        return $result;
+    }
 }

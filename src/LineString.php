@@ -238,4 +238,20 @@ class LineString extends Curve implements \Countable, \IteratorAggregate
     {
         return new \ArrayIterator($this->points);
     }
+
+    /**
+     * Returns a nested array representing the coordinates of this LineString.
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        $result = [];
+
+        foreach ($this->points as $point) {
+            $result[] = $point->toArray();
+        }
+
+        return $result;
+    }
 }

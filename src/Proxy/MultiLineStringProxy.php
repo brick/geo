@@ -161,6 +161,18 @@ class MultiLineStringProxy extends \Brick\Geo\MultiLineString
     /**
      * {@inheritdoc}
      */
+    public function toArray()
+    {
+        if ($this->geometry === null) {
+            $this->load();
+        }
+
+        return $this->geometry->toArray();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function is3D()
     {
         if ($this->geometry === null) {

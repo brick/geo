@@ -265,4 +265,20 @@ class Polygon extends Surface implements \Countable, \IteratorAggregate
     {
         return new \ArrayIterator($this->rings);
     }
+
+    /**
+     * Returns a nested array representing the coordinates of this Polygon.
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        $result = [];
+
+        foreach ($this->rings as $ring) {
+            $result[] = $ring->toArray();
+        }
+
+        return $result;
+    }
 }

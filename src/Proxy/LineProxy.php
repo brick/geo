@@ -233,6 +233,18 @@ class LineProxy extends \Brick\Geo\Line
     /**
      * {@inheritdoc}
      */
+    public function toArray()
+    {
+        if ($this->geometry === null) {
+            $this->load();
+        }
+
+        return $this->geometry->toArray();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function spatialDimension()
     {
         if ($this->geometry === null) {
