@@ -27,28 +27,49 @@ abstract class WktWriter
     public static function write(Geometry $geometry)
     {
         if ($geometry instanceof Point) {
-            return sprintf('POINT(%s)', self::writePoint($geometry));
-        }
-        if ($geometry instanceof LineString) {
-            return sprintf('LINESTRING(%s)', self::writeLineString($geometry));
-        }
-        if ($geometry instanceof Polygon) {
-            return sprintf('POLYGON(%s)', self::writePolygon($geometry));
-        }
-        if ($geometry instanceof MultiPoint) {
-            return sprintf('MULTIPOINT(%s)', self::writeMultiPoint($geometry));
-        }
-        if ($geometry instanceof MultiLineString) {
-            return sprintf('MULTILINESTRING(%s)', self::writeMultiLineString($geometry));
-        }
-        if ($geometry instanceof MultiPolygon) {
-            return sprintf('MULTIPOLYGON(%s)', self::writeMultiPolygon($geometry));
-        }
-        if ($geometry instanceof GeometryCollection) {
-            return sprintf('GEOMETRYCOLLECTION(%s)', self::writeGeometryCollection($geometry));
+            $type = 'POINT';
+            $data = self::writePoint($geometry);
+        } elseif ($geometry instanceof LineString) {
+            $type = 'LINESTRING';
+            $data = self::writeLineString($geometry);
+        } elseif ($geometry instanceof Polygon) {
+            $type = 'POLYGON';
+            $data = self::writePolygon($geometry);
+        } elseif ($geometry instanceof MultiPoint) {
+            $type = 'MULTIPOINT';
+            $data = self::writeMultiPoint($geometry);
+        } elseif ($geometry instanceof MultiLineString) {
+            $type = 'MULTILINESTRING';
+            $data = self::writeMultiLineString($geometry);
+        } elseif ($geometry instanceof MultiPolygon) {
+            $type = 'MULTIPOLYGON';
+            $data = self::writeMultiPolygon($geometry);
+        } elseif ($geometry instanceof GeometryCollection) {
+            $type = 'GEOMETRYCOLLECTION';
+            $data = self::writeGeometryCollection($geometry);
+        } else {
+            throw GeometryException::unsupportedGeometryType($geometry);
         }
 
-        throw GeometryException::unsupportedGeometryType($geometry);
+        $z = $geometry->is3D();
+        $m = $geometry->isMeasured();
+
+        $wkt = $type . ' ';
+
+        if ($z) {
+            $wkt .= 'Z';
+        }
+        if ($m) {
+            $wkt .= 'M';
+        }
+
+        if ($z || $m) {
+            $wkt .= ' ';
+        }
+
+        $wkt .= '(' . $data . ')';
+
+        return $wkt;
     }
 
     /**
@@ -58,7 +79,17 @@ abstract class WktWriter
      */
     private static function writePoint(Point $point)
     {
-        return sprintf('%s %s', $point->x(), $point->y());
+        $result = $point->x() . ' ' . $point->y();
+
+        if (null !== $z = $point->z()) {
+            $result .= ' ' . $z;
+        }
+
+        if (null !== $m = $point->m()) {
+            $result .= ' ' . $m;
+        }
+
+        return $result;
     }
 
     /**
@@ -73,7 +104,7 @@ abstract class WktWriter
             $result[] = self::writePoint($point);
         }
 
-        return implode(',', $result);
+        return implode(', ', $result);
     }
 
     /**
@@ -88,7 +119,7 @@ abstract class WktWriter
             $result[] = '(' . self::writeLineString($ring) . ')';
         }
 
-        return implode(',', $result);
+        return implode(', ', $result);
     }
 
     /**
@@ -103,7 +134,7 @@ abstract class WktWriter
             $result[] = self::writePoint($point);
         }
 
-        return implode(',', $result);
+        return implode(', ', $result);
     }
 
     /**
@@ -118,7 +149,7 @@ abstract class WktWriter
             $result[] = '(' . self::writeLineString($lineString) . ')';
         }
 
-        return implode(',', $result);
+        return implode(', ', $result);
     }
 
     /**
@@ -133,7 +164,7 @@ abstract class WktWriter
             $result[] = '(' . self::writePolygon($polygon) . ')';
         }
 
-        return implode(',', $result);
+        return implode(', ', $result);
     }
 
     /**
@@ -148,6 +179,6 @@ abstract class WktWriter
             $result[] = self::write($geometry);
         }
 
-        return implode(',', $result);
+        return implode(', ', $result);
     }
 }
