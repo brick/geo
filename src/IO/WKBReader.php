@@ -82,10 +82,9 @@ abstract class WKBReader
      */
     private static function readPoint(WKBBuffer $buffer)
     {
-        $x = $buffer->readDouble();
-        $y = $buffer->readDouble();
+        $values = $buffer->readDoubles(2);
 
-        return Point::factory($x, $y);
+        return Point::factory($values[1], $values[2]);
     }
 
     /**

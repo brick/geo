@@ -108,15 +108,15 @@ class WKBBuffer
     }
 
     /**
-     * Reads a double-precision floating point value from the buffer.
+     * Reads double-precision floating point numbers from the buffer.
      *
-     * @return float
+     * @param integer $n The number of doubles to read.
+     *
+     * @return float[] A 1-based array containing the numbers.
      */
-    public function readDouble()
+    public function readDoubles($n)
     {
-        $data = unpack('ddouble', $this->read(8));
-
-        return $data['double'];
+        return unpack('d' . $n, $this->read(8 * $n));
     }
 
     /**
