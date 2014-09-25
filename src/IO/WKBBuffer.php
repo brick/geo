@@ -47,36 +47,72 @@ class WKBBuffer
     }
 
     /**
-     * Reads $length bytes from the buffer.
+     * Reads words from the buffer.
      *
-     * @param integer $length
+     * @param integer $words      The number of words to read.
+     * @param integer $wordLength The word length in bytes.
      *
      * @return string
      *
      * @throws \Brick\Geo\Exception\GeometryException
      */
-    private function read($length)
+    private function read($words, $wordLength)
     {
+        $length = $words * $wordLength;
+
         if ($this->position + $length > $this->length) {
-            throw GeometryException::invalidWkb();
+            throw GeometryException::invalidWkb('unexpected end of stream');
         }
 
-        $data = substr($this->wkb, $this->position, $length);
+        if ($length === 1) {
+            return $this->wkb[$this->position++];
+        }
+
+        if ($this->invert) {
+            $data = '';
+
+            for ($i = 0; $i < $words; $i++) {
+                $data .= strrev(substr($this->wkb, $this->position + $i * $wordLength, $wordLength));
+            }
+        } else {
+            $data = substr($this->wkb, $this->position, $length);
+        }
+
         $this->position += $length;
 
-        return $this->invert ? strrev($data) : $data;
+        return $data;
     }
 
     /**
-     * Reads one byte from the buffer.
+     * Reads an unsigned char (8 bit) integer from the buffer.
      *
      * @return integer
      */
-    private function readByte()
+    private function readUnsignedChar()
     {
-        $data = unpack('cbyte', $this->read(1));
+        return unpack('C', $this->read(1, 1))[1];
+    }
 
-        return $data['byte'];
+    /**
+     * Reads an unsigned long (32 bit) integer from the buffer.
+     *
+     * @return integer
+     */
+    public function readUnsignedLong()
+    {
+        return unpack('L', $this->read(1, 4))[1];
+    }
+
+    /**
+     * Reads double-precision floating point numbers from the buffer.
+     *
+     * @param integer $count The number of doubles to read.
+     *
+     * @return float[] A 1-based array containing the numbers.
+     */
+    public function readDoubles($count)
+    {
+        return unpack('d' . $count, $this->read($count, 8));
     }
 
     /**
@@ -86,37 +122,13 @@ class WKBBuffer
      */
     public function readByteOrder()
     {
-        $byteOrder = $this->readByte();
+        $byteOrder = $this->readUnsignedChar();
 
-        if ($byteOrder != WKBTools::BIG_ENDIAN && $byteOrder != WKBTools::LITTLE_ENDIAN) {
-            throw GeometryException::invalidWkb();
+        if ($byteOrder !== WKBTools::BIG_ENDIAN && $byteOrder !== WKBTools::LITTLE_ENDIAN) {
+            throw GeometryException::invalidWkb('unknown byte order: ' . $byteOrder);
         }
 
-        $this->invert = ($byteOrder != $this->machineByteOrder);
-    }
-
-    /**
-     * Reads an unsigned integer from the buffer.
-     *
-     * @return integer
-     */
-    public function readUnsignedInteger()
-    {
-        $data = unpack('Luint', $this->read(4));
-
-        return $data['uint'];
-    }
-
-    /**
-     * Reads double-precision floating point numbers from the buffer.
-     *
-     * @param integer $n The number of doubles to read.
-     *
-     * @return float[] A 1-based array containing the numbers.
-     */
-    public function readDoubles($n)
-    {
-        return unpack('d' . $n, $this->read(8 * $n));
+        $this->invert = ($byteOrder !== $this->machineByteOrder);
     }
 
     /**
@@ -126,6 +138,6 @@ class WKBBuffer
      */
     public function isEndOfStream()
     {
-        return $this->position == $this->length;
+        return $this->position === $this->length;
     }
 }

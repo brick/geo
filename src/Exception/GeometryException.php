@@ -38,11 +38,13 @@ class GeometryException extends \Exception
     }
 
     /**
+     * @param string $message
+     *
      * @return GeometryException
      */
-    public static function invalidWkb()
+    public static function invalidWkb($message)
     {
-        return new self('Invalid WKB.');
+        return new self('Invalid WKB: ' . $message);
     }
 
     /**
