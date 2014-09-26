@@ -52,8 +52,8 @@ class TriangleProxy extends \Brick\Geo\Triangle
     private function load()
     {
         $geometry = $this->isBinary
-            ? WKBReader::read($this->data)
-            : WKTReader::read($this->data);
+            ? (new WKBReader())->read($this->data)
+            : (new WKTReader())->read($this->data);
 
         if (! $geometry instanceof \Brick\Geo\Triangle) {
             throw GeometryException::unexpectedGeometryType(\Brick\Geo\Triangle::class, $geometry);

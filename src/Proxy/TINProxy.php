@@ -52,8 +52,8 @@ class TINProxy extends \Brick\Geo\TIN
     private function load()
     {
         $geometry = $this->isBinary
-            ? WKBReader::read($this->data)
-            : WKTReader::read($this->data);
+            ? (new WKBReader())->read($this->data)
+            : (new WKTReader())->read($this->data);
 
         if (! $geometry instanceof \Brick\Geo\TIN) {
             throw GeometryException::unexpectedGeometryType(\Brick\Geo\TIN::class, $geometry);

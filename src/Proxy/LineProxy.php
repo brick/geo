@@ -52,8 +52,8 @@ class LineProxy extends \Brick\Geo\Line
     private function load()
     {
         $geometry = $this->isBinary
-            ? WKBReader::read($this->data)
-            : WKTReader::read($this->data);
+            ? (new WKBReader())->read($this->data)
+            : (new WKTReader())->read($this->data);
 
         if (! $geometry instanceof \Brick\Geo\Line) {
             throw GeometryException::unexpectedGeometryType(\Brick\Geo\Line::class, $geometry);

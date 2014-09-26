@@ -52,7 +52,7 @@ abstract class Geometry
      */
     public static function fromText($wkt)
     {
-        $geometry = WKTReader::read($wkt);
+        $geometry = (new WKTReader())->read($wkt);
 
         if (! $geometry instanceof static) {
             throw GeometryException::unexpectedGeometryType(static::class, $geometry);
@@ -72,7 +72,7 @@ abstract class Geometry
      */
     public static function fromBinary($wkb)
     {
-        $geometry = WKBReader::read($wkb);
+        $geometry = (new WKBReader())->read($wkb);
 
         if (! $geometry instanceof static) {
             throw GeometryException::unexpectedGeometryType(static::class, $geometry);
@@ -182,7 +182,7 @@ abstract class Geometry
      */
     public function asText()
     {
-        return WKTWriter::write($this);
+        return (new WKTWriter())->write($this);
     }
 
     /**
@@ -194,7 +194,7 @@ abstract class Geometry
      */
     public function asBinary()
     {
-        return WKBWriter::write($this);
+        return (new WKBWriter())->write($this);
     }
 
     /**

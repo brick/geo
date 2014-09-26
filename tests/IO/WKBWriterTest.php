@@ -21,8 +21,14 @@ class WKBWriterTest extends AbstractTestCase
      */
     public function testWrite($wkt, $wkb, $byteOrder)
     {
-        $geometry = WKTReader::read($wkt);
-        $output = WKBWriter::write($geometry, $byteOrder);
+        $writer = new WKBWriter();
+        $writer->setByteOrder($byteOrder);
+
+        $reader = new WKTReader();
+
+        $geometry = $reader->read($wkt);
+        $output = $writer->write($geometry);
+
         $this->assertSame($wkb, bin2hex($output));
     }
 

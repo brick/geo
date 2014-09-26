@@ -28,7 +28,7 @@ class WKTReaderTest extends AbstractTestCase
     public function testReadPoint($wkt, array $coords, $is3D, $isMeasured)
     {
         /** @var Point $point */
-        $point = WKTReader::read($wkt);
+        $point = (new WKTReader())->read($wkt);
         $this->assertPointEquals($coords, $is3D, $isMeasured, $point);
     }
 
@@ -69,7 +69,7 @@ class WKTReaderTest extends AbstractTestCase
     public function testReadLineString($wkt, array $coords, $is3D, $isMeasured)
     {
         /** @var LineString $lineString */
-        $lineString = WKTReader::read($wkt);
+        $lineString = (new WKTReader())->read($wkt);
         $this->assertLineStringEquals($coords, $is3D, $isMeasured, $lineString);
     }
 
@@ -110,7 +110,7 @@ class WKTReaderTest extends AbstractTestCase
     public function testReadPolygon($wkt, array $coords, $is3D, $isMeasured)
     {
         /** @var Polygon $polygon */
-        $polygon = WKTReader::read($wkt);
+        $polygon = (new WKTReader())->read($wkt);
         $this->assertPolygonEquals($coords, $is3D, $isMeasured, $polygon);
     }
 
@@ -156,7 +156,7 @@ class WKTReaderTest extends AbstractTestCase
     public function testReadMultiPoint($wkt, array $coords, $is3D, $isMeasured)
     {
         /** @var MultiPoint $multiPoint */
-        $multiPoint = WKTReader::read($wkt);
+        $multiPoint = (new WKTReader())->read($wkt);
         $this->assertMultiPointEquals($coords, $is3D, $isMeasured, $multiPoint);
     }
 
@@ -197,7 +197,7 @@ class WKTReaderTest extends AbstractTestCase
     public function testReadMultiLineString($wkt, array $coords, $is3D, $isMeasured)
     {
         /** @var MultiLineString $multiLineString */
-        $multiLineString = WKTReader::read($wkt);
+        $multiLineString = (new WKTReader())->read($wkt);
         $this->assertMultiLineStringEquals($coords, $is3D, $isMeasured, $multiLineString);
     }
 
@@ -243,7 +243,7 @@ class WKTReaderTest extends AbstractTestCase
     public function testReadMultiPolygon($wkt, array $coords, $is3D, $isMeasured)
     {
         /** @var MultiPolygon $multiPolygon */
-        $multiPolygon = WKTReader::read($wkt);
+        $multiPolygon = (new WKTReader())->read($wkt);
         $this->assertMultiPolygonEquals($coords, $is3D, $isMeasured, $multiPolygon);
     }
 
@@ -288,7 +288,7 @@ class WKTReaderTest extends AbstractTestCase
     public function testReadGeometryCollection($wkt, $is3D, $isMeasured)
     {
         /** @var GeometryCollection $geometryCollection */
-        $geometryCollection = WKTReader::read($wkt);
+        $geometryCollection = (new WKTReader())->read($wkt);
 
         $a = [1, 2];
         $b = [2, 3];

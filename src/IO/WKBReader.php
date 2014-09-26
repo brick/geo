@@ -17,7 +17,7 @@ use Brick\Geo\TIN;
 /**
  * Builds geometries out of Well-Known Binary strings.
  */
-abstract class WKBReader
+class WKBReader
 {
     /**
      * @param string $wkb
@@ -26,10 +26,10 @@ abstract class WKBReader
      *
      * @throws \Brick\Geo\Exception\GeometryException
      */
-    public static function read($wkb)
+    public function read($wkb)
     {
         $buffer = new WKBBuffer($wkb);
-        $geometry = self::readGeometry($buffer);
+        $geometry = $this->readGeometry($buffer);
 
         if (! $buffer->isEndOfStream()) {
             throw GeometryException::invalidWkb('unexpected data at end of stream');
@@ -45,7 +45,7 @@ abstract class WKBReader
      *
      * @throws \Brick\Geo\Exception\GeometryException
      */
-    protected static function readGeometry(WKBBuffer $buffer)
+    protected function readGeometry(WKBBuffer $buffer)
     {
         $buffer->readByteOrder();
         $wkbType = $buffer->readUnsignedLong();
@@ -62,24 +62,24 @@ abstract class WKBReader
 
         switch ($geometryType) {
             case Geometry::POINT:
-                return self::readPoint($buffer, $is3D, $isMeasured);
+                return $this->readPoint($buffer, $is3D, $isMeasured);
             case Geometry::LINESTRING:
-                return self::readLineString($buffer, $is3D, $isMeasured);
+                return $this->readLineString($buffer, $is3D, $isMeasured);
             case Geometry::POLYGON:
             case Geometry::TRIANGLE:
-                return self::readPolygon($buffer, $is3D, $isMeasured);
+                return $this->readPolygon($buffer, $is3D, $isMeasured);
             case Geometry::MULTIPOINT:
-                return self::readMultiPoint($buffer, $is3D, $isMeasured);
+                return $this->readMultiPoint($buffer, $is3D, $isMeasured);
             case Geometry::MULTILINESTRING:
-                return self::readMultiLineString($buffer, $is3D, $isMeasured);
+                return $this->readMultiLineString($buffer, $is3D, $isMeasured);
             case Geometry::MULTIPOLYGON:
-                return self::readMultiPolygon($buffer, $is3D, $isMeasured);
+                return $this->readMultiPolygon($buffer, $is3D, $isMeasured);
             case Geometry::GEOMETRYCOLLECTION:
-                return self::readGeometryCollection($buffer, $is3D, $isMeasured);
+                return $this->readGeometryCollection($buffer, $is3D, $isMeasured);
             case Geometry::POLYHEDRALSURFACE:
-                return self::readPolyhedralSurface($buffer, $is3D, $isMeasured);
+                return $this->readPolyhedralSurface($buffer, $is3D, $isMeasured);
             case Geometry::TIN:
-                return self::readTIN($buffer, $is3D, $isMeasured);
+                return $this->readTIN($buffer, $is3D, $isMeasured);
         }
 
         throw GeometryException::unsupportedWkbType($wkbType);
@@ -92,7 +92,7 @@ abstract class WKBReader
      *
      * @return \Brick\Geo\Point
      */
-    private static function readPoint(WKBBuffer $buffer, $is3D, $isMeasured)
+    private function readPoint(WKBBuffer $buffer, $is3D, $isMeasured)
     {
         $count = 2 + ($is3D ? 1 : 0) + ($isMeasured ? 1 : 0);
         $values = $buffer->readDoubles($count);
@@ -117,13 +117,13 @@ abstract class WKBReader
      *
      * @return \Brick\Geo\LineString
      */
-    private static function readLineString(WKBBuffer $buffer, $is3D, $isMeasured)
+    private function readLineString(WKBBuffer $buffer, $is3D, $isMeasured)
     {
         $numPoints = $buffer->readUnsignedLong();
         $points = [];
 
         for ($i=0; $i<$numPoints; $i++) {
-            $points[] = self::readPoint($buffer, $is3D, $isMeasured);
+            $points[] = $this->readPoint($buffer, $is3D, $isMeasured);
         }
 
         return LineString::factory($points);
@@ -136,13 +136,13 @@ abstract class WKBReader
      *
      * @return \Brick\Geo\Polygon
      */
-    private static function readPolygon(WKBBuffer $buffer, $is3D, $isMeasured)
+    private function readPolygon(WKBBuffer $buffer, $is3D, $isMeasured)
     {
         $numRings = $buffer->readUnsignedLong();
         $rings = [];
 
         for ($i=0; $i<$numRings; $i++) {
-            $rings[] = self::readLineString($buffer, $is3D, $isMeasured);
+            $rings[] = $this->readLineString($buffer, $is3D, $isMeasured);
         }
 
         return Polygon::factory($rings);
@@ -155,13 +155,13 @@ abstract class WKBReader
      *
      * @return \Brick\Geo\MultiPoint
      */
-    private static function readMultiPoint(WKBBuffer $buffer, $is3D, $isMeasured)
+    private function readMultiPoint(WKBBuffer $buffer, $is3D, $isMeasured)
     {
         $numPoints = $buffer->readUnsignedLong();
         $points = [];
 
         for ($i=0; $i<$numPoints; $i++) {
-            $points[] = self::readGeometry($buffer, $is3D, $isMeasured);
+            $points[] = $this->readGeometry($buffer, $is3D, $isMeasured);
         }
 
         return MultiPoint::factory($points);
@@ -174,13 +174,13 @@ abstract class WKBReader
      *
      * @return \Brick\Geo\MultiLineString
      */
-    private static function readMultiLineString(WKBBuffer $buffer, $is3D, $isMeasured)
+    private function readMultiLineString(WKBBuffer $buffer, $is3D, $isMeasured)
     {
         $numLineStrings = $buffer->readUnsignedLong();
         $lineStrings = [];
 
         for ($i=0; $i<$numLineStrings; $i++) {
-            $lineStrings[] = self::readGeometry($buffer, $is3D, $isMeasured);
+            $lineStrings[] = $this->readGeometry($buffer, $is3D, $isMeasured);
         }
 
         return MultiLineString::factory($lineStrings);
@@ -193,13 +193,13 @@ abstract class WKBReader
      *
      * @return \Brick\Geo\MultiPolygon
      */
-    private static function readMultiPolygon(WKBBuffer $buffer, $is3D, $isMeasured)
+    private function readMultiPolygon(WKBBuffer $buffer, $is3D, $isMeasured)
     {
         $numPolygons = $buffer->readUnsignedLong();
         $polygons = [];
 
         for ($i=0; $i<$numPolygons; $i++) {
-            $polygons[] = self::readGeometry($buffer, $is3D, $isMeasured);
+            $polygons[] = $this->readGeometry($buffer, $is3D, $isMeasured);
         }
 
         return MultiPolygon::factory($polygons);
@@ -212,13 +212,13 @@ abstract class WKBReader
      *
      * @return \Brick\Geo\GeometryCollection
      */
-    private static function readGeometryCollection(WKBBuffer $buffer, $is3D, $isMeasured)
+    private function readGeometryCollection(WKBBuffer $buffer, $is3D, $isMeasured)
     {
         $numGeometries = $buffer->readUnsignedLong();
         $geometries = [];
 
         for ($i=0; $i<$numGeometries; $i++) {
-            $geometries[] = self::readGeometry($buffer, $is3D, $isMeasured);
+            $geometries[] = $this->readGeometry($buffer, $is3D, $isMeasured);
         }
 
         return GeometryCollection::factory($geometries);
@@ -231,13 +231,13 @@ abstract class WKBReader
      *
      * @return \Brick\Geo\PolyhedralSurface
      */
-    private static function readPolyhedralSurface(WKBBuffer $buffer, $is3D, $isMeasured)
+    private function readPolyhedralSurface(WKBBuffer $buffer, $is3D, $isMeasured)
     {
         $numPolygons = $buffer->readUnsignedLong();
         $polygons = [];
 
         for ($i=0; $i<$numPolygons; $i++) {
-            $polygons[] = self::readGeometry($buffer, $is3D, $isMeasured);
+            $polygons[] = $this->readGeometry($buffer, $is3D, $isMeasured);
         }
 
         return PolyhedralSurface::factory($polygons);
@@ -250,13 +250,13 @@ abstract class WKBReader
      *
      * @return \Brick\Geo\TIN
      */
-    private static function readTIN(WKBBuffer $buffer, $is3D, $isMeasured)
+    private function readTIN(WKBBuffer $buffer, $is3D, $isMeasured)
     {
         $numPolygons = $buffer->readUnsignedLong();
         $polygons = [];
 
         for ($i=0; $i<$numPolygons; $i++) {
-            $polygons[] = self::readGeometry($buffer, $is3D, $isMeasured);
+            $polygons[] = $this->readGeometry($buffer, $is3D, $isMeasured);
         }
 
         return TIN::factory($polygons);

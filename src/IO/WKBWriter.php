@@ -19,88 +19,112 @@ use Brick\Geo\TIN;
 /**
  * Converter class from Geometry to WKB.
  */
-abstract class WKBWriter
+class WKBWriter
 {
     /**
+     * The output byte order, BIG_ENDIAN or LITTLE_ENDIAN.
+     *
+     * @var integer
+     */
+    private $byteOrder;
+
+    /**
+     * @var integer
+     */
+    private $machineByteOrder;
+
+    /**
+     * @throws GeometryException
+     */
+    public function __construct()
+    {
+        $this->byteOrder = $this->machineByteOrder = WKBTools::getMachineByteOrder();
+    }
+
+    /**
+     * @param integer $byteOrder The byte order, one of the BIG_ENDIAN or LITTLE_ENDIAN constants.
+     *
+     * @return void
+     *
+     * @throws \InvalidArgumentException If the byte order is invalid.
+     */
+    public function setByteOrder($byteOrder)
+    {
+        WKBTools::checkByteOrder($byteOrder);
+        $this->byteOrder = $byteOrder;
+    }
+
+    /**
      * @param \Brick\Geo\Geometry $geometry
-     * @param integer|null        $byteOrder
      *
      * @return string
      *
      * @throws \Brick\Geo\Exception\GeometryException
      */
-    public static function write(Geometry $geometry, $byteOrder = null)
+    public function write(Geometry $geometry)
     {
-        if ($byteOrder === null) {
-            $byteOrder = WKBTools::getMachineByteOrder();
-        }
-
         if ($geometry instanceof Point) {
-            return self::writePoint($geometry, $byteOrder);
+            return $this->writePoint($geometry);
         }
         if ($geometry instanceof LineString) {
-            return self::writeLineString($geometry, $byteOrder);
+            return $this->writeLineString($geometry);
         }
         if ($geometry instanceof Polygon) {
-            return self::writePolygon($geometry, $byteOrder);
+            return $this->writePolygon($geometry);
         }
         if ($geometry instanceof MultiPoint) {
-            return self::writeMultiPoint($geometry, $byteOrder);
+            return $this->writeMultiPoint($geometry);
         }
         if ($geometry instanceof MultiLineString) {
-            return self::writeMultiLineString($geometry, $byteOrder);
+            return $this->writeMultiLineString($geometry);
         }
         if ($geometry instanceof MultiPolygon) {
-            return self::writeMultiPolygon($geometry, $byteOrder);
+            return $this->writeMultiPolygon($geometry);
         }
         if ($geometry instanceof GeometryCollection) {
-            return self::writeGeometryCollection($geometry, $byteOrder);
+            return $this->writeGeometryCollection($geometry);
         }
         if ($geometry instanceof PolyhedralSurface) {
-            return self::writePolyhedralSurface($geometry, $byteOrder);
+            return $this->writePolyhedralSurface($geometry);
         }
         if ($geometry instanceof TIN) {
-            return self::writeTIN($geometry, $byteOrder);
+            return $this->writeTIN($geometry);
         }
         if ($geometry instanceof Triangle) {
-            return self::writeTriangle($geometry, $byteOrder);
+            return $this->writeTriangle($geometry);
         }
 
         throw GeometryException::unsupportedGeometryType($geometry);
     }
 
     /**
-     * @param integer $byte
-     *
      * @return string
      */
-    private static function packByte($byte)
+    private function packByteOrder()
     {
-        return pack('C', $byte);
+        return pack('C', $this->byteOrder);
     }
 
     /**
      * @param integer $uint
-     * @param integer $byteOrder
      *
      * @return string
      */
-    private static function packUnsignedInteger($uint, $byteOrder)
+    private function packUnsignedInteger($uint)
     {
-        return pack($byteOrder === WKBTools::BIG_ENDIAN ? 'N' : 'V', $uint);
+        return pack($this->byteOrder === WKBTools::BIG_ENDIAN ? 'N' : 'V', $uint);
     }
 
     /**
-     * @param float   $double
-     * @param integer $byteOrder
+     * @param float $double
      *
      * @return string
      */
-    private static function packDouble($double, $byteOrder)
+    private function packDouble($double)
     {
         $binary = pack('d', $double);
 
-        if ($byteOrder !== WKBTools::getMachineByteOrder()) {
+        if ($this->byteOrder !== $this->machineByteOrder) {
             return strrev($binary);
         }
 
@@ -110,11 +134,10 @@ abstract class WKBWriter
     /**
      * @param integer  $geometryType
      * @param Geometry $geometry
-     * @param integer  $byteOrder
      *
      * @return string
      */
-    private static function packGeometryTypeZM($geometryType, Geometry $geometry, $byteOrder)
+    private function packGeometryTypeZM($geometryType, Geometry $geometry)
     {
         if ($geometry->is3D()) {
             $geometryType += 1000;
@@ -124,24 +147,23 @@ abstract class WKBWriter
             $geometryType += 2000;
         }
 
-        return self::packUnsignedInteger($geometryType, $byteOrder);
+        return $this->packUnsignedInteger($geometryType);
     }
 
     /**
      * @param \Brick\Geo\Point $point
-     * @param integer          $byteOrder
      *
      * @return string
      */
-    private static function packPoint(Point $point, $byteOrder)
+    private function packPoint(Point $point)
     {
-        $binary = self::packDouble($point->x(), $byteOrder) . self::packDouble($point->y(), $byteOrder);
+        $binary = $this->packDouble($point->x()) . $this->packDouble($point->y());
 
         if (null !== $z = $point->z()) {
-            $binary .= self::packDouble($z, $byteOrder);
+            $binary .= $this->packDouble($z);
         }
         if (null !== $m = $point->m()) {
-            $binary .= self::packDouble($m, $byteOrder);
+            $binary .= $this->packDouble($m);
         }
 
         return $binary;
@@ -149,16 +171,15 @@ abstract class WKBWriter
 
     /**
      * @param \Brick\Geo\LineString $lineString
-     * @param integer               $byteOrder
      *
      * @return string
      */
-    private static function packLineString(LineString $lineString, $byteOrder)
+    private function packLineString(LineString $lineString)
     {
-        $wkb = self::packUnsignedInteger($lineString->count(), $byteOrder);
+        $wkb = $this->packUnsignedInteger($lineString->count());
 
         foreach ($lineString as $point) {
-            $wkb .= self::packPoint($point, $byteOrder);
+            $wkb .= $this->packPoint($point);
         }
 
         return $wkb;
@@ -166,48 +187,45 @@ abstract class WKBWriter
 
     /**
      * @param \Brick\Geo\Point $point
-     * @param integer          $byteOrder
      *
      * @return string
      */
-    private static function writePoint(Point $point, $byteOrder)
+    private function writePoint(Point $point)
     {
-        $wkb = self::packByte($byteOrder);
-        $wkb.= self::packGeometryTypeZM(Geometry::POINT, $point, $byteOrder);
-        $wkb.= self::packPoint($point, $byteOrder);
+        $wkb = $this->packByteOrder();
+        $wkb.= $this->packGeometryTypeZM(Geometry::POINT, $point);
+        $wkb.= $this->packPoint($point);
 
         return $wkb;
     }
 
     /**
      * @param \Brick\Geo\LineString $lineString
-     * @param integer               $byteOrder
      *
      * @return string
      */
-    private static function writeLineString(LineString $lineString, $byteOrder)
+    private function writeLineString(LineString $lineString)
     {
-        $wkb = self::packByte($byteOrder);
-        $wkb.= self::packGeometryTypeZM(Geometry::LINESTRING, $lineString, $byteOrder);
-        $wkb.= self::packLineString($lineString, $byteOrder);
+        $wkb = $this->packByteOrder();
+        $wkb.= $this->packGeometryTypeZM(Geometry::LINESTRING, $lineString);
+        $wkb.= $this->packLineString($lineString);
 
         return $wkb;
     }
 
     /**
      * @param \Brick\Geo\Polygon $polygon
-     * @param integer            $byteOrder
      *
      * @return string
      */
-    private static function writePolygon(Polygon $polygon, $byteOrder)
+    private function writePolygon(Polygon $polygon)
     {
-        $wkb = self::packByte($byteOrder);
-        $wkb.= self::packGeometryTypeZM(Geometry::POLYGON, $polygon, $byteOrder);
-        $wkb.= self::packUnsignedInteger($polygon->count(), $byteOrder);
+        $wkb = $this->packByteOrder();
+        $wkb.= $this->packGeometryTypeZM(Geometry::POLYGON, $polygon);
+        $wkb.= $this->packUnsignedInteger($polygon->count());
 
         foreach ($polygon as $ring) {
-            $wkb .= self::packLineString($ring, $byteOrder);
+            $wkb .= $this->packLineString($ring);
         }
 
         return $wkb;
@@ -215,18 +233,17 @@ abstract class WKBWriter
 
     /**
      * @param \Brick\Geo\Triangle $triangle
-     * @param integer             $byteOrder
      *
      * @return string
      */
-    private static function writeTriangle(Triangle $triangle, $byteOrder)
+    private function writeTriangle(Triangle $triangle)
     {
-        $wkb = self::packByte($byteOrder);
-        $wkb.= self::packGeometryTypeZM(Geometry::TRIANGLE, $triangle, $byteOrder);
-        $wkb.= self::packUnsignedInteger($triangle->count(), $byteOrder);
+        $wkb = $this->packByteOrder();
+        $wkb.= $this->packGeometryTypeZM(Geometry::TRIANGLE, $triangle);
+        $wkb.= $this->packUnsignedInteger($triangle->count());
 
         foreach ($triangle as $ring) {
-            $wkb .= self::packLineString($ring, $byteOrder);
+            $wkb .= $this->packLineString($ring);
         }
 
         return $wkb;
@@ -234,18 +251,17 @@ abstract class WKBWriter
 
     /**
      * @param \Brick\Geo\MultiPoint $multiPoint
-     * @param integer               $byteOrder
      *
      * @return string
      */
-    private static function writeMultiPoint(MultiPoint $multiPoint, $byteOrder)
+    private function writeMultiPoint(MultiPoint $multiPoint)
     {
-        $wkb = self::packByte($byteOrder);
-        $wkb.= self::packGeometryTypeZM(Geometry::MULTIPOINT, $multiPoint, $byteOrder);
-        $wkb.= self::packUnsignedInteger($multiPoint->count(), $byteOrder);
+        $wkb = $this->packByteOrder();
+        $wkb.= $this->packGeometryTypeZM(Geometry::MULTIPOINT, $multiPoint);
+        $wkb.= $this->packUnsignedInteger($multiPoint->count());
 
         foreach ($multiPoint as $point) {
-            $wkb .= self::writePoint($point, $byteOrder);
+            $wkb .= $this->writePoint($point);
         }
 
         return $wkb;
@@ -253,18 +269,17 @@ abstract class WKBWriter
 
     /**
      * @param \Brick\Geo\MultiLineString $multiLineString
-     * @param integer                    $byteOrder
      *
      * @return string
      */
-    private static function writeMultiLineString(MultiLineString $multiLineString, $byteOrder)
+    private function writeMultiLineString(MultiLineString $multiLineString)
     {
-        $wkb = self::packByte($byteOrder);
-        $wkb.= self::packGeometryTypeZM(Geometry::MULTILINESTRING, $multiLineString, $byteOrder);
-        $wkb.= self::packUnsignedInteger($multiLineString->count(), $byteOrder);
+        $wkb = $this->packByteOrder();
+        $wkb.= $this->packGeometryTypeZM(Geometry::MULTILINESTRING, $multiLineString);
+        $wkb.= $this->packUnsignedInteger($multiLineString->count());
 
         foreach ($multiLineString as $lineString) {
-            $wkb .= self::writeLineString($lineString, $byteOrder);
+            $wkb .= $this->writeLineString($lineString);
         }
 
         return $wkb;
@@ -272,18 +287,17 @@ abstract class WKBWriter
 
     /**
      * @param \Brick\Geo\MultiPolygon $multiPolygon
-     * @param integer                 $byteOrder
      *
      * @return string
      */
-    private static function writeMultiPolygon(MultiPolygon $multiPolygon, $byteOrder)
+    private function writeMultiPolygon(MultiPolygon $multiPolygon)
     {
-        $wkb = self::packByte($byteOrder);
-        $wkb.= self::packGeometryTypeZM(Geometry::MULTIPOLYGON, $multiPolygon, $byteOrder);
-        $wkb.= self::packUnsignedInteger($multiPolygon->count(), $byteOrder);
+        $wkb = $this->packByteOrder();
+        $wkb.= $this->packGeometryTypeZM(Geometry::MULTIPOLYGON, $multiPolygon);
+        $wkb.= $this->packUnsignedInteger($multiPolygon->count());
 
         foreach ($multiPolygon as $polygon) {
-            $wkb .= self::writePolygon($polygon, $byteOrder);
+            $wkb .= $this->writePolygon($polygon);
         }
 
         return $wkb;
@@ -291,18 +305,17 @@ abstract class WKBWriter
 
     /**
      * @param \Brick\Geo\GeometryCollection $collection
-     * @param integer                       $byteOrder
      *
      * @return string
      */
-    private static function writeGeometryCollection(GeometryCollection $collection, $byteOrder)
+    private function writeGeometryCollection(GeometryCollection $collection)
     {
-        $wkb = self::packByte($byteOrder);
-        $wkb.= self::packGeometryTypeZM(Geometry::GEOMETRYCOLLECTION, $collection, $byteOrder);
-        $wkb.= self::packUnsignedInteger($collection->count(), $byteOrder);
+        $wkb = $this->packByteOrder();
+        $wkb.= $this->packGeometryTypeZM(Geometry::GEOMETRYCOLLECTION, $collection);
+        $wkb.= $this->packUnsignedInteger($collection->count());
 
         foreach ($collection as $geometry) {
-            $wkb .= self::write($geometry, $byteOrder);
+            $wkb .= $this->write($geometry);
         }
 
         return $wkb;
@@ -310,18 +323,17 @@ abstract class WKBWriter
 
     /**
      * @param \Brick\Geo\PolyhedralSurface $surface
-     * @param integer                      $byteOrder
      *
      * @return string
      */
-    private static function writePolyhedralSurface(PolyhedralSurface $surface, $byteOrder)
+    private function writePolyhedralSurface(PolyhedralSurface $surface)
     {
-        $wkb = self::packByte($byteOrder);
-        $wkb.= self::packGeometryTypeZM(Geometry::POLYHEDRALSURFACE, $surface, $byteOrder);
-        $wkb.= self::packUnsignedInteger($surface->count(), $byteOrder);
+        $wkb = $this->packByteOrder();
+        $wkb.= $this->packGeometryTypeZM(Geometry::POLYHEDRALSURFACE, $surface);
+        $wkb.= $this->packUnsignedInteger($surface->count());
 
         foreach ($surface as $polygon) {
-            $wkb .= self::writePolygon($polygon, $byteOrder);
+            $wkb .= $this->writePolygon($polygon);
         }
 
         return $wkb;
@@ -329,18 +341,17 @@ abstract class WKBWriter
 
     /**
      * @param \Brick\Geo\TIN $tin
-     * @param integer        $byteOrder
      *
      * @return string
      */
-    private static function writeTIN(TIN $tin, $byteOrder)
+    private function writeTIN(TIN $tin)
     {
-        $wkb = self::packByte($byteOrder);
-        $wkb.= self::packGeometryTypeZM(Geometry::TIN, $tin, $byteOrder);
-        $wkb.= self::packUnsignedInteger($tin->count(), $byteOrder);
+        $wkb = $this->packByteOrder();
+        $wkb.= $this->packGeometryTypeZM(Geometry::TIN, $tin);
+        $wkb.= $this->packUnsignedInteger($tin->count());
 
         foreach ($tin as $polygon) {
-            $wkb .= self::writePolygon($polygon, $byteOrder);
+            $wkb .= $this->writePolygon($polygon);
         }
 
         return $wkb;

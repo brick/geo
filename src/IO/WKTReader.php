@@ -14,7 +14,7 @@ use Brick\Geo\Exception\GeometryException;
 /**
  * Builds geometries out of Well-Known Text strings.
  */
-abstract class WKTReader
+class WKTReader
 {
     /**
      * @param string $wkt
@@ -23,10 +23,10 @@ abstract class WKTReader
      *
      * @throws GeometryException
      */
-    public static function read($wkt)
+    public function read($wkt)
     {
         $parser = new WKTParser(strtoupper($wkt));
-        $geometry = self::readGeometry($parser);
+        $geometry = $this->readGeometry($parser);
 
         if (! $parser->isEndOfStream()) {
             throw GeometryException::invalidWkt();
@@ -42,7 +42,7 @@ abstract class WKTReader
      *
      * @throws \Brick\Geo\Exception\GeometryException
      */
-    public static function readGeometry(WKTParser $parser)
+    public function readGeometry(WKTParser $parser)
     {
         $geometryType = $parser->getNextWord();
         $zm = $parser->getOptionalNextWord();
@@ -65,19 +65,19 @@ abstract class WKTReader
 
         switch ($geometryType) {
             case 'POINT':
-                return self::readPointText($parser, $is3D, $isMeasured);
+                return $this->readPointText($parser, $is3D, $isMeasured);
             case 'LINESTRING':
-                return self::readLineStringText($parser, $is3D, $isMeasured);
+                return $this->readLineStringText($parser, $is3D, $isMeasured);
             case 'POLYGON':
-                return self::readPolygonText($parser, $is3D, $isMeasured);
+                return $this->readPolygonText($parser, $is3D, $isMeasured);
             case 'MULTIPOINT':
-                return self::readMultiPointText($parser, $is3D, $isMeasured);
+                return $this->readMultiPointText($parser, $is3D, $isMeasured);
             case 'MULTILINESTRING':
-                return self::readMultiLineStringText($parser, $is3D, $isMeasured);
+                return $this->readMultiLineStringText($parser, $is3D, $isMeasured);
             case 'MULTIPOLYGON':
-                return self::readMultiPolygonText($parser, $is3D, $isMeasured);
+                return $this->readMultiPolygonText($parser, $is3D, $isMeasured);
             case 'GEOMETRYCOLLECTION':
-                return self::readGeometryCollectionText($parser, $is3D, $isMeasured);
+                return $this->readGeometryCollectionText($parser, $is3D, $isMeasured);
         }
 
         throw new GeometryException('Unknown geometry type: ' . $geometryType);
@@ -92,7 +92,7 @@ abstract class WKTReader
      *
      * @return \Brick\Geo\Point
      */
-    private static function readPoint(WKTParser $parser, $is3D, $isMeasured)
+    private function readPoint(WKTParser $parser, $is3D, $isMeasured)
     {
         $x = $parser->getNextNumber();
         $y = $parser->getNextNumber();
@@ -112,10 +112,10 @@ abstract class WKTReader
      *
      * @return \Brick\Geo\Point
      */
-    private static function readPointText(WKTParser $parser, $is3D, $isMeasured)
+    private function readPointText(WKTParser $parser, $is3D, $isMeasured)
     {
         $parser->matchOpener();
-        $point = self::readPoint($parser, $is3D, $isMeasured);
+        $point = $this->readPoint($parser, $is3D, $isMeasured);
         $parser->matchCloser();
 
         return $point;
@@ -130,13 +130,13 @@ abstract class WKTReader
      *
      * @return \Brick\Geo\Point[]
      */
-    private static function readMultiPoint(WKTParser $parser, $is3D, $isMeasured)
+    private function readMultiPoint(WKTParser $parser, $is3D, $isMeasured)
     {
         $parser->matchOpener();
         $points = [];
 
         do {
-            $points[] = self::readPoint($parser, $is3D, $isMeasured);
+            $points[] = $this->readPoint($parser, $is3D, $isMeasured);
             $nextToken = $parser->getNextCloserOrComma();
         } while ($nextToken === ',');
 
@@ -152,9 +152,9 @@ abstract class WKTReader
      *
      * @return \Brick\Geo\LineString
      */
-    private static function readLineStringText(WKTParser $parser, $is3D, $isMeasured)
+    private function readLineStringText(WKTParser $parser, $is3D, $isMeasured)
     {
-        $points = self::readMultiPoint($parser, $is3D, $isMeasured);
+        $points = $this->readMultiPoint($parser, $is3D, $isMeasured);
 
         return LineString::factory($points);
     }
@@ -168,9 +168,9 @@ abstract class WKTReader
      *
      * @return \Brick\Geo\MultiPoint
      */
-    private static function readMultiPointText(WKTParser $parser, $is3D, $isMeasured)
+    private function readMultiPointText(WKTParser $parser, $is3D, $isMeasured)
     {
-        $points = self::readMultiPoint($parser, $is3D, $isMeasured);
+        $points = $this->readMultiPoint($parser, $is3D, $isMeasured);
 
         return MultiPoint::factory($points);
     }
@@ -184,13 +184,13 @@ abstract class WKTReader
      *
      * @return \Brick\Geo\LineString[]
      */
-    private static function readMultiLineString(WKTParser $parser, $is3D, $isMeasured)
+    private function readMultiLineString(WKTParser $parser, $is3D, $isMeasured)
     {
         $parser->matchOpener();
         $lineStrings = [];
 
         do {
-            $lineStrings[] = self::readLineStringText($parser, $is3D, $isMeasured);
+            $lineStrings[] = $this->readLineStringText($parser, $is3D, $isMeasured);
             $nextToken = $parser->getNextCloserOrComma();
         } while ($nextToken === ',');
 
@@ -206,9 +206,9 @@ abstract class WKTReader
      *
      * @return \Brick\Geo\Polygon
      */
-    private static function readPolygonText(WKTParser $parser, $is3D, $isMeasured)
+    private function readPolygonText(WKTParser $parser, $is3D, $isMeasured)
     {
-        $rings = self::readMultiLineString($parser, $is3D, $isMeasured);
+        $rings = $this->readMultiLineString($parser, $is3D, $isMeasured);
 
         return Polygon::factory($rings);
     }
@@ -222,9 +222,9 @@ abstract class WKTReader
      *
      * @return \Brick\Geo\MultiLineString
      */
-    private static function readMultiLineStringText(WKTParser $parser, $is3D, $isMeasured)
+    private function readMultiLineStringText(WKTParser $parser, $is3D, $isMeasured)
     {
-        $rings = self::readMultiLineString($parser, $is3D, $isMeasured);
+        $rings = $this->readMultiLineString($parser, $is3D, $isMeasured);
 
         return MultiLineString::factory($rings);
     }
@@ -238,13 +238,13 @@ abstract class WKTReader
      *
      * @return \Brick\Geo\MultiPolygon
      */
-    private static function readMultiPolygonText(WKTParser $parser, $is3D, $isMeasured)
+    private function readMultiPolygonText(WKTParser $parser, $is3D, $isMeasured)
     {
         $parser->matchOpener();
         $polygons = [];
 
         do {
-            $polygons[] = self::readPolygonText($parser, $is3D, $isMeasured);
+            $polygons[] = $this->readPolygonText($parser, $is3D, $isMeasured);
             $nextToken = $parser->getNextCloserOrComma();
         } while ($nextToken === ',');
 
@@ -260,13 +260,13 @@ abstract class WKTReader
      *
      * @throws GeometryException
      */
-    private static function readGeometryCollectionText(WKTParser $parser, $is3D, $isMeasured)
+    private function readGeometryCollectionText(WKTParser $parser, $is3D, $isMeasured)
     {
         $parser->matchOpener();
         $geometries = [];
 
         do {
-            $geometry = self::readGeometry($parser);
+            $geometry = $this->readGeometry($parser);
 
             if ($geometry->is3D() !== $is3D || $geometry->isMeasured() !== $isMeasured) {
                 throw GeometryException::collectionDimensionalityMix($is3D, $isMeasured, $geometry);

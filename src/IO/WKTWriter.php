@@ -15,7 +15,7 @@ use Brick\Geo\GeometryCollection;
 /**
  * Converter class from Geometry to WKT.
  */
-abstract class WKTWriter
+class WKTWriter
 {
     /**
      * @param \Brick\Geo\Geometry $geometry
@@ -24,29 +24,29 @@ abstract class WKTWriter
      *
      * @throws \Brick\Geo\Exception\GeometryException
      */
-    public static function write(Geometry $geometry)
+    public function write(Geometry $geometry)
     {
         if ($geometry instanceof Point) {
             $type = 'POINT';
-            $data = self::writePoint($geometry);
+            $data = $this->writePoint($geometry);
         } elseif ($geometry instanceof LineString) {
             $type = 'LINESTRING';
-            $data = self::writeLineString($geometry);
+            $data = $this->writeLineString($geometry);
         } elseif ($geometry instanceof Polygon) {
             $type = 'POLYGON';
-            $data = self::writePolygon($geometry);
+            $data = $this->writePolygon($geometry);
         } elseif ($geometry instanceof MultiPoint) {
             $type = 'MULTIPOINT';
-            $data = self::writeMultiPoint($geometry);
+            $data = $this->writeMultiPoint($geometry);
         } elseif ($geometry instanceof MultiLineString) {
             $type = 'MULTILINESTRING';
-            $data = self::writeMultiLineString($geometry);
+            $data = $this->writeMultiLineString($geometry);
         } elseif ($geometry instanceof MultiPolygon) {
             $type = 'MULTIPOLYGON';
-            $data = self::writeMultiPolygon($geometry);
+            $data = $this->writeMultiPolygon($geometry);
         } elseif ($geometry instanceof GeometryCollection) {
             $type = 'GEOMETRYCOLLECTION';
-            $data = self::writeGeometryCollection($geometry);
+            $data = $this->writeGeometryCollection($geometry);
         } else {
             throw GeometryException::unsupportedGeometryType($geometry);
         }
@@ -77,7 +77,7 @@ abstract class WKTWriter
      *
      * @return string
      */
-    private static function writePoint(Point $point)
+    private function writePoint(Point $point)
     {
         $result = $point->x() . ' ' . $point->y();
 
@@ -97,11 +97,11 @@ abstract class WKTWriter
      *
      * @return string
      */
-    private static function writeLineString(LineString $lineString)
+    private function writeLineString(LineString $lineString)
     {
         $result = [];
         foreach ($lineString as $point) {
-            $result[] = self::writePoint($point);
+            $result[] = $this->writePoint($point);
         }
 
         return implode(', ', $result);
@@ -112,11 +112,11 @@ abstract class WKTWriter
      *
      * @return string
      */
-    private static function writePolygon(Polygon $polygon)
+    private function writePolygon(Polygon $polygon)
     {
         $result = [];
         foreach ($polygon as $ring) {
-            $result[] = '(' . self::writeLineString($ring) . ')';
+            $result[] = '(' . $this->writeLineString($ring) . ')';
         }
 
         return implode(', ', $result);
@@ -127,11 +127,11 @@ abstract class WKTWriter
      *
      * @return string
      */
-    private static function writeMultiPoint(MultiPoint $multiPoint)
+    private function writeMultiPoint(MultiPoint $multiPoint)
     {
         $result = [];
         foreach ($multiPoint as $point) {
-            $result[] = self::writePoint($point);
+            $result[] = $this->writePoint($point);
         }
 
         return implode(', ', $result);
@@ -142,11 +142,11 @@ abstract class WKTWriter
      *
      * @return string
      */
-    private static function writeMultiLineString(MultiLineString $multiLineString)
+    private function writeMultiLineString(MultiLineString $multiLineString)
     {
         $result = [];
         foreach ($multiLineString as $lineString) {
-            $result[] = '(' . self::writeLineString($lineString) . ')';
+            $result[] = '(' . $this->writeLineString($lineString) . ')';
         }
 
         return implode(', ', $result);
@@ -157,11 +157,11 @@ abstract class WKTWriter
      *
      * @return string
      */
-    private static function writeMultiPolygon(MultiPolygon $multiPolygon)
+    private function writeMultiPolygon(MultiPolygon $multiPolygon)
     {
         $result = [];
         foreach ($multiPolygon as $polygon) {
-            $result[] = '(' . self::writePolygon($polygon) . ')';
+            $result[] = '(' . $this->writePolygon($polygon) . ')';
         }
 
         return implode(', ', $result);
@@ -172,11 +172,11 @@ abstract class WKTWriter
      *
      * @return string
      */
-    private static function writeGeometryCollection(GeometryCollection $collection)
+    private function writeGeometryCollection(GeometryCollection $collection)
     {
         $result = [];
         foreach ($collection as $geometry) {
-            $result[] = self::write($geometry);
+            $result[] = $this->write($geometry);
         }
 
         return implode(', ', $result);

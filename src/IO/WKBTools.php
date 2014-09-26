@@ -5,11 +5,11 @@ namespace Brick\Geo\IO;
 use Brick\Geo\Exception\GeometryException;
 
 /**
- * Helper class for WKB calculations.
+ * Tools for WKB classes.
  */
 abstract class WKBTools
 {
-    const BIG_ENDIAN = 0;
+    const BIG_ENDIAN    = 0;
     const LITTLE_ENDIAN = 1;
 
     /**
@@ -19,8 +19,22 @@ abstract class WKBTools
      */
     private static function checkDoubleIs64Bit()
     {
-        if (strlen(pack('d', 0.0)) != 8) {
-            throw new GeometryException('The double type is not 64 bit on this platform');
+        if (strlen(pack('d', 0.0)) !== 8) {
+            throw new GeometryException('The double type is not 64 bit on this platform.');
+        }
+    }
+
+    /**
+     * @param integer $byteOrder
+     *
+     * @return void
+     *
+     * @throws \InvalidArgumentException
+     */
+    public static function checkByteOrder($byteOrder)
+    {
+        if ($byteOrder !== self::BIG_ENDIAN && $byteOrder !== self::LITTLE_ENDIAN) {
+            throw new \InvalidArgumentException('Invalid byte order: ' . var_export($byteOrder, true));
         }
     }
 
@@ -33,15 +47,25 @@ abstract class WKBTools
      */
     public static function getMachineByteOrder()
     {
-        self::checkDoubleIs64Bit();
+        static $byteOrder;
 
-        switch (pack('L', 0x61626364)) {
-            case 'abcd':
-                return self::BIG_ENDIAN;
-            case 'dcba':
-                return self::LITTLE_ENDIAN;
+        if ($byteOrder === null) {
+            self::checkDoubleIs64Bit();
+
+            switch (pack('L', 0x61626364)) {
+                case 'abcd':
+                    $byteOrder = self::BIG_ENDIAN;
+                    break;
+
+                case 'dcba':
+                    $byteOrder = self::LITTLE_ENDIAN;
+                    break;
+
+                default:
+                    throw GeometryException::unsupportedPlatform();
+            }
         }
 
-        throw GeometryException::unsupportedPlatform();
+        return $byteOrder;
     }
 }

@@ -20,7 +20,7 @@ class WKTWriterTest extends AbstractTestCase
     public function testWritePoint(array $coords, $wkt)
     {
         $point = self::createPoint($coords);
-        $this->assertSame($wkt, WKTWriter::write($point));
+        $this->assertSame($wkt, (new WKTWriter())->write($point));
     }
 
     /**
@@ -45,7 +45,7 @@ class WKTWriterTest extends AbstractTestCase
     public function testWriteLineString(array $coords, $wkt)
     {
         $lineString = self::createLineString($coords);
-        $this->assertSame($wkt, WKTWriter::write($lineString));
+        $this->assertSame($wkt, (new WKTWriter())->write($lineString));
     }
 
     /**
@@ -70,7 +70,7 @@ class WKTWriterTest extends AbstractTestCase
     public function testWritePolygon(array $coords, $wkt)
     {
         $polygon = self::createPolygon($coords);
-        $this->assertSame($wkt, WKTWriter::write($polygon));
+        $this->assertSame($wkt, (new WKTWriter())->write($polygon));
     }
 
     /**
@@ -100,7 +100,7 @@ class WKTWriterTest extends AbstractTestCase
     public function testWriteMultiPoint(array $coords, $wkt)
     {
         $multiPoint = self::createMultiPoint($coords);
-        $this->assertSame($wkt, WKTWriter::write($multiPoint));
+        $this->assertSame($wkt, (new WKTWriter())->write($multiPoint));
     }
 
     /**
@@ -125,7 +125,7 @@ class WKTWriterTest extends AbstractTestCase
     public function testWriteMultiLineString(array $coords, $wkt)
     {
         $multiLineString = self::createMultiLineString($coords);
-        $this->assertSame($wkt, WKTWriter::write($multiLineString));
+        $this->assertSame($wkt, (new WKTWriter())->write($multiLineString));
     }
 
     /**
@@ -155,7 +155,7 @@ class WKTWriterTest extends AbstractTestCase
     public function testWriteMultiPolygon(array $coords, $wkt)
     {
         $multiPolygon = self::createMultiPolygon($coords);
-        $this->assertSame($wkt, WKTWriter::write($multiPolygon));
+        $this->assertSame($wkt, (new WKTWriter())->write($multiPolygon));
     }
 
     /**
@@ -179,9 +179,9 @@ class WKTWriterTest extends AbstractTestCase
     /**
      * @dataProvider providerWriteGeometryCollection
      *
-     * @param boolean $is3D   Whether to include Z-coordinates.
-     * @param boolean $isMeasured   Whether to include M-coordinates.
-     * @param string  $wkt The expected WKT.
+     * @param boolean $is3D       Whether to include Z-coordinates.
+     * @param boolean $isMeasured Whether to include M-coordinates.
+     * @param string  $wkt        The expected WKT.
      */
     public function testWriteGeometryCollection($is3D, $isMeasured, $wkt)
     {
@@ -193,7 +193,7 @@ class WKTWriterTest extends AbstractTestCase
         $lineString = self::createLineString([$b, $c]);
 
         $geometryCollection = GeometryCollection::factory([$point, $lineString]);
-        $this->assertSame($wkt, WKTWriter::write($geometryCollection));
+        $this->assertSame($wkt, (new WKTWriter())->write($geometryCollection));
     }
 
     /**

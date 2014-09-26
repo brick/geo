@@ -52,8 +52,8 @@ class MultiPointProxy extends \Brick\Geo\MultiPoint
     private function load()
     {
         $geometry = $this->isBinary
-            ? WKBReader::read($this->data)
-            : WKTReader::read($this->data);
+            ? (new WKBReader())->read($this->data)
+            : (new WKTReader())->read($this->data);
 
         if (! $geometry instanceof \Brick\Geo\MultiPoint) {
             throw GeometryException::unexpectedGeometryType(\Brick\Geo\MultiPoint::class, $geometry);
