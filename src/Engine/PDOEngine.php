@@ -14,7 +14,7 @@ class PDOEngine extends DatabaseEngine
      *
      * @var \PDO
      */
-    protected $pdo;
+    private $pdo;
 
     /**
      * Class constructor.
