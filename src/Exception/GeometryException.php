@@ -108,13 +108,14 @@ class GeometryException extends \Exception
     /**
      * @param boolean  $is3D
      * @param boolean  $isMeasured
+     * @param integer  $srid
      * @param Geometry $geometry
      *
      * @return GeometryException
      */
-    public static function collectionDimensionalityMix($is3D, $isMeasured, Geometry $geometry)
+    public static function collectionDimensionalityMix($is3D, $isMeasured, $srid, Geometry $geometry)
     {
-        return self::dimensionalityMix(self::geometryType('GeometryCollection', $is3D, $isMeasured, 0), $geometry);
+        return self::dimensionalityMix(self::geometryType('GeometryCollection', $is3D, $isMeasured, $srid), $geometry);
     }
 
     /**

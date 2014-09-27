@@ -28,8 +28,8 @@ class WKTReaderTest extends AbstractTestCase
     public function testReadPoint($wkt, array $coords, $is3D, $isMeasured)
     {
         /** @var Point $point */
-        $point = (new WKTReader())->read($wkt);
-        $this->assertPointEquals($coords, $is3D, $isMeasured, $point);
+        $point = (new WKTReader())->read($wkt, 4326);
+        $this->assertPointEquals($coords, $is3D, $isMeasured, 4326, $point);
     }
 
     /**
@@ -310,7 +310,7 @@ class WKTReaderTest extends AbstractTestCase
 
         /** @var Point $point */
         $point = $geometryCollection->geometryN(1);
-        $this->assertPointEquals($a, $is3D, $isMeasured, $point);
+        $this->assertPointEquals($a, $is3D, $isMeasured, 0, $point);
 
         /** @var LineString $lineString */
         $lineString = $geometryCollection->geometryN(2);

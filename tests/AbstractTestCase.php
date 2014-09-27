@@ -18,14 +18,16 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
      * @param array   $coords     The expected coordinates of the Point as returned by toArray().
      * @param boolean $is3D       Whether the Point is expected to contain a Z coordinate.
      * @param boolean $isMeasured Whether the Point is expected to contain a M coordinate.
+     * @param integer $srid       The expected SRID.
      * @param Point   $point      The Point to test.
      */
-    final protected function assertPointEquals(array $coords, $is3D, $isMeasured, Point $point)
+    final protected function assertPointEquals(array $coords, $is3D, $isMeasured, $srid, Point $point)
     {
         $this->castToFloat($coords);
         $this->assertSame($coords, $point->toArray());
         $this->assertSame($is3D, $point->is3D());
         $this->assertSame($isMeasured, $point->isMeasured());
+        $this->assertSame($srid, $point->SRID());
     }
 
     /**

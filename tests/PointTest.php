@@ -21,7 +21,7 @@ class PointTest extends AbstractTestCase
     public function testFactory(array $arguments, array $coords, $is3D, $isMeasured)
     {
         $point = call_user_func_array([Point::class, 'factory'], $arguments);
-        $this->assertPointEquals($coords, $is3D, $isMeasured, $point);
+        $this->assertPointEquals($coords, $is3D, $isMeasured, 0, $point);
     }
 
     /**
