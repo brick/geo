@@ -31,10 +31,10 @@ abstract class WKTAbstractTest extends AbstractTestCase
     public function providerPointWKT()
     {
         return [
-            ['POINT (1 2)', [1, 2], false, false],
-            ['POINT Z (2 3 4)', [2, 3, 4], true, false],
-            ['POINT M (3 4 5)', [3, 4, 5], false, true],
-            ['POINT ZM (4 5 6 7)', [4, 5, 6, 7], true, true],
+            ['POINT(1 2)', [1, 2], false, false],
+            ['POINT Z(2 3 4)', [2, 3, 4], true, false],
+            ['POINT M(3 4 5)', [3, 4, 5], false, true],
+            ['POINT ZM(4 5 6 7)', [4, 5, 6, 7], true, true],
         ];
     }
 

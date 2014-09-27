@@ -18,6 +18,31 @@ use Brick\Geo\GeometryCollection;
 class WKTWriter
 {
     /**
+     * Whether to pretty-print (add extra spaces for readability) the WKT.
+     *
+     * @var boolean
+     */
+    private $prettyPrint = true;
+
+    /**
+     * A space if prettyPrint is true, an empty string otherwise.
+     *
+     * @var string
+     */
+    private $prettyPrintSpace = ' ';
+
+    /**
+     * @param boolean $prettyPrint
+     *
+     * @return void
+     */
+    public function setPrettyPrint($prettyPrint)
+    {
+        $this->prettyPrint = (bool) $prettyPrint;
+        $this->prettyPrintSpace = $prettyPrint ? ' ' : '';
+    }
+
+    /**
      * @param \Brick\Geo\Geometry $geometry
      *
      * @return string
@@ -54,18 +79,20 @@ class WKTWriter
         $z = $geometry->is3D();
         $m = $geometry->isMeasured();
 
-        $wkt = $type . ' ';
-
-        if ($z) {
-            $wkt .= 'Z';
-        }
-        if ($m) {
-            $wkt .= 'M';
-        }
+        $wkt = $type;
 
         if ($z || $m) {
             $wkt .= ' ';
+
+            if ($z) {
+                $wkt .= 'Z';
+            }
+            if ($m) {
+                $wkt .= 'M';
+            }
         }
+
+        $wkt .= $this->prettyPrintSpace;
 
         $wkt .= '(' . $data . ')';
 
@@ -100,11 +127,12 @@ class WKTWriter
     private function writeLineString(LineString $lineString)
     {
         $result = [];
+
         foreach ($lineString as $point) {
             $result[] = $this->writePoint($point);
         }
 
-        return implode(', ', $result);
+        return implode(',' . $this->prettyPrintSpace, $result);
     }
 
     /**
@@ -115,11 +143,12 @@ class WKTWriter
     private function writePolygon(Polygon $polygon)
     {
         $result = [];
+
         foreach ($polygon as $ring) {
             $result[] = '(' . $this->writeLineString($ring) . ')';
         }
 
-        return implode(', ', $result);
+        return implode(',' . $this->prettyPrintSpace, $result);
     }
 
     /**
@@ -130,11 +159,12 @@ class WKTWriter
     private function writeMultiPoint(MultiPoint $multiPoint)
     {
         $result = [];
+
         foreach ($multiPoint as $point) {
             $result[] = $this->writePoint($point);
         }
 
-        return implode(', ', $result);
+        return implode(',' . $this->prettyPrintSpace, $result);
     }
 
     /**
@@ -145,11 +175,12 @@ class WKTWriter
     private function writeMultiLineString(MultiLineString $multiLineString)
     {
         $result = [];
+
         foreach ($multiLineString as $lineString) {
             $result[] = '(' . $this->writeLineString($lineString) . ')';
         }
 
-        return implode(', ', $result);
+        return implode(',' . $this->prettyPrintSpace, $result);
     }
 
     /**
@@ -160,11 +191,12 @@ class WKTWriter
     private function writeMultiPolygon(MultiPolygon $multiPolygon)
     {
         $result = [];
+
         foreach ($multiPolygon as $polygon) {
             $result[] = '(' . $this->writePolygon($polygon) . ')';
         }
 
-        return implode(', ', $result);
+        return implode(',' . $this->prettyPrintSpace, $result);
     }
 
     /**
@@ -175,10 +207,11 @@ class WKTWriter
     private function writeGeometryCollection(GeometryCollection $collection)
     {
         $result = [];
+
         foreach ($collection as $geometry) {
             $result[] = $this->write($geometry);
         }
 
-        return implode(', ', $result);
+        return implode(',' . $this->prettyPrintSpace, $result);
     }
 }
