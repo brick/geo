@@ -177,6 +177,20 @@ class GeometryCollection extends Geometry implements \Countable, \IteratorAggreg
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function toArray()
+    {
+        $result = [];
+
+        foreach ($this->geometries as $geometry) {
+            $result[] = $geometry->toArray();
+        }
+
+        return $result;
+    }
+
+    /**
      * Returns the total number of geometries in this GeometryCollection.
      *
      * Required by interface Countable.

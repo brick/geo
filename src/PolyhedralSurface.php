@@ -226,6 +226,20 @@ class PolyhedralSurface extends Surface implements \Countable, \IteratorAggregat
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function toArray()
+    {
+        $result = [];
+
+        foreach ($this->patches as $patch) {
+            $result[] = $patch->toArray();
+        }
+
+        return $result;
+    }
+
+    /**
      * Returns the total number of rings in this Polygon (exterior + interior).
      *
      * Required by interface Countable.

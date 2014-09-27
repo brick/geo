@@ -526,6 +526,13 @@ abstract class Geometry
     }
 
     /**
+     * Returns the raw coordinates of this Goemetry as an array.
+     *
+     * @return array
+     */
+    abstract public function toArray();
+
+    /**
      * Returns a text representation of this Geometry.
      *
      * @noproxy

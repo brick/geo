@@ -54,21 +54,4 @@ class MultiLineString extends MultiCurve
     {
         return LineString::class;
     }
-
-    /**
-     * Returns a nested array representing the coordinates of this MultiPolygon.
-     *
-     * @return array
-     */
-    public function toArray()
-    {
-        $result = [];
-
-        foreach ($this->geometries as $lineString) {
-            /** @var LineString $lineString */
-            $result[] = $lineString->toArray();
-        }
-
-        return $result;
-    }
 }

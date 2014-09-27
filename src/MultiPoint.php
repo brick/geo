@@ -30,21 +30,4 @@ class MultiPoint extends GeometryCollection
     {
         return Point::class;
     }
-
-    /**
-     * Returns a nested array representing the coordinates of this MultiPoint.
-     *
-     * @return array
-     */
-    public function toArray()
-    {
-        $result = [];
-
-        foreach ($this->geometries as $point) {
-            /** @var Point $point */
-            $result[] = $point->toArray();
-        }
-
-        return $result;
-    }
 }

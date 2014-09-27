@@ -83,21 +83,4 @@ class MultiPolygon extends MultiSurface
     {
         return Polygon::class;
     }
-
-    /**
-     * Returns a nested array representing the coordinates of this MultiPolygon.
-     *
-     * @return array
-     */
-    public function toArray()
-    {
-        $result = [];
-
-        foreach ($this->geometries as $polygon) {
-            /** @var Polygon $polygon */
-            $result[] = $polygon->toArray();
-        }
-
-        return $result;
-    }
 }

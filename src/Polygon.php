@@ -247,6 +247,22 @@ class Polygon extends Surface implements \Countable, \IteratorAggregate
     }
 
     /**
+     * Returns a nested array representing the coordinates of this Polygon.
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        $result = [];
+
+        foreach ($this->rings as $ring) {
+            $result[] = $ring->toArray();
+        }
+
+        return $result;
+    }
+
+    /**
      * Returns the total number of rings in this Polygon (exterior + interior).
      *
      * Required by interface Countable.
@@ -266,21 +282,5 @@ class Polygon extends Surface implements \Countable, \IteratorAggregate
     public function getIterator()
     {
         return new \ArrayIterator($this->rings);
-    }
-
-    /**
-     * Returns a nested array representing the coordinates of this Polygon.
-     *
-     * @return array
-     */
-    public function toArray()
-    {
-        $result = [];
-
-        foreach ($this->rings as $ring) {
-            $result[] = $ring->toArray();
-        }
-
-        return $result;
     }
 }

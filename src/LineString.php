@@ -222,6 +222,22 @@ class LineString extends Curve implements \Countable, \IteratorAggregate
     }
 
     /**
+     * Returns a nested array representing the coordinates of this LineString.
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        $result = [];
+
+        foreach ($this->points as $point) {
+            $result[] = $point->toArray();
+        }
+
+        return $result;
+    }
+
+    /**
      * Alias for `numPoints()`, required by interface Countable.
      *
      * @return integer
@@ -239,21 +255,5 @@ class LineString extends Curve implements \Countable, \IteratorAggregate
     public function getIterator()
     {
         return new \ArrayIterator($this->points);
-    }
-
-    /**
-     * Returns a nested array representing the coordinates of this LineString.
-     *
-     * @return array
-     */
-    public function toArray()
-    {
-        $result = [];
-
-        foreach ($this->points as $point) {
-            $result[] = $point->toArray();
-        }
-
-        return $result;
     }
 }
