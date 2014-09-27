@@ -18,8 +18,9 @@ class WKBReaderTest extends WKBAbstractTest
     public function testRead($wkb, $wkt)
     {
         $reader = new WKBReader();
-        $geometry = $reader->read(hex2bin($wkb));
+        $geometry = $reader->read(hex2bin($wkb), 4326);
         $this->assertSame($wkt, $geometry->asText());
+        $this->assertSame(4326, $geometry->SRID());
     }
 
     /**
