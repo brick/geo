@@ -17,6 +17,13 @@ use Brick\Geo\Exception\GeometryException;
 abstract class DatabaseEngine implements GeometryEngine
 {
     /**
+     * Default SRID for Geometries.
+     *
+     * @const integer
+     */
+    const WGS84 = 4326;
+
+    /**
      * Builds a SQL query for a GIS function
      *
      * @param string  $function        The SQL GIS function to execute.
@@ -27,7 +34,7 @@ abstract class DatabaseEngine implements GeometryEngine
      */
     private function buildQuery($function, array $parameters, $returnsGeometry)
     {
-        $geometryPlaceholder = sprintf('ST_GeomFromWkb(?, %s)', Geometry::WGS84);
+        $geometryPlaceholder = sprintf('ST_GeomFromWkb(?, %s)', self::WGS84);
         $standardPlaceholder = '?';
 
         foreach ($parameters as & $parameter) {

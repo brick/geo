@@ -61,15 +61,17 @@ class Polygon extends Surface implements \Countable, \IteratorAggregate
      *
      * @param LinearRing[] $rings      An array on LinearRing objects, validated.
      * @param boolean      $is3D       Whether the rings have Z coordinates.
-     * @param boolean      $isMeasured WHether the rings have M coordinates.
+     * @param boolean      $isMeasured Whether the rings have M coordinates.
+     * @param integer      $srid       The SRID of the geometries, validated.
      *
      * @throws GeometryException
      */
-    protected function __construct(array $rings, $is3D, $isMeasured)
+    protected function __construct(array $rings, $is3D, $isMeasured, $srid)
     {
         $this->rings      = $rings;
         $this->is3D       = $is3D;
         $this->isMeasured = $isMeasured;
+        $this->srid       = $srid;
     }
 
     /**
@@ -95,22 +97,22 @@ class Polygon extends Surface implements \Countable, \IteratorAggregate
             throw new GeometryException('A Polygon must have at least 1 ring (the exterior ring).');
         }
 
-        self::getDimensions($rings, $is3D, $isMeasured);
+        self::getDimensions($rings, $is3D, $isMeasured, $srid);
 
         if (count($rings) === 1) {
             if (count($rings[0]) === 3 + 1) {
-                return new Triangle($rings, $is3D, $isMeasured);
+                return new Triangle($rings, $is3D, $isMeasured, $srid);
             }
         }
 
-        return new Polygon($rings, $is3D, $isMeasured);
+        return new Polygon($rings, $is3D, $isMeasured, $srid);
     }
 
     /**
      * Creates a rectangle from two corner 2D points.
      *
-     * @param Point $a
-     * @param Point $b
+     * @param Point $a The first corner point.
+     * @param Point $b The second corner point.
      *
      * @return Polygon
      */

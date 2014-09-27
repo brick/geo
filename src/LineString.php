@@ -38,13 +38,15 @@ class LineString extends Curve implements \Countable, \IteratorAggregate
      *
      * @param Point[] $points     The points, validated.
      * @param boolean $is3D       Whether the points have Z coordinates.
-     * @param boolean $isMeasured WHether the points have M coordinates.
+     * @param boolean $isMeasured Whether the points have M coordinates.
+     * @param integer $srid       The SRID, validated.
      */
-    protected function __construct(array $points, $is3D, $isMeasured)
+    protected function __construct(array $points, $is3D, $isMeasured, $srid)
     {
         $this->points     = $points;
         $this->is3D       = $is3D;
         $this->isMeasured = $isMeasured;
+        $this->srid       = $srid;
     }
 
     /**
@@ -68,7 +70,7 @@ class LineString extends Curve implements \Countable, \IteratorAggregate
             }
         }
 
-        self::getDimensions($points, $is3D, $isMeasured);
+        self::getDimensions($points, $is3D, $isMeasured, $srid);
 
         /** @var Point[] $points */
         $points = array_values($points);
@@ -79,11 +81,11 @@ class LineString extends Curve implements \Countable, \IteratorAggregate
         }
 
         if ($count === 2) {
-            $result = new Line($points, $is3D, $isMeasured);
+            $result = new Line($points, $is3D, $isMeasured, $srid);
         } elseif ($points[0]->equals($points[$count - 1])) {
-            $result = new LinearRing($points, $is3D, $isMeasured);
+            $result = new LinearRing($points, $is3D, $isMeasured, $srid);
         } else {
-            $result = new LineString($points, $is3D, $isMeasured);
+            $result = new LineString($points, $is3D, $isMeasured, $srid);
         }
 
         if (! $result instanceof static) {

@@ -114,7 +114,7 @@ class GeometryException extends \Exception
      */
     public static function collectionDimensionalityMix($is3D, $isMeasured, Geometry $geometry)
     {
-        return self::dimensionalityMix(self::geometryZM('GeometryCollection', $is3D, $isMeasured), $geometry);
+        return self::dimensionalityMix(self::geometryType('GeometryCollection', $is3D, $isMeasured, 0), $geometry);
     }
 
     /**
@@ -126,10 +126,11 @@ class GeometryException extends \Exception
      */
     private static function typeOf(Geometry $geometry)
     {
-        return self::geometryZM(
+        return self::geometryType(
             $geometry->geometryType(),
             $geometry->is3D(),
-            $geometry->isMeasured()
+            $geometry->isMeasured(),
+            $geometry->SRID()
         );
     }
 
@@ -137,10 +138,11 @@ class GeometryException extends \Exception
      * @param string  $geometryType
      * @param boolean $is3D
      * @param boolean $isMeasured
+     * @param integer $srid
      *
      * @return string
      */
-    private static function geometryZM($geometryType, $is3D, $isMeasured)
+    private static function geometryType($geometryType, $is3D, $isMeasured, $srid)
     {
         if ($is3D || $isMeasured) {
             $geometryType .= ' ';
@@ -151,6 +153,9 @@ class GeometryException extends \Exception
         }
         if ($isMeasured) {
             $geometryType .= 'M';
+        }
+        if ($srid !== 0) {
+            $geometryType .= ' (SRID ' . $srid . ')';
         }
 
         return $geometryType;

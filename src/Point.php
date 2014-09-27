@@ -43,30 +43,34 @@ class Point extends Geometry
     /**
      * Internal constructor. Use a factory method to obtain an instance.
      *
-     * @param float      $x The x-coordinate, validated as a float.
-     * @param float      $y The y-coordinate, validated as a float.
-     * @param float|null $z The z-coordinate, validated as a float or null.
-     * @param float|null $m The m-coordinate, validated as a float or null.
+     * @param float      $x    The x-coordinate, validated as a float.
+     * @param float      $y    The y-coordinate, validated as a float.
+     * @param float|null $z    The z-coordinate, validated as a float or null.
+     * @param float|null $m    The m-coordinate, validated as a float or null.
+     * @param integer    $srid The SRID, validated as an integer.
      */
-    protected function __construct($x, $y, $z = null, $m = null)
+    protected function __construct($x, $y, $z = null, $m = null, $srid = 0)
     {
         $this->x = $x;
         $this->y = $y;
         $this->z = $z;
         $this->m = $m;
+
+        $this->srid = $srid;
     }
 
     /**
-     * Factory method to create a new Point from x,y coordinates.
+     * Factory method to create a new Point.
      *
-     * @param float      $x
-     * @param float      $y
-     * @param float|null $z
-     * @param float|null $m
+     * @param float      $x    The x-coordinate.
+     * @param float      $y    The y-coordinate.
+     * @param float|null $z    The z-coordinate, optional.
+     * @param float|null $m    The m-coordinate, optional.
+     * @param integer    $srid The SRID, optional.
      *
      * @return Point
      */
-    public static function factory($x, $y, $z = null, $m = null)
+    public static function factory($x, $y, $z = null, $m = null, $srid = 0)
     {
         $x = (float) $x;
         $y = (float) $y;
@@ -79,7 +83,9 @@ class Point extends Geometry
             $m = (float) $m;
         }
 
-        return new Point($x, $y, $z, $m);
+        $srid = (int) $srid;
+
+        return new Point($x, $y, $z, $m, $srid);
     }
 
     /**

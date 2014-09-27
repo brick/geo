@@ -56,14 +56,16 @@ class PolyhedralSurface extends Surface implements \Countable, \IteratorAggregat
      * @param Polygon[] $patches    An array on Polygon objects.
      * @param boolean   $is3D       Whether the polygons have Z coordinates.
      * @param boolean   $isMeasured Whether the polygons have M coordinates.
+     * @param boolean   $srid       The SRID of the polygons, validated.
      *
      * @throws GeometryException
      */
-    protected function __construct(array $patches, $is3D, $isMeasured)
+    protected function __construct(array $patches, $is3D, $isMeasured, $srid)
     {
         $this->patches    = $patches;
         $this->is3D       = $is3D;
         $this->isMeasured = $isMeasured;
+        $this->srid       = $srid;
     }
 
     /**
@@ -89,9 +91,9 @@ class PolyhedralSurface extends Surface implements \Countable, \IteratorAggregat
             }
         }
 
-        self::getDimensions($patches, $is3D, $isMeasured);
+        self::getDimensions($patches, $is3D, $isMeasured, $srid);
 
-        return new static(array_values($patches), $is3D, $isMeasured);
+        return new static(array_values($patches), $is3D, $isMeasured, $srid);
     }
 
     /**

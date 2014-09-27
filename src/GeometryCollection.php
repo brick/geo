@@ -47,12 +47,14 @@ class GeometryCollection extends Geometry implements \Countable, \IteratorAggreg
      * @param Geometry[] $geometries An array of Geometry objects, validated.
      * @param boolean    $is3D       Whether the geometries have Z coordinates.
      * @param boolean    $isMeasured Whether the geometries have M coordinates.
+     * @param integer    $srid       The SRID of the geometries, validated.
      */
-    protected function __construct(array $geometries, $is3D, $isMeasured)
+    protected function __construct(array $geometries, $is3D, $isMeasured, $srid)
     {
         $this->geometries = $geometries;
         $this->is3D       = $is3D;
         $this->isMeasured = $isMeasured;
+        $this->srid       = $srid;
     }
 
     /**
@@ -72,9 +74,9 @@ class GeometryCollection extends Geometry implements \Countable, \IteratorAggreg
             }
         }
 
-        self::getDimensions($geometries, $is3D, $isMeasured);
+        self::getDimensions($geometries, $is3D, $isMeasured, $srid);
 
-        return new static(array_values($geometries), $is3D, $isMeasured);
+        return new static(array_values($geometries), $is3D, $isMeasured, $srid);
     }
 
     /**

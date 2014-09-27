@@ -34,12 +34,13 @@ abstract class Geometry
     const TRIANGLE           = 17;
 
     /**
-     * Default SRID for Geometries;
-     * This library assumes that all Geometries are in WGS84 Lon/Lat.
+     * The Spatial Reference System ID for this geometric object.
      *
-     * @const integer
+     * The SRID is zero if not set.
+     *
+     * @var integer
      */
-    const WGS84 = 4326;
+    protected $srid = 0;
 
     /**
      * Builds a Geometry from a WKT representation.
@@ -145,13 +146,11 @@ abstract class Geometry
     /**
      * Returns the Spatial Reference System ID for this geometric object.
      *
-     * @todo only WGS84 is supported right now.
-     *
-     * @return integer
+     * @return integer The SRID, zero if not set.
      */
     public function SRID()
     {
-        return self::WGS84;
+        return $this->srid;
     }
 
     /**
@@ -548,22 +547,28 @@ abstract class Geometry
      * @param Geometry[] $geometries The geometries, validated as such.
      * @param boolean    $is3D       A variable to store whether the geometries have Z coordinates.
      * @param boolean    $isMeasured A variable to store whether the geometries have M coordinates.
+     * @param integer    $srid       A variable to store the SRID of the geometries.
      *
      * @return void
      *
      * @throws GeometryException If dimensionality is mixed.
      */
-    protected static function getDimensions(array $geometries, & $is3D, & $isMeasured)
+    protected static function getDimensions(array $geometries, & $is3D, & $isMeasured, & $srid)
     {
+        $is3D       = false;
+        $isMeasured = false;
+        $srid       = 0;
+
         $previous = null;
 
         foreach ($geometries as $geometry) {
             if ($previous === null) {
                 $is3D       = $geometry->is3D();
                 $isMeasured = $geometry->isMeasured();
+                $srid       = $geometry->SRID();
                 $previous   = $geometry;
             } else {
-                if ($geometry->is3D() !== $is3D || $geometry->isMeasured() !== $isMeasured) {
+                if ($geometry->is3D() !== $is3D || $geometry->isMeasured() !== $isMeasured || $geometry->SRID() !== $srid) {
                     throw GeometryException::dimensionalityMix($previous, $geometry);
                 }
             }
