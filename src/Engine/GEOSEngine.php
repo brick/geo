@@ -4,6 +4,8 @@ namespace Brick\Geo\Engine;
 
 use Brick\Geo\Geometry;
 use Brick\Geo\Exception\GeometryException;
+use Brick\Geo\IO\EWKBReader;
+use Brick\Geo\IO\EWKBWriter;
 
 /**
  * GeometryEngine implementation based on the GEOS PHP bindings.
@@ -21,6 +23,16 @@ class GEOSEngine implements GeometryEngine
     private $wkbWriter;
 
     /**
+     * @var EWKBReader
+     */
+    private $ewkbReader;
+
+    /**
+     * @var EWKBWriter
+     */
+    private $ewkbWriter;
+
+    /**
      * Whether the GEOS version in use has support for binary read() and write() methods.
      *
      * @var boolean
@@ -35,6 +47,9 @@ class GEOSEngine implements GeometryEngine
         $this->wkbReader = new \GEOSWKBReader();
         $this->wkbWriter = new \GEOSWKBWriter();
 
+        $this->ewkbReader = new EWKBReader();
+        $this->ewkbWriter = new EWKBWriter();
+
         $this->hasReadWrite =
             method_exists($this->wkbReader, 'read') &&
             method_exists($this->wkbWriter, 'write');
@@ -48,10 +63,10 @@ class GEOSEngine implements GeometryEngine
     private function toGEOS(Geometry $geometry)
     {
         if ($this->hasReadWrite) {
-            return $this->wkbReader->read($geometry->asBinary());
+            return $this->wkbReader->read($this->ewkbWriter->write($geometry));
         }
 
-        return $this->wkbReader->readHEX(bin2hex($geometry->asBinary()));
+        return $this->wkbReader->readHEX(bin2hex($this->ewkbWriter->write($geometry)));
     }
 
     /**
@@ -62,10 +77,10 @@ class GEOSEngine implements GeometryEngine
     private function fromGEOS(\GEOSGeometry $geometry)
     {
         if ($this->hasReadWrite) {
-            return Geometry::fromBinary($this->wkbWriter->write($geometry));
+            return $this->ewkbReader->read($this->wkbWriter->write($geometry));
         }
 
-        return Geometry::fromBinary(hex2bin($this->wkbWriter->writeHEX($geometry)));
+        return $this->ewkbReader->read(hex2bin($this->wkbWriter->writeHEX($geometry)));
     }
 
     /**
