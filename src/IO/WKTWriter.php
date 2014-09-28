@@ -29,7 +29,7 @@ class WKTWriter
      *
      * @var string
      */
-    private $prettyPrintSpace = ' ';
+    protected $prettyPrintSpace = ' ';
 
     /**
      * @param boolean $prettyPrint
@@ -43,13 +43,25 @@ class WKTWriter
     }
 
     /**
+     * @param Geometry $geometry
+     *
+     * @return string
+     *
+     * @throws GeometryException
+     */
+    public function write(Geometry $geometry)
+    {
+        return $this->doWrite($geometry);
+    }
+
+    /**
      * @param \Brick\Geo\Geometry $geometry
      *
      * @return string
      *
      * @throws \Brick\Geo\Exception\GeometryException
      */
-    public function write(Geometry $geometry)
+    protected function doWrite(Geometry $geometry)
     {
         if ($geometry instanceof Point) {
             $type = 'POINT';
@@ -209,7 +221,7 @@ class WKTWriter
         $result = [];
 
         foreach ($collection as $geometry) {
-            $result[] = $this->write($geometry);
+            $result[] = $this->doWrite($geometry);
         }
 
         return implode(',' . $this->prettyPrintSpace, $result);

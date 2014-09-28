@@ -15,7 +15,7 @@ abstract class EWKTAbstractTest extends WKTAbstractTest
      *
      * @return string The EWKT.
      */
-    protected function addSRID($wkt, $srid)
+    protected function toEWKT($wkt, $srid)
     {
         return 'SRID=' . $srid . ';' . $wkt;
     }

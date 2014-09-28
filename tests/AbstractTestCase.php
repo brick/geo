@@ -145,32 +145,34 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
      * @param array   $coords
      * @param boolean $is3D
      * @param boolean $isMeasured
+     * @param integer $srid
      *
      * @return Point
      */
-    final protected function createPoint(array $coords, $is3D, $isMeasured)
+    final protected function createPoint(array $coords, $is3D, $isMeasured, $srid = 0)
     {
         $x = $coords[0];
         $y = $coords[1];
         $z = $is3D ? $coords[2] : null;
         $m = $isMeasured ? $coords[$is3D ? 3 : 2] : null;
 
-        return Point::factory($x, $y, $z, $m);
+        return Point::factory($x, $y, $z, $m, $srid);
     }
 
     /**
      * @param array   $coords
      * @param boolean $is3D
      * @param boolean $isMeasured
+     * @param integer $srid
      *
      * @return LineString
      */
-    final protected function createLineString(array $coords, $is3D, $isMeasured)
+    final protected function createLineString(array $coords, $is3D, $isMeasured, $srid = 0)
     {
         $points = [];
 
         foreach ($coords as $point) {
-            $points[] = self::createPoint($point, $is3D, $isMeasured);
+            $points[] = self::createPoint($point, $is3D, $isMeasured, $srid);
         }
 
         return LineString::factory($points);
@@ -180,15 +182,16 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
      * @param array   $coords
      * @param boolean $is3D
      * @param boolean $isMeasured
+     * @param integer $srid
      *
      * @return Polygon
      */
-    final protected function createPolygon(array $coords, $is3D, $isMeasured)
+    final protected function createPolygon(array $coords, $is3D, $isMeasured, $srid = 0)
     {
         $rings = [];
 
         foreach ($coords as $point) {
-            $rings[] = self::createLineString($point, $is3D, $isMeasured);
+            $rings[] = self::createLineString($point, $is3D, $isMeasured, $srid);
         }
 
         return Polygon::factory($rings);
@@ -198,15 +201,16 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
      * @param array   $coords
      * @param boolean $is3D
      * @param boolean $isMeasured
+     * @param integer $srid
      *
      * @return MultiPoint
      */
-    final protected function createMultiPoint(array $coords, $is3D, $isMeasured)
+    final protected function createMultiPoint(array $coords, $is3D, $isMeasured, $srid = 0)
     {
         $points = [];
 
         foreach ($coords as $point) {
-            $points[] = self::createPoint($point, $is3D, $isMeasured);
+            $points[] = self::createPoint($point, $is3D, $isMeasured, $srid);
         }
 
         return MultiPoint::factory($points);
@@ -216,15 +220,16 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
      * @param array   $coords
      * @param boolean $is3D
      * @param boolean $isMeasured
+     * @param integer $srid
      *
      * @return MultiLineString
      */
-    final protected function createMultiLineString(array $coords, $is3D, $isMeasured)
+    final protected function createMultiLineString(array $coords, $is3D, $isMeasured, $srid = 0)
     {
         $lineStrings = [];
 
         foreach ($coords as $lineString) {
-            $lineStrings[] = self::createLineString($lineString, $is3D, $isMeasured);
+            $lineStrings[] = self::createLineString($lineString, $is3D, $isMeasured, $srid);
         }
 
         return MultiLineString::factory($lineStrings);
@@ -234,15 +239,16 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
      * @param array   $coords
      * @param boolean $is3D
      * @param boolean $isMeasured
+     * @param integer $srid
      *
      * @return MultiPolygon
      */
-    final protected function createMultiPolygon(array $coords, $is3D, $isMeasured)
+    final protected function createMultiPolygon(array $coords, $is3D, $isMeasured, $srid = 0)
     {
         $polygons = [];
 
         foreach ($coords as $polygon) {
-            $polygons[] = self::createPolygon($polygon, $is3D, $isMeasured);
+            $polygons[] = self::createPolygon($polygon, $is3D, $isMeasured, $srid);
         }
 
         return MultiPolygon::factory($polygons);

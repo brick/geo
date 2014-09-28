@@ -3,33 +3,27 @@
 namespace Brick\Geo\Tests\IO;
 
 use Brick\Geo\GeometryCollection;
-use Brick\Geo\IO\WKTWriter;
-use Brick\Geo\MultiLineString;
+use Brick\Geo\IO\EWKTWriter;
 
 /**
- * Unit tests for class WKTWriter.
+ * Unit tests for class EWKTWriter.
  */
-class WKTWriterTest extends WKTAbstractTest
+class EWKTWriterTest extends EWKTAbstractTest
 {
     /**
      * @dataProvider providerPrettyPrint
      *
-     * @param boolean $is3D        Whether to use Z coordinates.
      * @param boolean $prettyPrint Whether to set the prettyPrint parameter.
-     * @param string  $wkt         The expected result WKT.
+     * @param string  $ewkt        The expected result EWKT.
      */
-    public function testPrettyPrint($is3D, $prettyPrint, $wkt)
+    public function testPrettyPrint($prettyPrint, $ewkt)
     {
-        $writer = new WKTWriter();
+        $writer = new EWKTWriter();
         $writer->setPrettyPrint($prettyPrint);
 
-        $point = $this->createPoint([1, 2, 3], $is3D, false);
-        $lineString1 = $this->createLineString([[1, 2, 3], [4, 5, 6]], $is3D, false);
-        $lineString2 = $this->createLineString([[2, 3, 4], [5, 6, 7]], $is3D, false);
-        $multiLineString = MultiLineString::factory([$lineString1, $lineString2]);
-        $geometryCollection = GeometryCollection::factory([$point, $multiLineString]);
+        $lineString = $this->createLineString([[1, 2, 3, 4], [5, 6, 7, 8]], true, true, 4326);
 
-        $this->assertSame($wkt, $writer->write($geometryCollection));
+        $this->assertSame($ewkt, $writer->write($lineString));
     }
 
     /**
@@ -38,11 +32,8 @@ class WKTWriterTest extends WKTAbstractTest
     public function providerPrettyPrint()
     {
         return [
-            [false, false, 'GEOMETRYCOLLECTION(POINT(1 2),MULTILINESTRING((1 2,4 5),(2 3,5 6)))'],
-            [false, true, 'GEOMETRYCOLLECTION (POINT (1 2), MULTILINESTRING ((1 2, 4 5), (2 3, 5 6)))'],
-
-            [true, false, 'GEOMETRYCOLLECTION Z(POINT Z(1 2 3),MULTILINESTRING Z((1 2 3,4 5 6),(2 3 4,5 6 7)))'],
-            [true, true, 'GEOMETRYCOLLECTION Z (POINT Z (1 2 3), MULTILINESTRING Z ((1 2 3, 4 5 6), (2 3 4, 5 6 7)))'],
+            [false, 'SRID=4326;LINESTRING ZM(1 2 3 4,5 6 7 8)'],
+            [true, 'SRID=4326; LINESTRING ZM (1 2 3 4, 5 6 7 8)']
         ];
     }
 
@@ -56,11 +47,11 @@ class WKTWriterTest extends WKTAbstractTest
      */
     public function testWritePoint($wkt, array $coords, $is3D, $isMeasured)
     {
-        $writer = new WKTWriter();
+        $writer = new EWKTWriter();
         $writer->setPrettyPrint(false);
 
-        $point = self::createPoint($coords, $is3D, $isMeasured);
-        $this->assertSame($wkt, $writer->write($point));
+        $point = self::createPoint($coords, $is3D, $isMeasured, 4326);
+        $this->assertSame($this->toEWKT($wkt, 4326), $writer->write($point));
     }
 
     /**
@@ -73,11 +64,11 @@ class WKTWriterTest extends WKTAbstractTest
      */
     public function testWriteLineString($wkt, array $coords, $is3D, $isMeasured)
     {
-        $writer = new WKTWriter();
+        $writer = new EWKTWriter();
         $writer->setPrettyPrint(false);
 
-        $lineString = self::createLineString($coords, $is3D, $isMeasured);
-        $this->assertSame($wkt, $writer->write($lineString));
+        $lineString = self::createLineString($coords, $is3D, $isMeasured, 4326);
+        $this->assertSame($this->toEWKT($wkt, 4326), $writer->write($lineString));
     }
 
     /**
@@ -90,11 +81,11 @@ class WKTWriterTest extends WKTAbstractTest
      */
     public function testWritePolygon($wkt, array $coords, $is3D, $isMeasured)
     {
-        $writer = new WKTWriter();
+        $writer = new EWKTWriter();
         $writer->setPrettyPrint(false);
 
-        $polygon = self::createPolygon($coords, $is3D, $isMeasured);
-        $this->assertSame($wkt, $writer->write($polygon));
+        $polygon = self::createPolygon($coords, $is3D, $isMeasured, 4326);
+        $this->assertSame($this->toEWKT($wkt, 4326), $writer->write($polygon));
     }
 
     /**
@@ -107,11 +98,11 @@ class WKTWriterTest extends WKTAbstractTest
      */
     public function testWriteMultiPoint($wkt, array $coords, $is3D, $isMeasured)
     {
-        $writer = new WKTWriter();
+        $writer = new EWKTWriter();
         $writer->setPrettyPrint(false);
 
-        $multiPoint = self::createMultiPoint($coords, $is3D, $isMeasured);
-        $this->assertSame($wkt, $writer->write($multiPoint));
+        $multiPoint = self::createMultiPoint($coords, $is3D, $isMeasured, 4326);
+        $this->assertSame($this->toEWKT($wkt, 4326), $writer->write($multiPoint));
     }
 
     /**
@@ -124,11 +115,11 @@ class WKTWriterTest extends WKTAbstractTest
      */
     public function testWriteMultiLineString($wkt, array $coords, $is3D, $isMeasured)
     {
-        $writer = new WKTWriter();
+        $writer = new EWKTWriter();
         $writer->setPrettyPrint(false);
 
-        $multiLineString = self::createMultiLineString($coords, $is3D, $isMeasured);
-        $this->assertSame($wkt, $writer->write($multiLineString));
+        $multiLineString = self::createMultiLineString($coords, $is3D, $isMeasured, 4326);
+        $this->assertSame($this->toEWKT($wkt, 4326), $writer->write($multiLineString));
     }
 
     /**
@@ -141,11 +132,11 @@ class WKTWriterTest extends WKTAbstractTest
      */
     public function testWriteMultiPolygon($wkt, array $coords, $is3D, $isMeasured)
     {
-        $writer = new WKTWriter();
+        $writer = new EWKTWriter();
         $writer->setPrettyPrint(false);
 
-        $multiPolygon = self::createMultiPolygon($coords, $is3D, $isMeasured);
-        $this->assertSame($wkt, $writer->write($multiPolygon));
+        $multiPolygon = self::createMultiPolygon($coords, $is3D, $isMeasured, 4326);
+        $this->assertSame($this->toEWKT($wkt, 4326), $writer->write($multiPolygon));
     }
 
     /**
@@ -158,13 +149,13 @@ class WKTWriterTest extends WKTAbstractTest
      */
     public function testWriteGeometryCollection($wkt, array $coords, $is3D, $isMeasured)
     {
-        $writer = new WKTWriter();
+        $writer = new EWKTWriter();
         $writer->setPrettyPrint(false);
 
-        $point = self::createPoint($coords[0], $is3D, $isMeasured);
-        $lineString = self::createLineString($coords[1], $is3D, $isMeasured);
+        $point = self::createPoint($coords[0], $is3D, $isMeasured, 4326);
+        $lineString = self::createLineString($coords[1], $is3D, $isMeasured, 4326);
 
         $geometryCollection = GeometryCollection::factory([$point, $lineString]);
-        $this->assertSame($wkt, $writer->write($geometryCollection));
+        $this->assertSame($this->toEWKT($wkt, 4326), $writer->write($geometryCollection));
     }
 }
