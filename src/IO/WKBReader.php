@@ -41,15 +41,17 @@ class WKBReader
 
     /**
      * @param WKBBuffer $buffer
+     * @param integer   $geometryType
+     * @param boolean   $is3D
+     * @param boolean   $isMeasured
      * @param integer   $srid
      *
-     * @return \Brick\Geo\Geometry
+     * @return void
      *
-     * @throws \Brick\Geo\Exception\GeometryException
+     * @throws GeometryException
      */
-    protected function readGeometry(WKBBuffer $buffer, $srid)
+    protected function readGeometryHeader(WKBBuffer $buffer, & $geometryType, & $is3D, & $isMeasured, & $srid)
     {
-        $buffer->readByteOrder();
         $wkbType = $buffer->readUnsignedLong();
 
         $geometryType = $wkbType % 1000;
@@ -61,6 +63,21 @@ class WKBReader
 
         $is3D = ($dimension === 1 || $dimension === 3);
         $isMeasured = ($dimension === 2 || $dimension === 3);
+    }
+
+    /**
+     * @param WKBBuffer $buffer
+     * @param integer   $srid
+     *
+     * @return Geometry
+     *
+     * @throws GeometryException
+     */
+    protected function readGeometry(WKBBuffer $buffer, $srid)
+    {
+        $buffer->readByteOrder();
+
+        $this->readGeometryHeader($buffer, $geometryType, $is3D, $isMeasured, $srid);
 
         switch ($geometryType) {
             case Geometry::POINT:
@@ -84,7 +101,7 @@ class WKBReader
                 return $this->readTIN($buffer, $srid);
         }
 
-        throw GeometryException::unsupportedWkbType($wkbType);
+        throw GeometryException::unsupportedGeometryType($geometryType);
     }
 
     /**

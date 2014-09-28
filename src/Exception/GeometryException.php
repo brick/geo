@@ -68,13 +68,13 @@ class GeometryException extends \Exception
     }
 
     /**
-     * @param Geometry $geometry
+     * @param string $geometryType
      *
      * @return GeometryException
      */
-    public static function unsupportedGeometryType(Geometry $geometry)
+    public static function unsupportedGeometryType($geometryType)
     {
-        $message = sprintf('Unsupported geometry type: %s.', $geometry->geometryType());
+        $message = sprintf('Unsupported geometry type: %s.', $geometryType);
 
         return new self($message);
     }

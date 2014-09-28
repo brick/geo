@@ -107,7 +107,7 @@ class WKBWriter
             return $this->writeTriangle($geometry, $outer);
         }
 
-        throw GeometryException::unsupportedGeometryType($geometry);
+        throw GeometryException::unsupportedGeometryType($geometry->geometryType());
     }
 
     /**

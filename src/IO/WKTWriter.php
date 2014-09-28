@@ -85,7 +85,7 @@ class WKTWriter
             $type = 'GEOMETRYCOLLECTION';
             $data = $this->writeGeometryCollection($geometry);
         } else {
-            throw GeometryException::unsupportedGeometryType($geometry);
+            throw GeometryException::unsupportedGeometryType($geometry->geometryType());
         }
 
         $z = $geometry->is3D();

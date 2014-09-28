@@ -132,6 +132,16 @@ class WKBBuffer
     }
 
     /**
+     * @param integer $bytes
+     *
+     * @return void
+     */
+    public function rewind($bytes)
+    {
+        $this->position -= $bytes;
+    }
+
+    /**
      * Checks whether the pointer is at the end of the buffer.
      *
      * @return boolean
