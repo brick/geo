@@ -7,7 +7,7 @@ use Brick\Geo\Exception\GeometryException;
 /**
  * Reads geometries from the Extended WKT format designed by PostGIS.
  */
-class EWKTReader extends WKTReader
+class EWKTReader extends WKTAbstractReader
 {
     /**
      * @param string $ewkt The EWKT to read.
