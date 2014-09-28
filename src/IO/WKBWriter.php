@@ -55,43 +55,56 @@ class WKBWriter
     }
 
     /**
-     * @param \Brick\Geo\Geometry $geometry
+     * @param Geometry $geometry
      *
      * @return string
      *
-     * @throws \Brick\Geo\Exception\GeometryException
+     * @throws GeometryException
      */
     public function write(Geometry $geometry)
     {
+        return $this->doWrite($geometry, true);
+    }
+
+    /**
+     * @param Geometry $geometry The geometry to write.
+     * @param boolean  $outer    False if the geometry is nested in a collection, true otherwise.
+     *
+     * @return string
+     *
+     * @throws GeometryException
+     */
+    protected function doWrite(Geometry $geometry, $outer)
+    {
         if ($geometry instanceof Point) {
-            return $this->writePoint($geometry);
+            return $this->writePoint($geometry, $outer);
         }
         if ($geometry instanceof LineString) {
-            return $this->writeLineString($geometry);
+            return $this->writeLineString($geometry, $outer);
         }
         if ($geometry instanceof Polygon) {
-            return $this->writePolygon($geometry);
+            return $this->writePolygon($geometry, $outer);
         }
         if ($geometry instanceof MultiPoint) {
-            return $this->writeMultiPoint($geometry);
+            return $this->writeMultiPoint($geometry, $outer);
         }
         if ($geometry instanceof MultiLineString) {
-            return $this->writeMultiLineString($geometry);
+            return $this->writeMultiLineString($geometry, $outer);
         }
         if ($geometry instanceof MultiPolygon) {
-            return $this->writeMultiPolygon($geometry);
+            return $this->writeMultiPolygon($geometry, $outer);
         }
         if ($geometry instanceof GeometryCollection) {
-            return $this->writeGeometryCollection($geometry);
+            return $this->writeGeometryCollection($geometry, $outer);
         }
         if ($geometry instanceof PolyhedralSurface) {
-            return $this->writePolyhedralSurface($geometry);
+            return $this->writePolyhedralSurface($geometry, $outer);
         }
         if ($geometry instanceof TIN) {
-            return $this->writeTIN($geometry);
+            return $this->writeTIN($geometry, $outer);
         }
         if ($geometry instanceof Triangle) {
-            return $this->writeTriangle($geometry);
+            return $this->writeTriangle($geometry, $outer);
         }
 
         throw GeometryException::unsupportedGeometryType($geometry);
@@ -110,7 +123,7 @@ class WKBWriter
      *
      * @return string
      */
-    private function packUnsignedInteger($uint)
+    protected function packUnsignedInteger($uint)
     {
         return pack($this->byteOrder === WKBTools::BIG_ENDIAN ? 'N' : 'V', $uint);
     }
@@ -134,10 +147,11 @@ class WKBWriter
     /**
      * @param integer  $geometryType
      * @param Geometry $geometry
+     * @param boolean  $outer
      *
      * @return string
      */
-    private function packGeometryTypeZM($geometryType, Geometry $geometry)
+    protected function packHeader($geometryType, Geometry $geometry, $outer)
     {
         if ($geometry->is3D()) {
             $geometryType += 1000;
@@ -186,42 +200,45 @@ class WKBWriter
     }
 
     /**
-     * @param \Brick\Geo\Point $point
+     * @param Point   $point
+     * @param boolean $outer
      *
      * @return string
      */
-    private function writePoint(Point $point)
+    private function writePoint(Point $point, $outer)
     {
         $wkb = $this->packByteOrder();
-        $wkb.= $this->packGeometryTypeZM(Geometry::POINT, $point);
+        $wkb.= $this->packHeader(Geometry::POINT, $point, $outer);
         $wkb.= $this->packPoint($point);
 
         return $wkb;
     }
 
     /**
-     * @param \Brick\Geo\LineString $lineString
+     * @param LineString $lineString
+     * @param boolean    $outer
      *
      * @return string
      */
-    private function writeLineString(LineString $lineString)
+    private function writeLineString(LineString $lineString, $outer)
     {
         $wkb = $this->packByteOrder();
-        $wkb.= $this->packGeometryTypeZM(Geometry::LINESTRING, $lineString);
+        $wkb.= $this->packHeader(Geometry::LINESTRING, $lineString, $outer);
         $wkb.= $this->packLineString($lineString);
 
         return $wkb;
     }
 
     /**
-     * @param \Brick\Geo\Polygon $polygon
+     * @param Polygon $polygon
+     * @param boolean $outer
      *
      * @return string
      */
-    private function writePolygon(Polygon $polygon)
+    private function writePolygon(Polygon $polygon, $outer)
     {
         $wkb = $this->packByteOrder();
-        $wkb.= $this->packGeometryTypeZM(Geometry::POLYGON, $polygon);
+        $wkb.= $this->packHeader(Geometry::POLYGON, $polygon, $outer);
         $wkb.= $this->packUnsignedInteger($polygon->count());
 
         foreach ($polygon as $ring) {
@@ -232,14 +249,15 @@ class WKBWriter
     }
 
     /**
-     * @param \Brick\Geo\Triangle $triangle
+     * @param Triangle $triangle
+     * @param boolean $outer
      *
      * @return string
      */
-    private function writeTriangle(Triangle $triangle)
+    private function writeTriangle(Triangle $triangle, $outer)
     {
         $wkb = $this->packByteOrder();
-        $wkb.= $this->packGeometryTypeZM(Geometry::TRIANGLE, $triangle);
+        $wkb.= $this->packHeader(Geometry::TRIANGLE, $triangle, $outer);
         $wkb.= $this->packUnsignedInteger($triangle->count());
 
         foreach ($triangle as $ring) {
@@ -250,108 +268,114 @@ class WKBWriter
     }
 
     /**
-     * @param \Brick\Geo\MultiPoint $multiPoint
+     * @param MultiPoint $multiPoint
+     * @param boolean    $outer
      *
      * @return string
      */
-    private function writeMultiPoint(MultiPoint $multiPoint)
+    private function writeMultiPoint(MultiPoint $multiPoint, $outer)
     {
         $wkb = $this->packByteOrder();
-        $wkb.= $this->packGeometryTypeZM(Geometry::MULTIPOINT, $multiPoint);
+        $wkb.= $this->packHeader(Geometry::MULTIPOINT, $multiPoint, $outer);
         $wkb.= $this->packUnsignedInteger($multiPoint->count());
 
         foreach ($multiPoint as $point) {
-            $wkb .= $this->writePoint($point);
+            $wkb .= $this->writePoint($point, false);
         }
 
         return $wkb;
     }
 
     /**
-     * @param \Brick\Geo\MultiLineString $multiLineString
+     * @param MultiLineString $multiLineString
+     * @param boolean         $outer
      *
      * @return string
      */
-    private function writeMultiLineString(MultiLineString $multiLineString)
+    private function writeMultiLineString(MultiLineString $multiLineString, $outer)
     {
         $wkb = $this->packByteOrder();
-        $wkb.= $this->packGeometryTypeZM(Geometry::MULTILINESTRING, $multiLineString);
+        $wkb.= $this->packHeader(Geometry::MULTILINESTRING, $multiLineString, $outer);
         $wkb.= $this->packUnsignedInteger($multiLineString->count());
 
         foreach ($multiLineString as $lineString) {
-            $wkb .= $this->writeLineString($lineString);
+            $wkb .= $this->writeLineString($lineString, false);
         }
 
         return $wkb;
     }
 
     /**
-     * @param \Brick\Geo\MultiPolygon $multiPolygon
+     * @param MultiPolygon $multiPolygon
+     * @param boolean $outer
      *
      * @return string
      */
-    private function writeMultiPolygon(MultiPolygon $multiPolygon)
+    private function writeMultiPolygon(MultiPolygon $multiPolygon, $outer)
     {
         $wkb = $this->packByteOrder();
-        $wkb.= $this->packGeometryTypeZM(Geometry::MULTIPOLYGON, $multiPolygon);
+        $wkb.= $this->packHeader(Geometry::MULTIPOLYGON, $multiPolygon, $outer);
         $wkb.= $this->packUnsignedInteger($multiPolygon->count());
 
         foreach ($multiPolygon as $polygon) {
-            $wkb .= $this->writePolygon($polygon);
+            $wkb .= $this->writePolygon($polygon, false);
         }
 
         return $wkb;
     }
 
     /**
-     * @param \Brick\Geo\GeometryCollection $collection
+     * @param GeometryCollection $collection
+     * @param boolean            $outer
      *
      * @return string
      */
-    private function writeGeometryCollection(GeometryCollection $collection)
+    private function writeGeometryCollection(GeometryCollection $collection, $outer)
     {
         $wkb = $this->packByteOrder();
-        $wkb.= $this->packGeometryTypeZM(Geometry::GEOMETRYCOLLECTION, $collection);
+        $wkb.= $this->packHeader(Geometry::GEOMETRYCOLLECTION, $collection, $outer);
         $wkb.= $this->packUnsignedInteger($collection->count());
 
         foreach ($collection as $geometry) {
-            $wkb .= $this->write($geometry);
+            $wkb .= $this->doWrite($geometry, false);
         }
 
         return $wkb;
     }
 
     /**
-     * @param \Brick\Geo\PolyhedralSurface $surface
+     * @param PolyhedralSurface $surface
+     * @param boolean           $outer
      *
      * @return string
      */
-    private function writePolyhedralSurface(PolyhedralSurface $surface)
+    private function writePolyhedralSurface(PolyhedralSurface $surface, $outer)
     {
         $wkb = $this->packByteOrder();
-        $wkb.= $this->packGeometryTypeZM(Geometry::POLYHEDRALSURFACE, $surface);
+        $wkb.= $this->packHeader(Geometry::POLYHEDRALSURFACE, $surface, $outer);
         $wkb.= $this->packUnsignedInteger($surface->count());
 
         foreach ($surface as $polygon) {
-            $wkb .= $this->writePolygon($polygon);
+            $wkb .= $this->writePolygon($polygon, false);
         }
 
         return $wkb;
     }
 
     /**
-     * @param \Brick\Geo\TIN $tin
+     * @param TIN     $tin
+     * @param boolean $outer
      *
      * @return string
      */
-    private function writeTIN(TIN $tin)
+    private function writeTIN(TIN $tin, $outer)
     {
         $wkb = $this->packByteOrder();
-        $wkb.= $this->packGeometryTypeZM(Geometry::TIN, $tin);
+        $wkb.= $this->packHeader(Geometry::TIN, $tin, $outer);
         $wkb.= $this->packUnsignedInteger($tin->count());
 
         foreach ($tin as $polygon) {
-            $wkb .= $this->writePolygon($polygon);
+            $wkb .= $this->writePolygon($polygon, false);
         }
 
         return $wkb;
