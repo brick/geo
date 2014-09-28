@@ -38,6 +38,14 @@ class GeometryException extends \Exception
     }
 
     /**
+     * @return GeometryException
+     */
+    public static function invalidEWKT()
+    {
+        return new self('Invalid EWKT.');
+    }
+
+    /**
      * @param string $message
      *
      * @return GeometryException

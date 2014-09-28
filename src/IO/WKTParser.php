@@ -12,36 +12,15 @@ class WKTParser
     const T_WORD   = 1;
     const T_NUMBER = 2;
 
-    const REGEX_WORD       = '([a-zA-Z]+)';
-    const REGEX_NUMBER     = '(\-?[0-9]+(?:\.[0-9]+)?(?:[eE][+-]?[0-9]+)?)';
-    const REGEX_OTHER      = '(.)';
-    const REGEX_WHITESPACE = '\s+';
-
-    /**
-     * Array of all regex. The order is important!
-     *
-     * @var array
-     */
-    private static $regex = [
-        self::REGEX_WORD,
-        self::REGEX_NUMBER,
-        self::REGEX_WHITESPACE,
-        self::REGEX_OTHER
-    ];
+    const REGEX_WORD   = '([a-z]+)';
+    const REGEX_NUMBER = '(\-?[0-9]+(?:\.[0-9]+)?(?:e[\+\-]?[0-9]+)?)';
 
     /**
      * An array of all tokens.
      *
      * @var array
      */
-    private $tokens = [];
-
-    /**
-     * The current token.
-     *
-     * @var array
-     */
-    private $currentToken;
+    protected $tokens = [];
 
     /**
      * Class constructor.
@@ -51,7 +30,17 @@ class WKTParser
     public function __construct($wkt)
     {
         $this->scan($wkt);
-        $this->currentToken = current($this->tokens);
+    }
+
+    /**
+     * @return array
+     */
+    protected function getRegex()
+    {
+        return [
+            self::T_WORD   => self::REGEX_WORD,
+            self::T_NUMBER => self::REGEX_NUMBER,
+        ];
     }
 
     /**
@@ -61,17 +50,22 @@ class WKTParser
      */
     private function scan($wkt)
     {
-        $regex = '/' . implode('|', self::$regex) . '/';
+        $regex = $this->getRegex();
+        $regex[] = '\s+';
+        $regex[] = '(.+?)';
 
-        preg_match_all($regex, $wkt, $matches);
+        $regex = '/' . implode('|', $regex) . '/i';
 
-        foreach ($matches as $type => $values) {
-            if ($type === 0) {
-                continue;
-            }
-            foreach ($values as $index => $value) {
+        preg_match_all($regex, $wkt, $matches, PREG_SET_ORDER);
+
+        foreach ($matches as $index => $match) {
+            foreach ($match as $key => $value) {
+                if ($key === 0) {
+                    continue;
+                }
+
                 if ($value !== '') {
-                    $this->tokens[$index] = [$type, $value];
+                    $this->tokens[$index] = [$key, $value];
                 }
             }
         }
@@ -140,7 +134,7 @@ class WKTParser
         if ($token === false) {
             throw new GeometryException("Expected word but encountered end of stream");
         }
-        if ($token[0] !== self::T_WORD) {
+        if ($token[0] !== static::T_WORD) {
             throw new GeometryException("Expected word but encountered '" . $token[1] . "'");
         }
 
@@ -157,7 +151,7 @@ class WKTParser
         if ($token === false) {
             return null;
         }
-        if ($token[0] !== self::T_WORD) {
+        if ($token[0] !== static::T_WORD) {
             return null;
         }
 
@@ -178,7 +172,7 @@ class WKTParser
         if ($token === false) {
             throw new GeometryException("Expected number but encountered end of stream");
         }
-        if ($token[0] !== self::T_NUMBER) {
+        if ($token[0] !== static::T_NUMBER) {
             throw new GeometryException("Expected number but encountered '" . $token[1] . "'");
         }
 
