@@ -60,7 +60,7 @@ class GeometryCollection extends Geometry implements \Countable, \IteratorAggreg
     /**
      * @param array $geometries An array of Geometry objects.
      *
-     * @return GeometryCollection
+     * @return static
      *
      * @throws GeometryException If the array contains objects not of the current type.
      */
