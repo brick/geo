@@ -40,7 +40,9 @@ Configuring the library consists in choosing the most convenient `GeometryEngine
 - `PDOEngine`: communicates with a GIS-compatible database over a `PDO` connection.  
   This engine currently supports the following databases:
   - [MySQL](http://php.net/manual/en/ref.pdo-mysql.php) version 5.6 or greater;  
-    (earlier versions only have partial GIS support based on bounding boxes)
+    Earlier versions only have partial GIS support based on bounding boxes and are not supported.  
+    **Note: MySQL currently only supports 2D geometries.**
+    
   - [PostgreSQL](http://php.net/manual/en/ref.pdo-pgsql.php) with the [PostGIS](http://postgis.net/install) extension.
 - `SQLite3Engine`: communicates with a [SQLite3](http://php.net/manual/en/book.sqlite3.php) database with the [SpatiaLite](https://www.gaia-gis.it/fossil/libspatialite/index) extension.
 - `GEOSEngine`: uses the [GEOS](https://github.com/libgeos/libgeos) PHP bindings.
