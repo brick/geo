@@ -20,6 +20,9 @@ class EWKTReaderTest extends EWKTAbstractTest
      */
     public function testRead($ewkt, array $coords, $is3D, $isMeasured, $srid)
     {
+        $this->is3D($is3D);
+        $this->isMeasured($isMeasured);
+
         $geometry = (new EWKTReader())->read($ewkt);
         $this->assertGeometryEquals($geometry, $coords, $is3D, $isMeasured, $srid);
     }

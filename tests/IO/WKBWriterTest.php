@@ -14,12 +14,17 @@ class WKBWriterTest extends WKBAbstractTest
     /**
      * @dataProvider providerWrite
      *
-     * @param string  $wkt       The WKT to read.
-     * @param string  $wkb       The expected WKB output, hex-encoded.
-     * @param integer $byteOrder The byte order to use.
+     * @param string  $wkt        The WKT to read.
+     * @param string  $wkb        The expected WKB output, hex-encoded.
+     * @param boolean $is3D       Whether the geometry has Z coordinates.
+     * @param boolean $isMeasured Whether the geometry has M coordinates.
+     * @param integer $byteOrder  The byte order to use.
      */
-    public function testWrite($wkt, $wkb, $byteOrder)
+    public function testWrite($wkt, $wkb, $is3D, $isMeasured, $byteOrder)
     {
+        $this->is3D($is3D);
+        $this->isMeasured($isMeasured);
+
         $writer = new WKBWriter();
         $writer->setByteOrder($byteOrder);
 
@@ -36,12 +41,12 @@ class WKBWriterTest extends WKBAbstractTest
      */
     public function providerWrite()
     {
-        foreach ($this->providerLittleEndianWKB() as list($wkt, $wkb)) {
-            yield [$wkt, $wkb, WKBTools::LITTLE_ENDIAN];
+        foreach ($this->providerLittleEndianWKB() as list($wkt, $wkb, $is3D, $isMeasured)) {
+            yield [$wkt, $wkb, $is3D, $isMeasured, WKBTools::LITTLE_ENDIAN];
         }
 
-        foreach ($this->providerBigEndianWKB() as list($wkt, $wkb)) {
-            yield [$wkt, $wkb, WKBTools::BIG_ENDIAN];
+        foreach ($this->providerBigEndianWKB() as list($wkt, $wkb, $is3D, $isMeasured)) {
+            yield [$wkt, $wkb, $is3D, $isMeasured, WKBTools::BIG_ENDIAN];
         }
     }
 }

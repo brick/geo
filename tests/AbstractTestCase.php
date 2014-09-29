@@ -2,6 +2,8 @@
 
 namespace Brick\Geo\Tests;
 
+use Brick\Geo\Engine\GeometryEngineRegistry;
+use Brick\Geo\Engine\PDOEngine;
 use Brick\Geo\Geometry;
 use Brick\Geo\MultiLineString;
 use Brick\Geo\MultiPoint;
@@ -15,6 +17,41 @@ use Brick\Geo\Polygon;
  */
 class AbstractTestCase extends \PHPUnit_Framework_TestCase
 {
+    final protected function skipMySQL()
+    {
+        $engine = GeometryEngineRegistry::get();
+
+        if ($engine instanceof PDOEngine) {
+            if ($engine->getPDO()->getAttribute(\PDO::ATTR_DRIVER_NAME) === 'mysql') {
+                $this->markTestSkipped('Z and M coordinates are not supported by MySQL');
+            }
+        }
+    }
+
+    /**
+     * Specifies whether the test uses Z coordinates.
+     *
+     * @param boolean $is3D
+     */
+    final protected function is3D($is3D)
+    {
+        if ($is3D) {
+            $this->skipMySQL();
+        }
+    }
+
+    /**
+     * Specifies whether the test uses M coordinates.
+     *
+     * @param boolean $isMeasured
+     */
+    final protected function isMeasured($isMeasured)
+    {
+        if ($isMeasured) {
+            $this->skipMySQL();
+        }
+    }
+
     /**
      * @param Geometry $g      The Geometry to test.
      * @param array    $coords The expected raw coordinates of the geometry.

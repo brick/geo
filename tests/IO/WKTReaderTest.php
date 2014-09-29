@@ -20,6 +20,9 @@ class WKTReaderTest extends WKTAbstractTest
      */
     public function testRead($wkt, array $coords, $is3D, $isMeasured, $srid)
     {
+        $this->is3D($is3D);
+        $this->isMeasured($isMeasured);
+
         $geometry = (new WKTReader())->read($wkt, $srid);
         $this->assertGeometryEquals($geometry, $coords, $is3D, $isMeasured, $srid);
     }

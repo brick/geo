@@ -18,6 +18,9 @@ class EWKTWriterTest extends EWKTAbstractTest
      */
     public function testPrettyPrint($prettyPrint, $ewkt)
     {
+        $this->is3D(true);
+        $this->isMeasured(true);
+
         $writer = new EWKTWriter();
         $writer->setPrettyPrint($prettyPrint);
 
@@ -47,6 +50,9 @@ class EWKTWriterTest extends EWKTAbstractTest
      */
     public function testWritePoint($wkt, array $coords, $is3D, $isMeasured)
     {
+        $this->is3D($is3D);
+        $this->isMeasured($isMeasured);
+
         $writer = new EWKTWriter();
         $writer->setPrettyPrint(false);
 
@@ -64,6 +70,9 @@ class EWKTWriterTest extends EWKTAbstractTest
      */
     public function testWriteLineString($wkt, array $coords, $is3D, $isMeasured)
     {
+        $this->is3D($is3D);
+        $this->isMeasured($isMeasured);
+
         $writer = new EWKTWriter();
         $writer->setPrettyPrint(false);
 
@@ -81,6 +90,9 @@ class EWKTWriterTest extends EWKTAbstractTest
      */
     public function testWritePolygon($wkt, array $coords, $is3D, $isMeasured)
     {
+        $this->is3D($is3D);
+        $this->isMeasured($isMeasured);
+
         $writer = new EWKTWriter();
         $writer->setPrettyPrint(false);
 
@@ -98,6 +110,9 @@ class EWKTWriterTest extends EWKTAbstractTest
      */
     public function testWriteMultiPoint($wkt, array $coords, $is3D, $isMeasured)
     {
+        $this->is3D($is3D);
+        $this->isMeasured($isMeasured);
+
         $writer = new EWKTWriter();
         $writer->setPrettyPrint(false);
 
@@ -115,6 +130,9 @@ class EWKTWriterTest extends EWKTAbstractTest
      */
     public function testWriteMultiLineString($wkt, array $coords, $is3D, $isMeasured)
     {
+        $this->is3D($is3D);
+        $this->isMeasured($isMeasured);
+
         $writer = new EWKTWriter();
         $writer->setPrettyPrint(false);
 
@@ -132,6 +150,9 @@ class EWKTWriterTest extends EWKTAbstractTest
      */
     public function testWriteMultiPolygon($wkt, array $coords, $is3D, $isMeasured)
     {
+        $this->is3D($is3D);
+        $this->isMeasured($isMeasured);
+
         $writer = new EWKTWriter();
         $writer->setPrettyPrint(false);
 
@@ -149,6 +170,9 @@ class EWKTWriterTest extends EWKTAbstractTest
      */
     public function testWriteGeometryCollection($wkt, array $coords, $is3D, $isMeasured)
     {
+        $this->is3D($is3D);
+        $this->isMeasured($isMeasured);
+
         $writer = new EWKTWriter();
         $writer->setPrettyPrint(false);
 

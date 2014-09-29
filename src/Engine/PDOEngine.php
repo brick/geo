@@ -28,6 +28,14 @@ class PDOEngine extends DatabaseEngine
     }
 
     /**
+     * @return \PDO
+     */
+    public function getPDO()
+    {
+        return $this->pdo;
+    }
+
+    /**
      * {@inheritdoc}
      */
     protected function executeQuery($query, array $parameters)

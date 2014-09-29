@@ -20,6 +20,9 @@ class PointTest extends AbstractTestCase
      */
     public function testFactory(array $arguments, array $coords, $is3D, $isMeasured)
     {
+        $this->is3D($is3D);
+        $this->isMeasured($isMeasured);
+
         $point = call_user_func_array([Point::class, 'factory'], $arguments);
         $this->assertPointEquals($coords, $is3D, $isMeasured, 0, $point);
     }
@@ -60,6 +63,8 @@ class PointTest extends AbstractTestCase
      */
     public function testIs3D(array $coordinates, $is3D)
     {
+        $this->is3D($is3D);
+
         /** @var Point $point */
         $point = call_user_func_array([Point::class, 'factory'], $coordinates);
         $this->assertSame($is3D, $point->is3D());
@@ -86,6 +91,8 @@ class PointTest extends AbstractTestCase
      */
     public function testIsMeasured(array $coordinates, $isMeasured)
     {
+        $this->isMeasured($isMeasured);
+
         /** @var Point $point */
         $point = call_user_func_array([Point::class, 'factory'], $coordinates);
         $this->assertSame($isMeasured, $point->isMeasured());
