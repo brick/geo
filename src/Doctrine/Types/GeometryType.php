@@ -102,4 +102,12 @@ class GeometryType extends Type
     {
         return sprintf('ST_AsWkb(%s)', $sqlExpr);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function requiresSQLCommentHint(AbstractPlatform $platform)
+    {
+        return true;
+    }
 }

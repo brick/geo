@@ -4,6 +4,8 @@ namespace Brick\Geo\Doctrine\Types;
 
 use Brick\Geo\Proxy\MultiPolygonProxy;
 
+use Doctrine\DBAL\Platforms\AbstractPlatform;
+
 /**
  * Doctrine type for MultiPolygon.
  */
@@ -23,5 +25,13 @@ class MultiPolygonType extends GeometryType
     protected function createGeometryProxy($wkb)
     {
         return new MultiPolygonProxy($wkb, true);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function requiresSQLCommentHint(AbstractPlatform $platform)
+    {
+        return true;
     }
 }

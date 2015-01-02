@@ -4,6 +4,8 @@ namespace Brick\Geo\Doctrine\Types;
 
 use Brick\Geo\Proxy\LineStringProxy;
 
+use Doctrine\DBAL\Platforms\AbstractPlatform;
+
 /**
  * Doctrine type for LineString.
  */
@@ -23,5 +25,13 @@ class LineStringType extends GeometryType
     protected function createGeometryProxy($wkb)
     {
         return new LineStringProxy($wkb, true);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function requiresSQLCommentHint(AbstractPlatform $platform)
+    {
+        return true;
     }
 }
