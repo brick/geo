@@ -100,7 +100,7 @@ class GeometryType extends Type
      */
     public function convertToPHPValueSQL($sqlExpr, $platform)
     {
-        return sprintf('ST_AsWkb(%s)', $sqlExpr);
+        return sprintf('ST_AsBinary(%s)', $sqlExpr);
     }
 
     /**
