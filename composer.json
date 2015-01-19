@@ -11,7 +11,8 @@
     ],
     "license": "MIT",
     "require": {
-        "php": ">=5.5"
+        "php": ">=5.5",
+        "ext-geos": "*"
     },
     "require-dev": {
         "brick/reflection": "dev-master",
