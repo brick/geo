@@ -209,6 +209,18 @@ class GeometryCollectionProxy extends \Brick\Geo\GeometryCollection
     /**
      * {@inheritdoc}
      */
+    public function toArray()
+    {
+        if ($this->geometry === null) {
+            $this->load();
+        }
+
+        return $this->geometry->toArray();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function count()
     {
         if ($this->geometry === null) {

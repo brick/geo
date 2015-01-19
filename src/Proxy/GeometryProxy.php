@@ -218,4 +218,16 @@ class GeometryProxy extends \Brick\Geo\Geometry
         return $this->geometry->isMeasured();
     }
 
+    /**
+     * {@inheritdoc}
+     */
+    public function toArray()
+    {
+        if ($this->geometry === null) {
+            $this->load();
+        }
+
+        return $this->geometry->toArray();
+    }
+
 }

@@ -278,4 +278,16 @@ class CurveProxy extends \Brick\Geo\Curve
         return $this->geometry->isMeasured();
     }
 
+    /**
+     * {@inheritdoc}
+     */
+    public function toArray()
+    {
+        if ($this->geometry === null) {
+            $this->load();
+        }
+
+        return $this->geometry->toArray();
+    }
+
 }

@@ -197,6 +197,18 @@ class PolygonProxy extends \Brick\Geo\Polygon
     /**
      * {@inheritdoc}
      */
+    public function toArray()
+    {
+        if ($this->geometry === null) {
+            $this->load();
+        }
+
+        return $this->geometry->toArray();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function count()
     {
         if ($this->geometry === null) {
@@ -216,18 +228,6 @@ class PolygonProxy extends \Brick\Geo\Polygon
         }
 
         return $this->geometry->getIterator();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function toArray()
-    {
-        if ($this->geometry === null) {
-            $this->load();
-        }
-
-        return $this->geometry->toArray();
     }
 
     /**

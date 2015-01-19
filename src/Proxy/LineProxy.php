@@ -209,6 +209,18 @@ class LineProxy extends \Brick\Geo\Line
     /**
      * {@inheritdoc}
      */
+    public function toArray()
+    {
+        if ($this->geometry === null) {
+            $this->load();
+        }
+
+        return $this->geometry->toArray();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function count()
     {
         if ($this->geometry === null) {
@@ -228,18 +240,6 @@ class LineProxy extends \Brick\Geo\Line
         }
 
         return $this->geometry->getIterator();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function toArray()
-    {
-        if ($this->geometry === null) {
-            $this->load();
-        }
-
-        return $this->geometry->toArray();
     }
 
     /**

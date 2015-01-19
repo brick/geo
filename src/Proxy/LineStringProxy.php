@@ -209,6 +209,18 @@ class LineStringProxy extends \Brick\Geo\LineString
     /**
      * {@inheritdoc}
      */
+    public function toArray()
+    {
+        if ($this->geometry === null) {
+            $this->load();
+        }
+
+        return $this->geometry->toArray();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function count()
     {
         if ($this->geometry === null) {
@@ -228,18 +240,6 @@ class LineStringProxy extends \Brick\Geo\LineString
         }
 
         return $this->geometry->getIterator();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function toArray()
-    {
-        if ($this->geometry === null) {
-            $this->load();
-        }
-
-        return $this->geometry->toArray();
     }
 
     /**
