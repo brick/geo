@@ -58,7 +58,7 @@ class GeometryType extends Type
             return null;
         }
 
-        return $this->createGeometryProxy($value);
+        return $this->createGeometryProxy(stream_get_contents($value));
     }
 
     /**
