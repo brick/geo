@@ -46,6 +46,9 @@ class GeometryType extends Type
      */
     public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform)
     {
+        if ($platform->getName() === 'postgresql') {
+            return "GEOMETRY";
+        }
         return strtoupper($this->getName());
     }
 
@@ -110,4 +113,14 @@ class GeometryType extends Type
     {
         return true;
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getBindingType()
+    {
+        return \PDO::PARAM_LOB;
+    }
+
+
 }

@@ -16,6 +16,7 @@
     "require-dev": {
         "brick/reflection": "dev-master",
         "doctrine/orm": "*",
+        "doctrine/data-fixtures": "*",
         "phpunit/phpunit": "*",
         "satooshi/php-coveralls": "dev-master"
     },
