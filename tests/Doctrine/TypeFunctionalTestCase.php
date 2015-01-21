@@ -60,6 +60,13 @@ class TypeFunctionalTestCase extends DbalFunctionalTestCase
             case 'postgresql':
                 $this->_conn->executeQuery('CREATE EXTENSION IF NOT EXISTS postgis;');
                 break;
+            case 'sqlite':
+                $prefix = '';
+                if (getenv('TRAVIS_PHP_VERSION') === 'hhvm') {
+                    $prefix = '/usr/lib/';
+                }
+                $this->_conn->getWrappedConnection()->loadExtension($prefix . 'libspatialite.so.3');
+                break;
         }
         $this->fixtureLoader = new Loader();
 
