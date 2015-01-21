@@ -2,6 +2,7 @@
 
 namespace Brick\Geo\Tests\Doctrine;
 
+use Brick\Geo\Tests\Doctrine\Fixtures;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\Loader;
@@ -73,13 +74,13 @@ class TypeFunctionalTestCase extends DbalFunctionalTestCase
         $this->schemaTool = new SchemaTool($this->em);
 
         $this->schemaTool->updateSchema([
-            $this->em->getClassMetadata('Brick\Geo\Tests\Doctrine\Fixtures\GeometryEntity'),
-            $this->em->getClassMetadata('Brick\Geo\Tests\Doctrine\Fixtures\LineStringEntity'),
-            $this->em->getClassMetadata('Brick\Geo\Tests\Doctrine\Fixtures\MultiLineStringEntity'),
-            $this->em->getClassMetadata('Brick\Geo\Tests\Doctrine\Fixtures\MultiPointEntity'),
-            $this->em->getClassMetadata('Brick\Geo\Tests\Doctrine\Fixtures\MultiPolygonEntity'),
-            $this->em->getClassMetadata('Brick\Geo\Tests\Doctrine\Fixtures\PointEntity'),
-            $this->em->getClassMetadata('Brick\Geo\Tests\Doctrine\Fixtures\PolygonEntity')
+            $this->em->getClassMetadata(Fixtures\GeometryEntity::class),
+            $this->em->getClassMetadata(Fixtures\LineStringEntity::class),
+            $this->em->getClassMetadata(Fixtures\MultiLineStringEntity::class),
+            $this->em->getClassMetadata(Fixtures\MultiPointEntity::class),
+            $this->em->getClassMetadata(Fixtures\MultiPolygonEntity::class),
+            $this->em->getClassMetadata(Fixtures\PointEntity::class),
+            $this->em->getClassMetadata(Fixtures\PolygonEntity::class)
         ]);
 
         $purger = new ORMPurger();

@@ -1,5 +1,6 @@
 <?php
 
+use Brick\Geo\Doctrine\Types;
 use Brick\Geo\Engine\GeometryEngine;
 use Brick\Geo\Engine\GeometryEngineRegistry;
 use Brick\Geo\Engine\PDOEngine;
@@ -18,13 +19,13 @@ $classLoader->addPsr4('Doctrine\\Tests\\', [
 $classLoader->loadClass('Doctrine\Tests\DbalFunctionalTestCase');
 $classLoader->loadClass('Doctrine\Tests\DBAL\Mocks\MockPlatform');
 
-Type::addType('geometry', 'Brick\Geo\Doctrine\Types\GeometryType');
-Type::addType('linestring', 'Brick\Geo\Doctrine\Types\LineStringType');
-Type::addType('multilinestring', 'Brick\Geo\Doctrine\Types\MultiLineStringType');
-Type::addType('multipoint', 'Brick\Geo\Doctrine\Types\MultiPointType');
-Type::addType('multipolygon', 'Brick\Geo\Doctrine\Types\MultiPolygonType');
-Type::addType('point', 'Brick\Geo\Doctrine\Types\PointType');
-Type::addType('polygon', 'Brick\Geo\Doctrine\Types\PolygonType');
+Type::addType('geometry', Types\GeometryType::class);
+Type::addType('linestring', Types\LineStringType::class);
+Type::addType('multilinestring', Types\MultiLineStringType::class);
+Type::addType('multipoint', Types\MultiPointType::class);
+Type::addType('multipolygon', Types\MultiPolygonType::class);
+Type::addType('point', Types\PointType::class);
+Type::addType('polygon', Types\PolygonType::class);
 
 
 /**

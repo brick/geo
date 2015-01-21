@@ -4,6 +4,8 @@ namespace Brick\Geo\Tests\Doctrine\Types;
 
 use Brick\Geo\Tests\Doctrine\DataFixtures\LoadLineStringData;
 use Brick\Geo\Tests\Doctrine\TypeFunctionalTestCase;
+use Brick\Geo\Tests\Doctrine\Fixtures\LineStringEntity;
+use Brick\Geo\LineString;
 
 /**
  * Integrations tests for class LineStringType.
@@ -23,11 +25,11 @@ class LineStringTypeTest extends TypeFunctionalTestCase
 
     public function testReadFromDbAndConvertToPHPValue()
     {
-        $repository = $this->getEntityManager()->getRepository('Brick\Geo\Tests\Doctrine\Fixtures\LineStringEntity');
+        $repository = $this->getEntityManager()->getRepository(LineStringEntity::class);
         $lineStringEntity = $repository->findOneBy(array('id' => 1));
         $this->assertNotNull($lineStringEntity);
 
         $lineString = $lineStringEntity->getLineString();
-        $this->assertInstanceOf('Brick\Geo\LineString', $lineString);
+        $this->assertInstanceOf(LineString::class, $lineString);
     }
 }
