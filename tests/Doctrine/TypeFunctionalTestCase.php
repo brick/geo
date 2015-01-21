@@ -46,6 +46,11 @@ class TypeFunctionalTestCase extends DbalFunctionalTestCase
     protected function setUp()
     {
         parent::setUp();
+
+        if (getenv('ENGINE') == 'SQLite3' || getenv('ENGINE') == 'GEOS') {
+            $this->markTestSkipped('The doctrine types currently only work with MySQL and PostgreSQL');
+        }
+
         $this->platform = $this->_conn->getDatabasePlatform();
 
         $this->platform->registerDoctrineTypeMapping('geometry', 'binary');
@@ -59,13 +64,6 @@ class TypeFunctionalTestCase extends DbalFunctionalTestCase
         switch ($this->platform->getName()) {
             case 'postgresql':
                 $this->_conn->executeQuery('CREATE EXTENSION IF NOT EXISTS postgis;');
-                break;
-            case 'sqlite':
-                $prefix = '';
-                if (getenv('TRAVIS_PHP_VERSION') === 'hhvm') {
-                    $prefix = '/usr/lib/';
-                }
-                $this->_conn->getWrappedConnection()->loadExtension($prefix . 'libspatialite.so.3');
                 break;
         }
         $this->fixtureLoader = new Loader();
