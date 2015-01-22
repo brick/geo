@@ -55,7 +55,7 @@ function createGeometryEngine()
             break;
 
         case 'PDO_PGSQL':
-            $pdo = new PDO('pgsql:host=localhost', 'postgres', 'postgres');
+            $pdo = new PDO('pgsql:host=localhost', 'postgres', '');
             $pdo->exec('CREATE EXTENSION IF NOT EXISTS postgis;');
             $engine = new PDOEngine($pdo);
 
