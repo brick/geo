@@ -61,6 +61,10 @@ class GeometryType extends Type
             return null;
         }
 
+        if (is_resource($value)) {
+            $value = stream_get_contents($value);
+        }
+
         return $this->createGeometryProxy($value);
     }
 

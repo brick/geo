@@ -26,10 +26,15 @@ class PointTypeTest extends TypeFunctionalTestCase
     public function testReadFromDbAndConvertToPHPValue()
     {
         $repository = $this->getEntityManager()->getRepository(PointEntity::class);
+
+        /** @var PointEntity $pointEntity */
         $pointEntity = $repository->findOneBy(array('id' => 1));
         $this->assertNotNull($pointEntity);
 
         $point = $pointEntity->getPoint();
         $this->assertInstanceOf(Point::class, $point);
+        $this->assertEquals(0, $point->x());
+        $this->assertEquals(0, $point->y());
+        $this->assertEquals(null, $point->z());
     }
 }
