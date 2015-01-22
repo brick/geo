@@ -19,7 +19,7 @@ before_script:
   - if [[ $ENGINE = PDO_MYSQL ]]; then mysql -e 'create database geo_tests_tmp;'; fi;
   - if [[ $ENGINE = GEOS ]]; then bash .travis.install-geos.sh; fi;
   - if [[ $ENGINE = SQLite3 ]]; then bash .travis.install-sqlite3.sh; fi;
-  - composer install --prefer-source
+  - composer install
 
 script:
   - mkdir -p build/logs

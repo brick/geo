@@ -25,5 +25,9 @@
             "Brick\\Geo\\": "src/",
             "Brick\\Geo\\Tests\\": "tests/"
         }
+    },
+    "config": {
+        "process-timeout": 600,
+        "preferred-install": "source"
     }
 }
