@@ -1,0 +1,33 @@
+<?php
+
+namespace Brick\Geo\Tests\Doctrine\DataFixtures;
+
+use Brick\Geo\LinearRing;
+use Brick\Geo\Point;
+use Brick\Geo\Polygon;
+use Brick\Geo\Tests\Doctrine\Fixtures\PolygonEntity;
+use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\Common\Persistence\ObjectManager;
+
+class LoadPolygonData implements FixtureInterface {
+
+    /**
+     * {@inheritdoc}
+     */
+    function load(ObjectManager $manager)
+    {
+        $point1 = Point::factory(0,0);
+        $point2 = Point::factory(1,0);
+        $point3 = Point::factory(1,1);
+        $point4 = Point::factory(0,1);
+        $point5 = Point::factory(0,0);
+
+        $ring = LinearRing::factory([ $point1, $point2, $point3, $point4, $point5]);
+
+        $poly1 = new PolygonEntity();
+        $poly1->setPolygon(Polygon::factory([$ring]));
+
+        $manager->persist($poly1);
+        $manager->flush();
+    }
+}

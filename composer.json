@@ -16,6 +16,7 @@
     "require-dev": {
         "brick/reflection": "dev-master",
         "doctrine/orm": "*",
+        "doctrine/data-fixtures": "*",
         "phpunit/phpunit": "*",
         "satooshi/php-coveralls": "dev-master"
     },
@@ -24,5 +25,9 @@
             "Brick\\Geo\\": "src/",
             "Brick\\Geo\\Tests\\": "tests/"
         }
+    },
+    "config": {
+        "process-timeout": 600,
+        "preferred-install": "source"
     }
 }
