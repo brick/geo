@@ -36,6 +36,10 @@ function createGeometryEngine()
     switch ($engine = getenv('ENGINE')) {
         case 'PDO_MYSQL':
             $pdo = new PDO('mysql:host=localhost', 'root', '');
+            $pdo->exec('DROP DATABASE IF EXISTS geo_tests');
+            $pdo->exec('DROP DATABASE IF EXISTS geo_tests_tmp');
+            $pdo->exec('CREATE DATABASE geo_tests');
+            $pdo->exec('CREATE DATABASE geo_tests_tmp');
             $engine = new PDOEngine($pdo);
 
             //Connect data for doctrine integration tests
@@ -57,6 +61,10 @@ function createGeometryEngine()
         case 'PDO_PGSQL':
             $pdo = new PDO('pgsql:host=localhost', 'postgres', '');
             $pdo->exec('CREATE EXTENSION IF NOT EXISTS postgis;');
+            $pdo->exec('DROP DATABASE IF EXISTS geo_tests');
+            $pdo->exec('DROP DATABASE IF EXISTS geo_tests_tmp');
+            $pdo->exec('CREATE DATABASE geo_tests');
+            $pdo->exec('CREATE DATABASE geo_tests_tmp');
             $engine = new PDOEngine($pdo);
 
             //Connect data for doctrine integration tests

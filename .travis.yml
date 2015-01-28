@@ -12,13 +12,10 @@ env:
   - ENGINE=GEOS
 
 before_script:
-  - if [[ $ENGINE = PDO_PGSQL ]]; then psql -c 'create database geo_tests;' -U postgres; fi;
-  - if [[ $ENGINE = PDO_PGSQL ]]; then psql -c 'create database geo_tests_tmp;' -U postgres; fi;
   - if [[ $ENGINE = PDO_MYSQL ]]; then bash .travis.install-mysql.sh; fi;
-  - if [[ $ENGINE = PDO_MYSQL ]]; then mysql -e 'create database geo_tests;'; fi;
-  - if [[ $ENGINE = PDO_MYSQL ]]; then mysql -e 'create database geo_tests_tmp;'; fi;
   - if [[ $ENGINE = GEOS ]]; then bash .travis.install-geos.sh; fi;
   - if [[ $ENGINE = SQLite3 ]]; then bash .travis.install-sqlite3.sh; fi;
+  - composer self-update
   - composer install
 
 script:
