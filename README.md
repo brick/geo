@@ -9,7 +9,7 @@ A collection of classes to work with GIS geometries.
 Introduction
 ------------
 
-This library is an implementation of the [OpenGIS specification](http://www.opengeospatial.org/standards/sfa).
+This library is a PHP implementation of the [OpenGIS specification](http://www.opengeospatial.org/standards/sfa).
 
 It is essentially a wrapper around a third-party GIS engine, to which it delegates most of the complexity of the
 geometry calculations. Several engines are supported, from native PHP extensions such as GEOS to GIS-compatible databases such as MySQL or PostgreSQL.
