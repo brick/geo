@@ -120,3 +120,8 @@ Usage
 -----
 
 To be written.
+
+Functions
+---------
+
+All suported spacial functions can be found in the [functions.md](functions.md) file.
