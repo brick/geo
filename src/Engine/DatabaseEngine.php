@@ -351,6 +351,6 @@ abstract class DatabaseEngine implements GeometryEngine
      */
     public function maxDistance(Geometry $a, Geometry $b)
     {
-        return $this->queryGeometry('ST_MaxDistance', [$a, $b]);
+        return $this->queryFloat('ST_MaxDistance', [$a, $b]);
     }
 }
