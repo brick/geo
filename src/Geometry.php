@@ -530,7 +530,7 @@ abstract class Geometry
      *
      * @noproxy
      *
-     * @param $size
+     * @param float $size
      *
      * @return Geometry
      */
@@ -544,7 +544,7 @@ abstract class Geometry
      *
      * @noproxy
      *
-     * @param $tolerance
+     * @param float $tolerance
      *
      * @return Geometry
      */
