@@ -24,6 +24,7 @@ if you use a specific geometry engine.
 |`length`       |  X   |    X    |       |     X      |        X         |
 |`locateAlong`  |      |    X    |       |     X      |                  |
 |`locateBetween`|      |    X    |       |     X      |                  |
+|`maxDistance`  |      |    X    |       |     X      |                  |
 |`overlaps`     |  X   |    X    |   X   |     X      |        X         |
 |`relate`       |  X   |    X    |       |     X      |        X         |
 |`simplify`     |  X   |    X    |       |     X      |                  |

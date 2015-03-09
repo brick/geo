@@ -276,4 +276,13 @@ interface GeometryEngine
      * @return Geometry
      */
     public function simplify(Geometry $a, $b);
+
+    /**
+     * Returns the 2-dimensional largest distance between two geometries in projected units.
+     *
+     * @param Geometry $a
+     * @param Geometry $b
+     * @return float
+     */
+    public function maxDistance(Geometry $a, Geometry $b);
 }

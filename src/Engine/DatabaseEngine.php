@@ -346,5 +346,11 @@ abstract class DatabaseEngine implements GeometryEngine
         return $this->queryGeometry('ST_Simplify', [$a, $b]);
     }
 
-
+    /**
+     * {@inheritdoc}
+     */
+    public function maxDistance(Geometry $a, Geometry $b)
+    {
+        return $this->queryGeometry('ST_MaxDistance', [$a, $b]);
+    }
 }
