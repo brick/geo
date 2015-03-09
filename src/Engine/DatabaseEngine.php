@@ -329,4 +329,22 @@ abstract class DatabaseEngine implements GeometryEngine
     {
         return $this->queryGeometry('ST_SymDifference', [$a, $b]);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function snapToGrid(Geometry $a, $b)
+    {
+        return $this->queryGeometry('ST_SnapToGrid', [$a, $b]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function simplify(Geometry $a, $b)
+    {
+        return $this->queryGeometry('ST_Simplify', [$a, $b]);
+    }
+
+
 }

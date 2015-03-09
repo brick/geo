@@ -258,4 +258,22 @@ interface GeometryEngine
      * @return Geometry
      */
     public function symDifference(Geometry $a, Geometry $b);
+
+    /**
+     * Snap all points of the input geometry to a regular grid.
+     *
+     * @param Geometry $a
+     * @param float $b size
+     * @return Geometry
+     */
+    public function snapToGrid(Geometry $a, $b);
+
+    /**
+     * Returns a "simplified" version of the given geometry using the Douglas-Peucker algorithm.
+     *
+     * @param Geometry $a
+     * @param float $b tolerance
+     * @return mixed
+     */
+    public function simplify(Geometry $a, $b);
 }
