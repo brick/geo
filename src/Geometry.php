@@ -554,6 +554,20 @@ abstract class Geometry
     }
 
     /**
+     * Returns the 2-dimensional largest distance between two geometries in projected units.
+     *
+     * @noproxy
+     *
+     * @param Geometry $geometry
+     *
+     * @return float
+     */
+    public function maxDistance(Geometry $geometry)
+    {
+        return GeometryEngineRegistry::get()->maxDistance($this, $geometry);
+    }
+
+    /**
      * Returns the raw coordinates of this Geometry as an array.
      *
      * @return array

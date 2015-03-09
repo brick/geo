@@ -291,5 +291,11 @@ class GEOSEngine implements GeometryEngine
         return $this->fromGEOS($this->toGEOS($a)->simplify($b));
     }
 
-
+    /**
+     * {@inheritdoc}
+     */
+    public function maxDistance(Geometry $a, Geometry $b)
+    {
+        throw GeometryException::unimplementedMethod(__METHOD__);
+    }
 }
