@@ -26,6 +26,8 @@ if you use a specific geometry engine.
 |`locateBetween`|      |    X    |       |     X      |                  |
 |`overlaps`     |  X   |    X    |   X   |     X      |        X         |
 |`relate`       |  X   |    X    |       |     X      |        X         |
+|`simplify`     |  X   |    X    |       |     X      |                  |
+|`snapToGrid`   |      |    X    |       |     X      |                  |
 |`symDifference`|  X   |    X    |       |     X      |        X         |
 |`touches`      |  X   |    X    |   X   |     X      |        X         |
 |`union`        |  X   |    X    |       |     X      |        X         |
