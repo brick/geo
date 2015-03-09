@@ -273,7 +273,7 @@ interface GeometryEngine
      *
      * @param Geometry $a
      * @param float $b tolerance
-     * @return mixed
+     * @return Geometry
      */
     public function simplify(Geometry $a, $b);
 }
