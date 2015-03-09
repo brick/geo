@@ -127,6 +127,10 @@ abstract class DatabaseEngine implements GeometryEngine
     {
         $result = $this->query($function, $parameters, true);
 
+        if (is_resource($result)) {
+            $result = stream_get_contents($result);
+        }
+
         return Geometry::fromBinary($result);
     }
 

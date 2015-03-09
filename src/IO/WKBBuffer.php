@@ -41,10 +41,6 @@ class WKBBuffer
      */
     public function __construct($wkb)
     {
-        if (is_resource($wkb)) {
-            $wkb = stream_get_contents($wkb);
-        }
-
         $this->wkb = $wkb;
         $this->length = strlen($wkb);
         $this->machineByteOrder = WKBTools::getMachineByteOrder();
