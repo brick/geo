@@ -526,7 +526,49 @@ abstract class Geometry
     }
 
     /**
-     * Returns the raw coordinates of this Goemetry as an array.
+     * Snap all points of the input geometry to a regular grid.
+     *
+     * @noproxy
+     *
+     * @param float $size
+     *
+     * @return Geometry
+     */
+    public function snapToGrid($size)
+    {
+        return GeometryEngineRegistry::get()->snapToGrid($this, $size);
+    }
+
+    /**
+     * Returns a "simplified" version of the given geometry using the Douglas-Peucker algorithm.
+     *
+     * @noproxy
+     *
+     * @param float $tolerance
+     *
+     * @return Geometry
+     */
+    public function simplify($tolerance)
+    {
+        return GeometryEngineRegistry::get()->simplify($this, $tolerance);
+    }
+
+    /**
+     * Returns the 2-dimensional largest distance between two geometries in projected units.
+     *
+     * @noproxy
+     *
+     * @param Geometry $geometry
+     *
+     * @return float
+     */
+    public function maxDistance(Geometry $geometry)
+    {
+        return GeometryEngineRegistry::get()->maxDistance($this, $geometry);
+    }
+
+    /**
+     * Returns the raw coordinates of this Geometry as an array.
      *
      * @return array
      */

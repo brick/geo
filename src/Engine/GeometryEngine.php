@@ -258,4 +258,31 @@ interface GeometryEngine
      * @return Geometry
      */
     public function symDifference(Geometry $a, Geometry $b);
+
+    /**
+     * Snap all points of the input geometry to a regular grid.
+     *
+     * @param Geometry $a
+     * @param float $b size
+     * @return Geometry
+     */
+    public function snapToGrid(Geometry $a, $b);
+
+    /**
+     * Returns a "simplified" version of the given geometry using the Douglas-Peucker algorithm.
+     *
+     * @param Geometry $a
+     * @param float $b tolerance
+     * @return Geometry
+     */
+    public function simplify(Geometry $a, $b);
+
+    /**
+     * Returns the 2-dimensional largest distance between two geometries in projected units.
+     *
+     * @param Geometry $a
+     * @param Geometry $b
+     * @return float
+     */
+    public function maxDistance(Geometry $a, Geometry $b);
 }

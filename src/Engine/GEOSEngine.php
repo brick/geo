@@ -274,4 +274,28 @@ class GEOSEngine implements GeometryEngine
     {
         return $this->fromGEOS($this->toGEOS($a)->symDifference($this->toGEOS($b)));
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function snapToGrid(Geometry $a, $b)
+    {
+        throw GeometryException::unimplementedMethod(__METHOD__);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function simplify(Geometry $a, $b)
+    {
+        return $this->fromGEOS($this->toGEOS($a)->simplify($b));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function maxDistance(Geometry $a, Geometry $b)
+    {
+        throw GeometryException::unimplementedMethod(__METHOD__);
+    }
 }
