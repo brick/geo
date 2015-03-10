@@ -333,17 +333,17 @@ abstract class DatabaseEngine implements GeometryEngine
     /**
      * {@inheritdoc}
      */
-    public function snapToGrid(Geometry $a, $b)
+    public function snapToGrid(Geometry $g, $size)
     {
-        return $this->queryGeometry('ST_SnapToGrid', [$a, $b]);
+        return $this->queryGeometry('ST_SnapToGrid', [$g, $size]);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function simplify(Geometry $a, $b)
+    public function simplify(Geometry $g, $tolerance)
     {
-        return $this->queryGeometry('ST_Simplify', [$a, $b]);
+        return $this->queryGeometry('ST_Simplify', [$g, $tolerance]);
     }
 
     /**

@@ -278,7 +278,7 @@ class GEOSEngine implements GeometryEngine
     /**
      * {@inheritdoc}
      */
-    public function snapToGrid(Geometry $a, $b)
+    public function snapToGrid(Geometry $g, $size)
     {
         throw GeometryException::unimplementedMethod(__METHOD__);
     }
@@ -286,9 +286,9 @@ class GEOSEngine implements GeometryEngine
     /**
      * {@inheritdoc}
      */
-    public function simplify(Geometry $a, $b)
+    public function simplify(Geometry $g, $tolerance)
     {
-        return $this->fromGEOS($this->toGEOS($a)->simplify($b));
+        return $this->fromGEOS($this->toGEOS($g)->simplify($tolerance));
     }
 
     /**

@@ -262,26 +262,29 @@ interface GeometryEngine
     /**
      * Snap all points of the input geometry to a regular grid.
      *
-     * @param Geometry $a
-     * @param float $b size
+     * @param Geometry $g
+     * @param float    $size
+     *
      * @return Geometry
      */
-    public function snapToGrid(Geometry $a, $b);
+    public function snapToGrid(Geometry $g, $size);
 
     /**
      * Returns a "simplified" version of the given geometry using the Douglas-Peucker algorithm.
      *
-     * @param Geometry $a
-     * @param float $b tolerance
+     * @param Geometry $g
+     * @param float    $tolerance
+     *
      * @return Geometry
      */
-    public function simplify(Geometry $a, $b);
+    public function simplify(Geometry $g, $tolerance);
 
     /**
      * Returns the 2-dimensional largest distance between two geometries in projected units.
      *
      * @param Geometry $a
      * @param Geometry $b
+     *
      * @return float
      */
     public function maxDistance(Geometry $a, Geometry $b);
