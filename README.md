@@ -19,7 +19,7 @@ Requirements and installation
 
 This library requires PHP 5.5 or higher. [HHVM](http://hhvm.com/) is officially supported.
 
-We recommended installing it with [Composer](https://getcomposer.org/).
+We recommend installing it with [Composer](https://getcomposer.org/).
 Just define the following requirement in your `composer.json` file:
 
     {
@@ -30,7 +30,7 @@ Just define the following requirement in your `composer.json` file:
 
 Then head on to the [Configuration](#configuration) section to configure a GIS geometry engine.
 
-Failure to configure a geometry engine would result in a `GeometryException` when trying to use a method that requires one.
+Failure to configure a geometry engine would result in a `GeometryException` being thrown when trying to use a method that requires one.
 
 Configuration
 -------------
@@ -39,9 +39,8 @@ Configuring the library consists in choosing the most convenient `GeometryEngine
 
 - `PDOEngine`: communicates with a GIS-compatible database over a `PDO` connection.  
   This engine currently supports the following databases:
-  - [MySQL](http://php.net/manual/en/ref.pdo-mysql.php) version 5.6 or greater;  
-    Earlier versions only have partial GIS support based on bounding boxes and are not supported.  
-    **Note: MySQL currently only supports 2D geometries.**
+  - [MySQL](http://php.net/manual/en/ref.pdo-mysql.php) version 5.6 or greater.  
+    *Note: MySQL currently only supports 2D geometries.*
     
   - [PostgreSQL](http://php.net/manual/en/ref.pdo-pgsql.php) with the [PostGIS](http://postgis.net/install) extension.
 - `SQLite3Engine`: communicates with a [SQLite3](http://php.net/manual/en/book.sqlite3.php) database with the [SpatiaLite](https://www.gaia-gis.it/fossil/libspatialite/index) extension.
@@ -51,7 +50,8 @@ Following is a step-by-step guide for all the possible configurations:
 
 ### Using PDO and MySQL 5.6 or greater
 
-- Ensure that your MySQL version is at least `5.6`.
+- Ensure that your MySQL version is at least `5.6`.  
+  Earlier versions only have partial GIS support based on bounding boxes and are not supported.
 - Use this bootstrap code in your project:
 
         use Brick\Geo\Engine\GeometryEngineRegistry;
@@ -60,7 +60,7 @@ Following is a step-by-step guide for all the possible configurations:
         $pdo = new PDO('mysql:host=localhost', 'root', '');
         GeometryEngineRegistry::set(new PDOEngine($pdo));
 
-Update the code with your own connection parameters, or re-use your existing `PDO` connection if you have one (recommended).
+Update the code with your own connection parameters, or use an existing `PDO` connection if you have one (recommended).
 
 ### Using PDO and PostgreSQL with PostGIS
 
@@ -77,7 +77,7 @@ Update the code with your own connection parameters, or re-use your existing `PD
         $pdo = new PDO('pgsql:host=localhost', 'postgres', '');
         GeometryEngineRegistry::set(new PDOEngine($pdo));
 
-Update the code with your own connection parameters, or re-use your existing `PDO` connection if you have one (recommended).
+Update the code with your own connection parameters, or use an existing `PDO` connection if you have one (recommended).
 
 ### Using SQLite3 with SpatiaLite
 
@@ -100,11 +100,11 @@ Update the code with your own connection parameters, or re-use your existing `PD
         $sqlite3->loadExtension('libspatialite.so.3');
         GeometryEngineRegistry::set(new SQLite3Engine($sqlite3));
 
-Update the `libspatialite` extension name as required. In this example we have created an in-memory database for our GIS calculations, but you can also re-use an existing `SQLite3` connection.
+Update the `libspatialite` extension name as required. In this example we have created an in-memory database for our GIS calculations, but you can also use an existing `SQLite3` connection.
 
 ### Using GEOS PHP bindings
 
-- Ensure that the [GEOS is installed](https://github.com/libgeos/libgeos) on your server. GEOS must have been compiled with the `--enable-php` flag to provide the PHP extension.
+- Ensure that [GEOS is installed](https://github.com/libgeos/libgeos) on your server. GEOS must have been compiled with the `--enable-php` flag to provide the PHP extension.
 - Ensure that the GEOS extension is enabled in your `php.ini`:
 
         extension=geos.so
@@ -124,35 +124,35 @@ To be written.
 Spatial Function Reference
 --------------------------
 
-This is a list of all functions which are are currently implemented in the geo project. Some functions are only available
-if you use a specific geometry engine.
+This is a list of all functions which are currently implemented in the geo project. Some functions are only available
+if you use a specific geometry engine. This table also shows which functions are part of the OpenGIS standard.
 
 | Function Name | GEOS | PostGIS | MySQL | SpatiaLite | OpenGIS standard |
 |---------------|------|---------|-------|------------|------------------|
-|`area`         |  X   |    X    |   X   |     X      |        X         |
-|`boundary`     |  X   |    X    |   X   |     X      |        X         |
-|`buffer`       |  X   |    X    |   X   |     X      |        X         |
-|`centroid`     |  X   |    X    |   X   |     X      |        X         |
-|`contains`     |  X   |    X    |   X   |     X      |        X         |
-|`convexHull`   |  X   |    X    |   X   |     X      |        X         |
-|`crosses`      |  X   |    X    |   X   |     X      |        X         |
-|`difference`   |  X   |    X    |   X   |     X      |        X         |
-|`disjoint`     |  X   |    X    |   X   |     X      |        X         |
-|`distance`     |  X   |    X    |   X   |     X      |        X         |
-|`envelope`     |  X   |    X    |   X   |     X      |        X         |
-|`equals`       |  X   |    X    |   X   |     X      |        X         |
-|`intersects`   |  X   |    X    |   X   |     X      |        X         |
-|`intersection` |  X   |    X    |   X   |     X      |        X         |
-|`isSimple`     |  X   |    X    |   X   |     X      |        X         |
-|`length`       |  X   |    X    |   X   |     X      |        X         |
-|`locateAlong`  |      |    X    |       |     X      |                  |
-|`locateBetween`|      |    X    |       |     X      |                  |
-|`maxDistance`  |      |    X    |       |     X      |                  |
-|`overlaps`     |  X   |    X    |   X   |     X      |        X         |
-|`relate`       |  X   |    X    |       |     X      |        X         |
-|`simplify`     |  X   |    X    |   X   |     X      |                  |
-|`snapToGrid`   |      |    X    |       |     X      |                  |
-|`symDifference`|  X   |    X    |   X   |     X      |        X         |
-|`touches`      |  X   |    X    |   X   |     X      |        X         |
-|`union`        |  X   |    X    |   X   |     X      |        X         |
-|`within`       |  X   |    X    |   X   |     X      |        X         |
+|`area`         |  ✓   |    ✓    |   ✓   |     ✓      |        ✓         |
+|`boundary`     |  ✓   |    ✓    |   ✓   |     ✓      |        ✓         |
+|`buffer`       |  ✓   |    ✓    |   ✓   |     ✓      |        ✓         |
+|`centroid`     |  ✓   |    ✓    |   ✓   |     ✓      |        ✓         |
+|`contains`     |  ✓   |    ✓    |   ✓   |     ✓      |        ✓         |
+|`convexHull`   |  ✓   |    ✓    |   ✓   |     ✓      |        ✓         |
+|`crosses`      |  ✓   |    ✓    |   ✓   |     ✓      |        ✓         |
+|`difference`   |  ✓   |    ✓    |   ✓   |     ✓      |        ✓         |
+|`disjoint`     |  ✓   |    ✓    |   ✓   |     ✓      |        ✓         |
+|`distance`     |  ✓   |    ✓    |   ✓   |     ✓      |        ✓         |
+|`envelope`     |  ✓   |    ✓    |   ✓   |     ✓      |        ✓         |
+|`equals`       |  ✓   |    ✓    |   ✓   |     ✓      |        ✓         |
+|`intersects`   |  ✓   |    ✓    |   ✓   |     ✓      |        ✓         |
+|`intersection` |  ✓   |    ✓    |   ✓   |     ✓      |        ✓         |
+|`isSimple`     |  ✓   |    ✓    |   ✓   |     ✓      |        ✓         |
+|`length`       |  ✓   |    ✓    |   ✓   |     ✓      |        ✓         |
+|`locateAlong`  |      |    ✓    |       |     ✓      |                  |
+|`locateBetween`|      |    ✓    |       |     ✓      |                  |
+|`maxDistance`  |      |    ✓    |       |     ✓      |                  |
+|`overlaps`     |  ✓   |    ✓    |   ✓   |     ✓      |        ✓         |
+|`relate`       |  ✓   |    ✓    |       |     ✓      |        ✓         |
+|`simplify`     |  ✓   |    ✓    |   ✓   |     ✓      |                  |
+|`snapToGrid`   |      |    ✓    |       |     ✓      |                  |
+|`symDifference`|  ✓   |    ✓    |   ✓   |     ✓      |        ✓         |
+|`touches`      |  ✓   |    ✓    |   ✓   |     ✓      |        ✓         |
+|`union`        |  ✓   |    ✓    |   ✓   |     ✓      |        ✓         |
+|`within`       |  ✓   |    ✓    |   ✓   |     ✓      |        ✓         |
