@@ -261,7 +261,7 @@ abstract class WKTAbstractReader
             $geometry = $this->readGeometry($parser, $srid);
 
             if ($geometry->is3D() !== $is3D || $geometry->isMeasured() !== $isMeasured) {
-                throw GeometryException::collectionDimensionalityMix($is3D, $isMeasured, $geometry, $srid);
+                throw GeometryException::collectionDimensionalityMix($is3D, $isMeasured, $srid, $geometry);
             }
 
             $geometries[] = $geometry;
