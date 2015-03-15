@@ -4,6 +4,7 @@ namespace Brick\Geo\Tests\Doctrine\DataFixtures;
 
 use Brick\Geo\Point;
 use Brick\Geo\Tests\Doctrine\Fixtures\PointEntity;
+
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 

@@ -3,7 +3,6 @@
 namespace Brick\Geo\Tests\Doctrine\Fixtures;
 
 use Brick\Geo\LineString;
-use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Class LineStringEntity
@@ -28,14 +27,6 @@ class LineStringEntity {
      * @var LineString
      */
     private $lineString;
-
-    /**
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
 
     /**
      * @return LineString

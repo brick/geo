@@ -6,6 +6,7 @@ use Brick\Geo\LineString;
 use Brick\Geo\MultiLineString;
 use Brick\Geo\Point;
 use Brick\Geo\Tests\Doctrine\Fixtures\MultiLineStringEntity;
+
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 

@@ -6,6 +6,7 @@ use Brick\Geo\LinearRing;
 use Brick\Geo\Point;
 use Brick\Geo\Polygon;
 use Brick\Geo\Tests\Doctrine\Fixtures\PolygonEntity;
+
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 

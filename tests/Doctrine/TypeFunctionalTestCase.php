@@ -2,7 +2,9 @@
 
 namespace Brick\Geo\Tests\Doctrine;
 
+use Brick\Geo\Point;
 use Brick\Geo\Tests\Doctrine\Fixtures;
+
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\Loader;
@@ -13,9 +15,11 @@ use Doctrine\ORM\Tools\Setup;
 use Doctrine\Tests\DBAL\Mocks\MockPlatform;
 use Doctrine\Tests\DbalFunctionalTestCase;
 
+/**
+ * Base class for Doctrine types functional test cases.
+ */
 class TypeFunctionalTestCase extends DbalFunctionalTestCase
 {
-
     /**
      * @var MockPlatform
      */
@@ -87,17 +91,46 @@ class TypeFunctionalTestCase extends DbalFunctionalTestCase
         $this->ormExecutor = new ORMExecutor($this->em, $purger);
     }
 
-    protected function getEntityManager() {
+    /**
+     * @return EntityManager
+     */
+    protected function getEntityManager()
+    {
         return $this->em;
     }
 
+    /**
+     * @param FixtureInterface $fixture
+     *
+     * @return void
+     */
     protected function addFixture(FixtureInterface $fixture)
     {
         $this->fixtureLoader->addFixture($fixture);
     }
 
+    /**
+     * @return void
+     */
     protected function loadFixtures()
     {
         $this->ormExecutor->execute($this->fixtureLoader->getFixtures());
+    }
+
+    /**
+     * @param Point      $point
+     * @param float      $x
+     * @param float      $y
+     * @param float|null $z
+     *
+     * @return void
+     */
+    protected function assertPointEquals(Point $point, $x, $y, $z = null)
+    {
+        $this->assertInstanceOf(Point::class, $point);
+
+        $this->assertSame($x, $point->x());
+        $this->assertSame($y, $point->y());
+        $this->assertSame($z, $point->z());
     }
 }

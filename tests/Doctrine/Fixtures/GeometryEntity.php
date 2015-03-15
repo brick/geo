@@ -3,7 +3,6 @@
 namespace Brick\Geo\Tests\Doctrine\Fixtures;
 
 use Brick\Geo\Geometry;
-use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Class GeometryEntity
@@ -28,14 +27,6 @@ class GeometryEntity {
      * @var Geometry
      */
     private $geometry;
-
-    /**
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
 
     /**
      * @return Geometry

@@ -3,7 +3,6 @@
 namespace Brick\Geo\Tests\Doctrine\Fixtures;
 
 use Brick\Geo\Polygon;
-use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Class PolygonEntity
@@ -28,14 +27,6 @@ class PolygonEntity {
      * @var Polygon
      */
     private $polygon;
-
-    /**
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
 
     /**
      * @return Polygon

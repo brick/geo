@@ -3,7 +3,6 @@
 namespace Brick\Geo\Tests\Doctrine\Fixtures;
 
 use Brick\Geo\MultiPoint;
-use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Class MultiPointEntity
@@ -28,14 +27,6 @@ class MultiPointEntity {
      * @var MultiPoint
      */
     private $multiPoint;
-
-    /**
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
 
     /**
      * @return MultiPoint

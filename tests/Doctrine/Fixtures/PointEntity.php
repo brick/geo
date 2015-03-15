@@ -3,7 +3,6 @@
 namespace Brick\Geo\Tests\Doctrine\Fixtures;
 
 use Brick\Geo\Point;
-use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Class PointEntity
@@ -28,14 +27,6 @@ class PointEntity {
      * @var Point
      */
     private $point;
-
-    /**
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
 
     /**
      * @return Point

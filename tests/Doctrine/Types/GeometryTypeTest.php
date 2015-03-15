@@ -7,14 +7,12 @@ use Brick\Geo\Proxy\GeometryProxy;
 use Brick\Geo\Tests\Doctrine\DataFixtures\LoadGeometryData;
 use Brick\Geo\Tests\Doctrine\TypeFunctionalTestCase;
 use Brick\Geo\Tests\Doctrine\Fixtures\GeometryEntity;
-use Brick\Geo\Geometry;
 
 /**
  * Integrations tests for class GeometryType.
  */
 class GeometryTypeTest extends TypeFunctionalTestCase
 {
-
     /**
      * {@inheritdoc}
      */
@@ -28,16 +26,17 @@ class GeometryTypeTest extends TypeFunctionalTestCase
     public function testReadFromDbAndConvertToPHPValue()
     {
         $repository = $this->getEntityManager()->getRepository(GeometryEntity::class);
-        $geometryEntity = $repository->findOneBy(array('id' => 1));
+
+        /** @var GeometryEntity $geometryEntity */
+        $geometryEntity = $repository->findOneBy(['id' => 1]);
         $this->assertNotNull($geometryEntity);
 
         /** @var GeometryProxy $geometry */
         $geometry = $geometryEntity->getGeometry();
+
         /** @var Point $point */
         $point = $geometry->getGeometry();
-        $this->assertInstanceOf(Point::class, $point);
-        $this->assertEquals(0, $point->x());
-        $this->assertEquals(0, $point->y());
-        $this->assertEquals(null, $point->z());
+
+        $this->assertPointEquals($point, 0.0, 0.0);
     }
 }

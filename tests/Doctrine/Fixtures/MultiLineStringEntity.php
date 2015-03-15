@@ -2,9 +2,7 @@
 
 namespace Brick\Geo\Tests\Doctrine\Fixtures;
 
-use Brick\Geo\LineString;
 use Brick\Geo\MultiLineString;
-use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Class MultiLineStringEntity
@@ -29,14 +27,6 @@ class MultiLineStringEntity {
      * @var MultiLineString
      */
     private $multiLineString;
-
-    /**
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
 
     /**
      * @return MultiLineString

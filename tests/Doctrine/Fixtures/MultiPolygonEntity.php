@@ -3,7 +3,6 @@
 namespace Brick\Geo\Tests\Doctrine\Fixtures;
 
 use Brick\Geo\MultiPolygon;
-use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Class MultiPolygonEntity
@@ -28,14 +27,6 @@ class MultiPolygonEntity {
      * @var MultiPolygon
      */
     private $multiPolygon;
-
-    /**
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
 
     /**
      * @return MultiPolygon
