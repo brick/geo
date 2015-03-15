@@ -42,31 +42,28 @@ class PointTest extends AbstractTestCase
 
     public function testGeometryType()
     {
-        $this->assertSame('Point', Point::factory(0, 0)->geometryType());
+        $this->assertSame('Point', Point::xy(0, 0)->geometryType());
     }
 
     public function testDimension()
     {
-        $this->assertSame(0, Point::factory(0, 0)->dimension());
+        $this->assertSame(0, Point::xy(0, 0)->dimension());
     }
 
     public function testIsEmpty()
     {
-        $this->assertFalse(Point::factory(0, 0)->isEmpty());
+        $this->assertFalse(Point::xy(0, 0)->isEmpty());
     }
 
     /**
      * @dataProvider providerIs3D
      *
-     * @param array   $coordinates The point coordinates.
-     * @param boolean $is3D        Whether the point is 3D.
+     * @param Point   $point The point to test.
+     * @param boolean $is3D  Whether the point is 3D.
      */
-    public function testIs3D(array $coordinates, $is3D)
+    public function testIs3D(Point $point, $is3D)
     {
         $this->is3D($is3D);
-
-        /** @var Point $point */
-        $point = call_user_func_array([Point::class, 'factory'], $coordinates);
         $this->assertSame($is3D, $point->is3D());
     }
 
@@ -76,25 +73,22 @@ class PointTest extends AbstractTestCase
     public function providerIs3D()
     {
         return [
-            [[1.2, 3.4], false],
-            [[1.2, 3.4, 5.6], true],
-            [[1.2, 3.4, 5.6, 7.8], true],
-            [[1.2, 3.4, null, 7.8], false]
+            [Point::xy(1.2, 3.4), false],
+            [Point::xyz(1.2, 3.4, 5.6), true],
+            [Point::xym(1.2, 3.4, 7.8), false],
+            [Point::xyzm(1.2, 3.4, 5.6, 7.8), true]
         ];
     }
 
     /**
      * @dataProvider providerIsMeasured
      *
-     * @param array   $coordinates The point coordinates.
-     * @param boolean $isMeasured  Whether the point is measured.
+     * @param Point   $point      The point to test.
+     * @param boolean $isMeasured Whether the point is measured.
      */
-    public function testIsMeasured(array $coordinates, $isMeasured)
+    public function testIsMeasured(Point $point, $isMeasured)
     {
         $this->isMeasured($isMeasured);
-
-        /** @var Point $point */
-        $point = call_user_func_array([Point::class, 'factory'], $coordinates);
         $this->assertSame($isMeasured, $point->isMeasured());
     }
 
@@ -104,10 +98,10 @@ class PointTest extends AbstractTestCase
     public function providerIsMeasured()
     {
         return [
-            [[1.2, 3.4], false],
-            [[1.2, 3.4, 5.6], false],
-            [[1.2, 3.4, 5.6, 7.8], true],
-            [[1.2, 3.4, null, 7.8], true]
+            [Point::xy(1.2, 3.4), false],
+            [Point::xyz(1.2, 3.4, 5.6), false],
+            [Point::xym(1.2, 3.4, 7.8), true],
+            [Point::xyzm(1.2, 3.4, 5.6, 7.8), true]
         ];
     }
 
@@ -119,7 +113,7 @@ class PointTest extends AbstractTestCase
      */
     public function testEquals($geometry, $isEqual)
     {
-        $point = Point::factory(1, 2);
+        $point = Point::xy(1, 2);
         $geometry = Geometry::fromText($geometry);
 
         $this->assertSame($isEqual, $point->equals($geometry));

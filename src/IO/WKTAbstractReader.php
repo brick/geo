@@ -48,16 +48,22 @@ abstract class WKTAbstractReader
         switch ($geometryType) {
             case 'POINT':
                 return $this->readPointText($parser, $is3D, $isMeasured, $srid);
+
             case 'LINESTRING':
                 return $this->readLineStringText($parser, $is3D, $isMeasured, $srid);
+
             case 'POLYGON':
                 return $this->readPolygonText($parser, $is3D, $isMeasured, $srid);
+
             case 'MULTIPOINT':
                 return $this->readMultiPointText($parser, $is3D, $isMeasured, $srid);
+
             case 'MULTILINESTRING':
                 return $this->readMultiLineStringText($parser, $is3D, $isMeasured, $srid);
+
             case 'MULTIPOLYGON':
                 return $this->readMultiPolygonText($parser, $is3D, $isMeasured, $srid);
+
             case 'GEOMETRYCOLLECTION':
                 return $this->readGeometryCollectionText($parser, $is3D, $isMeasured, $srid);
         }
@@ -77,13 +83,32 @@ abstract class WKTAbstractReader
      */
     private function readPoint(WKTParser $parser, $is3D, $isMeasured, $srid)
     {
-        $x = $parser->getNextNumber();
-        $y = $parser->getNextNumber();
+        $coords = [];
 
-        $z = $is3D ? $parser->getNextNumber() : null;
-        $m = $isMeasured ? $parser->getNextNumber() : null;
+        $coords[] = $parser->getNextNumber();
+        $coords[] = $parser->getNextNumber();
 
-        return Point::factory($x, $y, $z, $m, $srid);
+        if ($is3D) {
+            $coords[] = $parser->getNextNumber();
+        }
+
+        if ($isMeasured) {
+            $coords[] = $parser->getNextNumber();
+        }
+
+        if ($is3D && $isMeasured) {
+            return Point::xyzm($coords[0], $coords[1], $coords[2], $coords[3], $srid);
+        }
+
+        if ($is3D) {
+            return Point::xyz($coords[0], $coords[1], $coords[2], $srid);
+        }
+
+        if ($isMeasured) {
+            return Point::xym($coords[0], $coords[1], $coords[2], $srid);
+        }
+
+        return Point::xy($coords[0], $coords[1], $srid);
     }
 
     /**

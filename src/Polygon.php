@@ -124,10 +124,10 @@ class Polygon extends Surface implements \Countable, \IteratorAggregate
         $y1 = min($a->y(), $b->y());
         $y2 = max($a->y(), $b->y());
 
-        $p1 = Point::factory($x1, $y1);
-        $p2 = Point::factory($x2, $y1);
-        $p3 = Point::factory($x2, $y2);
-        $p4 = Point::factory($x1, $y2);
+        $p1 = Point::xy($x1, $y1);
+        $p2 = Point::xy($x2, $y1);
+        $p3 = Point::xy($x2, $y2);
+        $p4 = Point::xy($x1, $y2);
 
         $ring = LinearRing::factory([$p1, $p2, $p3, $p4, $p1]);
 

@@ -49,21 +49,29 @@ abstract class WKBAbstractReader
         switch ($geometryType) {
             case Geometry::POINT:
                 return $this->readPoint($buffer, $is3D, $isMeasured, $srid);
+
             case Geometry::LINESTRING:
                 return $this->readLineString($buffer, $is3D, $isMeasured, $srid);
+
             case Geometry::POLYGON:
             case Geometry::TRIANGLE:
                 return $this->readPolygon($buffer, $is3D, $isMeasured, $srid);
+
             case Geometry::MULTIPOINT:
                 return $this->readMultiPoint($buffer, $srid);
+
             case Geometry::MULTILINESTRING:
                 return $this->readMultiLineString($buffer, $srid);
+
             case Geometry::MULTIPOLYGON:
                 return $this->readMultiPolygon($buffer, $srid);
+
             case Geometry::GEOMETRYCOLLECTION:
                 return $this->readGeometryCollection($buffer, $srid);
+
             case Geometry::POLYHEDRALSURFACE:
                 return $this->readPolyhedralSurface($buffer, $srid);
+
             case Geometry::TIN:
                 return $this->readTIN($buffer, $srid);
         }
@@ -84,13 +92,19 @@ abstract class WKBAbstractReader
         $count = 2 + ($is3D ? 1 : 0) + ($isMeasured ? 1 : 0);
         $values = $buffer->readDoubles($count);
 
-        $x = $values[1];
-        $y = $values[2];
+        if ($is3D && $isMeasured) {
+            return Point::xyzm($values[1], $values[2], $values[3], $values[4], $srid);
+        }
 
-        $z = $is3D ? $values[3] : null;
-        $m = $isMeasured ? $values[$is3D ? 4 : 3] : null;
+        if ($is3D) {
+            return Point::xyz($values[1], $values[2], $values[3], $srid);
+        }
 
-        return Point::factory($x, $y, $z, $m, $srid);
+        if ($isMeasured) {
+            return Point::xym($values[1], $values[2], $values[3], $srid);
+        }
+
+        return Point::xy($values[1], $values[2], $srid);
     }
 
     /**

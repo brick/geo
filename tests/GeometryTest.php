@@ -93,10 +93,10 @@ class GeometryTest extends \PHPUnit_Framework_TestCase
     public function testGeometry()
     {
         // Point
-        $p1 = Point::factory(0, 0);
-        $p2 = Point::factory(1, 0);
-        $p3 = Point::factory(1, 1);
-        $p4 = Point::factory(0, 1);
+        $p1 = Point::xy(0, 0);
+        $p2 = Point::xy(1, 0);
+        $p3 = Point::xy(1, 1);
+        $p4 = Point::xy(0, 1);
 
         foreach ([$p1, $p2, $p3, $p4] as $point) {
             /** @var Point $point */

@@ -17,14 +17,14 @@ class LoadMultiLineStringData implements FixtureInterface {
      */
     function load(ObjectManager $manager)
     {
-        $point1 = Point::factory(0,0);
-        $point2 = Point::factory(1,0);
-        $point3 = Point::factory(1,1);
+        $point1 = Point::xy(0,0);
+        $point2 = Point::xy(1,0);
+        $point3 = Point::xy(1,1);
         $lineString1 = LineString::factory([ $point1, $point2, $point3 ]);
 
-        $point4 = Point::factory(2,2);
-        $point5 = Point::factory(3,2);
-        $point6 = Point::factory(3,3);
+        $point4 = Point::xy(2,2);
+        $point5 = Point::xy(3,2);
+        $point6 = Point::xy(3,3);
         $lineString2 = LineString::factory([ $point4, $point5, $point6 ]);
 
         $multilineString1 = new MultiLineStringEntity();

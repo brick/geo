@@ -17,11 +17,11 @@ class LoadPolygonData implements FixtureInterface {
      */
     function load(ObjectManager $manager)
     {
-        $point1 = Point::factory(0,0);
-        $point2 = Point::factory(1,0);
-        $point3 = Point::factory(1,1);
-        $point4 = Point::factory(0,1);
-        $point5 = Point::factory(0,0);
+        $point1 = Point::xy(0,0);
+        $point2 = Point::xy(1,0);
+        $point3 = Point::xy(1,1);
+        $point4 = Point::xy(0,1);
+        $point5 = Point::xy(0,0);
 
         $ring = LinearRing::factory([ $point1, $point2, $point3, $point4, $point5]);
 

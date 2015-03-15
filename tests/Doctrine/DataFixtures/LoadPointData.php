@@ -16,7 +16,7 @@ class LoadPointData implements FixtureInterface {
     function load(ObjectManager $manager)
     {
         $point1 = new PointEntity();
-        $point1->setPoint(Point::factory(0, 0));
+        $point1->setPoint(Point::xy(0, 0));
 
         $manager->persist($point1);
         $manager->flush();

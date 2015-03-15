@@ -60,7 +60,71 @@ class Point extends Geometry
     }
 
     /**
+     * Creates a point with X and Y coordinates.
+     *
+     * @param float $x    The X coordinate.
+     * @param float $y    The Y coordinate.
+     * @param int   $srid The SRID, optional.
+     *
+     * @return Point
+     */
+    public static function xy($x, $y, $srid = 0)
+    {
+        return new Point((float) $x, (float) $y, null, null, (int) $srid);
+    }
+
+    /**
+     * Creates a point with X, Y and Z coordinates.
+     *
+     * @param float $x    The X coordinate.
+     * @param float $y    The Y coordinate.
+     * @param float $z    The Z coordinate.
+     * @param int   $srid The SRID, optional.
+     *
+     * @return Point
+     */
+    public static function xyz($x, $y, $z, $srid = 0)
+    {
+        return new Point((float) $x, (float) $y, (float) $z, null, (int) $srid);
+    }
+
+    /**
+     * Creates a point with X, Y and M coordinates.
+     *
+     * @param float $x    The X coordinate.
+     * @param float $y    The Y coordinate.
+     * @param float $m    The M coordinate.
+     * @param int   $srid The SRID, optional.
+     *
+     * @return Point
+     */
+    public static function xym($x, $y, $m, $srid = 0)
+    {
+        return new Point((float) $x, (float) $y, null, (float) $m, (int) $srid);
+    }
+
+    /**
+     * Creates a point with X, Y, Z and M coordinates.
+     *
+     * @param float $x    The X coordinate.
+     * @param float $y    The Y coordinate.
+     * @param float $z    The Z coordinate.
+     * @param float $m    The M coordinate.
+     * @param int   $srid The SRID, optional.
+     *
+     * @return Point
+     */
+    public static function xyzm($x, $y, $z, $m, $srid = 0)
+    {
+        return new Point((float) $x, (float) $y, (float) $z, (float) $m, (int) $srid);
+    }
+
+    /**
      * Factory method to create a new Point.
+     *
+     * Deprecated in favor of xy(), xyz(), xym() and xyzm() factory methods.
+     *
+     * @deprecated
      *
      * @param float      $x    The x-coordinate.
      * @param float      $y    The y-coordinate.

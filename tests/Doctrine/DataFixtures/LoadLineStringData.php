@@ -16,9 +16,9 @@ class LoadLineStringData implements FixtureInterface {
      */
     function load(ObjectManager $manager)
     {
-        $point1 = Point::factory(0,0);
-        $point2 = Point::factory(1,0);
-        $point3 = Point::factory(1,1);
+        $point1 = Point::xy(0,0);
+        $point2 = Point::xy(1,0);
+        $point3 = Point::xy(1,1);
 
         $lineString1 = new LineStringEntity();
         $lineString1->setLineString(LineString::factory([ $point1, $point2, $point3 ]));
