@@ -26,12 +26,4 @@ class MultiLineStringType extends GeometryType
     {
         return new MultiLineStringProxy($wkb, true);
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function requiresSQLCommentHint(AbstractPlatform $platform)
-    {
-        return true;
-    }
 }

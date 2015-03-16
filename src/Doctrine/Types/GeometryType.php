@@ -47,8 +47,9 @@ class GeometryType extends Type
     public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform)
     {
         if ($platform->getName() === 'postgresql') {
-            return "GEOMETRY";
+            return 'GEOMETRY';
         }
+
         return strtoupper($this->getName());
     }
 
@@ -89,14 +90,6 @@ class GeometryType extends Type
     /**
      * {@inheritdoc}
      */
-    public function canRequireSQLConversion()
-    {
-        return true;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function convertToDatabaseValueSQL($sqlExpr, AbstractPlatform $platform)
     {
         return sprintf('ST_GeomFromWkb(%s, %s)', $sqlExpr, self::WGS84);
@@ -108,6 +101,14 @@ class GeometryType extends Type
     public function convertToPHPValueSQL($sqlExpr, $platform)
     {
         return sprintf('ST_AsBinary(%s)', $sqlExpr);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function canRequireSQLConversion()
+    {
+        return true;
     }
 
     /**
@@ -125,6 +126,4 @@ class GeometryType extends Type
     {
         return \PDO::PARAM_LOB;
     }
-
-
 }

@@ -26,12 +26,4 @@ class PolygonType extends GeometryType
     {
         return new PolygonProxy($wkb, true);
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function requiresSQLCommentHint(AbstractPlatform $platform)
-    {
-        return true;
-    }
 }

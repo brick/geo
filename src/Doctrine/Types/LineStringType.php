@@ -26,12 +26,4 @@ class LineStringType extends GeometryType
     {
         return new LineStringProxy($wkb, true);
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function requiresSQLCommentHint(AbstractPlatform $platform)
-    {
-        return true;
-    }
 }

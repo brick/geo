@@ -26,12 +26,4 @@ class PointType extends GeometryType
     {
         return new PointProxy($wkb, true);
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function requiresSQLCommentHint(AbstractPlatform $platform)
-    {
-        return true;
-    }
 }

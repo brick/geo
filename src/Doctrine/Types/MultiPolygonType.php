@@ -26,12 +26,4 @@ class MultiPolygonType extends GeometryType
     {
         return new MultiPolygonProxy($wkb, true);
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function requiresSQLCommentHint(AbstractPlatform $platform)
-    {
-        return true;
-    }
 }

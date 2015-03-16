@@ -26,12 +26,4 @@ class MultiPointType extends GeometryType
     {
         return new MultiPointProxy($wkb, true);
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function requiresSQLCommentHint(AbstractPlatform $platform)
-    {
-        return true;
-    }
 }
