@@ -9,7 +9,7 @@ use Brick\Geo\IO\WKTReader;
 /**
  * Proxy class for Brick\Geo\MultiSurface.
  */
-class MultiSurfaceProxy extends \Brick\Geo\MultiSurface
+class MultiSurfaceProxy extends \Brick\Geo\MultiSurface implements ProxyInterface
 {
     /**
      * The WKT or WKB data.
@@ -63,9 +63,7 @@ class MultiSurfaceProxy extends \Brick\Geo\MultiSurface
     }
 
     /**
-     * Returns whether the underlying geometry is loaded.
-     *
-     * @return boolean
+     * {@inheritDoc}
      */
     public function isLoaded()
     {
@@ -73,9 +71,7 @@ class MultiSurfaceProxy extends \Brick\Geo\MultiSurface
     }
 
     /**
-     * Loads and returns the underlying geometry.
-     *
-     * @return \Brick\Geo\MultiSurface
+     * {@inheritDoc}
      */
     public function getGeometry()
     {

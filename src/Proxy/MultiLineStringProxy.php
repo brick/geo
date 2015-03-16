@@ -9,7 +9,7 @@ use Brick\Geo\IO\WKTReader;
 /**
  * Proxy class for Brick\Geo\MultiLineString.
  */
-class MultiLineStringProxy extends \Brick\Geo\MultiLineString
+class MultiLineStringProxy extends \Brick\Geo\MultiLineString implements ProxyInterface
 {
     /**
      * The WKT or WKB data.
@@ -63,9 +63,7 @@ class MultiLineStringProxy extends \Brick\Geo\MultiLineString
     }
 
     /**
-     * Returns whether the underlying geometry is loaded.
-     *
-     * @return boolean
+     * {@inheritDoc}
      */
     public function isLoaded()
     {
@@ -73,9 +71,7 @@ class MultiLineStringProxy extends \Brick\Geo\MultiLineString
     }
 
     /**
-     * Loads and returns the underlying geometry.
-     *
-     * @return \Brick\Geo\MultiLineString
+     * {@inheritDoc}
      */
     public function getGeometry()
     {

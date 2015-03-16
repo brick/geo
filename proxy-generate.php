@@ -13,7 +13,9 @@ require __DIR__ . '/vendor/autoload.php';
 $classes = [];
 
 foreach (glob($proxyDir . '*.php') as $file) {
-    unlink($file);
+    if (basename($file) != 'ProxyInterface.php') {
+        unlink($file);
+    }
 }
 
 foreach (glob($classFiles) as $file) {

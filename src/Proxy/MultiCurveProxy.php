@@ -9,7 +9,7 @@ use Brick\Geo\IO\WKTReader;
 /**
  * Proxy class for Brick\Geo\MultiCurve.
  */
-class MultiCurveProxy extends \Brick\Geo\MultiCurve
+class MultiCurveProxy extends \Brick\Geo\MultiCurve implements ProxyInterface
 {
     /**
      * The WKT or WKB data.
@@ -63,9 +63,7 @@ class MultiCurveProxy extends \Brick\Geo\MultiCurve
     }
 
     /**
-     * Returns whether the underlying geometry is loaded.
-     *
-     * @return boolean
+     * {@inheritDoc}
      */
     public function isLoaded()
     {
@@ -73,9 +71,7 @@ class MultiCurveProxy extends \Brick\Geo\MultiCurve
     }
 
     /**
-     * Loads and returns the underlying geometry.
-     *
-     * @return \Brick\Geo\MultiCurve
+     * {@inheritDoc}
      */
     public function getGeometry()
     {

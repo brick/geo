@@ -9,7 +9,7 @@ use Brick\Geo\IO\WKTReader;
 /**
  * Proxy class for Brick\Geo\Geometry.
  */
-class GeometryProxy extends \Brick\Geo\Geometry
+class GeometryProxy extends \Brick\Geo\Geometry implements ProxyInterface
 {
     /**
      * The WKT or WKB data.
@@ -63,9 +63,7 @@ class GeometryProxy extends \Brick\Geo\Geometry
     }
 
     /**
-     * Returns whether the underlying geometry is loaded.
-     *
-     * @return boolean
+     * {@inheritDoc}
      */
     public function isLoaded()
     {
@@ -73,9 +71,7 @@ class GeometryProxy extends \Brick\Geo\Geometry
     }
 
     /**
-     * Loads and returns the underlying geometry.
-     *
-     * @return \Brick\Geo\Geometry
+     * {@inheritDoc}
      */
     public function getGeometry()
     {

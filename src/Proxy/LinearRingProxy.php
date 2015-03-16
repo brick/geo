@@ -9,7 +9,7 @@ use Brick\Geo\IO\WKTReader;
 /**
  * Proxy class for Brick\Geo\LinearRing.
  */
-class LinearRingProxy extends \Brick\Geo\LinearRing
+class LinearRingProxy extends \Brick\Geo\LinearRing implements ProxyInterface
 {
     /**
      * The WKT or WKB data.
@@ -63,9 +63,7 @@ class LinearRingProxy extends \Brick\Geo\LinearRing
     }
 
     /**
-     * Returns whether the underlying geometry is loaded.
-     *
-     * @return boolean
+     * {@inheritDoc}
      */
     public function isLoaded()
     {
@@ -73,9 +71,7 @@ class LinearRingProxy extends \Brick\Geo\LinearRing
     }
 
     /**
-     * Loads and returns the underlying geometry.
-     *
-     * @return \Brick\Geo\LinearRing
+     * {@inheritDoc}
      */
     public function getGeometry()
     {

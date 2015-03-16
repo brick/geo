@@ -9,7 +9,7 @@ use Brick\Geo\IO\WKTReader;
 /**
  * Proxy class for Brick\Geo\MultiPoint.
  */
-class MultiPointProxy extends \Brick\Geo\MultiPoint
+class MultiPointProxy extends \Brick\Geo\MultiPoint implements ProxyInterface
 {
     /**
      * The WKT or WKB data.
@@ -63,9 +63,7 @@ class MultiPointProxy extends \Brick\Geo\MultiPoint
     }
 
     /**
-     * Returns whether the underlying geometry is loaded.
-     *
-     * @return boolean
+     * {@inheritDoc}
      */
     public function isLoaded()
     {
@@ -73,9 +71,7 @@ class MultiPointProxy extends \Brick\Geo\MultiPoint
     }
 
     /**
-     * Loads and returns the underlying geometry.
-     *
-     * @return \Brick\Geo\MultiPoint
+     * {@inheritDoc}
      */
     public function getGeometry()
     {

@@ -9,7 +9,7 @@ use Brick\Geo\IO\WKTReader;
 /**
  * Proxy class for Brick\Geo\LineString.
  */
-class LineStringProxy extends \Brick\Geo\LineString
+class LineStringProxy extends \Brick\Geo\LineString implements ProxyInterface
 {
     /**
      * The WKT or WKB data.
@@ -63,9 +63,7 @@ class LineStringProxy extends \Brick\Geo\LineString
     }
 
     /**
-     * Returns whether the underlying geometry is loaded.
-     *
-     * @return boolean
+     * {@inheritDoc}
      */
     public function isLoaded()
     {
@@ -73,9 +71,7 @@ class LineStringProxy extends \Brick\Geo\LineString
     }
 
     /**
-     * Loads and returns the underlying geometry.
-     *
-     * @return \Brick\Geo\LineString
+     * {@inheritDoc}
      */
     public function getGeometry()
     {

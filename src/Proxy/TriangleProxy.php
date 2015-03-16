@@ -9,7 +9,7 @@ use Brick\Geo\IO\WKTReader;
 /**
  * Proxy class for Brick\Geo\Triangle.
  */
-class TriangleProxy extends \Brick\Geo\Triangle
+class TriangleProxy extends \Brick\Geo\Triangle implements ProxyInterface
 {
     /**
      * The WKT or WKB data.
@@ -63,9 +63,7 @@ class TriangleProxy extends \Brick\Geo\Triangle
     }
 
     /**
-     * Returns whether the underlying geometry is loaded.
-     *
-     * @return boolean
+     * {@inheritDoc}
      */
     public function isLoaded()
     {
@@ -73,9 +71,7 @@ class TriangleProxy extends \Brick\Geo\Triangle
     }
 
     /**
-     * Loads and returns the underlying geometry.
-     *
-     * @return \Brick\Geo\Triangle
+     * {@inheritDoc}
      */
     public function getGeometry()
     {
