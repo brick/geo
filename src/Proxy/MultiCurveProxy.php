@@ -5,11 +5,12 @@ namespace Brick\Geo\Proxy;
 use Brick\Geo\Exception\GeometryException;
 use Brick\Geo\IO\WKBReader;
 use Brick\Geo\IO\WKTReader;
+use Brick\Geo\MultiCurve;
 
 /**
- * Proxy class for Brick\Geo\MultiCurve.
+ * Proxy class for MultiCurve.
  */
-class MultiCurveProxy extends \Brick\Geo\MultiCurve implements ProxyInterface
+class MultiCurveProxy extends MultiCurve implements ProxyInterface
 {
     /**
      * The WKT or WKB data.
@@ -28,7 +29,7 @@ class MultiCurveProxy extends \Brick\Geo\MultiCurve implements ProxyInterface
     /**
      * The underlying geometry, or NULL if not yet loaded.
      *
-     * @var \Brick\Geo\MultiCurve|null
+     * @var MultiCurve|null
      */
     private $geometry;
 
@@ -55,15 +56,15 @@ class MultiCurveProxy extends \Brick\Geo\MultiCurve implements ProxyInterface
             ? (new WKBReader())->read($this->data)
             : (new WKTReader())->read($this->data);
 
-        if (! $geometry instanceof \Brick\Geo\MultiCurve) {
-            throw GeometryException::unexpectedGeometryType(\Brick\Geo\MultiCurve::class, $geometry);
+        if (! $geometry instanceof MultiCurve) {
+            throw GeometryException::unexpectedGeometryType(MultiCurve::class, $geometry);
         }
 
         $this->geometry = $geometry;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function isLoaded()
     {
@@ -71,7 +72,7 @@ class MultiCurveProxy extends \Brick\Geo\MultiCurve implements ProxyInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getGeometry()
     {
@@ -129,6 +130,7 @@ class MultiCurveProxy extends \Brick\Geo\MultiCurve implements ProxyInterface
 
         return $this->geometry->asBinary();
     }
+
 
     /**
      * {@inheritdoc}

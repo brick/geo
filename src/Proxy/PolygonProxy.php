@@ -5,11 +5,12 @@ namespace Brick\Geo\Proxy;
 use Brick\Geo\Exception\GeometryException;
 use Brick\Geo\IO\WKBReader;
 use Brick\Geo\IO\WKTReader;
+use Brick\Geo\Polygon;
 
 /**
- * Proxy class for Brick\Geo\Polygon.
+ * Proxy class for Polygon.
  */
-class PolygonProxy extends \Brick\Geo\Polygon implements ProxyInterface
+class PolygonProxy extends Polygon implements ProxyInterface
 {
     /**
      * The WKT or WKB data.
@@ -28,7 +29,7 @@ class PolygonProxy extends \Brick\Geo\Polygon implements ProxyInterface
     /**
      * The underlying geometry, or NULL if not yet loaded.
      *
-     * @var \Brick\Geo\Polygon|null
+     * @var Polygon|null
      */
     private $geometry;
 
@@ -55,15 +56,15 @@ class PolygonProxy extends \Brick\Geo\Polygon implements ProxyInterface
             ? (new WKBReader())->read($this->data)
             : (new WKTReader())->read($this->data);
 
-        if (! $geometry instanceof \Brick\Geo\Polygon) {
-            throw GeometryException::unexpectedGeometryType(\Brick\Geo\Polygon::class, $geometry);
+        if (! $geometry instanceof Polygon) {
+            throw GeometryException::unexpectedGeometryType(Polygon::class, $geometry);
         }
 
         $this->geometry = $geometry;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function isLoaded()
     {
@@ -71,7 +72,7 @@ class PolygonProxy extends \Brick\Geo\Polygon implements ProxyInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getGeometry()
     {
@@ -129,6 +130,7 @@ class PolygonProxy extends \Brick\Geo\Polygon implements ProxyInterface
 
         return $this->geometry->asBinary();
     }
+
 
     /**
      * {@inheritdoc}

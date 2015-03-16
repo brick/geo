@@ -5,11 +5,12 @@ namespace Brick\Geo\Proxy;
 use Brick\Geo\Exception\GeometryException;
 use Brick\Geo\IO\WKBReader;
 use Brick\Geo\IO\WKTReader;
+use Brick\Geo\MultiLineString;
 
 /**
- * Proxy class for Brick\Geo\MultiLineString.
+ * Proxy class for MultiLineString.
  */
-class MultiLineStringProxy extends \Brick\Geo\MultiLineString implements ProxyInterface
+class MultiLineStringProxy extends MultiLineString implements ProxyInterface
 {
     /**
      * The WKT or WKB data.
@@ -28,7 +29,7 @@ class MultiLineStringProxy extends \Brick\Geo\MultiLineString implements ProxyIn
     /**
      * The underlying geometry, or NULL if not yet loaded.
      *
-     * @var \Brick\Geo\MultiLineString|null
+     * @var MultiLineString|null
      */
     private $geometry;
 
@@ -55,15 +56,15 @@ class MultiLineStringProxy extends \Brick\Geo\MultiLineString implements ProxyIn
             ? (new WKBReader())->read($this->data)
             : (new WKTReader())->read($this->data);
 
-        if (! $geometry instanceof \Brick\Geo\MultiLineString) {
-            throw GeometryException::unexpectedGeometryType(\Brick\Geo\MultiLineString::class, $geometry);
+        if (! $geometry instanceof MultiLineString) {
+            throw GeometryException::unexpectedGeometryType(MultiLineString::class, $geometry);
         }
 
         $this->geometry = $geometry;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function isLoaded()
     {
@@ -71,7 +72,7 @@ class MultiLineStringProxy extends \Brick\Geo\MultiLineString implements ProxyIn
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getGeometry()
     {
@@ -129,6 +130,7 @@ class MultiLineStringProxy extends \Brick\Geo\MultiLineString implements ProxyIn
 
         return $this->geometry->asBinary();
     }
+
 
     /**
      * {@inheritdoc}

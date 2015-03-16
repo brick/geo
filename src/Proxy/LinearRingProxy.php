@@ -5,11 +5,12 @@ namespace Brick\Geo\Proxy;
 use Brick\Geo\Exception\GeometryException;
 use Brick\Geo\IO\WKBReader;
 use Brick\Geo\IO\WKTReader;
+use Brick\Geo\LinearRing;
 
 /**
- * Proxy class for Brick\Geo\LinearRing.
+ * Proxy class for LinearRing.
  */
-class LinearRingProxy extends \Brick\Geo\LinearRing implements ProxyInterface
+class LinearRingProxy extends LinearRing implements ProxyInterface
 {
     /**
      * The WKT or WKB data.
@@ -28,7 +29,7 @@ class LinearRingProxy extends \Brick\Geo\LinearRing implements ProxyInterface
     /**
      * The underlying geometry, or NULL if not yet loaded.
      *
-     * @var \Brick\Geo\LinearRing|null
+     * @var LinearRing|null
      */
     private $geometry;
 
@@ -55,15 +56,15 @@ class LinearRingProxy extends \Brick\Geo\LinearRing implements ProxyInterface
             ? (new WKBReader())->read($this->data)
             : (new WKTReader())->read($this->data);
 
-        if (! $geometry instanceof \Brick\Geo\LinearRing) {
-            throw GeometryException::unexpectedGeometryType(\Brick\Geo\LinearRing::class, $geometry);
+        if (! $geometry instanceof LinearRing) {
+            throw GeometryException::unexpectedGeometryType(LinearRing::class, $geometry);
         }
 
         $this->geometry = $geometry;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function isLoaded()
     {
@@ -71,7 +72,7 @@ class LinearRingProxy extends \Brick\Geo\LinearRing implements ProxyInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getGeometry()
     {
@@ -129,6 +130,7 @@ class LinearRingProxy extends \Brick\Geo\LinearRing implements ProxyInterface
 
         return $this->geometry->asBinary();
     }
+
 
     /**
      * {@inheritdoc}

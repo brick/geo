@@ -5,11 +5,12 @@ namespace Brick\Geo\Proxy;
 use Brick\Geo\Exception\GeometryException;
 use Brick\Geo\IO\WKBReader;
 use Brick\Geo\IO\WKTReader;
+use Brick\Geo\PolyhedralSurface;
 
 /**
- * Proxy class for Brick\Geo\PolyhedralSurface.
+ * Proxy class for PolyhedralSurface.
  */
-class PolyhedralSurfaceProxy extends \Brick\Geo\PolyhedralSurface implements ProxyInterface
+class PolyhedralSurfaceProxy extends PolyhedralSurface implements ProxyInterface
 {
     /**
      * The WKT or WKB data.
@@ -28,7 +29,7 @@ class PolyhedralSurfaceProxy extends \Brick\Geo\PolyhedralSurface implements Pro
     /**
      * The underlying geometry, or NULL if not yet loaded.
      *
-     * @var \Brick\Geo\PolyhedralSurface|null
+     * @var PolyhedralSurface|null
      */
     private $geometry;
 
@@ -55,15 +56,15 @@ class PolyhedralSurfaceProxy extends \Brick\Geo\PolyhedralSurface implements Pro
             ? (new WKBReader())->read($this->data)
             : (new WKTReader())->read($this->data);
 
-        if (! $geometry instanceof \Brick\Geo\PolyhedralSurface) {
-            throw GeometryException::unexpectedGeometryType(\Brick\Geo\PolyhedralSurface::class, $geometry);
+        if (! $geometry instanceof PolyhedralSurface) {
+            throw GeometryException::unexpectedGeometryType(PolyhedralSurface::class, $geometry);
         }
 
         $this->geometry = $geometry;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function isLoaded()
     {
@@ -71,7 +72,7 @@ class PolyhedralSurfaceProxy extends \Brick\Geo\PolyhedralSurface implements Pro
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getGeometry()
     {
@@ -129,6 +130,7 @@ class PolyhedralSurfaceProxy extends \Brick\Geo\PolyhedralSurface implements Pro
 
         return $this->geometry->asBinary();
     }
+
 
     /**
      * {@inheritdoc}

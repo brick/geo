@@ -5,11 +5,12 @@ namespace Brick\Geo\Proxy;
 use Brick\Geo\Exception\GeometryException;
 use Brick\Geo\IO\WKBReader;
 use Brick\Geo\IO\WKTReader;
+use Brick\Geo\MultiPolygon;
 
 /**
- * Proxy class for Brick\Geo\MultiPolygon.
+ * Proxy class for MultiPolygon.
  */
-class MultiPolygonProxy extends \Brick\Geo\MultiPolygon implements ProxyInterface
+class MultiPolygonProxy extends MultiPolygon implements ProxyInterface
 {
     /**
      * The WKT or WKB data.
@@ -28,7 +29,7 @@ class MultiPolygonProxy extends \Brick\Geo\MultiPolygon implements ProxyInterfac
     /**
      * The underlying geometry, or NULL if not yet loaded.
      *
-     * @var \Brick\Geo\MultiPolygon|null
+     * @var MultiPolygon|null
      */
     private $geometry;
 
@@ -55,15 +56,15 @@ class MultiPolygonProxy extends \Brick\Geo\MultiPolygon implements ProxyInterfac
             ? (new WKBReader())->read($this->data)
             : (new WKTReader())->read($this->data);
 
-        if (! $geometry instanceof \Brick\Geo\MultiPolygon) {
-            throw GeometryException::unexpectedGeometryType(\Brick\Geo\MultiPolygon::class, $geometry);
+        if (! $geometry instanceof MultiPolygon) {
+            throw GeometryException::unexpectedGeometryType(MultiPolygon::class, $geometry);
         }
 
         $this->geometry = $geometry;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function isLoaded()
     {
@@ -71,7 +72,7 @@ class MultiPolygonProxy extends \Brick\Geo\MultiPolygon implements ProxyInterfac
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getGeometry()
     {
@@ -129,6 +130,7 @@ class MultiPolygonProxy extends \Brick\Geo\MultiPolygon implements ProxyInterfac
 
         return $this->geometry->asBinary();
     }
+
 
     /**
      * {@inheritdoc}

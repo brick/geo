@@ -1,12 +1,9 @@
 <?php
 
-$proxyDir          = __DIR__ . '/src/Proxy/';
-$proxyTemplate     = __DIR__ . '/proxy-template.php';
-$classFiles        = __DIR__ . '/src/*.php';
-$classNamespace    = 'Brick\Geo';
-
-define('EOL', "\n");
-define('TAB', '    ');
+$proxyDir       = __DIR__ . '/src/Proxy/';
+$proxyTemplate  = __DIR__ . '/proxy-template.php';
+$classFiles     = __DIR__ . '/src/*.php';
+$classNamespace = 'Brick\Geo';
 
 require __DIR__ . '/vendor/autoload.php';
 
@@ -23,15 +20,19 @@ foreach (glob($classFiles) as $file) {
 }
 
 $proxyTemplate = file_get_contents($proxyTemplate);
+$proxyTemplate = preg_replace('|/\* (.+?) \*/|', '$1', $proxyTemplate);
+
+preg_match('|// BEGIN METHOD TEMPLATE(.+)// END METHOD TEMPLATE|s', $proxyTemplate, $matches);
+$methodTemplate = $matches[1];
+
+$proxyTemplate = str_replace($matches[0], '// METHODS', $proxyTemplate);
 
 $reflectionTools = new Brick\Reflection\ReflectionTools();
 
 foreach ($classes as $class) {
-    $fqcn = $classNamespace . '\\' .  $class;
-    $class = new ReflectionClass($fqcn);
+    $class = new ReflectionClass($classNamespace . '\\' .  $class);
 
     $methods = '';
-    $use = [];
 
     foreach ($class->getMethods(ReflectionMethod::IS_PUBLIC) as $method) {
         if ($method->isStatic()) {
@@ -42,39 +43,29 @@ foreach ($classes as $class) {
             continue;
         }
 
-        $methods .= TAB . '/**' . EOL;
-        $methods .= TAB . ' * {@inheritdoc}' . EOL;
-        $methods .= TAB . ' */' . EOL;
+        $methodCode = $methodTemplate;
+        $methodCode = str_replace('function _TEMPLATE_()', $reflectionTools->exportFunction($method, \ReflectionMethod::IS_ABSTRACT), $methodCode);
 
-        $methods .= TAB . $reflectionTools->exportFunction($method, \ReflectionMethod::IS_ABSTRACT) . EOL;
-        $methods .= TAB . '{' . EOL;
-
-        $methods .= TAB . TAB . 'if ($this->geometry === null) {' . EOL;
-        $methods .= TAB . TAB . TAB . '$this->load();' . EOL;
-        $methods .= TAB . TAB . '}' . EOL;
-        $methods .= EOL;
-        $methods .= TAB . TAB . 'return $this->geometry->' . $method->getShortName() . '(';
+        $parameterCode = '$this->geometry->' . $method->getShortName() . '(';
 
         foreach ($method->getParameters() as $key => $parameter) {
             if ($key !== 0) {
-                $methods .= ', ';
+                $parameterCode .= ', ';
             }
 
-            $methods .= '$' . $parameter->getName();
+            $parameterCode .= '$' . $parameter->getName();
         }
 
-        $methods .= ');' . EOL;
+        $parameterCode .= ')';
 
-        $methods .= TAB . '}' . EOL;
-        $methods .= EOL;
+        $methodCode = str_replace('_RETURN_', $parameterCode, $methodCode);
+
+        $methods .= $methodCode;
     }
 
     $proxyCode = $proxyTemplate;
-    $proxyCode = str_replace(Brick\Geo\Geometry::class, $fqcn, $proxyCode);
-
-    $proxyCode = str_replace('/* {CLASSNAME} */', $class->getShortName(), $proxyCode);
-    $proxyCode = str_replace('/* {EXTENDS} */', 'extends ' . '\\' . $class->getName(), $proxyCode);
-    $proxyCode = str_replace('/* {METHODS} */', $methods, $proxyCode);
+    $proxyCode = str_replace('_CLASSNAME_', $class->getShortName(), $proxyCode);
+    $proxyCode = str_replace('// METHODS', $methods, $proxyCode);
 
     file_put_contents($proxyDir . $class->getShortName() . 'Proxy.php', $proxyCode);
 

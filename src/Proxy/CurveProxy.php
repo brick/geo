@@ -5,11 +5,12 @@ namespace Brick\Geo\Proxy;
 use Brick\Geo\Exception\GeometryException;
 use Brick\Geo\IO\WKBReader;
 use Brick\Geo\IO\WKTReader;
+use Brick\Geo\Curve;
 
 /**
- * Proxy class for Brick\Geo\Curve.
+ * Proxy class for Curve.
  */
-class CurveProxy extends \Brick\Geo\Curve implements ProxyInterface
+class CurveProxy extends Curve implements ProxyInterface
 {
     /**
      * The WKT or WKB data.
@@ -28,7 +29,7 @@ class CurveProxy extends \Brick\Geo\Curve implements ProxyInterface
     /**
      * The underlying geometry, or NULL if not yet loaded.
      *
-     * @var \Brick\Geo\Curve|null
+     * @var Curve|null
      */
     private $geometry;
 
@@ -55,15 +56,15 @@ class CurveProxy extends \Brick\Geo\Curve implements ProxyInterface
             ? (new WKBReader())->read($this->data)
             : (new WKTReader())->read($this->data);
 
-        if (! $geometry instanceof \Brick\Geo\Curve) {
-            throw GeometryException::unexpectedGeometryType(\Brick\Geo\Curve::class, $geometry);
+        if (! $geometry instanceof Curve) {
+            throw GeometryException::unexpectedGeometryType(Curve::class, $geometry);
         }
 
         $this->geometry = $geometry;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function isLoaded()
     {
@@ -71,7 +72,7 @@ class CurveProxy extends \Brick\Geo\Curve implements ProxyInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getGeometry()
     {
@@ -129,6 +130,7 @@ class CurveProxy extends \Brick\Geo\Curve implements ProxyInterface
 
         return $this->geometry->asBinary();
     }
+
 
     /**
      * {@inheritdoc}

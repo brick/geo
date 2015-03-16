@@ -5,11 +5,12 @@ namespace Brick\Geo\Proxy;
 use Brick\Geo\Exception\GeometryException;
 use Brick\Geo\IO\WKBReader;
 use Brick\Geo\IO\WKTReader;
+use Brick\Geo\MultiSurface;
 
 /**
- * Proxy class for Brick\Geo\MultiSurface.
+ * Proxy class for MultiSurface.
  */
-class MultiSurfaceProxy extends \Brick\Geo\MultiSurface implements ProxyInterface
+class MultiSurfaceProxy extends MultiSurface implements ProxyInterface
 {
     /**
      * The WKT or WKB data.
@@ -28,7 +29,7 @@ class MultiSurfaceProxy extends \Brick\Geo\MultiSurface implements ProxyInterfac
     /**
      * The underlying geometry, or NULL if not yet loaded.
      *
-     * @var \Brick\Geo\MultiSurface|null
+     * @var MultiSurface|null
      */
     private $geometry;
 
@@ -55,15 +56,15 @@ class MultiSurfaceProxy extends \Brick\Geo\MultiSurface implements ProxyInterfac
             ? (new WKBReader())->read($this->data)
             : (new WKTReader())->read($this->data);
 
-        if (! $geometry instanceof \Brick\Geo\MultiSurface) {
-            throw GeometryException::unexpectedGeometryType(\Brick\Geo\MultiSurface::class, $geometry);
+        if (! $geometry instanceof MultiSurface) {
+            throw GeometryException::unexpectedGeometryType(MultiSurface::class, $geometry);
         }
 
         $this->geometry = $geometry;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function isLoaded()
     {
@@ -71,7 +72,7 @@ class MultiSurfaceProxy extends \Brick\Geo\MultiSurface implements ProxyInterfac
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getGeometry()
     {
@@ -129,6 +130,7 @@ class MultiSurfaceProxy extends \Brick\Geo\MultiSurface implements ProxyInterfac
 
         return $this->geometry->asBinary();
     }
+
 
     /**
      * {@inheritdoc}

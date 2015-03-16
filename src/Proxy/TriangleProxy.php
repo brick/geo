@@ -5,11 +5,12 @@ namespace Brick\Geo\Proxy;
 use Brick\Geo\Exception\GeometryException;
 use Brick\Geo\IO\WKBReader;
 use Brick\Geo\IO\WKTReader;
+use Brick\Geo\Triangle;
 
 /**
- * Proxy class for Brick\Geo\Triangle.
+ * Proxy class for Triangle.
  */
-class TriangleProxy extends \Brick\Geo\Triangle implements ProxyInterface
+class TriangleProxy extends Triangle implements ProxyInterface
 {
     /**
      * The WKT or WKB data.
@@ -28,7 +29,7 @@ class TriangleProxy extends \Brick\Geo\Triangle implements ProxyInterface
     /**
      * The underlying geometry, or NULL if not yet loaded.
      *
-     * @var \Brick\Geo\Triangle|null
+     * @var Triangle|null
      */
     private $geometry;
 
@@ -55,15 +56,15 @@ class TriangleProxy extends \Brick\Geo\Triangle implements ProxyInterface
             ? (new WKBReader())->read($this->data)
             : (new WKTReader())->read($this->data);
 
-        if (! $geometry instanceof \Brick\Geo\Triangle) {
-            throw GeometryException::unexpectedGeometryType(\Brick\Geo\Triangle::class, $geometry);
+        if (! $geometry instanceof Triangle) {
+            throw GeometryException::unexpectedGeometryType(Triangle::class, $geometry);
         }
 
         $this->geometry = $geometry;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function isLoaded()
     {
@@ -71,7 +72,7 @@ class TriangleProxy extends \Brick\Geo\Triangle implements ProxyInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getGeometry()
     {
@@ -129,6 +130,7 @@ class TriangleProxy extends \Brick\Geo\Triangle implements ProxyInterface
 
         return $this->geometry->asBinary();
     }
+
 
     /**
      * {@inheritdoc}

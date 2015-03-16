@@ -5,11 +5,12 @@ namespace Brick\Geo\Proxy;
 use Brick\Geo\Exception\GeometryException;
 use Brick\Geo\IO\WKBReader;
 use Brick\Geo\IO\WKTReader;
+use Brick\Geo\LineString;
 
 /**
- * Proxy class for Brick\Geo\LineString.
+ * Proxy class for LineString.
  */
-class LineStringProxy extends \Brick\Geo\LineString implements ProxyInterface
+class LineStringProxy extends LineString implements ProxyInterface
 {
     /**
      * The WKT or WKB data.
@@ -28,7 +29,7 @@ class LineStringProxy extends \Brick\Geo\LineString implements ProxyInterface
     /**
      * The underlying geometry, or NULL if not yet loaded.
      *
-     * @var \Brick\Geo\LineString|null
+     * @var LineString|null
      */
     private $geometry;
 
@@ -55,15 +56,15 @@ class LineStringProxy extends \Brick\Geo\LineString implements ProxyInterface
             ? (new WKBReader())->read($this->data)
             : (new WKTReader())->read($this->data);
 
-        if (! $geometry instanceof \Brick\Geo\LineString) {
-            throw GeometryException::unexpectedGeometryType(\Brick\Geo\LineString::class, $geometry);
+        if (! $geometry instanceof LineString) {
+            throw GeometryException::unexpectedGeometryType(LineString::class, $geometry);
         }
 
         $this->geometry = $geometry;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function isLoaded()
     {
@@ -71,7 +72,7 @@ class LineStringProxy extends \Brick\Geo\LineString implements ProxyInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getGeometry()
     {
@@ -129,6 +130,7 @@ class LineStringProxy extends \Brick\Geo\LineString implements ProxyInterface
 
         return $this->geometry->asBinary();
     }
+
 
     /**
      * {@inheritdoc}

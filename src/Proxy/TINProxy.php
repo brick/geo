@@ -5,11 +5,12 @@ namespace Brick\Geo\Proxy;
 use Brick\Geo\Exception\GeometryException;
 use Brick\Geo\IO\WKBReader;
 use Brick\Geo\IO\WKTReader;
+use Brick\Geo\TIN;
 
 /**
- * Proxy class for Brick\Geo\TIN.
+ * Proxy class for TIN.
  */
-class TINProxy extends \Brick\Geo\TIN implements ProxyInterface
+class TINProxy extends TIN implements ProxyInterface
 {
     /**
      * The WKT or WKB data.
@@ -28,7 +29,7 @@ class TINProxy extends \Brick\Geo\TIN implements ProxyInterface
     /**
      * The underlying geometry, or NULL if not yet loaded.
      *
-     * @var \Brick\Geo\TIN|null
+     * @var TIN|null
      */
     private $geometry;
 
@@ -55,15 +56,15 @@ class TINProxy extends \Brick\Geo\TIN implements ProxyInterface
             ? (new WKBReader())->read($this->data)
             : (new WKTReader())->read($this->data);
 
-        if (! $geometry instanceof \Brick\Geo\TIN) {
-            throw GeometryException::unexpectedGeometryType(\Brick\Geo\TIN::class, $geometry);
+        if (! $geometry instanceof TIN) {
+            throw GeometryException::unexpectedGeometryType(TIN::class, $geometry);
         }
 
         $this->geometry = $geometry;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function isLoaded()
     {
@@ -71,7 +72,7 @@ class TINProxy extends \Brick\Geo\TIN implements ProxyInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getGeometry()
     {
@@ -129,6 +130,7 @@ class TINProxy extends \Brick\Geo\TIN implements ProxyInterface
 
         return $this->geometry->asBinary();
     }
+
 
     /**
      * {@inheritdoc}
