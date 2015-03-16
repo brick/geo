@@ -46,7 +46,7 @@ foreach ($classes as $class) {
         $methodCode = $methodTemplate;
         $methodCode = str_replace('function _TEMPLATE_()', $reflectionTools->exportFunction($method, \ReflectionMethod::IS_ABSTRACT), $methodCode);
 
-        $parameterCode = '$this->geometry->' . $method->getShortName() . '(';
+        $parameterCode = $method->getShortName() . '(';
 
         foreach ($method->getParameters() as $key => $parameter) {
             if ($key !== 0) {
@@ -58,7 +58,7 @@ foreach ($classes as $class) {
 
         $parameterCode .= ')';
 
-        $methodCode = str_replace('_RETURN_', $parameterCode, $methodCode);
+        $methodCode = str_replace('_METHOD_()', $parameterCode, $methodCode);
 
         $methods .= $methodCode;
     }

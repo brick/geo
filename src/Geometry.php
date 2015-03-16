@@ -45,15 +45,16 @@ abstract class Geometry
     /**
      * Builds a Geometry from a WKT representation.
      *
-     * @param string $wkt The Well-Known Text representation.
+     * @param string  $wkt  The Well-Known Text representation.
+     * @param integer $srid The optional SRID to use.
      *
      * @return static
      *
      * @throws GeometryException If the geometry is not of this type.
      */
-    public static function fromText($wkt)
+    public static function fromText($wkt, $srid = 0)
     {
-        $geometry = (new WKTReader())->read($wkt);
+        $geometry = (new WKTReader())->read($wkt, $srid);
 
         if (! $geometry instanceof static) {
             throw GeometryException::unexpectedGeometryType(static::class, $geometry);
@@ -65,15 +66,16 @@ abstract class Geometry
     /**
      * Builds a Geometry from a WKB representation.
      *
-     * @param string $wkb The Well-Known Binary representation.
+     * @param string  $wkb  The Well-Known Binary representation.
+     * @param integer $srid The optional SRID to use.
      *
      * @return static
      *
      * @throws GeometryException If the geometry is not of this type.
      */
-    public static function fromBinary($wkb)
+    public static function fromBinary($wkb, $srid = 0)
     {
-        $geometry = (new WKBReader())->read($wkb);
+        $geometry = (new WKBReader())->read($wkb, $srid);
 
         if (! $geometry instanceof static) {
             throw GeometryException::unexpectedGeometryType(static::class, $geometry);

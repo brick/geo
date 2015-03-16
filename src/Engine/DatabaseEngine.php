@@ -24,7 +24,7 @@ abstract class DatabaseEngine implements GeometryEngine
     const WGS84 = 4326;
 
     /**
-     * Builds a SQL query for a GIS function
+     * Builds a SQL query for a GIS function.
      *
      * @param string  $function        The SQL GIS function to execute.
      * @param array   $parameters      The Geometry objects or scalar values to pass as parameters.

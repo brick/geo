@@ -17,32 +17,41 @@ class MultiPointProxy extends MultiPoint implements ProxyInterface
      *
      * @var string
      */
-    private $data;
+    private $proxyData;
 
     /**
      * `true` if WKB, `false` if WKT.
      *
      * @var boolean
      */
-    private $isBinary;
+    private $proxyIsBinary;
+
+    /**
+     * The SRID of the underlying geometry.
+     *
+     * @var integer
+     */
+    private $proxySRID;
 
     /**
      * The underlying geometry, or NULL if not yet loaded.
      *
      * @var MultiPoint|null
      */
-    private $geometry;
+    private $proxyGeometry;
 
     /**
      * Class constructor.
      *
-     * @param string  $data
-     * @param boolean $isBinary
+     * @param string  $data     The WKT or WKB data.
+     * @param boolean $isBinary Whether the data is binary (true) or text (false).
+     * @param integer $srid     The SRID of the geometry.
      */
-    public function __construct($data, $isBinary)
+    public function __construct($data, $isBinary, $srid = 0)
     {
-        $this->data     = $data;
-        $this->isBinary = $isBinary;
+        $this->proxyData     = $data;
+        $this->proxyIsBinary = $isBinary;
+        $this->proxySRID     = $srid;
     }
 
     /**
@@ -52,15 +61,15 @@ class MultiPointProxy extends MultiPoint implements ProxyInterface
      */
     private function load()
     {
-        $geometry = $this->isBinary
-            ? (new WKBReader())->read($this->data)
-            : (new WKTReader())->read($this->data);
+        $geometry = $this->proxyIsBinary
+            ? (new WKBReader())->read($this->proxyData, $this->proxySRID)
+            : (new WKTReader())->read($this->proxyData, $this->proxySRID);
 
         if (! $geometry instanceof MultiPoint) {
             throw GeometryException::unexpectedGeometryType(MultiPoint::class, $geometry);
         }
 
-        $this->geometry = $geometry;
+        $this->proxyGeometry = $geometry;
     }
 
     /**
@@ -68,7 +77,7 @@ class MultiPointProxy extends MultiPoint implements ProxyInterface
      */
     public function isLoaded()
     {
-        return $this->geometry !== null;
+        return $this->proxyGeometry !== null;
     }
 
     /**
@@ -76,27 +85,27 @@ class MultiPointProxy extends MultiPoint implements ProxyInterface
      */
     public function getGeometry()
     {
-        if ($this->geometry === null) {
+        if ($this->proxyGeometry === null) {
             $this->load();
         }
 
-        return $this->geometry;
+        return $this->proxyGeometry;
     }
 
     /**
      * {@inheritdoc}
      */
-    public static function fromText($wkt)
+    public static function fromText($wkt, $srid = 0)
     {
-        return new self($wkt, false);
+        return new self($wkt, false, $srid);
     }
 
     /**
      * {@inheritdoc}
      */
-    public static function fromBinary($wkb)
+    public static function fromBinary($wkb, $srid = 0)
     {
-        return new self($wkb, true);
+        return new self($wkb, true, $srid);
     }
 
     /**
@@ -104,15 +113,15 @@ class MultiPointProxy extends MultiPoint implements ProxyInterface
      */
     public function asText()
     {
-        if (! $this->isBinary) {
-            return $this->data;
+        if (! $this->proxyIsBinary) {
+            return $this->proxyData;
         }
 
-        if ($this->geometry === null) {
+        if ($this->proxyGeometry === null) {
             $this->load();
         }
 
-        return $this->geometry->asText();
+        return $this->proxyGeometry->asText();
     }
 
     /**
@@ -120,15 +129,15 @@ class MultiPointProxy extends MultiPoint implements ProxyInterface
      */
     public function asBinary()
     {
-        if ($this->isBinary) {
-            return $this->data;
+        if ($this->proxyIsBinary) {
+            return $this->proxyData;
         }
 
-        if ($this->geometry === null) {
+        if ($this->proxyGeometry === null) {
             $this->load();
         }
 
-        return $this->geometry->asBinary();
+        return $this->proxyGeometry->asBinary();
     }
 
 
@@ -137,11 +146,11 @@ class MultiPointProxy extends MultiPoint implements ProxyInterface
      */
     public function is3D()
     {
-        if ($this->geometry === null) {
+        if ($this->proxyGeometry === null) {
             $this->load();
         }
 
-        return $this->geometry->is3D();
+        return $this->proxyGeometry->is3D();
     }
 
     /**
@@ -149,11 +158,11 @@ class MultiPointProxy extends MultiPoint implements ProxyInterface
      */
     public function isMeasured()
     {
-        if ($this->geometry === null) {
+        if ($this->proxyGeometry === null) {
             $this->load();
         }
 
-        return $this->geometry->isMeasured();
+        return $this->proxyGeometry->isMeasured();
     }
 
     /**
@@ -161,11 +170,11 @@ class MultiPointProxy extends MultiPoint implements ProxyInterface
      */
     public function numGeometries()
     {
-        if ($this->geometry === null) {
+        if ($this->proxyGeometry === null) {
             $this->load();
         }
 
-        return $this->geometry->numGeometries();
+        return $this->proxyGeometry->numGeometries();
     }
 
     /**
@@ -173,11 +182,11 @@ class MultiPointProxy extends MultiPoint implements ProxyInterface
      */
     public function geometryN($n)
     {
-        if ($this->geometry === null) {
+        if ($this->proxyGeometry === null) {
             $this->load();
         }
 
-        return $this->geometry->geometryN($n);
+        return $this->proxyGeometry->geometryN($n);
     }
 
     /**
@@ -185,11 +194,11 @@ class MultiPointProxy extends MultiPoint implements ProxyInterface
      */
     public function dimension()
     {
-        if ($this->geometry === null) {
+        if ($this->proxyGeometry === null) {
             $this->load();
         }
 
-        return $this->geometry->dimension();
+        return $this->proxyGeometry->dimension();
     }
 
     /**
@@ -197,11 +206,11 @@ class MultiPointProxy extends MultiPoint implements ProxyInterface
      */
     public function isEmpty()
     {
-        if ($this->geometry === null) {
+        if ($this->proxyGeometry === null) {
             $this->load();
         }
 
-        return $this->geometry->isEmpty();
+        return $this->proxyGeometry->isEmpty();
     }
 
     /**
@@ -209,11 +218,11 @@ class MultiPointProxy extends MultiPoint implements ProxyInterface
      */
     public function toArray()
     {
-        if ($this->geometry === null) {
+        if ($this->proxyGeometry === null) {
             $this->load();
         }
 
-        return $this->geometry->toArray();
+        return $this->proxyGeometry->toArray();
     }
 
     /**
@@ -221,11 +230,11 @@ class MultiPointProxy extends MultiPoint implements ProxyInterface
      */
     public function count()
     {
-        if ($this->geometry === null) {
+        if ($this->proxyGeometry === null) {
             $this->load();
         }
 
-        return $this->geometry->count();
+        return $this->proxyGeometry->count();
     }
 
     /**
@@ -233,11 +242,11 @@ class MultiPointProxy extends MultiPoint implements ProxyInterface
      */
     public function getIterator()
     {
-        if ($this->geometry === null) {
+        if ($this->proxyGeometry === null) {
             $this->load();
         }
 
-        return $this->geometry->getIterator();
+        return $this->proxyGeometry->getIterator();
     }
 
     /**
@@ -245,11 +254,11 @@ class MultiPointProxy extends MultiPoint implements ProxyInterface
      */
     public function spatialDimension()
     {
-        if ($this->geometry === null) {
+        if ($this->proxyGeometry === null) {
             $this->load();
         }
 
-        return $this->geometry->spatialDimension();
+        return $this->proxyGeometry->spatialDimension();
     }
 
     /**
@@ -257,11 +266,11 @@ class MultiPointProxy extends MultiPoint implements ProxyInterface
      */
     public function SRID()
     {
-        if ($this->geometry === null) {
+        if ($this->proxyGeometry === null) {
             $this->load();
         }
 
-        return $this->geometry->SRID();
+        return $this->proxyGeometry->SRID();
     }
 
 }

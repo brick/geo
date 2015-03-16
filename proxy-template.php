@@ -17,32 +17,41 @@ class _CLASSNAME_Proxy extends _CLASSNAME_ implements ProxyInterface
      *
      * @var string
      */
-    private $data;
+    private $proxyData;
 
     /**
      * `true` if WKB, `false` if WKT.
      *
      * @var boolean
      */
-    private $isBinary;
+    private $proxyIsBinary;
+
+    /**
+     * The SRID of the underlying geometry.
+     *
+     * @var integer
+     */
+    private $proxySRID;
 
     /**
      * The underlying geometry, or NULL if not yet loaded.
      *
      * @var _CLASSNAME_|null
      */
-    private $geometry;
+    private $proxyGeometry;
 
     /**
      * Class constructor.
      *
-     * @param string  $data
-     * @param boolean $isBinary
+     * @param string  $data     The WKT or WKB data.
+     * @param boolean $isBinary Whether the data is binary (true) or text (false).
+     * @param integer $srid     The SRID of the geometry.
      */
-    public function __construct($data, $isBinary)
+    public function __construct($data, $isBinary, $srid = 0)
     {
-        $this->data     = $data;
-        $this->isBinary = $isBinary;
+        $this->proxyData     = $data;
+        $this->proxyIsBinary = $isBinary;
+        $this->proxySRID     = $srid;
     }
 
     /**
@@ -52,15 +61,15 @@ class _CLASSNAME_Proxy extends _CLASSNAME_ implements ProxyInterface
      */
     private function load()
     {
-        $geometry = $this->isBinary
-            ? (new WKBReader())->read($this->data)
-            : (new WKTReader())->read($this->data);
+        $geometry = $this->proxyIsBinary
+            ? (new WKBReader())->read($this->proxyData, $this->proxySRID)
+            : (new WKTReader())->read($this->proxyData, $this->proxySRID);
 
         if (! $geometry instanceof _CLASSNAME_) {
             throw GeometryException::unexpectedGeometryType(_CLASSNAME_::class, $geometry);
         }
 
-        $this->geometry = $geometry;
+        $this->proxyGeometry = $geometry;
     }
 
     /**
@@ -68,7 +77,7 @@ class _CLASSNAME_Proxy extends _CLASSNAME_ implements ProxyInterface
      */
     public function isLoaded()
     {
-        return $this->geometry !== null;
+        return $this->proxyGeometry !== null;
     }
 
     /**
@@ -76,27 +85,27 @@ class _CLASSNAME_Proxy extends _CLASSNAME_ implements ProxyInterface
      */
     public function getGeometry()
     {
-        if ($this->geometry === null) {
+        if ($this->proxyGeometry === null) {
             $this->load();
         }
 
-        return $this->geometry;
+        return $this->proxyGeometry;
     }
 
     /**
      * {@inheritdoc}
      */
-    public static function fromText($wkt)
+    public static function fromText($wkt, $srid = 0)
     {
-        return new self($wkt, false);
+        return new self($wkt, false, $srid);
     }
 
     /**
      * {@inheritdoc}
      */
-    public static function fromBinary($wkb)
+    public static function fromBinary($wkb, $srid = 0)
     {
-        return new self($wkb, true);
+        return new self($wkb, true, $srid);
     }
 
     /**
@@ -104,15 +113,15 @@ class _CLASSNAME_Proxy extends _CLASSNAME_ implements ProxyInterface
      */
     public function asText()
     {
-        if (! $this->isBinary) {
-            return $this->data;
+        if (! $this->proxyIsBinary) {
+            return $this->proxyData;
         }
 
-        if ($this->geometry === null) {
+        if ($this->proxyGeometry === null) {
             $this->load();
         }
 
-        return $this->geometry->asText();
+        return $this->proxyGeometry->asText();
     }
 
     /**
@@ -120,15 +129,15 @@ class _CLASSNAME_Proxy extends _CLASSNAME_ implements ProxyInterface
      */
     public function asBinary()
     {
-        if ($this->isBinary) {
-            return $this->data;
+        if ($this->proxyIsBinary) {
+            return $this->proxyData;
         }
 
-        if ($this->geometry === null) {
+        if ($this->proxyGeometry === null) {
             $this->load();
         }
 
-        return $this->geometry->asBinary();
+        return $this->proxyGeometry->asBinary();
     }
 
 // BEGIN METHOD TEMPLATE
@@ -137,11 +146,11 @@ class _CLASSNAME_Proxy extends _CLASSNAME_ implements ProxyInterface
      */
     function _TEMPLATE_()
     {
-        if ($this->geometry === null) {
+        if ($this->proxyGeometry === null) {
             $this->load();
         }
 
-        return _RETURN_;
+        return $this->proxyGeometry->_METHOD_();
     }
 // END METHOD TEMPLATE
 }
