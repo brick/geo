@@ -42,11 +42,14 @@ class PDOEngine extends DatabaseEngine
     {
         $statement = $this->pdo->prepare($query);
 
-        foreach ($parameters as $index => $parameter) {
+        $index = 1;
+
+        foreach ($parameters as $parameter) {
             if ($parameter instanceof Geometry) {
-                $statement->bindValue(1 + $index, $parameter->asBinary(), \PDO::PARAM_LOB);
+                $statement->bindValue($index++, $parameter->asBinary(), \PDO::PARAM_LOB);
+                $statement->bindValue($index++, $parameter->SRID(), \PDO::PARAM_INT);
             } else {
-                $statement->bindValue(1 + $index, $parameter);
+                $statement->bindValue($index++, $parameter);
             }
         }
 
