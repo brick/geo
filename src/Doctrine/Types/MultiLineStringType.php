@@ -4,8 +4,6 @@ namespace Brick\Geo\Doctrine\Types;
 
 use Brick\Geo\Proxy\MultiLineStringProxy;
 
-use Doctrine\DBAL\Platforms\AbstractPlatform;
-
 /**
  * Doctrine type for MultiLineString.
  */
@@ -22,8 +20,8 @@ class MultiLineStringType extends GeometryType
     /**
      * {@inheritdoc}
      */
-    protected function createGeometryProxy($wkb)
+    protected function getProxyClassName()
     {
-        return new MultiLineStringProxy($wkb, true);
+        return MultiLineStringProxy::class;
     }
 }

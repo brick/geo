@@ -14,23 +14,26 @@ use Doctrine\DBAL\Platforms\AbstractPlatform;
 class GeometryType extends Type
 {
     /**
-     * Default SRID for Geometries;
-     * This library assumes that all Geometries are in WGS84 Lon/Lat.
+     * The default SRID to use for geometries when talking to the database.
      *
-     * @const integer
+     * This is the SRID that will be used when retrieving geometries from the database,
+     * as the WKT and WKB formats do not include the SRID information.
+     *
+     * Due to current limitations in Doctrine, this will also be used when sending geometries to the database,
+     * in place of the actual SRID of the geometry.
+     *
+     * @see http://www.doctrine-project.org/jira/browse/DDC-3319
+     *
+     * @var integer
      */
-    const WGS84 = 4326;
+    public static $srid = 0;
 
     /**
-     * Child classes will override this method to return the proper type.
-     *
-     * @param string $wkb
-     *
-     * @return Geometry
+     * @return string
      */
-    protected function createGeometryProxy($wkb)
+    protected function getProxyClassName()
     {
-        return new GeometryProxy($wkb, true);
+        return GeometryProxy::class;
     }
 
     /**
@@ -66,7 +69,9 @@ class GeometryType extends Type
             $value = stream_get_contents($value);
         }
 
-        return $this->createGeometryProxy($value);
+        $proxyClassName = $this->getProxyClassName();
+
+        return new $proxyClassName($value, true, self::$srid);
     }
 
     /**
@@ -92,7 +97,7 @@ class GeometryType extends Type
      */
     public function convertToDatabaseValueSQL($sqlExpr, AbstractPlatform $platform)
     {
-        return sprintf('ST_GeomFromWkb(%s, %s)', $sqlExpr, self::WGS84);
+        return sprintf('ST_GeomFromWkb(%s, %d)', $sqlExpr, self::$srid);
     }
 
     /**

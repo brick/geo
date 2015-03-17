@@ -4,8 +4,6 @@ namespace Brick\Geo\Doctrine\Types;
 
 use Brick\Geo\Proxy\PointProxy;
 
-use Doctrine\DBAL\Platforms\AbstractPlatform;
-
 /**
  * Doctrine type for Point.
  */
@@ -22,8 +20,8 @@ class PointType extends GeometryType
     /**
      * {@inheritdoc}
      */
-    protected function createGeometryProxy($wkb)
+    protected function getProxyClassName()
     {
-        return new PointProxy($wkb, true);
+        return PointProxy::class;
     }
 }

@@ -4,8 +4,6 @@ namespace Brick\Geo\Doctrine\Types;
 
 use Brick\Geo\Proxy\MultiPointProxy;
 
-use Doctrine\DBAL\Platforms\AbstractPlatform;
-
 /**
  * Doctrine type for MultiPoint.
  */
@@ -22,8 +20,8 @@ class MultiPointType extends GeometryType
     /**
      * {@inheritdoc}
      */
-    protected function createGeometryProxy($wkb)
+    protected function getProxyClassName()
     {
-        return new MultiPointProxy($wkb, true);
+        return MultiPointProxy::class;
     }
 }
