@@ -269,6 +269,20 @@ class Point extends Geometry
     }
 
     /**
+     * Returns a copy of this Point with the Z and M coordinates removed.
+     *
+     * @return Point
+     */
+    public function noZM()
+    {
+        if ($this->z === null && $this->m === null) {
+            return $this;
+        }
+
+        return new Point($this->x, $this->y, null, null, $this->srid);
+    }
+
+    /**
      * Returns a copy of this Point with the SRID altered.
      *
      * @param int $srid
@@ -298,6 +312,26 @@ class Point extends Geometry
     public function dimension()
     {
         return 0;
+    }
+
+    /**
+     * @noproxy
+     *
+     * {@inheritdoc}
+     */
+    public function envelope()
+    {
+        return $this->noZM();
+    }
+
+    /**
+     * @noproxy
+     *
+     * {@inheritdoc}
+     */
+    public function isSimple()
+    {
+        return true;
     }
 
     /**

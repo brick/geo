@@ -192,6 +192,102 @@ class PointProxy extends Point implements ProxyInterface
     /**
      * {@inheritdoc}
      */
+    public function withX($x)
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->withX($x);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function withY($y)
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->withY($y);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function withZ($z)
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->withZ($z);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function withM($m)
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->withM($m);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function noZ()
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->noZ();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function noM()
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->noM();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function noZM()
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->noZM();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function withSRID($srid)
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->withSRID($srid);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function is3D()
     {
         if ($this->proxyGeometry === null) {

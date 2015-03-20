@@ -210,22 +210,15 @@ class PointTest extends AbstractTestCase
     /**
      * @dataProvider providerEnvelope
      *
-     * @param Point $point
+     * @param string $point
+     * @param string $envelope
      */
-    public function testEnvelope(Point $point)
+    public function testEnvelope($point, $envelope)
     {
-        $this->is3D($point->is3D());
-        $this->isMeasured($point->isMeasured());
+        $point = Point::fromText($point);
 
-        $envelope = $point->envelope();
-        $possiblePoint = $point->noZ()->noM();
-        $possiblePolygon = Polygon::factory([LinearRing::factory(array_fill(0, 5, $possiblePoint))]);
-
-        $envelope = $envelope->asText();
-        $possiblePoint = $possiblePoint->asText();
-        $possiblePolygon = $possiblePolygon->asText();
-
-        $this->assertTrue($envelope == $possiblePoint || $envelope == $possiblePolygon, 'Unexpected envelope: ' . $envelope);
+        $this->assertWktEquals($point->envelope(), $envelope);
+        $this->assertWktEquals($point->withSRID(4326)->envelope(), $envelope, 4326);
     }
 
     /**
@@ -234,23 +227,36 @@ class PointTest extends AbstractTestCase
     public function providerEnvelope()
     {
         return [
-            [Point::xy(1, 2)],
-            [Point::xyz(2, 3, 4)],
-            [Point::xym(3, 4, 5)],
-            [Point::xyzm(4, 5, 6, 7)]
+            ['POINT (1 2)', 'POINT (1 2)'],
+            ['POINT Z (2 3 4)', 'POINT (2 3)'],
+            ['POINT M (3 4 5)', 'POINT (3 4)'],
+            ['POINT ZM (4 5 6 7)', 'POINT (4 5)']
         ];
     }
 
     /**
-     * @dataProvider providerEnvelope
+     * @dataProvider providerIsSimple
      *
-     * @param Point $point
+     * @param string $point
      */
-    public function testIsSimple(Point $point)
+    public function testIsSimple($point)
     {
-        $this->is3D($point->is3D());
-        $this->isMeasured($point->isMeasured());
+        $point = Point::fromText($point);
 
         $this->assertTrue($point->isSimple());
+        $this->assertTrue($point->withSRID(4326)->isSimple());
+    }
+
+    /**
+     * @return array
+     */
+    public function providerIsSimple()
+    {
+        return [
+            ['POINT (1 2)'],
+            ['POINT Z (2 3 4)'],
+            ['POINT M (3 4 5)'],
+            ['POINT ZM (4 5 6 7)']
+        ];
     }
 }

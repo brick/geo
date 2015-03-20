@@ -70,6 +70,17 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @param Geometry $geometry
+     * @param string   $wkt
+     * @param int      $srid
+     */
+    final protected function assertWktEquals(Geometry $geometry, $wkt, $srid = 0)
+    {
+        $this->assertSame($wkt, $geometry->asText());
+        $this->assertSame($srid, $geometry->SRID());
+    }
+
+    /**
      * @param Geometry $g      The Geometry to test.
      * @param array    $coords The expected raw coordinates of the geometry.
      * @param boolean  $hasZ   Whether the geometry is expected to contain Z coordinates.
