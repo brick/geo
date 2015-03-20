@@ -269,9 +269,6 @@ class PointTest extends AbstractTestCase
     {
         $point = Point::fromText($point);
 
-        $this->is3D($point->is3D());
-        $this->isMeasured($point->isMeasured());
-
         $this->assertWktEquals($point->boundary(), 'GEOMETRYCOLLECTION EMPTY');
         $this->assertWktEquals($point->withSRID(4326)->boundary(), 'GEOMETRYCOLLECTION EMPTY', 4326);
     }
