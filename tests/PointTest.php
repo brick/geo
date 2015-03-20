@@ -259,4 +259,33 @@ class PointTest extends AbstractTestCase
             ['POINT ZM (4 5 6 7)']
         ];
     }
+
+    /**
+     * @dataProvider providerBoundary
+     *
+     * @param string $point
+     */
+    public function testBoundary($point)
+    {
+        $point = Point::fromText($point);
+
+        $this->is3D($point->is3D());
+        $this->isMeasured($point->isMeasured());
+
+        $this->assertWktEquals($point->boundary(), 'GEOMETRYCOLLECTION EMPTY');
+        $this->assertWktEquals($point->withSRID(4326)->boundary(), 'GEOMETRYCOLLECTION EMPTY', 4326);
+    }
+
+    /**
+     * @return array
+     */
+    public function providerBoundary()
+    {
+        return [
+            ['POINT (1 2)'],
+            ['POINT Z (2 3 4)'],
+            ['POINT M (3 4 5)'],
+            ['POINT ZM (4 5 6 7)']
+        ];
+    }
 }

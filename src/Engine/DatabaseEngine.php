@@ -48,8 +48,8 @@ abstract class DatabaseEngine implements GeometryEngine
     /**
      * Executes a SQL query.
      *
-     * @param string  $query      The SQL query to execute.
-     * @param array   $parameters The Geometry objects or scalar values to pass as parameters.
+     * @param string $query      The SQL query to execute.
+     * @param array  $parameters The Geometry objects or scalar values to pass as parameters.
      *
      * @return mixed
      *
