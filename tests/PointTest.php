@@ -217,10 +217,15 @@ class PointTest extends AbstractTestCase
         $this->is3D($point->is3D());
         $this->isMeasured($point->isMeasured());
 
-        $envelope = $point->envelope()->asText();
+        $envelope = $point->envelope();
+        $possiblePoint = $point->noZ()->noM();
+        $possiblePolygon = Polygon::factory([LinearRing::factory(array_fill(0, 5, $possiblePoint))]);
 
-        $polygon = Polygon::factory([LinearRing::factory([$point, $point, $point, $point, $point])]);
-        $this->assertTrue($envelope == $point->asText() || $envelope == $polygon->asText(), $envelope);
+        $envelope = $envelope->asText();
+        $possiblePoint = $possiblePoint->asText();
+        $possiblePolygon = $possiblePolygon->asText();
+
+        $this->assertTrue($envelope == $possiblePoint || $envelope == $possiblePolygon, 'Unexpected envelope: ' . $envelope);
     }
 
     /**
