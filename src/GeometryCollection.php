@@ -58,6 +58,77 @@ class GeometryCollection extends Geometry implements \Countable, \IteratorAggreg
     }
 
     /**
+     * @param Geometry[] $geometries
+     * @param int        $srid
+     *
+     * @return static
+     */
+    public static function xy(array $geometries, $srid)
+    {
+        static::checkGeometries($geometries, false, false, $srid);
+
+        return new static(array_values($geometries), false, false, $srid);
+    }
+
+    /**
+     * @param Geometry[] $geometries
+     * @param int        $srid
+     *
+     * @return static
+     */
+    public static function xyz(array $geometries, $srid)
+    {
+        static::checkGeometries($geometries, true, false, $srid);
+
+        return new static(array_values($geometries), true, false, $srid);
+    }
+
+    /**
+     * @param Geometry[] $geometries
+     * @param int        $srid
+     *
+     * @return static
+     */
+    public static function xym(array $geometries, $srid)
+    {
+        static::checkGeometries($geometries, false, true, $srid);
+
+        return new static(array_values($geometries), false, true, $srid);
+    }
+
+    /**
+     * @param Geometry[] $geometries
+     * @param int        $srid
+     *
+     * @return static
+     */
+    public static function xyzm(array $geometries, $srid)
+    {
+        static::checkGeometries($geometries, true, true, $srid);
+
+        return new static(array_values($geometries), true, true, $srid);
+    }
+
+    /**
+     * @param Geometry[] $geometries
+     * @param bool       $is3D
+     * @param bool       $isMeasured
+     * @param int        $srid
+     *
+     * @return static
+     *
+     * @throws GeometryException
+     */
+    public static function create(array $geometries, $is3D, $isMeasured, $srid)
+    {
+        static::checkGeometries($geometries, $is3D, $isMeasured, $srid);
+
+        return new static(array_values($geometries), $is3D, $isMeasured, $srid);
+    }
+
+    /**
+     * @deprecated Use a factory method that explictly specifies the dimensionality and SRID.
+     *
      * @param array $geometries An array of Geometry objects.
      *
      * @return static
@@ -220,5 +291,35 @@ class GeometryCollection extends Geometry implements \Countable, \IteratorAggreg
     protected static function containedGeometryType()
     {
         return Geometry::class;
+    }
+
+    /**
+     * @param Geometry[] $geometries
+     * @param bool       $is3D
+     * @param bool       $isMeasured
+     * @param int        $srid
+     *
+     * @return void
+     *
+     * @throws GeometryException
+     */
+    protected static function checkGeometries(array $geometries, $is3D, $isMeasured, $srid)
+    {
+        $containedGeometryType = static::containedGeometryType();
+
+        foreach ($geometries as $geometry) {
+            if ($geometry instanceof $containedGeometryType) {
+                if ($geometry->is3D() !== $is3D || $geometry->isMeasured() !== $isMeasured || $geometry->SRID() !== $srid) {
+                    throw GeometryException::collectionDimensionalityMix($is3D, $isMeasured, $srid, $geometry);
+                }
+            }
+
+            throw new GeometryException(
+                '%s can only contain %s objects, %s given.',
+                static::class,
+                $containedGeometryType,
+                is_object($geometry) ? get_class($geometry) : gettype($geometry)
+            );
+        }
     }
 }
