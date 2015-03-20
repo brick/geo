@@ -3,7 +3,9 @@
 namespace Brick\Geo\Tests;
 
 use Brick\Geo\Geometry;
+use Brick\Geo\LinearRing;
 use Brick\Geo\Point;
+use Brick\Geo\Polygon;
 
 /**
  * Unit tests for class Point.
@@ -205,9 +207,26 @@ class PointTest extends AbstractTestCase
         ];
     }
 
-    public function testEnvelope()
+    /**
+     * @dataProvider providerEnvelope
+     *
+     * @param Point $point
+     */
+    public function testEnvelope(Point $point)
     {
-        $envelope = Point::xy(1, 2)->envelope();
-        $this->assertSame('POLYGON ((1 2, 1 2, 1 2, 1 2, 1 2))', $envelope->asText());
+        $this->assertTrue($point->envelope()->equals($point));
+    }
+
+    /**
+     * @return array
+     */
+    public function providerEnvelope()
+    {
+        return [
+            [Point::xy(1, 2)],
+            [Point::xyz(2, 3, 4)],
+            [Point::xym(3, 4, 5)],
+            [Point::xyzm(4, 5, 6, 7)]
+        ];
     }
 }
