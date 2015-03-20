@@ -193,6 +193,94 @@ class Point extends Geometry
     }
 
     /**
+     * Returns a copy of this Point with the X coordinate altered.
+     *
+     * @param float $x
+     *
+     * @return Point
+     */
+    public function withX($x)
+    {
+        return new Point((float) $x, $this->y, $this->z, $this->m, $this->srid);
+    }
+
+    /**
+     * Returns a copy of this Point with the Y coordinate altered.
+     *
+     * @param float $y
+     *
+     * @return Point
+     */
+    public function withY($y)
+    {
+        return new Point($this->x, (float) $y, $this->z, $this->m, $this->srid);
+    }
+
+    /**
+     * Returns a copy of this Point with the Z coordinate altered.
+     *
+     * @param float $z
+     *
+     * @return Point
+     */
+    public function withZ($z)
+    {
+        return new Point($this->x, $this->y, (float) $z, $this->m, $this->srid);
+    }
+
+    /**
+     * Returns a copy of this Point with the M coordinate altered.
+     *
+     * @param float $m
+     *
+     * @return Point
+     */
+    public function withM($m)
+    {
+        return new Point($this->x, $this->y, $this->z, (float) $m, $this->srid);
+    }
+
+    /**
+     * Returns a copy of this Point with the Z coordinate removed.
+     *
+     * @return Point
+     */
+    public function noZ()
+    {
+        if ($this->z === null) {
+            return $this;
+        }
+
+        return new Point($this->x, $this->y, null, $this->m, $this->srid);
+    }
+
+    /**
+     * Returns a copy of this Point with the M coordinate removed.
+     *
+     * @return Point
+     */
+    public function noM()
+    {
+        if ($this->m === null) {
+            return $this;
+        }
+
+        return new Point($this->x, $this->y, $this->z, null, $this->srid);
+    }
+
+    /**
+     * Returns a copy of this Point with the SRID altered.
+     *
+     * @param int $srid
+     *
+     * @return Point
+     */
+    public function withSRID($srid)
+    {
+        return new Point($this->x, $this->y, $this->z, $this->m, (int) $srid);
+    }
+
+    /**
      * @noproxy
      *
      * {@inheritdoc}
