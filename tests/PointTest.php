@@ -214,7 +214,13 @@ class PointTest extends AbstractTestCase
      */
     public function testEnvelope(Point $point)
     {
-        $this->assertTrue($point->envelope()->equals($point));
+        $this->is3D($point->is3D());
+        $this->isMeasured($point->isMeasured());
+
+        $envelope = $point->envelope()->asText();
+
+        $polygon = Polygon::factory([LinearRing::factory([$point, $point, $point, $point, $point])]);
+        $this->assertTrue($envelope == $point->asText() || $envelope == $polygon->asText());
     }
 
     /**
