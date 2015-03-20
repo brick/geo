@@ -106,7 +106,11 @@ class WKTWriter
 
         $wkt .= $this->prettyPrintSpace;
 
-        $wkt .= '(' . $data . ')';
+        if ($data === '') {
+            $wkt .= 'EMPTY';
+        } else {
+            $wkt .= '(' . $data . ')';
+        }
 
         return $wkt;
     }
