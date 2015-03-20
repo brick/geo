@@ -17,13 +17,30 @@ use Brick\Geo\Polygon;
  */
 class AbstractTestCase extends \PHPUnit_Framework_TestCase
 {
-    final protected function skipMySQL()
+    /**
+     * @param $message
+     */
+    final protected function skipMySQL($message)
     {
         $engine = GeometryEngineRegistry::get();
 
         if ($engine instanceof PDOEngine) {
             if ($engine->getPDO()->getAttribute(\PDO::ATTR_DRIVER_NAME) === 'mysql') {
-                $this->markTestSkipped('Z and M coordinates are not supported by MySQL');
+                $this->markTestSkipped($message);
+            }
+        }
+    }
+
+    /**
+     * @param $message
+     */
+    final protected function skipPostgreSQL($message)
+    {
+        $engine = GeometryEngineRegistry::get();
+
+        if ($engine instanceof PDOEngine) {
+            if ($engine->getPDO()->getAttribute(\PDO::ATTR_DRIVER_NAME) === 'pgsql') {
+                $this->markTestSkipped($message);
             }
         }
     }
@@ -36,7 +53,7 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
     final protected function is3D($is3D)
     {
         if ($is3D) {
-            $this->skipMySQL();
+            $this->skipMySQL('Z coordinates are not supported by MySQL');
         }
     }
 
@@ -48,7 +65,7 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
     final protected function isMeasured($isMeasured)
     {
         if ($isMeasured) {
-            $this->skipMySQL();
+            $this->skipMySQL('M coordinates are not supported by MySQL');
         }
     }
 
