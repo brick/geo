@@ -220,7 +220,7 @@ class PointTest extends AbstractTestCase
         $envelope = $point->envelope()->asText();
 
         $polygon = Polygon::factory([LinearRing::factory([$point, $point, $point, $point, $point])]);
-        $this->assertTrue($envelope == $point->asText() || $envelope == $polygon->asText());
+        $this->assertTrue($envelope == $point->asText() || $envelope == $polygon->asText(), $envelope);
     }
 
     /**
@@ -234,5 +234,18 @@ class PointTest extends AbstractTestCase
             [Point::xym(3, 4, 5)],
             [Point::xyzm(4, 5, 6, 7)]
         ];
+    }
+
+    /**
+     * @dataProvider providerEnvelope
+     *
+     * @param Point $point
+     */
+    public function testIsSimple(Point $point)
+    {
+        $this->is3D($point->is3D());
+        $this->isMeasured($point->isMeasured());
+
+        $this->assertTrue($point->isSimple());
     }
 }

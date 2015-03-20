@@ -208,13 +208,12 @@ abstract class Geometry
     abstract public function isEmpty();
 
     /**
-     * Returns whether this Geometry is simple/
+     * Returns whether this Geometry is simple.
      *
      * Returns true if this geometric object has no anomalous geometric points,
      * such as self intersection or self tangency. The description of each
      * instantiable geometric class will include the specific conditions that
      * cause an instance of that class to be classified as not simple.
-     * Implemented using a GeometryEngine.
      *
      * @todo implement this method in PHP, to avoid an engine call when creating LinearRing, Polygon, and so on.
      *
