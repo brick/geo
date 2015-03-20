@@ -130,7 +130,7 @@ if you use a specific geometry engine. This table also shows which functions are
 | Function Name | GEOS | PostGIS | MySQL | SpatiaLite | OpenGIS standard |
 |---------------|------|---------|-------|------------|------------------|
 |`area`         |  ✓   |    ✓    |   ✓   |     ✓      |        ✓         |
-|`boundary`     |  ✓   |    ✓    |   ✓   |     ✓      |        ✓         |
+|`boundary`     |  ✓   |    ✓    |       |     ✓      |        ✓         |
 |`buffer`       |  ✓   |    ✓    |   ✓   |     ✓      |        ✓         |
 |`centroid`     |  ✓   |    ✓    |   ✓   |     ✓      |        ✓         |
 |`contains`     |  ✓   |    ✓    |   ✓   |     ✓      |        ✓         |
