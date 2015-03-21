@@ -240,37 +240,37 @@ class PointProxy extends Point implements ProxyInterface
     /**
      * {@inheritdoc}
      */
-    public function noZ()
+    public function withoutZ()
     {
         if ($this->proxyGeometry === null) {
             $this->load();
         }
 
-        return $this->proxyGeometry->noZ();
+        return $this->proxyGeometry->withoutZ();
     }
 
     /**
      * {@inheritdoc}
      */
-    public function noM()
+    public function withoutM()
     {
         if ($this->proxyGeometry === null) {
             $this->load();
         }
 
-        return $this->proxyGeometry->noM();
+        return $this->proxyGeometry->withoutM();
     }
 
     /**
      * {@inheritdoc}
      */
-    public function noZM()
+    public function withoutZM()
     {
         if ($this->proxyGeometry === null) {
             $this->load();
         }
 
-        return $this->proxyGeometry->noZM();
+        return $this->proxyGeometry->withoutZM();
     }
 
     /**

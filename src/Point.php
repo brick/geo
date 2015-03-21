@@ -49,7 +49,7 @@ class Point extends Geometry
      * @param float|null $m    The m-coordinate, validated as a float or null.
      * @param integer    $srid The SRID, validated as an integer.
      */
-    protected function __construct($x, $y, $z = null, $m = null, $srid = 0)
+    protected function __construct($x, $y, $z, $m, $srid)
     {
         $this->x = $x;
         $this->y = $y;
@@ -245,7 +245,7 @@ class Point extends Geometry
      *
      * @return Point
      */
-    public function noZ()
+    public function withoutZ()
     {
         if ($this->z === null) {
             return $this;
@@ -259,7 +259,7 @@ class Point extends Geometry
      *
      * @return Point
      */
-    public function noM()
+    public function withoutM()
     {
         if ($this->m === null) {
             return $this;
@@ -273,7 +273,7 @@ class Point extends Geometry
      *
      * @return Point
      */
-    public function noZM()
+    public function withoutZM()
     {
         if ($this->z === null && $this->m === null) {
             return $this;
@@ -321,7 +321,7 @@ class Point extends Geometry
      */
     public function envelope()
     {
-        return $this->noZM();
+        return $this->withoutZM();
     }
 
     /**
