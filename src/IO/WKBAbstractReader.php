@@ -3,6 +3,7 @@
 namespace Brick\Geo\IO;
 
 use Brick\Geo\Exception\GeometryException;
+use Brick\Geo\Exception\GeometryParseException;
 use Brick\Geo\Geometry;
 use Brick\Geo\Point;
 use Brick\Geo\LineString;
@@ -38,7 +39,7 @@ abstract class WKBAbstractReader
      *
      * @return Geometry
      *
-     * @throws GeometryException
+     * @throws GeometryParseException
      */
     protected function readGeometry(WKBBuffer $buffer, $srid)
     {
@@ -76,7 +77,7 @@ abstract class WKBAbstractReader
                 return $this->readTIN($buffer, $srid);
         }
 
-        throw GeometryException::unsupportedGeometryType($geometryType);
+        throw GeometryParseException::unsupportedGeometryType($geometryType);
     }
 
     /**

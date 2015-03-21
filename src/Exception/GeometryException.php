@@ -30,53 +30,15 @@ class GeometryException extends \Exception
     }
 
     /**
-     * @return GeometryException
-     */
-    public static function invalidWkt()
-    {
-        return new self('Invalid WKT.');
-    }
-
-    /**
-     * @return GeometryException
-     */
-    public static function invalidEWKT()
-    {
-        return new self('Invalid EWKT.');
-    }
-
-    /**
-     * @param string $message
-     *
-     * @return GeometryException
-     */
-    public static function invalidWkb($message)
-    {
-        return new self('Invalid WKB: ' . $message);
-    }
-
-    /**
-     * @param string $wkbType
-     *
-     * @return GeometryException
-     */
-    public static function unsupportedWkbType($wkbType)
-    {
-        $message = sprintf('Unsupported WKB type: %s.', $wkbType);
-
-        return new self($message);
-    }
-
-    /**
      * @param string $geometryType
      *
-     * @return GeometryException
+     * @return static
      */
     public static function unsupportedGeometryType($geometryType)
     {
         $message = sprintf('Unsupported geometry type: %s.', $geometryType);
 
-        return new self($message);
+        return new static($message);
     }
 
     /**

@@ -2,8 +2,8 @@
 
 namespace Brick\Geo\IO;
 
+use Brick\Geo\Exception\GeometryParseException;
 use Brick\Geo\Geometry;
-use Brick\Geo\Exception\GeometryException;
 
 /**
  * Builds geometries out of Well-Known Text strings.
@@ -16,7 +16,7 @@ class WKTReader extends WKTAbstractReader
      *
      * @return Geometry
      *
-     * @throws GeometryException
+     * @throws GeometryParseException
      */
     public function read($wkt, $srid = 0)
     {
@@ -24,7 +24,7 @@ class WKTReader extends WKTAbstractReader
         $geometry = $this->readGeometry($parser, $srid);
 
         if (! $parser->isEndOfStream()) {
-            throw GeometryException::invalidWkt();
+            throw GeometryParseException::invalidWKT();
         }
 
         return $geometry;
