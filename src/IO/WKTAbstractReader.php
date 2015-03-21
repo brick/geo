@@ -27,44 +27,85 @@ abstract class WKTAbstractReader
     protected function readGeometry(WKTParser $parser, $srid)
     {
         $geometryType = $parser->getNextWord();
-        $zm = $parser->getOptionalNextWord();
+        $word = $parser->getOptionalNextWord();
 
-        if ($zm === null) {
-            $is3D = false;
-            $isMeasured = false;
-        } elseif ($zm === 'Z') {
-            $is3D = true;
-            $isMeasured = false;
-        } elseif ($zm === 'M') {
-            $is3D = false;
-            $isMeasured = true;
-        } elseif ($zm === 'ZM') {
-            $is3D = true;
-            $isMeasured = true;
-        } else {
-            throw new GeometryException('Unexpected word in WKT: ' . $zm);
+        $is3D       = false;
+        $isMeasured = false;
+        $isEmpty    = false;
+
+        if ($word !== null) {
+            if ($word === 'Z') {
+                $is3D = true;
+            } elseif ($word === 'M') {
+                $isMeasured = true;
+            } elseif ($word === 'ZM') {
+                $is3D       = true;
+                $isMeasured = true;
+            } elseif ($word === 'EMPTY') {
+                $isEmpty = true;
+            } else {
+                throw new GeometryException('Unexpected word in WKT: ' . $word);
+            }
+
+            if (! $isEmpty) {
+                $word = $parser->getOptionalNextWord();
+
+                if ($word === 'EMPTY') {
+                    $isEmpty = true;
+                } elseif ($word !== null) {
+                    throw new GeometryException('Unexpected word in WKT: ' . $word);
+                }
+            }
         }
 
         switch ($geometryType) {
             case 'POINT':
+                if ($isEmpty) {
+                    throw new GeometryException('POINT EMPTY is not supported.');
+                }
+
                 return $this->readPointText($parser, $is3D, $isMeasured, $srid);
 
             case 'LINESTRING':
+                if ($isEmpty) {
+                    throw new GeometryException('LINESTRING EMPTY is not supported.');
+                }
+
                 return $this->readLineStringText($parser, $is3D, $isMeasured, $srid);
 
             case 'POLYGON':
+                if ($isEmpty) {
+                    throw new GeometryException('POLYGON EMPTY is not supported.');
+                }
+
                 return $this->readPolygonText($parser, $is3D, $isMeasured, $srid);
 
             case 'MULTIPOINT':
+                if ($isEmpty) {
+                    return MultiPoint::create([], $is3D, $isMeasured, $srid);
+                }
+
                 return $this->readMultiPointText($parser, $is3D, $isMeasured, $srid);
 
             case 'MULTILINESTRING':
+                if ($isEmpty) {
+                    return MultiLineString::create([], $is3D, $isMeasured, $srid);
+                }
+
                 return $this->readMultiLineStringText($parser, $is3D, $isMeasured, $srid);
 
             case 'MULTIPOLYGON':
+                if ($isEmpty) {
+                    return MultiPolygon::create([], $is3D, $isMeasured, $srid);
+                }
+
                 return $this->readMultiPolygonText($parser, $is3D, $isMeasured, $srid);
 
             case 'GEOMETRYCOLLECTION':
+                if ($isEmpty) {
+                    return GeometryCollection::create([], $is3D, $isMeasured, $srid);
+                }
+
                 return $this->readGeometryCollectionText($parser, $is3D, $isMeasured, $srid);
         }
 
