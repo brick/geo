@@ -10,14 +10,14 @@ use Brick\Geo\Exception\GeometryException;
  *
  * Each interior boundary defines a hole in the Polygon.
  *
- * The exterior boundary LinearRing defines the “top” of the surface which is the side of the surface from which the
- * exterior boundary appears to traverse the boundary in a counter clockwise direction. The interior LinearRings will
+ * The exterior boundary linear ring defines the “top” of the surface which is the side of the surface from which the
+ * exterior boundary appears to traverse the boundary in a counter clockwise direction. The interior linear rings will
  * have the opposite orientation, and appear as clockwise when viewed from the “top”.
  *
  * The assertions for Polygons (the rules that define valid Polygons) are as follows:
  *
  * a) Polygons are topologically closed;
- * b) The boundary of a Polygon consists of a set of LinearRings that make up its exterior and interior boundaries;
+ * b) The boundary of a Polygon consists of a set of linear rings that make up its exterior and interior boundaries;
  * c) No two Rings in the boundary cross and the Rings in the boundary of a Polygon may intersect at a Point but
  * only as a tangent;
  * d) A Polygon may not have cut lines, spikes or punctures;
@@ -31,7 +31,7 @@ use Brick\Geo\Exception\GeometryException;
 class Polygon extends Surface implements \Countable, \IteratorAggregate
 {
     /**
-     * An array of LinearRing objects.
+     * An array of LineString objects.
      *
      * The first one represents the exterior ring, and the
      * (optional) other ones represent the interior rings of the Polygon.
@@ -59,7 +59,7 @@ class Polygon extends Surface implements \Countable, \IteratorAggregate
      *
      * Internal use only, consumer code must use factory() instead.
      *
-     * @param LinearRing[] $rings      An array on LinearRing objects, validated.
+     * @param LineString[] $rings      An array on LineString objects, validated.
      * @param boolean      $is3D       Whether the rings have Z coordinates.
      * @param boolean      $isMeasured Whether the rings have M coordinates.
      * @param integer      $srid       The SRID of the geometries, validated.
@@ -75,7 +75,7 @@ class Polygon extends Surface implements \Countable, \IteratorAggregate
     }
 
     /**
-     * @param LinearRing[] $rings
+     * @param LineString[] $rings
      *
      * @return Polygon
      *
@@ -84,12 +84,12 @@ class Polygon extends Surface implements \Countable, \IteratorAggregate
     public static function factory(array $rings)
     {
         foreach ($rings as $ring) {
-            if (! $ring instanceof LinearRing) {
-                throw GeometryException::unexpectedGeometryType(LinearRing::class, $ring);
+            if (! $ring instanceof LineString) {
+                throw GeometryException::unexpectedGeometryType(LineString::class, $ring);
             }
         }
 
-        /** @var LinearRing[] $rings */
+        /** @var LineString[] $rings */
         $rings = array_values($rings);
         $count = count($rings);
 
@@ -129,7 +129,7 @@ class Polygon extends Surface implements \Countable, \IteratorAggregate
         $p3 = Point::xy($x2, $y2);
         $p4 = Point::xy($x1, $y2);
 
-        $ring = LinearRing::factory([$p1, $p2, $p3, $p4, $p1]);
+        $ring = LineString::factory([$p1, $p2, $p3, $p4, $p1]);
 
         return Polygon::factory([$ring]);
     }
@@ -197,7 +197,7 @@ class Polygon extends Surface implements \Countable, \IteratorAggregate
      *
      * @param integer $n
      *
-     * @return LinearRing
+     * @return LineString
      *
      * @throws GeometryException
      */

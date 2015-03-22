@@ -2,7 +2,7 @@
 
 namespace Brick\Geo\Tests\Doctrine\Types;
 
-use Brick\Geo\LinearRing;
+use Brick\Geo\LineString;
 use Brick\Geo\Polygon;
 use Brick\Geo\Tests\Doctrine\DataFixtures\LoadPolygonData;
 use Brick\Geo\Tests\Doctrine\TypeFunctionalTestCase;
@@ -34,7 +34,7 @@ class PolygonTypeTest extends TypeFunctionalTestCase
         $polygon = $polygonEntity->getPolygon();
         $this->assertInstanceOf(Polygon::class, $polygon);
         $this->assertSame(1, $polygon->count());
-        $this->assertInstanceOf(LinearRing::class, $polygon->exteriorRing());
+        $this->assertInstanceOf(LineString::class, $polygon->exteriorRing());
 
         $ring = $polygon->exteriorRing();
         $this->assertSame(5, $ring->numPoints());

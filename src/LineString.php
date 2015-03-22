@@ -8,7 +8,7 @@ use Brick\Geo\Exception\GeometryException;
 /**
  * A LineString is a Curve with linear interpolation between Points.
  *
- * Each consecutive pair of Points defines a Line segment.
+ * Each consecutive pair of Points defines a line segment.
  */
 class LineString extends Curve implements \Countable, \IteratorAggregate
 {
@@ -52,8 +52,6 @@ class LineString extends Curve implements \Countable, \IteratorAggregate
     /**
      * Creates a LineString from an array of Points.
      *
-     * The result can be a subclass of LineString, such as Line or LinearRing.
-     *
      * @param Point[] $points
      *
      * @return static The LineString instance.
@@ -80,19 +78,7 @@ class LineString extends Curve implements \Countable, \IteratorAggregate
             throw new GeometryException('A LineString must have at least 2 points.');
         }
 
-        if ($count === 2) {
-            $result = new Line($points, $is3D, $isMeasured, $srid);
-        } elseif ($points[0]->equals($points[$count - 1])) {
-            $result = new LinearRing($points, $is3D, $isMeasured, $srid);
-        } else {
-            $result = new LineString($points, $is3D, $isMeasured, $srid);
-        }
-
-        if (! $result instanceof static) {
-            throw GeometryException::unexpectedGeometryType(static::class, $result);
-        }
-
-        return $result;
+        return new LineString($points, $is3D, $isMeasured, $srid);
     }
 
     /**

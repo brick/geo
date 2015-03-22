@@ -10,9 +10,9 @@ use Brick\Geo\Exception\GeometryException;
 class Triangle extends Polygon
 {
     /**
-     * Builds a Triangle from an array of LinearRing objects.
+     * Builds a Triangle from an array of LineString objects.
      *
-     * @param LinearRing[] $rings
+     * @param LineString[] $rings
      *
      * @return Triangle
      *
@@ -23,7 +23,7 @@ class Triangle extends Polygon
         $triangle = parent::factory($rings);
 
         if (! $triangle instanceof Triangle) {
-            throw new GeometryException('The LinearRing(s) provided do not form a Triangle');
+            throw new GeometryException('The LineString(s) provided do not form a Triangle');
         }
 
         return $triangle;
@@ -40,7 +40,7 @@ class Triangle extends Polygon
      */
     public static function create(Point $p1, Point $p2, Point $p3)
     {
-        $linearRing = LinearRing::factory([$p1, $p2, $p3, $p1]);
+        $linearRing = LineString::factory([$p1, $p2, $p3, $p1]);
 
         return self::factory([$linearRing]);
     }

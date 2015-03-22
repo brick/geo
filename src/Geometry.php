@@ -229,8 +229,6 @@ abstract class Geometry
      * instantiable geometric class will include the specific conditions that
      * cause an instance of that class to be classified as not simple.
      *
-     * @todo implement this method in PHP, to avoid an engine call when creating LinearRing, Polygon, and so on.
-     *
      * @noproxy
      *
      * @return boolean

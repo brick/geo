@@ -2,7 +2,7 @@
 
 namespace Brick\Geo\Tests\Doctrine\Types;
 
-use Brick\Geo\LinearRing;
+use Brick\Geo\LineString;
 use Brick\Geo\Polygon;
 use Brick\Geo\MultiPolygon;
 use Brick\Geo\Tests\Doctrine\DataFixtures\LoadMultiPolygonData;
@@ -40,7 +40,7 @@ class MultiPolygonTypeTest extends TypeFunctionalTestCase
         $polygon1 = $multiPolygon->geometryN(1);
         $this->assertInstanceOf(Polygon::class, $polygon1);
         $this->assertSame(1, $polygon1->count());
-        $this->assertInstanceOf(LinearRing::class, $polygon1->exteriorRing());
+        $this->assertInstanceOf(LineString::class, $polygon1->exteriorRing());
 
         $ring = $polygon1->exteriorRing();
         $this->assertSame(5, $ring->numPoints());
@@ -55,7 +55,7 @@ class MultiPolygonTypeTest extends TypeFunctionalTestCase
         $polygon2 = $multiPolygon->geometryN(2);
         $this->assertInstanceOf(Polygon::class, $polygon2);
         $this->assertSame(1, $polygon2->count());
-        $this->assertInstanceOf(LinearRing::class, $polygon2->exteriorRing());
+        $this->assertInstanceOf(LineString::class, $polygon2->exteriorRing());
 
         $ring = $polygon2->exteriorRing();
         $this->assertSame(5, $ring->numPoints());

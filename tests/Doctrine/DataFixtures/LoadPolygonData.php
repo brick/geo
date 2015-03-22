@@ -2,7 +2,7 @@
 
 namespace Brick\Geo\Tests\Doctrine\DataFixtures;
 
-use Brick\Geo\LinearRing;
+use Brick\Geo\LineString;
 use Brick\Geo\Point;
 use Brick\Geo\Polygon;
 use Brick\Geo\Tests\Doctrine\Fixtures\PolygonEntity;
@@ -23,7 +23,7 @@ class LoadPolygonData implements FixtureInterface {
         $point4 = Point::xy(0,1);
         $point5 = Point::xy(0,0);
 
-        $ring = LinearRing::factory([ $point1, $point2, $point3, $point4, $point5]);
+        $ring = LineString::factory([$point1, $point2, $point3, $point4, $point5]);
 
         $poly1 = new PolygonEntity();
         $poly1->setPolygon(Polygon::factory([$ring]));

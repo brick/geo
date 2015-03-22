@@ -5,8 +5,6 @@ namespace Brick\Geo\Tests;
 use Brick\Geo\Geometry;
 use Brick\Geo\Point;
 use Brick\Geo\LineString;
-use Brick\Geo\LinearRing;
-use Brick\Geo\Line;
 use Brick\Geo\Polygon;
 use Brick\Geo\MultiPoint;
 use Brick\Geo\MultiLineString;
@@ -110,17 +108,10 @@ class GeometryTest extends \PHPUnit_Framework_TestCase
         $this->assertGeometryType('LineString', $lineString);
         $this->checkCloneIsEqual($lineString);
 
-        // LinearRing
-        $linearRing = LinearRing::factory([$p1, $p2, $p3, $p4, $p1]);
+        // Linear ring
+        $linearRing = LineString::factory([$p1, $p2, $p3, $p4, $p1]);
 
-        // $this->assertGeometryType('LinearRing', $linearRing);
         $this->checkCloneIsEqual($linearRing);
-
-        // Line
-        $line = Line::create($p1, $p2);
-
-        // $this->assertGeometryType('Line', $line);
-        $this->checkCloneIsEqual($line);
 
         // Polygon
         $polygon = Polygon::factory([$linearRing]);
@@ -135,7 +126,7 @@ class GeometryTest extends \PHPUnit_Framework_TestCase
         $this->checkCloneIsEqual($multiPoint);
 
         // MultiLineString
-        $multiLineString = MultiLineString::factory([$lineString, $linearRing, $line]);
+        $multiLineString = MultiLineString::factory([$lineString, $linearRing]);
 
         $this->assertGeometryType('MultiLineString', $multiLineString);
         $this->checkCloneIsEqual($multiLineString);
@@ -155,7 +146,6 @@ class GeometryTest extends \PHPUnit_Framework_TestCase
             $multiPoint,
             $lineString,
             $linearRing,
-            $line,
             $multiLineString,
             $polygon,
             $multiPolygon
