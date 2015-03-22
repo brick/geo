@@ -144,6 +144,18 @@ class MultiPointProxy extends MultiPoint implements ProxyInterface
     /**
      * {@inheritdoc}
      */
+    public function isSimple()
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->isSimple();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function is3D()
     {
         if ($this->proxyGeometry === null) {

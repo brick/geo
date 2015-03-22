@@ -3,9 +3,7 @@
 namespace Brick\Geo\Tests;
 
 use Brick\Geo\Geometry;
-use Brick\Geo\LinearRing;
 use Brick\Geo\Point;
-use Brick\Geo\Polygon;
 
 /**
  * Unit tests for class Point.
