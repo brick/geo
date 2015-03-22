@@ -63,7 +63,7 @@ class GeometryCollection extends Geometry implements \Countable, \IteratorAggreg
      *
      * @return static
      */
-    public static function xy(array $geometries, $srid)
+    public static function xy(array $geometries, $srid = 0)
     {
         static::checkGeometries($geometries, false, false, $srid);
 
@@ -76,7 +76,7 @@ class GeometryCollection extends Geometry implements \Countable, \IteratorAggreg
      *
      * @return static
      */
-    public static function xyz(array $geometries, $srid)
+    public static function xyz(array $geometries, $srid = 0)
     {
         static::checkGeometries($geometries, true, false, $srid);
 
@@ -89,7 +89,7 @@ class GeometryCollection extends Geometry implements \Countable, \IteratorAggreg
      *
      * @return static
      */
-    public static function xym(array $geometries, $srid)
+    public static function xym(array $geometries, $srid = 0)
     {
         static::checkGeometries($geometries, false, true, $srid);
 
@@ -102,7 +102,7 @@ class GeometryCollection extends Geometry implements \Countable, \IteratorAggreg
      *
      * @return static
      */
-    public static function xyzm(array $geometries, $srid)
+    public static function xyzm(array $geometries, $srid = 0)
     {
         static::checkGeometries($geometries, true, true, $srid);
 
