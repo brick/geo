@@ -225,6 +225,16 @@ class GEOSGeometry
     public function isEmpty() {}
 
     /**
+     * Returns information about the validity of this geometry.
+     *
+     * The result is an associative array containing the following keys:
+     *
+     * | Key name   | Type         | Presence | Description                                     |
+     * |------------|--------------|----------|-------------------------------------------------|
+     * | 'valid'    | boolean      | Always   | True if the geometry is valid, False otherwise. |
+     * | 'reason'   | string       | Optional | A reason for invalidity.                        |
+     * | 'location' | GEOSGeometry | Optional | The failing geometry.                           |
+     *
      * @return array|null Returns NULL on error.
      */
     public function checkValidity() {}

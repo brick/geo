@@ -215,6 +215,14 @@ abstract class DatabaseEngine implements GeometryEngine
     /**
      * {@inheritdoc}
      */
+    public function isValid(Geometry $g)
+    {
+        return $this->queryBoolean('ST_IsValid', [$g]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function isSimple(Geometry $g)
     {
         return $this->queryBoolean('ST_IsSimple', [$g]);

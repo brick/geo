@@ -75,6 +75,17 @@ interface GeometryEngine
     public function boundary(Geometry $g);
 
     /**
+     * Checks whether a geometry is valid, as defined by the OGC specification.
+     *
+     * For example, a polygon with self-intersecting rings is invalid.
+     *
+     * @param Geometry $g
+     *
+     * @return boolean
+     */
+    public function isValid(Geometry $g);
+
+    /**
      * Returns true if the geometry has no anomalous geometric points, such as self intersection or self tangency.
      *
      * @param Geometry $g

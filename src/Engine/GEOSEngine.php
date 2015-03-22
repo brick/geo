@@ -142,6 +142,14 @@ class GEOSEngine implements GeometryEngine
     /**
      * {@inheritdoc}
      */
+    public function isValid(Geometry $g)
+    {
+        return $this->toGEOS($g)->checkValidity()['valid'];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function isSimple(Geometry $g)
     {
         return $this->toGEOS($g)->isSimple();

@@ -208,6 +208,20 @@ abstract class Geometry
     abstract public function isEmpty();
 
     /**
+     * Returns whether this geometry is valid, as defined by the OGC specification.
+     *
+     * For example, a polygon with self-intersecting rings is invalid.
+     *
+     * @noproxy
+     *
+     * @return boolean
+     */
+    public function isValid()
+    {
+        return GeometryEngineRegistry::get()->isValid($this);
+    }
+
+    /**
      * Returns whether this Geometry is simple.
      *
      * Returns true if this geometric object has no anomalous geometric points,
