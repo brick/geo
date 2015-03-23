@@ -324,16 +324,10 @@ abstract class WKTAbstractReader
         $geometries = [];
 
         do {
-            $geometry = $this->readGeometry($parser, $srid);
-
-            if ($geometry->is3D() !== $is3D || $geometry->isMeasured() !== $isMeasured) {
-                throw GeometryException::collectionDimensionalityMix($is3D, $isMeasured, $srid, $geometry);
-            }
-
-            $geometries[] = $geometry;
+            $geometries[] = $this->readGeometry($parser, $srid);
             $nextToken = $parser->getNextCloserOrComma();
         } while ($nextToken === ',');
 
-        return GeometryCollection::factory($geometries);
+        return GeometryCollection::create($geometries, $is3D, $isMeasured, $srid);
     }
 }
