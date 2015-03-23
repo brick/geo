@@ -630,9 +630,48 @@ abstract class Geometry
                 $srid       = $geometry->SRID();
                 $previous   = $geometry;
             } else {
-                if ($geometry->is3D() !== $is3D || $geometry->isMeasured() !== $isMeasured || $geometry->SRID() !== $srid) {
+                if ($geometry->is3D() !== $is3D || $geometry->isMeasured() !== $isMeasured) {
                     throw GeometryException::dimensionalityMix($previous, $geometry);
                 }
+                if ($geometry->SRID() !== $srid) {
+                    throw new GeometryException('Incompatible SRID: %d and %d.', $srid, $geometry->SRID());
+                }
+            }
+        }
+    }
+
+    /**
+     * @param array   $geometries   The geometries to check.
+     * @param string  $geometryType The type of the container geometry.
+     * @param string  $className    The expected FQCN of the geometries.
+     * @param boolean $is3D         Whether the geometries are expected to have a Z coordinate.
+     * @param boolean $isMeasured   Whether the geometries are expected to have a M coordinate.
+     * @param integer $srid         The expected SRID of the geometries.
+     *
+     * @return void
+     *
+     * @throws GeometryException
+     */
+    protected static function checkGeometries(array $geometries, $geometryType, $className, $is3D, $isMeasured, $srid)
+    {
+        foreach ($geometries as $geometry) {
+            if (! $geometry instanceof $className) {
+                throw new GeometryException(sprintf(
+                    '%s can only contain %s objects, %s given.',
+                    static::class,
+                    $className,
+                    is_object($geometry) ? get_class($geometry) : gettype($geometry)
+                ));
+            }
+
+            /** @var Geometry $geometry */
+
+            if ($geometry->is3D() !== $is3D || $geometry->isMeasured() !== $isMeasured) {
+                throw GeometryException::incompatibleDimensionality($geometry, $geometryType, $is3D, $isMeasured);
+            }
+
+            if ($geometry->SRID() !== $srid) {
+                throw GeometryException::incompatibleSRID($geometry, $geometryType, $srid);
             }
         }
     }

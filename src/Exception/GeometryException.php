@@ -76,16 +76,35 @@ class GeometryException extends \Exception
     }
 
     /**
-     * @param boolean  $is3D
-     * @param boolean  $isMeasured
-     * @param integer  $srid
-     * @param Geometry $geometry
+     * @param Geometry $geometry     The incompatible geometry.
+     * @param string   $geometryType The container geometry type.
+     * @param boolean  $is3D         Whether the container has a Z coordinate.
+     * @param boolean  $isMeasured   Whether the container has a M coordinate.
      *
      * @return GeometryException
      */
-    public static function collectionDimensionalityMix($is3D, $isMeasured, $srid, Geometry $geometry)
+    public static function incompatibleDimensionality(Geometry $geometry, $geometryType, $is3D, $isMeasured)
     {
-        return self::dimensionalityMix(self::geometryType('GeometryCollection', $is3D, $isMeasured, $srid), $geometry);
+        $message = 'Incompatible dimensionality: %s cannot contain %s.';
+
+        $a = self::geometryType($geometryType, $is3D, $isMeasured);
+        $b = self::typeOf($geometry);
+
+        return new self(sprintf($message, $a, $b));
+    }
+
+    /**
+     * @param Geometry $geometry     The incompatible geometry.
+     * @param string   $geometryType The container geometry type.
+     * @param integer  $srid         The container SRID.
+     *
+     * @return GeometryException
+     */
+    public static function incompatibleSRID(Geometry $geometry, $geometryType, $srid)
+    {
+        $message = 'Incompatible SRID: %s with SRID %d cannot contain %s with SRID %d.';
+
+        return new self(sprintf($message, $geometryType, $srid, $geometry->geometryType(), $geometry->SRID()));
     }
 
     /**
@@ -100,8 +119,7 @@ class GeometryException extends \Exception
         return self::geometryType(
             $geometry->geometryType(),
             $geometry->is3D(),
-            $geometry->isMeasured(),
-            $geometry->SRID()
+            $geometry->isMeasured()
         );
     }
 
@@ -109,11 +127,10 @@ class GeometryException extends \Exception
      * @param string  $geometryType
      * @param boolean $is3D
      * @param boolean $isMeasured
-     * @param integer $srid
      *
      * @return string
      */
-    private static function geometryType($geometryType, $is3D, $isMeasured, $srid)
+    private static function geometryType($geometryType, $is3D, $isMeasured)
     {
         if ($is3D || $isMeasured) {
             $geometryType .= ' ';
@@ -124,9 +141,6 @@ class GeometryException extends \Exception
         }
         if ($isMeasured) {
             $geometryType .= 'M';
-        }
-        if ($srid !== 0) {
-            $geometryType .= ' (SRID ' . $srid . ')';
         }
 
         return $geometryType;
