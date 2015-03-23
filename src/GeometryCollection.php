@@ -314,12 +314,12 @@ class GeometryCollection extends Geometry implements \Countable, \IteratorAggreg
                 }
             }
 
-            throw new GeometryException(
+            throw new GeometryException(sprintf(
                 '%s can only contain %s objects, %s given.',
                 static::class,
                 $containedGeometryType,
                 is_object($geometry) ? get_class($geometry) : gettype($geometry)
-            );
+            ));
         }
     }
 }
