@@ -308,18 +308,18 @@ class GeometryCollection extends Geometry implements \Countable, \IteratorAggreg
         $containedGeometryType = static::containedGeometryType();
 
         foreach ($geometries as $geometry) {
-            if ($geometry instanceof $containedGeometryType) {
-                if ($geometry->is3D() !== $is3D || $geometry->isMeasured() !== $isMeasured || $geometry->SRID() !== $srid) {
-                    throw GeometryException::collectionDimensionalityMix($is3D, $isMeasured, $srid, $geometry);
-                }
+            if (! $geometry instanceof $containedGeometryType) {
+                throw new GeometryException(sprintf(
+                    '%s can only contain %s objects, %s given.',
+                    static::class,
+                    $containedGeometryType,
+                    is_object($geometry) ? get_class($geometry) : gettype($geometry)
+                ));
             }
 
-            throw new GeometryException(sprintf(
-                '%s can only contain %s objects, %s given.',
-                static::class,
-                $containedGeometryType,
-                is_object($geometry) ? get_class($geometry) : gettype($geometry)
-            ));
+            if ($geometry->is3D() !== $is3D || $geometry->isMeasured() !== $isMeasured || $geometry->SRID() !== $srid) {
+                throw GeometryException::collectionDimensionalityMix($is3D, $isMeasured, $srid, $geometry);
+            }
         }
     }
 }
