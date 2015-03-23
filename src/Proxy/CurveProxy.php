@@ -180,30 +180,6 @@ class CurveProxy extends Curve implements ProxyInterface
     /**
      * {@inheritdoc}
      */
-    public function isClosed()
-    {
-        if ($this->proxyGeometry === null) {
-            $this->load();
-        }
-
-        return $this->proxyGeometry->isClosed();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function isRing()
-    {
-        if ($this->proxyGeometry === null) {
-            $this->load();
-        }
-
-        return $this->proxyGeometry->isRing();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function dimension()
     {
         if ($this->proxyGeometry === null) {

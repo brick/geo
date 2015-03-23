@@ -34,19 +34,31 @@ abstract class Curve extends Geometry
     /**
      * Returns whether this Curve is closed.
      *
-     * The curved is closed if `startPoint()` == `endPoint()`.
+     * The curve is closed if `startPoint()` == `endPoint()`.
+     *
+     * @noproxy
      *
      * @return boolean
      */
-    abstract public function isClosed();
+    public function isClosed()
+    {
+        return $this->startPoint()->equals($this->endPoint());
+    }
 
     /**
-     * Returns whether this Curve is closed and simple.
+     * Returns whether this Curve is a ring.
      *
-     * The curved is closed if `startPoint()` == `endPoint()`.
-     * The curved is simple if it does not pass through the same Point more than once.
+     * The curve is a ring if it is both closed and simple.
+     *
+     * The curve is closed if its start point is equal to its end point.
+     * The curve is simple if it does not pass through the same point more than once.
+     *
+     * @noproxy
      *
      * @return boolean
      */
-    abstract public function isRing();
+    public function isRing()
+    {
+        return $this->isClosed() && $this->isSimple();
+    }
 }

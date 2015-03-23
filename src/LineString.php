@@ -124,26 +124,6 @@ class LineString extends Curve implements \Countable, \IteratorAggregate
     }
 
     /**
-     * @noproxy
-     *
-     * {@inheritdoc}
-     */
-    public function isClosed()
-    {
-        return $this->startPoint()->equals($this->endPoint());
-    }
-
-    /**
-     * @noproxy
-     *
-     * {@inheritdoc}
-     */
-    public function isRing()
-    {
-        return $this->isClosed() && $this->isSimple();
-    }
-
-    /**
      * Returns the number of Points in this LineString.
      *
      * @return integer
