@@ -99,6 +99,18 @@ class Polygon extends Surface implements \Countable, \IteratorAggregate
     }
 
     /**
+     * @param boolean $is3D
+     * @param boolean $isMeasured
+     * @param integer $srid
+     *
+     * @return Polygon
+     */
+    public static function polygonEmpty($is3D, $isMeasured, $srid)
+    {
+        return new Polygon(true, $is3D, $isMeasured, $srid);
+    }
+
+    /**
      * @noproxy
      *
      * {@inheritdoc}
@@ -115,6 +127,10 @@ class Polygon extends Surface implements \Countable, \IteratorAggregate
      */
     public function pointOnSurface()
     {
+        if ($this->isEmpty) {
+            return Point::pointEmpty($this->is3D, $this->isMeasured, $this->srid);
+        }
+
         return $this->exteriorRing()->startPoint();
     }
 
@@ -125,6 +141,10 @@ class Polygon extends Surface implements \Countable, \IteratorAggregate
      */
     public function exteriorRing()
     {
+        if ($this->isEmpty) {
+            return LineString::lineStringEmpty($this->is3D, $this->isMeasured, $this->srid);
+        }
+
         return reset($this->rings);
     }
 
@@ -135,6 +155,10 @@ class Polygon extends Surface implements \Countable, \IteratorAggregate
      */
     public function numInteriorRings()
     {
+        if ($this->isEmpty) {
+            return 0;
+        }
+
         return count($this->rings) - 1;
     }
 
@@ -151,12 +175,10 @@ class Polygon extends Surface implements \Countable, \IteratorAggregate
      */
     public function interiorRingN($n)
     {
-        if (! is_int($n)) {
-            throw new GeometryException('The ring number must be an integer');
-        }
+        $n = (int) $n;
 
-        if ($n < 1 || $n >= count($this->rings)) {
-            throw new GeometryException('Ring number out of range');
+        if (! isset($this->rings[$n])) {
+            throw new GeometryException('Ring number out of range.');
         }
 
         return $this->rings[$n];

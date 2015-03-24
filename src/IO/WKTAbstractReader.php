@@ -75,7 +75,7 @@ abstract class WKTAbstractReader
 
             case 'POLYGON':
                 if ($isEmpty) {
-                    throw new GeometryException('POLYGON EMPTY is not supported.');
+                    return Polygon::polygonEmpty($is3D, $isMeasured, $srid);
                 }
 
                 return $this->readPolygonText($parser, $is3D, $isMeasured, $srid);
