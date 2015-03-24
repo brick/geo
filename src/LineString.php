@@ -106,7 +106,11 @@ class LineString extends Curve implements \Countable, \IteratorAggregate
      */
     public function startPoint()
     {
-        return reset($this->points);
+        if ($this->points) {
+            return reset($this->points);
+        }
+
+        return null;
     }
 
     /**
@@ -114,7 +118,11 @@ class LineString extends Curve implements \Countable, \IteratorAggregate
      */
     public function endPoint()
     {
-        return end($this->points);
+        if ($this->points) {
+            return end($this->points);
+        }
+
+        return null;
     }
 
     /**
@@ -143,7 +151,7 @@ class LineString extends Curve implements \Countable, \IteratorAggregate
         $i = $n - 1;
 
         if (! isset($this->points[$i])) {
-            throw new GeometryException(sprintf('Point number %d is not in range 1 to %d.', $n, $this->count()));
+            throw new GeometryException(sprintf('Point number %d does not exist.', $n));
         }
 
         return $this->points[$i];

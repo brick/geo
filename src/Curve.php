@@ -20,14 +20,18 @@ abstract class Curve extends Geometry
     /**
      * Returns the start Point of this Curve.
      *
-     * @return Point
+     * This method returns null if the curve is empty.
+     *
+     * @return Point|null
      */
     abstract public function startPoint();
 
     /**
      * Returns the end Point of this Curve.
      *
-     * @return Point
+     * This method returns null if the curve is empty.
+     *
+     * @return Point|null
      */
     abstract public function endPoint();
 
