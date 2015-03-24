@@ -61,14 +61,14 @@ abstract class WKTAbstractReader
         switch ($geometryType) {
             case 'POINT':
                 if ($isEmpty) {
-                    throw new GeometryException('POINT EMPTY is not supported.');
+                    return Point::pointEmpty($is3D, $isMeasured, $srid);
                 }
 
                 return $this->readPointText($parser, $is3D, $isMeasured, $srid);
 
             case 'LINESTRING':
                 if ($isEmpty) {
-                    throw new GeometryException('LINESTRING EMPTY is not supported.');
+                    return LineString::lineStringEmpty($is3D, $isMeasured, $srid);
                 }
 
                 return $this->readLineStringText($parser, $is3D, $isMeasured, $srid);

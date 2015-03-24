@@ -49,6 +49,18 @@ class LineString extends Curve implements \Countable, \IteratorAggregate
     }
 
     /**
+     * @param boolean $is3D
+     * @param boolean $isMeasured
+     * @param integer $srid
+     *
+     * @return LineString
+     */
+    public static function lineStringEmpty($is3D, $isMeasured, $srid)
+    {
+        return new LineString(true, (bool) $is3D, (bool) $isMeasured, (int) $srid);
+    }
+
+    /**
      * Creates a LineString from an array of Points.
      *
      * @param Point[] $points

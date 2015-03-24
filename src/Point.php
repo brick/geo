@@ -175,6 +175,18 @@ class Point extends Geometry
     }
 
     /**
+     * @param boolean $is3D
+     * @param boolean $isMeasured
+     * @param integer $srid
+     *
+     * @return Point
+     */
+    public static function pointEmpty($is3D, $isMeasured, $srid)
+    {
+        return new Point(true, (bool) $is3D, (bool) $isMeasured, (int) $srid);
+    }
+
+    /**
      * Factory method to create a new Point.
      *
      * Deprecated in favor of xy(), xyz(), xym() and xyzm() factory methods.
