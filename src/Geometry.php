@@ -669,16 +669,16 @@ abstract class Geometry
 
         foreach ($geometries as $geometry) {
             if ($previous === null) {
-                $is3D       = $geometry->is3D;
-                $isMeasured = $geometry->isMeasured;
-                $srid       = $geometry->srid;
+                $is3D       = $geometry->is3D();
+                $isMeasured = $geometry->isMeasured();
+                $srid       = $geometry->SRID();
                 $previous   = $geometry;
             } else {
-                if ($geometry->is3D !== $is3D || $geometry->isMeasured !== $isMeasured) {
+                if ($geometry->is3D() !== $is3D || $geometry->isMeasured() !== $isMeasured) {
                     throw GeometryException::dimensionalityMix($previous, $geometry);
                 }
-                if ($geometry->srid !== $srid) {
-                    throw new GeometryException('Incompatible SRID: %d and %d.', $srid, $geometry->srid);
+                if ($geometry->SRID() !== $srid) {
+                    throw new GeometryException('Incompatible SRID: %d and %d.', $srid, $geometry->SRID());
                 }
             }
         }
@@ -710,11 +710,11 @@ abstract class Geometry
 
             /** @var Geometry $geometry */
 
-            if ($geometry->is3D !== $is3D || $geometry->isMeasured !== $isMeasured) {
+            if ($geometry->is3D() !== $is3D || $geometry->isMeasured() !== $isMeasured) {
                 throw GeometryException::incompatibleDimensionality($geometry, $geometryType, $is3D, $isMeasured);
             }
 
-            if ($geometry->srid !== $srid) {
+            if ($geometry->SRID() !== $srid) {
                 throw GeometryException::incompatibleSRID($geometry, $geometryType, $srid);
             }
         }

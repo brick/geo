@@ -244,7 +244,7 @@ class GeometryCollection extends Geometry implements \Countable, \IteratorAggreg
     private static function checkEmpty(array $geometries)
     {
         foreach ($geometries as $geometry) {
-            if (! $geometry->isEmpty) {
+            if (! $geometry->isEmpty()) {
                 return false;
             }
         }
