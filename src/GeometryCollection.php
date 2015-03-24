@@ -28,36 +28,6 @@ class GeometryCollection extends Geometry implements \Countable, \IteratorAggreg
     protected $geometries = [];
 
     /**
-     * Whether the geometries have Z coordinates.
-     *
-     * @var boolean
-     */
-    protected $is3D;
-
-    /**
-     * Whether the geometries have Z coordinates.
-     *
-     * @var boolean
-     */
-    protected $isMeasured;
-
-    /**
-     * Class constructor. Use the factory methods to obtain an instance.
-     *
-     * @param Geometry[] $geometries An array of Geometry objects, validated.
-     * @param boolean    $is3D       Whether the geometries have Z coordinates.
-     * @param boolean    $isMeasured Whether the geometries have M coordinates.
-     * @param integer    $srid       The SRID of the geometries, validated.
-     */
-    protected function __construct(array $geometries, $is3D, $isMeasured, $srid)
-    {
-        $this->geometries = $geometries;
-        $this->is3D       = $is3D;
-        $this->isMeasured = $isMeasured;
-        $this->srid       = $srid;
-    }
-
-    /**
      * @param Geometry[] $geometries
      * @param integer    $srid
      *
@@ -113,9 +83,17 @@ class GeometryCollection extends Geometry implements \Countable, \IteratorAggreg
      */
     public static function create(array $geometries, $is3D, $isMeasured, $srid)
     {
-        self::checkGeometries($geometries, static::containedGeometryType(), Geometry::class, $is3D, $isMeasured, $srid);
+        $is3D       = (bool) $is3D;
+        $isMeasured = (bool) $isMeasured;
 
-        return new static(array_values($geometries), $is3D, $isMeasured, $srid);
+        $srid = (int) $srid;
+
+        self::checkGeometries($geometries, 'GeometryCollection', static::containedGeometryType(), $is3D, $isMeasured, $srid);
+
+        $geometryCollection = new static(! $geometries, $is3D, $isMeasured, $srid);
+        $geometryCollection->geometries = array_values($geometries);
+
+        return $geometryCollection;
     }
 
     /**
@@ -139,23 +117,10 @@ class GeometryCollection extends Geometry implements \Countable, \IteratorAggreg
 
         self::getDimensions($geometries, $is3D, $isMeasured, $srid);
 
-        return new static(array_values($geometries), $is3D, $isMeasured, $srid);
-    }
+        $geometryCollection = new static(! $geometries, $is3D, $isMeasured, $srid);
+        $geometryCollection->geometries = array_values($geometries);
 
-    /**
-     * {@inheritdoc}
-     */
-    public function is3D()
-    {
-        return $this->is3D;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function isMeasured()
-    {
-        return $this->isMeasured;
+        return $geometryCollection;
     }
 
     /**
@@ -223,20 +188,6 @@ class GeometryCollection extends Geometry implements \Countable, \IteratorAggreg
         }
 
         return $dimension;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function isEmpty()
-    {
-        foreach ($this->geometries as $geometry) {
-            if (! $geometry->isEmpty()) {
-                return false;
-            }
-        }
-
-        return true;
     }
 
     /**

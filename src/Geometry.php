@@ -34,13 +34,50 @@ abstract class Geometry
     const TRIANGLE           = 17;
 
     /**
-     * The Spatial Reference System ID for this geometric object.
+     * Whether this geometric object is empty.
      *
-     * The SRID is zero if not set.
+     * @var boolean
+     */
+    protected $isEmpty;
+
+    /**
+     * Whether this geometric object has z coordinate values.
+     *
+     * @var boolean
+     */
+    protected $is3D;
+
+    /**
+     * Whether this geometric object has m coordinate values.
+     *
+     * @var boolean
+     */
+    protected $isMeasured;
+
+    /**
+     * The Spatial Reference System ID for this geometric object.
      *
      * @var integer
      */
     protected $srid = 0;
+
+    /**
+     * Private constructor. Use a factory method to obtain an instance.
+     *
+     * All parameters are assumed to be validated as their respective types.
+     *
+     * @param boolean $isEmpty    Whether this geometric object is empty.
+     * @param boolean $is3D       Whether this geometric object has z coordinate values.
+     * @param boolean $isMeasured Whether this geometric object has m coordinate values.
+     * @param integer $srid       The Spatial Reference System ID for this geometric object.
+     */
+    protected function __construct($isEmpty, $is3D, $isMeasured, $srid)
+    {
+        $this->isEmpty    = $isEmpty;
+        $this->is3D       = $is3D;
+        $this->isMeasured = $isMeasured;
+        $this->srid       = $srid;
+    }
 
     /**
      * Builds a Geometry from a WKT representation.
@@ -102,8 +139,6 @@ abstract class Geometry
      * The coordinate dimension can be 2 (for x and y), 3 (with z or m added), or 4 (with both z and m added).
      * The ordinates x, y and z are spatial, and the ordinate m is a measure.
      *
-     * @noproxy
-     *
      * @return integer
      *
      * @throws GeometryException
@@ -112,11 +147,11 @@ abstract class Geometry
     {
         $coordinateDimension = 2;
 
-        if ($this->is3D()) {
+        if ($this->is3D) {
             $coordinateDimension++;
         }
 
-        if ($this->isMeasured()) {
+        if ($this->isMeasured) {
             $coordinateDimension++;
         }
 
@@ -199,13 +234,16 @@ abstract class Geometry
     }
 
     /**
-     * Returns true if this geometric object is the empty Geometry.
+     * Returns whether this geometric object is the empty Geometry.
      *
      * If true, then this geometric object represents the empty point set for the coordinate space.
      *
      * @return boolean
      */
-    abstract public function isEmpty();
+    public function isEmpty()
+    {
+        return $this->isEmpty;
+    }
 
     /**
      * Returns whether this geometry is valid, as defined by the OGC specification.
@@ -243,14 +281,20 @@ abstract class Geometry
      *
      * @return boolean
      */
-    abstract public function is3D();
+    public function is3D()
+    {
+        return $this->is3D;
+    }
 
     /**
      * Returns true if this geometric object has m coordinate values.
      *
      * @return boolean
      */
-    abstract public function isMeasured();
+    public function isMeasured()
+    {
+        return $this->isMeasured;
+    }
 
     /**
      * Returns the closure of the combinatorial boundary of this geometric object.
@@ -625,16 +669,16 @@ abstract class Geometry
 
         foreach ($geometries as $geometry) {
             if ($previous === null) {
-                $is3D       = $geometry->is3D();
-                $isMeasured = $geometry->isMeasured();
-                $srid       = $geometry->SRID();
+                $is3D       = $geometry->is3D;
+                $isMeasured = $geometry->isMeasured;
+                $srid       = $geometry->srid;
                 $previous   = $geometry;
             } else {
-                if ($geometry->is3D() !== $is3D || $geometry->isMeasured() !== $isMeasured) {
+                if ($geometry->is3D !== $is3D || $geometry->isMeasured !== $isMeasured) {
                     throw GeometryException::dimensionalityMix($previous, $geometry);
                 }
-                if ($geometry->SRID() !== $srid) {
-                    throw new GeometryException('Incompatible SRID: %d and %d.', $srid, $geometry->SRID());
+                if ($geometry->srid !== $srid) {
+                    throw new GeometryException('Incompatible SRID: %d and %d.', $srid, $geometry->srid);
                 }
             }
         }
@@ -666,11 +710,11 @@ abstract class Geometry
 
             /** @var Geometry $geometry */
 
-            if ($geometry->is3D() !== $is3D || $geometry->isMeasured() !== $isMeasured) {
+            if ($geometry->is3D !== $is3D || $geometry->isMeasured !== $isMeasured) {
                 throw GeometryException::incompatibleDimensionality($geometry, $geometryType, $is3D, $isMeasured);
             }
 
-            if ($geometry->SRID() !== $srid) {
+            if ($geometry->srid !== $srid) {
                 throw GeometryException::incompatibleSRID($geometry, $geometryType, $srid);
             }
         }

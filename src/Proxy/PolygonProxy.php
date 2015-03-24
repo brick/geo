@@ -144,30 +144,6 @@ class PolygonProxy extends Polygon implements ProxyInterface
     /**
      * {@inheritdoc}
      */
-    public function is3D()
-    {
-        if ($this->proxyGeometry === null) {
-            $this->load();
-        }
-
-        return $this->proxyGeometry->is3D();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function isMeasured()
-    {
-        if ($this->proxyGeometry === null) {
-            $this->load();
-        }
-
-        return $this->proxyGeometry->isMeasured();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function exteriorRing()
     {
         if ($this->proxyGeometry === null) {
@@ -240,6 +216,18 @@ class PolygonProxy extends Polygon implements ProxyInterface
     /**
      * {@inheritdoc}
      */
+    public function coordinateDimension()
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->coordinateDimension();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function spatialDimension()
     {
         if ($this->proxyGeometry === null) {
@@ -259,6 +247,42 @@ class PolygonProxy extends Polygon implements ProxyInterface
         }
 
         return $this->proxyGeometry->SRID();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isEmpty()
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->isEmpty();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function is3D()
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->is3D();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isMeasured()
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->isMeasured();
     }
 
 }

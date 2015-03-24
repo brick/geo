@@ -1,6 +1,7 @@
 <?php
 
 namespace Brick\Geo;
+use Brick\Geo\Exception\GeometryException;
 
 /**
  * A Point is a 0-dimensional geometric object and represents a single location in coordinate space.
@@ -13,110 +14,163 @@ namespace Brick\Geo;
 class Point extends Geometry
 {
     /**
-     * The x-coordinate value for this Point.
-     *
-     * @var float
-     */
-    protected $x;
-
-    /**
-     * The y-coordinate value for this Point.
-     *
-     * @var float
-     */
-    protected $y;
-
-    /**
-     * The z-coordinate value for this Point, or null if it does not have one.
+     * The x-coordinate value for this Point, or NULL if the point is empty.
      *
      * @var float|null
      */
-    protected $z;
+    private $x;
 
     /**
-     * The m-coordinate value for this Point, or null if it does not have one.
+     * The y-coordinate value for this Point, or NULL if the point is empty.
      *
      * @var float|null
      */
-    protected $m;
+    private $y;
 
     /**
-     * Internal constructor. Use a factory method to obtain an instance.
+     * The z-coordinate value for this Point, or NULL if it does not have one.
      *
-     * @param float      $x    The x-coordinate, validated as a float.
-     * @param float      $y    The y-coordinate, validated as a float.
-     * @param float|null $z    The z-coordinate, validated as a float or null.
-     * @param float|null $m    The m-coordinate, validated as a float or null.
-     * @param integer    $srid The SRID, validated as an integer.
+     * @var float|null
      */
-    protected function __construct($x, $y, $z, $m, $srid)
-    {
-        $this->x = $x;
-        $this->y = $y;
-        $this->z = $z;
-        $this->m = $m;
+    private $z;
 
-        $this->srid = $srid;
-    }
+    /**
+     * The m-coordinate value for this Point, or NULL if it does not have one.
+     *
+     * @var float|null
+     */
+    private $m;
 
     /**
      * Creates a point with X and Y coordinates.
      *
-     * @param float $x    The X coordinate.
-     * @param float $y    The Y coordinate.
-     * @param int   $srid The SRID, optional.
+     * @param float   $x    The X coordinate.
+     * @param float   $y    The Y coordinate.
+     * @param integer $srid An optional SRID.
      *
      * @return Point
      */
     public static function xy($x, $y, $srid = 0)
     {
-        return new Point((float) $x, (float) $y, null, null, (int) $srid);
+        $point = new Point(false, false, false, (int) $srid);
+
+        $point->x = (float) $x;
+        $point->y = (float) $y;
+
+        return $point;
     }
 
     /**
      * Creates a point with X, Y and Z coordinates.
      *
-     * @param float $x    The X coordinate.
-     * @param float $y    The Y coordinate.
-     * @param float $z    The Z coordinate.
-     * @param int   $srid The SRID, optional.
+     * @param float   $x    The X coordinate.
+     * @param float   $y    The Y coordinate.
+     * @param float   $z    The Z coordinate.
+     * @param integer $srid An optional SRID.
      *
      * @return Point
      */
     public static function xyz($x, $y, $z, $srid = 0)
     {
-        return new Point((float) $x, (float) $y, (float) $z, null, (int) $srid);
+        $point = new Point(false, true, false, (int) $srid);
+
+        $point->x = (float) $x;
+        $point->y = (float) $y;
+        $point->z = (float) $z;
+
+        return $point;
     }
 
     /**
      * Creates a point with X, Y and M coordinates.
      *
-     * @param float $x    The X coordinate.
-     * @param float $y    The Y coordinate.
-     * @param float $m    The M coordinate.
-     * @param int   $srid The SRID, optional.
+     * @param float   $x    The X coordinate.
+     * @param float   $y    The Y coordinate.
+     * @param float   $m    The M coordinate.
+     * @param integer $srid An optional SRID.
      *
      * @return Point
      */
     public static function xym($x, $y, $m, $srid = 0)
     {
-        return new Point((float) $x, (float) $y, null, (float) $m, (int) $srid);
+        $point = new Point(false, false, true, (int) $srid);
+
+        $point->x = (float) $x;
+        $point->y = (float) $y;
+        $point->m = (float) $m;
+
+        return $point;
     }
 
     /**
      * Creates a point with X, Y, Z and M coordinates.
      *
-     * @param float $x    The X coordinate.
-     * @param float $y    The Y coordinate.
-     * @param float $z    The Z coordinate.
-     * @param float $m    The M coordinate.
-     * @param int   $srid The SRID, optional.
+     * @param float   $x    The X coordinate.
+     * @param float   $y    The Y coordinate.
+     * @param float   $z    The Z coordinate.
+     * @param float   $m    The M coordinate.
+     * @param integer $srid An optional SRID.
      *
      * @return Point
      */
     public static function xyzm($x, $y, $z, $m, $srid = 0)
     {
-        return new Point((float) $x, (float) $y, (float) $z, (float) $m, (int) $srid);
+        $point = new Point(false, true, true, (int) $srid);
+
+        $point->x = (float) $x;
+        $point->y = (float) $y;
+        $point->z = (float) $z;
+        $point->m = (float) $m;
+
+        return $point;
+    }
+
+    /**
+     * Creates an empty Point with XY dimensionality.
+     *
+     * @param integer $srid An optional SRID.
+     *
+     * @return Point
+     */
+    public static function xyEmpty($srid = 0)
+    {
+        return new Point(true, false, false, (int) $srid);
+    }
+
+    /**
+     * Creates an empty Point with XYZ dimensionality.
+     *
+     * @param integer $srid An optional SRID.
+     *
+     * @return Point
+     */
+    public static function xyzEmpty($srid = 0)
+    {
+        return new Point(true, true, false, (int) $srid);
+    }
+
+    /**
+     * Creates an empty Point with XYM dimensionality.
+     *
+     * @param integer $srid An optional SRID.
+     *
+     * @return Point
+     */
+    public static function xymEmpty($srid = 0)
+    {
+        return new Point(true, false, true, (int) $srid);
+    }
+
+    /**
+     * Creates an empty Point with XYZM dimensionality.
+     *
+     * @param integer $srid An optional SRID.
+     *
+     * @return Point
+     */
+    public static function xyzmEmpty($srid = 0)
+    {
+        return new Point(true, true, true, (int) $srid);
     }
 
     /**
@@ -136,26 +190,28 @@ class Point extends Geometry
      */
     public static function factory($x, $y, $z = null, $m = null, $srid = 0)
     {
-        $x = (float) $x;
-        $y = (float) $y;
+        $point = new Point(false, $z !== null, $m !== null, (int) $srid);
+
+        $point->x = (float) $x;
+        $point->y = (float) $y;
 
         if ($z !== null) {
-            $z = (float) $z;
+            $point->z = (float) $z;
         }
 
         if ($m !== null) {
-            $m = (float) $m;
+            $point->m = (float) $m;
         }
 
-        $srid = (int) $srid;
-
-        return new Point($x, $y, $z, $m, $srid);
+        return $point;
     }
 
     /**
      * Returns the x-coordinate value for this Point.
      *
-     * @return float
+     * Returns NULL if the Point is empty.
+     *
+     * @return float|null
      */
     public function x()
     {
@@ -165,7 +221,9 @@ class Point extends Geometry
     /**
      * Returns the y-coordinate value for this Point.
      *
-     * @return float
+     * Returns NULL if the Point is empty.
+     *
+     * @return float|null
      */
     public function y()
     {
@@ -173,7 +231,9 @@ class Point extends Geometry
     }
 
     /**
-     * Returns the z-coordinate value for this Point, if it has one. Returns NULL otherwise.
+     * Returns the z-coordinate value for this Point.
+     *
+     * Returns NULL if the Point is empty, or does not have a Z coordinate.
      *
      * @return float|null
      */
@@ -183,7 +243,9 @@ class Point extends Geometry
     }
 
     /**
-     * Returns the m-coordinate value for this Point, if it has one. Returns NULL otherwise.
+     * Returns the m-coordinate value for this Point.
+     *
+     * Returns NULL if the Point is empty, or does not have a M coordinate.
      *
      * @return float|null
      */
@@ -198,10 +260,19 @@ class Point extends Geometry
      * @param float $x
      *
      * @return Point
+     *
+     * @throws GeometryException If this point is empty.
      */
     public function withX($x)
     {
-        return new Point((float) $x, $this->y, $this->z, $this->m, $this->srid);
+        if ($this->isEmpty) {
+            throw new GeometryException('Cannot call withX() on an empty Point.');
+        }
+
+        $point = clone $this;
+        $point->x = (float) $x;
+
+        return $point;
     }
 
     /**
@@ -210,10 +281,19 @@ class Point extends Geometry
      * @param float $y
      *
      * @return Point
-     */
+     *
+     * @throws GeometryException If this point is empty.
+*/
     public function withY($y)
     {
-        return new Point($this->x, (float) $y, $this->z, $this->m, $this->srid);
+        if ($this->isEmpty) {
+            throw new GeometryException('Cannot call withY() on an empty Point.');
+        }
+
+        $point = clone $this;
+        $point->y = (float) $y;
+
+        return $point;
     }
 
     /**
@@ -222,10 +302,20 @@ class Point extends Geometry
      * @param float $z
      *
      * @return Point
+     *
+     * @throws GeometryException If this point is empty.
      */
     public function withZ($z)
     {
-        return new Point($this->x, $this->y, (float) $z, $this->m, $this->srid);
+        if ($this->isEmpty) {
+            throw new GeometryException('Cannot call withZ() on an empty Point.');
+        }
+
+        $point = clone $this;
+        $point->z = (float) $z;
+        $point->is3D = true;
+
+        return $point;
     }
 
     /**
@@ -234,10 +324,20 @@ class Point extends Geometry
      * @param float $m
      *
      * @return Point
+     *
+     * @throws GeometryException If this point is empty.
      */
     public function withM($m)
     {
-        return new Point($this->x, $this->y, $this->z, (float) $m, $this->srid);
+        if ($this->isEmpty) {
+            throw new GeometryException('Cannot call withZ() on an empty Point.');
+        }
+
+        $point = clone $this;
+        $point->m = (float) $m;
+        $point->isMeasured = true;
+
+        return $point;
     }
 
     /**
@@ -251,7 +351,11 @@ class Point extends Geometry
             return $this;
         }
 
-        return new Point($this->x, $this->y, null, $this->m, $this->srid);
+        $point = clone $this;
+        $point->z = null;
+        $point->is3D = false;
+
+        return $point;
     }
 
     /**
@@ -265,7 +369,11 @@ class Point extends Geometry
             return $this;
         }
 
-        return new Point($this->x, $this->y, $this->z, null, $this->srid);
+        $point = clone $this;
+        $point->m = null;
+        $point->isMeasured = false;
+
+        return $point;
     }
 
     /**
@@ -279,7 +387,15 @@ class Point extends Geometry
             return $this;
         }
 
-        return new Point($this->x, $this->y, null, null, $this->srid);
+        $point = clone $this;
+
+        $point->z = null;
+        $point->m = null;
+
+        $point->is3D       = false;
+        $point->isMeasured = false;
+
+        return $point;
     }
 
     /**
@@ -291,7 +407,11 @@ class Point extends Geometry
      */
     public function withSRID($srid)
     {
-        return new Point($this->x, $this->y, $this->z, $this->m, (int) $srid);
+        $point = clone $this;
+
+        $point->srid = (int) $srid;
+
+        return $point;
     }
 
     /**
@@ -345,45 +465,23 @@ class Point extends Geometry
     }
 
     /**
-     * @noproxy
-     *
-     * {@inheritdoc}
-     */
-    public function isEmpty()
-    {
-        return false;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function is3D()
-    {
-        return $this->z !== null;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function isMeasured()
-    {
-        return $this->m !== null;
-    }
-
-    /**
      * Returns an array representing the coordinates of this Point.
      *
      * @return array
      */
     public function toArray()
     {
+        if ($this->isEmpty) {
+            return [];
+        }
+
         $result = [$this->x, $this->y];
 
-        if ($this->z !== null) {
+        if ($this->is3D) {
             $result[] = $this->z;
         }
 
-        if ($this->m !== null) {
+        if ($this->isMeasured) {
             $result[] = $this->m;
         }
 

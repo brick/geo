@@ -180,30 +180,6 @@ class MultiSurfaceProxy extends MultiSurface implements ProxyInterface
     /**
      * {@inheritdoc}
      */
-    public function is3D()
-    {
-        if ($this->proxyGeometry === null) {
-            $this->load();
-        }
-
-        return $this->proxyGeometry->is3D();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function isMeasured()
-    {
-        if ($this->proxyGeometry === null) {
-            $this->load();
-        }
-
-        return $this->proxyGeometry->isMeasured();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function numGeometries()
     {
         if ($this->proxyGeometry === null) {
@@ -235,18 +211,6 @@ class MultiSurfaceProxy extends MultiSurface implements ProxyInterface
         }
 
         return $this->proxyGeometry->dimension();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function isEmpty()
-    {
-        if ($this->proxyGeometry === null) {
-            $this->load();
-        }
-
-        return $this->proxyGeometry->isEmpty();
     }
 
     /**
@@ -288,6 +252,18 @@ class MultiSurfaceProxy extends MultiSurface implements ProxyInterface
     /**
      * {@inheritdoc}
      */
+    public function coordinateDimension()
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->coordinateDimension();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function spatialDimension()
     {
         if ($this->proxyGeometry === null) {
@@ -307,6 +283,42 @@ class MultiSurfaceProxy extends MultiSurface implements ProxyInterface
         }
 
         return $this->proxyGeometry->SRID();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isEmpty()
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->isEmpty();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function is3D()
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->is3D();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isMeasured()
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->isMeasured();
     }
 
 }

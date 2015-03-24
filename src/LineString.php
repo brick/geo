@@ -13,40 +13,39 @@ use Brick\Geo\Exception\GeometryException;
 class LineString extends Curve implements \Countable, \IteratorAggregate
 {
     /**
-     * An array of Point objects.
+     * The Points that compose this LineString.
      *
      * @var Point[]
      */
     protected $points = [];
 
     /**
-     * Whether the points have Z coordinates.
+     * @param Point[] $points
+     * @param boolean $is3D
+     * @param boolean $isMeasured
+     * @param integer $srid
      *
-     * @var boolean
-     */
-    protected $is3D;
-
-    /**
-     * Whether the points have M coordinates.
+     * @return LineString
      *
-     * @var boolean
+     * @throws GeometryException
      */
-    protected $isMeasured;
-
-    /**
-     * Internal constructor. Use a factory method to obtain an instance.
-     *
-     * @param Point[] $points     The points, validated.
-     * @param boolean $is3D       Whether the points have Z coordinates.
-     * @param boolean $isMeasured Whether the points have M coordinates.
-     * @param integer $srid       The SRID, validated.
-     */
-    protected function __construct(array $points, $is3D, $isMeasured, $srid)
+    public static function create(array $points, $is3D, $isMeasured, $srid)
     {
-        $this->points     = $points;
-        $this->is3D       = $is3D;
-        $this->isMeasured = $isMeasured;
-        $this->srid       = $srid;
+        $is3D       = (bool) $is3D;
+        $isMeasured = (bool) $isMeasured;
+
+        $srid = (int) $srid;
+
+        self::checkGeometries($points, 'LineString', Point::class, $is3D, $isMeasured, $srid);
+
+        if (count($points) < 2) {
+            throw new GeometryException('A LineString must have at least 2 points.');
+        }
+
+        $lineString = new LineString(false, $is3D, $isMeasured, $srid);
+        $lineString->points = array_values($points);
+
+        return $lineString;
     }
 
     /**
@@ -70,31 +69,14 @@ class LineString extends Curve implements \Countable, \IteratorAggregate
 
         self::getDimensions($points, $is3D, $isMeasured, $srid);
 
-        /** @var Point[] $points */
-        $points = array_values($points);
-        $count = count($points);
-
-        if ($count < 2) {
+        if (count($points) < 2) {
             throw new GeometryException('A LineString must have at least 2 points.');
         }
 
-        return new LineString($points, $is3D, $isMeasured, $srid);
-    }
+        $lineString = new LineString(false, $is3D, $isMeasured, $srid);
+        $lineString->points = array_values($points);
 
-    /**
-     * {@inheritdoc}
-     */
-    public function is3D()
-    {
-        return $this->is3D;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function isMeasured()
-    {
-        return $this->isMeasured;
+        return $lineString;
     }
 
     /**
@@ -175,16 +157,6 @@ class LineString extends Curve implements \Countable, \IteratorAggregate
     public function geometryType()
     {
         return 'LineString';
-    }
-
-    /**
-     * @noproxy
-     *
-     * {@inheritdoc}
-     */
-    public function isEmpty()
-    {
-        return false;
     }
 
     /**

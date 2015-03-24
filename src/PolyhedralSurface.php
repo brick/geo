@@ -35,40 +35,6 @@ class PolyhedralSurface extends Surface implements \Countable, \IteratorAggregat
     protected $patches = [];
 
     /**
-     * Whether the polygons have Z coordinates.
-     *
-     * @var boolean
-     */
-    protected $is3D;
-
-    /**
-     * Whether the polygons have M coordinates.
-     *
-     * @var boolean
-     */
-    protected $isMeasured;
-
-    /**
-     * Class constructor.
-     *
-     * Internal use only, consumer code must use factory() instead.
-     *
-     * @param Polygon[] $patches    An array on Polygon objects.
-     * @param boolean   $is3D       Whether the polygons have Z coordinates.
-     * @param boolean   $isMeasured Whether the polygons have M coordinates.
-     * @param boolean   $srid       The SRID of the polygons, validated.
-     *
-     * @throws GeometryException
-     */
-    protected function __construct(array $patches, $is3D, $isMeasured, $srid)
-    {
-        $this->patches    = $patches;
-        $this->is3D       = $is3D;
-        $this->isMeasured = $isMeasured;
-        $this->srid       = $srid;
-    }
-
-    /**
      * Factory method to create a new PolyhedralSurface.
      *
      * @param Polygon[] $patches
@@ -79,7 +45,7 @@ class PolyhedralSurface extends Surface implements \Countable, \IteratorAggregat
      */
     public static function factory(array $patches)
     {
-        if (count($patches) === 0) {
+        if (! $patches) {
             throw new GeometryException('A PolyhedralSurface must be constructed with at least one patch.');
         }
 
@@ -93,23 +59,10 @@ class PolyhedralSurface extends Surface implements \Countable, \IteratorAggregat
 
         self::getDimensions($patches, $is3D, $isMeasured, $srid);
 
-        return new static(array_values($patches), $is3D, $isMeasured, $srid);
-    }
+        $polyhedralSurface = new static(false, $is3D, $isMeasured, $srid);
+        $polyhedralSurface->patches = array_values($patches);
 
-    /**
-     * {@inheritdoc}
-     */
-    public function is3D()
-    {
-        return $this->is3D;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function isMeasured()
-    {
-        return $this->isMeasured;
+        return $polyhedralSurface;
     }
 
     /**
@@ -213,16 +166,6 @@ class PolyhedralSurface extends Surface implements \Countable, \IteratorAggregat
     public function dimension()
     {
         return 2;
-    }
-
-    /**
-     * @noproxy
-     *
-     * {@inheritdoc}
-     */
-    public function isEmpty()
-    {
-        return false;
     }
 
     /**

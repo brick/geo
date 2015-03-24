@@ -31,48 +31,14 @@ use Brick\Geo\Exception\GeometryException;
 class Polygon extends Surface implements \Countable, \IteratorAggregate
 {
     /**
-     * An array of LineString objects.
+     * The rings that compose this polygon.
      *
      * The first one represents the exterior ring, and the
      * (optional) other ones represent the interior rings of the Polygon.
      *
-     * @var array
+     * @var LineString[]
      */
     protected $rings = [];
-
-    /**
-     * Whether the rings have Z coordinates.
-     *
-     * @var boolean
-     */
-    protected $is3D;
-
-    /**
-     * Whether the rings have M coordinates.
-     *
-     * @var boolean
-     */
-    protected $isMeasured;
-
-    /**
-     * Class constructor.
-     *
-     * Internal use only, consumer code must use factory() instead.
-     *
-     * @param LineString[] $rings      An array on LineString objects, validated.
-     * @param boolean      $is3D       Whether the rings have Z coordinates.
-     * @param boolean      $isMeasured Whether the rings have M coordinates.
-     * @param integer      $srid       The SRID of the geometries, validated.
-     *
-     * @throws GeometryException
-     */
-    protected function __construct(array $rings, $is3D, $isMeasured, $srid)
-    {
-        $this->rings      = $rings;
-        $this->is3D       = $is3D;
-        $this->isMeasured = $isMeasured;
-        $this->srid       = $srid;
-    }
 
     /**
      * @param LineString[] $rings
@@ -89,23 +55,21 @@ class Polygon extends Surface implements \Countable, \IteratorAggregate
             }
         }
 
-        /** @var LineString[] $rings */
-        $rings = array_values($rings);
-        $count = count($rings);
-
-        if ($count === 0) {
+        if (! $rings) {
             throw new GeometryException('A Polygon must have at least 1 ring (the exterior ring).');
         }
 
         self::getDimensions($rings, $is3D, $isMeasured, $srid);
 
-        if (count($rings) === 1) {
-            if (count($rings[0]) === 3 + 1) {
-                return new Triangle($rings, $is3D, $isMeasured, $srid);
-            }
+        if (count($rings) === 1 && count(reset($rings)) === 3 + 1) {
+            $polygon = new Triangle(false, $is3D, $isMeasured, $srid);
+        } else {
+            $polygon = new Polygon(false, $is3D, $isMeasured, $srid);
         }
 
-        return new Polygon($rings, $is3D, $isMeasured, $srid);
+        $polygon->rings = array_values($rings);
+
+        return $polygon;
     }
 
     /**
@@ -132,22 +96,6 @@ class Polygon extends Surface implements \Countable, \IteratorAggregate
         $ring = LineString::factory([$p1, $p2, $p3, $p4, $p1]);
 
         return Polygon::factory([$ring]);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function is3D()
-    {
-        return $this->is3D;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function isMeasured()
-    {
-        return $this->isMeasured;
     }
 
     /**
@@ -234,16 +182,6 @@ class Polygon extends Surface implements \Countable, \IteratorAggregate
     public function dimension()
     {
         return 2;
-    }
-
-    /**
-     * @noproxy
-     *
-     * {@inheritdoc}
-     */
-    public function isEmpty()
-    {
-        return false;
     }
 
     /**

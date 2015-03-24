@@ -288,30 +288,6 @@ class PointProxy extends Point implements ProxyInterface
     /**
      * {@inheritdoc}
      */
-    public function is3D()
-    {
-        if ($this->proxyGeometry === null) {
-            $this->load();
-        }
-
-        return $this->proxyGeometry->is3D();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function isMeasured()
-    {
-        if ($this->proxyGeometry === null) {
-            $this->load();
-        }
-
-        return $this->proxyGeometry->isMeasured();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function toArray()
     {
         if ($this->proxyGeometry === null) {
@@ -319,6 +295,18 @@ class PointProxy extends Point implements ProxyInterface
         }
 
         return $this->proxyGeometry->toArray();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function coordinateDimension()
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->coordinateDimension();
     }
 
     /**
@@ -343,6 +331,42 @@ class PointProxy extends Point implements ProxyInterface
         }
 
         return $this->proxyGeometry->SRID();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isEmpty()
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->isEmpty();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function is3D()
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->is3D();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isMeasured()
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->isMeasured();
     }
 
 }

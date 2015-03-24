@@ -180,6 +180,18 @@ class SurfaceProxy extends Surface implements ProxyInterface
     /**
      * {@inheritdoc}
      */
+    public function coordinateDimension()
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->coordinateDimension();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function spatialDimension()
     {
         if ($this->proxyGeometry === null) {
