@@ -90,7 +90,7 @@ class GeometryCollection extends Geometry implements \Countable, \IteratorAggreg
 
         self::checkGeometries($geometries, 'GeometryCollection', static::containedGeometryType(), $is3D, $isMeasured, $srid);
 
-        $geometryCollection = new static(! $geometries, $is3D, $isMeasured, $srid);
+        $geometryCollection = new static(self::checkEmpty($geometries), $is3D, $isMeasured, $srid);
         $geometryCollection->geometries = array_values($geometries);
 
         return $geometryCollection;
@@ -117,7 +117,7 @@ class GeometryCollection extends Geometry implements \Countable, \IteratorAggreg
 
         self::getDimensions($geometries, $is3D, $isMeasured, $srid);
 
-        $geometryCollection = new static(! $geometries, $is3D, $isMeasured, $srid);
+        $geometryCollection = new static(self::checkEmpty($geometries), $is3D, $isMeasured, $srid);
         $geometryCollection->geometries = array_values($geometries);
 
         return $geometryCollection;
@@ -234,5 +234,21 @@ class GeometryCollection extends Geometry implements \Countable, \IteratorAggreg
     protected static function containedGeometryType()
     {
         return Geometry::class;
+    }
+
+    /**
+     * @param Geometry[] $geometries
+     *
+     * @return boolean
+     */
+    private static function checkEmpty(array $geometries)
+    {
+        foreach ($geometries as $geometry) {
+            if (! $geometry->isEmpty) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }
