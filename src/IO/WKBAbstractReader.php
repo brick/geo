@@ -59,7 +59,7 @@ abstract class WKBAbstractReader
                 return $this->readPolygon($buffer, $is3D, $isMeasured, $srid);
 
             case Geometry::MULTIPOINT:
-                return $this->readMultiPoint($buffer, $srid);
+                return $this->readMultiPoint($buffer, $is3D, $isMeasured, $srid);
 
             case Geometry::MULTILINESTRING:
                 return $this->readMultiLineString($buffer, $is3D, $isMeasured, $srid);
@@ -160,11 +160,13 @@ abstract class WKBAbstractReader
 
     /**
      * @param WKBBuffer $buffer
+     * @param boolean   $is3D
+     * @param boolean   $isMeasured
      * @param integer   $srid
      *
      * @return \Brick\Geo\MultiPoint
      */
-    private function readMultiPoint(WKBBuffer $buffer, $srid)
+    private function readMultiPoint(WKBBuffer $buffer, $is3D, $isMeasured, $srid)
     {
         $numPoints = $buffer->readUnsignedLong();
         $points = [];
@@ -173,7 +175,7 @@ abstract class WKBAbstractReader
             $points[] = $this->readGeometry($buffer, $srid);
         }
 
-        return MultiPoint::factory($points);
+        return MultiPoint::create($points, $is3D, $isMeasured, $srid);
     }
 
     /**
