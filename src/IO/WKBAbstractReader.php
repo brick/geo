@@ -65,7 +65,7 @@ abstract class WKBAbstractReader
                 return $this->readMultiLineString($buffer, $is3D, $isMeasured, $srid);
 
             case Geometry::MULTIPOLYGON:
-                return $this->readMultiPolygon($buffer, $srid);
+                return $this->readMultiPolygon($buffer, $is3D, $isMeasured, $srid);
 
             case Geometry::GEOMETRYCOLLECTION:
                 return $this->readGeometryCollection($buffer, $srid);
@@ -200,11 +200,13 @@ abstract class WKBAbstractReader
 
     /**
      * @param WKBBuffer $buffer
+     * @param boolean   $is3D
+     * @param boolean   $isMeasured
      * @param integer   $srid
      *
      * @return \Brick\Geo\MultiPolygon
      */
-    private function readMultiPolygon(WKBBuffer $buffer, $srid)
+    private function readMultiPolygon(WKBBuffer $buffer, $is3D, $isMeasured, $srid)
     {
         $numPolygons = $buffer->readUnsignedLong();
         $polygons = [];
@@ -213,7 +215,7 @@ abstract class WKBAbstractReader
             $polygons[] = $this->readGeometry($buffer, $srid);
         }
 
-        return MultiPolygon::factory($polygons);
+        return MultiPolygon::create($polygons, $is3D, $isMeasured, $srid);
     }
 
     /**
