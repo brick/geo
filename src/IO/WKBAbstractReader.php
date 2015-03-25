@@ -144,6 +144,11 @@ abstract class WKBAbstractReader
     private function readPolygon(WKBBuffer $buffer, $is3D, $isMeasured, $srid)
     {
         $numRings = $buffer->readUnsignedLong();
+
+        if ($numRings === 0) {
+            return Polygon::polygonEmpty($is3D, $isMeasured, $srid);
+        }
+
         $rings = [];
 
         for ($i=0; $i<$numRings; $i++) {
