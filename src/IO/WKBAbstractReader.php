@@ -119,6 +119,11 @@ abstract class WKBAbstractReader
     private function readLineString(WKBBuffer $buffer, $is3D, $isMeasured, $srid)
     {
         $numPoints = $buffer->readUnsignedLong();
+
+        if ($numPoints === 0) {
+            return LineString::lineStringEmpty($is3D, $isMeasured, $srid);
+        }
+
         $points = [];
 
         for ($i=0; $i<$numPoints; $i++) {
