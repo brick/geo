@@ -10,6 +10,31 @@ use Brick\Geo\Exception\GeometryException;
 class Triangle extends Polygon
 {
     /**
+     * @param LineString[] $rings
+     * @param boolean      $is3D
+     * @param boolean      $isMeasured
+     * @param integer      $srid
+     *
+     * @return static
+     *
+     * @throws GeometryException
+     */
+    public static function create(array $rings, $is3D, $isMeasured, $srid)
+    {
+        $triangle = parent::create($rings, $is3D, $isMeasured, $srid);
+
+        if ($triangle->exteriorRing()->numPoints() !== 4) {
+            throw new GeometryException('A triangle must have exactly 4 points.');
+        }
+
+        if ($triangle->numInteriorRings() !== 0) {
+            throw new GeometryException('A triangle cannot have interior rings.');
+        }
+
+        return $triangle;
+    }
+
+    /**
      * Builds a Triangle from an array of LineString objects.
      *
      * @param LineString[] $rings
@@ -27,22 +52,6 @@ class Triangle extends Polygon
         }
 
         return $triangle;
-    }
-
-    /**
-     * Builds a Triangle from three Point objects.
-     *
-     * @param Point $p1
-     * @param Point $p2
-     * @param Point $p3
-     *
-     * @return Triangle
-     */
-    public static function create(Point $p1, Point $p2, Point $p3)
-    {
-        $linearRing = LineString::factory([$p1, $p2, $p3, $p1]);
-
-        return self::factory([$linearRing]);
     }
 
     /**

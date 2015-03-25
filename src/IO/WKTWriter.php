@@ -12,6 +12,8 @@ use Brick\Geo\MultiLineString;
 use Brick\Geo\MultiPolygon;
 use Brick\Geo\GeometryCollection;
 use Brick\Geo\PolyhedralSurface;
+use Brick\Geo\TIN;
+use Brick\Geo\Triangle;
 
 /**
  * Converter class from Geometry to WKT.
@@ -70,6 +72,9 @@ class WKTWriter
         } elseif ($geometry instanceof LineString) {
             $type = 'LINESTRING';
             $data = $this->writeLineString($geometry);
+        } elseif ($geometry instanceof Triangle) {
+            $type = 'TRIANGLE';
+            $data = $this->writePolygon($geometry);
         } elseif ($geometry instanceof Polygon) {
             $type = 'POLYGON';
             $data = $this->writePolygon($geometry);
@@ -85,6 +90,9 @@ class WKTWriter
         } elseif ($geometry instanceof GeometryCollection) {
             $type = 'GEOMETRYCOLLECTION';
             $data = $this->writeGeometryCollection($geometry);
+        } elseif ($geometry instanceof TIN) {
+            $type = 'TIN';
+            $data = $this->writePolyhedralSurface($geometry);
         } elseif ($geometry instanceof PolyhedralSurface) {
             $type = 'POLYHEDRALSURFACE';
             $data = $this->writePolyhedralSurface($geometry);

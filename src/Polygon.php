@@ -42,6 +42,31 @@ class Polygon extends Surface implements \Countable, \IteratorAggregate
 
     /**
      * @param LineString[] $rings
+     * @param boolean      $is3D
+     * @param boolean      $isMeasured
+     * @param integer      $srid
+     *
+     * @return static
+     *
+     * @throws GeometryException
+     */
+    public static function create(array $rings, $is3D, $isMeasured, $srid)
+    {
+        $is3D       = (bool) $is3D;
+        $isMeasured = (bool) $isMeasured;
+
+        $srid = (int) $srid;
+
+        self::checkGeometries($rings, LineString::class, $is3D, $isMeasured, $srid);
+
+        $polygon = new static(! $rings, $is3D, $isMeasured, $srid);
+        $polygon->rings = array_values($rings);
+
+        return $polygon;
+    }
+
+    /**
+     * @param LineString[] $rings
      *
      * @return Polygon
      *
@@ -107,7 +132,7 @@ class Polygon extends Surface implements \Countable, \IteratorAggregate
      */
     public static function polygonEmpty($is3D, $isMeasured, $srid)
     {
-        return new Polygon(true, $is3D, $isMeasured, $srid);
+        return new static(true, $is3D, $isMeasured, $srid);
     }
 
     /**

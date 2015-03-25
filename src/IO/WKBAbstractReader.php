@@ -14,6 +14,7 @@ use Brick\Geo\MultiPolygon;
 use Brick\Geo\GeometryCollection;
 use Brick\Geo\PolyhedralSurface;
 use Brick\Geo\TIN;
+use Brick\Geo\Triangle;
 
 /**
  * Base class for WKBReader and EWKBReader.
@@ -55,7 +56,6 @@ abstract class WKBAbstractReader
                 return $this->readLineString($buffer, $is3D, $isMeasured, $srid);
 
             case Geometry::POLYGON:
-            case Geometry::TRIANGLE:
                 return $this->readPolygon($buffer, $is3D, $isMeasured, $srid);
 
             case Geometry::MULTIPOINT:
@@ -74,7 +74,10 @@ abstract class WKBAbstractReader
                 return $this->readPolyhedralSurface($buffer, $is3D, $isMeasured, $srid);
 
             case Geometry::TIN:
-                return $this->readTIN($buffer, $srid);
+                return $this->readTIN($buffer, $is3D, $isMeasured, $srid);
+
+            case Geometry::TRIANGLE:
+                return $this->readTriangle($buffer, $is3D, $isMeasured, $srid);
         }
 
         throw GeometryParseException::unsupportedGeometryType($geometryType);
@@ -155,7 +158,7 @@ abstract class WKBAbstractReader
             $rings[] = $this->readLineString($buffer, $is3D, $isMeasured, $srid);
         }
 
-        return Polygon::factory($rings);
+        return Polygon::create($rings, $is3D, $isMeasured, $srid);
     }
 
     /**
@@ -260,19 +263,46 @@ abstract class WKBAbstractReader
 
     /**
      * @param WKBBuffer $buffer
+     * @param boolean   $is3D
+     * @param boolean   $isMeasured
      * @param integer   $srid
      *
      * @return \Brick\Geo\TIN
      */
-    private function readTIN(WKBBuffer $buffer, $srid)
+    private function readTIN(WKBBuffer $buffer, $is3D, $isMeasured, $srid)
     {
-        $numPolygons = $buffer->readUnsignedLong();
-        $polygons = [];
+        $numPatches = $buffer->readUnsignedLong();
+        $patches = [];
 
-        for ($i = 0; $i < $numPolygons; $i++) {
-            $polygons[] = $this->readGeometry($buffer, $srid);
+        for ($i = 0; $i < $numPatches; $i++) {
+            $patches[] = $this->readGeometry($buffer, $srid);
         }
 
-        return TIN::factory($polygons);
+        return TIN::create($patches, $is3D, $isMeasured, $srid);
+    }
+
+    /**
+     * @param WKBBuffer $buffer
+     * @param boolean   $is3D
+     * @param boolean   $isMeasured
+     * @param integer   $srid
+     *
+     * @return \Brick\Geo\Triangle
+     */
+    private function readTriangle(WKBBuffer $buffer, $is3D, $isMeasured, $srid)
+    {
+        $numRings = $buffer->readUnsignedLong();
+
+        if ($numRings === 0) {
+            return Triangle::polygonEmpty($is3D, $isMeasured, $srid);
+        }
+
+        $rings = [];
+
+        for ($i = 0; $i < $numRings; $i++) {
+            $rings[] = $this->readLineString($buffer, $is3D, $isMeasured, $srid);
+        }
+
+        return Triangle::create($rings, $is3D, $isMeasured, $srid);
     }
 }

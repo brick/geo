@@ -11,6 +11,8 @@ use Brick\Geo\MultiPolygon;
 use Brick\Geo\GeometryCollection;
 use Brick\Geo\Exception\GeometryException;
 use Brick\Geo\PolyhedralSurface;
+use Brick\Geo\TIN;
+use Brick\Geo\Triangle;
 
 /**
  * Base class for WKTReader and EWKTReader.
@@ -115,6 +117,20 @@ abstract class WKTAbstractReader
                 }
 
                 return $this->readPolyhedralSurfaceText($parser, $is3D, $isMeasured, $srid);
+
+            case 'TIN':
+                if ($isEmpty) {
+                    return TIN::create([], $is3D, $isMeasured, $srid);
+                }
+
+                return $this->readTINText($parser, $is3D, $isMeasured, $srid);
+
+            case 'TRIANGLE':
+                if ($isEmpty) {
+                    return Triangle::polygonEmpty($is3D, $isMeasured, $srid);
+                }
+
+            return $this->readTriangleText($parser, $is3D, $isMeasured, $srid);
         }
 
         throw new GeometryException('Unknown geometry type: ' . $geometryType);
@@ -273,7 +289,24 @@ abstract class WKTAbstractReader
     {
         $rings = $this->readMultiLineString($parser, $is3D, $isMeasured, $srid);
 
-        return Polygon::factory($rings);
+        return Polygon::create($rings, $is3D, $isMeasured, $srid);
+    }
+
+    /**
+     * ((x y, ...), ...)
+     *
+     * @param WKTParser $parser
+     * @param boolean   $is3D
+     * @param boolean   $isMeasured
+     * @param integer   $srid
+     *
+     * @return \Brick\Geo\Polygon
+     */
+    private function readTriangleText(WKTParser $parser, $is3D, $isMeasured, $srid)
+    {
+        $rings = $this->readMultiLineString($parser, $is3D, $isMeasured, $srid);
+
+        return Triangle::create($rings, $is3D, $isMeasured, $srid);
     }
 
     /**
@@ -360,5 +393,28 @@ abstract class WKTAbstractReader
         } while ($nextToken === ',');
 
         return PolyhedralSurface::create($patches, $is3D, $isMeasured, $srid);
+    }
+
+    /**
+     * @param WKTParser $parser
+     * @param boolean   $is3D
+     * @param boolean   $isMeasured
+     * @param integer   $srid
+     *
+     * @return \Brick\Geo\TIN
+     *
+     * @throws GeometryException
+     */
+    private function readTINText(WKTParser $parser, $is3D, $isMeasured, $srid)
+    {
+        $parser->matchOpener();
+        $patches = [];
+
+        do {
+            $patches[] = $this->readTriangleText($parser, $is3D, $isMeasured, $srid);
+            $nextToken = $parser->getNextCloserOrComma();
+        } while ($nextToken === ',');
+
+        return TIN::create($patches, $is3D, $isMeasured, $srid);
     }
 }

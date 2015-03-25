@@ -82,6 +82,9 @@ class WKBWriter
         if ($geometry instanceof LineString) {
             return $this->writeLineString($geometry, $outer);
         }
+        if ($geometry instanceof Triangle) {
+            return $this->writeTriangle($geometry, $outer);
+        }
         if ($geometry instanceof Polygon) {
             return $this->writePolygon($geometry, $outer);
         }
@@ -97,14 +100,11 @@ class WKBWriter
         if ($geometry instanceof GeometryCollection) {
             return $this->writeGeometryCollection($geometry, $outer);
         }
-        if ($geometry instanceof PolyhedralSurface) {
-            return $this->writePolyhedralSurface($geometry, $outer);
-        }
         if ($geometry instanceof TIN) {
             return $this->writeTIN($geometry, $outer);
         }
-        if ($geometry instanceof Triangle) {
-            return $this->writeTriangle($geometry, $outer);
+        if ($geometry instanceof PolyhedralSurface) {
+            return $this->writePolyhedralSurface($geometry, $outer);
         }
 
         throw GeometryException::unsupportedGeometryType($geometry->geometryType());
@@ -374,8 +374,8 @@ class WKBWriter
         $wkb.= $this->packHeader(Geometry::TIN, $tin, $outer);
         $wkb.= $this->packUnsignedInteger($tin->count());
 
-        foreach ($tin as $polygon) {
-            $wkb .= $this->writePolygon($polygon, false);
+        foreach ($tin as $patch) {
+            $wkb .= $this->writeTriangle($patch, false);
         }
 
         return $wkb;

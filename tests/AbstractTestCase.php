@@ -266,7 +266,7 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
             $rings[] = self::createLineString($point, $is3D, $isMeasured, $srid);
         }
 
-        return Polygon::factory($rings);
+        return Polygon::create($rings, $is3D, $isMeasured, $srid);
     }
 
     /**

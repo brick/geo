@@ -53,7 +53,7 @@ class PolyhedralSurface extends Surface implements \Countable, \IteratorAggregat
 
         self::checkGeometries($patches, Polygon::class, $is3D, $isMeasured, $srid);
 
-        $polyhedralSurface = new PolyhedralSurface(! $patches, $is3D, $isMeasured, $srid);
+        $polyhedralSurface = new static(! $patches, $is3D, $isMeasured, $srid);
         $polyhedralSurface->patches = array_values($patches);
 
         return $polyhedralSurface;
