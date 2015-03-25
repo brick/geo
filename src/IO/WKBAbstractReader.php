@@ -126,7 +126,7 @@ abstract class WKBAbstractReader
 
         $points = [];
 
-        for ($i=0; $i<$numPoints; $i++) {
+        for ($i = 0; $i < $numPoints; $i++) {
             $points[] = $this->readPoint($buffer, $is3D, $isMeasured, $srid);
         }
 
@@ -151,7 +151,7 @@ abstract class WKBAbstractReader
 
         $rings = [];
 
-        for ($i=0; $i<$numRings; $i++) {
+        for ($i = 0; $i < $numRings; $i++) {
             $rings[] = $this->readLineString($buffer, $is3D, $isMeasured, $srid);
         }
 
@@ -169,7 +169,7 @@ abstract class WKBAbstractReader
         $numPoints = $buffer->readUnsignedLong();
         $points = [];
 
-        for ($i=0; $i<$numPoints; $i++) {
+        for ($i = 0; $i < $numPoints; $i++) {
             $points[] = $this->readGeometry($buffer, $srid);
         }
 
@@ -187,7 +187,7 @@ abstract class WKBAbstractReader
         $numLineStrings = $buffer->readUnsignedLong();
         $lineStrings = [];
 
-        for ($i=0; $i<$numLineStrings; $i++) {
+        for ($i = 0; $i < $numLineStrings; $i++) {
             $lineStrings[] = $this->readGeometry($buffer, $srid);
         }
 
@@ -205,7 +205,7 @@ abstract class WKBAbstractReader
         $numPolygons = $buffer->readUnsignedLong();
         $polygons = [];
 
-        for ($i=0; $i<$numPolygons; $i++) {
+        for ($i = 0; $i < $numPolygons; $i++) {
             $polygons[] = $this->readGeometry($buffer, $srid);
         }
 
@@ -223,7 +223,7 @@ abstract class WKBAbstractReader
         $numGeometries = $buffer->readUnsignedLong();
         $geometries = [];
 
-        for ($i=0; $i<$numGeometries; $i++) {
+        for ($i = 0; $i < $numGeometries; $i++) {
             $geometries[] = $this->readGeometry($buffer, $srid);
         }
 
@@ -241,7 +241,7 @@ abstract class WKBAbstractReader
         $numPolygons = $buffer->readUnsignedLong();
         $polygons = [];
 
-        for ($i=0; $i<$numPolygons; $i++) {
+        for ($i = 0; $i < $numPolygons; $i++) {
             $polygons[] = $this->readGeometry($buffer, $srid);
         }
 
@@ -259,7 +259,7 @@ abstract class WKBAbstractReader
         $numPolygons = $buffer->readUnsignedLong();
         $polygons = [];
 
-        for ($i=0; $i<$numPolygons; $i++) {
+        for ($i = 0; $i < $numPolygons; $i++) {
             $polygons[] = $this->readGeometry($buffer, $srid);
         }
 
