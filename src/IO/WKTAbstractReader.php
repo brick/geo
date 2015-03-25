@@ -10,6 +10,7 @@ use Brick\Geo\MultiLineString;
 use Brick\Geo\MultiPolygon;
 use Brick\Geo\GeometryCollection;
 use Brick\Geo\Exception\GeometryException;
+use Brick\Geo\PolyhedralSurface;
 
 /**
  * Base class for WKTReader and EWKTReader.
@@ -107,6 +108,13 @@ abstract class WKTAbstractReader
                 }
 
                 return $this->readGeometryCollectionText($parser, $is3D, $isMeasured, $srid);
+
+            case 'POLYHEDRALSURFACE':
+                if ($isEmpty) {
+                    return PolyhedralSurface::create([], $is3D, $isMeasured, $srid);
+                }
+
+                return $this->readPolyhedralSurfaceText($parser, $is3D, $isMeasured, $srid);
         }
 
         throw new GeometryException('Unknown geometry type: ' . $geometryType);
@@ -329,5 +337,28 @@ abstract class WKTAbstractReader
         } while ($nextToken === ',');
 
         return GeometryCollection::create($geometries, $is3D, $isMeasured, $srid);
+    }
+
+    /**
+     * @param WKTParser $parser
+     * @param boolean   $is3D
+     * @param boolean   $isMeasured
+     * @param integer   $srid
+     *
+     * @return \Brick\Geo\PolyhedralSurface
+     *
+     * @throws GeometryException
+     */
+    private function readPolyhedralSurfaceText(WKTParser $parser, $is3D, $isMeasured, $srid)
+    {
+        $parser->matchOpener();
+        $patches = [];
+
+        do {
+            $patches[] = $this->readPolygonText($parser, $is3D, $isMeasured, $srid);
+            $nextToken = $parser->getNextCloserOrComma();
+        } while ($nextToken === ',');
+
+        return PolyhedralSurface::create($patches, $is3D, $isMeasured, $srid);
     }
 }

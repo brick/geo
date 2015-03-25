@@ -71,7 +71,7 @@ abstract class WKBAbstractReader
                 return $this->readGeometryCollection($buffer, $is3D, $isMeasured, $srid);
 
             case Geometry::POLYHEDRALSURFACE:
-                return $this->readPolyhedralSurface($buffer, $srid);
+                return $this->readPolyhedralSurface($buffer, $is3D, $isMeasured, $srid);
 
             case Geometry::TIN:
                 return $this->readTIN($buffer, $srid);
@@ -240,20 +240,22 @@ abstract class WKBAbstractReader
 
     /**
      * @param WKBBuffer $buffer
+     * @param boolean   $is3D
+     * @param boolean   $isMeasured
      * @param integer   $srid
      *
      * @return \Brick\Geo\PolyhedralSurface
      */
-    private function readPolyhedralSurface(WKBBuffer $buffer, $srid)
+    private function readPolyhedralSurface(WKBBuffer $buffer, $is3D, $isMeasured, $srid)
     {
-        $numPolygons = $buffer->readUnsignedLong();
-        $polygons = [];
+        $numPatches = $buffer->readUnsignedLong();
+        $patches = [];
 
-        for ($i = 0; $i < $numPolygons; $i++) {
-            $polygons[] = $this->readGeometry($buffer, $srid);
+        for ($i = 0; $i < $numPatches; $i++) {
+            $patches[] = $this->readGeometry($buffer, $srid);
         }
 
-        return PolyhedralSurface::factory($polygons);
+        return PolyhedralSurface::create($patches, $is3D, $isMeasured, $srid);
     }
 
     /**

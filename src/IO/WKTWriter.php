@@ -11,6 +11,7 @@ use Brick\Geo\MultiPoint;
 use Brick\Geo\MultiLineString;
 use Brick\Geo\MultiPolygon;
 use Brick\Geo\GeometryCollection;
+use Brick\Geo\PolyhedralSurface;
 
 /**
  * Converter class from Geometry to WKT.
@@ -84,6 +85,9 @@ class WKTWriter
         } elseif ($geometry instanceof GeometryCollection) {
             $type = 'GEOMETRYCOLLECTION';
             $data = $this->writeGeometryCollection($geometry);
+        } elseif ($geometry instanceof PolyhedralSurface) {
+            $type = 'POLYHEDRALSURFACE';
+            $data = $this->writePolyhedralSurface($geometry);
         } else {
             throw GeometryException::unsupportedGeometryType($geometry->geometryType());
         }
@@ -226,6 +230,22 @@ class WKTWriter
 
         foreach ($collection as $geometry) {
             $result[] = $this->doWrite($geometry);
+        }
+
+        return implode(',' . $this->prettyPrintSpace, $result);
+    }
+
+    /**
+     * @param \Brick\Geo\PolyhedralSurface $polyhedralSurface
+     *
+     * @return string
+     */
+    private function writePolyhedralSurface(PolyhedralSurface $polyhedralSurface)
+    {
+        $result = [];
+
+        foreach ($polyhedralSurface as $patch) {
+            $result[] = '(' . $this->writePolygon($patch) . ')';
         }
 
         return implode(',' . $this->prettyPrintSpace, $result);

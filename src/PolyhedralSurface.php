@@ -28,11 +28,36 @@ use Brick\Geo\Exception\GeometryException;
 class PolyhedralSurface extends Surface implements \Countable, \IteratorAggregate
 {
     /**
-     * An array of Polygon objects.
+     * The polygons that compose this PolyhedralSurface.
      *
      * @var Polygon[]
      */
     protected $patches = [];
+
+    /**
+     * @param Polygon[] $patches
+     * @param boolean   $is3D
+     * @param boolean   $isMeasured
+     * @param integer   $srid
+     *
+     * @return PolyhedralSurface
+     *
+     * @throws GeometryException
+     */
+    public static function create(array $patches, $is3D, $isMeasured, $srid)
+    {
+        $is3D       = (bool) $is3D;
+        $isMeasured = (bool) $isMeasured;
+
+        $srid = (int) $srid;
+
+        self::checkGeometries($patches, Polygon::class, $is3D, $isMeasured, $srid);
+
+        $polyhedralSurface = new PolyhedralSurface(! $patches, $is3D, $isMeasured, $srid);
+        $polyhedralSurface->patches = array_values($patches);
+
+        return $polyhedralSurface;
+    }
 
     /**
      * Factory method to create a new PolyhedralSurface.
