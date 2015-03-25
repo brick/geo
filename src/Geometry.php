@@ -686,7 +686,6 @@ abstract class Geometry
 
     /**
      * @param array   $geometries   The geometries to check.
-     * @param string  $geometryType The type of the container geometry.
      * @param string  $className    The expected FQCN of the geometries.
      * @param boolean $is3D         Whether the geometries are expected to have a Z coordinate.
      * @param boolean $isMeasured   Whether the geometries are expected to have a M coordinate.
@@ -696,8 +695,11 @@ abstract class Geometry
      *
      * @throws GeometryException
      */
-    protected static function checkGeometries(array $geometries, $geometryType, $className, $is3D, $isMeasured, $srid)
+    protected static function checkGeometries(array $geometries, $className, $is3D, $isMeasured, $srid)
     {
+        $reflectionClass = new \ReflectionClass(static::class);
+        $geometryType = $reflectionClass->getShortName();
+
         foreach ($geometries as $geometry) {
             if (! $geometry instanceof $className) {
                 throw new GeometryException(sprintf(

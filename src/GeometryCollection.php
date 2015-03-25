@@ -88,7 +88,7 @@ class GeometryCollection extends Geometry implements \Countable, \IteratorAggreg
 
         $srid = (int) $srid;
 
-        self::checkGeometries($geometries, 'GeometryCollection', static::containedGeometryType(), $is3D, $isMeasured, $srid);
+        self::checkGeometries($geometries, static::containedGeometryType(), $is3D, $isMeasured, $srid);
 
         $geometryCollection = new static(self::checkEmpty($geometries), $is3D, $isMeasured, $srid);
         $geometryCollection->geometries = array_values($geometries);
