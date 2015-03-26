@@ -5,6 +5,7 @@ namespace Brick\Geo\Tests\IO;
 use Brick\Geo\IO\WKBTools;
 use Brick\Geo\IO\WKBWriter;
 use Brick\Geo\IO\WKTReader;
+use Brick\Geo\Point;
 
 /**
  * Unit tests for class WKBWriter.
@@ -48,5 +49,30 @@ class WKBWriterTest extends WKBAbstractTest
         foreach ($this->providerBigEndianWKB() as list($wkt, $wkb, $is3D, $isMeasured)) {
             yield [$wkt, $wkb, $is3D, $isMeasured, WKBTools::BIG_ENDIAN];
         }
+    }
+
+    /**
+     * @dataProvider providerWriteEmptyPointThrowsException
+     * @expectedException \Brick\Geo\Exception\GeometryException
+     *
+     * @param Point $point
+     */
+    public function testWriteEmptyPointThrowsException(Point $point)
+    {
+        $writer = new WKBWriter();
+        $writer->write($point);
+    }
+
+    /**
+     * @return array
+     */
+    public function providerWriteEmptyPointThrowsException()
+    {
+        return [
+            [Point::xyEmpty()],
+            [Point::xyzEmpty()],
+            [Point::xymEmpty()],
+            [Point::xyzmEmpty()]
+        ];
     }
 }

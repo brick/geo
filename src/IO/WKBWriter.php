@@ -168,9 +168,15 @@ class WKBWriter
      * @param \Brick\Geo\Point $point
      *
      * @return string
+     *
+     * @throws GeometryException
      */
     private function packPoint(Point $point)
     {
+        if ($point->isEmpty()) {
+            throw new GeometryException('Empty points have no WKB representation.');
+        }
+
         $binary = $this->packDouble($point->x()) . $this->packDouble($point->y());
 
         if (null !== $z = $point->z()) {
