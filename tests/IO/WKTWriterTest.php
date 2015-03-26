@@ -20,8 +20,6 @@ class WKTWriterTest extends WKTAbstractTest
      */
     public function testPrettyPrint($is3D, $prettyPrint, $wkt)
     {
-        $this->is3D($is3D);
-
         $writer = new WKTWriter();
         $writer->setPrettyPrint($prettyPrint);
 
@@ -58,9 +56,6 @@ class WKTWriterTest extends WKTAbstractTest
      */
     public function testWritePoint($wkt, array $coords, $is3D, $isMeasured)
     {
-        $this->is3D($is3D);
-        $this->isMeasured($isMeasured);
-
         $writer = new WKTWriter();
         $writer->setPrettyPrint(false);
 
@@ -78,9 +73,6 @@ class WKTWriterTest extends WKTAbstractTest
      */
     public function testWriteLineString($wkt, array $coords, $is3D, $isMeasured)
     {
-        $this->is3D($is3D);
-        $this->isMeasured($isMeasured);
-
         $writer = new WKTWriter();
         $writer->setPrettyPrint(false);
 
@@ -98,9 +90,6 @@ class WKTWriterTest extends WKTAbstractTest
      */
     public function testWritePolygon($wkt, array $coords, $is3D, $isMeasured)
     {
-        $this->is3D($is3D);
-        $this->isMeasured($isMeasured);
-
         $writer = new WKTWriter();
         $writer->setPrettyPrint(false);
 
@@ -118,9 +107,6 @@ class WKTWriterTest extends WKTAbstractTest
      */
     public function testWriteMultiPoint($wkt, array $coords, $is3D, $isMeasured)
     {
-        $this->is3D($is3D);
-        $this->isMeasured($isMeasured);
-
         $writer = new WKTWriter();
         $writer->setPrettyPrint(false);
 
@@ -138,9 +124,6 @@ class WKTWriterTest extends WKTAbstractTest
      */
     public function testWriteMultiLineString($wkt, array $coords, $is3D, $isMeasured)
     {
-        $this->is3D($is3D);
-        $this->isMeasured($isMeasured);
-
         $writer = new WKTWriter();
         $writer->setPrettyPrint(false);
 
@@ -158,9 +141,6 @@ class WKTWriterTest extends WKTAbstractTest
      */
     public function testWriteMultiPolygon($wkt, array $coords, $is3D, $isMeasured)
     {
-        $this->is3D($is3D);
-        $this->isMeasured($isMeasured);
-
         $writer = new WKTWriter();
         $writer->setPrettyPrint(false);
 
@@ -178,9 +158,6 @@ class WKTWriterTest extends WKTAbstractTest
      */
     public function testWriteGeometryCollection($wkt, array $coords, $is3D, $isMeasured)
     {
-        $this->is3D($is3D);
-        $this->isMeasured($isMeasured);
-
         $writer = new WKTWriter();
         $writer->setPrettyPrint(false);
 

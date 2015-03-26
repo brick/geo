@@ -23,9 +23,6 @@ class EWKBWriterTest extends EWKBAbstractTest
      */
     public function testWrite($ewkt, $ewkb, $is3D, $isMeasured, $byteOrder)
     {
-        $this->is3D($is3D);
-        $this->isMeasured($isMeasured);
-
         $writer = new EWKBWriter();
         $writer->setByteOrder($byteOrder);
 

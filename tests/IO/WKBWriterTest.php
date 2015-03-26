@@ -23,9 +23,6 @@ class WKBWriterTest extends WKBAbstractTest
      */
     public function testWrite($wkt, $wkb, $is3D, $isMeasured, $byteOrder)
     {
-        $this->is3D($is3D);
-        $this->isMeasured($isMeasured);
-
         $writer = new WKBWriter();
         $writer->setByteOrder($byteOrder);
 

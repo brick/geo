@@ -20,9 +20,6 @@ class EWKBReaderTest extends EWKBAbstractTest
      */
     public function testRead($ewkb, $ewkt, $is3D, $isMeasured)
     {
-        $this->is3D($is3D);
-        $this->isMeasured($isMeasured);
-
         $reader = new EWKBReader();
         $writer = new EWKTWriter();
 
