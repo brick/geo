@@ -132,7 +132,7 @@ class Polygon extends Surface implements \Countable, \IteratorAggregate
      */
     public static function polygonEmpty($is3D, $isMeasured, $srid)
     {
-        return new static(true, $is3D, $isMeasured, $srid);
+        return new static(true, (bool) $is3D, (bool) $isMeasured, (int) $srid);
     }
 
     /**
