@@ -71,14 +71,14 @@ abstract class WKTAbstractReader
 
             case 'LINESTRING':
                 if ($isEmpty) {
-                    return LineString::lineStringEmpty($is3D, $isMeasured, $srid);
+                    return LineString::create([], $is3D, $isMeasured, $srid);
                 }
 
                 return $this->readLineStringText($parser, $is3D, $isMeasured, $srid);
 
             case 'POLYGON':
                 if ($isEmpty) {
-                    return Polygon::polygonEmpty($is3D, $isMeasured, $srid);
+                    return Polygon::create([], $is3D, $isMeasured, $srid);
                 }
 
                 return $this->readPolygonText($parser, $is3D, $isMeasured, $srid);
@@ -127,7 +127,7 @@ abstract class WKTAbstractReader
 
             case 'TRIANGLE':
                 if ($isEmpty) {
-                    return Triangle::polygonEmpty($is3D, $isMeasured, $srid);
+                    return Triangle::create([], $is3D, $isMeasured, $srid);
                 }
 
             return $this->readTriangleText($parser, $is3D, $isMeasured, $srid);

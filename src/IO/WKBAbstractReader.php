@@ -123,17 +123,13 @@ abstract class WKBAbstractReader
     {
         $numPoints = $buffer->readUnsignedLong();
 
-        if ($numPoints === 0) {
-            return LineString::lineStringEmpty($is3D, $isMeasured, $srid);
-        }
-
         $points = [];
 
         for ($i = 0; $i < $numPoints; $i++) {
             $points[] = $this->readPoint($buffer, $is3D, $isMeasured, $srid);
         }
 
-        return LineString::factory($points);
+        return LineString::create($points, $is3D, $isMeasured, $srid);
     }
 
     /**
@@ -147,10 +143,6 @@ abstract class WKBAbstractReader
     private function readPolygon(WKBBuffer $buffer, $is3D, $isMeasured, $srid)
     {
         $numRings = $buffer->readUnsignedLong();
-
-        if ($numRings === 0) {
-            return Polygon::polygonEmpty($is3D, $isMeasured, $srid);
-        }
 
         $rings = [];
 
@@ -292,10 +284,6 @@ abstract class WKBAbstractReader
     private function readTriangle(WKBBuffer $buffer, $is3D, $isMeasured, $srid)
     {
         $numRings = $buffer->readUnsignedLong();
-
-        if ($numRings === 0) {
-            return Triangle::polygonEmpty($is3D, $isMeasured, $srid);
-        }
 
         $rings = [];
 

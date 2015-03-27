@@ -38,26 +38,14 @@ class LineString extends Curve implements \Countable, \IteratorAggregate
 
         self::checkGeometries($points, Point::class, $is3D, $isMeasured, $srid);
 
-        if (count($points) < 2) {
+        if ($points && count($points) < 2) {
             throw new GeometryException('A LineString must have at least 2 points.');
         }
 
-        $lineString = new LineString(false, $is3D, $isMeasured, $srid);
+        $lineString = new LineString(! $points, $is3D, $isMeasured, $srid);
         $lineString->points = array_values($points);
 
         return $lineString;
-    }
-
-    /**
-     * @param boolean $is3D
-     * @param boolean $isMeasured
-     * @param integer $srid
-     *
-     * @return LineString
-     */
-    public static function lineStringEmpty($is3D, $isMeasured, $srid)
-    {
-        return new LineString(true, (bool) $is3D, (bool) $isMeasured, (int) $srid);
     }
 
     /**

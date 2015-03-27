@@ -23,12 +23,14 @@ class Triangle extends Polygon
     {
         $triangle = parent::create($rings, $is3D, $isMeasured, $srid);
 
-        if ($triangle->exteriorRing()->numPoints() !== 4) {
-            throw new GeometryException('A triangle must have exactly 4 points.');
-        }
+        if (! $triangle->isEmpty()) {
+            if ($triangle->exteriorRing()->numPoints() !== 4) {
+                throw new GeometryException('A triangle must have exactly 4 points.');
+            }
 
-        if ($triangle->numInteriorRings() !== 0) {
-            throw new GeometryException('A triangle cannot have interior rings.');
+            if ($triangle->numInteriorRings() !== 0) {
+                throw new GeometryException('A triangle cannot have interior rings.');
+            }
         }
 
         return $triangle;

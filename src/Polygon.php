@@ -124,18 +124,6 @@ class Polygon extends Surface implements \Countable, \IteratorAggregate
     }
 
     /**
-     * @param boolean $is3D
-     * @param boolean $isMeasured
-     * @param integer $srid
-     *
-     * @return Polygon
-     */
-    public static function polygonEmpty($is3D, $isMeasured, $srid)
-    {
-        return new static(true, (bool) $is3D, (bool) $isMeasured, (int) $srid);
-    }
-
-    /**
      * @noproxy
      *
      * {@inheritdoc}
@@ -167,7 +155,7 @@ class Polygon extends Surface implements \Countable, \IteratorAggregate
     public function exteriorRing()
     {
         if ($this->isEmpty) {
-            return LineString::lineStringEmpty($this->is3D, $this->isMeasured, $this->srid);
+            return LineString::create([], $this->is3D, $this->isMeasured, $this->srid);
         }
 
         return reset($this->rings);

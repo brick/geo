@@ -19,14 +19,14 @@ class PolygonTest extends AbstractTestCase
      */
     public function testEmptyFactoryMethod($is3D, $isMeasured, $srid)
     {
-        $polygon = Polygon::polygonEmpty($is3D, $isMeasured, $srid);
+        $polygon = Polygon::create([], $is3D, $isMeasured, $srid);
 
         $this->assertTrue($polygon->isEmpty());
         $this->assertSame($is3D, $polygon->is3D());
         $this->assertSame($isMeasured, $polygon->isMeasured());
         $this->assertSame($srid, $polygon->SRID());
 
-        $expectedExteriorRing = LineString::lineStringEmpty($is3D, $isMeasured, $srid);
+        $expectedExteriorRing = LineString::create([], $is3D, $isMeasured, $srid);
         $this->assertWktEquals($polygon->exteriorRing(), $expectedExteriorRing->asText(), $srid);
     }
 
