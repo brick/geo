@@ -414,7 +414,7 @@ class Point extends Geometry
     /**
      * Returns a copy of this Point with the SRID altered.
      *
-     * @param int $srid
+     * @param integer $srid
      *
      * @return Point
      */

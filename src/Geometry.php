@@ -165,12 +165,10 @@ abstract class Geometry
      * spatial position of this geometry in a coordinate system.
      *
      * @return integer
-     *
-     * @throws GeometryException
      */
     public function spatialDimension()
     {
-        throw GeometryException::unimplementedMethod(__METHOD__);
+        return $this->is3D ? 3 : 2;
     }
 
     /**
