@@ -15,6 +15,8 @@ abstract class Curve extends Geometry
     /**
      * Returns the length of this Curve in its associated spatial reference.
      *
+     * @noproxy
+     *
      * @return float
      */
     public function length()
