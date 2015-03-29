@@ -61,22 +61,4 @@ abstract class Surface extends Geometry
      * @return Point
      */
     abstract public function pointOnSurface();
-
-    /**
-     * @noproxy
-     *
-     * {@inheritdoc}
-     *
-     * @return MultiCurve
-     */
-    public function boundary()
-    {
-        $boundary = parent::boundary();
-
-        if (! $boundary instanceof MultiCurve) {
-            throw new GeometryException('The boundary of a Surface is expected to be a MultiCurve.');
-        }
-
-        return $boundary;
-    }
 }

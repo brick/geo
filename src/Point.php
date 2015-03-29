@@ -462,16 +462,6 @@ class Point extends Geometry
      *
      * {@inheritdoc}
      */
-    public function boundary()
-    {
-        return GeometryCollection::xy([], $this->srid);
-    }
-
-    /**
-     * @noproxy
-     *
-     * {@inheritdoc}
-     */
     public function isSimple()
     {
         return true;
