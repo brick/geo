@@ -501,6 +501,8 @@ class PointTest extends AbstractTestCase
      */
     public function testBoundary($point)
     {
+        $this->skipMySQL('MySQL does not support ST_Boundary()');
+
         $point = Point::fromText($point);
 
         $this->assertWktEquals($point->boundary(), 'GEOMETRYCOLLECTION EMPTY');
