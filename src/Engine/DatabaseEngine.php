@@ -107,11 +107,15 @@ abstract class DatabaseEngine implements GeometryEngine
      * @param string $function   The SQL GIS function to execute.
      * @param array  $parameters The Geometry objects or scalar values to pass as parameters.
      *
-     * @return \Brick\Geo\Geometry
+     * @return Geometry|null
      */
     private function queryGeometry($function, array $parameters)
     {
         $result = $this->query($function, $parameters, true);
+
+        if ($result === null) {
+            return null;
+        }
 
         if (is_resource($result)) {
             $result = stream_get_contents($result);
