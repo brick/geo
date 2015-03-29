@@ -2,6 +2,7 @@
 
 namespace Brick\Geo\Tests;
 
+use Brick\Geo\Exception\GeometryEngineException;
 use Brick\Geo\Geometry;
 use Brick\Geo\Point;
 
@@ -497,7 +498,9 @@ class PointTest extends AbstractTestCase
      */
     public function testBoundary($point)
     {
-        $this->skipMySQL('MySQL does not support ST_Boundary()');
+        if ($this->isMySQL()) {
+            $this->setExpectedException(GeometryEngineException::class);
+        }
 
         $boundary = Point::fromText($point)->boundary();
 

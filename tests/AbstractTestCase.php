@@ -18,61 +18,63 @@ use Brick\Geo\Polygon;
 class AbstractTestCase extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @param $message
+     * @param string $name
+     *
+     * @return boolean
+     */
+    private function isPDODriver($name)
+    {
+        $engine = GeometryEngineRegistry::get();
+
+        if ($engine instanceof PDOEngine) {
+            if ($engine->getPDO()->getAttribute(\PDO::ATTR_DRIVER_NAME) === $name) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * @return boolean
+     */
+    final protected function isMySQL()
+    {
+       return $this->isPDODriver('mysql');
+    }
+
+    /**
+     * @return boolean
+     */
+    final protected function isPostgreSQL()
+    {
+        return $this->isPDODriver('pgsql');
+    }
+
+    /**
+     * @param string $message
      */
     final protected function skipMySQL($message)
     {
-        $engine = GeometryEngineRegistry::get();
-
-        if ($engine instanceof PDOEngine) {
-            if ($engine->getPDO()->getAttribute(\PDO::ATTR_DRIVER_NAME) === 'mysql') {
-                $this->markTestSkipped($message);
-            }
-        }
+       if ($this->isMySQL()) {
+           $this->markTestSkipped($message);
+       }
     }
 
     /**
-     * @param $message
+     * @param string $message
      */
     final protected function skipPostgreSQL($message)
     {
-        $engine = GeometryEngineRegistry::get();
-
-        if ($engine instanceof PDOEngine) {
-            if ($engine->getPDO()->getAttribute(\PDO::ATTR_DRIVER_NAME) === 'pgsql') {
-                $this->markTestSkipped($message);
-            }
-        }
-    }
-
-    /**
-     * Specifies whether the test uses Z coordinates.
-     *
-     * @param boolean $is3D
-     */
-    final protected function is3D($is3D)
-    {
-        if ($is3D) {
-            $this->skipMySQL('Z coordinates are not supported by MySQL');
-        }
-    }
-
-    /**
-     * Specifies whether the test uses M coordinates.
-     *
-     * @param boolean $isMeasured
-     */
-    final protected function isMeasured($isMeasured)
-    {
-        if ($isMeasured) {
-            $this->skipMySQL('M coordinates are not supported by MySQL');
+        if ($this->isPostgreSQL()) {
+            $this->markTestSkipped($message);
         }
     }
 
     /**
      * @param Geometry $geometry
      * @param string   $wkt
-     * @param int      $srid
+     * @param integer  $srid
      */
     final protected function assertWktEquals(Geometry $geometry, $wkt, $srid = 0)
     {

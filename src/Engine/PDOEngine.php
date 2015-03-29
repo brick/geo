@@ -2,6 +2,7 @@
 
 namespace Brick\Geo\Engine;
 
+use Brick\Geo\Exception\GeometryEngineException;
 use Brick\Geo\Geometry;
 
 /**
@@ -42,22 +43,30 @@ class PDOEngine extends DatabaseEngine
         $errMode = $this->pdo->getAttribute(\PDO::ATTR_ERRMODE);
         $this->pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 
-        $statement = $this->pdo->prepare($query);
+        try {
+            $statement = $this->pdo->prepare($query);
 
-        $index = 1;
+            $index = 1;
 
-        foreach ($parameters as $parameter) {
-            if ($parameter instanceof Geometry) {
-                $statement->bindValue($index++, $parameter->asBinary(), \PDO::PARAM_LOB);
-                $statement->bindValue($index++, $parameter->SRID(), \PDO::PARAM_INT);
-            } else {
-                $statement->bindValue($index++, $parameter);
+            foreach ($parameters as $parameter) {
+                if ($parameter instanceof Geometry) {
+                    $statement->bindValue($index++, $parameter->asBinary(), \PDO::PARAM_LOB);
+                    $statement->bindValue($index++, $parameter->SRID(), \PDO::PARAM_INT);
+                } else {
+                    $statement->bindValue($index++, $parameter);
+                }
             }
+
+            $statement->execute();
+
+            $result = $statement->fetchColumn();
+        } catch (\PDOException $e) {
+            if (substr($e->getCode(), 0, 2) === '42') {
+                throw GeometryEngineException::operationNotSupportedByDatabase($e);
+            }
+
+            throw $e;
         }
-
-        $statement->execute();
-
-        $result = $statement->fetchColumn();
 
         $this->pdo->setAttribute(\PDO::ATTR_ERRMODE, $errMode);
 
