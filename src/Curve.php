@@ -2,6 +2,8 @@
 
 namespace Brick\Geo;
 
+use Brick\Geo\Engine\GeometryEngineRegistry;
+
 /**
  * A Curve is a 1-dimensional geometric object usually stored as a sequence of Points.
  *
@@ -15,7 +17,10 @@ abstract class Curve extends Geometry
      *
      * @return float
      */
-    abstract public function length();
+    public function length()
+    {
+        return GeometryEngineRegistry::get()->length($this);
+    }
 
     /**
      * Returns the start Point of this Curve.

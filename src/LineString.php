@@ -80,16 +80,6 @@ class LineString extends Curve implements \Countable, \IteratorAggregate
     }
 
     /**
-     * @noproxy
-     *
-     * {@inheritdoc}
-     */
-    public function length()
-    {
-        return GeometryEngineRegistry::get()->length($this);
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function startPoint()
