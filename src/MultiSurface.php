@@ -2,6 +2,8 @@
 
 namespace Brick\Geo;
 
+use Brick\Geo\Engine\GeometryEngineRegistry;
+
 /**
  * A MultiSurface is a 2-dimensional GeometryCollection whose elements are Surfaces.
  *
@@ -34,11 +36,14 @@ abstract class MultiSurface extends GeometryCollection
     abstract public function centroid();
 
     /**
-     * A Point guaranteed to be on this MultiSurface.
+     * Returns a Point guaranteed to be on this MultiSurface.
+     *
+     * @noproxy
      *
      * @return Point
-     *
-     * @throws Exception\GeometryException If this MultiSurface is empty.
      */
-    abstract public function pointOnSurface();
+    public function pointOnSurface()
+    {
+        return GeometryEngineRegistry::get()->pointOnSurface($this);
+    }
 }

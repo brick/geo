@@ -54,19 +54,6 @@ class MultiPolygon extends MultiSurface
     }
 
     /**
-     * @noproxy
-     *
-     * {@inheritdoc}
-     */
-    public function pointOnSurface()
-    {
-        /** @var Polygon $polygon */
-        $polygon = $this->geometryN(1);
-
-        return $polygon->pointOnSurface();
-    }
-
-    /**
      * Returns the polygons that compose this multipolygon.
      *
      * @return MultiPolygon[]

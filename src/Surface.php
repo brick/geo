@@ -58,7 +58,12 @@ abstract class Surface extends Geometry
     /**
      * Returns a Point guaranteed to be on this Surface.
      *
+     * @noproxy
+     *
      * @return Point
      */
-    abstract public function pointOnSurface();
+    public function pointOnSurface()
+    {
+        return GeometryEngineRegistry::get()->pointOnSurface($this);
+    }
 }

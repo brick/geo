@@ -144,18 +144,6 @@ class SurfaceProxy extends Surface implements ProxyInterface
     /**
      * {@inheritdoc}
      */
-    public function pointOnSurface()
-    {
-        if ($this->proxyGeometry === null) {
-            $this->load();
-        }
-
-        return $this->proxyGeometry->pointOnSurface();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function dimension()
     {
         if ($this->proxyGeometry === null) {

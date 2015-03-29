@@ -168,18 +168,6 @@ class PolyhedralSurfaceProxy extends PolyhedralSurface implements ProxyInterface
     /**
      * {@inheritdoc}
      */
-    public function pointOnSurface()
-    {
-        if ($this->proxyGeometry === null) {
-            $this->load();
-        }
-
-        return $this->proxyGeometry->pointOnSurface();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function toArray()
     {
         if ($this->proxyGeometry === null) {

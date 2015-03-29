@@ -134,6 +134,14 @@ class GEOSEngine implements GeometryEngine
     /**
      * {@inheritdoc}
      */
+    public function pointOnSurface(Geometry $g)
+    {
+        return $this->fromGEOS($this->toGEOS($g)->pointOnSurface());
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function boundary(Geometry $g)
     {
         return $this->fromGEOS($this->toGEOS($g)->boundary());

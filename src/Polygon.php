@@ -124,20 +124,6 @@ class Polygon extends Surface implements \Countable, \IteratorAggregate
     }
 
     /**
-     * @noproxy
-     *
-     * {@inheritdoc}
-     */
-    public function pointOnSurface()
-    {
-        if ($this->isEmpty) {
-            return Point::pointEmpty($this->is3D, $this->isMeasured, $this->srid);
-        }
-
-        return $this->exteriorRing()->startPoint();
-    }
-
-    /**
      * Returns the exterior ring of this Polygon.
      *
      * @return LineString

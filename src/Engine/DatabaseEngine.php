@@ -179,6 +179,14 @@ abstract class DatabaseEngine implements GeometryEngine
     /**
      * {@inheritdoc}
      */
+    public function pointOnSurface(Geometry $g)
+    {
+        return $this->queryGeometry('ST_PointOnSurface', [$g]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function length(Geometry $g)
     {
         return $this->queryFloat('ST_Length', [$g]);

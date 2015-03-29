@@ -66,6 +66,15 @@ interface GeometryEngine
     public function centroid(Geometry $g);
 
     /**
+     * Returns a Point guaranteed to be on a Surface or MultiSurface.
+     *
+     * @param Geometry $g
+     *
+     * @return Geometry
+     */
+    public function pointOnSurface(Geometry $g);
+
+    /**
      * Returns the closure of the combinatorial boundary of a Geometry.
      *
      * @param Geometry $g

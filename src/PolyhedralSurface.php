@@ -156,14 +156,6 @@ class PolyhedralSurface extends Surface implements \Countable, \IteratorAggregat
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function pointOnSurface()
-    {
-        return $this->patches[0]->pointOnSurface();
-    }
-
-    /**
      * @noproxy
      *
      * {@inheritdoc}

@@ -168,18 +168,6 @@ class MultiSurfaceProxy extends MultiSurface implements ProxyInterface
     /**
      * {@inheritdoc}
      */
-    public function pointOnSurface()
-    {
-        if ($this->proxyGeometry === null) {
-            $this->load();
-        }
-
-        return $this->proxyGeometry->pointOnSurface();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function numGeometries()
     {
         if ($this->proxyGeometry === null) {
