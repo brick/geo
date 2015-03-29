@@ -3,10 +3,6 @@
 namespace Brick\Geo\Engine;
 
 use Brick\Geo\Geometry;
-use Brick\Geo\Curve;
-use Brick\Geo\MultiCurve;
-use Brick\Geo\Surface;
-use Brick\Geo\MultiSurface;
 use Brick\Geo\Exception\GeometryException;
 
 /**
@@ -66,7 +62,7 @@ abstract class DatabaseEngine implements GeometryEngine
      *
      * @return mixed
      *
-     * @throws \Brick\Geo\Exception\GeometryException
+     * @throws GeometryException
      */
     private function query($function, array $parameters, $returnsGeometry)
     {
@@ -185,10 +181,6 @@ abstract class DatabaseEngine implements GeometryEngine
      */
     public function length(Geometry $g)
     {
-        if (! $g instanceof Curve && ! $g instanceof MultiCurve) {
-            throw new GeometryException('length() can only be called on a Curve or a MultiCurve');
-        }
-
         return $this->queryFloat('ST_Length', [$g]);
     }
 
@@ -197,10 +189,6 @@ abstract class DatabaseEngine implements GeometryEngine
      */
     public function area(Geometry $g)
     {
-        if (! $g instanceof Surface && ! $g instanceof MultiSurface) {
-            throw new GeometryException('area() can only be called on a Surface or a MultiSurface');
-        }
-
         return $this->queryFloat('ST_Area', [$g]);
     }
 
