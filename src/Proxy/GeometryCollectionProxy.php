@@ -3,8 +3,6 @@
 namespace Brick\Geo\Proxy;
 
 use Brick\Geo\Exception\GeometryException;
-use Brick\Geo\IO\WKBReader;
-use Brick\Geo\IO\WKTReader;
 use Brick\Geo\GeometryCollection;
 
 /**
@@ -55,21 +53,17 @@ class GeometryCollectionProxy extends GeometryCollection implements ProxyInterfa
     }
 
     /**
+     * Loads the underlying geometry.
+     *
      * @return void
      *
-     * @throws GeometryException
+     * @throws GeometryException If the data cannot be parsed, or does not represent a GeometryCollection.
      */
     private function load()
     {
-        $geometry = $this->proxyIsBinary
-            ? (new WKBReader())->read($this->proxyData, $this->proxySRID)
-            : (new WKTReader())->read($this->proxyData, $this->proxySRID);
-
-        if (! $geometry instanceof GeometryCollection) {
-            throw GeometryException::unexpectedGeometryType(GeometryCollection::class, $geometry);
-        }
-
-        $this->proxyGeometry = $geometry;
+        $this->proxyGeometry = $this->proxyIsBinary
+            ? GeometryCollection::fromBinary($this->proxyData, $this->proxySRID)
+            : GeometryCollection::fromText($this->proxyData, $this->proxySRID);
     }
 
     /**

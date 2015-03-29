@@ -3,8 +3,6 @@
 namespace Brick\Geo\Proxy;
 
 use Brick\Geo\Exception\GeometryException;
-use Brick\Geo\IO\WKBReader;
-use Brick\Geo\IO\WKTReader;
 use Brick\Geo\_CLASSNAME_;
 
 /**
@@ -55,21 +53,17 @@ class _CLASSNAME_Proxy extends _CLASSNAME_ implements ProxyInterface
     }
 
     /**
+     * Loads the underlying geometry.
+     *
      * @return void
      *
-     * @throws GeometryException
+     * @throws GeometryException If the data cannot be parsed, or does not represent a _CLASSNAME_.
      */
     private function load()
     {
-        $geometry = $this->proxyIsBinary
-            ? (new WKBReader())->read($this->proxyData, $this->proxySRID)
-            : (new WKTReader())->read($this->proxyData, $this->proxySRID);
-
-        if (! $geometry instanceof _CLASSNAME_) {
-            throw GeometryException::unexpectedGeometryType(_CLASSNAME_::class, $geometry);
-        }
-
-        $this->proxyGeometry = $geometry;
+        $this->proxyGeometry = $this->proxyIsBinary
+            ? _CLASSNAME_::fromBinary($this->proxyData, $this->proxySRID)
+            : _CLASSNAME_::fromText($this->proxyData, $this->proxySRID);
     }
 
     /**

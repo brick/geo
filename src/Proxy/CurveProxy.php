@@ -3,8 +3,6 @@
 namespace Brick\Geo\Proxy;
 
 use Brick\Geo\Exception\GeometryException;
-use Brick\Geo\IO\WKBReader;
-use Brick\Geo\IO\WKTReader;
 use Brick\Geo\Curve;
 
 /**
@@ -55,21 +53,17 @@ class CurveProxy extends Curve implements ProxyInterface
     }
 
     /**
+     * Loads the underlying geometry.
+     *
      * @return void
      *
-     * @throws GeometryException
+     * @throws GeometryException If the data cannot be parsed, or does not represent a Curve.
      */
     private function load()
     {
-        $geometry = $this->proxyIsBinary
-            ? (new WKBReader())->read($this->proxyData, $this->proxySRID)
-            : (new WKTReader())->read($this->proxyData, $this->proxySRID);
-
-        if (! $geometry instanceof Curve) {
-            throw GeometryException::unexpectedGeometryType(Curve::class, $geometry);
-        }
-
-        $this->proxyGeometry = $geometry;
+        $this->proxyGeometry = $this->proxyIsBinary
+            ? Curve::fromBinary($this->proxyData, $this->proxySRID)
+            : Curve::fromText($this->proxyData, $this->proxySRID);
     }
 
     /**

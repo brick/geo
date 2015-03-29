@@ -3,8 +3,6 @@
 namespace Brick\Geo\Proxy;
 
 use Brick\Geo\Exception\GeometryException;
-use Brick\Geo\IO\WKBReader;
-use Brick\Geo\IO\WKTReader;
 use Brick\Geo\PolyhedralSurface;
 
 /**
@@ -55,21 +53,17 @@ class PolyhedralSurfaceProxy extends PolyhedralSurface implements ProxyInterface
     }
 
     /**
+     * Loads the underlying geometry.
+     *
      * @return void
      *
-     * @throws GeometryException
+     * @throws GeometryException If the data cannot be parsed, or does not represent a PolyhedralSurface.
      */
     private function load()
     {
-        $geometry = $this->proxyIsBinary
-            ? (new WKBReader())->read($this->proxyData, $this->proxySRID)
-            : (new WKTReader())->read($this->proxyData, $this->proxySRID);
-
-        if (! $geometry instanceof PolyhedralSurface) {
-            throw GeometryException::unexpectedGeometryType(PolyhedralSurface::class, $geometry);
-        }
-
-        $this->proxyGeometry = $geometry;
+        $this->proxyGeometry = $this->proxyIsBinary
+            ? PolyhedralSurface::fromBinary($this->proxyData, $this->proxySRID)
+            : PolyhedralSurface::fromText($this->proxyData, $this->proxySRID);
     }
 
     /**

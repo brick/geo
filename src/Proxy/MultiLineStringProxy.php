@@ -3,8 +3,6 @@
 namespace Brick\Geo\Proxy;
 
 use Brick\Geo\Exception\GeometryException;
-use Brick\Geo\IO\WKBReader;
-use Brick\Geo\IO\WKTReader;
 use Brick\Geo\MultiLineString;
 
 /**
@@ -55,21 +53,17 @@ class MultiLineStringProxy extends MultiLineString implements ProxyInterface
     }
 
     /**
+     * Loads the underlying geometry.
+     *
      * @return void
      *
-     * @throws GeometryException
+     * @throws GeometryException If the data cannot be parsed, or does not represent a MultiLineString.
      */
     private function load()
     {
-        $geometry = $this->proxyIsBinary
-            ? (new WKBReader())->read($this->proxyData, $this->proxySRID)
-            : (new WKTReader())->read($this->proxyData, $this->proxySRID);
-
-        if (! $geometry instanceof MultiLineString) {
-            throw GeometryException::unexpectedGeometryType(MultiLineString::class, $geometry);
-        }
-
-        $this->proxyGeometry = $geometry;
+        $this->proxyGeometry = $this->proxyIsBinary
+            ? MultiLineString::fromBinary($this->proxyData, $this->proxySRID)
+            : MultiLineString::fromText($this->proxyData, $this->proxySRID);
     }
 
     /**

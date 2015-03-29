@@ -3,8 +3,6 @@
 namespace Brick\Geo\Proxy;
 
 use Brick\Geo\Exception\GeometryException;
-use Brick\Geo\IO\WKBReader;
-use Brick\Geo\IO\WKTReader;
 use Brick\Geo\MultiCurve;
 
 /**
@@ -55,21 +53,17 @@ class MultiCurveProxy extends MultiCurve implements ProxyInterface
     }
 
     /**
+     * Loads the underlying geometry.
+     *
      * @return void
      *
-     * @throws GeometryException
+     * @throws GeometryException If the data cannot be parsed, or does not represent a MultiCurve.
      */
     private function load()
     {
-        $geometry = $this->proxyIsBinary
-            ? (new WKBReader())->read($this->proxyData, $this->proxySRID)
-            : (new WKTReader())->read($this->proxyData, $this->proxySRID);
-
-        if (! $geometry instanceof MultiCurve) {
-            throw GeometryException::unexpectedGeometryType(MultiCurve::class, $geometry);
-        }
-
-        $this->proxyGeometry = $geometry;
+        $this->proxyGeometry = $this->proxyIsBinary
+            ? MultiCurve::fromBinary($this->proxyData, $this->proxySRID)
+            : MultiCurve::fromText($this->proxyData, $this->proxySRID);
     }
 
     /**

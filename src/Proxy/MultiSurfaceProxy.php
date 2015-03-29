@@ -3,8 +3,6 @@
 namespace Brick\Geo\Proxy;
 
 use Brick\Geo\Exception\GeometryException;
-use Brick\Geo\IO\WKBReader;
-use Brick\Geo\IO\WKTReader;
 use Brick\Geo\MultiSurface;
 
 /**
@@ -55,21 +53,17 @@ class MultiSurfaceProxy extends MultiSurface implements ProxyInterface
     }
 
     /**
+     * Loads the underlying geometry.
+     *
      * @return void
      *
-     * @throws GeometryException
+     * @throws GeometryException If the data cannot be parsed, or does not represent a MultiSurface.
      */
     private function load()
     {
-        $geometry = $this->proxyIsBinary
-            ? (new WKBReader())->read($this->proxyData, $this->proxySRID)
-            : (new WKTReader())->read($this->proxyData, $this->proxySRID);
-
-        if (! $geometry instanceof MultiSurface) {
-            throw GeometryException::unexpectedGeometryType(MultiSurface::class, $geometry);
-        }
-
-        $this->proxyGeometry = $geometry;
+        $this->proxyGeometry = $this->proxyIsBinary
+            ? MultiSurface::fromBinary($this->proxyData, $this->proxySRID)
+            : MultiSurface::fromText($this->proxyData, $this->proxySRID);
     }
 
     /**
