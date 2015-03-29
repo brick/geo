@@ -34,26 +34,6 @@ class MultiPolygon extends MultiSurface
     }
 
     /**
-     * @noproxy
-     *
-     * {@inheritdoc}
-     */
-    public function area()
-    {
-        return GeometryEngineRegistry::get()->area($this);
-    }
-
-    /**
-     * @noproxy
-     *
-     * {@inheritdoc}
-     */
-    public function centroid()
-    {
-        return GeometryEngineRegistry::get()->centroid($this);
-    }
-
-    /**
      * Returns the polygons that compose this multipolygon.
      *
      * @return MultiPolygon[]

@@ -20,20 +20,30 @@ use Brick\Geo\Engine\GeometryEngineRegistry;
 abstract class MultiSurface extends GeometryCollection
 {
     /**
-     * The area of this MultiSurface, as measured in the spatial reference system of this MultiSurface.
+     * Returns the area of this MultiSurface, as measured in the spatial reference system of this MultiSurface.
+     *
+     * @noproxy
      *
      * @return float
      */
-    abstract public function area();
+    public function area()
+    {
+        return GeometryEngineRegistry::get()->area($this);
+    }
 
     /**
-     * The mathematical centroid for this MultiSurface.
+     * Returns the mathematical centroid for this MultiSurface.
      *
      * The result is not guaranteed to be on this MultiSurface.
      *
+     * @noproxy
+     *
      * @return Point
      */
-    abstract public function centroid();
+    public function centroid()
+    {
+        return GeometryEngineRegistry::get()->centroid($this);
+    }
 
     /**
      * Returns a Point guaranteed to be on this MultiSurface.

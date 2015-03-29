@@ -144,30 +144,6 @@ class MultiSurfaceProxy extends MultiSurface implements ProxyInterface
     /**
      * {@inheritdoc}
      */
-    public function area()
-    {
-        if ($this->proxyGeometry === null) {
-            $this->load();
-        }
-
-        return $this->proxyGeometry->area();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function centroid()
-    {
-        if ($this->proxyGeometry === null) {
-            $this->load();
-        }
-
-        return $this->proxyGeometry->centroid();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function numGeometries()
     {
         if ($this->proxyGeometry === null) {
