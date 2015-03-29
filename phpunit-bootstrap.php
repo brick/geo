@@ -40,6 +40,7 @@ function createGeometryEngine()
             $pdo->exec('DROP DATABASE IF EXISTS geo_tests_tmp');
             $pdo->exec('CREATE DATABASE geo_tests');
             $pdo->exec('CREATE DATABASE geo_tests_tmp');
+            $pdo->exec('USE geo_tests');
             $engine = new PDOEngine($pdo);
 
             //Connect data for doctrine integration tests
