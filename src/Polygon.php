@@ -128,16 +128,6 @@ class Polygon extends Surface implements \Countable, \IteratorAggregate
      *
      * {@inheritdoc}
      */
-    public function area()
-    {
-        return GeometryEngineRegistry::get()->area($this);
-    }
-
-    /**
-     * @noproxy
-     *
-     * {@inheritdoc}
-     */
     public function pointOnSurface()
     {
         if ($this->isEmpty) {

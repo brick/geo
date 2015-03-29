@@ -32,9 +32,14 @@ abstract class Surface extends Geometry
     /**
      * Returns the area of this Surface, as measured in the spatial reference system of this Surface.
      *
+     * @noproxy
+     *
      * @return float
      */
-    abstract public function area();
+    public function area()
+    {
+        return GeometryEngineRegistry::get()->area($this);
+    }
 
     /**
      * Returns the mathematical centroid for this Surface as a Point.

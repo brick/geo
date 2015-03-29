@@ -168,16 +168,6 @@ class PolyhedralSurface extends Surface implements \Countable, \IteratorAggregat
      *
      * {@inheritdoc}
      */
-    public function area()
-    {
-        return GeometryEngineRegistry::get()->area($this);
-    }
-
-    /**
-     * @noproxy
-     *
-     * {@inheritdoc}
-     */
     public function geometryType()
     {
         return 'PolyhedralSurface';
