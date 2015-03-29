@@ -24,7 +24,6 @@ class PDOEngine extends DatabaseEngine
     public function __construct(\PDO $pdo)
     {
         $this->pdo = $pdo;
-        $pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
     }
 
     /**
@@ -40,6 +39,9 @@ class PDOEngine extends DatabaseEngine
      */
     protected function executeQuery($query, array $parameters)
     {
+        $errMode = $this->pdo->getAttribute(\PDO::ATTR_ERRMODE);
+        $this->pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+
         $statement = $this->pdo->prepare($query);
 
         $index = 1;
@@ -55,6 +57,10 @@ class PDOEngine extends DatabaseEngine
 
         $statement->execute();
 
-        return $statement->fetchColumn();
+        $result = $statement->fetchColumn();
+
+        $this->pdo->setAttribute(\PDO::ATTR_ERRMODE, $errMode);
+
+        return $result;
     }
 }
