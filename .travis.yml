@@ -3,6 +3,7 @@ language: php
 php:
   - 5.5
   - 5.6
+  - 7
   - hhvm
 
 env:
@@ -35,3 +36,5 @@ matrix:
       env: ENGINE=GEOS # extension currently unsupported by HHVM
     - php: hhvm
       env: ENGINE=PDO_MYSQL57 # current installation script uninstalls HHVM
+  allow_failures:
+    - php: 7
