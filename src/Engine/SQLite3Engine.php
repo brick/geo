@@ -2,6 +2,7 @@
 
 namespace Brick\Geo\Engine;
 
+use Brick\Geo\Exception\GeometryEngineException;
 use Brick\Geo\Geometry;
 
 /**
@@ -38,7 +39,17 @@ class SQLite3Engine extends DatabaseEngine
                 $statement->bindValue($index++, $parameter->asBinary(), SQLITE3_BLOB);
                 $statement->bindValue($index++, $parameter->SRID(), SQLITE3_INTEGER);
             } else {
-                $statement->bindValue($index++, $parameter);
+                if ($parameter === null) {
+                    $type = SQLITE3_NULL;
+                } elseif (is_int($parameter)) {
+                    $type = SQLITE3_INTEGER;
+                } elseif (is_float($parameter)) {
+                    $type = SQLITE3_FLOAT;
+                } else {
+                    $type = SQLITE3_TEXT;
+                }
+
+                $statement->bindValue($index++, $parameter, $type);
             }
         }
 
