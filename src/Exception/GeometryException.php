@@ -26,7 +26,7 @@ class GeometryException extends \Exception
     {
         $message = sprintf('%s() is currently not implemented.', $methodName);
 
-        return new self($message);
+        return new static($message);
     }
 
     /**

@@ -3,7 +3,7 @@
 namespace Brick\Geo\Engine;
 
 use Brick\Geo\Geometry;
-use Brick\Geo\Exception\GeometryException;
+use Brick\Geo\Exception\GeometryEngineException;
 use Brick\Geo\IO\EWKBReader;
 use Brick\Geo\IO\EWKBWriter;
 
@@ -240,7 +240,7 @@ class GEOSEngine implements GeometryEngine
      */
     public function locateAlong(Geometry $g, $mValue)
     {
-        throw GeometryException::unimplementedMethod(__METHOD__);
+        throw GeometryEngineException::unimplementedMethod(__METHOD__);
     }
 
     /**
@@ -248,7 +248,7 @@ class GEOSEngine implements GeometryEngine
      */
     public function locateBetween(Geometry $g, $mStart, $mEnd)
     {
-        throw GeometryException::unimplementedMethod(__METHOD__);
+        throw GeometryEngineException::unimplementedMethod(__METHOD__);
     }
 
     /**
@@ -296,7 +296,7 @@ class GEOSEngine implements GeometryEngine
      */
     public function snapToGrid(Geometry $g, $size)
     {
-        throw GeometryException::unimplementedMethod(__METHOD__);
+        throw GeometryEngineException::unimplementedMethod(__METHOD__);
     }
 
     /**
@@ -312,6 +312,6 @@ class GEOSEngine implements GeometryEngine
      */
     public function maxDistance(Geometry $a, Geometry $b)
     {
-        throw GeometryException::unimplementedMethod(__METHOD__);
+        throw GeometryEngineException::unimplementedMethod(__METHOD__);
     }
 }
