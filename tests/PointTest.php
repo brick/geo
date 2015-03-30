@@ -526,4 +526,13 @@ class PointTest extends AbstractTestCase
             ['POINT ZM (4 5 6 7)']
         ];
     }
+
+    public function testSnapToGrid()
+    {
+        if ($this->isGEOS() || $this->isMySQL()) {
+            $this->setExpectedException(GeometryEngineException::class);
+        }
+
+        $this->assertWktEquals(Point::xy(1.2, 2.8)->snapToGrid(1), 'POINT (1 3)');
+    }
 }
