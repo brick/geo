@@ -88,9 +88,9 @@ function createGeometryEngine()
             $sqlite3 = new SQLite3(':memory:');
             $prefix = '';
             if (getenv('TRAVIS_PHP_VERSION') === 'hhvm') {
-                $prefix = '/usr/lib/';
+                $prefix = '/usr/local/lib/';
             }
-            $sqlite3->loadExtension($prefix . 'libspatialite.so.3');
+            $sqlite3->loadExtension($prefix . 'libspatialite.so');
             $engine = new SQLite3Engine($sqlite3);
             break;
 
