@@ -4,6 +4,7 @@ namespace Brick\Geo;
 
 use Brick\Geo\Engine\GeometryEngineRegistry;
 use Brick\Geo\Exception\GeometryException;
+use Brick\Geo\Exception\GeometryParseException;
 use Brick\Geo\IO\WKTReader;
 use Brick\Geo\IO\WKTWriter;
 use Brick\Geo\IO\WKBReader;
@@ -59,7 +60,7 @@ abstract class Geometry
      *
      * @var integer
      */
-    protected $srid = 0;
+    protected $srid;
 
     /**
      * Private constructor. Use a factory method to obtain an instance.
@@ -82,16 +83,26 @@ abstract class Geometry
     /**
      * Builds a Geometry from a WKT representation.
      *
+     * If the resulting geometry is valid but is not an instance of the class this method is called on,
+     * for example passing a Polygon WKT to Point::fromText(), an exception is thrown.
+     *
      * @param string  $wkt  The Well-Known Text representation.
      * @param integer $srid The optional SRID to use.
      *
      * @return static
      *
-     * @throws GeometryException If the geometry is not of this type.
+     * @throws GeometryParseException If the WKT data is invalid.
+     * @throws GeometryException      If the geometry is invalid or of an unexpected type.
      */
     public static function fromText($wkt, $srid = 0)
     {
-        $geometry = (new WKTReader())->read($wkt, $srid);
+        static $wktReader;
+
+        if ($wktReader === null) {
+            $wktReader = new WKTReader();
+        }
+
+        $geometry = $wktReader->read($wkt, $srid);
 
         if (! $geometry instanceof static) {
             throw GeometryException::unexpectedGeometryType(static::class, $geometry);
@@ -103,16 +114,26 @@ abstract class Geometry
     /**
      * Builds a Geometry from a WKB representation.
      *
+     * If the resulting geometry is valid but is not an instance of the class this method is called on,
+     * for example passing a Polygon WKB to Point::fromBinary(), an exception is thrown.
+     *
      * @param string  $wkb  The Well-Known Binary representation.
      * @param integer $srid The optional SRID to use.
      *
      * @return static
      *
-     * @throws GeometryException If the geometry is not of this type.
+     * @throws GeometryParseException If the WKB data is invalid.
+     * @throws GeometryException      If the geometry is invalid or of an unexpected type.
      */
     public static function fromBinary($wkb, $srid = 0)
     {
-        $geometry = (new WKBReader())->read($wkb, $srid);
+        static $wkbReader;
+
+        if ($wkbReader === null) {
+            $wkbReader = new WKBReader();
+        }
+
+        $geometry = $wkbReader->read($wkb, $srid);
 
         if (! $geometry instanceof static) {
             throw GeometryException::unexpectedGeometryType(static::class, $geometry);
