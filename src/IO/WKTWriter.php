@@ -66,63 +66,53 @@ class WKTWriter
      */
     protected function doWrite(Geometry $geometry)
     {
+        $type = strtoupper($geometry->geometryType());
+
+        $z = $geometry->is3D();
+        $m = $geometry->isMeasured();
+
+        $dimensionality = '';
+
+        if ($z || $m) {
+            $dimensionality .= ' ';
+
+            if ($z) {
+                $dimensionality .= 'Z';
+            }
+            if ($m) {
+                $dimensionality .= 'M';
+            }
+        }
+
+        if ($geometry->isEmpty()) {
+            return $type . $dimensionality . ' EMPTY';
+        }
+
         if ($geometry instanceof Point) {
-            $type = 'POINT';
             $data = $this->writePoint($geometry);
         } elseif ($geometry instanceof LineString) {
-            $type = 'LINESTRING';
             $data = $this->writeLineString($geometry);
         } elseif ($geometry instanceof Triangle) {
-            $type = 'TRIANGLE';
             $data = $this->writePolygon($geometry);
         } elseif ($geometry instanceof Polygon) {
-            $type = 'POLYGON';
             $data = $this->writePolygon($geometry);
         } elseif ($geometry instanceof MultiPoint) {
-            $type = 'MULTIPOINT';
             $data = $this->writeMultiPoint($geometry);
         } elseif ($geometry instanceof MultiLineString) {
-            $type = 'MULTILINESTRING';
             $data = $this->writeMultiLineString($geometry);
         } elseif ($geometry instanceof MultiPolygon) {
-            $type = 'MULTIPOLYGON';
             $data = $this->writeMultiPolygon($geometry);
         } elseif ($geometry instanceof GeometryCollection) {
-            $type = 'GEOMETRYCOLLECTION';
             $data = $this->writeGeometryCollection($geometry);
         } elseif ($geometry instanceof TIN) {
-            $type = 'TIN';
             $data = $this->writePolyhedralSurface($geometry);
         } elseif ($geometry instanceof PolyhedralSurface) {
-            $type = 'POLYHEDRALSURFACE';
             $data = $this->writePolyhedralSurface($geometry);
         } else {
             throw GeometryException::unsupportedGeometryType($geometry->geometryType());
         }
 
-        $z = $geometry->is3D();
-        $m = $geometry->isMeasured();
-
-        $wkt = $type;
-
-        if ($z || $m) {
-            $wkt .= ' ';
-
-            if ($z) {
-                $wkt .= 'Z';
-            }
-            if ($m) {
-                $wkt .= 'M';
-            }
-        }
-
-        if ($data === '') {
-            $wkt .= ' EMPTY';
-        } else {
-            $wkt .= $this->prettyPrintSpace . '(' . $data . ')';
-        }
-
-        return $wkt;
+        return $type . $dimensionality . $this->prettyPrintSpace . '(' . $data . ')';
     }
 
     /**

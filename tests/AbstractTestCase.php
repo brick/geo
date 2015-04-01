@@ -227,6 +227,22 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
      */
     final protected function createPoint(array $coords, $is3D, $isMeasured, $srid = 0)
     {
+        if (! $coords) {
+            if ($is3D && $isMeasured) {
+                return Point::xyzmEmpty($srid);
+            }
+
+            if ($is3D) {
+                return Point::xyzEmpty($srid);
+            }
+
+            if ($isMeasured) {
+                return Point::xymEmpty($srid);
+            }
+
+            return Point::xyEmpty($srid);
+        }
+
         if ($is3D && $isMeasured) {
             return Point::xyzm($coords[0], $coords[1], $coords[2], $coords[3], $srid);
         }
