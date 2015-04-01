@@ -237,7 +237,13 @@ abstract class Geometry
      */
     public function asText()
     {
-        return (new WKTWriter())->write($this);
+        static $wktWriter;
+
+        if ($wktWriter === null) {
+            $wktWriter = new WKTWriter();
+        }
+
+        return $wktWriter->write($this);
     }
 
     /**
@@ -249,7 +255,13 @@ abstract class Geometry
      */
     public function asBinary()
     {
-        return (new WKBWriter())->write($this);
+        static $wkbWriter;
+
+        if ($wkbWriter === null) {
+            $wkbWriter = new WKBWriter();
+        }
+
+        return $wkbWriter->write($this);
     }
 
     /**
