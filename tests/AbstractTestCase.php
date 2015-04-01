@@ -258,7 +258,7 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
             $points[] = self::createPoint($point, $is3D, $isMeasured, $srid);
         }
 
-        return LineString::factory($points);
+        return LineString::create($points, $is3D, $isMeasured, $srid);
     }
 
     /**
@@ -296,7 +296,7 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
             $points[] = self::createPoint($point, $is3D, $isMeasured, $srid);
         }
 
-        return MultiPoint::factory($points);
+        return MultiPoint::create($points, $is3D, $isMeasured, $srid);
     }
 
     /**
@@ -315,7 +315,7 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
             $lineStrings[] = self::createLineString($lineString, $is3D, $isMeasured, $srid);
         }
 
-        return MultiLineString::factory($lineStrings);
+        return MultiLineString::create($lineStrings, $is3D, $isMeasured, $srid);
     }
 
     /**
@@ -334,6 +334,6 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
             $polygons[] = self::createPolygon($polygon, $is3D, $isMeasured, $srid);
         }
 
-        return MultiPolygon::factory($polygons);
+        return MultiPolygon::create($polygons, $is3D, $isMeasured, $srid);
     }
 }
