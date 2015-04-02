@@ -92,13 +92,30 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Asserts that two geometries are spatially equal.
+     *
+     * @param Geometry $expected
+     * @param Geometry $actual
+     */
+    final protected function assertGeometryEquals(Geometry $expected, Geometry $actual)
+    {
+        $this->assertTrue($actual->equals($expected), 'Failed asserting that two geometries are spatially equal.'
+            . "\n---Expected"
+            . "\n+++Actual"
+            . "\n@@ @@"
+            . "\n-" . $expected->asText()
+            . "\n+" . $actual->asText()
+        );
+    }
+
+    /**
      * @param Geometry $g      The Geometry to test.
      * @param array    $coords The expected raw coordinates of the geometry.
      * @param boolean  $hasZ   Whether the geometry is expected to contain Z coordinates.
      * @param boolean  $hasM   Whether the geometry is expected to contain M coordinates.
      * @param integer  $srid   The expected SRID of the geometry.
      */
-    final protected function assertGeometryEquals(Geometry $g, array $coords, $hasZ = false, $hasM = false, $srid = 0)
+    final protected function assertGeometryContents(Geometry $g, array $coords, $hasZ = false, $hasM = false, $srid = 0)
     {
         $this->castToFloat($coords);
 
