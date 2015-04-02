@@ -35,28 +35,28 @@ abstract class Geometry
     const TRIANGLE           = 17;
 
     /**
-     * Whether this geometric object is empty.
+     * Whether this geometry is empty.
      *
      * @var boolean
      */
     protected $isEmpty;
 
     /**
-     * Whether this geometric object has z coordinate values.
+     * Whether this geometry has z coordinate values.
      *
      * @var boolean
      */
     protected $is3D;
 
     /**
-     * Whether this geometric object has m coordinate values.
+     * Whether this geometry has m coordinate values.
      *
      * @var boolean
      */
     protected $isMeasured;
 
     /**
-     * The Spatial Reference System ID for this geometric object.
+     * The Spatial Reference System ID for this geometry.
      *
      * @var integer
      */
@@ -67,10 +67,10 @@ abstract class Geometry
      *
      * All parameters are assumed to be validated as their respective types.
      *
-     * @param boolean $isEmpty    Whether this geometric object is empty.
-     * @param boolean $is3D       Whether this geometric object has z coordinate values.
-     * @param boolean $isMeasured Whether this geometric object has m coordinate values.
-     * @param integer $srid       The Spatial Reference System ID for this geometric object.
+     * @param boolean $isEmpty    Whether this geometry is empty.
+     * @param boolean $is3D       Whether this geometry has z coordinate values.
+     * @param boolean $isMeasured Whether this geometry has m coordinate values.
+     * @param integer $srid       The Spatial Reference System ID for this geometry.
      */
     protected function __construct($isEmpty, $is3D, $isMeasured, $srid)
     {
@@ -143,7 +143,7 @@ abstract class Geometry
     }
 
     /**
-     * Returns the inherent dimension of this geometric object.
+     * Returns the inherent dimension of this geometry.
      *
      * This dimension must be less than or equal to the coordinate dimension.
      * In non-homogeneous collections, this will return the largest topological dimension of the contained objects.
@@ -155,7 +155,7 @@ abstract class Geometry
     abstract public function dimension();
 
     /**
-     * Returns the coordinate dimension of this Geometry.
+     * Returns the coordinate dimension of this geometry.
      *
      * The coordinate dimension can be 2 (for x and y), 3 (with z or m added), or 4 (with both z and m added).
      * The ordinates x, y and z are spatial, and the ordinate m is a measure.
@@ -180,7 +180,7 @@ abstract class Geometry
     }
 
     /**
-     * Returns the spatial dimension of this Geometry.
+     * Returns the spatial dimension of this geometry.
      *
      * The spatial dimension is the number of measurements or axes needed to describe the
      * spatial position of this geometry in a coordinate system.
@@ -200,7 +200,7 @@ abstract class Geometry
     abstract public function geometryType();
 
     /**
-     * Returns the Spatial Reference System ID for this geometric object.
+     * Returns the Spatial Reference System ID for this geometry.
      *
      * @return integer The SRID, zero if not set.
      */
@@ -229,7 +229,7 @@ abstract class Geometry
     }
 
     /**
-     * Returns the WKT representation of this Geometry.
+     * Returns the WKT representation of this geometry.
      *
      * @noproxy
      *
@@ -247,7 +247,7 @@ abstract class Geometry
     }
 
     /**
-     * Returns the WKB representation of this Geometry.
+     * Returns the WKB representation of this geometry.
      *
      * @noproxy
      *
@@ -265,9 +265,9 @@ abstract class Geometry
     }
 
     /**
-     * Returns whether this geometric object is the empty Geometry.
+     * Returns whether this geometry is the empty Geometry.
      *
-     * If true, then this geometric object represents the empty point set for the coordinate space.
+     * If true, then this geometry represents the empty point set for the coordinate space.
      *
      * @return boolean
      */
@@ -293,10 +293,8 @@ abstract class Geometry
     /**
      * Returns whether this Geometry is simple.
      *
-     * Returns true if this geometric object has no anomalous geometric points,
-     * such as self intersection or self tangency. The description of each
-     * instantiable geometric class will include the specific conditions that
-     * cause an instance of that class to be classified as not simple.
+     * A geometry is simple if it has no anomalous geometric points,
+     * such as self intersection or self tangency.
      *
      * @noproxy
      *
@@ -308,7 +306,7 @@ abstract class Geometry
     }
 
     /**
-     * Returns true if this geometric object has z coordinate values.
+     * Returns whether this geometry has z coordinate values.
      *
      * @return boolean
      */
@@ -318,7 +316,7 @@ abstract class Geometry
     }
 
     /**
-     * Returns true if this geometric object has m coordinate values.
+     * Returns whether this geometry has m coordinate values.
      *
      * @return boolean
      */
@@ -328,7 +326,7 @@ abstract class Geometry
     }
 
     /**
-     * Returns the closure of the combinatorial boundary of this geometric object.
+     * Returns the closure of the combinatorial boundary of this geometry.
      *
      * Because the result of this function is a closure, and hence topologically closed,
      * the resulting boundary can be represented using representational Geometry primitives.
@@ -343,7 +341,7 @@ abstract class Geometry
     }
 
     /**
-     * Returns true if this geometric object is "spatially equal" to $geometry.
+     * Returns whether this geometry is spatially equal to another geometry.
      *
      * @noproxy
      *
@@ -357,7 +355,10 @@ abstract class Geometry
     }
 
     /**
-     * Returns true if this geometric object is "spatially disjoint" from $geometry.
+     * Returns whether this geometry is spatially disjoint from another geometry.
+     *
+     * The geometries are disjoint if they do not share any space together.
+     * This is the opposite of `intersects()`.
      *
      * @noproxy
      *
@@ -371,7 +372,10 @@ abstract class Geometry
     }
 
     /**
-     * Returns true if this geometric object "spatially intersects" $geometry.
+     * Returns whether this geometry spatially intersects another geometry.
+     *
+     * The geometries intersect if they share any portion of space.
+     * This is the opposite of `disjoint()`.
      *
      * @noproxy
      *
@@ -385,7 +389,9 @@ abstract class Geometry
     }
 
     /**
-     * Returns true if this geometric object "spatially touches" $geometry.
+     * Returns whether this geometry spatially touches another geometry.
+     *
+     * The geometries touch if they have at least one point in common, but their interiors do not intersect.
      *
      * @noproxy
      *
@@ -399,7 +405,9 @@ abstract class Geometry
     }
 
     /**
-     * Returns true if this geometric object "spatially crosses" $geometry.
+     * Returns whether this geometry spatially crosses another geometry.
+     *
+     * The geometries cross if they have some, but not all, interior points in common.
      *
      * @noproxy
      *
@@ -413,7 +421,9 @@ abstract class Geometry
     }
 
     /**
-     * Returns true if this geometric object is "spatially within" $geometry.
+     * Returns whether this geometry is spatially within another geometry.
+     *
+     * This is the inverse of `contains()`: `$a->within($b) == $b->contains($a)`.
      *
      * @noproxy
      *
@@ -427,7 +437,9 @@ abstract class Geometry
     }
 
     /**
-     * Returns true if this geometric object "spatially contains" $geometry.
+     * Returns whether this geometry spatially contains another geometry.
+     *
+     * This is the inverse of `within()`: `$a->contains($b) == $b->within($a)`.
      *
      * @noproxy
      *
@@ -441,7 +453,9 @@ abstract class Geometry
     }
 
     /**
-     * Returns true if this geometric object "spatially overlaps" $geometry.
+     * Returns whether this geometry spatially overlaps another geometry.
+     *
+     * The geometries overlap if they share space, but are not completely contained by each other.
      *
      * @noproxy
      *
@@ -455,11 +469,14 @@ abstract class Geometry
     }
 
     /**
-     * Returns true if this geometric object is spatially related to $geometry
-     * by testing for intersections between the interior, boundary and exterior of the
-     * two geometric objects as specified by the values in the intersectionPatternMatrix.
-     * This returns false if all the tested intersections are empty except
-     * exterior (this) intersect exterior (geometry).
+     * Returns whether this geometry is spatially related to another geometry.
+     *
+     * This method tests for intersections between the interior, boundary and exterior of the
+     * two geometries as specified by the values in the DE-9IM matrix pattern.
+     *
+     * This is especially useful for testing compound checks of intersection, crosses, etc. in one step.
+     *
+     * @see http://en.wikipedia.org/wiki/DE-9IM
      *
      * @noproxy
      *
@@ -503,13 +520,13 @@ abstract class Geometry
     }
 
     /**
-     * Returns the shortest distance between any two Points in the two geometric objects.
+     * Returns the shortest distance between any two points in the two geometries.
      *
      * The distance is calculated in the spatial reference system of
-     * this geometric object. Because the geometries are closed, it is
-     * possible to find a point on each geometric object involved, such
+     * this geometry. Because the geometries are closed, it is
+     * possible to find a point on each geometry involved, such
      * that the distance between these 2 points is the returned distance
-     * between their geometric objects.
+     * between their geometrys.
      *
      * @noproxy
      *
@@ -523,9 +540,10 @@ abstract class Geometry
     }
 
     /**
-     * Returns a geometric object that represents all Points whose distance
-     * from this geometric object is less than or equal to distance.
-     * Calculations are in the spatial reference system of this geometric object.
+     * Returns a geometry that represents all points whose distance
+     * from this geometry is less than or equal to distance.
+     *
+     * Calculations are in the spatial reference system of this geometry.
      * Because of the limitations of linear interpolation, there will often be
      * some relatively small error in this distance, but it should be near the
      * resolution of the coordinates used.
@@ -542,11 +560,11 @@ abstract class Geometry
     }
 
     /**
-     * Returns a geometric object that represents the convex hull of this geometric object.
+     * Returns a geometry that represents the convex hull of this geometry.
      *
-     * Convex hulls, being dependent on straight lines,
-     * can be accurately represented in linear interpolations for any
-     * geometry restricted to linear interpolations.
+     * The convex hull of a geometry represents the minimum convex geometry that encloses all geometries within the set.
+     * One can think of the convex hull as the geometry you get by wrapping an elastic band around a set of geometries.
+     * This is different from a concave hull which is analogous to shrink-wrapping your geometries.
      *
      * @noproxy
      *
@@ -558,7 +576,9 @@ abstract class Geometry
     }
 
     /**
-     * Returns a geometric object that represents the Point set intersection of this geometric object with `$geometry`.
+     * Returns a geometry that represents the intersection of this geometry and another geometry.
+     *
+     * The intersection is the shared portion of the two geometries.
      *
      * @noproxy
      *
@@ -572,7 +592,7 @@ abstract class Geometry
     }
 
     /**
-     * Returns a geometric object that represents the Point set union of this geometric object with `$geometry`.
+     * Returns a geometry that represents the union of this geometry and another geometry.
      *
      * @noproxy
      *
@@ -586,7 +606,7 @@ abstract class Geometry
     }
 
     /**
-     * Returns a geometric object that represents the Point set difference of this geometric object with `$geometry`.
+     * Returns a geometry that represents the difference of this geometry and another geometry.
      *
      * @noproxy
      *
@@ -600,7 +620,10 @@ abstract class Geometry
     }
 
     /**
-     * Returns a geometric object that represents the Point set symmetric difference of this Geometry with `$geometry`.
+     * Returns a geometry that represents the symmetric difference of this geometry and another geometry.
+     *
+     * The result is a geometry that represents the portions of the two geometries that do not intersect.
+     * It is called a symmetric difference because `$a->symDifference($b) == $b->symDifference($a)`.
      *
      * @noproxy
      *
@@ -614,7 +637,7 @@ abstract class Geometry
     }
 
     /**
-     * Snap all points of the input geometry to a regular grid.
+     * Snap all points of this geometry to a regular grid.
      *
      * @noproxy
      *
@@ -628,7 +651,7 @@ abstract class Geometry
     }
 
     /**
-     * Returns a "simplified" version of the given geometry using the Douglas-Peucker algorithm.
+     * Returns a simplified version of this geometry using the Douglas-Peucker algorithm.
      *
      * @noproxy
      *
@@ -656,14 +679,14 @@ abstract class Geometry
     }
 
     /**
-     * Returns the raw coordinates of this Geometry as an array.
+     * Returns the raw coordinates of this geometry as an array.
      *
      * @return array
      */
     abstract public function toArray();
 
     /**
-     * Returns a text representation of this Geometry.
+     * Returns a text representation of this geometry.
      *
      * @noproxy
      *
