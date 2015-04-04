@@ -62,6 +62,11 @@ Following is a step-by-step guide for all the possible configurations:
 
 Update the code with your own connection parameters, or use an existing `PDO` connection if you have one (recommended).
 
+### Using PDO and MariaDB 5.5 or greater
+
+MariaDB is a fork of MySQL, so you can follow the same procedure as for MySQL.
+Just ensure that your MariaDB version is `5.5` or greater.
+
 ### Using PDO and PostgreSQL with PostGIS
 
 - Ensure that [PostGIS is installed](http://postgis.net/install/) on your server
