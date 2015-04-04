@@ -139,7 +139,7 @@ if you use a specific geometry engine. This table also shows which functions are
 | `buffer`         |  ✓   |    ✓    |   ✓    |     ✓      |        ✓         |
 | `centroid`       |  ✓   |    ✓    |   ✓    |     ✓      |        ✓         |
 | `contains`       |  ✓   |    ✓    |   ✓    |     ✓      |        ✓         |
-| `convexHull`     |  ✓   |    ✓    |   ✓    |     ✓      |        ✓         |
+| `convexHull`     |  ✓   |    ✓    |   ✓*    |     ✓      |        ✓         |
 | `crosses`        |  ✓   |    ✓    |   ✓    |     ✓      |        ✓         |
 | `difference`     |  ✓   |    ✓    |   ✓    |     ✓      |        ✓         |
 | `disjoint`       |  ✓   |    ✓    |   ✓    |     ✓      |        ✓         |
