@@ -4,6 +4,7 @@ namespace Brick\Geo\Engine;
 
 use Brick\Geo\Geometry;
 use Brick\Geo\Exception\GeometryException;
+use Brick\Geo\Exception\GeometryEngineException;
 
 /**
  * Database implementation of the GeometryEngine.
@@ -107,14 +108,16 @@ abstract class DatabaseEngine implements GeometryEngine
      * @param string $function   The SQL GIS function to execute.
      * @param array  $parameters The Geometry objects or scalar values to pass as parameters.
      *
-     * @return Geometry|null
+     * @return Geometry
+     *
+     * @throws GeometryEngineException
      */
     private function queryGeometry($function, array $parameters)
     {
         $result = $this->query($function, $parameters, true);
 
         if ($result === null) {
-            return null;
+            throw GeometryEngineException::operationYieldedNoResult();
         }
 
         if (is_resource($result)) {

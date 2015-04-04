@@ -18,4 +18,12 @@ class GeometryEngineException extends GeometryException
     {
         return new self('This operation is not supported by the target database.', $e->getCode(), $e);
     }
+
+    /**
+     * @return GeometryEngineException
+     */
+    public static function operationYieldedNoResult()
+    {
+        return new self('This operation yielded no result on the target database.');
+    }
 }
