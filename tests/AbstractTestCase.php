@@ -37,6 +37,53 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @param boolean     $testMariaDB  False to check for MYSQL, true to check for MariaDB.
+     * @param string|null $testOperator An optional comparison operator for the version number check.
+     * @param string|null $testVersion  An optional version number to check.
+     *
+     * @return boolean
+     */
+    private function isMySQLorMariaDB($testMariaDB, $testOperator = null, $testVersion = null)
+    {
+        $engine = GeometryEngineRegistry::get();
+
+        if ($engine instanceof PDOEngine) {
+            $pdo = $engine->getPDO();
+
+            if ($pdo->getAttribute(\PDO::ATTR_DRIVER_NAME) === 'mysql') {
+                $statement = $pdo->query("SHOW VARIABLES LIKE 'version'");
+                $version = $statement->fetchColumn(0);
+
+                $isMariaDB = (substr($version, -8) === '-MariaDB');
+
+                if ($isMariaDB) {
+                    $version = substr($version, 0, -8);
+                }
+
+                if ($testVersion === null || $testOperator === null) {
+                    return $testMariaDB === $isMariaDB;
+                }
+
+                return version_compare($version, $testVersion, $testOperator);
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Returns whether the tests are being run on MySQL prior to a specific version.
+     *
+     * @param string $version
+     *
+     * @return boolean
+     */
+    final protected function isMySQLBefore($version)
+    {
+        return $this->isMySQLorMariaDB(false, '<', $version);
+    }
+
+    /**
      * @return boolean
      */
     final protected function isMySQL()

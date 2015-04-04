@@ -228,18 +228,14 @@ class GeometryTest extends AbstractTestCase
      *
      * @param string  $geometry The WKT of the geometry to test.
      * @param boolean $isValid  Whether the geometry is valid.
-     *
-     * @throws GeometryEngineException
      */
     public function testIsValid($geometry, $isValid)
     {
-        try {
-            $this->assertSame($isValid, Geometry::fromText($geometry)->isValid());
-        } catch (GeometryEngineException $e) {
-            if (! $this->isMySQL()) { // Only earlier MySQL versions (< 5.6.7) do not support this method.
-                throw $e;
-            }
+        if ($this->isMySQLBefore('5.6.7')) {
+            $this->setExpectedException(GeometryEngineException::class);
         }
+
+        $this->assertSame($isValid, Geometry::fromText($geometry)->isValid());
     }
 
     /**
@@ -718,18 +714,14 @@ class GeometryTest extends AbstractTestCase
      *
      * @param string $geometry The WKT of the base geometry.
      * @param string $result   The WKT of the result geometry.
-     *
-     * @throws GeometryEngineException
      */
     public function testConvexHull($geometry, $result)
     {
-        try {
-            $this->assertSame($result, Geometry::fromText($geometry)->convexHull()->asText());
-        } catch (GeometryEngineException $e) {
-            if (! $this->isMySQL()) { // Only earlier MySQL versions (< 5.6.7) do not support this method.
-                throw $e;
-            }
+        if ($this->isMySQLBefore('5.6.7')) {
+            $this->setExpectedException(GeometryEngineException::class);
         }
+
+        $this->assertSame($result, Geometry::fromText($geometry)->convexHull()->asText());
     }
 
     /**
@@ -765,8 +757,8 @@ class GeometryTest extends AbstractTestCase
     public function providerIntersection()
     {
         return [
-            ['POINT(0 0)', 'LINESTRING (2 0, 0 2)', 'GEOMETRYCOLLECTION EMPTY'],
-            ['POINT(0 0)', 'LINESTRING (0 0, 0 2)', 'POINT (0 0)'],
+            ['POINT (0 0)', 'LINESTRING (2 0, 0 2)', 'GEOMETRYCOLLECTION EMPTY'],
+            ['POINT (0 0)', 'LINESTRING (0 0, 0 2)', 'POINT (0 0)'],
             ['POLYGON ((1 1, 1 3, 4 4, 6 3, 5 1, 1 1))', 'POLYGON ((0 3, 6 5, 6 3, 0 3))', 'POLYGON ((1 3, 4 4, 6 3, 1 3))'],
         ];
     }
@@ -901,21 +893,17 @@ class GeometryTest extends AbstractTestCase
      * @param string $geometry  The WKT of the geometry to test.
      * @param float  $tolerance The tolerance.
      * @param string $result    The WKT of the result geometry.
-     *
-     * @throws GeometryEngineException
      */
     public function testSimplify($geometry, $tolerance, $result)
     {
+        if ($this->isMySQLBefore('5.6.7')) {
+            $this->setExpectedException(GeometryEngineException::class);
+        }
+
         $geometry = Geometry::fromText($geometry);
         $result   = Geometry::fromText($result);
 
-        try {
-            $this->assertGeometryEquals($result, $geometry->simplify($tolerance));
-        } catch (GeometryEngineException $e) {
-            if (! $this->isMySQL()) { // Only earlier MySQL versions (< 5.6.7) do not support this method.
-                throw $e;
-            }
-        }
+        $this->assertGeometryEquals($result, $geometry->simplify($tolerance));
     }
 
     /**
