@@ -231,7 +231,7 @@ class GeometryTest extends AbstractTestCase
      */
     public function testIsValid($geometry, $isValid)
     {
-        if ($this->isMySQLBefore('5.6.7')) {
+        if ($this->isMySQLBefore('5.7.6')) {
             $this->setExpectedException(GeometryEngineException::class);
         }
 
@@ -717,7 +717,7 @@ class GeometryTest extends AbstractTestCase
      */
     public function testConvexHull($geometry, $result)
     {
-        if ($this->isMySQLBefore('5.6.7')) {
+        if ($this->isMySQLBefore('5.7.6')) {
             $this->setExpectedException(GeometryEngineException::class);
         }
 
@@ -896,7 +896,7 @@ class GeometryTest extends AbstractTestCase
      */
     public function testSimplify($geometry, $tolerance, $result)
     {
-        if ($this->isMySQLBefore('5.6.7')) {
+        if ($this->isMySQLBefore('5.7.6')) {
             $this->setExpectedException(GeometryEngineException::class);
         }
 
