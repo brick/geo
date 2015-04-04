@@ -231,11 +231,15 @@ class GeometryTest extends AbstractTestCase
      */
     public function testIsValid($geometry, $isValid)
     {
-        if ($this->isMySQLBefore('5.7.6')) {
+        if ($this->isMySQLBefore('5.7.6-m16')) {
             $this->setExpectedException(GeometryEngineException::class);
         }
 
-        $this->assertSame($isValid, Geometry::fromText($geometry)->isValid());
+        $geometry = Geometry::fromText($geometry);
+
+        $this->skipIfUnsupportedGeometry($geometry);
+
+        $this->assertSame($isValid, $geometry->isValid());
     }
 
     /**
@@ -345,6 +349,9 @@ class GeometryTest extends AbstractTestCase
         $geometry1 = Geometry::fromText($geometry1);
         $geometry2 = Geometry::fromText($geometry2);
 
+        $this->skipIfUnsupportedGeometry($geometry1);
+        $this->skipIfUnsupportedGeometry($geometry2);
+
         $this->assertSame($equals, $geometry1->equals($geometry2));
     }
 
@@ -357,9 +364,8 @@ class GeometryTest extends AbstractTestCase
             ['POINT (1 2)', 'POINT (1 2)', true],
             ['POINT (1 2)', 'POINT (1 3)', false],
             ['LINESTRING EMPTY', 'LINESTRING (1 2, 3 4)', false],
-            ['LINESTRING (0 0, 10 10)', 'LINESTRING (0 0, 5 5, 10 10)', true],
             ['POINT (1 2)', 'MULTIPOINT (1 2)', true],
-            ['POLYGON ((1 2, 2 3, 3 4, 1 2))', 'POLYGON ((2 3, 3 4, 1 2, 2 3))', true]
+            ['POLYGON ((1 2, 1 3, 2 2, 1 2))', 'POLYGON ((1 3, 2 2, 1 2, 1 3))', true]
         ];
     }
 
@@ -401,6 +407,8 @@ class GeometryTest extends AbstractTestCase
         $geometry1 = Geometry::fromText($geometry1);
         $geometry2 = Geometry::fromText($geometry2);
 
+        $this->skipIfUnsupportedByEngine($geometry1, $geometry2, 'intersects');
+
         $this->assertSame($intersects, $geometry1->intersects($geometry2));
     }
 
@@ -410,8 +418,12 @@ class GeometryTest extends AbstractTestCase
     public function providerIntersects()
     {
         return [
-            ['POINT (0 0)', 'LINESTRING (2 0, 0 2)', false],
-            ['POINT (0 0)', 'LINESTRING (0 0, 0 2)', true],
+            ['LINESTRING (2 1, 2 2)', 'LINESTRING (2 0, 0 2)', false],
+            ['LINESTRING (0 2, 2 0)', 'LINESTRING (0 0, 2 2)', true],
+            ['POLYGON ((2 2, 3 4, 6 3, 2 2))', 'POLYGON ((5 4, 5 5, 7 4, 5 4))', false],
+            ['POLYGON ((2 2, 3 4, 6 3, 2 2))', 'POLYGON ((5 2, 5 5, 8 3, 5 2))', true],
+            ['POLYGON ((2 2, 3 4, 6 3, 2 2))', 'LINESTRING (1 1, 3 1)', false],
+            ['POLYGON ((2 2, 3 4, 6 3, 2 2))', 'LINESTRING (3 1, 5 5)', true],
         ];
     }
 
@@ -427,6 +439,8 @@ class GeometryTest extends AbstractTestCase
         $geometry1 = Geometry::fromText($geometry1);
         $geometry2 = Geometry::fromText($geometry2);
 
+        $this->skipIfUnsupportedByEngine($geometry1, $geometry2, 'touches');
+
         $this->assertSame($touches, $geometry1->touches($geometry2));
     }
 
@@ -436,8 +450,14 @@ class GeometryTest extends AbstractTestCase
     public function providerTouches()
     {
         return [
+            ['LINESTRING (1 1, 1 3)', 'LINESTRING (1 1, 3 1)', true],
+            ['LINESTRING (1 1, 1 3)', 'LINESTRING (2 1, 3 1)', false],
             ['POINT (1 1)', 'LINESTRING (0 0, 1 1, 0 2)', false],
             ['POINT (0 2)', 'LINESTRING (0 0, 1 1, 0 2)', true],
+            ['POLYGON ((2 1, 2 3, 4 1, 2 1))', 'POLYGON ((3 2, 4 3, 5 2, 3 2))', true],
+            ['POLYGON ((2 1, 2 3, 4 1, 2 1))', 'POLYGON ((4 2, 5 3, 6 2, 4 2))', false],
+            ['POLYGON ((2 1, 2 3, 4 1, 2 1))', 'LINESTRING (1 1, 1 2)', false],
+            ['POLYGON ((2 1, 2 3, 4 1, 2 1))', 'LINESTRING (1 1, 2 2)', true],
         ];
     }
 
@@ -717,11 +737,14 @@ class GeometryTest extends AbstractTestCase
      */
     public function testConvexHull($geometry, $result)
     {
-        if ($this->isMySQLBefore('5.7.6')) {
+        if ($this->isMySQLBefore('5.7.6-m16')) {
             $this->setExpectedException(GeometryEngineException::class);
         }
 
-        $this->assertSame($result, Geometry::fromText($geometry)->convexHull()->asText());
+        $geometry = Geometry::fromText($geometry);
+        $result   = Geometry::fromText($result);
+
+        $this->assertGeometryEquals($result, $geometry->convexHull());
     }
 
     /**
@@ -747,8 +770,9 @@ class GeometryTest extends AbstractTestCase
     {
         $geometry1 = Geometry::fromText($geometry1);
         $geometry2 = Geometry::fromText($geometry2);
+        $result    = Geometry::fromText($result);
 
-        $this->assertSame($result, $geometry1->intersection($geometry2)->asText());
+        $this->assertGeometryEquals($result, $geometry1->intersection($geometry2));
     }
 
     /**
@@ -807,9 +831,7 @@ class GeometryTest extends AbstractTestCase
         $result    = Geometry::fromText($result);
 
         $difference = $geometry1->difference($geometry2);
-
-        $this->assertSame(get_class($result), get_class($difference));
-        $this->assertTrue($difference->equals($result));
+        $this->assertGeometryEquals($result, $difference);
     }
 
     /**
@@ -819,7 +841,6 @@ class GeometryTest extends AbstractTestCase
     {
         return [
             ['MULTIPOINT (1 2, 3 4, 5 6)', 'POINT (3 4)', 'MULTIPOINT (1 2, 5 6)'],
-            ['LINESTRING(50 100, 50 200)', 'LINESTRING(50 50, 50 150)', 'LINESTRING(50 150,50 200)'],
             ['POLYGON ((2 1, 2 2, 1 2, 1 3, 2 3, 2 4, 3 4, 3 3, 4 3, 4 2, 3 2, 3 1, 2 1))', 'POLYGON ((1 2, 1 3, 4 3, 4 2, 1 2))', 'MULTIPOLYGON (((2 1, 2 2, 3 2, 3 1, 2 1)), ((2 3, 2 4, 3 4, 3 3, 2 3)))'],
         ];
     }
@@ -848,7 +869,6 @@ class GeometryTest extends AbstractTestCase
     public function providerSymDifference()
     {
         return [
-            ['LINESTRING(50 100, 50 200)', 'LINESTRING(50 50, 50 150)', 'MULTILINESTRING((50 150,50 200),(50 50,50 100))'],
             ['POLYGON ((1 1, 1 2, 2 2, 2 4, 4 4, 4 1, 1 1))', 'POLYGON ((3 0, 3 3, 5 3, 5 0, 3 0))', 'MULTIPOLYGON (((1 1, 1 2, 2 2, 2 4, 4 4, 4 3, 3 3, 3 1, 1 1)), ((3 1, 4 1, 4 3, 5 3, 5 0, 3 0, 3 1)))'],
         ];
     }
@@ -896,7 +916,7 @@ class GeometryTest extends AbstractTestCase
      */
     public function testSimplify($geometry, $tolerance, $result)
     {
-        if ($this->isMySQLBefore('5.7.6')) {
+        if ($this->isMySQLBefore('5.7.6-m16')) {
             $this->setExpectedException(GeometryEngineException::class);
         }
 

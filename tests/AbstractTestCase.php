@@ -6,6 +6,7 @@ use Brick\Geo\Engine\GeometryEngineRegistry;
 use Brick\Geo\Engine\GEOSEngine;
 use Brick\Geo\Engine\PDOEngine;
 use Brick\Geo\Geometry;
+use Brick\Geo\GeometryCollection;
 use Brick\Geo\MultiLineString;
 use Brick\Geo\MultiPoint;
 use Brick\Geo\MultiPolygon;
@@ -52,7 +53,7 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
 
             if ($pdo->getAttribute(\PDO::ATTR_DRIVER_NAME) === 'mysql') {
                 $statement = $pdo->query("SHOW VARIABLES LIKE 'version'");
-                $version = $statement->fetchColumn(0);
+                $version = $statement->fetchColumn(1);
 
                 $isMariaDB = (substr($version, -8) === '-MariaDB');
 
@@ -124,6 +125,35 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
     {
         if ($this->isPostgreSQL()) {
             $this->markTestSkipped($message);
+        }
+    }
+
+    /**
+     * @param Geometry $geometry
+     */
+    final protected function skipIfUnsupportedGeometry(Geometry $geometry)
+    {
+        if ($geometry->isEmpty() && ! $geometry instanceof GeometryCollection) {
+            if ($this->isMySQL()) {
+                $this->markTestSkipped('MySQL does not support empty geometries, apart from collections.');
+            }
+        }
+    }
+
+    /**
+     * @param Geometry $geometry1
+     * @param Geometry $geometry2
+     * @param string   $methodName
+     */
+    final protected function skipIfUnsupportedByEngine(Geometry $geometry1, Geometry $geometry2, $methodName)
+    {
+        $this->skipIfUnsupportedGeometry($geometry1);
+        $this->skipIfUnsupportedGeometry($geometry2);
+
+        if ($this->isMySQLBefore('5.7')) {
+            if ($geometry1->geometryType() !== $geometry2->geometryType()) {
+                $this->markTestSkipped(sprintf('MySQL always returns false for %s() on different geometry types.', $methodName));
+            }
         }
     }
 
