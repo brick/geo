@@ -73,6 +73,14 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @return boolean
+     */
+    final protected function isMySQL()
+    {
+        return $this->isMySQLorMariaDB(false);
+    }
+
+    /**
      * Returns whether the tests are being run on MySQL prior to a specific version.
      *
      * @param string $version
@@ -87,9 +95,19 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
     /**
      * @return boolean
      */
-    final protected function isMySQL()
+    final protected function isMariaDB()
     {
-       return $this->isPDODriver('mysql');
+        return $this->isMySQLorMariaDB(true);
+    }
+
+    /**
+     * @param string $version
+     *
+     * @return boolean
+     */
+    final protected function isMariaDBAtLeast($version)
+    {
+        return $this->isMySQLorMariaDB(true, '>=', $version);
     }
 
     /**
@@ -152,7 +170,7 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
 
         if ($this->isMySQLBefore('5.7')) {
             if ($geometry1->geometryType() !== $geometry2->geometryType()) {
-                $this->markTestSkipped(sprintf('MySQL always returns false for %s() on different geometry types.', $methodName));
+                $this->markTestSkipped(sprintf('MySQL 5.6 does not support %s() on different geometry types.', $methodName));
             }
         }
     }
@@ -176,12 +194,22 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
      */
     final protected function assertGeometryEquals(Geometry $expected, Geometry $actual)
     {
+        $expectedWKT = $expected->asText();
+        $actualWKT = $actual->asText();
+
+        if ($expectedWKT === $actualWKT) {
+            // Some engines do not consider empty geometries to be equal, so we test for WKT equality first.
+            $this->addToAssertionCount(1);
+
+            return;
+        }
+
         $this->assertTrue($actual->equals($expected), 'Failed asserting that two geometries are spatially equal.'
             . "\n---Expected"
             . "\n+++Actual"
             . "\n@@ @@"
-            . "\n-" . $expected->asText()
-            . "\n+" . $actual->asText()
+            . "\n-" . $expectedWKT
+            . "\n+" . $actualWKT
         );
     }
 

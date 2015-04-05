@@ -498,20 +498,11 @@ class PointTest extends AbstractTestCase
      */
     public function testBoundary($point)
     {
-        if ($this->isMySQL()) {
+        if ($this->isMySQL() || $this->isMariaDB()) {
             $this->setExpectedException(GeometryEngineException::class);
         }
 
-        $boundary = Point::fromText($point)->boundary();
-
-        if ($boundary === null) {
-            // SpatiaLite returns NULL in that case;
-            // we should review this and probably set boundary()'s return type to Geometry|null?
-            return;
-        }
-
         $this->assertWktEquals(Point::fromText($point)->boundary(), 'GEOMETRYCOLLECTION EMPTY');
-//        $this->assertWktEquals(Point::fromText($point, 4326)->boundary(), 'GEOMETRYCOLLECTION EMPTY', 4326);
     }
 
     /**
@@ -529,7 +520,7 @@ class PointTest extends AbstractTestCase
 
     public function testSnapToGrid()
     {
-        if ($this->isGEOS() || $this->isMySQL()) {
+        if ($this->isGEOS() || $this->isMySQL() || $this->isMariaDB()) {
             $this->setExpectedException(GeometryEngineException::class);
         }
 
