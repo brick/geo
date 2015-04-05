@@ -132,36 +132,36 @@ Spatial Function Reference
 This is a list of all functions which are currently implemented in the geo project. Some functions are only available
 if you use a specific geometry engine. This table also shows which functions are part of the OpenGIS standard.
 
-| Function Name    | GEOS | PostGIS | MySQL  | SpatiaLite | OpenGIS standard |
-|------------------|------|---------|--------|------------|------------------|
-| `area`           |  ✓   |    ✓    |   ✓    |     ✓      |        ✓         |
-| `boundary`       |  ✓   |    ✓    |        |     ✓      |        ✓         |
-| `buffer`         |  ✓   |    ✓    |   ✓    |     ✓      |        ✓         |
-| `centroid`       |  ✓   |    ✓    |   ✓    |     ✓      |        ✓         |
-| `contains`       |  ✓   |    ✓    |   ✓    |     ✓      |        ✓         |
-| `convexHull`     |  ✓   |    ✓    |   ✓*    |     ✓      |        ✓         |
-| `crosses`        |  ✓   |    ✓    |   ✓    |     ✓      |        ✓         |
-| `difference`     |  ✓   |    ✓    |   ✓    |     ✓      |        ✓         |
-| `disjoint`       |  ✓   |    ✓    |   ✓    |     ✓      |        ✓         |
-| `distance`       |  ✓   |    ✓    |   ✓    |     ✓      |        ✓         |
-| `envelope`       |  ✓   |    ✓    |   ✓    |     ✓      |        ✓         |
-| `equals`         |  ✓   |    ✓    |   ✓    |     ✓      |        ✓         |
-| `intersects`     |  ✓   |    ✓    |   ✓    |     ✓      |        ✓         |
-| `intersection`   |  ✓   |    ✓    |   ✓    |     ✓      |        ✓         |
-| `isSimple`       |  ✓   |    ✓    |   ✓    |     ✓      |        ✓         |
-| `isValid`        |  ✓   |    ✓    |   ✓*   |     ✓      |                  |
-| `length`         |  ✓   |    ✓    |   ✓    |     ✓      |        ✓         |
-| `locateAlong`    |      |    ✓    |        |     ✓      |                  |
-| `locateBetween`  |      |    ✓    |        |     ✓      |                  |
-| `maxDistance`    |      |    ✓    |        |     ✓      |                  |
-| `overlaps`       |  ✓   |    ✓    |   ✓    |     ✓      |        ✓         |
-| `pointOnSurface` |  ✓   |    ✓    |        |     ✓      |        ✓         |
-| `relate`         |  ✓   |    ✓    |        |     ✓      |        ✓         |
-| `simplify`       |  ✓   |    ✓    |   ✓*   |     ✓      |                  |
-| `snapToGrid`     |      |    ✓    |        |     ✓      |                  |
-| `symDifference`  |  ✓   |    ✓    |   ✓    |     ✓      |        ✓         |
-| `touches`        |  ✓   |    ✓    |   ✓    |     ✓      |        ✓         |
-| `union`          |  ✓   |    ✓    |   ✓    |     ✓      |        ✓         |
-| `within`         |  ✓   |    ✓    |   ✓    |     ✓      |        ✓         |
+| Function Name    | GEOS | PostGIS | MySQL  | MariaDB | SpatiaLite | OpenGIS standard |
+|------------------|------|---------|--------|---------|------------|------------------|
+| `area`           |  ✓   |    ✓    |   ✓    |   ✓    |     ✓      |        ✓         |
+| `boundary`       |  ✓   |    ✓    |        |        |     ✓      |        ✓         |
+| `buffer`         |  ✓   |    ✓    |   ✓    |   ✓    |     ✓      |        ✓         |
+| `centroid`       |  ✓   |    ✓    |   ✓    |   ✓    |     ✓      |        ✓         |
+| `contains`       |  ✓   |    ✓    |   ✓    |   ✓    |     ✓      |        ✓         |
+| `convexHull`     |  ✓   |    ✓    |   ✓*   |        |     ✓      |        ✓         |
+| `crosses`        |  ✓   |    ✓    |   ✓    |   ✓    |     ✓      |        ✓         |
+| `difference`     |  ✓   |    ✓    |   ✓    |   ✓    |     ✓      |        ✓         |
+| `disjoint`       |  ✓   |    ✓    |   ✓    |   ✓    |     ✓      |        ✓         |
+| `distance`       |  ✓   |    ✓    |   ✓    |   ✓    |     ✓      |        ✓         |
+| `envelope`       |  ✓   |    ✓    |   ✓    |   ✓    |     ✓      |        ✓         |
+| `equals`         |  ✓   |    ✓    |   ✓    |   ✓    |     ✓      |        ✓         |
+| `intersects`     |  ✓   |    ✓    |   ✓    |   ✓    |     ✓      |        ✓         |
+| `intersection`   |  ✓   |    ✓    |   ✓    |   ✓    |     ✓      |        ✓         |
+| `isSimple`       |  ✓   |    ✓    |   ✓    |   ✓    |     ✓      |        ✓         |
+| `isValid`        |  ✓   |    ✓    |   ✓*   |        |     ✓      |                  |
+| `length`         |  ✓   |    ✓    |   ✓    |   ✓    |     ✓      |        ✓         |
+| `locateAlong`    |      |    ✓    |        |        |     ✓      |                  |
+| `locateBetween`  |      |    ✓    |        |        |     ✓      |                  |
+| `maxDistance`    |      |    ✓    |        |        |     ✓      |                  |
+| `overlaps`       |  ✓   |    ✓    |   ✓    |   ✓    |     ✓      |        ✓         |
+| `pointOnSurface` |  ✓   |    ✓    |        |        |     ✓      |        ✓         |
+| `relate`         |  ✓   |    ✓    |        |        |     ✓      |        ✓         |
+| `simplify`       |  ✓   |    ✓    |   ✓*   |        |     ✓      |                  |
+| `snapToGrid`     |      |    ✓    |        |         |     ✓      |                  |
+| `symDifference`  |  ✓   |    ✓    |   ✓    |   ✓    |     ✓      |        ✓         |
+| `touches`        |  ✓   |    ✓    |   ✓    |   ✓    |     ✓      |        ✓         |
+| `union`          |  ✓   |    ✓    |   ✓    |   ✓    |     ✓      |        ✓         |
+| `within`         |  ✓   |    ✓    |   ✓    |   ✓    |     ✓      |        ✓         |
 
 `*` Available as of MySQL 5.7.6
