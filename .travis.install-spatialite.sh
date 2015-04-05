@@ -14,6 +14,8 @@ cd libspatialite-4.0.0
 make
 sudo make install
 
+ls -al /usr/local/lib/*spatialite*
+
 if [[ $TRAVIS_PHP_VERSION != hhvm ]]; then
     printf "[sqlite3]\nsqlite3.extension_dir = /usr/local/lib" > sqlite.ini
     phpenv config-add sqlite.ini

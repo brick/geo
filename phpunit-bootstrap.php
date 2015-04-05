@@ -36,12 +36,17 @@ function createGeometryEngine()
     switch ($engine = getenv('ENGINE')) {
         case 'PDO_MYSQL':
             $pdo = new PDO('mysql:host=localhost', 'root', '');
+
             $pdo->exec('DROP DATABASE IF EXISTS geo_tests');
             $pdo->exec('DROP DATABASE IF EXISTS geo_tests_tmp');
             $pdo->exec('CREATE DATABASE geo_tests');
             $pdo->exec('CREATE DATABASE geo_tests_tmp');
             $pdo->exec('USE geo_tests');
-            $engine = new PDOEngine($pdo);
+
+            $statement = $pdo->query("SHOW VARIABLES LIKE 'version'");
+            $version = $statement->fetchColumn(1);
+
+            echo 'MySQL version: ' . $version . PHP_EOL;
 
             //Connect data for doctrine integration tests
             $GLOBALS['db_type'] = 'pdo_mysql';
@@ -57,16 +62,23 @@ function createGeometryEngine()
             $GLOBALS['tmpdb_username'] = 'root';
             $GLOBALS['tmpdb_password'] = '';
             $GLOBALS['tmpdb_name'] = 'geo_tests_tmp';
+
+            $engine = new PDOEngine($pdo);
             break;
 
         case 'PDO_PGSQL':
             $pdo = new PDO('pgsql:host=localhost', 'postgres', '');
+
             $pdo->exec('CREATE EXTENSION IF NOT EXISTS postgis;');
             $pdo->exec('DROP DATABASE IF EXISTS geo_tests');
             $pdo->exec('DROP DATABASE IF EXISTS geo_tests_tmp');
             $pdo->exec('CREATE DATABASE geo_tests');
             $pdo->exec('CREATE DATABASE geo_tests_tmp');
-            $engine = new PDOEngine($pdo);
+
+            $statement = $pdo->query('SELECT version()');
+            $version = $statement->fetchColumn(0);
+
+            echo 'PostgreSQL version: ' . $version . PHP_EOL;
 
             //Connect data for doctrine integration tests
             $GLOBALS['db_type'] = 'pdo_pgsql';
@@ -82,6 +94,8 @@ function createGeometryEngine()
             $GLOBALS['tmpdb_username'] = 'postgres';
             $GLOBALS['tmpdb_password'] = 'postgres';
             $GLOBALS['tmpdb_name'] = 'geo_tests_tmp';
+
+            $engine = new PDOEngine($pdo);
             break;
 
         case 'SQLite3':
@@ -90,7 +104,15 @@ function createGeometryEngine()
             if (getenv('TRAVIS_PHP_VERSION') === 'hhvm') {
                 $prefix = '/usr/local/lib/';
             }
+
             $sqlite3->loadExtension($prefix . 'libspatialite.so');
+
+            $statement = $sqlite3->query('SELECT sqlite_version(), spatialite_version()');
+            list ($sqliteVersion, $spatialiteVersion) = $statement->fetchArray(SQLITE3_NUM);
+
+            echo 'SQLite version: ' . $sqliteVersion . PHP_EOL;
+            echo 'SpatiaLite version: ' . $spatialiteVersion . PHP_EOL;
+
             $engine = new SQLite3Engine($sqlite3);
             break;
 
