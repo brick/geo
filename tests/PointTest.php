@@ -2,7 +2,6 @@
 
 namespace Brick\Geo\Tests;
 
-use Brick\Geo\Exception\GeometryEngineException;
 use Brick\Geo\Point;
 
 /**

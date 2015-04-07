@@ -2,7 +2,6 @@
 
 namespace Brick\Geo\Tests;
 
-use Brick\Geo\Geometry;
 use Brick\Geo\LineString;
 
 /**
