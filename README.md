@@ -84,6 +84,14 @@ Just ensure that your MariaDB version is `5.5` or greater.
 
 Update the code with your own connection parameters, or use an existing `PDO` connection if you have one (recommended).
 
+### Using PDO and SQLite with SpatiaLite
+
+Due to [limitations in the PDO_SQLITE driver](https://bugs.php.net/bug.php?id=64810), it is currently not possible to load the SpatiaLite extension with a
+`SELECT LOAD_EXTENSION()` query, hence you cannot use SpatiaLite with the PDO driver.
+
+You need to use the SQLite3 driver instead. Note that you can keep using your existing PDO_SQLITE code,
+all you need to do is create an additional in-memory SQLite3 database just to power the geometry engine.
+
 ### Using SQLite3 with SpatiaLite
 
 - Ensure that [SpatiaLite is installed](https://www.gaia-gis.it/fossil/libspatialite/index) on your system.
@@ -130,7 +138,8 @@ Spatial Function Reference
 --------------------------
 
 This is a list of all functions which are currently implemented in the geo project. Some functions are only available
-if you use a specific geometry engine. This table also shows which functions are part of the OpenGIS standard.
+if you use a specific geometry engine, sometimes with a minimum version.
+This table also shows which functions are part of the OpenGIS standard.
 
 | Function Name    | GEOS | PostGIS | MySQL  | MariaDB | SpatiaLite | OpenGIS standard |
 |------------------|------|---------|--------|---------|------------|------------------|
@@ -139,7 +148,7 @@ if you use a specific geometry engine. This table also shows which functions are
 | `buffer`         |  ✓   |    ✓    |   ✓    |   ✓    |     ✓      |        ✓         |
 | `centroid`       |  ✓   |    ✓    |   ✓    |   ✓    |     ✓      |        ✓         |
 | `contains`       |  ✓   |    ✓    |   ✓    |   ✓    |     ✓      |        ✓         |
-| `convexHull`     |  ✓   |    ✓    |   ✓*   |        |     ✓      |        ✓         |
+| `convexHull`     |  ✓   |    ✓    | 5.7.6  |        |     ✓      |        ✓         |
 | `crosses`        |  ✓   |    ✓    |   ✓    |   ✓    |     ✓      |        ✓         |
 | `difference`     |  ✓   |    ✓    |   ✓    |   ✓    |     ✓      |        ✓         |
 | `disjoint`       |  ✓   |    ✓    |   ✓    |   ✓    |     ✓      |        ✓         |
@@ -149,7 +158,7 @@ if you use a specific geometry engine. This table also shows which functions are
 | `intersects`     |  ✓   |    ✓    |   ✓    |   ✓    |     ✓      |        ✓         |
 | `intersection`   |  ✓   |    ✓    |   ✓    |   ✓    |     ✓      |        ✓         |
 | `isSimple`       |  ✓   |    ✓    |   ✓    |   ✓    |     ✓      |        ✓         |
-| `isValid`        |  ✓   |    ✓    |   ✓*   |        |     ✓      |                  |
+| `isValid`        |  ✓   |    ✓    | 5.7.6  |        |     ✓      |                  |
 | `length`         |  ✓   |    ✓    |   ✓    |   ✓    |     ✓      |        ✓         |
 | `locateAlong`    |      |    ✓    |        |        |     ✓      |                  |
 | `locateBetween`  |      |    ✓    |        |        |     ✓      |                  |
@@ -157,11 +166,9 @@ if you use a specific geometry engine. This table also shows which functions are
 | `overlaps`       |  ✓   |    ✓    |   ✓    |   ✓    |     ✓      |        ✓         |
 | `pointOnSurface` |  ✓   |    ✓    |        |        |     ✓      |        ✓         |
 | `relate`         |  ✓   |    ✓    |        |        |     ✓      |        ✓         |
-| `simplify`       |  ✓   |    ✓    |   ✓*   |        |     ✓      |                  |
+| `simplify`       |  ✓   |    ✓    | 5.7.6  |        |    4.1.0    |                  |
 | `snapToGrid`     |      |    ✓    |        |         |     ✓      |                  |
 | `symDifference`  |  ✓   |    ✓    |   ✓    |   ✓    |     ✓      |        ✓         |
 | `touches`        |  ✓   |    ✓    |   ✓    |   ✓    |     ✓      |        ✓         |
 | `union`          |  ✓   |    ✓    |   ✓    |   ✓    |     ✓      |        ✓         |
 | `within`         |  ✓   |    ✓    |   ✓    |   ✓    |     ✓      |        ✓         |
-
-`*` Available as of MySQL 5.7.6
