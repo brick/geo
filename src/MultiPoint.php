@@ -26,6 +26,14 @@ class MultiPoint extends GeometryCollection
     /**
      * {@inheritdoc}
      */
+    public function dimension()
+    {
+        return 0;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     protected static function containedGeometryType()
     {
         return Point::class;

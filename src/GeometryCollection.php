@@ -167,19 +167,17 @@ class GeometryCollection extends Geometry implements \Countable, \IteratorAggreg
 
     /**
      * {@inheritdoc}
-     *
-     * Returns the largest dimension of the geometries of the collection.
      */
     public function dimension()
     {
-        $dimension = -1;
+        $dimension = 0;
 
         foreach ($this->geometries as $geometry) {
-            $dimension = max($dimension, $geometry->dimension());
-        }
+            $dim = $geometry->dimension();
 
-        if ($dimension === -1) {
-            throw new GeometryException('Empty geometries have no dimension.');
+            if ($dim > $dimension) {
+                $dimension = $dim;
+            }
         }
 
         return $dimension;

@@ -34,6 +34,14 @@ class MultiPolygon extends MultiSurface
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function dimension()
+    {
+        return 2;
+    }
+
+    /**
      * Returns the polygons that compose this multipolygon.
      *
      * @return MultiPolygon[]

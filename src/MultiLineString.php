@@ -20,6 +20,14 @@ class MultiLineString extends MultiCurve
     /**
      * {@inheritdoc}
      */
+    public function dimension()
+    {
+        return 1;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function isClosed()
     {
         foreach ($this->geometries as $lineString) {
