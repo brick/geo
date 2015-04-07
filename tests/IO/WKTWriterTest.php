@@ -167,4 +167,29 @@ class WKTWriterTest extends WKTAbstractTest
         $geometryCollection = GeometryCollection::factory([$point, $lineString]);
         $this->assertSame($wkt, $writer->write($geometryCollection));
     }
+
+    /**
+     * @dataProvider providerWriteEmptyGeometryCollection
+     *
+     * @param string $wkt The WKT to test.
+     */
+    public function testWriteEmptyGeometryCollection($wkt)
+    {
+        $writer = new WKTWriter();
+        $geometry = GeometryCollection::fromText($wkt);
+
+        $this->assertSame($wkt, $writer->write($geometry));
+    }
+
+    /**
+     * @return array
+     */
+    public function providerWriteEmptyGeometryCollection()
+    {
+        return [
+            ['GEOMETRYCOLLECTION EMPTY'],
+            ['GEOMETRYCOLLECTION (POINT EMPTY)'],
+            ['GEOMETRYCOLLECTION (POINT EMPTY, LINESTRING EMPTY, POLYGON EMPTY)']
+        ];
+    }
 }

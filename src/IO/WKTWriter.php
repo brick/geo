@@ -84,7 +84,13 @@ class WKTWriter
             }
         }
 
-        if ($geometry->isEmpty()) {
+        if ($geometry instanceof GeometryCollection) {
+            $isEmpty = ($geometry->numGeometries() === 0);
+        } else {
+            $isEmpty = $geometry->isEmpty();
+        }
+
+        if ($isEmpty) {
             return $type . $dimensionality . ' EMPTY';
         }
 
