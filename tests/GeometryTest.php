@@ -98,6 +98,72 @@ class GeometryTest extends AbstractTestCase
     }
 
     /**
+     * @dataProvider providerDimension
+     *
+     * @param string  $geometry
+     * @param integer $dimension
+     */
+    public function testDimension($geometry, $dimension)
+    {
+        $geometry = Geometry::fromText($geometry);
+        $this->assertSame($dimension, $geometry->dimension());
+    }
+
+    /**
+     * @return array
+     */
+    public function providerDimension()
+    {
+        return [
+            ['POINT EMPTY', 0],
+            ['POINT Z EMPTY', 0],
+            ['POINT M EMPTY', 0],
+            ['POINT ZM EMPTY', 0],
+            ['POINT (1 2)', 0],
+            ['POINT Z (1 2 3)', 0],
+            ['POINT M (1 2 3)', 0],
+            ['POINT ZM (1 2 3 4)', 0],
+            ['LINESTRING EMPTY', 1],
+            ['LINESTRING Z EMPTY', 1],
+            ['LINESTRING M EMPTY', 1],
+            ['LINESTRING ZM EMPTY', 1],
+            ['LINESTRING (1 2, 3 4)', 1],
+            ['LINESTRING Z (1 2 3, 4 5 6)', 1],
+            ['LINESTRING M (2 3 4, 5 6 7)', 1],
+            ['LINESTRING ZM (1 2 3 4, 5 6 7 8)', 1],
+            ['POLYGON EMPTY', 2],
+            ['POLYGON Z EMPTY', 2],
+            ['POLYGON M EMPTY', 2],
+            ['POLYGON ZM EMPTY', 2],
+            ['POLYGON ((0 0, 0 1, 1 1, 1 0, 0 0))', 2],
+            ['POLYGON Z ((0 0 0, 0 1 0, 1 1 0, 1 0 0, 0 0 0))', 2],
+            ['POLYGON M ((0 0 1, 0 1 2, 1 1 3, 1 0 4, 0 0 1))', 2],
+            ['POLYGON ZM ((0 0 0 1, 0 1 0 2, 1 1 0 3, 1 0 0 4, 0 0 0 1))', 2],
+            ['MULTIPOINT EMPTY', 0],
+            ['MULTIPOINT Z EMPTY', 0],
+            ['MULTIPOINT M EMPTY', 0],
+            ['MULTIPOINT ZM EMPTY', 0],
+            ['MULTILINESTRING EMPTY', 1],
+            ['MULTILINESTRING Z EMPTY', 1],
+            ['MULTILINESTRING M EMPTY', 1],
+            ['MULTILINESTRING ZM EMPTY', 1],
+            ['MULTIPOLYGON EMPTY', 2],
+            ['MULTIPOLYGON Z EMPTY', 2],
+            ['MULTIPOLYGON M EMPTY', 2],
+            ['MULTIPOLYGON ZM EMPTY', 2],
+            ['GEOMETRYCOLLECTION EMPTY', 0],
+            ['GEOMETRYCOLLECTION Z EMPTY', 0],
+            ['GEOMETRYCOLLECTION M EMPTY', 0],
+            ['GEOMETRYCOLLECTION ZM EMPTY', 0],
+            ['GEOMETRYCOLLECTION (POINT (1 1))', 0],
+            ['GEOMETRYCOLLECTION (POINT (1 1), MULTILINESTRING EMPTY)', 1],
+            ['GEOMETRYCOLLECTION (POLYGON EMPTY, LINESTRING (1 1, 2 2), POINT (3 3))', 2],
+            ['GEOMETRYCOLLECTION Z (LINESTRING Z (1 2 3, 4 5 6))', 1],
+            ['TRIANGLE ((0 0, 0 1, 1 0, 0 0))', 2],
+        ];
+    }
+
+    /**
      * @dataProvider providerCoordinateDimension
      *
      * @param string  $geometry            The WKT of the geometry to test.
@@ -150,6 +216,79 @@ class GeometryTest extends AbstractTestCase
             ['LINESTRING Z (1 2 3, 4 5 6)', 3],
             ['LINESTRING M (1 2 3, 4 5 6)', 2],
             ['LINESTRING ZM (1 2 3 4, 5 6 7 8)', 3],
+        ];
+    }
+
+    /**
+     * @dataProvider providerGeometryType
+     *
+     * @param string $geometry     The WKT of the geometry to test.
+     * @param string $geometryType The expected geometry type.
+     */
+    public function testGeometryType($geometry, $geometryType)
+    {
+        $geometry = Geometry::fromText($geometry);
+        $this->assertSame($geometryType, $geometry->geometryType());
+    }
+
+    /**
+     * @return array
+     */
+    public function providerGeometryType()
+    {
+        return [
+            ['POINT EMPTY', 'Point'],
+            ['POINT Z EMPTY', 'Point'],
+            ['POINT M EMPTY', 'Point'],
+            ['POINT ZM EMPTY', 'Point'],
+            ['POINT (1 2)', 'Point'],
+            ['POINT Z (1 2 3)', 'Point'],
+            ['POINT M (1 2 3)', 'Point'],
+            ['POINT ZM (1 2 3 4)' , 'Point'],
+            ['LINESTRING EMPTY', 'LineString'],
+            ['LINESTRING Z EMPTY', 'LineString'],
+            ['LINESTRING M EMPTY', 'LineString'],
+            ['LINESTRING ZM EMPTY', 'LineString'],
+            ['LINESTRING (1 2, 3 4)', 'LineString'],
+            ['LINESTRING Z (1 2 3, 4 5 6)', 'LineString'],
+            ['LINESTRING M (1 2 3, 4 5 6)', 'LineString'],
+            ['LINESTRING ZM (1 2 3 4, 5 6 7 8)', 'LineString'],
+            ['POLYGON EMPTY', 'Polygon'],
+            ['POLYGON Z EMPTY', 'Polygon'],
+            ['POLYGON M EMPTY', 'Polygon'],
+            ['POLYGON ZM EMPTY', 'Polygon'],
+            ['POLYGON ((0 0, 0 1, 1 1, 1 0, 0 0))', 'Polygon'],
+            ['POLYGON Z ((0 0 0, 0 1 0, 1 1 0, 1 0 0, 0 0 0))', 'Polygon'],
+            ['POLYGON M ((0 0 0, 0 1 0, 1 1 0, 1 0 0, 0 0 0))', 'Polygon'],
+            ['POLYGON ZM ((0 0 0 0, 0 1 0 0, 1 1 0 0, 1 0 0 0, 0 0 0 0))', 'Polygon'],
+            ['MULTIPOINT EMPTY', 'MultiPoint'],
+            ['MULTIPOINT Z EMPTY', 'MultiPoint'],
+            ['MULTIPOINT M EMPTY', 'MultiPoint'],
+            ['MULTIPOINT ZM EMPTY', 'MultiPoint'],
+            ['MULTILINESTRING EMPTY', 'MultiLineString'],
+            ['MULTILINESTRING Z EMPTY', 'MultiLineString'],
+            ['MULTILINESTRING M EMPTY', 'MultiLineString'],
+            ['MULTILINESTRING ZM EMPTY', 'MultiLineString'],
+            ['MULTIPOLYGON EMPTY', 'MultiPolygon'],
+            ['MULTIPOLYGON Z EMPTY', 'MultiPolygon'],
+            ['MULTIPOLYGON M EMPTY', 'MultiPolygon'],
+            ['MULTIPOLYGON ZM EMPTY', 'MultiPolygon'],
+            ['GEOMETRYCOLLECTION EMPTY', 'GeometryCollection'],
+            ['GEOMETRYCOLLECTION Z EMPTY', 'GeometryCollection'],
+            ['GEOMETRYCOLLECTION M EMPTY', 'GeometryCollection'],
+            ['GEOMETRYCOLLECTION ZM EMPTY', 'GeometryCollection'],
+            ['TRIANGLE EMPTY', 'Triangle'],
+            ['TRIANGLE Z EMPTY', 'Triangle'],
+            ['TRIANGLE M EMPTY', 'Triangle'],
+            ['TRIANGLE ZM EMPTY', 'Triangle'],
+            ['POLYHEDRALSURFACE EMPTY', 'PolyhedralSurface'],
+            ['POLYHEDRALSURFACE Z EMPTY', 'PolyhedralSurface'],
+            ['POLYHEDRALSURFACE M EMPTY', 'PolyhedralSurface'],
+            ['POLYHEDRALSURFACE ZM EMPTY', 'PolyhedralSurface'],
+            ['TIN EMPTY', 'TIN'],
+            ['TIN Z EMPTY', 'TIN'],
+            ['TIN M EMPTY', 'TIN'],
+            ['TIN ZM EMPTY', 'TIN'],
         ];
     }
 

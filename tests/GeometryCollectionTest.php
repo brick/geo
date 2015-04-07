@@ -73,36 +73,6 @@ class GeometryCollectionTest extends AbstractTestCase
         ];
     }
 
-    public function testGeometryType()
-    {
-        $this->assertSame('GeometryCollection', GeometryCollection::xy([])->geometryType());
-    }
-
-    /**
-     * @dataProvider providerDimension
-     *
-     * @param string  $geometry  The WKT of the geometry to test.
-     * @param integer $dimension The expected dimension.
-     */
-    public function testDimension($geometry, $dimension)
-    {
-        $geometry = GeometryCollection::fromText($geometry);
-        $this->assertSame($dimension, $geometry->dimension());
-    }
-
-    /**
-     * @return array
-     */
-    public function providerDimension()
-    {
-        return [
-            ['GEOMETRYCOLLECTION EMPTY', 0],
-            ['GEOMETRYCOLLECTION (POINT (1 1))', 0],
-            ['GEOMETRYCOLLECTION (POINT (1 1), MULTILINESTRING EMPTY)', 1],
-            ['GEOMETRYCOLLECTION (POLYGON EMPTY, LINESTRING (1 1, 2 2), POINT (3 3))', 2]
-        ];
-    }
-
     /**
      * Tests Countable and Traversable interfaces.
      */
