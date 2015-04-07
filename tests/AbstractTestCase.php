@@ -5,6 +5,7 @@ namespace Brick\Geo\Tests;
 use Brick\Geo\Engine\GeometryEngineRegistry;
 use Brick\Geo\Engine\GEOSEngine;
 use Brick\Geo\Engine\PDOEngine;
+use Brick\Geo\Engine\SQLite3Engine;
 use Brick\Geo\Geometry;
 use Brick\Geo\GeometryCollection;
 use Brick\Geo\MultiLineString;
@@ -116,6 +117,14 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
     final protected function isPostgreSQL()
     {
         return $this->isPDODriver('pgsql');
+    }
+
+    /**
+     * @return boolean
+     */
+    final protected function isSQLite3()
+    {
+        return GeometryEngineRegistry::get() instanceof SQLite3Engine;
     }
 
     /**

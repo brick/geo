@@ -926,7 +926,7 @@ class GeometryTest extends AbstractTestCase
      */
     public function testSimplify($geometry, $tolerance, $result)
     {
-        if ($this->isMySQLBefore('5.7.6-m16') || $this->isMariaDBAtLeast('10.0')) {
+        if ($this->isMySQLBefore('5.7.6-m16') || $this->isMariaDBAtLeast('10.0') || $this->isSQLite3()) {
             $this->setExpectedException(GeometryEngineException::class);
         }
 
@@ -956,7 +956,7 @@ class GeometryTest extends AbstractTestCase
      */
     public function testMaxDistance($geometry1, $geometry2, $maxDistance)
     {
-        if ($this->isGEOS() || $this->isMySQL() || $this->isMariaDB()) {
+        if ($this->isGEOS() || $this->isMySQL() || $this->isMariaDB() || $this->isSQLite3()) {
             $this->setExpectedException(GeometryEngineException::class);
         }
 
