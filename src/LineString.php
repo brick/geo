@@ -126,13 +126,13 @@ class LineString extends Curve implements \Countable, \IteratorAggregate
      */
     public function pointN($n)
     {
-        $n = (int) $n - 1;
+        $n = (int) $n;
 
-        if (! isset($this->points[$n])) {
+        if (! isset($this->points[$n - 1])) {
             throw new GeometryException('There is no Point in this LineString at index ' . $n);
         }
 
-        return $this->points[$n];
+        return $this->points[$n - 1];
     }
 
     /**

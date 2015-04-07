@@ -146,14 +146,13 @@ class GeometryCollection extends Geometry implements \Countable, \IteratorAggreg
      */
     public function geometryN($n)
     {
-        // decrement the index, as our array is 0-based
-        $n = (int) $n - 1;
+        $n = (int) $n;
 
-        if (! isset($this->geometries[$n])) {
+        if (! isset($this->geometries[$n - 1])) {
             throw new GeometryException('There is no Geometry in this GeometryCollection at index ' . $n);
         }
 
-        return $this->geometries[$n];
+        return $this->geometries[$n - 1];
     }
 
     /**

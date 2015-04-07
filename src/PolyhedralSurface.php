@@ -111,14 +111,13 @@ class PolyhedralSurface extends Surface implements \Countable, \IteratorAggregat
      */
     public function patchN($n)
     {
-        // decrement the index, as our array is 0-based
-        $n = (int) $n - 1;
+        $n = (int) $n;
 
-        if (! isset($this->patches[$n])) {
+        if (! isset($this->patches[$n - 1])) {
             throw new GeometryException('There is no patch in this PolyhedralSurface at index ' . $n);
         }
 
-        return $this->patches[$n];
+        return $this->patches[$n - 1];
     }
 
     /**
