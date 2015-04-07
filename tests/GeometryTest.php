@@ -419,7 +419,18 @@ class GeometryTest extends AbstractTestCase
             ['POINT ZM (4 5 6 7)', true],
             ['LINESTRING (1 2, 3 4)', true],
             ['LINESTRING (0 0, 0 1, 1 1, 1 0)', true],
-            ['LINESTRING (1 0, 1 2, 2 1, 0 1)', false]
+            ['LINESTRING (1 0, 1 2, 2 1, 0 1)', false],
+            ['MULTIPOINT EMPTY', true],
+            ['MULTIPOINT (1 2)', true],
+            ['MULTIPOINT (1 3)', true],
+            ['MULTIPOINT (1 2, 1 3)', true],
+            ['MULTIPOINT (1 2, 1 3, 1 2)', false],
+            ['MULTIPOINT Z (1 2 3, 2 3 4)', true],
+            ['MULTIPOINT Z (1 2 3, 1 2 4)', false],
+            ['MULTIPOINT M (1 2 3, 2 3 4)', true],
+            ['MULTIPOINT M (1 2 3, 1 2 4)', false],
+            ['MULTIPOINT ZM (1 2 3 4, 2 3 4 5)', true],
+            ['MULTIPOINT ZM (1 2 3 4, 1 2 4 3)', false]
         ];
     }
 
