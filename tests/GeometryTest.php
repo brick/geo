@@ -34,7 +34,7 @@ class GeometryTest extends AbstractTestCase
     /**
      * @expectedException \Brick\Geo\Exception\GeometryException
      */
-    public static function testFromTextOnWrongSubclassThrowsException()
+    public function testFromTextOnWrongSubclassThrowsException()
     {
         Point::fromText('LINESTRING (1 2, 3 4)');
     }
