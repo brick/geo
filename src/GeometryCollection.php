@@ -142,19 +142,15 @@ class GeometryCollection extends Geometry implements \Countable, \IteratorAggreg
      *
      * @return Geometry
      *
-     * @throws GeometryException
+     * @throws GeometryException If there is no Geometry at this index.
      */
     public function geometryN($n)
     {
-        if (! is_int($n)) {
-            throw new GeometryException('The geometry number must be an integer');
-        }
-
         // decrement the index, as our array is 0-based
-        $n--;
+        $n = (int) $n - 1;
 
-        if ($n < 0 || $n >= count($this->geometries)) {
-            throw new GeometryException('Geometry number out of range');
+        if (! isset($this->geometries[$n])) {
+            throw new GeometryException('There is no Geometry in this GeometryCollection at index ' . $n);
         }
 
         return $this->geometries[$n];

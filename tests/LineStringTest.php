@@ -15,10 +15,12 @@ class LineStringTest extends AbstractTestCase
         $this->assertWktEquals($lineString->startPoint(), 'POINT Z (1 2 3)', 4326);
     }
 
+    /**
+     * @expectedException \Brick\Geo\Exception\GeometryException
+     */
     public function testStartPointEmpty()
     {
-        $lineString = LineString::fromText('LINESTRING EMPTY');
-        $this->assertNull($lineString->startPoint());
+        LineString::fromText('LINESTRING EMPTY')->startPoint();
     }
 
     public function testEndPoint()
@@ -27,9 +29,11 @@ class LineStringTest extends AbstractTestCase
         $this->assertWktEquals($lineString->endPoint(), 'POINT Z (7 8 9)', 4326);
     }
 
+    /**
+     * @expectedException \Brick\Geo\Exception\GeometryException
+     */
     public function testEndPointEmpty()
     {
-        $lineString = LineString::fromText('LINESTRING EMPTY');
-        $this->assertNull($lineString->endPoint());
+        LineString::fromText('LINESTRING EMPTY')->endPoint();
     }
 }

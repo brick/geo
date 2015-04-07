@@ -84,11 +84,11 @@ class LineString extends Curve implements \Countable, \IteratorAggregate
      */
     public function startPoint()
     {
-        if ($this->points) {
-            return reset($this->points);
+        if ($this->isEmpty) {
+            throw new GeometryException('The LineString is empty and has no start point.');
         }
 
-        return null;
+        return $this->points[0];
     }
 
     /**
@@ -96,11 +96,11 @@ class LineString extends Curve implements \Countable, \IteratorAggregate
      */
     public function endPoint()
     {
-        if ($this->points) {
-            return end($this->points);
+        if ($this->isEmpty) {
+            throw new GeometryException('The LineString is empty and has no end point.');
         }
 
-        return null;
+        return end($this->points);
     }
 
     /**
@@ -122,17 +122,17 @@ class LineString extends Curve implements \Countable, \IteratorAggregate
      *
      * @return Point
      *
-     * @throws GeometryException If the specified point does not exist.
+     * @throws GeometryException If there is no Point at this index.
      */
     public function pointN($n)
     {
-        $i = $n - 1;
+        $n = (int) $n - 1;
 
-        if (! isset($this->points[$i])) {
-            throw new GeometryException(sprintf('Point number %d does not exist.', $n));
+        if (! isset($this->points[$n])) {
+            throw new GeometryException('There is no Point in this LineString at index ' . $n);
         }
 
-        return $this->points[$i];
+        return $this->points[$n];
     }
 
     /**

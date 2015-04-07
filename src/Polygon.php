@@ -160,14 +160,14 @@ class Polygon extends Surface implements \Countable, \IteratorAggregate
      *
      * @return LineString
      *
-     * @throws GeometryException
+     * @throws GeometryException If there is no interior ring at this index.
      */
     public function interiorRingN($n)
     {
         $n = (int) $n;
 
         if (! isset($this->rings[$n])) {
-            throw new GeometryException('Ring number out of range.');
+            throw new GeometryException('There is no interior ring in this Polygon at index ' . $n);
         }
 
         return $this->rings[$n];

@@ -107,19 +107,15 @@ class PolyhedralSurface extends Surface implements \Countable, \IteratorAggregat
      *
      * @return Polygon
      *
-     * @throws GeometryException
+     * @throws GeometryException If there is no patch at this index.
      */
     public function patchN($n)
     {
-        if (! is_int($n)) {
-            throw new GeometryException('The patch number must be an integer');
-        }
-
         // decrement the index, as our array is 0-based
-        $n--;
+        $n = (int) $n - 1;
 
-        if ($n < 0 || $n >= count($this->patches)) {
-            throw new GeometryException('Patch number out of range');
+        if (! isset($this->patches[$n])) {
+            throw new GeometryException('There is no patch in this PolyhedralSurface at index ' . $n);
         }
 
         return $this->patches[$n];

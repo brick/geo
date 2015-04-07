@@ -3,6 +3,7 @@
 namespace Brick\Geo;
 
 use Brick\Geo\Engine\GeometryEngineRegistry;
+use Brick\Geo\Exception\GeometryException;
 
 /**
  * A Curve is a 1-dimensional geometric object usually stored as a sequence of Points.
@@ -27,18 +28,18 @@ abstract class Curve extends Geometry
     /**
      * Returns the start Point of this Curve.
      *
-     * This method returns null if the curve is empty.
+     * @return Point
      *
-     * @return Point|null
+     * @throws GeometryException If the curve is empty.
      */
     abstract public function startPoint();
 
     /**
      * Returns the end Point of this Curve.
      *
-     * This method returns null if the curve is empty.
+     * @return Point
      *
-     * @return Point|null
+     * @throws GeometryException If the curve is empty.
      */
     abstract public function endPoint();
 
