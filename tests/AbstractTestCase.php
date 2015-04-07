@@ -422,7 +422,7 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    private function castToFloat(array & $coords)
+    final protected function castToFloat(array & $coords)
     {
         array_walk_recursive($coords, function (& $value) {
             $value = (float) $value;
