@@ -498,7 +498,7 @@ class PointTest extends AbstractTestCase
      */
     public function testBoundary($point)
     {
-        if ($this->isMySQL() || $this->isMariaDB()) {
+        if ($this->isMySQL() || $this->isMariaDB() || $this->isSpatiaLite()) {
             $this->setExpectedException(GeometryEngineException::class);
         }
 

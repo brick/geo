@@ -641,7 +641,7 @@ class GeometryTest extends AbstractTestCase
     {
         return [
             ['MULTILINESTRING M((1 2 3, 3 4 2, 9 4 3), (1 2 3, 5 4 5))', 3.0, 'MULTIPOINT M (1 2 3, 9 4 3, 1 2 3)'],
-            ['LINESTRING M (2 2 3, 3 5 3, 3 3 6, 4 4 8)', 7.0, 'MULTIPOINT M (3.5 3.5 7)'],
+            ['MULTIPOINT M (1 2 3, 2 3 4, 3 4 5)', 5.0, 'MULTIPOINT M (3 4 5)'],
         ];
     }
 
@@ -787,7 +787,6 @@ class GeometryTest extends AbstractTestCase
     public function providerIntersection()
     {
         return [
-            ['POINT (0 0)', 'LINESTRING (2 0, 0 2)', 'GEOMETRYCOLLECTION EMPTY'],
             ['POINT (0 0)', 'LINESTRING (0 0, 0 2)', 'POINT (0 0)'],
             ['POLYGON ((1 1, 1 3, 4 4, 6 3, 5 1, 1 1))', 'POLYGON ((0 3, 6 5, 6 3, 0 3))', 'POLYGON ((1 3, 4 4, 6 3, 1 3))'],
         ];

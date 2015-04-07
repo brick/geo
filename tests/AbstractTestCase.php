@@ -106,8 +106,8 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
     final protected function skipIfUnsupportedGeometry(Geometry $geometry)
     {
         if ($geometry->isEmpty() && ! $geometry instanceof GeometryCollection) {
-            if ($this->isMySQL()) {
-                $this->markTestSkipped('MySQL does not support empty geometries, apart from collections.');
+            if ($this->isMySQL() || $this->isSpatiaLite()) {
+                $this->markTestSkipped('MySQL and SpatiaLite do not correctly handle empty geometries, apart from collections.');
             }
         }
     }
