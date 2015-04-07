@@ -414,6 +414,9 @@ class GeometryTest extends AbstractTestCase
     {
         return [
             ['POINT (1 2)', true],
+            ['POINT Z (2 3 4)', true],
+            ['POINT M (3 4 5)', true],
+            ['POINT ZM (4 5 6 7)', true],
             ['LINESTRING (1 2, 3 4)', true],
             ['LINESTRING (0 0, 0 1, 1 1, 1 0)', true],
             ['LINESTRING (1 0, 1 2, 2 1, 0 1)', false]
@@ -458,11 +461,19 @@ class GeometryTest extends AbstractTestCase
      */
     public function testBoundary($geometry, $boundary)
     {
+        $geometry = Geometry::fromText($geometry);
+
         if ($this->isMySQL() || $this->isMariaDB()) {
+            // MySQL and MariaDB do not support boundary.
             $this->setExpectedException(GeometryEngineException::class);
         }
 
-        $this->assertSame($boundary, Geometry::fromText($geometry)->boundary()->asText());
+        if ($this->isSpatiaLite() && $geometry instanceof Point) {
+            // SpatiaLite fails to return a result for a point's boundary.
+            $this->setExpectedException(GeometryEngineException::class);
+        }
+
+        $this->assertSame($boundary, $geometry->boundary()->asText());
     }
 
     /**
@@ -471,6 +482,10 @@ class GeometryTest extends AbstractTestCase
     public function providerBoundary()
     {
         return [
+            ['POINT (1 2)', 'GEOMETRYCOLLECTION EMPTY'],
+            ['POINT Z (2 3 4)', 'GEOMETRYCOLLECTION EMPTY'],
+            ['POINT M (3 4 5)', 'GEOMETRYCOLLECTION EMPTY'],
+            ['POINT ZM (4 5 6 7)', 'GEOMETRYCOLLECTION EMPTY'],
             ['LINESTRING (1 1, 0 0, -1 1)', 'MULTIPOINT (1 1, -1 1)'],
             ['POLYGON ((1 1, 0 0, -1 1, 1 1))', 'LINESTRING (1 1, 0 0, -1 1, 1 1)'],
         ];
@@ -501,9 +516,17 @@ class GeometryTest extends AbstractTestCase
     {
         return [
             ['POINT (1 2)', 'POINT (1 2)', true],
-            ['POINT (1 2)', 'POINT (1 3)', false],
-            ['LINESTRING EMPTY', 'LINESTRING (1 2, 3 4)', false],
+            ['POINT (1 2)', 'POINT (1 1)', false],
+            ['POINT (1 2)', 'POINT(2 2)', false],
             ['POINT (1 2)', 'MULTIPOINT (1 2)', true],
+            ['POINT (1 2)', 'MULTIPOINT (1 1)', false],
+            ['POINT (1 2)', 'MULTIPOINT (2 2)', false],
+            ['POINT (1 2)', 'LINESTRING(1 2, 1 3)', false],
+            ['LINESTRING EMPTY', 'LINESTRING (1 2, 3 4)', false],
+            ['LINESTRING (1 2, 3 4)', 'LINESTRING (1 2, 3 4)', true],
+            ['LINESTRING (1 2, 3 4)', 'LINESTRING (3 4, 1 2)', true],
+            ['LINESTRING (1 2, 3 4)', 'LINESTRING (1 2, 3 3)', false],
+            ['LINESTRING (1 2, 3 4)', 'LINESTRING (1 2, 4 4)', false],
             ['POLYGON ((1 2, 1 3, 2 2, 1 2))', 'POLYGON ((1 3, 2 2, 1 2, 1 3))', true]
         ];
     }
@@ -1113,6 +1136,44 @@ class GeometryTest extends AbstractTestCase
             ['POINT (0 0)', 'LINESTRING (2 0, 0 2)', 2.0],
             ['POINT (0 0)', 'LINESTRING (1 1, 0 4)', 4.0],
             ['LINESTRING (1 1, 3 1)', 'LINESTRING (4 1, 6 1)', 5.0],
+        ];
+    }
+
+    /**
+     * @dataProvider providerToArray
+     *
+     * @param string $geometry The WKT of the geometry to test.
+     * @param array  $array    The expected result array.
+     */
+    public function testToArray($geometry, $array)
+    {
+        $this->castToFloat($array);
+        $this->assertSame($array, Geometry::fromText($geometry)->toArray());
+    }
+
+    /**
+     * @return array
+     */
+    public function providerToArray()
+    {
+        return [
+            ['POINT EMPTY', []],
+            ['POINT Z EMPTY', []],
+            ['POINT M EMPTY', []],
+            ['POINT ZM EMPTY', []],
+            ['POINT (1 2)', [1, 2]],
+            ['POINT Z (1 2 3)', [1, 2, 3]],
+            ['POINT M (2 3 4)', [2, 3, 4]],
+            ['POINT ZM (1 2 3 4)', [1, 2, 3, 4]],
+
+            ['LINESTRING EMPTY', []],
+            ['LINESTRING Z EMPTY', []],
+            ['LINESTRING M EMPTY', []],
+            ['LINESTRING ZM EMPTY', []],
+            ['LINESTRING (1 2, 3 4, 5 6, 7 8)', [[1, 2], [3, 4], [5, 6], [7, 8]]],
+            ['LINESTRING Z (1 2 3, 4 5 6, 7 8 9)', [[1, 2, 3], [4, 5, 6], [7, 8, 9]]],
+            ['LINESTRING M (1 2 3, 4 5 6, 7 8 9)', [[1, 2, 3], [4, 5 , 6], [7, 8, 9]]],
+            ['LINESTRING ZM (1 2 3 4, 5 6 7 8)', [[1, 2, 3, 4], [5, 6, 7, 8]]],
         ];
     }
 }

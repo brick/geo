@@ -168,35 +168,6 @@ class LineStringTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerToArray
-     *
-     * @param string $geometry The WKT of the geometry to test.
-     * @param array  $array    The expected result array.
-     */
-    public function testToArray($geometry, $array)
-    {
-        $this->castToFloat($array);
-        $this->assertSame($array, Geometry::fromText($geometry)->toArray());
-    }
-
-    /**
-     * @return array
-     */
-    public function providerToArray()
-    {
-        return [
-            ['LINESTRING EMPTY', []],
-            ['LINESTRING Z EMPTY', []],
-            ['LINESTRING M EMPTY', []],
-            ['LINESTRING ZM EMPTY', []],
-            ['LINESTRING (1 2, 3 4, 5 6, 7 8)', [[1, 2], [3, 4], [5, 6], [7, 8]]],
-            ['LINESTRING Z (1 2 3, 4 5 6, 7 8 9)', [[1, 2, 3], [4, 5, 6], [7, 8, 9]]],
-            ['LINESTRING M (1 2 3, 4 5 6, 7 8 9)', [[1, 2, 3], [4, 5 , 6], [7, 8, 9]]],
-            ['LINESTRING ZM (1 2 3 4, 5 6 7 8)', [[1, 2, 3, 4], [5, 6, 7, 8]]],
-        ];
-    }
-
-    /**
      * Tests Countable and Traversable interfaces.
      */
     public function testInterfaces()
