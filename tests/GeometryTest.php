@@ -879,7 +879,7 @@ class GeometryTest extends AbstractTestCase
         $ring = $buffer->exteriorRing();
 
         for ($n = 1; $n <= $ring->numPoints(); $n++) {
-            $this->assertSame($distance, $ring->pointN($n)->distance($geometry));
+            $this->assertEquals($distance, $ring->pointN($n)->distance($geometry), '', 0.001);
         }
     }
 
