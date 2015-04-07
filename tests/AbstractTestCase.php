@@ -21,6 +21,24 @@ use Brick\Geo\Polygon;
 class AbstractTestCase extends \PHPUnit_Framework_TestCase
 {
     /**
+     * @param string $version            The version of the software in use, such as "4.0.1".
+     * @param string $operatorAndVersion The comparison operator and version to test against, such as ">= 4.0".
+     *
+     * @return boolean
+     */
+    private function isVersion($version, $operatorAndVersion)
+    {
+        preg_match('/^([\<\>]?\=?) ?(.*)/', $operatorAndVersion, $matches);
+        list (, $operator, $testVersion) = $matches;
+
+        if ($operator === '') {
+            $operator = '=';
+        }
+
+        return version_compare($version, $testVersion, $operator);
+    }
+
+    /**
      * @param string $name
      *
      * @return boolean
@@ -120,11 +138,27 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @param string|null $operatorAndVersion An optional version to satisfy.
+     *
      * @return boolean
      */
-    final protected function isSQLite3()
+    final protected function isSpatiaLite($operatorAndVersion = null)
     {
-        return GeometryEngineRegistry::get() instanceof SQLite3Engine;
+        $engine = GeometryEngineRegistry::get();
+
+        if ($engine instanceof SQLite3Engine) {
+            $sqlite3 = $engine->getSQLite3();
+
+            if ($operatorAndVersion === null) {
+                return true;
+            }
+
+            $version = $sqlite3->querySingle('SELECT spatialite_version()');
+
+            return $this->isVersion($version, $operatorAndVersion);
+        }
+
+        return false;
     }
 
     /**

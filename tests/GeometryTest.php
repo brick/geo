@@ -669,7 +669,7 @@ class GeometryTest extends AbstractTestCase
     {
         return [
             ['MULTIPOINT M(1 2 2)', 2.0, 5.0, 'MULTIPOINT M (1 2 2)'],
-            ['MULTILINESTRING M ((1 2 3, 3 4 2, 9 4 3), (1 2 3, 5 4 5))', 1.5, 3.0, 'GEOMETRYCOLLECTION M (LINESTRING M (1 2 3, 3 4 2, 9 4 3), POINT M (1 2 3))'],
+            ['MULTIPOINT M(1 2 2, 2 3 4, 3 4 5, 4 5 6, 5 6 7)', 4.0, 5.0, 'MULTIPOINT M (2 3 4, 3 4 5)'],
         ];
     }
 
@@ -926,7 +926,7 @@ class GeometryTest extends AbstractTestCase
      */
     public function testSimplify($geometry, $tolerance, $result)
     {
-        if ($this->isMySQLBefore('5.7.6-m16') || $this->isMariaDBAtLeast('10.0') || $this->isSQLite3()) {
+        if ($this->isMySQLBefore('5.7.6-m16') || $this->isMariaDBAtLeast('10.0') || $this->isSpatiaLite('< 4.1.0')) {
             $this->setExpectedException(GeometryEngineException::class);
         }
 
@@ -956,7 +956,7 @@ class GeometryTest extends AbstractTestCase
      */
     public function testMaxDistance($geometry1, $geometry2, $maxDistance)
     {
-        if ($this->isGEOS() || $this->isMySQL() || $this->isMariaDB() || $this->isSQLite3()) {
+        if ($this->isGEOS() || $this->isMySQL() || $this->isMariaDB() || $this->isSpatiaLite()) {
             $this->setExpectedException(GeometryEngineException::class);
         }
 

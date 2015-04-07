@@ -27,6 +27,14 @@ class SQLite3Engine extends DatabaseEngine
     }
 
     /**
+     * @return \SQLite3
+     */
+    public function getSQLite3()
+    {
+        return $this->sqlite3;
+    }
+
+    /**
      * {@inheritdoc}
      */
     protected function executeQuery($query, array $parameters)
