@@ -21,118 +21,29 @@ use Brick\Geo\Polygon;
 class AbstractTestCase extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @param string $version            The version of the software in use, such as "4.0.1".
-     * @param string $operatorAndVersion The comparison operator and version to test against, such as ">= 4.0".
+     * @param string|null $operatorAndVersion
      *
      * @return boolean
      */
-    private function isVersion($version, $operatorAndVersion)
+    final protected function isMySQL($operatorAndVersion = null)
     {
-        preg_match('/^([\<\>]?\=?) ?(.*)/', $operatorAndVersion, $matches);
-        list (, $operator, $testVersion) = $matches;
-
-        if ($operator === '') {
-            $operator = '=';
-        }
-
-        return version_compare($version, $testVersion, $operator);
+        return $this->isMySQLorMariaDB(false, $operatorAndVersion);
     }
 
     /**
-     * @param string $name
+     * @param string|null $operatorAndVersion
      *
-     * @return boolean
+     * @return bool
      */
-    private function isPDODriver($name)
+    final protected function isMariaDB($operatorAndVersion = null)
     {
-        $engine = GeometryEngineRegistry::get();
-
-        if ($engine instanceof PDOEngine) {
-            if ($engine->getPDO()->getAttribute(\PDO::ATTR_DRIVER_NAME) === $name) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * @param boolean     $testMariaDB  False to check for MYSQL, true to check for MariaDB.
-     * @param string|null $testOperator An optional comparison operator for the version number check.
-     * @param string|null $testVersion  An optional version number to check.
-     *
-     * @return boolean
-     */
-    private function isMySQLorMariaDB($testMariaDB, $testOperator = null, $testVersion = null)
-    {
-        $engine = GeometryEngineRegistry::get();
-
-        if ($engine instanceof PDOEngine) {
-            $pdo = $engine->getPDO();
-
-            if ($pdo->getAttribute(\PDO::ATTR_DRIVER_NAME) === 'mysql') {
-                $statement = $pdo->query("SHOW VARIABLES LIKE 'version'");
-                $version = $statement->fetchColumn(1);
-
-                $isMariaDB = (substr($version, -8) === '-MariaDB');
-
-                if ($isMariaDB) {
-                    $version = substr($version, 0, -8);
-                }
-
-                if ($testVersion === null || $testOperator === null) {
-                    return $testMariaDB === $isMariaDB;
-                }
-
-                return version_compare($version, $testVersion, $testOperator);
-            }
-        }
-
-        return false;
+        return $this->isMySQLorMariaDB(true, $operatorAndVersion);
     }
 
     /**
      * @return boolean
      */
-    final protected function isMySQL()
-    {
-        return $this->isMySQLorMariaDB(false);
-    }
-
-    /**
-     * Returns whether the tests are being run on MySQL prior to a specific version.
-     *
-     * @param string $version
-     *
-     * @return boolean
-     */
-    final protected function isMySQLBefore($version)
-    {
-        return $this->isMySQLorMariaDB(false, '<', $version);
-    }
-
-    /**
-     * @return boolean
-     */
-    final protected function isMariaDB()
-    {
-        return $this->isMySQLorMariaDB(true);
-    }
-
-    /**
-     * @param string $version
-     *
-     * @return boolean
-     */
-    final protected function isMariaDBAtLeast($version)
-    {
-        return $this->isMySQLorMariaDB(true, '>=', $version);
-    }
-
-    /**
-     * @return boolean
-     */
-    final protected function isPostgreSQL()
+    final protected function isPostGIS()
     {
         return $this->isPDODriver('pgsql');
     }
@@ -182,9 +93,9 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
     /**
      * @param string $message
      */
-    final protected function skipPostgreSQL($message)
+    final protected function skipPostGIS($message)
     {
-        if ($this->isPostgreSQL()) {
+        if ($this->isPostGIS()) {
             $this->markTestSkipped($message);
         }
     }
@@ -211,7 +122,7 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
         $this->skipIfUnsupportedGeometry($geometry1);
         $this->skipIfUnsupportedGeometry($geometry2);
 
-        if ($this->isMySQLBefore('5.7')) {
+        if ($this->isMySQL('< 5.7')) {
             if ($geometry1->geometryType() !== $geometry2->geometryType()) {
                 $this->markTestSkipped(sprintf('MySQL 5.6 does not support %s() on different geometry types.', $methodName));
             }
@@ -366,23 +277,6 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Casts all values in the array to floats.
-     *
-     * This allows to write more concise data providers such as [1 2] instead of [1.0, 2.0]
-     * while still strictly enforcing that the toArray() methods of the geometries return float values.
-     *
-     * @param array $coords
-     *
-     * @return void
-     */
-    private function castToFloat(array & $coords)
-    {
-        array_walk_recursive($coords, function (& $value) {
-            $value = (float) $value;
-        });
-    }
-
-    /**
      * @param array   $coords
      * @param boolean $is3D
      * @param boolean $isMeasured
@@ -516,5 +410,91 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
         }
 
         return MultiPolygon::create($polygons, $is3D, $isMeasured, $srid);
+    }
+
+    /**
+     * Casts all values in the array to floats.
+     *
+     * This allows to write more concise data providers such as [1 2] instead of [1.0, 2.0]
+     * while still strictly enforcing that the toArray() methods of the geometries return float values.
+     *
+     * @param array $coords
+     *
+     * @return void
+     */
+    private function castToFloat(array & $coords)
+    {
+        array_walk_recursive($coords, function (& $value) {
+            $value = (float) $value;
+        });
+    }
+
+    /**
+     * @param string $version            The version of the software in use, such as "4.0.1".
+     * @param string $operatorAndVersion The comparison operator and version to test against, such as ">= 4.0".
+     *
+     * @return boolean
+     */
+    private function isVersion($version, $operatorAndVersion)
+    {
+        preg_match('/^([\<\>]?\=?) ?(.*)/', $operatorAndVersion, $matches);
+        list (, $operator, $testVersion) = $matches;
+
+        if ($operator === '') {
+            $operator = '=';
+        }
+
+        return version_compare($version, $testVersion, $operator);
+    }
+
+    /**
+     * @param string $name
+     *
+     * @return boolean
+     */
+    private function isPDODriver($name)
+    {
+        $engine = GeometryEngineRegistry::get();
+
+        if ($engine instanceof PDOEngine) {
+            if ($engine->getPDO()->getAttribute(\PDO::ATTR_DRIVER_NAME) === $name) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+    /**
+     * @param boolean     $testMariaDB        False to check for MYSQL, true to check for MariaDB.
+     * @param string|null $operatorAndVersion An optional comparison operator and version number to test against.
+     *
+     * @return boolean
+     */
+    private function isMySQLorMariaDB($testMariaDB, $operatorAndVersion = null)
+    {
+        $engine = GeometryEngineRegistry::get();
+
+        if ($engine instanceof PDOEngine) {
+            $pdo = $engine->getPDO();
+
+            if ($pdo->getAttribute(\PDO::ATTR_DRIVER_NAME) === 'mysql') {
+                $statement = $pdo->query("SHOW VARIABLES LIKE 'version'");
+                $version = $statement->fetchColumn(1);
+
+                $isMariaDB = (substr($version, -8) === '-MariaDB');
+
+                if ($isMariaDB) {
+                    $version = substr($version, 0, -8);
+                }
+
+                if ($operatorAndVersion === null) {
+                    return $testMariaDB === $isMariaDB;
+                }
+
+                return $this->isVersion($version, $operatorAndVersion);
+            }
+        }
+
+        return false;
     }
 }

@@ -231,7 +231,7 @@ class GeometryTest extends AbstractTestCase
      */
     public function testIsValid($geometry, $isValid)
     {
-        if ($this->isMySQLBefore('5.7.6-m16') || $this->isMariaDBAtLeast('10.0')) {
+        if ($this->isMySQL('< 5.7.6-m16') || $this->isMariaDB('>= 10.0')) {
             $this->setExpectedException(GeometryEngineException::class);
         }
 
@@ -741,7 +741,7 @@ class GeometryTest extends AbstractTestCase
      */
     public function testConvexHull($geometry, $result)
     {
-        if ($this->isMySQLBefore('5.7.6-m16') || $this->isMariaDBAtLeast('10.0')) {
+        if ($this->isMySQL('< 5.7.6-m16') || $this->isMariaDB('>= 10.0')) {
             $this->setExpectedException(GeometryEngineException::class);
         }
 
@@ -832,8 +832,8 @@ class GeometryTest extends AbstractTestCase
      */
     public function testDifference($geometry1, $geometry2, $result)
     {
-        if ($this->isMySQLBefore('5.7')) {
-            $this->markTestSkipped('MySQL difference() implementation is very buggy and should not be used.');
+        if ($this->isMySQL('< 5.7')) {
+            $this->markTestSkipped('MySQL 5.6 difference() implementation is very buggy and should not be used.');
         }
 
         $geometry1 = Geometry::fromText($geometry1);
@@ -926,7 +926,7 @@ class GeometryTest extends AbstractTestCase
      */
     public function testSimplify($geometry, $tolerance, $result)
     {
-        if ($this->isMySQLBefore('5.7.6-m16') || $this->isMariaDBAtLeast('10.0') || $this->isSpatiaLite('< 4.1.0')) {
+        if ($this->isMySQL('< 5.7.6-m16') || $this->isMariaDB('>= 10.0') || $this->isSpatiaLite('< 4.1.0')) {
             $this->setExpectedException(GeometryEngineException::class);
         }
 

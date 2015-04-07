@@ -415,7 +415,7 @@ class PointTest extends AbstractTestCase
     public function testEquals($geometry, $isEqual)
     {
         if (preg_match('/^GEOMETRYCOLLECTION/', $geometry)) {
-            $this->skipPostgreSQL('This comparison is not available on PostGIS');
+            $this->skipPostGIS('This comparison is not available on PostGIS');
         }
 
         $point = Point::xy(1, 2);
