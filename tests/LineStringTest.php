@@ -204,7 +204,7 @@ class LineStringTest extends AbstractTestCase
         $lineString = LineString::fromText('LINESTRING (1 2, 3 4, 5 6)');
 
         $this->assertInstanceOf(\Countable::class, $lineString);
-        $this->assertSame(3, $lineString->count());
+        $this->assertSame(3, count($lineString));
 
         $this->assertInstanceOf(\Traversable::class, $lineString);
         $this->assertSame([
