@@ -61,7 +61,11 @@ class PDOEngine extends DatabaseEngine
 
             $result = $statement->fetchColumn();
         } catch (\PDOException $e) {
-            if (substr($e->getCode(), 0, 2) === '42') {
+            $errorClass = substr($e->getCode(), 0, 2);
+
+            // 42XXX = syntax error or access rule violation; reported on undefined function.
+            // 22XXX = data exception; reported by MySQL 5.7 on unsupported geometry.
+            if ($errorClass == '42' || $errorClass == '22') {
                 throw GeometryEngineException::operationNotSupportedByDatabase($e);
             }
 
