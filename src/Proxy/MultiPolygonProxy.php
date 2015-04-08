@@ -138,6 +138,18 @@ class MultiPolygonProxy extends MultiPolygon implements ProxyInterface
     /**
      * {@inheritdoc}
      */
+    public function dimension()
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->dimension();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getPolygons()
     {
         if ($this->proxyGeometry === null) {
@@ -169,18 +181,6 @@ class MultiPolygonProxy extends MultiPolygon implements ProxyInterface
         }
 
         return $this->proxyGeometry->geometryN($n);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function dimension()
-    {
-        if ($this->proxyGeometry === null) {
-            $this->load();
-        }
-
-        return $this->proxyGeometry->dimension();
     }
 
     /**

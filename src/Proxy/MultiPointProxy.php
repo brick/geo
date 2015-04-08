@@ -138,13 +138,13 @@ class MultiPointProxy extends MultiPoint implements ProxyInterface
     /**
      * {@inheritdoc}
      */
-    public function isSimple()
+    public function dimension()
     {
         if ($this->proxyGeometry === null) {
             $this->load();
         }
 
-        return $this->proxyGeometry->isSimple();
+        return $this->proxyGeometry->dimension();
     }
 
     /**
@@ -169,18 +169,6 @@ class MultiPointProxy extends MultiPoint implements ProxyInterface
         }
 
         return $this->proxyGeometry->geometryN($n);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function dimension()
-    {
-        if ($this->proxyGeometry === null) {
-            $this->load();
-        }
-
-        return $this->proxyGeometry->dimension();
     }
 
     /**
