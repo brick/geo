@@ -127,14 +127,16 @@ class Polygon extends Surface implements \Countable, \IteratorAggregate
      * Returns the exterior ring of this Polygon.
      *
      * @return LineString
+     *
+     * @throws GeometryException
      */
     public function exteriorRing()
     {
         if ($this->isEmpty) {
-            return LineString::create([], $this->is3D, $this->isMeasured, $this->srid);
+            throw new GeometryException('An empty Polygon has no exterior ring.');
         }
 
-        return reset($this->rings);
+        return $this->rings[0];
     }
 
     /**
