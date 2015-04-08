@@ -146,6 +146,11 @@ class CurveTest extends AbstractTestCase
         $curve = Curve::fromText($curve);
         $this->skipIfUnsupportedGeometry($curve);
 
+        if ($curve->isClosed() && $this->isMariaDB('< 10.1.4')) {
+            // @see https://mariadb.atlassian.net/browse/MDEV-7510
+            $this->markTestSkipped('A bug in MariaDB returns the wrong result.');
+        }
+
         $this->assertSame($isRing, $curve->isRing());
     }
 

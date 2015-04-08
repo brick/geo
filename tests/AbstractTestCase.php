@@ -6,6 +6,7 @@ use Brick\Geo\Engine\GeometryEngineRegistry;
 use Brick\Geo\Engine\GEOSEngine;
 use Brick\Geo\Engine\PDOEngine;
 use Brick\Geo\Engine\SQLite3Engine;
+use Brick\Geo\Exception\GeometryException;
 use Brick\Geo\Geometry;
 use Brick\Geo\GeometryCollection;
 use Brick\Geo\MultiLineString;
@@ -106,8 +107,9 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
     final protected function skipIfUnsupportedGeometry(Geometry $geometry)
     {
         if ($geometry->is3D() || $geometry->isMeasured()) {
-            if ($this->isMySQL()) {
-                $this->markTestSkipped('MySQL does not support Z and M coordinates.');
+            if ($this->isMySQL() || $this->isMariaDB()) {
+                // MySQL and MariaDB do not support Z and M coordinates.
+                $this->setExpectedException(GeometryException::class);
             }
         }
 
@@ -118,8 +120,9 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
         }
 
         if ($geometry->isEmpty() && ! $geometry instanceof GeometryCollection) {
-            if ($this->isMySQL() || $this->isSpatiaLite()) {
-                $this->markTestSkipped('MySQL and SpatiaLite do not correctly handle empty geometries, apart from collections.');
+            if ($this->isMySQL() || $this->isMariaDB() || $this->isSpatiaLite()) {
+                // MySQL, MariaDB andZ SpatiaLite do not correctly handle empty geometries, apart from collections.
+                $this->setExpectedException(GeometryException::class);
             }
         }
     }
