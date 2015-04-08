@@ -168,7 +168,7 @@ class Polygon extends Surface implements \Countable, \IteratorAggregate
     {
         $n = (int) $n;
 
-        if (! isset($this->rings[$n])) {
+        if ($n === 0 || ! isset($this->rings[$n])) {
             throw new GeometryException('There is no interior ring in this Polygon at index ' . $n);
         }
 
