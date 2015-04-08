@@ -56,4 +56,12 @@ abstract class MultiSurface extends GeometryCollection
     {
         return GeometryEngineRegistry::get()->pointOnSurface($this);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected static function containedGeometryType()
+    {
+        return Surface::class;
+    }
 }
