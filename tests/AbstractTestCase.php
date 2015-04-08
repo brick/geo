@@ -120,9 +120,13 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
         }
 
         if ($geometry->isEmpty() && ! $geometry instanceof GeometryCollection) {
-            if ($this->isMySQL() || $this->isMariaDB() || $this->isSpatiaLite()) {
-                // MySQL, MariaDB andZ SpatiaLite do not correctly handle empty geometries, apart from collections.
+            if ($this->isMySQL() || $this->isMariaDB()) {
+                // MySQL and MariaDB do not correctly handle empty geometries, apart from collections.
                 $this->setExpectedException(GeometryException::class);
+            }
+
+            if ($this->isSpatiaLite()) {
+                $this->markTestSkipped('SpatiaLite does not correctly handle empty geometries.');
             }
         }
     }
