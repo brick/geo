@@ -404,7 +404,9 @@ class GeometryTest extends AbstractTestCase
      */
     public function testIsSimple($geometry, $isSimple)
     {
-        $this->assertSame($isSimple, Geometry::fromText($geometry)->isSimple());
+        $geometry = Geometry::fromText($geometry);
+        $this->skipIfUnsupportedGeometry($geometry);
+        $this->assertSame($isSimple, $geometry->isSimple());
     }
 
     /**

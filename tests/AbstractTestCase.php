@@ -105,6 +105,18 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
      */
     final protected function skipIfUnsupportedGeometry(Geometry $geometry)
     {
+        if ($geometry->is3D() || $geometry->isMeasured()) {
+            if ($this->isMySQL()) {
+                $this->markTestSkipped('MySQL does not support Z and M coordinates.');
+            }
+        }
+
+        if ($geometry->isMeasured()) {
+            if ($this->isGEOS()) {
+                $this->markTestSkipped('GEOS does not support M coordinates in WKB.');
+            }
+        }
+
         if ($geometry->isEmpty() && ! $geometry instanceof GeometryCollection) {
             if ($this->isMySQL() || $this->isSpatiaLite()) {
                 $this->markTestSkipped('MySQL and SpatiaLite do not correctly handle empty geometries, apart from collections.');

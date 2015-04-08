@@ -38,32 +38,4 @@ class MultiPoint extends GeometryCollection
     {
         return Point::class;
     }
-
-    /**
-     * {@inheritdoc}
-     *
-     * A MultiPoint is simple if it has no repeated points.
-     *
-     * Only X and Y coordinates are compared when checking for repeated points.
-     */
-    public function isSimple()
-    {
-        $count = count($this->geometries);
-
-        for ($i = 0; $i < $count; $i++) {
-            /** @var Point $a */
-            $a = $this->geometries[$i];
-
-            for ($j = $i + 1; $j < $count; $j++) {
-                /** @var Point $b */
-                $b = $this->geometries[$j];
-
-                if ($a->x() === $b->x() && $a->y() === $b->y()) {
-                    return false;
-                }
-            }
-        }
-
-        return true;
-    }
 }
