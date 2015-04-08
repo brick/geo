@@ -198,9 +198,7 @@ class Polygon extends Surface implements \Countable, \IteratorAggregate
     }
 
     /**
-     * Returns a nested array representing the coordinates of this Polygon.
-     *
-     * @return array
+     * {@inheritdoc}
      */
     public function toArray()
     {

@@ -468,9 +468,7 @@ class Point extends Geometry
     }
 
     /**
-     * Returns an array representing the coordinates of this Point.
-     *
-     * @return array
+     * {@inheritdoc}
      */
     public function toArray()
     {

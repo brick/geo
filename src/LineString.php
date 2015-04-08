@@ -158,9 +158,7 @@ class LineString extends Curve implements \Countable, \IteratorAggregate
     }
 
     /**
-     * Returns a nested array representing the coordinates of this LineString.
-     *
-     * @return array
+     * {@inheritdoc}
      */
     public function toArray()
     {
