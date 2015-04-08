@@ -121,6 +121,8 @@ class PolyhedralSurface extends Surface implements \Countable, \IteratorAggregat
     }
 
     /**
+     * Returns the collection of polygons in this surface that bounds the given polygon 'p' for any polygon 'p' in the surface.
+     *
      * @todo needs implementation
      *
      * @noproxy
