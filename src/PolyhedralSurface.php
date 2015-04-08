@@ -137,17 +137,13 @@ class PolyhedralSurface extends Surface implements \Countable, \IteratorAggregat
     }
 
     /**
-     * @todo needs implementation
-     *
      * @noproxy
      *
      * @return boolean
-     *
-     * @throws GeometryException
      */
     public function isClosed()
     {
-        throw GeometryException::unimplementedMethod(__METHOD__);
+        return GeometryEngineRegistry::get()->isClosed($this);
     }
 
     /**

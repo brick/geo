@@ -54,7 +54,7 @@ abstract class Curve extends Geometry
      */
     public function isClosed()
     {
-        return $this->startPoint()->equals($this->endPoint());
+        return GeometryEngineRegistry::get()->isClosed($this);
     }
 
     /**

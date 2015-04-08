@@ -158,6 +158,14 @@ class GEOSEngine implements GeometryEngine
     /**
      * {@inheritdoc}
      */
+    public function isClosed(Geometry $g)
+    {
+        return $this->toGEOS($g)->isClosed();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function isSimple(Geometry $g)
     {
         return $this->toGEOS($g)->isSimple();

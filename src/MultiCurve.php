@@ -2,6 +2,8 @@
 
 namespace Brick\Geo;
 
+use Brick\Geo\Engine\GeometryEngineRegistry;
+
 /**
  * A MultiCurve is a 1-dimensional GeometryCollection whose elements are Curves.
  *
@@ -25,16 +27,26 @@ abstract class MultiCurve extends GeometryCollection
      *
      * The MultiCurve is considered closed if each element curve is closed.
      *
+     * @noproxy
+     *
      * @return integer
      */
-    abstract public function isClosed();
+    public function isClosed()
+    {
+        return GeometryEngineRegistry::get()->isClosed($this);
+    }
 
     /**
      * Returns the length of this MultiCurve.
      *
      * The length is equal to the sum of the lengths of the element Curves.
      *
+     * @noproxy
+     *
      * @return float
      */
-    abstract public function length();
+    public function length()
+    {
+        return GeometryEngineRegistry::get()->length($this);
+    }
 }

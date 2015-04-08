@@ -95,6 +95,15 @@ interface GeometryEngine
     public function isValid(Geometry $g);
 
     /**
+     * Returns true if the geometry is closed.
+     *
+     * @param Geometry $g
+     *
+     * @return boolean
+     */
+    public function isClosed(Geometry $g);
+
+    /**
      * Returns true if the geometry has no anomalous geometric points, such as self intersection or self tangency.
      *
      * @param Geometry $g

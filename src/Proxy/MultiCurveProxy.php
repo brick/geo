@@ -138,30 +138,6 @@ class MultiCurveProxy extends MultiCurve implements ProxyInterface
     /**
      * {@inheritdoc}
      */
-    public function isClosed()
-    {
-        if ($this->proxyGeometry === null) {
-            $this->load();
-        }
-
-        return $this->proxyGeometry->isClosed();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function length()
-    {
-        if ($this->proxyGeometry === null) {
-            $this->load();
-        }
-
-        return $this->proxyGeometry->length();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function numGeometries()
     {
         if ($this->proxyGeometry === null) {
