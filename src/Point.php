@@ -448,26 +448,6 @@ class Point extends Geometry
     }
 
     /**
-     * @noproxy
-     *
-     * {@inheritdoc}
-     */
-    public function envelope()
-    {
-        return $this->withoutZM();
-    }
-
-    /**
-     * @noproxy
-     *
-     * {@inheritdoc}
-     */
-    public function isSimple()
-    {
-        return true;
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function toArray()
