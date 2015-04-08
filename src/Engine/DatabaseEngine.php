@@ -50,7 +50,7 @@ abstract class DatabaseEngine implements GeometryEngine
      *
      * @return mixed
      *
-     * @throws GeometryException
+     * @throws GeometryEngineException
      */
     abstract protected function executeQuery($query, array $parameters);
 
@@ -63,13 +63,22 @@ abstract class DatabaseEngine implements GeometryEngine
      *
      * @return mixed
      *
-     * @throws GeometryException
+     * @throws GeometryEngineException
      */
     private function query($function, array $parameters, $returnsGeometry)
     {
         $query = $this->buildQuery($function, $parameters, $returnsGeometry);
+        $result = $this->executeQuery($query, $parameters);
 
-        return $this->executeQuery($query, $parameters);
+        if ($result === null) {
+            throw GeometryEngineException::operationYieldedNoResult();
+        }
+
+        if (is_resource($result)) {
+            $result = stream_get_contents($result);
+        }
+
+        return $result;
     }
 
     /**
@@ -79,6 +88,8 @@ abstract class DatabaseEngine implements GeometryEngine
      * @param array  $parameters The Geometry objects or scalar values to pass as parameters.
      *
      * @return boolean
+     *
+     * @throws GeometryEngineException
      */
     private function queryBoolean($function, array $parameters)
     {
@@ -94,6 +105,8 @@ abstract class DatabaseEngine implements GeometryEngine
      * @param array  $parameters The Geometry objects or scalar values to pass as parameters.
      *
      * @return float
+     *
+     * @throws GeometryEngineException
      */
     private function queryFloat($function, array $parameters)
     {
@@ -115,14 +128,6 @@ abstract class DatabaseEngine implements GeometryEngine
     private function queryGeometry($function, array $parameters)
     {
         $result = $this->query($function, $parameters, true);
-
-        if ($result === null) {
-            throw GeometryEngineException::operationYieldedNoResult();
-        }
-
-        if (is_resource($result)) {
-            $result = stream_get_contents($result);
-        }
 
         return Geometry::fromBinary($result);
     }
