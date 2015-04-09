@@ -59,8 +59,7 @@ class SurfaceTest extends AbstractTestCase
     public function providerCentroid()
     {
         return [
-            ['POLYGON ((1 1, 1 3, 4 3, 4 6, 6 6, 6 1, 1 1))', 'POINT (4.0625 2.9375)'],
-            ['POLYGON ((0 0, 0 4, 3 4, 3 3, 4 3, 4 0, 0 0))', 'POINT (1.9 1.9)'],
+            ['POLYGON ((1 2, 1 3, 2 3, 2 4, 3 4, 3 3, 4 3, 4 2, 3 2, 3 1, 2 1, 2 2, 1 2))', 'POINT (2.5 2.5)'],
             ['POLYGON ((0 0, 0 3, 3 3, 3 0, 0 0), (1 1, 1 2, 2 2, 2 1, 1 1))', 'POINT (1.5 1.5)'],
         ];
     }
