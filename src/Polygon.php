@@ -2,7 +2,6 @@
 
 namespace Brick\Geo;
 
-use Brick\Geo\Engine\GeometryEngineRegistry;
 use Brick\Geo\Exception\GeometryException;
 
 /**

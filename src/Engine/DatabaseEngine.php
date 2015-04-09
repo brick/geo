@@ -3,7 +3,6 @@
 namespace Brick\Geo\Engine;
 
 use Brick\Geo\Geometry;
-use Brick\Geo\Exception\GeometryException;
 use Brick\Geo\Exception\GeometryEngineException;
 
 /**

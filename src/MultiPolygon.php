@@ -2,8 +2,6 @@
 
 namespace Brick\Geo;
 
-use Brick\Geo\Engine\GeometryEngineRegistry;
-
 /**
  * A MultiPolygon is a MultiSurface whose elements are Polygons.
  *

@@ -3,7 +3,6 @@
 namespace Brick\Geo\Tests;
 
 use Brick\Geo\Exception\GeometryException;
-use Brick\Geo\LineString;
 use Brick\Geo\Polygon;
 
 /**
