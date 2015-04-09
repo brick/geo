@@ -43,7 +43,7 @@ class MultiCurveTest extends AbstractTestCase
      */
     public function testInvalidFromBinary($wkb)
     {
-        MultiCurve::fromText(hex2bin($wkb));
+        MultiCurve::fromBinary(hex2bin($wkb));
     }
 
     /**
@@ -56,7 +56,7 @@ class MultiCurveTest extends AbstractTestCase
             ['000000000300000000'],
             ['010f00000000000000'],
             ['010700000000000000'],
-            ['01ee03000000000000']
+            ['01ee03000000000000'],
         ];
     }
 
@@ -79,7 +79,7 @@ class MultiCurveTest extends AbstractTestCase
         $curve = MultiCurve::fromText($curve);
         $this->skipIfUnsupportedGeometry($curve);
 
-        $actualLength = MultiCurve::fromText($curve)->length();
+        $actualLength = $curve->length();
 
         $this->assertInternalType('float', $actualLength);
         $this->assertEquals($length, $actualLength, '', 0.001);
@@ -96,7 +96,7 @@ class MultiCurveTest extends AbstractTestCase
             ['MULTILINESTRING ((1 1, 2 2))', 1.414],
             ['MULTILINESTRING ((1 1, 2 2, 3 2, 3 3))', 3.414],
             ['MULTILINESTRING ((1 1, 2 1), (2 2, 2 3))', 2],
-            ['MULTILINESTRING ((1 1, 2 2), (1 1, 2 2, 3 2, 3 3))', 4.828]
+            ['MULTILINESTRING ((1 1, 2 2), (1 1, 2 2, 3 2, 3 3))', 4.828],
         ];
     }
 
