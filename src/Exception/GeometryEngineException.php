@@ -14,9 +14,9 @@ class GeometryEngineException extends GeometryException
      *
      * @return GeometryEngineException
      */
-    public static function operationNotSupportedByDatabase(\Exception $e)
+    public static function operationNotSupportedByEngine(\Exception $e)
     {
-        return new self('This operation is not supported by the target database.', $e->getCode(), $e);
+        return new self('This operation is not supported by the geometry engine.', $e->getCode(), $e);
     }
 
     /**

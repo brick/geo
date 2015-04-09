@@ -54,7 +54,7 @@ class SQLite3Engine extends DatabaseEngine
 
             if ($errorCode === 1) {
                 // SQL error cause by a missing function, this must be reported with a GeometryEngineException.
-                throw GeometryEngineException::operationNotSupportedByDatabase($exception);
+                throw GeometryEngineException::operationNotSupportedByEngine($exception);
             } else {
                 // Other SQLite3 error; we cannot trigger the original E_WARNING, so we throw this exception instead.
                 throw $exception;
