@@ -23,12 +23,12 @@ class GEOSEngine implements GeometryEngine
     private $wkbWriter;
 
     /**
-     * @var EWKBReader
+     * @var \Brick\Geo\IO\EWKBReader
      */
     private $ewkbReader;
 
     /**
-     * @var EWKBWriter
+     * @var \Brick\Geo\IO\EWKBWriter
      */
     private $ewkbWriter;
 
@@ -88,7 +88,11 @@ class GEOSEngine implements GeometryEngine
      */
     public function union(Geometry $a, Geometry $b)
     {
-        return $this->fromGEOS($this->toGEOS($a)->union($this->toGEOS($b)));
+        try {
+            return $this->fromGEOS($this->toGEOS($a)->union($this->toGEOS($b)));
+        } catch (\Exception $e) {
+            throw GeometryEngineException::operationNotSupportedByEngine($e);
+        }
     }
 
     /**
@@ -96,7 +100,11 @@ class GEOSEngine implements GeometryEngine
      */
     public function difference(Geometry $a, Geometry $b)
     {
-        return $this->fromGEOS($this->toGEOS($a)->difference($this->toGEOS($b)));
+        try {
+            return $this->fromGEOS($this->toGEOS($a)->difference($this->toGEOS($b)));
+        } catch (\Exception $e) {
+            throw GeometryEngineException::operationNotSupportedByEngine($e);
+        }
     }
 
     /**
@@ -104,7 +112,11 @@ class GEOSEngine implements GeometryEngine
      */
     public function envelope(Geometry $g)
     {
-        return $this->fromGEOS($this->toGEOS($g)->envelope());
+        try {
+            return $this->fromGEOS($this->toGEOS($g)->envelope());
+        } catch (\Exception $e) {
+            throw GeometryEngineException::operationNotSupportedByEngine($e);
+        }
     }
 
     /**
@@ -112,7 +124,11 @@ class GEOSEngine implements GeometryEngine
      */
     public function length(Geometry $g)
     {
-        return $this->toGEOS($g)->length();
+        try {
+            return $this->toGEOS($g)->length();
+        } catch (\Exception $e) {
+            throw GeometryEngineException::operationNotSupportedByEngine($e);
+        }
     }
 
     /**
@@ -120,7 +136,11 @@ class GEOSEngine implements GeometryEngine
      */
     public function area(Geometry $g)
     {
-        return $this->toGEOS($g)->area();
+        try {
+            return $this->toGEOS($g)->area();
+        } catch (\Exception $e) {
+            throw GeometryEngineException::operationNotSupportedByEngine($e);
+        }
     }
 
     /**
@@ -128,7 +148,11 @@ class GEOSEngine implements GeometryEngine
      */
     public function centroid(Geometry $g)
     {
-        return $this->fromGEOS($this->toGEOS($g)->centroid());
+        try {
+            return $this->fromGEOS($this->toGEOS($g)->centroid());
+        } catch (\Exception $e) {
+            throw GeometryEngineException::operationNotSupportedByEngine($e);
+        }
     }
 
     /**
@@ -136,7 +160,11 @@ class GEOSEngine implements GeometryEngine
      */
     public function pointOnSurface(Geometry $g)
     {
-        return $this->fromGEOS($this->toGEOS($g)->pointOnSurface());
+        try {
+            return $this->fromGEOS($this->toGEOS($g)->pointOnSurface());
+        } catch (\Exception $e) {
+            throw GeometryEngineException::operationNotSupportedByEngine($e);
+        }
     }
 
     /**
@@ -144,7 +172,11 @@ class GEOSEngine implements GeometryEngine
      */
     public function boundary(Geometry $g)
     {
-        return $this->fromGEOS($this->toGEOS($g)->boundary());
+        try {
+            return $this->fromGEOS($this->toGEOS($g)->boundary());
+        } catch (\Exception $e) {
+            throw GeometryEngineException::operationNotSupportedByEngine($e);
+        }
     }
 
     /**
@@ -152,7 +184,11 @@ class GEOSEngine implements GeometryEngine
      */
     public function isValid(Geometry $g)
     {
-        return $this->toGEOS($g)->checkValidity()['valid'];
+        try {
+            return $this->toGEOS($g)->checkValidity()['valid'];
+        } catch (\Exception $e) {
+            throw GeometryEngineException::operationNotSupportedByEngine($e);
+        }
     }
 
     /**
@@ -172,7 +208,11 @@ class GEOSEngine implements GeometryEngine
      */
     public function isSimple(Geometry $g)
     {
-        return $this->toGEOS($g)->isSimple();
+        try {
+            return $this->toGEOS($g)->isSimple();
+        } catch (\Exception $e) {
+            throw GeometryEngineException::operationNotSupportedByEngine($e);
+        }
     }
 
     /**
@@ -180,7 +220,11 @@ class GEOSEngine implements GeometryEngine
      */
     public function equals(Geometry $a, Geometry $b)
     {
-        return $this->toGEOS($a)->equals($this->toGEOS($b));
+        try {
+            return $this->toGEOS($a)->equals($this->toGEOS($b));
+        } catch (\Exception $e) {
+            throw GeometryEngineException::operationNotSupportedByEngine($e);
+        }
     }
 
     /**
@@ -188,7 +232,11 @@ class GEOSEngine implements GeometryEngine
      */
     public function disjoint(Geometry $a, Geometry $b)
     {
-        return $this->toGEOS($a)->disjoint($this->toGEOS($b));
+        try {
+            return $this->toGEOS($a)->disjoint($this->toGEOS($b));
+        } catch (\Exception $e) {
+            throw GeometryEngineException::operationNotSupportedByEngine($e);
+        }
     }
 
     /**
@@ -196,7 +244,11 @@ class GEOSEngine implements GeometryEngine
      */
     public function intersects(Geometry $a, Geometry $b)
     {
-        return $this->toGEOS($a)->intersects($this->toGEOS($b));
+        try {
+            return $this->toGEOS($a)->intersects($this->toGEOS($b));
+        } catch (\Exception $e) {
+            throw GeometryEngineException::operationNotSupportedByEngine($e);
+        }
     }
 
     /**
@@ -204,7 +256,11 @@ class GEOSEngine implements GeometryEngine
      */
     public function touches(Geometry $a, Geometry $b)
     {
-        return $this->toGEOS($a)->touches($this->toGEOS($b));
+        try {
+            return $this->toGEOS($a)->touches($this->toGEOS($b));
+        } catch (\Exception $e) {
+            throw GeometryEngineException::operationNotSupportedByEngine($e);
+        }
     }
 
     /**
@@ -212,7 +268,11 @@ class GEOSEngine implements GeometryEngine
      */
     public function crosses(Geometry $a, Geometry $b)
     {
-        return $this->toGEOS($a)->crosses($this->toGEOS($b));
+        try {
+            return $this->toGEOS($a)->crosses($this->toGEOS($b));
+        } catch (\Exception $e) {
+            throw GeometryEngineException::operationNotSupportedByEngine($e);
+        }
     }
 
     /**
@@ -220,7 +280,11 @@ class GEOSEngine implements GeometryEngine
      */
     public function within(Geometry $a, Geometry $b)
     {
-        return $this->toGEOS($a)->within($this->toGEOS($b));
+        try {
+            return $this->toGEOS($a)->within($this->toGEOS($b));
+        } catch (\Exception $e) {
+            throw GeometryEngineException::operationNotSupportedByEngine($e);
+        }
     }
 
     /**
@@ -228,7 +292,11 @@ class GEOSEngine implements GeometryEngine
      */
     public function contains(Geometry $a, Geometry $b)
     {
-        return $this->toGEOS($a)->contains($this->toGEOS($b));
+        try {
+            return $this->toGEOS($a)->contains($this->toGEOS($b));
+        } catch (\Exception $e) {
+            throw GeometryEngineException::operationNotSupportedByEngine($e);
+        }
     }
 
     /**
@@ -236,7 +304,11 @@ class GEOSEngine implements GeometryEngine
      */
     public function overlaps(Geometry $a, Geometry $b)
     {
-        return $this->toGEOS($a)->overlaps($this->toGEOS($b));
+        try {
+            return $this->toGEOS($a)->overlaps($this->toGEOS($b));
+        } catch (\Exception $e) {
+            throw GeometryEngineException::operationNotSupportedByEngine($e);
+        }
     }
 
     /**
@@ -244,7 +316,11 @@ class GEOSEngine implements GeometryEngine
      */
     public function relate(Geometry $a, Geometry $b, $matrix)
     {
-        return $this->toGEOS($a)->relate($this->toGEOS($b), $matrix);
+        try {
+            return $this->toGEOS($a)->relate($this->toGEOS($b), $matrix);
+        } catch (\Exception $e) {
+            throw GeometryEngineException::operationNotSupportedByEngine($e);
+        }
     }
 
     /**
@@ -268,7 +344,11 @@ class GEOSEngine implements GeometryEngine
      */
     public function distance(Geometry $a, Geometry $b)
     {
-        return $this->toGEOS($a)->distance($this->toGEOS($b));
+        try {
+            return $this->toGEOS($a)->distance($this->toGEOS($b));
+        } catch (\Exception $e) {
+            throw GeometryEngineException::operationNotSupportedByEngine($e);
+        }
     }
 
     /**
@@ -276,7 +356,11 @@ class GEOSEngine implements GeometryEngine
      */
     public function buffer(Geometry $g, $distance)
     {
-        return $this->fromGEOS($this->toGEOS($g)->buffer($distance));
+        try {
+            return $this->fromGEOS($this->toGEOS($g)->buffer($distance));
+        } catch (\Exception $e) {
+            throw GeometryEngineException::operationNotSupportedByEngine($e);
+        }
     }
 
     /**
@@ -284,7 +368,11 @@ class GEOSEngine implements GeometryEngine
      */
     public function convexHull(Geometry $g)
     {
-        return $this->fromGEOS($this->toGEOS($g)->convexHull());
+        try {
+            return $this->fromGEOS($this->toGEOS($g)->convexHull());
+        } catch (\Exception $e) {
+            throw GeometryEngineException::operationNotSupportedByEngine($e);
+        }
     }
 
     /**
@@ -292,7 +380,11 @@ class GEOSEngine implements GeometryEngine
      */
     public function intersection(Geometry $a, Geometry $b)
     {
-        return $this->fromGEOS($this->toGEOS($a)->intersection($this->toGEOS($b)));
+        try {
+            return $this->fromGEOS($this->toGEOS($a)->intersection($this->toGEOS($b)));
+        } catch (\Exception $e) {
+            throw GeometryEngineException::operationNotSupportedByEngine($e);
+        }
     }
 
     /**
@@ -300,7 +392,11 @@ class GEOSEngine implements GeometryEngine
      */
     public function symDifference(Geometry $a, Geometry $b)
     {
-        return $this->fromGEOS($this->toGEOS($a)->symDifference($this->toGEOS($b)));
+        try {
+            return $this->fromGEOS($this->toGEOS($a)->symDifference($this->toGEOS($b)));
+        } catch (\Exception $e) {
+            throw GeometryEngineException::operationNotSupportedByEngine($e);
+        }
     }
 
     /**
@@ -316,7 +412,11 @@ class GEOSEngine implements GeometryEngine
      */
     public function simplify(Geometry $g, $tolerance)
     {
-        return $this->fromGEOS($this->toGEOS($g)->simplify($tolerance));
+        try {
+            return $this->fromGEOS($this->toGEOS($g)->simplify($tolerance));
+        } catch (\Exception $e) {
+            throw GeometryEngineException::operationNotSupportedByEngine($e);
+        }
     }
 
     /**
