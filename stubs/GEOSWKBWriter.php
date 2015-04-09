@@ -68,7 +68,9 @@ class GEOSWKBWriter
      *
      * @param GEOSGeometry $geom
      *
-     * @return string|null The WKB, or NULL on failure.
+     * @return string
+     *
+     * @throws \Exception If the geometry does not have a WKB representation, notably POINT EMPTY.
      */
     public function write(GEOSGeometry $geom) {}
 
@@ -77,7 +79,9 @@ class GEOSWKBWriter
      *
      * @param GEOSGeometry $geom
      *
-     * @return string|null The WKB, or NULL on failure.
+     * @return string
+     *
+     * @throws \Exception If the geometry does not have a WKB representation, notably POINT EMPTY.
      */
     public function writeHEX(GEOSGeometry $geom) {}
 }

@@ -18,7 +18,9 @@ class GEOSWKTReader
     /**
      * @param string $wkt
      *
-     * @return GEOSGeometry|null The geometry, or NULL on failure.
+     * @return GEOSGeometry
+     *
+     * @throws \Exception If the WKT is not valid.
      */
     public function read($wkt) {}
 }

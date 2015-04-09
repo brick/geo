@@ -20,7 +20,9 @@ class GEOSWKBReader
      *
      * @param string $wkb
      *
-     * @return GEOSGeometry|null The geometry, or NULL on failure.
+     * @return GEOSGeometry
+     *
+     * @throws \Exception If the WKB is not valid.
      */
     public function read($wkb) {}
 
@@ -29,7 +31,9 @@ class GEOSWKBReader
      *
      * @param string $wkb
      *
-     * @return GEOSGeometry|null The geometry, or NULL on failure.
+     * @return GEOSGeometry
+     *
+     * @throws \Exception If the WKB is not valid.
      */
     public function readHEX($wkb) {}
 }

@@ -18,7 +18,9 @@ class GEOSWKTWriter
     /**
      * @param GEOSGeometry $geom
      *
-     * @return string|null The WKT, or NULL on failure.
+     * @return string
+     *
+     * @throws \Exception
      */
     public function write(GEOSGeometry $geom) {}
 
