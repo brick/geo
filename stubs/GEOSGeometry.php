@@ -255,7 +255,9 @@ class GEOSGeometry
     public function hasZ() {}
 
     /**
-     * @return boolean|null Returns NULL on error.
+     * @return boolean
+     *
+     * @throws \Exception If this geometry is not a LineString.
      */
     public function isClosed() {}
 

@@ -160,7 +160,11 @@ class GEOSEngine implements GeometryEngine
      */
     public function isClosed(Geometry $g)
     {
-        return $this->toGEOS($g)->isClosed();
+        try {
+            return $this->toGEOS($g)->isClosed();
+        } catch (\Exception $e) {
+            throw GeometryEngineException::operationNotSupportedByEngine($e);
+        }
     }
 
     /**
