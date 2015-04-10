@@ -59,13 +59,11 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
         $engine = GeometryEngineRegistry::get();
 
         if ($engine instanceof SQLite3Engine) {
-            $sqlite3 = $engine->getSQLite3();
-
             if ($operatorAndVersion === null) {
                 return true;
             }
 
-            $version = $sqlite3->querySingle('SELECT spatialite_version()');
+            $version =  $engine->getSQLite3()->querySingle('SELECT spatialite_version()');
 
             return $this->isVersion($version, $operatorAndVersion);
         }
@@ -74,11 +72,23 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @param string|null $operatorAndVersion An optional version to satisfy.
+     *
      * @return boolean
      */
-    final protected function isGEOS()
+    final protected function isGEOS($operatorAndVersion = null)
     {
-        return GeometryEngineRegistry::get() instanceof GEOSEngine;
+        $engine = GeometryEngineRegistry::get();
+
+        if ($engine instanceof GEOSEngine) {
+            if ($operatorAndVersion === null) {
+                return true;
+            }
+
+            return $this->isVersion(GEOSVersion(), $operatorAndVersion);
+        }
+
+        return false;
     }
 
     /**
