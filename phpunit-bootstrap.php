@@ -117,6 +117,8 @@ function createGeometryEngine()
             break;
 
         case 'GEOS':
+            echo 'GEOS version: ' . GEOSVersion();
+
             $engine = new GEOSEngine();
             break;
 
