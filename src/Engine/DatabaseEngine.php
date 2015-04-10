@@ -25,20 +25,20 @@ abstract class DatabaseEngine implements GeometryEngine
     {
         foreach ($parameters as & $parameter) {
             if ($parameter instanceof Geometry) {
-                $parameter = 'ST_GeomFromWkb(?, ?)';
+                $parameter = 'ST_GeomFromWKB(?, ?)';
             } else {
                 $parameter = '?';
             }
         }
 
         $parameters = implode(', ', $parameters);
-        $query = sprintf('%s(%s)', $function, $parameters);
+        $query = sprintf('SELECT %s(%s)', $function, $parameters);
 
         if ($returnsGeometry) {
-            $query = sprintf('ST_AsBinary(%s)', $query);
+            $query = sprintf('SELECT ST_AsBinary(g), ST_SRID(g) FROM (%s AS g) AS t', $query);
         }
 
-        return sprintf('SELECT %s', $query);
+        return $query;
     }
 
     /**
@@ -47,7 +47,7 @@ abstract class DatabaseEngine implements GeometryEngine
      * @param string $query      The SQL query to execute.
      * @param array  $parameters The Geometry objects or scalar values to pass as parameters.
      *
-     * @return mixed
+     * @return array A numeric result array.
      *
      * @throws GeometryEngineException
      */
@@ -60,7 +60,7 @@ abstract class DatabaseEngine implements GeometryEngine
      * @param array   $parameters      The Geometry objects or scalar values to pass as parameters.
      * @param boolean $returnsGeometry Whether the GIS function returns a Geometry.
      *
-     * @return mixed
+     * @return array A numeric result array.
      *
      * @throws GeometryEngineException
      */
@@ -69,19 +69,15 @@ abstract class DatabaseEngine implements GeometryEngine
         $query = $this->buildQuery($function, $parameters, $returnsGeometry);
         $result = $this->executeQuery($query, $parameters);
 
-        if ($result === null) {
+        if ($result[0] === null) {
             throw GeometryEngineException::operationYieldedNoResult();
-        }
-
-        if (is_resource($result)) {
-            $result = stream_get_contents($result);
         }
 
         return $result;
     }
 
     /**
-     * Executes a SQL query returning a boolean value.
+     * Queries a GIS function returning a boolean value.
      *
      * @param string $function   The SQL GIS function to execute.
      * @param array  $parameters The Geometry objects or scalar values to pass as parameters.
@@ -92,13 +88,13 @@ abstract class DatabaseEngine implements GeometryEngine
      */
     private function queryBoolean($function, array $parameters)
     {
-        $result = $this->query($function, $parameters, false);
+        list ($result) = $this->query($function, $parameters, false);
 
         return (boolean) $result;
     }
 
     /**
-     * Executes a SQL query returning a floating point value.
+     * Queries a GIS function returning a floating point value.
      *
      * @param string $function   The SQL GIS function to execute.
      * @param array  $parameters The Geometry objects or scalar values to pass as parameters.
@@ -109,13 +105,13 @@ abstract class DatabaseEngine implements GeometryEngine
      */
     private function queryFloat($function, array $parameters)
     {
-        $result = $this->query($function, $parameters, false);
+        list ($result) = $this->query($function, $parameters, false);
 
         return (float) $result;
     }
 
     /**
-     * Executes a SQL query returning a Geometry object.
+     * Queries a GIS function returning a Geometry object.
      *
      * @param string $function   The SQL GIS function to execute.
      * @param array  $parameters The Geometry objects or scalar values to pass as parameters.
@@ -126,9 +122,13 @@ abstract class DatabaseEngine implements GeometryEngine
      */
     private function queryGeometry($function, array $parameters)
     {
-        $result = $this->query($function, $parameters, true);
+        list ($wkb, $srid) = $this->query($function, $parameters, true);
 
-        return Geometry::fromBinary($result);
+        if (is_resource($wkb)) {
+            $wkb = stream_get_contents($wkb);
+        }
+
+        return Geometry::fromBinary($wkb, $srid);
     }
 
     /**

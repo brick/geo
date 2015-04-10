@@ -59,7 +59,7 @@ class PDOEngine extends DatabaseEngine
 
             $statement->execute();
 
-            $result = $statement->fetchColumn();
+            $result = $statement->fetch(\PDO::FETCH_NUM);
         } catch (\PDOException $e) {
             $errorClass = substr($e->getCode(), 0, 2);
 

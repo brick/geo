@@ -84,6 +84,6 @@ class SQLite3Engine extends DatabaseEngine
 
         $result = $statement->execute();
 
-        return $result->fetchArray(SQLITE3_NUM)[0];
+        return $result->fetchArray(SQLITE3_NUM);
     }
 }
