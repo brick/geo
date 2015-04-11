@@ -4,15 +4,16 @@ namespace Brick\Geo\IO;
 
 use Brick\Geo\Point;
 use Brick\Geo\LineString;
+use Brick\Geo\CircularString;
 use Brick\Geo\Polygon;
 use Brick\Geo\MultiPoint;
 use Brick\Geo\MultiLineString;
 use Brick\Geo\MultiPolygon;
 use Brick\Geo\GeometryCollection;
-use Brick\Geo\Exception\GeometryException;
 use Brick\Geo\PolyhedralSurface;
 use Brick\Geo\TIN;
 use Brick\Geo\Triangle;
+use Brick\Geo\Exception\GeometryException;
 
 /**
  * Base class for WKTReader and EWKTReader.
@@ -75,6 +76,13 @@ abstract class WKTAbstractReader
                 }
 
                 return $this->readLineStringText($parser, $is3D, $isMeasured, $srid);
+
+            case 'CIRCULARSTRING':
+                if ($isEmpty) {
+                    return CircularString::create([], $is3D, $isMeasured, $srid);
+                }
+
+                return $this->readCircularStringText($parser, $is3D, $isMeasured, $srid);
 
             case 'POLYGON':
                 if ($isEmpty) {
@@ -232,7 +240,24 @@ abstract class WKTAbstractReader
     {
         $points = $this->readMultiPoint($parser, $is3D, $isMeasured, $srid);
 
-        return LineString::factory($points);
+        return LineString::create($points, $is3D, $isMeasured, $srid);
+    }
+
+    /**
+     * (x y, ...)
+     *
+     * @param WKTParser $parser
+     * @param boolean   $is3D
+     * @param boolean   $isMeasured
+     * @param integer   $srid
+     *
+     * @return \Brick\Geo\LineString
+     */
+    private function readCircularStringText(WKTParser $parser, $is3D, $isMeasured, $srid)
+    {
+        $points = $this->readMultiPoint($parser, $is3D, $isMeasured, $srid);
+
+        return CircularString::create($points, $is3D, $isMeasured, $srid);
     }
 
     /**

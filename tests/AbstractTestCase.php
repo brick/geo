@@ -14,6 +14,7 @@ use Brick\Geo\MultiPoint;
 use Brick\Geo\MultiPolygon;
 use Brick\Geo\Point;
 use Brick\Geo\LineString;
+use Brick\Geo\CircularString;
 use Brick\Geo\Polygon;
 
 /**
@@ -137,6 +138,13 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
 
             if ($this->isSpatiaLite()) {
                 $this->markTestSkipped('SpatiaLite does not correctly handle empty geometries.');
+            }
+        }
+
+        if ($geometry instanceof CircularString) {
+            if ($this->isGEOS() || $this->isSpatiaLite() || $this->isMySQL() || $this->isMariaDB()) {
+                // GEOS, SpatiaLite, MySQL and MariaDB do not support CircularString.
+                $this->setExpectedException(GeometryException::class);
             }
         }
     }
@@ -363,6 +371,25 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
         }
 
         return LineString::create($points, $is3D, $isMeasured, $srid);
+    }
+
+    /**
+     * @param array   $coords
+     * @param boolean $is3D
+     * @param boolean $isMeasured
+     * @param integer $srid
+     *
+     * @return LineString
+     */
+    final protected function createCircularString(array $coords, $is3D, $isMeasured, $srid = 0)
+    {
+        $points = [];
+
+        foreach ($coords as $point) {
+            $points[] = self::createPoint($point, $is3D, $isMeasured, $srid);
+        }
+
+        return CircularString::create($points, $is3D, $isMeasured, $srid);
     }
 
     /**

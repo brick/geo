@@ -3,10 +3,10 @@
 namespace Brick\Geo\IO;
 
 use Brick\Geo\Exception\GeometryException;
-
 use Brick\Geo\Geometry;
 use Brick\Geo\Point;
 use Brick\Geo\LineString;
+use Brick\Geo\CircularString;
 use Brick\Geo\Polygon;
 use Brick\Geo\Triangle;
 use Brick\Geo\MultiPoint;
@@ -81,6 +81,9 @@ class WKBWriter
         }
         if ($geometry instanceof LineString) {
             return $this->writeLineString($geometry, $outer);
+        }
+        if ($geometry instanceof CircularString) {
+            return $this->writeCircularString($geometry, $outer);
         }
         if ($geometry instanceof Triangle) {
             return $this->writeTriangle($geometry, $outer);
@@ -206,6 +209,22 @@ class WKBWriter
     }
 
     /**
+     * @param \Brick\Geo\CircularString $circularString
+     *
+     * @return string
+     */
+    private function packCircularString(CircularString $circularString)
+    {
+        $wkb = $this->packUnsignedInteger($circularString->count());
+
+        foreach ($circularString as $point) {
+            $wkb .= $this->packPoint($point);
+        }
+
+        return $wkb;
+    }
+
+    /**
      * @param Point   $point
      * @param boolean $outer
      *
@@ -231,6 +250,21 @@ class WKBWriter
         $wkb = $this->packByteOrder();
         $wkb.= $this->packHeader(Geometry::LINESTRING, $lineString, $outer);
         $wkb.= $this->packLineString($lineString);
+
+        return $wkb;
+    }
+
+    /**
+     * @param CircularString $circularString
+     * @param boolean        $outer
+     *
+     * @return string
+     */
+    private function writeCircularString(CircularString $circularString, $outer)
+    {
+        $wkb = $this->packByteOrder();
+        $wkb.= $this->packHeader(Geometry::CIRCULARSTRING, $circularString, $outer);
+        $wkb.= $this->packCircularString($circularString);
 
         return $wkb;
     }

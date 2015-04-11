@@ -81,6 +81,23 @@ class WKTWriterTest extends WKTAbstractTest
     }
 
     /**
+     * @dataProvider providerCircularStringWKT
+     *
+     * @param string  $wkt        The expected WKT.
+     * @param array   $coords     The CircularString coordinates.
+     * @param boolean $is3D       Whether the CircularString has Z coordinates.
+     * @param boolean $isMeasured Whether the CircularString has M coordinates.
+     */
+    public function testWriteCircularString($wkt, array $coords, $is3D, $isMeasured)
+    {
+        $writer = new WKTWriter();
+        $writer->setPrettyPrint(false);
+
+        $lineString = self::createCircularString($coords, $is3D, $isMeasured);
+        $this->assertSame($wkt, $writer->write($lineString));
+    }
+
+    /**
      * @dataProvider providerPolygonWKT
      *
      * @param string  $wkt        The expected WKT.

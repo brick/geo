@@ -17,6 +17,7 @@ abstract class WKTAbstractTest extends AbstractTestCase
         return array_merge(
             $this->providerPointWKT(),
             $this->providerLineStringWKT(),
+            $this->providerCircularStringWKT(),
             $this->providerPolygonWKT(),
             $this->providerMultiPointWKT(),
             $this->providerMultiLineStringWKT(),
@@ -58,6 +59,24 @@ abstract class WKTAbstractTest extends AbstractTestCase
             ['LINESTRING Z(0 1 2,1 2 3,2 3 4)', [[0, 1, 2], [1, 2, 3], [2, 3, 4]], true, false],
             ['LINESTRING M(1 2 3,2 3 4,3 4 5)', [[1, 2, 3], [2, 3, 4], [3, 4, 5]], false, true],
             ['LINESTRING ZM(2 3 4 5,3 4 5 6,4 5 6 7)', [[2, 3, 4, 5], [3, 4, 5, 6], [4, 5, 6, 7]], true, true],
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function providerCircularStringWKT()
+    {
+        return [
+            ['CIRCULARSTRING EMPTY', [], false, false],
+            ['CIRCULARSTRING Z EMPTY', [], true, false],
+            ['CIRCULARSTRING M EMPTY', [], false, true],
+            ['CIRCULARSTRING ZM EMPTY', [], true, true],
+
+            ['CIRCULARSTRING(0 0,1 2,3 4)', [[0, 0], [1, 2], [3, 4]], false, false],
+            ['CIRCULARSTRING Z(0 1 2,1 2 3,2 3 4)', [[0, 1, 2], [1, 2, 3], [2, 3, 4]], true, false],
+            ['CIRCULARSTRING M(1 2 3,2 3 4,3 4 5)', [[1, 2, 3], [2, 3, 4], [3, 4, 5]], false, true],
+            ['CIRCULARSTRING ZM(2 3 4 5,3 4 5 6,4 5 6 7)', [[2, 3, 4, 5], [3, 4, 5, 6], [4, 5, 6, 7]], true, true],
         ];
     }
 

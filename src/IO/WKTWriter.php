@@ -2,10 +2,10 @@
 
 namespace Brick\Geo\IO;
 
-use Brick\Geo\Exception\GeometryException;
 use Brick\Geo\Geometry;
 use Brick\Geo\Point;
 use Brick\Geo\LineString;
+use Brick\Geo\CircularString;
 use Brick\Geo\Polygon;
 use Brick\Geo\MultiPoint;
 use Brick\Geo\MultiLineString;
@@ -14,6 +14,7 @@ use Brick\Geo\GeometryCollection;
 use Brick\Geo\PolyhedralSurface;
 use Brick\Geo\TIN;
 use Brick\Geo\Triangle;
+use Brick\Geo\Exception\GeometryException;
 
 /**
  * Converter class from Geometry to WKT.
@@ -98,6 +99,8 @@ class WKTWriter
             $data = $this->writePoint($geometry);
         } elseif ($geometry instanceof LineString) {
             $data = $this->writeLineString($geometry);
+        } elseif ($geometry instanceof CircularString) {
+            $data = $this->writeCircularString($geometry);
         } elseif ($geometry instanceof Triangle) {
             $data = $this->writePolygon($geometry);
         } elseif ($geometry instanceof Polygon) {
@@ -151,6 +154,22 @@ class WKTWriter
         $result = [];
 
         foreach ($lineString as $point) {
+            $result[] = $this->writePoint($point);
+        }
+
+        return implode(',' . $this->prettyPrintSpace, $result);
+    }
+
+    /**
+     * @param \Brick\Geo\CircularString $circularString
+     *
+     * @return string
+     */
+    private function writeCircularString(CircularString $circularString)
+    {
+        $result = [];
+
+        foreach ($circularString as $point) {
             $result[] = $this->writePoint($point);
         }
 

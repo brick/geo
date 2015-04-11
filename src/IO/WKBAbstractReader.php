@@ -7,6 +7,7 @@ use Brick\Geo\Exception\GeometryParseException;
 use Brick\Geo\Geometry;
 use Brick\Geo\Point;
 use Brick\Geo\LineString;
+use Brick\Geo\CircularString;
 use Brick\Geo\Polygon;
 use Brick\Geo\MultiPoint;
 use Brick\Geo\MultiLineString;
@@ -54,6 +55,9 @@ abstract class WKBAbstractReader
 
             case Geometry::LINESTRING:
                 return $this->readLineString($buffer, $is3D, $isMeasured, $srid);
+
+            case Geometry::CIRCULARSTRING:
+                return $this->readCircularString($buffer, $is3D, $isMeasured, $srid);
 
             case Geometry::POLYGON:
                 return $this->readPolygon($buffer, $is3D, $isMeasured, $srid);
@@ -130,6 +134,27 @@ abstract class WKBAbstractReader
         }
 
         return LineString::create($points, $is3D, $isMeasured, $srid);
+    }
+
+    /**
+     * @param WKBBuffer $buffer
+     * @param boolean   $is3D
+     * @param boolean   $isMeasured
+     * @param integer   $srid
+     *
+     * @return \Brick\Geo\LineString
+     */
+    private function readCircularString(WKBBuffer $buffer, $is3D, $isMeasured, $srid)
+    {
+        $numPoints = $buffer->readUnsignedLong();
+
+        $points = [];
+
+        for ($i = 0; $i < $numPoints; $i++) {
+            $points[] = $this->readPoint($buffer, $is3D, $isMeasured, $srid);
+        }
+
+        return CircularString::create($points, $is3D, $isMeasured, $srid);
     }
 
     /**

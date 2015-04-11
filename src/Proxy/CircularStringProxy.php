@@ -3,12 +3,12 @@
 namespace Brick\Geo\Proxy;
 
 use Brick\Geo\Exception\GeometryException;
-use Brick\Geo\Curve;
+use Brick\Geo\CircularString;
 
 /**
- * Proxy class for Curve.
+ * Proxy class for CircularString.
  */
-class CurveProxy extends Curve implements ProxyInterface
+class CircularStringProxy extends CircularString implements ProxyInterface
 {
     /**
      * The WKT or WKB data.
@@ -34,7 +34,7 @@ class CurveProxy extends Curve implements ProxyInterface
     /**
      * The underlying geometry, or NULL if not yet loaded.
      *
-     * @var Curve|null
+     * @var CircularString|null
      */
     private $proxyGeometry;
 
@@ -57,13 +57,13 @@ class CurveProxy extends Curve implements ProxyInterface
      *
      * @return void
      *
-     * @throws GeometryException If the data cannot be parsed, or does not represent a Curve.
+     * @throws GeometryException If the data cannot be parsed, or does not represent a CircularString.
      */
     private function load()
     {
         $this->proxyGeometry = $this->proxyIsBinary
-            ? Curve::fromBinary($this->proxyData, $this->proxySRID)
-            : Curve::fromText($this->proxyData, $this->proxySRID);
+            ? CircularString::fromBinary($this->proxyData, $this->proxySRID)
+            : CircularString::fromText($this->proxyData, $this->proxySRID);
     }
 
     /**
@@ -162,6 +162,66 @@ class CurveProxy extends Curve implements ProxyInterface
     /**
      * {@inheritdoc}
      */
+    public function numPoints()
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->numPoints();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function pointN($n)
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->pointN($n);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function toArray()
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->toArray();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function count()
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->count();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getIterator()
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->getIterator();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function coordinateDimension()
     {
         if ($this->proxyGeometry === null) {
@@ -181,18 +241,6 @@ class CurveProxy extends Curve implements ProxyInterface
         }
 
         return $this->proxyGeometry->spatialDimension();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function geometryType()
-    {
-        if ($this->proxyGeometry === null) {
-            $this->load();
-        }
-
-        return $this->proxyGeometry->geometryType();
     }
 
     /**
@@ -241,18 +289,6 @@ class CurveProxy extends Curve implements ProxyInterface
         }
 
         return $this->proxyGeometry->isMeasured();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function toArray()
-    {
-        if ($this->proxyGeometry === null) {
-            $this->load();
-        }
-
-        return $this->proxyGeometry->toArray();
     }
 
 }

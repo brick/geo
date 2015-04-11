@@ -5,14 +5,15 @@ namespace Brick\Geo;
 use Brick\Geo\Exception\GeometryException;
 
 /**
- * A LineString is a Curve with linear interpolation between Points.
+ * A CircularString is Curve made of zero or more connected circular arc segments.
  *
- * Each consecutive pair of Points defines a line segment.
+ * A circular arc segment is a curved segment defined by three points in a two-dimensional plane;
+ * the first point cannot be the same as the third point.
  */
-class LineString extends Curve implements \Countable, \IteratorAggregate
+class CircularString extends Curve implements \Countable, \IteratorAggregate
 {
     /**
-     * The Points that compose this LineString.
+     * The Points that compose this CircularString.
      *
      * @var Point[]
      */
@@ -24,7 +25,7 @@ class LineString extends Curve implements \Countable, \IteratorAggregate
      * @param boolean $isMeasured
      * @param integer $srid
      *
-     * @return LineString
+     * @return CircularString
      *
      * @throws GeometryException
      */
@@ -37,45 +38,26 @@ class LineString extends Curve implements \Countable, \IteratorAggregate
 
         self::checkGeometries($points, Point::class, $is3D, $isMeasured, $srid);
 
-        if ($points && count($points) < 2) {
-            throw new GeometryException('A LineString must be made of at least 2 points.');
-        }
+        if ($points) {
+            $numPoints = count($points);
 
-        $lineString = new LineString(! $points, $is3D, $isMeasured, $srid);
-        $lineString->points = array_values($points);
+            if ($numPoints < 3) {
+                throw new GeometryException('A CircularString must be made of at least 3 points.');
+            }
 
-        return $lineString;
-    }
-
-    /**
-     * Creates a LineString from an array of Points.
-     *
-     * @param Point[] $points
-     *
-     * @return static The LineString instance.
-     *
-     * @throws GeometryException If the array contains non-Point objects,
-     *                           the result is not of the expected type,
-     *                           or dimensionality is mixed.
-     */
-    public static function factory(array $points)
-    {
-        foreach ($points as $point) {
-            if (! $point instanceof Point) {
-                throw GeometryException::unexpectedGeometryType(Point::class, $point);
+            if ($numPoints %2 === 0) {
+                throw new GeometryException('A CircularString must have an odd number of points.');
             }
         }
 
-        self::getDimensions($points, $is3D, $isMeasured, $srid);
+        if ($points && count($points) < 3) {
 
-        if (count($points) < 2) {
-            throw new GeometryException('A LineString must have at least 2 points.');
         }
 
-        $lineString = new LineString(false, $is3D, $isMeasured, $srid);
-        $lineString->points = array_values($points);
+        $circularString = new CircularString(! $points, $is3D, $isMeasured, $srid);
+        $circularString->points = array_values($points);
 
-        return $lineString;
+        return $circularString;
     }
 
     /**
@@ -84,7 +66,7 @@ class LineString extends Curve implements \Countable, \IteratorAggregate
     public function startPoint()
     {
         if ($this->isEmpty) {
-            throw new GeometryException('The LineString is empty and has no start point.');
+            throw new GeometryException('The CircularString is empty and has no start point.');
         }
 
         return $this->points[0];
@@ -96,14 +78,14 @@ class LineString extends Curve implements \Countable, \IteratorAggregate
     public function endPoint()
     {
         if ($this->isEmpty) {
-            throw new GeometryException('The LineString is empty and has no end point.');
+            throw new GeometryException('The CircularString is empty and has no end point.');
         }
 
         return end($this->points);
     }
 
     /**
-     * Returns the number of Points in this LineString.
+     * Returns the number of Points in this CircularString.
      *
      * @return integer
      */
@@ -113,7 +95,7 @@ class LineString extends Curve implements \Countable, \IteratorAggregate
     }
 
     /**
-     * Returns the specified Point N in this LineString.
+     * Returns the specified Point N in this CircularString.
      *
      * The point number is 1-based.
      *
@@ -128,7 +110,7 @@ class LineString extends Curve implements \Countable, \IteratorAggregate
         $n = (int) $n;
 
         if (! isset($this->points[$n - 1])) {
-            throw new GeometryException('There is no Point in this LineString at index ' . $n);
+            throw new GeometryException('There is no Point in this CircularString at index ' . $n);
         }
 
         return $this->points[$n - 1];
@@ -141,7 +123,7 @@ class LineString extends Curve implements \Countable, \IteratorAggregate
      */
     public function geometryType()
     {
-        return 'LineString';
+        return 'CircularString';
     }
 
     /**

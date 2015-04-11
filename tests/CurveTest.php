@@ -37,6 +37,10 @@ class CurveTest extends AbstractTestCase
             ['LINESTRING (1 1, 1 2)', 1],
             ['LINESTRING (1 1, 2 2)', 1.414],
             ['LINESTRING (1 1, 2 2, 3 2, 3 3)', 3.414],
+
+            ['CIRCULARSTRING (0 0, 1 1, 2 2)', 2.828],
+            ['CIRCULARSTRING (0 0, 1 1, 2 1)', 2.483],
+            ['CIRCULARSTRING (0 0, 1 1, 3 1, 4 3, 5 3)', 7.013],
         ];
     }
 
@@ -67,6 +71,11 @@ class CurveTest extends AbstractTestCase
             ['LINESTRING Z (1 2 3, 4 5 6)', 'POINT Z (1 2 3)', 'POINT Z (4 5 6)'],
             ['LINESTRING M (2 3 4, 5 6 7)', 'POINT M (2 3 4)', 'POINT M (5 6 7)'],
             ['LINESTRING ZM (1 2 3 4, 5 6 7 8)', 'POINT ZM (1 2 3 4)', 'POINT ZM (5 6 7 8)'],
+
+            ['CIRCULARSTRING (1 2, 3 4, 5 6)', 'POINT (1 2)', 'POINT (5 6)'],
+            ['CIRCULARSTRING Z (1 2 3, 4 5 6, 7 8 9)', 'POINT Z (1 2 3)', 'POINT Z (7 8 9)'],
+            ['CIRCULARSTRING M (1 2 3, 4 5 6, 7 8 9)', 'POINT M (1 2 3)', 'POINT M (7 8 9)'],
+            ['CIRCULARSTRING ZM (1 2 3 4, 2 3 4 5, 3 4 5 6)', 'POINT ZM (1 2 3 4)', 'POINT ZM (3 4 5 6)'],
         ];
     }
 
@@ -102,6 +111,11 @@ class CurveTest extends AbstractTestCase
             ['LINESTRING Z EMPTY'],
             ['LINESTRING M EMPTY'],
             ['LINESTRING ZM EMPTY'],
+
+            ['CIRCULARSTRING EMPTY'],
+            ['CIRCULARSTRING Z EMPTY'],
+            ['CIRCULARSTRING M EMPTY'],
+            ['CIRCULARSTRING ZM EMPTY'],
         ];
     }
 
@@ -132,6 +146,11 @@ class CurveTest extends AbstractTestCase
             ['LINESTRING Z (1 1 0, 1 2 0, 2 2 0, 1 1 0)', true],
             ['LINESTRING EMPTY', false],
             ['LINESTRING Z EMPTY', false],
+
+            ['CIRCULARSTRING EMPTY', false],
+            ['CIRCULARSTRING Z EMPTY', false],
+            ['CIRCULARSTRING (1 1, 1 2, 2 2, 3 1, 1 1)', true],
+            ['CIRCULARSTRING (1 1, 1 2, 2 2, 3 1, 1 0)', false],
         ];
     }
 
@@ -177,6 +196,13 @@ class CurveTest extends AbstractTestCase
             ['LINESTRING Z EMPTY', false],
             ['LINESTRING M EMPTY', false],
             ['LINESTRING ZM EMPTY', false],
+
+            // Note: there is currently no engine support for isSimple() on non-empty circular strings.
+
+            ['CIRCULARSTRING EMPTY', false],
+            ['CIRCULARSTRING Z EMPTY', false],
+            ['CIRCULARSTRING M EMPTY', false],
+            ['CIRCULARSTRING ZM EMPTY', false],
         ];
     }
 }

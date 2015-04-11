@@ -1,0 +1,179 @@
+<?php
+
+namespace Brick\Geo\Tests;
+
+use Brick\Geo\CircularString;
+use Brick\Geo\Point;
+
+/**
+ * Unit tests for class CircularString.
+ */
+class CircularStringTest extends AbstractTestCase
+{
+    /**
+     * @dataProvider providerCreate
+     *
+     * @param string[] $points         The WKT of the Points that compose the CircularString.
+     * @param boolean  $is3D           Whether the points have Z coordinates.
+     * @param boolean  $isMeasured     Whether the points have M coordinates.
+     * @param string   $circularString The WKT of the expected CircularString.
+     */
+    public function testCreate(array $points, $is3D, $isMeasured, $circularString)
+    {
+        foreach ([0, 1] as $srid) {
+            $instantiatePoint = function ($point) use ($srid) {
+                return Point::fromText($point, $srid);
+            };
+
+            $cs = CircularString::create(array_map($instantiatePoint, $points), $is3D, $isMeasured, $srid);
+            $this->assertWktEquals($cs, $circularString, $srid);
+        }
+    }
+
+    /**
+     * @return array
+     */
+    public function providerCreate()
+    {
+        return [
+            [['POINT (1 1)', 'POINT (2 2)', 'POINT (3 3)'], false, false, 'CIRCULARSTRING (1 1, 2 2, 3 3)'],
+            [['POINT Z (1 2 3)', 'POINT Z (4 5 6)', 'POINT Z (7 8 9)'], true, false, 'CIRCULARSTRING Z (1 2 3, 4 5 6, 7 8 9)'],
+            [['POINT M (1 2 3)', 'POINT M (4 5 6)', 'POINT M (7 8 9)'], false, true, 'CIRCULARSTRING M (1 2 3, 4 5 6, 7 8 9)'],
+            [['POINT ZM (1 2 3 4)', 'POINT ZM (2 3 4 5)', 'POINT ZM (3 4 5 6)'], true, true, 'CIRCULARSTRING ZM (1 2 3 4, 2 3 4 5, 3 4 5 6)'],
+        ];
+    }
+
+    /**
+     * @dataProvider providerCreateInvalidCircularString
+     * @expectedException \Brick\Geo\Exception\GeometryException
+     *
+     * @param string $circularString The WKT of an invalid CircularString.
+     */
+    public function testCreateInvalidCircularString($circularString)
+    {
+        CircularString::fromText($circularString);
+    }
+
+    /**
+     * @return array
+     */
+    public function providerCreateInvalidCircularString()
+    {
+        return [
+            ['CIRCULARSTRING (1 1)'],
+            ['CIRCULARSTRING (1 1, 2 2)'],
+            ['CIRCULARSTRING (1 1, 2 2, 3 3, 4 4)'],
+            ['CIRCULARSTRING (1 1, 2 2, 3 3, 4 4, 5 5, 6 6'],
+        ];
+    }
+
+    /**
+     * @dataProvider providerNumPoints
+     *
+     * @param string  $lineString
+     * @param integer $numPoints
+     */
+    public function testNumPoints($lineString, $numPoints)
+    {
+        $lineString = CircularString::fromText($lineString);
+        $this->assertSame($numPoints, $lineString->numPoints());
+    }
+
+    /**
+     * @return array
+     */
+    public function providerNumPoints()
+    {
+        return [
+            ['CIRCULARSTRING EMPTY', 0],
+            ['CIRCULARSTRING Z EMPTY', 0],
+            ['CIRCULARSTRING M EMPTY', 0],
+            ['CIRCULARSTRING ZM EMPTY', 0],
+            ['CIRCULARSTRING (1 2, 3 4, 5 6, 7 8, 9 0)', 5],
+            ['CIRCULARSTRING Z (1 2 3, 4 5 6, 7 8 9)', 3],
+            ['CIRCULARSTRING M (1 2 3, 4 5 6, 7 8 9)', 3],
+            ['CIRCULARSTRING ZM (1 2 3 4, 5 6 7 8, 2 3 4 5)', 3]
+        ];
+    }
+
+    /**
+     * @dataProvider providerPointN
+     *
+     * @param string  $lineString
+     * @param integer $n
+     * @param string  $pointN
+     */
+    public function testPointN($lineString, $n, $pointN)
+    {
+        foreach ([0, 1] as $srid) {
+            $ls = CircularString::fromText($lineString, $srid);
+            $this->assertWktEquals($ls->pointN($n), $pointN, $srid);
+        }
+    }
+
+    /**
+     * @return array
+     */
+    public function providerPointN()
+    {
+        return [
+            ['CIRCULARSTRING (1 2, 3 4, 5 6)', 1, 'POINT (1 2)'],
+            ['CIRCULARSTRING (1 2, 3 4, 5 6)', 2, 'POINT (3 4)'],
+            ['CIRCULARSTRING (1 2, 3 4, 5 6)', 3, 'POINT (5 6)'],
+            ['CIRCULARSTRING Z (1 2 3, 4 5 6, 7 8 9)', 1, 'POINT Z (1 2 3)'],
+            ['CIRCULARSTRING Z (1 2 3, 4 5 6, 7 8 9)', 2, 'POINT Z (4 5 6)'],
+            ['CIRCULARSTRING Z (1 2 3, 4 5 6, 7 8 9)', 3, 'POINT Z (7 8 9)'],
+            ['CIRCULARSTRING M (1 2 3, 4 5 6, 7 8 9)', 1, 'POINT M (1 2 3)'],
+            ['CIRCULARSTRING M (1 2 3, 4 5 6, 7 8 9)', 2, 'POINT M (4 5 6)'],
+            ['CIRCULARSTRING M (1 2 3, 4 5 6, 7 8 9)', 3, 'POINT M (7 8 9)'],
+            ['CIRCULARSTRING ZM (1 2 3 4, 5 6 7 8, 2 3 4 5)', 1, 'POINT ZM (1 2 3 4)'],
+            ['CIRCULARSTRING ZM (1 2 3 4, 5 6 7 8, 2 3 4 5)', 2, 'POINT ZM (5 6 7 8)'],
+            ['CIRCULARSTRING ZM (1 2 3 4, 5 6 7 8, 2 3 4 5)', 3, 'POINT ZM (2 3 4 5)'],
+        ];
+    }
+
+    /**
+     * @dataProvider providerInvalidPointNThrowsException
+     * @expectedException \Brick\Geo\Exception\GeometryException
+     *
+     * @param string  $lineString
+     * @param integer $n
+     */
+    public function testInvalidPointNThrowsException($lineString, $n)
+    {
+        CircularString::fromText($lineString)->pointN($n);
+    }
+
+    /**
+     * @return array
+     */
+    public function providerInvalidPointNThrowsException()
+    {
+        return [
+            ['CIRCULARSTRING (1 2, 3 4, 5 2)', 0],
+            ['CIRCULARSTRING (1 2, 3 4, 5 2)', 4],
+            ['CIRCULARSTRING Z (1 2 3, 4 5 6, 7 2 9)', 0],
+            ['CIRCULARSTRING Z (1 2 3, 4 5 6, 7 2 9)', 4],
+            ['CIRCULARSTRING ZM (1 2 3 4, 5 6 7 8, 2 3 4 5, 3 4 5 6)', 0],
+            ['CIRCULARSTRING ZM (1 2 3 4, 5 6 7 8, 2 3 4 5, 3 4 5 6)', 5],
+        ];
+    }
+
+    /**
+     * Tests Countable and Traversable interfaces.
+     */
+    public function testInterfaces()
+    {
+        $lineString = CircularString::fromText('CIRCULARSTRING (1 2, 3 4, 5 6)');
+
+        $this->assertInstanceOf(\Countable::class, $lineString);
+        $this->assertSame(3, count($lineString));
+
+        $this->assertInstanceOf(\Traversable::class, $lineString);
+        $this->assertSame([
+            $lineString->pointN(1),
+            $lineString->pointN(2),
+            $lineString->pointN(3)
+        ], iterator_to_array($lineString));
+    }
+}
