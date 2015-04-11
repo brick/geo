@@ -153,11 +153,9 @@ class Polygon extends Surface implements \Countable, \IteratorAggregate
     }
 
     /**
-     * Returns the Nth interior ring for this Polygon as a LineString.
+     * Returns the specified interior ring N in this Polygon.
      *
-     * The ring number is 1-based.
-     *
-     * @param integer $n
+     * @param integer $n The ring number, 1-based.
      *
      * @return LineString
      *

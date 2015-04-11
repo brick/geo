@@ -93,9 +93,7 @@ class CircularString extends Curve implements \Countable, \IteratorAggregate
     /**
      * Returns the specified Point N in this CircularString.
      *
-     * The point number is 1-based.
-     *
-     * @param integer $n
+     * @param integer $n The point number, 1-based.
      *
      * @return Point
      *

@@ -134,11 +134,9 @@ class GeometryCollection extends Geometry implements \Countable, \IteratorAggreg
     }
 
     /**
-     * Returns the Nth geometry in this GeometryCollection.
+     * Returns the specified geometry N in this GeometryCollection.
      *
-     * The geometry number is 1-based.
-     *
-     * @param integer $n
+     * @param integer $n The geometry number, 1-based.
      *
      * @return Geometry
      *

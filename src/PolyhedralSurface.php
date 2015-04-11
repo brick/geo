@@ -101,9 +101,7 @@ class PolyhedralSurface extends Surface implements \Countable, \IteratorAggregat
     /**
      * Returns the specified patch N in this PolyhedralSurface.
      *
-     * The patch number is 1-based.
-     *
-     * @param integer $n
+     * @param integer $n The patch number, 1-based.
      *
      * @return Polygon
      *
