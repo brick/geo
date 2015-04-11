@@ -161,6 +161,32 @@ class WKTParser
     }
 
     /**
+     * Returns whether the next token is an opener or a word.
+     *
+     * @return boolean True if the next token is an opener, false if it is a word.
+     *
+     * @throws GeometryParseException If the next token is not an opener or a word, or if there is no next token.
+     */
+    public function isNextOpenerOrWord()
+    {
+        $token = current($this->tokens);
+
+        if ($token === false) {
+            throw new GeometryParseException("Expected '(' or word but encountered end of stream");
+        }
+
+        if ($token[1] === '(') {
+            return true;
+        }
+
+        if ($token[0] === static::T_WORD) {
+            return false;
+        }
+
+        throw new GeometryParseException("Expected '(' or word but encountered '" . $token[1] . "'");
+    }
+
+    /**
      * @return string
      *
      * @throws \Brick\Geo\Exception\GeometryParseException

@@ -7,6 +7,7 @@ use Brick\Geo\Geometry;
 use Brick\Geo\Point;
 use Brick\Geo\LineString;
 use Brick\Geo\CircularString;
+use Brick\Geo\CompoundCurve;
 use Brick\Geo\Polygon;
 use Brick\Geo\Triangle;
 use Brick\Geo\MultiPoint;
@@ -84,6 +85,9 @@ class WKBWriter
         }
         if ($geometry instanceof CircularString) {
             return $this->writeCircularString($geometry, $outer);
+        }
+        if ($geometry instanceof CompoundCurve) {
+            return $this->writeCompoundCurve($geometry, $outer);
         }
         if ($geometry instanceof Triangle) {
             return $this->writeTriangle($geometry, $outer);
@@ -265,6 +269,25 @@ class WKBWriter
         $wkb = $this->packByteOrder();
         $wkb.= $this->packHeader(Geometry::CIRCULARSTRING, $circularString, $outer);
         $wkb.= $this->packCircularString($circularString);
+
+        return $wkb;
+    }
+
+    /**
+     * @param CompoundCurve $compoundCurve
+     * @param boolean       $outer
+     *
+     * @return string
+     */
+    private function writeCompoundCurve(CompoundCurve $compoundCurve, $outer)
+    {
+        $wkb = $this->packByteOrder();
+        $wkb.= $this->packHeader(Geometry::COMPOUNDCURVE, $compoundCurve, $outer);
+        $wkb.= $this->packUnsignedInteger($compoundCurve->count());
+
+        foreach ($compoundCurve as $curve) {
+            $wkb .= $this->doWrite($curve, false);
+        }
 
         return $wkb;
     }

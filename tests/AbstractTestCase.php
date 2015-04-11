@@ -15,6 +15,7 @@ use Brick\Geo\MultiPolygon;
 use Brick\Geo\Point;
 use Brick\Geo\LineString;
 use Brick\Geo\CircularString;
+use Brick\Geo\CompoundCurve;
 use Brick\Geo\Polygon;
 
 /**
@@ -141,9 +142,9 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
             }
         }
 
-        if ($geometry instanceof CircularString) {
+        if ($geometry instanceof CircularString || $geometry instanceof CompoundCurve) {
             if ($this->isGEOS() || $this->isSpatiaLite() || $this->isMySQL() || $this->isMariaDB()) {
-                // GEOS, SpatiaLite, MySQL and MariaDB do not support CircularString.
+                // GEOS, SpatiaLite, MySQL and MariaDB do not support CircularString and CompoundCurve.
                 $this->setExpectedException(GeometryException::class);
             }
         }
@@ -390,6 +391,35 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
         }
 
         return CircularString::create($points, $is3D, $isMeasured, $srid);
+    }
+
+    /**
+     * Creates a CompoundCurve from an array of coordinates.
+     *
+     * Each curve can be either an LineString or CircularString.
+     * For the purpose of these tests, it is assumed that a curve with an even number of points is
+     * a LineString, and a curve with an odd number of points is a CircularString.
+     *
+     * @param array   $coords
+     * @param boolean $is3D
+     * @param boolean $isMeasured
+     * @param integer $srid
+     *
+     * @return LineString
+     */
+    final protected function createCompoundCurve(array $coords, $is3D, $isMeasured, $srid = 0)
+    {
+        $curves = [];
+
+        foreach ($coords as $curve) {
+            if (count($curve) % 2 == 0) {
+                $curves[] = self::createLineString($curve, $is3D, $isMeasured, $srid);
+            } else {
+                $curves[] = self::createCircularString($curve, $is3D, $isMeasured, $srid);
+            }
+        }
+
+        return CompoundCurve::create($curves, $is3D, $isMeasured, $srid);
     }
 
     /**

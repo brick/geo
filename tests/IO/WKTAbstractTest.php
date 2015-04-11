@@ -18,6 +18,7 @@ abstract class WKTAbstractTest extends AbstractTestCase
             $this->providerPointWKT(),
             $this->providerLineStringWKT(),
             $this->providerCircularStringWKT(),
+            $this->providerCompoundCurveWKT(),
             $this->providerPolygonWKT(),
             $this->providerMultiPointWKT(),
             $this->providerMultiLineStringWKT(),
@@ -77,6 +78,24 @@ abstract class WKTAbstractTest extends AbstractTestCase
             ['CIRCULARSTRING Z(0 1 2,1 2 3,2 3 4)', [[0, 1, 2], [1, 2, 3], [2, 3, 4]], true, false],
             ['CIRCULARSTRING M(1 2 3,2 3 4,3 4 5)', [[1, 2, 3], [2, 3, 4], [3, 4, 5]], false, true],
             ['CIRCULARSTRING ZM(2 3 4 5,3 4 5 6,4 5 6 7)', [[2, 3, 4, 5], [3, 4, 5, 6], [4, 5, 6, 7]], true, true],
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function providerCompoundCurveWKT()
+    {
+        return [
+            ['COMPOUNDCURVE EMPTY', [], false, false],
+            ['COMPOUNDCURVE Z EMPTY', [], true, false],
+            ['COMPOUNDCURVE M EMPTY', [], false, true],
+            ['COMPOUNDCURVE ZM EMPTY', [], true, true],
+
+            ['COMPOUNDCURVE((1 2,3 4),CIRCULARSTRING(3 4,5 6,7 8))', [[[1, 2], [3, 4]], [[3, 4], [5, 6], [7, 8]]], false, false],
+            ['COMPOUNDCURVE Z((1 2 3,4 5 6),CIRCULARSTRING Z(4 5 6,5 6 7,6 7 8))', [[[1, 2, 3], [4, 5, 6]], [[4, 5, 6], [5, 6, 7], [6, 7, 8]]], true, false],
+            ['COMPOUNDCURVE M((1 2 3,2 3 4),CIRCULARSTRING M(2 3 4,5 6 7,8 9 0))', [[[1, 2, 3], [2, 3, 4]], [[2, 3, 4], [5, 6, 7], [8, 9, 0]]], false, true],
+            ['COMPOUNDCURVE ZM(CIRCULARSTRING ZM(1 2 3 4,2 3 4 5,3 4 5 6),(3 4 5 6,7 8 9 0))', [[[1, 2, 3, 4], [2, 3, 4, 5], [3, 4, 5, 6]], [[3, 4, 5, 6], [7, 8, 9, 0]]], true, true],
         ];
     }
 

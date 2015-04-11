@@ -20,7 +20,7 @@ class CurveTest extends AbstractTestCase
         $curve = Curve::fromText($curve);
         $this->skipIfUnsupportedGeometry($curve);
 
-        $actualLength = Curve::fromText($curve)->length();
+        $actualLength = $curve->length();
 
         $this->assertInternalType('float', $actualLength);
         $this->assertEquals($length, $actualLength, '', 0.001);
@@ -41,6 +41,9 @@ class CurveTest extends AbstractTestCase
             ['CIRCULARSTRING (0 0, 1 1, 2 2)', 2.828],
             ['CIRCULARSTRING (0 0, 1 1, 2 1)', 2.483],
             ['CIRCULARSTRING (0 0, 1 1, 3 1, 4 3, 5 3)', 7.013],
+
+            ['COMPOUNDCURVE ((1 1, 2 1), CIRCULARSTRING (2 1, 1 1, 2 2))', 4.331],
+            ['COMPOUNDCURVE (CIRCULARSTRING (0 0, 1 1, 2 1), (2 1, 2 2, 3 2, 3 3))', 5.483],
         ];
     }
 
@@ -76,6 +79,11 @@ class CurveTest extends AbstractTestCase
             ['CIRCULARSTRING Z (1 2 3, 4 5 6, 7 8 9)', 'POINT Z (1 2 3)', 'POINT Z (7 8 9)'],
             ['CIRCULARSTRING M (1 2 3, 4 5 6, 7 8 9)', 'POINT M (1 2 3)', 'POINT M (7 8 9)'],
             ['CIRCULARSTRING ZM (1 2 3 4, 2 3 4 5, 3 4 5 6)', 'POINT ZM (1 2 3 4)', 'POINT ZM (3 4 5 6)'],
+
+            ['COMPOUNDCURVE ((1 2, 3 4), CIRCULARSTRING (3 4, 5 6, 7 8))', 'POINT (1 2)', 'POINT (7 8)'],
+            ['COMPOUNDCURVE Z ((1 2 3, 4 5 6), CIRCULARSTRING Z (4 5 6, 5 6 7, 6 7 8))', 'POINT Z (1 2 3)', 'POINT Z (6 7 8)'],
+            ['COMPOUNDCURVE M ((1 2 3, 2 3 4), CIRCULARSTRING M (2 3 4, 5 6 7, 8 9 0))', 'POINT M (1 2 3)', 'POINT M (8 9 0)'],
+            ['COMPOUNDCURVE ZM (CIRCULARSTRING ZM (1 2 3 4, 2 3 4 5, 3 4 5 6), (3 4 5 6, 7 8 9 0))', 'POINT ZM (1 2 3 4)', 'POINT ZM (7 8 9 0)'],
         ];
     }
 
@@ -116,6 +124,11 @@ class CurveTest extends AbstractTestCase
             ['CIRCULARSTRING Z EMPTY'],
             ['CIRCULARSTRING M EMPTY'],
             ['CIRCULARSTRING ZM EMPTY'],
+
+            ['COMPOUNDCURVE EMPTY'],
+            ['COMPOUNDCURVE Z EMPTY'],
+            ['COMPOUNDCURVE M EMPTY'],
+            ['COMPOUNDCURVE ZM EMPTY'],
         ];
     }
 
@@ -151,6 +164,11 @@ class CurveTest extends AbstractTestCase
             ['CIRCULARSTRING Z EMPTY', false],
             ['CIRCULARSTRING (1 1, 1 2, 2 2, 3 1, 1 1)', true],
             ['CIRCULARSTRING (1 1, 1 2, 2 2, 3 1, 1 0)', false],
+
+            ['COMPOUNDCURVE EMPTY', false],
+            ['COMPOUNDCURVE Z EMPTY', false],
+            ['COMPOUNDCURVE ((1 2, 3 4), CIRCULARSTRING (3 4, 5 6, 7 8))', false],
+            ['COMPOUNDCURVE ((1 2, 3 4), CIRCULARSTRING (3 4, 5 6, 1 2))', true],
         ];
     }
 
@@ -203,6 +221,13 @@ class CurveTest extends AbstractTestCase
             ['CIRCULARSTRING Z EMPTY', false],
             ['CIRCULARSTRING M EMPTY', false],
             ['CIRCULARSTRING ZM EMPTY', false],
+
+            // As a consequence, there is no support for isSimple() on non-empty compound curves.
+
+            ['COMPOUNDCURVE EMPTY', false],
+            ['COMPOUNDCURVE Z EMPTY', false],
+            ['COMPOUNDCURVE M EMPTY', false],
+            ['COMPOUNDCURVE ZM EMPTY', false],
         ];
     }
 }

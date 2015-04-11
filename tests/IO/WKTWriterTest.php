@@ -98,6 +98,23 @@ class WKTWriterTest extends WKTAbstractTest
     }
 
     /**
+     * @dataProvider providerCompoundCurveWKT
+     *
+     * @param string  $wkt        The expected WKT.
+     * @param array   $coords     The CompoundCurve coordinates.
+     * @param boolean $is3D       Whether the CompoundCurve has Z coordinates.
+     * @param boolean $isMeasured Whether the CompoundCurve has M coordinates.
+     */
+    public function testWriteCompoundCurve($wkt, array $coords, $is3D, $isMeasured)
+    {
+        $writer = new WKTWriter();
+        $writer->setPrettyPrint(false);
+
+        $compoundCurve = self::createCompoundCurve($coords, $is3D, $isMeasured);
+        $this->assertSame($wkt, $writer->write($compoundCurve));
+    }
+
+    /**
      * @dataProvider providerPolygonWKT
      *
      * @param string  $wkt        The expected WKT.

@@ -6,6 +6,7 @@ use Brick\Geo\Geometry;
 use Brick\Geo\Point;
 use Brick\Geo\LineString;
 use Brick\Geo\CircularString;
+use Brick\Geo\CompoundCurve;
 use Brick\Geo\Polygon;
 use Brick\Geo\MultiPoint;
 use Brick\Geo\MultiLineString;
@@ -101,6 +102,8 @@ class WKTWriter
             $data = $this->writeLineString($geometry);
         } elseif ($geometry instanceof CircularString) {
             $data = $this->writeCircularString($geometry);
+        } elseif ($geometry instanceof CompoundCurve) {
+            $data = $this->writeCompoundCurve($geometry);
         } elseif ($geometry instanceof Triangle) {
             $data = $this->writePolygon($geometry);
         } elseif ($geometry instanceof Polygon) {
@@ -171,6 +174,30 @@ class WKTWriter
 
         foreach ($circularString as $point) {
             $result[] = $this->writePoint($point);
+        }
+
+        return implode(',' . $this->prettyPrintSpace, $result);
+    }
+
+    /**
+     * @param \Brick\Geo\CompoundCurve $compoundCurve
+     *
+     * @return string
+     *
+     * @throws GeometryException
+     */
+    private function writeCompoundCurve(CompoundCurve $compoundCurve)
+    {
+        $result = [];
+
+        foreach ($compoundCurve as $curve) {
+            if ($curve instanceof LineString) {
+                $result[] = '(' . $this->writeLineString($curve). ')';
+            } elseif ($curve instanceof CircularString) {
+                $result[] = $this->doWrite($curve);
+            } else {
+                throw new GeometryException('Only LineString and CircularString are allowed in CompoundCurve WKT.');
+            }
         }
 
         return implode(',' . $this->prettyPrintSpace, $result);

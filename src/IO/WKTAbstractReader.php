@@ -2,6 +2,7 @@
 
 namespace Brick\Geo\IO;
 
+use Brick\Geo\CompoundCurve;
 use Brick\Geo\Point;
 use Brick\Geo\LineString;
 use Brick\Geo\CircularString;
@@ -83,6 +84,13 @@ abstract class WKTAbstractReader
                 }
 
                 return $this->readCircularStringText($parser, $is3D, $isMeasured, $srid);
+
+            case 'COMPOUNDCURVE':
+                if ($isEmpty) {
+                    return CompoundCurve::create([], $is3D, $isMeasured, $srid);
+                }
+
+                return $this->readCompoundCurveText($parser, $is3D, $isMeasured, $srid);
 
             case 'POLYGON':
                 if ($isEmpty) {
@@ -258,6 +266,34 @@ abstract class WKTAbstractReader
         $points = $this->readMultiPoint($parser, $is3D, $isMeasured, $srid);
 
         return CircularString::create($points, $is3D, $isMeasured, $srid);
+    }
+
+    /**
+     * @param WKTParser $parser
+     * @param boolean   $is3D
+     * @param boolean   $isMeasured
+     * @param integer   $srid
+     *
+     * @return \Brick\Geo\CompoundCurve
+     *
+     * @throws GeometryException
+     */
+    private function readCompoundCurveText(WKTParser $parser, $is3D, $isMeasured, $srid)
+    {
+        $parser->matchOpener();
+        $curves = [];
+
+        do {
+            if ($parser->isNextOpenerOrWord()) {
+                $curves[] = $this->readLineStringText($parser, $is3D, $isMeasured, $srid);
+            } else {
+                $curves[] = $this->readGeometry($parser, $srid);
+            }
+
+            $nextToken = $parser->getNextCloserOrComma();
+        } while ($nextToken === ',');
+
+        return CompoundCurve::create($curves, $is3D, $isMeasured, $srid);
     }
 
     /**
