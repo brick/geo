@@ -5,7 +5,7 @@ namespace Brick\Geo;
 use Brick\Geo\Exception\GeometryException;
 
 /**
- * A CircularString is Curve made of zero or more connected circular arc segments.
+ * A CircularString is a Curve made of zero or more connected circular arc segments.
  *
  * A circular arc segment is a curved segment defined by three points in a two-dimensional plane;
  * the first point cannot be the same as the third point.
@@ -48,10 +48,6 @@ class CircularString extends Curve implements \Countable, \IteratorAggregate
             if ($numPoints %2 === 0) {
                 throw new GeometryException('A CircularString must have an odd number of points.');
             }
-        }
-
-        if ($points && count($points) < 3) {
-
         }
 
         $circularString = new CircularString(! $points, $is3D, $isMeasured, $srid);
