@@ -183,18 +183,6 @@ class Polygon extends Surface implements \Countable, \IteratorAggregate
     }
 
     /**
-     * @noproxy
-     *
-     * {@inheritdoc}
-     *
-     * A Polygon is a 2-dimensional geometric object.
-     */
-    public function dimension()
-    {
-        return 2;
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function toArray()

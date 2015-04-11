@@ -157,16 +157,6 @@ class PolyhedralSurface extends Surface implements \Countable, \IteratorAggregat
     }
 
     /**
-     * @noproxy
-     *
-     * {@inheritdoc}
-     */
-    public function dimension()
-    {
-        return 2;
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function toArray()

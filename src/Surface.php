@@ -29,6 +29,18 @@ use Brick\Geo\Engine\GeometryEngineRegistry;
 abstract class Surface extends Geometry
 {
     /**
+     * @noproxy
+     *
+     * {@inheritdoc}
+     *
+     * A Surface is a 2-dimensional geometric object.
+     */
+    public function dimension()
+    {
+        return 2;
+    }
+
+    /**
      * Returns the area of this Surface, as measured in the spatial reference system of this Surface.
      *
      * @noproxy
