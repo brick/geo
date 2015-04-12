@@ -10,6 +10,7 @@ use Brick\Geo\LineString;
 use Brick\Geo\CircularString;
 use Brick\Geo\CompoundCurve;
 use Brick\Geo\Polygon;
+use Brick\Geo\CurvePolygon;
 use Brick\Geo\MultiPoint;
 use Brick\Geo\MultiLineString;
 use Brick\Geo\MultiPolygon;
@@ -65,6 +66,9 @@ abstract class WKBAbstractReader
 
             case Geometry::POLYGON:
                 return $this->readPolygon($buffer, $is3D, $isMeasured, $srid);
+
+            case Geometry::CURVEPOLYGON:
+                return $this->readCurvePolygon($buffer, $is3D, $isMeasured, $srid);
 
             case Geometry::MULTIPOINT:
                 return $this->readMultiPoint($buffer, $is3D, $isMeasured, $srid);
@@ -200,6 +204,27 @@ abstract class WKBAbstractReader
         }
 
         return Polygon::create($rings, $is3D, $isMeasured, $srid);
+    }
+
+    /**
+     * @param WKBBuffer $buffer
+     * @param boolean   $is3D
+     * @param boolean   $isMeasured
+     * @param integer   $srid
+     *
+     * @return \Brick\Geo\CurvePolygon
+     */
+    private function readCurvePolygon(WKBBuffer $buffer, $is3D, $isMeasured, $srid)
+    {
+        $numRings = $buffer->readUnsignedLong();
+
+        $rings = [];
+
+        for ($i = 0; $i < $numRings; $i++) {
+            $rings[] = $this->readGeometry($buffer, $srid);
+        }
+
+        return CurvePolygon::create($rings, $is3D, $isMeasured, $srid);
     }
 
     /**

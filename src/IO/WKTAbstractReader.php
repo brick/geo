@@ -2,11 +2,12 @@
 
 namespace Brick\Geo\IO;
 
-use Brick\Geo\CompoundCurve;
 use Brick\Geo\Point;
 use Brick\Geo\LineString;
 use Brick\Geo\CircularString;
+use Brick\Geo\CompoundCurve;
 use Brick\Geo\Polygon;
+use Brick\Geo\CurvePolygon;
 use Brick\Geo\MultiPoint;
 use Brick\Geo\MultiLineString;
 use Brick\Geo\MultiPolygon;
@@ -98,6 +99,13 @@ abstract class WKTAbstractReader
                 }
 
                 return $this->readPolygonText($parser, $is3D, $isMeasured, $srid);
+
+            case 'CURVEPOLYGON':
+                if ($isEmpty) {
+                    return CurvePolygon::create([], $is3D, $isMeasured, $srid);
+                }
+
+                return $this->readCurvePolygonText($parser, $is3D, $isMeasured, $srid);
 
             case 'MULTIPOINT':
                 if ($isEmpty) {
@@ -351,6 +359,32 @@ abstract class WKTAbstractReader
         $rings = $this->readMultiLineString($parser, $is3D, $isMeasured, $srid);
 
         return Polygon::create($rings, $is3D, $isMeasured, $srid);
+    }
+
+    /**
+     * @param WKTParser $parser
+     * @param boolean   $is3D
+     * @param boolean   $isMeasured
+     * @param integer   $srid
+     *
+     * @return \Brick\Geo\CurvePolygon
+     */
+    private function readCurvePolygonText(WKTParser $parser, $is3D, $isMeasured, $srid)
+    {
+        $parser->matchOpener();
+        $curves = [];
+
+        do {
+            if ($parser->isNextOpenerOrWord()) {
+                $curves[] = $this->readLineStringText($parser, $is3D, $isMeasured, $srid);
+            } else {
+                $curves[] = $this->readGeometry($parser, $srid);
+            }
+
+            $nextToken = $parser->getNextCloserOrComma();
+        } while ($nextToken === ',');
+
+        return CurvePolygon::create($curves, $is3D, $isMeasured, $srid);
     }
 
     /**

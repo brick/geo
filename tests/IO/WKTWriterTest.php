@@ -132,6 +132,23 @@ class WKTWriterTest extends WKTAbstractTest
     }
 
     /**
+     * @dataProvider providerCurvePolygonWKT
+     *
+     * @param string  $wkt        The expected WKT.
+     * @param array   $coords     The Polygon coordinates.
+     * @param boolean $is3D       Whether the Polygon has Z coordinates.
+     * @param boolean $isMeasured Whether the Polygon has M coordinates.
+     */
+    public function testWriteCurvePolygon($wkt, array $coords, $is3D, $isMeasured)
+    {
+        $writer = new WKTWriter();
+        $writer->setPrettyPrint(false);
+
+        $polygon = self::createCurvePolygon($coords, $is3D, $isMeasured);
+        $this->assertSame($wkt, $writer->write($polygon));
+    }
+
+    /**
      * @dataProvider providerMultiPointWKT
      *
      * @param string  $wkt        The expected WKT.

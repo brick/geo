@@ -13,10 +13,12 @@ use Brick\Geo\MultiLineString;
 use Brick\Geo\MultiPoint;
 use Brick\Geo\MultiPolygon;
 use Brick\Geo\Point;
+use Brick\Geo\Curve;
 use Brick\Geo\LineString;
 use Brick\Geo\CircularString;
 use Brick\Geo\CompoundCurve;
 use Brick\Geo\Polygon;
+use Brick\Geo\CurvePolygon;
 
 /**
  * Base class for Geometry tests.
@@ -368,7 +370,7 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
         $points = [];
 
         foreach ($coords as $point) {
-            $points[] = self::createPoint($point, $is3D, $isMeasured, $srid);
+            $points[] = $this->createPoint($point, $is3D, $isMeasured, $srid);
         }
 
         return LineString::create($points, $is3D, $isMeasured, $srid);
@@ -387,19 +389,35 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
         $points = [];
 
         foreach ($coords as $point) {
-            $points[] = self::createPoint($point, $is3D, $isMeasured, $srid);
+            $points[] = $this->createPoint($point, $is3D, $isMeasured, $srid);
         }
 
         return CircularString::create($points, $is3D, $isMeasured, $srid);
     }
 
     /**
-     * Creates a CompoundCurve from an array of coordinates.
+     * Creates a LineString or CircularString from an array of coordinates.
      *
-     * Each curve can be either an LineString or CircularString.
      * For the purpose of these tests, it is assumed that a curve with an even number of points is
      * a LineString, and a curve with an odd number of points is a CircularString.
      *
+     * @param array   $coords
+     * @param boolean $is3D
+     * @param boolean $isMeasured
+     * @param integer $srid
+     *
+     * @return Curve
+     */
+    final protected function createLineStringOrCircularString(array $coords, $is3D, $isMeasured, $srid = 0)
+    {
+        if (count($coords) % 2 == 0) {
+            return $this->createLineString($coords, $is3D, $isMeasured, $srid);
+        } else {
+            return $this->createCircularString($coords, $is3D, $isMeasured, $srid);
+        }
+    }
+
+    /**
      * @param array   $coords
      * @param boolean $is3D
      * @param boolean $isMeasured
@@ -412,11 +430,7 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
         $curves = [];
 
         foreach ($coords as $curve) {
-            if (count($curve) % 2 == 0) {
-                $curves[] = self::createLineString($curve, $is3D, $isMeasured, $srid);
-            } else {
-                $curves[] = self::createCircularString($curve, $is3D, $isMeasured, $srid);
-            }
+            $curves[] = $this->createLineStringOrCircularString($curve, $is3D, $isMeasured, $srid);
         }
 
         return CompoundCurve::create($curves, $is3D, $isMeasured, $srid);
@@ -434,11 +448,36 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
     {
         $rings = [];
 
-        foreach ($coords as $point) {
-            $rings[] = self::createLineString($point, $is3D, $isMeasured, $srid);
+        foreach ($coords as $ring) {
+            $rings[] = $this->createLineString($ring, $is3D, $isMeasured, $srid);
         }
 
         return Polygon::create($rings, $is3D, $isMeasured, $srid);
+    }
+
+    /**
+     * @param array   $coords
+     * @param boolean $is3D
+     * @param boolean $isMeasured
+     * @param integer $srid
+     *
+     * @return CurvePolygon
+     */
+    final protected function createCurvePolygon(array $coords, $is3D, $isMeasured, $srid = 0)
+    {
+        $rings = [];
+
+        foreach ($coords as $ring) {
+            if (is_array($ring[0][0])) {
+                // CompoundCurve
+                $rings[] = $this->createCompoundCurve($ring, $is3D, $isMeasured, $srid);
+            } else {
+                // LineString or CircularString
+                $rings[] = $this->createLineStringOrCircularString($ring, $is3D, $isMeasured, $srid);
+            }
+        }
+
+        return CurvePolygon::create($rings, $is3D, $isMeasured, $srid);
     }
 
     /**
@@ -454,7 +493,7 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
         $points = [];
 
         foreach ($coords as $point) {
-            $points[] = self::createPoint($point, $is3D, $isMeasured, $srid);
+            $points[] = $this->createPoint($point, $is3D, $isMeasured, $srid);
         }
 
         return MultiPoint::create($points, $is3D, $isMeasured, $srid);
@@ -473,7 +512,7 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
         $lineStrings = [];
 
         foreach ($coords as $lineString) {
-            $lineStrings[] = self::createLineString($lineString, $is3D, $isMeasured, $srid);
+            $lineStrings[] = $this->createLineString($lineString, $is3D, $isMeasured, $srid);
         }
 
         return MultiLineString::create($lineStrings, $is3D, $isMeasured, $srid);
@@ -492,7 +531,7 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
         $polygons = [];
 
         foreach ($coords as $polygon) {
-            $polygons[] = self::createPolygon($polygon, $is3D, $isMeasured, $srid);
+            $polygons[] = $this->createPolygon($polygon, $is3D, $isMeasured, $srid);
         }
 
         return MultiPolygon::create($polygons, $is3D, $isMeasured, $srid);

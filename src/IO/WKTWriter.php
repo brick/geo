@@ -8,6 +8,7 @@ use Brick\Geo\LineString;
 use Brick\Geo\CircularString;
 use Brick\Geo\CompoundCurve;
 use Brick\Geo\Polygon;
+use Brick\Geo\CurvePolygon;
 use Brick\Geo\MultiPoint;
 use Brick\Geo\MultiLineString;
 use Brick\Geo\MultiPolygon;
@@ -108,6 +109,8 @@ class WKTWriter
             $data = $this->writePolygon($geometry);
         } elseif ($geometry instanceof Polygon) {
             $data = $this->writePolygon($geometry);
+        } elseif ($geometry instanceof CurvePolygon) {
+            $data = $this->writeCurvePolygon($geometry);
         } elseif ($geometry instanceof MultiPoint) {
             $data = $this->writeMultiPoint($geometry);
         } elseif ($geometry instanceof MultiLineString) {
@@ -214,6 +217,26 @@ class WKTWriter
 
         foreach ($polygon as $ring) {
             $result[] = '(' . $this->writeLineString($ring) . ')';
+        }
+
+        return implode(',' . $this->prettyPrintSpace, $result);
+    }
+
+    /**
+     * @param \Brick\Geo\CurvePolygon $curvePolygon
+     *
+     * @return string
+     */
+    private function writeCurvePolygon(CurvePolygon $curvePolygon)
+    {
+        $result = [];
+
+        foreach ($curvePolygon as $ring) {
+            if ($ring instanceof LineString) {
+                $result[] = '(' . $this->writeLineString($ring) . ')';
+            } else {
+                $result[] = $this->doWrite($ring);
+            }
         }
 
         return implode(',' . $this->prettyPrintSpace, $result);

@@ -9,6 +9,7 @@ use Brick\Geo\LineString;
 use Brick\Geo\CircularString;
 use Brick\Geo\CompoundCurve;
 use Brick\Geo\Polygon;
+use Brick\Geo\CurvePolygon;
 use Brick\Geo\Triangle;
 use Brick\Geo\MultiPoint;
 use Brick\Geo\MultiLineString;
@@ -94,6 +95,9 @@ class WKBWriter
         }
         if ($geometry instanceof Polygon) {
             return $this->writePolygon($geometry, $outer);
+        }
+        if ($geometry instanceof CurvePolygon) {
+            return $this->writeCurvePolygon($geometry, $outer);
         }
         if ($geometry instanceof MultiPoint) {
             return $this->writeMultiPoint($geometry, $outer);
@@ -306,6 +310,25 @@ class WKBWriter
 
         foreach ($polygon as $ring) {
             $wkb .= $this->packLineString($ring);
+        }
+
+        return $wkb;
+    }
+
+    /**
+     * @param CurvePolygon $curvePolygon
+     * @param boolean      $outer
+     *
+     * @return string
+     */
+    private function writeCurvePolygon(CurvePolygon $curvePolygon, $outer)
+    {
+        $wkb = $this->packByteOrder();
+        $wkb.= $this->packHeader(Geometry::CURVEPOLYGON, $curvePolygon, $outer);
+        $wkb.= $this->packUnsignedInteger($curvePolygon->count());
+
+        foreach ($curvePolygon as $ring) {
+            $wkb .= $this->doWrite($ring, false);
         }
 
         return $wkb;

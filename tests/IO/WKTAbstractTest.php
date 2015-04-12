@@ -20,6 +20,7 @@ abstract class WKTAbstractTest extends AbstractTestCase
             $this->providerCircularStringWKT(),
             $this->providerCompoundCurveWKT(),
             $this->providerPolygonWKT(),
+            $this->providerCurvePolygonWKT(),
             $this->providerMultiPointWKT(),
             $this->providerMultiLineStringWKT(),
             $this->providerMultiPolygonWKT(),
@@ -119,6 +120,24 @@ abstract class WKTAbstractTest extends AbstractTestCase
             ['POLYGON Z((0 0 1,2 0 1,0 2 1,0 0 1),(0 0 2,1 0 2,0 1 2,0 0 2))', [[[0, 0, 1], [2, 0, 1], [0, 2, 1], [0, 0, 1]], [[0, 0, 2], [1, 0, 2], [0, 1, 2], [0, 0, 2]]], true, false],
             ['POLYGON M((0 0 1,2 0 1,0 2 1,0 0 1),(0 0 2,1 0 2,0 1 2,0 0 2))', [[[0, 0, 1], [2, 0, 1], [0, 2, 1], [0, 0, 1]], [[0, 0, 2], [1, 0, 2], [0, 1, 2], [0, 0, 2]]], false, true],
             ['POLYGON ZM((0 0 1 2,2 0 1 2,0 2 1 2,0 0 1 2),(0 0 1 2,1 0 1 2,0 1 1 2,0 0 1 2))', [[[0, 0, 1, 2], [2, 0, 1, 2], [0, 2, 1, 2], [0, 0, 1, 2]], [[0, 0, 1, 2], [1, 0, 1, 2], [0, 1, 1, 2], [0, 0, 1, 2]]], true, true],
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function providerCurvePolygonWKT()
+    {
+        return [
+            ['CURVEPOLYGON EMPTY', [], false, false],
+            ['CURVEPOLYGON Z EMPTY', [], true, false],
+            ['CURVEPOLYGON M EMPTY', [], false, true],
+            ['CURVEPOLYGON ZM EMPTY', [], true, true],
+
+            ['CURVEPOLYGON((0 0,0 9,9 9,0 0),COMPOUNDCURVE((1 2,3 4),CIRCULARSTRING(3 4,5 6,7 8,9 0,1 2)))', [[[0, 0], [0, 9], [9, 9], [0, 0]], [[[1, 2], [3, 4]], [[3, 4], [5, 6], [7, 8], [9, 0], [1, 2]]]], false, false],
+            ['CURVEPOLYGON Z((0 0 1,0 9 1,9 9 1,0 0 1),CIRCULARSTRING Z(1 1 1,4 7 1,6 5 1,2 3 1,1 1 1))', [[[0, 0, 1], [0, 9, 1], [9, 9, 1], [0, 0, 1]], [[1, 1, 1], [4, 7, 1], [6, 5, 1], [2, 3, 1], [1, 1, 1]]], true, false],
+            ['CURVEPOLYGON M(CIRCULARSTRING M(0 0 1,0 9 1,9 9 1,9 0 1,0 0 1),(1 1 1,4 7 1,6 5 1,1 1 1))', [[[0, 0, 1], [0, 9, 1], [9, 9, 1], [9, 0, 1], [0, 0, 1]], [[1, 1, 1], [4, 7, 1], [6, 5, 1], [1, 1, 1]]], false, true],
+            ['CURVEPOLYGON ZM(CIRCULARSTRING ZM(1 2 3 4,2 3 4 5,3 4 5 6,4 5 6 7,1 2 3 4),(3 4 5 6,4 5 6 7,9 8 7 6,3 4 5 6))', [[[1, 2, 3, 4], [2, 3, 4, 5], [3, 4, 5, 6], [4, 5, 6, 7], [1, 2, 3, 4]], [[3, 4, 5, 6], [4, 5, 6, 7], [9, 8, 7, 6], [3, 4, 5, 6]]], true, true],
         ];
     }
 
