@@ -144,9 +144,10 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
             }
         }
 
-        if ($geometry instanceof CircularString || $geometry instanceof CompoundCurve) {
+        if ($geometry instanceof CircularString || $geometry instanceof CompoundCurve || $geometry instanceof CurvePolygon) {
             if ($this->isGEOS() || $this->isSpatiaLite() || $this->isMySQL() || $this->isMariaDB()) {
-                // GEOS, SpatiaLite, MySQL and MariaDB do not support CircularString and CompoundCurve.
+                // GEOS, SpatiaLite, MySQL and MariaDB do not support these geometries.
+                // Only PostGIS currently supports these.
                 $this->setExpectedException(GeometryException::class);
             }
         }
