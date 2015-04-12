@@ -127,31 +127,27 @@ class CurvePolygonTest extends AbstractTestCase
     /**
      * @dataProvider providerInteriorRingN
      *
-     * @param string $curvePolygon  The WKT of the CurvePolygon to test.
-     * @param array  $interiorRings The expected interior rings.
-     *                              Keys are ring numbers, values are WKT of the expected rings.
-     *                              For invalid ring numbers, replacing the WKT with NULL will expect an exception.
+     * @param string      $curvePolygon  The WKT of the CurvePolygon to test.
+     * @param integer     $n             The ring number.
+     * @param string|null $interiorRingN The WKT of the expected interior ring, or NULL if an exception is expected.
+     * @param integer     $srid          The SRID of the geometries.
      */
-    public function testInteriorRingN($curvePolygon, array $interiorRings)
+    public function testInteriorRingN($curvePolygon, $n, $interiorRingN, $srid)
     {
-        foreach ($interiorRings as $n => $interiorRingN) {
-            if ($interiorRingN === null) {
-                $this->setExpectedException(GeometryException::class);
-            }
-
-            foreach ([0, 1] as $srid) {
-                $ring = CurvePolygon::fromText($curvePolygon, $srid)->interiorRingN($n);
-                $this->assertWktEquals($ring, $interiorRingN, $srid);
-            }
+        if ($interiorRingN === null) {
+            $this->setExpectedException(GeometryException::class);
         }
+
+        $ring = CurvePolygon::fromText($curvePolygon, $srid)->interiorRingN($n);
+        $this->assertWktEquals($ring, $interiorRingN, $srid);
     }
 
     /**
-     * @return array
+     * @return \Generator
      */
     public function providerInteriorRingN()
     {
-        return [
+        $tests = [
             ['CURVEPOLYGON EMPTY', [
                 0 => null,
                 1 => null,
@@ -193,5 +189,13 @@ class CurvePolygonTest extends AbstractTestCase
                 2 => null,
             ]],
         ];
+
+        foreach ($tests as list ($curvePolygon, $interiorRings)) {
+            foreach ($interiorRings as $n => $interiorRingN) {
+                foreach ([0, 1] as $srid) {
+                    yield [$curvePolygon, $n, $interiorRingN, $srid];
+                }
+            }
+        }
     }
 }

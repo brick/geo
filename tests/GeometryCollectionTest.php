@@ -42,25 +42,24 @@ class GeometryCollectionTest extends AbstractTestCase
      * @param string      $geometry  The WKT of the GeometryCollection to test.
      * @param integer     $n         The number of the geometry to return.
      * @param string|null $geometryN The WKT of the expected result, or NULL if an exception is expected.
+     * @param integer     $srid      The SRID of the geometries.
      */
-    public function testGeometryN($geometry, $n, $geometryN)
+    public function testGeometryN($geometry, $n, $geometryN, $srid)
     {
         if ($geometryN === null) {
             $this->setExpectedException(GeometryException::class);
         }
 
-        foreach ([0, 1] as $srid) {
-            $g = GeometryCollection::fromText($geometry, $srid);
-            $this->assertWktEquals($g->geometryN($n), $geometryN, $srid);
-        }
+        $g = GeometryCollection::fromText($geometry, $srid);
+        $this->assertWktEquals($g->geometryN($n), $geometryN, $srid);
     }
 
     /**
-     * @return array
+     * @return \Generator
      */
     public function providerGeometryN()
     {
-        return [
+        $tests = [
             ['GEOMETRYCOLLECTION EMPTY', 0, null],
             ['GEOMETRYCOLLECTION EMPTY', 1, null],
             ['GEOMETRYCOLLECTION (POINT EMPTY)', 0, null],
@@ -71,6 +70,12 @@ class GeometryCollectionTest extends AbstractTestCase
             ['GEOMETRYCOLLECTION (LINESTRING (1 2, 3 4), POINT (5 6))', 2, 'POINT (5 6)'],
             ['GEOMETRYCOLLECTION (LINESTRING (1 2, 3 4), POINT (5 6))', 3, null]
         ];
+
+        foreach ($tests as list ($geometryCollection, $n, $geometryN)) {
+            foreach ([0, 1] as $srid) {
+                yield [$geometryCollection, $n, $geometryN, $srid];
+            }
+        }
     }
 
     /**

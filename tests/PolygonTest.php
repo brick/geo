@@ -129,31 +129,27 @@ class PolygonTest extends AbstractTestCase
     /**
      * @dataProvider providerInteriorRingN
      *
-     * @param string $polygon       The WKT of the Polygon to test.
-     * @param array  $interiorRings The expected interior rings.
-     *                              Keys are ring numbers, values are WKT of the expected rings.
-     *                              For invalid ring numbers, replacing the WKT with NULL will expect an exception.
+     * @param string      $polygon       The WKT of the Polygon to test.
+     * @param integer     $n             The ring number.
+     * @param string|null $interiorRingN The WKT of the expected interior ring, or NULL if an exception is expected.
+     * @param integer     $srid          The SRID of the geometries.
      */
-    public function testInteriorRingN($polygon, array $interiorRings)
+    public function testInteriorRingN($polygon, $n, $interiorRingN, $srid)
     {
-        foreach ($interiorRings as $n => $interiorRingN) {
-            if ($interiorRingN === null) {
-                $this->setExpectedException(GeometryException::class);
-            }
-
-            foreach ([0, 1] as $srid) {
-                $ring = Polygon::fromText($polygon, $srid)->interiorRingN($n);
-                $this->assertWktEquals($ring, $interiorRingN, $srid);
-            }
+        if ($interiorRingN === null) {
+            $this->setExpectedException(GeometryException::class);
         }
+
+        $ring = Polygon::fromText($polygon, $srid)->interiorRingN($n);
+        $this->assertWktEquals($ring, $interiorRingN, $srid);
     }
 
     /**
-     * @return array
+     * @return \Generator
      */
     public function providerInteriorRingN()
     {
-        return [
+        $tests = [
             ['POLYGON EMPTY', [
                 0 => null,
                 1 => null,
@@ -200,5 +196,13 @@ class PolygonTest extends AbstractTestCase
                 2 => null,
             ]],
         ];
+
+        foreach ($tests as list ($polygon, $interiorRings)) {
+            foreach ($interiorRings as $n => $interiorRingN) {
+                foreach ([0, 1] as $srid) {
+                    yield [$polygon, $n, $interiorRingN, $srid];
+                }
+            }
+        }
     }
 }
