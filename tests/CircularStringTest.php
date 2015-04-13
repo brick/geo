@@ -68,6 +68,70 @@ class CircularStringTest extends AbstractTestCase
     }
 
     /**
+     * @dataProvider providerStartPointEndPoint
+     *
+     * @param string $circularString
+     * @param string $startPoint
+     * @param string $endPoint
+     */
+    public function testStartPointEndPoint($circularString, $startPoint, $endPoint)
+    {
+        foreach ([0, 1] as $srid) {
+            $cs = CircularString::fromText($circularString, $srid);
+            $this->assertWktEquals($cs->startPoint(), $startPoint, $srid);
+            $this->assertWktEquals($cs->endPoint(), $endPoint, $srid);
+        }
+    }
+
+    /**
+     * @return array
+     */
+    public function providerStartPointEndPoint()
+    {
+        return [
+            ['CIRCULARSTRING (1 2, 3 4, 5 6, 7 8, 9 0)', 'POINT (1 2)', 'POINT (9 0)'],
+            ['CIRCULARSTRING Z (1 2 3, 4 5 6, 7 8 9)', 'POINT Z (1 2 3)', 'POINT Z (7 8 9)'],
+            ['CIRCULARSTRING M (1 2 3, 4 5 6, 7 8 9)', 'POINT M (1 2 3)', 'POINT M (7 8 9)'],
+            ['CIRCULARSTRING ZM (1 2 3 4, 5 6 7 8, 2 3 4 5)', 'POINT ZM (1 2 3 4)', 'POINT ZM (2 3 4 5)']
+        ];
+    }
+
+    /**
+     * @dataProvider providerEmptyCircularString
+     * @expectedException \Brick\Geo\Exception\GeometryException
+     *
+     * @param string $circularString The WKT of an empty CircularString.
+     */
+    public function testStartPointOfEmptyCircularString($circularString)
+    {
+        CircularString::fromText($circularString)->startPoint();
+    }
+
+    /**
+     * @dataProvider providerEmptyCircularString
+     * @expectedException \Brick\Geo\Exception\GeometryException
+     *
+     * @param string $circularString The WKT of an empty CircularString.
+     */
+    public function testEndPointOfEmptyCircularString($circularString)
+    {
+        CircularString::fromText($circularString)->endPoint();
+    }
+
+    /**
+     * @return array
+     */
+    public function providerEmptyCircularString()
+    {
+        return [
+            ['CIRCULARSTRING EMPTY'],
+            ['CIRCULARSTRING Z EMPTY'],
+            ['CIRCULARSTRING M EMPTY'],
+            ['CIRCULARSTRING ZM EMPTY'],
+        ];
+    }
+
+    /**
      * @dataProvider providerNumPoints
      *
      * @param string  $lineString
