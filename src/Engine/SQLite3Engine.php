@@ -15,9 +15,18 @@ use Brick\Geo\Point;
 class SQLite3Engine extends DatabaseEngine
 {
     /**
+     * The database connection.
+     *
      * @var \SQLite3
      */
     private $sqlite3;
+
+    /**
+     * A cache of the prepared statements, indexed by query.
+     *
+     * @var \SQLite3Stmt[]
+     */
+    private $statements = [];
 
     /**
      * @param \SQLite3 $sqlite3
@@ -40,25 +49,31 @@ class SQLite3Engine extends DatabaseEngine
      */
     protected function executeQuery($query, array $parameters)
     {
-        // Temporary set the error reporting level to 0 to avoid any warning.
-        $errorReportingLevel = error_reporting(0);
+        if (isset($this->statements[$query])) {
+            $statement = $this->statements[$query];
+        } else {
+            // Temporary set the error reporting level to 0 to avoid any warning.
+            $errorReportingLevel = error_reporting(0);
 
-        $statement = $this->sqlite3->prepare($query);
+            $statement = $this->sqlite3->prepare($query);
 
-        // Restore the original error reporting level.
-        error_reporting($errorReportingLevel);
+            // Restore the original error reporting level.
+            error_reporting($errorReportingLevel);
 
-        $errorCode = $this->sqlite3->lastErrorCode();
+            $errorCode = $this->sqlite3->lastErrorCode();
 
-        if ($errorCode !== 0) {
-            $exception = new SQLite3Exception($this->sqlite3->lastErrorMsg(), $errorCode);
+            if ($errorCode !== 0) {
+                $exception = new SQLite3Exception($this->sqlite3->lastErrorMsg(), $errorCode);
 
-            if ($errorCode === 1) {
-                // SQL error cause by a missing function, this must be reported with a GeometryEngineException.
-                throw GeometryEngineException::operationNotSupportedByEngine($exception);
+                if ($errorCode === 1) {
+                    // SQL error cause by a missing function, this must be reported with a GeometryEngineException.
+                    throw GeometryEngineException::operationNotSupportedByEngine($exception);
+                } else {
+                    // Other SQLite3 error; we cannot trigger the original E_WARNING, so we throw this exception instead.
+                    throw $exception;
+                }
             } else {
-                // Other SQLite3 error; we cannot trigger the original E_WARNING, so we throw this exception instead.
-                throw $exception;
+                $this->statements[$query] = $statement;
             }
         }
 

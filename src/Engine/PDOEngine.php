@@ -19,6 +19,13 @@ class PDOEngine extends DatabaseEngine
     private $pdo;
 
     /**
+     * A cache of the prepared statements, indexed by query.
+     *
+     * @var \PDOStatement[]
+     */
+    private $statements = [];
+
+    /**
      * Class constructor.
      *
      * @param \PDO $pdo
@@ -45,7 +52,11 @@ class PDOEngine extends DatabaseEngine
         $this->pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 
         try {
-            $statement = $this->pdo->prepare($query);
+            if (! isset($this->statements[$query])) {
+                $this->statements[$query] = $this->pdo->prepare($query);
+            }
+
+            $statement = $this->statements[$query];
 
             $index = 1;
 
