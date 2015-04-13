@@ -978,6 +978,9 @@ class GeometryTest extends AbstractTestCase
         $geometry2 = Geometry::fromText($geometry2);
         $result    = Geometry::fromText($result);
 
+        $this->skipIfUnsupportedGeometry($geometry1);
+        $this->skipIfUnsupportedGeometry($geometry2);
+
         $union = $geometry1->union($geometry2);
 
         $this->assertSame(get_class($result), get_class($union));
@@ -990,6 +993,8 @@ class GeometryTest extends AbstractTestCase
     public function providerUnion()
     {
         return [
+            ['POINT EMPTY', 'POINT (1 2)', 'POINT (1 2)'],
+            ['POINT EMPTY', 'POINT EMPTY', 'POINT EMPTY'],
             ['POINT (1 2)', 'POINT (-2 3)', 'MULTIPOINT (1 2, -2 3)'],
             ['POLYGON ((1 2, 1 3, 4 3, 4 2, 1 2))', 'POLYGON ((2 1, 2 4, 3 4, 3 1, 2 1))', 'POLYGON ((2 1, 2 2, 1 2, 1 3, 2 3, 2 4, 3 4, 3 3, 4 3, 4 2, 3 2, 3 1, 2 1))'] ,
         ];

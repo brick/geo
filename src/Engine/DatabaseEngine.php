@@ -2,8 +2,9 @@
 
 namespace Brick\Geo\Engine;
 
-use Brick\Geo\Geometry;
 use Brick\Geo\Exception\GeometryEngineException;
+use Brick\Geo\Geometry;
+use Brick\Geo\Point;
 
 /**
  * Database implementation of the GeometryEngine.
@@ -24,7 +25,9 @@ abstract class DatabaseEngine implements GeometryEngine
     private function buildQuery($function, array $parameters, $returnsGeometry)
     {
         foreach ($parameters as & $parameter) {
-            if ($parameter instanceof Geometry) {
+            if ($parameter instanceof Point && $parameter->isEmpty()) {
+                $parameter = 'ST_GeomFromText(?, ?)';
+            } elseif ($parameter instanceof Geometry) {
                 $parameter = 'ST_GeomFromWKB(?, ?)';
             } else {
                 $parameter = '?';
@@ -35,7 +38,16 @@ abstract class DatabaseEngine implements GeometryEngine
         $query = sprintf('SELECT %s(%s)', $function, $parameters);
 
         if ($returnsGeometry) {
-            $query = sprintf('SELECT ST_AsBinary(g), ST_SRID(g) FROM (%s AS g) AS t', $query);
+            $query = sprintf("
+                SELECT
+                    CASE WHEN isPointEmpty THEN ST_AsText(g) ELSE NULL END,
+                    CASE WHEN isPointEmpty THEN NULL ELSE ST_AsBinary(g) END,
+                    ST_SRID(g)
+                FROM (
+                    SELECT g, GeometryType(g) = 'POINT' AND ST_IsEmpty(g) AS isPointEmpty
+                    FROM (%s AS g) AS a
+                ) AS b
+            ", $query);
         }
 
         return $query;
@@ -69,10 +81,6 @@ abstract class DatabaseEngine implements GeometryEngine
         $query = $this->buildQuery($function, $parameters, $returnsGeometry);
         $result = $this->executeQuery($query, $parameters);
 
-        if ($result[0] === null || $result[0] === -1) { // SQLite3 returns -1 when calling a boolean GIS function on a NULL result.
-            throw GeometryEngineException::operationYieldedNoResult();
-        }
-
         return $result;
     }
 
@@ -89,6 +97,10 @@ abstract class DatabaseEngine implements GeometryEngine
     private function queryBoolean($function, array $parameters)
     {
         list ($result) = $this->query($function, $parameters, false);
+
+        if ($result === null || $result === -1) { // SQLite3 returns -1 when calling a boolean GIS function on a NULL result.
+            throw GeometryEngineException::operationYieldedNoResult();
+        }
 
         return (boolean) $result;
     }
@@ -107,6 +119,10 @@ abstract class DatabaseEngine implements GeometryEngine
     {
         list ($result) = $this->query($function, $parameters, false);
 
+        if ($result === null) {
+            throw GeometryEngineException::operationYieldedNoResult();
+        }
+
         return (float) $result;
     }
 
@@ -122,7 +138,15 @@ abstract class DatabaseEngine implements GeometryEngine
      */
     private function queryGeometry($function, array $parameters)
     {
-        list ($wkb, $srid) = $this->query($function, $parameters, true);
+        list ($wkt, $wkb, $srid) = $this->query($function, $parameters, true);
+
+        if ($wkt === null && $wkb === null) {
+            throw GeometryEngineException::operationYieldedNoResult();
+        }
+
+        if ($wkt !== null) {
+            return Geometry::fromText($wkt, $srid);
+        }
 
         if (is_resource($wkb)) {
             $wkb = stream_get_contents($wkb);
