@@ -140,19 +140,19 @@ abstract class DatabaseEngine implements GeometryEngine
     {
         list ($wkt, $wkb, $srid) = $this->query($function, $parameters, true);
 
-        if ($wkt === null && $wkb === null) {
-            throw GeometryEngineException::operationYieldedNoResult();
-        }
-
         if ($wkt !== null) {
             return Geometry::fromText($wkt, $srid);
         }
 
-        if (is_resource($wkb)) {
-            $wkb = stream_get_contents($wkb);
+        if ($wkb !== null) {
+            if (is_resource($wkb)) {
+                $wkb = stream_get_contents($wkb);
+            }
+
+            return Geometry::fromBinary($wkb, $srid);
         }
 
-        return Geometry::fromBinary($wkb, $srid);
+        throw GeometryEngineException::operationYieldedNoResult();
     }
 
     /**
