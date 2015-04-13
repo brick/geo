@@ -2,10 +2,11 @@
 
 namespace Brick\Geo\Engine;
 
-use Brick\Geo\Geometry;
 use Brick\Geo\Exception\GeometryEngineException;
 use Brick\Geo\IO\EWKBReader;
 use Brick\Geo\IO\EWKBWriter;
+use Brick\Geo\Geometry;
+use Brick\Geo\Point;
 
 /**
  * GeometryEngine implementation based on the GEOS PHP bindings.
@@ -21,6 +22,16 @@ class GEOSEngine implements GeometryEngine
      * @var \GEOSWKBWriter
      */
     private $wkbWriter;
+
+    /**
+     * @var \GEOSWKTReader
+     */
+    private $wktReader;
+
+    /**
+     * @var \GEOSWKTWriter
+     */
+    private $wktWriter;
 
     /**
      * @var \Brick\Geo\IO\EWKBReader
@@ -47,6 +58,9 @@ class GEOSEngine implements GeometryEngine
         $this->wkbReader = new \GEOSWKBReader();
         $this->wkbWriter = new \GEOSWKBWriter();
 
+        $this->wktReader = new \GEOSWKTReader();
+        $this->wktWriter = new \GEOSWKTWriter();
+
         $this->ewkbReader = new EWKBReader();
         $this->ewkbWriter = new EWKBWriter();
 
@@ -62,6 +76,14 @@ class GEOSEngine implements GeometryEngine
      */
     private function toGEOS(Geometry $geometry)
     {
+        if ($geometry instanceof Point && $geometry->isEmpty()) {
+            // POINT EMPTY has no WKB representation, using WKT instead.
+            $geosGeometry = $this->wktReader->read($geometry->asText());
+            $geosGeometry->setSRID($geometry->SRID());
+
+            return $geosGeometry;
+        }
+
         if ($this->hasReadWrite) {
             return $this->wkbReader->read($this->ewkbWriter->write($geometry));
         }
@@ -76,6 +98,11 @@ class GEOSEngine implements GeometryEngine
      */
     private function fromGEOS(\GEOSGeometry $geometry)
     {
+        if ($geometry->typeName() === 'Point' && $geometry->isEmpty()) {
+            // POINT EMPTY has no WKB representation, using WKT instead.
+            return Geometry::fromText($this->wktWriter->write($geometry), $geometry->getSRID());
+        }
+
         if ($this->hasReadWrite) {
             return $this->ewkbReader->read($this->wkbWriter->write($geometry));
         }
