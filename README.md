@@ -129,10 +129,40 @@ Update the `libspatialite` extension name as required. In this example we have c
 
         GeometryEngineRegistry::set(new GEOSEngine());
 
-Usage
------
+Geometry hierarchy
+------------------
 
-To be written.
+All geometry objects extend a base `Geometry` class:
+
+- [Geometry](https://github.com/brick/geo/blob/master/src/Geometry.php) `abstract`
+  - [Point](https://github.com/brick/geo/blob/master/src/Point.php)
+  - [Curve](https://github.com/brick/geo/blob/master/src/Curve.php) `abstract`
+    - [LineString](https://github.com/brick/geo/blob/master/src/LineString.php)
+    - [CompoundCurve](https://github.com/brick/geo/blob/master/src/CompoundCurve.php)
+    - [CircularString](https://github.com/brick/geo/blob/master/src/CircularString.php)
+  - [Surface](https://github.com/brick/geo/blob/master/src/Surface.php) `abstract`
+    - [Polygon](https://github.com/brick/geo/blob/master/src/Polygon.php)
+      - [Triangle](https://github.com/brick/geo/blob/master/src/Triangle.php)
+    - [CurvePolygon](https://github.com/brick/geo/blob/master/src/CurvePolygon.php)
+    - [PolyhedralSurface](https://github.com/brick/geo/blob/master/src/PolyhedralSurface.php)
+      - [TIN](https://github.com/brick/geo/blob/master/src/TIN.php)
+  - [GeometryCollection](https://github.com/brick/geo/blob/master/src/GeometryCollection.php)
+    - [MultiPoint](https://github.com/brick/geo/blob/master/src/MultiPoint.php)
+    - [MultiCurve](https://github.com/brick/geo/blob/master/src/MultiCurve.php) `abstract`
+      - [MultiLineString](https://github.com/brick/geo/blob/master/src/MultiLineString.php)
+    - [MultiSurface](https://github.com/brick/geo/blob/master/src/MultiSurface.php) `abstract`
+      - [MultiPolygon](https://github.com/brick/geo/blob/master/src/MultiPolygon.php)
+
+Example
+-------
+
+    use Brick\Geo\Polygon;
+
+    $polygon = Polygon::fromText('POLYGON ((0 0, 0 3, 3 3, 0 0))');
+    echo $polygon->area(); // 4.5
+
+    $centroid = $polygon->centroid();
+    echo $centroid->asText(); // POINT (1 2)
 
 Spatial Function Reference
 --------------------------
