@@ -5,6 +5,7 @@ namespace Brick\Geo\Tests\IO;
 use Brick\Geo\GeometryCollection;
 use Brick\Geo\IO\WKTWriter;
 use Brick\Geo\MultiLineString;
+use Brick\Geo\PolyhedralSurface;
 
 /**
  * Unit tests for class WKTWriter.
@@ -242,5 +243,22 @@ class WKTWriterTest extends WKTAbstractTest
             ['GEOMETRYCOLLECTION (POINT EMPTY)'],
             ['GEOMETRYCOLLECTION (POINT EMPTY, LINESTRING EMPTY, POLYGON EMPTY)']
         ];
+    }
+
+    /**
+     * @dataProvider providerPolyhedralSurfaceWKT
+     *
+     * @param string  $wkt        The expected WKT.
+     * @param array   $coords     The PolyhedralSurface coordinates.
+     * @param boolean $is3D       Whether the PolyhedralSurface has Z coordinates.
+     * @param boolean $isMeasured Whether the PolyhedralSurface has M coordinates.
+     */
+    public function testWritePolyhedralSurface($wkt, array $coords, $is3D, $isMeasured)
+    {
+        $writer = new WKTWriter();
+        $writer->setPrettyPrint(false);
+
+        $polyhedralSurface = self::createPolyhedralSurface($coords, $is3D, $isMeasured);
+        $this->assertSame($wkt, $writer->write($polyhedralSurface));
     }
 }

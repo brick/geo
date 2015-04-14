@@ -158,4 +158,21 @@ class EWKTWriterTest extends EWKTAbstractTest
         $geometryCollection = GeometryCollection::factory([$point, $lineString]);
         $this->assertSame($this->toEWKT($wkt, 4326), $writer->write($geometryCollection));
     }
+
+    /**
+     * @dataProvider providerPolyhedralSurfaceWKT
+     *
+     * @param string  $wkt        The expected WKT.
+     * @param array   $coords     The PolyhedralSurface coordinates.
+     * @param boolean $is3D       Whether the PolyhedralSurface has Z coordinates.
+     * @param boolean $isMeasured Whether the PolyhedralSurface has M coordinates.
+     */
+    public function testWritePolyhedralSurface($wkt, array $coords, $is3D, $isMeasured)
+    {
+        $writer = new EWKTWriter();
+        $writer->setPrettyPrint(false);
+
+        $polyhedralSurface = self::createPolyhedralSurface($coords, $is3D, $isMeasured, 4326);
+        $this->assertSame($this->toEWKT($wkt, 4326), $writer->write($polyhedralSurface));
+    }
 }

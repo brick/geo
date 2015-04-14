@@ -19,6 +19,7 @@ use Brick\Geo\CircularString;
 use Brick\Geo\CompoundCurve;
 use Brick\Geo\Polygon;
 use Brick\Geo\CurvePolygon;
+use Brick\Geo\PolyhedralSurface;
 
 /**
  * Base class for Geometry tests.
@@ -536,6 +537,25 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
         }
 
         return MultiPolygon::create($polygons, $is3D, $isMeasured, $srid);
+    }
+
+    /**
+     * @param array   $coords
+     * @param boolean $is3D
+     * @param boolean $isMeasured
+     * @param integer $srid
+     *
+     * @return PolyhedralSurface
+     */
+    final protected function createPolyhedralSurface(array $coords, $is3D, $isMeasured, $srid = 0)
+    {
+        $patches = [];
+
+        foreach ($coords as $patch) {
+            $patches[] = $this->createPolygon($patch, $is3D, $isMeasured, $srid);
+        }
+
+        return PolyhedralSurface::create($patches, $is3D, $isMeasured, $srid);
     }
 
     /**

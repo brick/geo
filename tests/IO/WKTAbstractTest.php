@@ -24,7 +24,8 @@ abstract class WKTAbstractTest extends AbstractTestCase
             $this->providerMultiPointWKT(),
             $this->providerMultiLineStringWKT(),
             $this->providerMultiPolygonWKT(),
-            $this->providerGeometryCollectionWKT()
+            $this->providerGeometryCollectionWKT(),
+            $this->providerPolyhedralSurfaceWKT()
         );
     }
 
@@ -215,6 +216,19 @@ abstract class WKTAbstractTest extends AbstractTestCase
             ['GEOMETRYCOLLECTION Z(POINT Z(1 2 3),LINESTRING Z(2 3 4,3 4 5))', [[1, 2, 3], [[2, 3, 4], [3, 4, 5]]], true, false],
             ['GEOMETRYCOLLECTION M(POINT M(1 2 4),LINESTRING M(2 3 5,3 4 6))', [[1, 2, 4], [[2, 3, 5], [3, 4, 6]]], false, true],
             ['GEOMETRYCOLLECTION ZM(POINT ZM(1 2 3 4),LINESTRING ZM(2 3 4 5,3 4 5 6))', [[1, 2, 3, 4], [[2, 3, 4, 5], [3, 4, 5, 6]]], true, true]
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function providerPolyhedralSurfaceWKT()
+    {
+        return [
+            ['POLYHEDRALSURFACE(((0 0,0 1,1 1,1 0,0 0)),((1 0,1 1,2 1,2 0,1 0)))', [[[[0, 0], [0, 1], [1, 1], [1, 0], [0, 0]]], [[[1, 0], [1, 1], [2, 1], [2, 0], [1, 0]]]], false, false],
+            ['POLYHEDRALSURFACE Z(((0 0 0,0 0 1,0 1 1,0 1 0,0 0 0)),((0 0 0,0 1 0,1 1 0,1 0 0,0 0 0)))', [[[[0, 0, 0], [0, 0, 1], [0, 1, 1], [0, 1, 0], [0, 0, 0]]], [[[0, 0, 0], [0, 1, 0], [1, 1, 0], [1, 0, 0], [0, 0, 0]]]], true, false],
+            ['POLYHEDRALSURFACE M(((1 1 0,1 1 1,1 0 1,1 0 0,1 1 0)),((0 1 0,0 1 1,1 1 1,1 1 0,0 1 0)))', [[[[1, 1, 0], [1, 1, 1], [1, 0, 1], [1, 0, 0], [1, 1, 0]]], [[[0, 1, 0], [0, 1, 1], [1, 1, 1], [1, 1, 0], [0, 1, 0]]]], false, true],
+            ['POLYHEDRALSURFACE ZM(((1 1 0 1,1 1 1 2,1 0 1 3,1 0 0 4,1 1 0 1)),((0 1 0 5,0 1 1 6,1 1 1 7,1 1 0 8,0 1 0 5)))', [[[[1, 1, 0, 1], [1, 1, 1, 2], [1, 0, 1, 3], [1, 0, 0, 4], [1, 1, 0, 1]]], [[[0, 1, 0, 5], [0, 1, 1, 6], [1, 1, 1, 7], [1, 1, 0, 8], [0, 1, 0, 5]]]], true, true],
         ];
     }
 }
