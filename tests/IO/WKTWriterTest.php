@@ -60,7 +60,7 @@ class WKTWriterTest extends WKTAbstractTest
         $writer = new WKTWriter();
         $writer->setPrettyPrint(false);
 
-        $point = self::createPoint($coords, $is3D, $isMeasured);
+        $point = $this->createPoint($coords, $is3D, $isMeasured);
         $this->assertSame($wkt, $writer->write($point));
     }
 
@@ -77,7 +77,7 @@ class WKTWriterTest extends WKTAbstractTest
         $writer = new WKTWriter();
         $writer->setPrettyPrint(false);
 
-        $lineString = self::createLineString($coords, $is3D, $isMeasured);
+        $lineString = $this->createLineString($coords, $is3D, $isMeasured);
         $this->assertSame($wkt, $writer->write($lineString));
     }
 
@@ -94,7 +94,7 @@ class WKTWriterTest extends WKTAbstractTest
         $writer = new WKTWriter();
         $writer->setPrettyPrint(false);
 
-        $lineString = self::createCircularString($coords, $is3D, $isMeasured);
+        $lineString = $this->createCircularString($coords, $is3D, $isMeasured);
         $this->assertSame($wkt, $writer->write($lineString));
     }
 
@@ -111,7 +111,7 @@ class WKTWriterTest extends WKTAbstractTest
         $writer = new WKTWriter();
         $writer->setPrettyPrint(false);
 
-        $compoundCurve = self::createCompoundCurve($coords, $is3D, $isMeasured);
+        $compoundCurve = $this->createCompoundCurve($coords, $is3D, $isMeasured);
         $this->assertSame($wkt, $writer->write($compoundCurve));
     }
 
@@ -128,7 +128,7 @@ class WKTWriterTest extends WKTAbstractTest
         $writer = new WKTWriter();
         $writer->setPrettyPrint(false);
 
-        $polygon = self::createPolygon($coords, $is3D, $isMeasured);
+        $polygon = $this->createPolygon($coords, $is3D, $isMeasured);
         $this->assertSame($wkt, $writer->write($polygon));
     }
 
@@ -145,7 +145,7 @@ class WKTWriterTest extends WKTAbstractTest
         $writer = new WKTWriter();
         $writer->setPrettyPrint(false);
 
-        $polygon = self::createCurvePolygon($coords, $is3D, $isMeasured);
+        $polygon = $this->createCurvePolygon($coords, $is3D, $isMeasured);
         $this->assertSame($wkt, $writer->write($polygon));
     }
 
@@ -162,7 +162,7 @@ class WKTWriterTest extends WKTAbstractTest
         $writer = new WKTWriter();
         $writer->setPrettyPrint(false);
 
-        $multiPoint = self::createMultiPoint($coords, $is3D, $isMeasured);
+        $multiPoint = $this->createMultiPoint($coords, $is3D, $isMeasured);
         $this->assertSame($wkt, $writer->write($multiPoint));
     }
 
@@ -179,7 +179,7 @@ class WKTWriterTest extends WKTAbstractTest
         $writer = new WKTWriter();
         $writer->setPrettyPrint(false);
 
-        $multiLineString = self::createMultiLineString($coords, $is3D, $isMeasured);
+        $multiLineString = $this->createMultiLineString($coords, $is3D, $isMeasured);
         $this->assertSame($wkt, $writer->write($multiLineString));
     }
 
@@ -196,7 +196,7 @@ class WKTWriterTest extends WKTAbstractTest
         $writer = new WKTWriter();
         $writer->setPrettyPrint(false);
 
-        $multiPolygon = self::createMultiPolygon($coords, $is3D, $isMeasured);
+        $multiPolygon = $this->createMultiPolygon($coords, $is3D, $isMeasured);
         $this->assertSame($wkt, $writer->write($multiPolygon));
     }
 
@@ -213,8 +213,8 @@ class WKTWriterTest extends WKTAbstractTest
         $writer = new WKTWriter();
         $writer->setPrettyPrint(false);
 
-        $point = self::createPoint($coords[0], $is3D, $isMeasured);
-        $lineString = self::createLineString($coords[1], $is3D, $isMeasured);
+        $point = $this->createPoint($coords[0], $is3D, $isMeasured);
+        $lineString = $this->createLineString($coords[1], $is3D, $isMeasured);
 
         $geometryCollection = GeometryCollection::factory([$point, $lineString]);
         $this->assertSame($wkt, $writer->write($geometryCollection));
@@ -258,7 +258,7 @@ class WKTWriterTest extends WKTAbstractTest
         $writer = new WKTWriter();
         $writer->setPrettyPrint(false);
 
-        $polyhedralSurface = self::createPolyhedralSurface($coords, $is3D, $isMeasured);
+        $polyhedralSurface = $this->createPolyhedralSurface($coords, $is3D, $isMeasured);
         $this->assertSame($wkt, $writer->write($polyhedralSurface));
     }
 }
