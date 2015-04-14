@@ -20,6 +20,8 @@ use Brick\Geo\CompoundCurve;
 use Brick\Geo\Polygon;
 use Brick\Geo\CurvePolygon;
 use Brick\Geo\PolyhedralSurface;
+use Brick\Geo\TIN;
+use Brick\Geo\Triangle;
 
 /**
  * Base class for Geometry tests.
@@ -463,6 +465,25 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
      * @param boolean $isMeasured
      * @param integer $srid
      *
+     * @return Triangle
+     */
+    final protected function createTriangle(array $coords, $is3D, $isMeasured, $srid = 0)
+    {
+        $rings = [];
+
+        foreach ($coords as $ring) {
+            $rings[] = $this->createLineString($ring, $is3D, $isMeasured, $srid);
+        }
+
+        return Triangle::create($rings, $is3D, $isMeasured, $srid);
+    }
+
+    /**
+     * @param array   $coords
+     * @param boolean $is3D
+     * @param boolean $isMeasured
+     * @param integer $srid
+     *
      * @return CurvePolygon
      */
     final protected function createCurvePolygon(array $coords, $is3D, $isMeasured, $srid = 0)
@@ -556,6 +577,25 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
         }
 
         return PolyhedralSurface::create($patches, $is3D, $isMeasured, $srid);
+    }
+
+    /**
+     * @param array   $coords
+     * @param boolean $is3D
+     * @param boolean $isMeasured
+     * @param integer $srid
+     *
+     * @return TIN
+     */
+    final protected function createTIN(array $coords, $is3D, $isMeasured, $srid = 0)
+    {
+        $patches = [];
+
+        foreach ($coords as $patch) {
+            $patches[] = $this->createTriangle($patch, $is3D, $isMeasured, $srid);
+        }
+
+        return TIN::create($patches, $is3D, $isMeasured, $srid);
     }
 
     /**

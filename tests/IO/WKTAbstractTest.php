@@ -25,7 +25,9 @@ abstract class WKTAbstractTest extends AbstractTestCase
             $this->providerMultiLineStringWKT(),
             $this->providerMultiPolygonWKT(),
             $this->providerGeometryCollectionWKT(),
-            $this->providerPolyhedralSurfaceWKT()
+            $this->providerPolyhedralSurfaceWKT(),
+            $this->providerTriangleWKT(),
+            $this->providerTINWKT()
         );
     }
 
@@ -229,6 +231,32 @@ abstract class WKTAbstractTest extends AbstractTestCase
             ['POLYHEDRALSURFACE Z(((0 0 0,0 0 1,0 1 1,0 1 0,0 0 0)),((0 0 0,0 1 0,1 1 0,1 0 0,0 0 0)))', [[[[0, 0, 0], [0, 0, 1], [0, 1, 1], [0, 1, 0], [0, 0, 0]]], [[[0, 0, 0], [0, 1, 0], [1, 1, 0], [1, 0, 0], [0, 0, 0]]]], true, false],
             ['POLYHEDRALSURFACE M(((1 1 0,1 1 1,1 0 1,1 0 0,1 1 0)),((0 1 0,0 1 1,1 1 1,1 1 0,0 1 0)))', [[[[1, 1, 0], [1, 1, 1], [1, 0, 1], [1, 0, 0], [1, 1, 0]]], [[[0, 1, 0], [0, 1, 1], [1, 1, 1], [1, 1, 0], [0, 1, 0]]]], false, true],
             ['POLYHEDRALSURFACE ZM(((1 1 0 1,1 1 1 2,1 0 1 3,1 0 0 4,1 1 0 1)),((0 1 0 5,0 1 1 6,1 1 1 7,1 1 0 8,0 1 0 5)))', [[[[1, 1, 0, 1], [1, 1, 1, 2], [1, 0, 1, 3], [1, 0, 0, 4], [1, 1, 0, 1]]], [[[0, 1, 0, 5], [0, 1, 1, 6], [1, 1, 1, 7], [1, 1, 0, 8], [0, 1, 0, 5]]]], true, true],
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function providerTriangleWKT()
+    {
+        return [
+            ['TRIANGLE((0 0,0 1,1 1,0 0))', [[[0, 0], [0, 1], [1, 1], [0, 0]]], false, false],
+            ['TRIANGLE Z((0 0 2,0 1 2,1 1 2,0 0 2))', [[[0, 0, 2], [0, 1, 2], [1, 1, 2], [0, 0, 2]]], true, false],
+            ['TRIANGLE M((1 1 1,1 2 1,2 2 1,1 1 1))', [[[1, 1, 1], [1, 2, 1], [2, 2, 1], [1, 1, 1]]], false, true],
+            ['TRIANGLE ZM((1 1 1 1,1 2 1 2,2 2 1 3,1 1 1 1))', [[[1, 1, 1, 1], [1, 2, 1, 2], [2, 2, 1, 3], [1, 1, 1, 1]]], true, true],
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function providerTINWKT()
+    {
+        return [
+            ['TIN(((0 0,0 1,1 0,0 0)),((0 1,1 1,1 0,0 1)))', [[[[0, 0], [0, 1], [1, 0], [0, 0]]], [[[0, 1], [1, 1], [1, 0], [0, 1]]]], false, false],
+            ['TIN Z(((0 0 0,0 0 1,0 1 0,0 0 0)),((0 0 0,0 1 0,1 1 0,0 0 0)))', [[[[0, 0, 0], [0, 0, 1], [0, 1, 0], [0, 0, 0]]], [[[0, 0, 0], [0, 1, 0], [1, 1, 0], [0, 0, 0]]]], true, false],
+            ['TIN M(((0 0 0,0 0 1,0 1 0,0 0 0)),((0 0 0,0 1 0,1 1 0,0 0 0)))', [[[[0, 0, 0], [0, 0, 1], [0, 1, 0], [0, 0, 0]]], [[[0, 0, 0], [0, 1, 0], [1, 1, 0], [0, 0, 0]]]], false, true],
+            ['TIN ZM(((0 0 0 2,0 0 1 2,0 1 0 2,0 0 0 2)),((0 0 0 3,0 1 0 3,1 1 0 3,0 0 0 3)))', [[[[0, 0, 0, 2], [0, 0, 1, 2], [0, 1, 0, 2], [0, 0, 0, 2]]], [[[0, 0, 0, 3], [0, 1, 0, 3], [1, 1, 0, 3], [0, 0, 0, 3]]]], true, true],
         ];
     }
 }

@@ -5,7 +5,6 @@ namespace Brick\Geo\Tests\IO;
 use Brick\Geo\GeometryCollection;
 use Brick\Geo\IO\WKTWriter;
 use Brick\Geo\MultiLineString;
-use Brick\Geo\PolyhedralSurface;
 
 /**
  * Unit tests for class WKTWriter.
@@ -130,6 +129,23 @@ class WKTWriterTest extends WKTAbstractTest
 
         $polygon = $this->createPolygon($coords, $is3D, $isMeasured);
         $this->assertSame($wkt, $writer->write($polygon));
+    }
+
+    /**
+     * @dataProvider providerTriangleWKT
+     *
+     * @param string  $wkt        The expected WKT.
+     * @param array   $coords     The Triangle coordinates.
+     * @param boolean $is3D       Whether the Triangle has Z coordinates.
+     * @param boolean $isMeasured Whether the Triangle has M coordinates.
+     */
+    public function testWriteTriangle($wkt, array $coords, $is3D, $isMeasured)
+    {
+        $writer = new WKTWriter();
+        $writer->setPrettyPrint(false);
+
+        $triangle = $this->createTriangle($coords, $is3D, $isMeasured);
+        $this->assertSame($wkt, $writer->write($triangle));
     }
 
     /**
@@ -260,5 +276,22 @@ class WKTWriterTest extends WKTAbstractTest
 
         $polyhedralSurface = $this->createPolyhedralSurface($coords, $is3D, $isMeasured);
         $this->assertSame($wkt, $writer->write($polyhedralSurface));
+    }
+
+    /**
+     * @dataProvider providerTINWKT
+     *
+     * @param string  $wkt        The expected WKT.
+     * @param array   $coords     The TIN coordinates.
+     * @param boolean $is3D       Whether the TIN has Z coordinates.
+     * @param boolean $isMeasured Whether the TIN has M coordinates.
+     */
+    public function testWriteTIN($wkt, array $coords, $is3D, $isMeasured)
+    {
+        $writer = new WKTWriter();
+        $writer->setPrettyPrint(false);
+
+        $tin = $this->createTIN($coords, $is3D, $isMeasured);
+        $this->assertSame($wkt, $writer->write($tin));
     }
 }

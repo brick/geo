@@ -2,7 +2,6 @@
 
 namespace Brick\Geo\Tests\Proxy;
 
-use Brick\Geo\IO\WKBReader;
 use Brick\Geo\Point;
 use Brick\Geo\Proxy\PointProxy;
 use Brick\Geo\Tests\AbstractTestCase;

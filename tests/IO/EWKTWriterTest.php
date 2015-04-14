@@ -89,6 +89,23 @@ class EWKTWriterTest extends EWKTAbstractTest
     }
 
     /**
+     * @dataProvider providerTriangleWKT
+     *
+     * @param string  $wkt        The expected WKT.
+     * @param array   $coords     The Triangle coordinates.
+     * @param boolean $is3D       Whether the Triangle has Z coordinates.
+     * @param boolean $isMeasured Whether the Triangle has M coordinates.
+     */
+    public function testWriteTriangle($wkt, array $coords, $is3D, $isMeasured)
+    {
+        $writer = new EWKTWriter();
+        $writer->setPrettyPrint(false);
+
+        $triangle = $this->createTriangle($coords, $is3D, $isMeasured, 4326);
+        $this->assertSame($this->toEWKT($wkt, 4326), $writer->write($triangle));
+    }
+
+    /**
      * @dataProvider providerMultiPointWKT
      *
      * @param string  $wkt        The expected WKT.
@@ -174,5 +191,22 @@ class EWKTWriterTest extends EWKTAbstractTest
 
         $polyhedralSurface = $this->createPolyhedralSurface($coords, $is3D, $isMeasured, 4326);
         $this->assertSame($this->toEWKT($wkt, 4326), $writer->write($polyhedralSurface));
+    }
+
+    /**
+     * @dataProvider providerTINWKT
+     *
+     * @param string  $wkt        The expected WKT.
+     * @param array   $coords     The TIN coordinates.
+     * @param boolean $is3D       Whether the TIN has Z coordinates.
+     * @param boolean $isMeasured Whether the TIN has M coordinates.
+     */
+    public function testWriteTIN($wkt, array $coords, $is3D, $isMeasured)
+    {
+        $writer = new EWKTWriter();
+        $writer->setPrettyPrint(false);
+
+        $tin = $this->createTIN($coords, $is3D, $isMeasured, 4326);
+        $this->assertSame($this->toEWKT($wkt, 4326), $writer->write($tin));
     }
 }
