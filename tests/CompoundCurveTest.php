@@ -238,15 +238,15 @@ class CompoundCurveTest extends AbstractTestCase
      */
     public function testInterfaces()
     {
-        $lineString = CompoundCurve::fromText('COMPOUNDCURVE (CIRCULARSTRING(1 2, 3 4, 5 6), (5 6, 7 8))');
+        $compoundCurve = CompoundCurve::fromText('COMPOUNDCURVE (CIRCULARSTRING(1 2, 3 4, 5 6), (5 6, 7 8))');
 
-        $this->assertInstanceOf(\Countable::class, $lineString);
-        $this->assertSame(2, count($lineString));
+        $this->assertInstanceOf(\Countable::class, $compoundCurve);
+        $this->assertSame(2, count($compoundCurve));
 
-        $this->assertInstanceOf(\Traversable::class, $lineString);
+        $this->assertInstanceOf(\Traversable::class, $compoundCurve);
         $this->assertSame([
-            $lineString->curveN(1),
-            $lineString->curveN(2)
-        ], iterator_to_array($lineString));
+            $compoundCurve->curveN(1),
+            $compoundCurve->curveN(2)
+        ], iterator_to_array($compoundCurve));
     }
 }

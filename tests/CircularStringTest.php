@@ -228,16 +228,16 @@ class CircularStringTest extends AbstractTestCase
      */
     public function testInterfaces()
     {
-        $lineString = CircularString::fromText('CIRCULARSTRING (1 2, 3 4, 5 6)');
+        $circularString = CircularString::fromText('CIRCULARSTRING (1 2, 3 4, 5 6)');
 
-        $this->assertInstanceOf(\Countable::class, $lineString);
-        $this->assertSame(3, count($lineString));
+        $this->assertInstanceOf(\Countable::class, $circularString);
+        $this->assertSame(3, count($circularString));
 
-        $this->assertInstanceOf(\Traversable::class, $lineString);
+        $this->assertInstanceOf(\Traversable::class, $circularString);
         $this->assertSame([
-            $lineString->pointN(1),
-            $lineString->pointN(2),
-            $lineString->pointN(3)
-        ], iterator_to_array($lineString));
+            $circularString->pointN(1),
+            $circularString->pointN(2),
+            $circularString->pointN(3)
+        ], iterator_to_array($circularString));
     }
 }
