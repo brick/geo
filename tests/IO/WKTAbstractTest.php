@@ -214,6 +214,11 @@ abstract class WKTAbstractTest extends AbstractTestCase
     public function providerGeometryCollectionWKT()
     {
         return [
+            ['GEOMETRYCOLLECTION EMPTY', [], false, false],
+            ['GEOMETRYCOLLECTION Z EMPTY', [], true, false],
+            ['GEOMETRYCOLLECTION M EMPTY', [], false, true],
+            ['GEOMETRYCOLLECTION ZM EMPTY', [], true, true],
+
             ['GEOMETRYCOLLECTION(POINT(1 2),LINESTRING(2 3,3 4))', [[1, 2], [[2, 3], [3, 4]]], false, false],
             ['GEOMETRYCOLLECTION Z(POINT Z(1 2 3),LINESTRING Z(2 3 4,3 4 5))', [[1, 2, 3], [[2, 3, 4], [3, 4, 5]]], true, false],
             ['GEOMETRYCOLLECTION M(POINT M(1 2 4),LINESTRING M(2 3 5,3 4 6))', [[1, 2, 4], [[2, 3, 5], [3, 4, 6]]], false, true],
@@ -227,6 +232,11 @@ abstract class WKTAbstractTest extends AbstractTestCase
     public function providerPolyhedralSurfaceWKT()
     {
         return [
+            ['POLYHEDRALSURFACE EMPTY', [], false, false],
+            ['POLYHEDRALSURFACE Z EMPTY', [], true, false],
+            ['POLYHEDRALSURFACE M EMPTY', [], false, true],
+            ['POLYHEDRALSURFACE ZM EMPTY', [], true, true],
+
             ['POLYHEDRALSURFACE(((0 0,0 1,1 1,1 0,0 0)),((1 0,1 1,2 1,2 0,1 0)))', [[[[0, 0], [0, 1], [1, 1], [1, 0], [0, 0]]], [[[1, 0], [1, 1], [2, 1], [2, 0], [1, 0]]]], false, false],
             ['POLYHEDRALSURFACE Z(((0 0 0,0 0 1,0 1 1,0 1 0,0 0 0)),((0 0 0,0 1 0,1 1 0,1 0 0,0 0 0)))', [[[[0, 0, 0], [0, 0, 1], [0, 1, 1], [0, 1, 0], [0, 0, 0]]], [[[0, 0, 0], [0, 1, 0], [1, 1, 0], [1, 0, 0], [0, 0, 0]]]], true, false],
             ['POLYHEDRALSURFACE M(((1 1 0,1 1 1,1 0 1,1 0 0,1 1 0)),((0 1 0,0 1 1,1 1 1,1 1 0,0 1 0)))', [[[[1, 1, 0], [1, 1, 1], [1, 0, 1], [1, 0, 0], [1, 1, 0]]], [[[0, 1, 0], [0, 1, 1], [1, 1, 1], [1, 1, 0], [0, 1, 0]]]], false, true],
@@ -240,6 +250,11 @@ abstract class WKTAbstractTest extends AbstractTestCase
     public function providerTriangleWKT()
     {
         return [
+            ['TRIANGLE EMPTY', [], false, false],
+            ['TRIANGLE Z EMPTY', [], true, false],
+            ['TRIANGLE M EMPTY', [], false, true],
+            ['TRIANGLE ZM EMPTY', [], true, true],
+
             ['TRIANGLE((0 0,0 1,1 1,0 0))', [[[0, 0], [0, 1], [1, 1], [0, 0]]], false, false],
             ['TRIANGLE Z((0 0 2,0 1 2,1 1 2,0 0 2))', [[[0, 0, 2], [0, 1, 2], [1, 1, 2], [0, 0, 2]]], true, false],
             ['TRIANGLE M((1 1 1,1 2 1,2 2 1,1 1 1))', [[[1, 1, 1], [1, 2, 1], [2, 2, 1], [1, 1, 1]]], false, true],
@@ -253,6 +268,11 @@ abstract class WKTAbstractTest extends AbstractTestCase
     public function providerTINWKT()
     {
         return [
+            ['TIN EMPTY', [], false, false],
+            ['TIN Z EMPTY', [], true, false],
+            ['TIN M EMPTY', [], false, true],
+            ['TIN ZM EMPTY', [], true, true],
+
             ['TIN(((0 0,0 1,1 0,0 0)),((0 1,1 1,1 0,0 1)))', [[[[0, 0], [0, 1], [1, 0], [0, 0]]], [[[0, 1], [1, 1], [1, 0], [0, 1]]]], false, false],
             ['TIN Z(((0 0 0,0 0 1,0 1 0,0 0 0)),((0 0 0,0 1 0,1 1 0,0 0 0)))', [[[[0, 0, 0], [0, 0, 1], [0, 1, 0], [0, 0, 0]]], [[[0, 0, 0], [0, 1, 0], [1, 1, 0], [0, 0, 0]]]], true, false],
             ['TIN M(((0 0 0,0 0 1,0 1 0,0 0 0)),((0 0 0,0 1 0,1 1 0,0 0 0)))', [[[[0, 0, 0], [0, 0, 1], [0, 1, 0], [0, 0, 0]]], [[[0, 0, 0], [0, 1, 0], [1, 1, 0], [0, 0, 0]]]], false, true],

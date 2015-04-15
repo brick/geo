@@ -72,6 +72,40 @@ class EWKTWriterTest extends EWKTAbstractTest
     }
 
     /**
+     * @dataProvider providerCircularStringWKT
+     *
+     * @param string  $wkt        The expected WKT.
+     * @param array   $coords     The CircularString coordinates.
+     * @param boolean $is3D       Whether the CircularString has Z coordinates.
+     * @param boolean $isMeasured Whether the CircularString has M coordinates.
+     */
+    public function testWriteCircularString($wkt, array $coords, $is3D, $isMeasured)
+    {
+        $writer = new EWKTWriter();
+        $writer->setPrettyPrint(false);
+
+        $lineString = $this->createCircularString($coords, $is3D, $isMeasured, 4326);
+        $this->assertSame($this->toEWKT($wkt, 4326), $writer->write($lineString));
+    }
+
+    /**
+     * @dataProvider providerCompoundCurveWKT
+     *
+     * @param string  $wkt        The expected WKT.
+     * @param array   $coords     The CompoundCurve coordinates.
+     * @param boolean $is3D       Whether the CompoundCurve has Z coordinates.
+     * @param boolean $isMeasured Whether the CompoundCurve has M coordinates.
+     */
+    public function testWriteCompoundCurve($wkt, array $coords, $is3D, $isMeasured)
+    {
+        $writer = new EWKTWriter();
+        $writer->setPrettyPrint(false);
+
+        $compoundCurve = $this->createCompoundCurve($coords, $is3D, $isMeasured, 4326);
+        $this->assertSame($this->toEWKT($wkt, 4326), $writer->write($compoundCurve));
+    }
+
+    /**
      * @dataProvider providerPolygonWKT
      *
      * @param string  $wkt        The expected WKT.
@@ -103,6 +137,57 @@ class EWKTWriterTest extends EWKTAbstractTest
 
         $triangle = $this->createTriangle($coords, $is3D, $isMeasured, 4326);
         $this->assertSame($this->toEWKT($wkt, 4326), $writer->write($triangle));
+    }
+
+    /**
+     * @dataProvider providerCurvePolygonWKT
+     *
+     * @param string  $wkt        The expected WKT.
+     * @param array   $coords     The Polygon coordinates.
+     * @param boolean $is3D       Whether the Polygon has Z coordinates.
+     * @param boolean $isMeasured Whether the Polygon has M coordinates.
+     */
+    public function testWriteCurvePolygon($wkt, array $coords, $is3D, $isMeasured)
+    {
+        $writer = new EWKTWriter();
+        $writer->setPrettyPrint(false);
+
+        $polygon = $this->createCurvePolygon($coords, $is3D, $isMeasured, 4326);
+        $this->assertSame($this->toEWKT($wkt, 4326), $writer->write($polygon));
+    }
+
+    /**
+     * @dataProvider providerPolyhedralSurfaceWKT
+     *
+     * @param string  $wkt        The expected WKT.
+     * @param array   $coords     The PolyhedralSurface coordinates.
+     * @param boolean $is3D       Whether the PolyhedralSurface has Z coordinates.
+     * @param boolean $isMeasured Whether the PolyhedralSurface has M coordinates.
+     */
+    public function testWritePolyhedralSurface($wkt, array $coords, $is3D, $isMeasured)
+    {
+        $writer = new EWKTWriter();
+        $writer->setPrettyPrint(false);
+
+        $polyhedralSurface = $this->createPolyhedralSurface($coords, $is3D, $isMeasured, 4326);
+        $this->assertSame($this->toEWKT($wkt, 4326), $writer->write($polyhedralSurface));
+    }
+
+    /**
+     * @dataProvider providerTINWKT
+     *
+     * @param string  $wkt        The expected WKT.
+     * @param array   $coords     The TIN coordinates.
+     * @param boolean $is3D       Whether the TIN has Z coordinates.
+     * @param boolean $isMeasured Whether the TIN has M coordinates.
+     */
+    public function testWriteTIN($wkt, array $coords, $is3D, $isMeasured)
+    {
+        $writer = new EWKTWriter();
+        $writer->setPrettyPrint(false);
+
+        $tin = $this->createTIN($coords, $is3D, $isMeasured, 4326);
+        $this->assertSame($this->toEWKT($wkt, 4326), $writer->write($tin));
     }
 
     /**
@@ -169,44 +254,15 @@ class EWKTWriterTest extends EWKTAbstractTest
         $writer = new EWKTWriter();
         $writer->setPrettyPrint(false);
 
-        $point = $this->createPoint($coords[0], $is3D, $isMeasured, 4326);
-        $lineString = $this->createLineString($coords[1], $is3D, $isMeasured, 4326);
+        if ($coords) {
+            $point = $this->createPoint($coords[0], $is3D, $isMeasured, 4326);
+            $lineString = $this->createLineString($coords[1], $is3D, $isMeasured, 4326);
+            $geometries = [$point, $lineString];
+        } else {
+            $geometries = [];
+        }
 
-        $geometryCollection = GeometryCollection::factory([$point, $lineString]);
+        $geometryCollection = GeometryCollection::create($geometries, $is3D, $isMeasured, 4326);
         $this->assertSame($this->toEWKT($wkt, 4326), $writer->write($geometryCollection));
-    }
-
-    /**
-     * @dataProvider providerPolyhedralSurfaceWKT
-     *
-     * @param string  $wkt        The expected WKT.
-     * @param array   $coords     The PolyhedralSurface coordinates.
-     * @param boolean $is3D       Whether the PolyhedralSurface has Z coordinates.
-     * @param boolean $isMeasured Whether the PolyhedralSurface has M coordinates.
-     */
-    public function testWritePolyhedralSurface($wkt, array $coords, $is3D, $isMeasured)
-    {
-        $writer = new EWKTWriter();
-        $writer->setPrettyPrint(false);
-
-        $polyhedralSurface = $this->createPolyhedralSurface($coords, $is3D, $isMeasured, 4326);
-        $this->assertSame($this->toEWKT($wkt, 4326), $writer->write($polyhedralSurface));
-    }
-
-    /**
-     * @dataProvider providerTINWKT
-     *
-     * @param string  $wkt        The expected WKT.
-     * @param array   $coords     The TIN coordinates.
-     * @param boolean $is3D       Whether the TIN has Z coordinates.
-     * @param boolean $isMeasured Whether the TIN has M coordinates.
-     */
-    public function testWriteTIN($wkt, array $coords, $is3D, $isMeasured)
-    {
-        $writer = new EWKTWriter();
-        $writer->setPrettyPrint(false);
-
-        $tin = $this->createTIN($coords, $is3D, $isMeasured, 4326);
-        $this->assertSame($this->toEWKT($wkt, 4326), $writer->write($tin));
     }
 }

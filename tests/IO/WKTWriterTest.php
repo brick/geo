@@ -166,6 +166,40 @@ class WKTWriterTest extends WKTAbstractTest
     }
 
     /**
+     * @dataProvider providerPolyhedralSurfaceWKT
+     *
+     * @param string  $wkt        The expected WKT.
+     * @param array   $coords     The PolyhedralSurface coordinates.
+     * @param boolean $is3D       Whether the PolyhedralSurface has Z coordinates.
+     * @param boolean $isMeasured Whether the PolyhedralSurface has M coordinates.
+     */
+    public function testWritePolyhedralSurface($wkt, array $coords, $is3D, $isMeasured)
+    {
+        $writer = new WKTWriter();
+        $writer->setPrettyPrint(false);
+
+        $polyhedralSurface = $this->createPolyhedralSurface($coords, $is3D, $isMeasured);
+        $this->assertSame($wkt, $writer->write($polyhedralSurface));
+    }
+
+    /**
+     * @dataProvider providerTINWKT
+     *
+     * @param string  $wkt        The expected WKT.
+     * @param array   $coords     The TIN coordinates.
+     * @param boolean $is3D       Whether the TIN has Z coordinates.
+     * @param boolean $isMeasured Whether the TIN has M coordinates.
+     */
+    public function testWriteTIN($wkt, array $coords, $is3D, $isMeasured)
+    {
+        $writer = new WKTWriter();
+        $writer->setPrettyPrint(false);
+
+        $tin = $this->createTIN($coords, $is3D, $isMeasured);
+        $this->assertSame($wkt, $writer->write($tin));
+    }
+
+    /**
      * @dataProvider providerMultiPointWKT
      *
      * @param string  $wkt        The expected WKT.
@@ -229,10 +263,15 @@ class WKTWriterTest extends WKTAbstractTest
         $writer = new WKTWriter();
         $writer->setPrettyPrint(false);
 
-        $point = $this->createPoint($coords[0], $is3D, $isMeasured);
-        $lineString = $this->createLineString($coords[1], $is3D, $isMeasured);
+        if ($coords) {
+            $point = $this->createPoint($coords[0], $is3D, $isMeasured);
+            $lineString = $this->createLineString($coords[1], $is3D, $isMeasured);
+            $geometries = [$point, $lineString];
+        } else {
+            $geometries = [];
+        }
 
-        $geometryCollection = GeometryCollection::factory([$point, $lineString]);
+        $geometryCollection = GeometryCollection::create($geometries, $is3D, $isMeasured, 0);
         $this->assertSame($wkt, $writer->write($geometryCollection));
     }
 
@@ -259,39 +298,5 @@ class WKTWriterTest extends WKTAbstractTest
             ['GEOMETRYCOLLECTION (POINT EMPTY)'],
             ['GEOMETRYCOLLECTION (POINT EMPTY, LINESTRING EMPTY, POLYGON EMPTY)']
         ];
-    }
-
-    /**
-     * @dataProvider providerPolyhedralSurfaceWKT
-     *
-     * @param string  $wkt        The expected WKT.
-     * @param array   $coords     The PolyhedralSurface coordinates.
-     * @param boolean $is3D       Whether the PolyhedralSurface has Z coordinates.
-     * @param boolean $isMeasured Whether the PolyhedralSurface has M coordinates.
-     */
-    public function testWritePolyhedralSurface($wkt, array $coords, $is3D, $isMeasured)
-    {
-        $writer = new WKTWriter();
-        $writer->setPrettyPrint(false);
-
-        $polyhedralSurface = $this->createPolyhedralSurface($coords, $is3D, $isMeasured);
-        $this->assertSame($wkt, $writer->write($polyhedralSurface));
-    }
-
-    /**
-     * @dataProvider providerTINWKT
-     *
-     * @param string  $wkt        The expected WKT.
-     * @param array   $coords     The TIN coordinates.
-     * @param boolean $is3D       Whether the TIN has Z coordinates.
-     * @param boolean $isMeasured Whether the TIN has M coordinates.
-     */
-    public function testWriteTIN($wkt, array $coords, $is3D, $isMeasured)
-    {
-        $writer = new WKTWriter();
-        $writer->setPrettyPrint(false);
-
-        $tin = $this->createTIN($coords, $is3D, $isMeasured);
-        $this->assertSame($wkt, $writer->write($tin));
     }
 }
