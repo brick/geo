@@ -20,11 +20,6 @@ use Brick\Geo\Engine\GeometryEngineRegistry;
  *
  * The boundary of a simple Surface is the set of closed Curves corresponding to its "exterior" and "interior"
  * boundaries.
- *
- * The only instantiable subclasses of Surface defined in this standard are Polygon and PolyhedralSurface. A
- * Polygon is a simple Surface that is planar. A PolyhedralSurface is a simple surface, consisting of some number of
- * Polygon patches or facets. If a PolyhedralSurface is closed, then it bounds a solid. A MultiSurface containing a set
- * of closed PolyhedralSurfaces can be used to represent a Solid object with holes.
  */
 abstract class Surface extends Geometry
 {
