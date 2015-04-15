@@ -268,166 +268,6 @@ class Point extends Geometry
     }
 
     /**
-     * Returns a copy of this Point with the X coordinate altered.
-     *
-     * @param float $x
-     *
-     * @return Point
-     *
-     * @throws GeometryException If this point is empty.
-     */
-    public function withX($x)
-    {
-        if ($this->isEmpty) {
-            throw new GeometryException('Cannot call withX() on an empty Point.');
-        }
-
-        $point = clone $this;
-        $point->x = (float) $x;
-
-        return $point;
-    }
-
-    /**
-     * Returns a copy of this Point with the Y coordinate altered.
-     *
-     * @param float $y
-     *
-     * @return Point
-     *
-     * @throws GeometryException If this point is empty.
-*/
-    public function withY($y)
-    {
-        if ($this->isEmpty) {
-            throw new GeometryException('Cannot call withY() on an empty Point.');
-        }
-
-        $point = clone $this;
-        $point->y = (float) $y;
-
-        return $point;
-    }
-
-    /**
-     * Returns a copy of this Point with the Z coordinate altered.
-     *
-     * @param float $z
-     *
-     * @return Point
-     *
-     * @throws GeometryException If this point is empty.
-     */
-    public function withZ($z)
-    {
-        if ($this->isEmpty) {
-            throw new GeometryException('Cannot call withZ() on an empty Point.');
-        }
-
-        $point = clone $this;
-        $point->z = (float) $z;
-        $point->is3D = true;
-
-        return $point;
-    }
-
-    /**
-     * Returns a copy of this Point with the M coordinate altered.
-     *
-     * @param float $m
-     *
-     * @return Point
-     *
-     * @throws GeometryException If this point is empty.
-     */
-    public function withM($m)
-    {
-        if ($this->isEmpty) {
-            throw new GeometryException('Cannot call withZ() on an empty Point.');
-        }
-
-        $point = clone $this;
-        $point->m = (float) $m;
-        $point->isMeasured = true;
-
-        return $point;
-    }
-
-    /**
-     * Returns a copy of this Point with the Z coordinate removed.
-     *
-     * @return Point
-     */
-    public function withoutZ()
-    {
-        if ($this->z === null) {
-            return $this;
-        }
-
-        $point = clone $this;
-        $point->z = null;
-        $point->is3D = false;
-
-        return $point;
-    }
-
-    /**
-     * Returns a copy of this Point with the M coordinate removed.
-     *
-     * @return Point
-     */
-    public function withoutM()
-    {
-        if ($this->m === null) {
-            return $this;
-        }
-
-        $point = clone $this;
-        $point->m = null;
-        $point->isMeasured = false;
-
-        return $point;
-    }
-
-    /**
-     * Returns a copy of this Point with the Z and M coordinates removed.
-     *
-     * @return Point
-     */
-    public function withoutZM()
-    {
-        if ($this->z === null && $this->m === null) {
-            return $this;
-        }
-
-        $point = clone $this;
-
-        $point->z = null;
-        $point->m = null;
-
-        $point->is3D       = false;
-        $point->isMeasured = false;
-
-        return $point;
-    }
-
-    /**
-     * Returns a copy of this Point with the SRID altered.
-     *
-     * @param integer $srid
-     *
-     * @return Point
-     */
-    public function withSRID($srid)
-    {
-        $point = clone $this;
-
-        $point->srid = (int) $srid;
-
-        return $point;
-    }
-
-    /**
      * @noproxy
      *
      * {@inheritdoc}
@@ -458,11 +298,11 @@ class Point extends Geometry
 
         $result = [$this->x, $this->y];
 
-        if ($this->is3D) {
+        if ($this->z !== null) {
             $result[] = $this->z;
         }
 
-        if ($this->isMeasured) {
+        if ($this->m !== null) {
             $result[] = $this->m;
         }
 
