@@ -50,7 +50,7 @@ class CurvePolygon extends Surface implements \Countable, \IteratorAggregate
     /**
      * Returns the exterior ring of this CurvePolygon.
      *
-     * @return LineString
+     * @return Curve
      *
      * @throws GeometryException
      */
@@ -82,7 +82,7 @@ class CurvePolygon extends Surface implements \Countable, \IteratorAggregate
      *
      * @param integer $n The ring number, 1-based.
      *
-     * @return LineString
+     * @return Curve
      *
      * @throws GeometryException If there is no interior ring at this index.
      */
@@ -95,6 +95,16 @@ class CurvePolygon extends Surface implements \Countable, \IteratorAggregate
         }
 
         return $this->rings[$n];
+    }
+
+    /**
+     * Returns the interior rings in this CurvePolygon.
+     *
+     * @return Curve[]
+     */
+    public function interiorRings()
+    {
+        return array_slice($this->rings, 1);
     }
 
     /**

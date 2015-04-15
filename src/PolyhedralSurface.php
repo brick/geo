@@ -119,6 +119,16 @@ class PolyhedralSurface extends Surface implements \Countable, \IteratorAggregat
     }
 
     /**
+     * Returns the patches that compose this PolyhedralSurface.
+     *
+     * @return Polygon[]
+     */
+    public function patches()
+    {
+        return $this->patches;
+    }
+
+    /**
      * Returns the collection of polygons in this surface that bounds the given polygon 'p' for any polygon 'p' in the surface.
      *
      * @todo needs implementation

@@ -133,6 +133,16 @@ class LineString extends Curve implements \Countable, \IteratorAggregate
     }
 
     /**
+     * Returns the points that compose this LineString.
+     *
+     * @return Point[]
+     */
+    public function points()
+    {
+        return $this->points;
+    }
+
+    /**
      * @noproxy
      *
      * {@inheritdoc}

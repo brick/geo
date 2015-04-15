@@ -173,6 +173,16 @@ class Polygon extends Surface implements \Countable, \IteratorAggregate
     }
 
     /**
+     * Returns the interior rings in this Polygon.
+     *
+     * @return LineString[]
+     */
+    public function interiorRings()
+    {
+        return array_slice($this->rings, 1);
+    }
+
+    /**
      * @noproxy
      *
      * {@inheritdoc}

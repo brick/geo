@@ -40,16 +40,6 @@ class MultiPolygon extends MultiSurface
     }
 
     /**
-     * Returns the polygons that compose this multipolygon.
-     *
-     * @return MultiPolygon[]
-     */
-    public function getPolygons()
-    {
-        return $this->geometries;
-    }
-
-    /**
      * {@inheritdoc}
      */
     protected static function containedGeometryType()

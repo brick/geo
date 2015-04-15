@@ -154,6 +154,16 @@ class GeometryCollection extends Geometry implements \Countable, \IteratorAggreg
     }
 
     /**
+     * Returns the geometries that compose this GeometryCollection.
+     *
+     * @return Geometry[]
+     */
+    public function geometries()
+    {
+        return $this->geometries;
+    }
+
+    /**
      * @noproxy
      *
      * {@inheritdoc}

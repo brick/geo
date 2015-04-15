@@ -111,6 +111,16 @@ class CircularString extends Curve implements \Countable, \IteratorAggregate
     }
 
     /**
+     * Returns the points that compose this CircularString.
+     *
+     * @return Point[]
+     */
+    public function points()
+    {
+        return $this->points;
+    }
+
+    /**
      * @noproxy
      *
      * {@inheritdoc}

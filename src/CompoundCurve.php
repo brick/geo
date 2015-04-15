@@ -114,6 +114,16 @@ class CompoundCurve extends Curve implements \Countable, \IteratorAggregate
     }
 
     /**
+     * Returns the curves that compose this CompoundCurve.
+     *
+     * @return Curve[]
+     */
+    public function curves()
+    {
+        return $this->curves;
+    }
+
+    /**
      * @noproxy
      *
      * {@inheritdoc}
