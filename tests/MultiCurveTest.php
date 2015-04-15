@@ -65,7 +65,7 @@ class MultiCurveTest extends AbstractTestCase
      */
     public function testCreateWithNonCurveContentsThrowsException()
     {
-        MultiCurve::create([Point::xyEmpty()], false, false, 0);
+        MultiCurve::create([Point::xyEmpty()], false, false);
     }
 
     /**

@@ -49,7 +49,7 @@ class Polygon extends Surface implements \Countable, \IteratorAggregate
      *
      * @throws GeometryException
      */
-    public static function create(array $rings, $is3D, $isMeasured, $srid)
+    public static function create(array $rings, $is3D, $isMeasured, $srid = 0)
     {
         $is3D       = (bool) $is3D;
         $isMeasured = (bool) $isMeasured;

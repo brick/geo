@@ -81,7 +81,7 @@ class GeometryCollection extends Geometry implements \Countable, \IteratorAggreg
      *
      * @throws GeometryException
      */
-    public static function create(array $geometries, $is3D, $isMeasured, $srid)
+    public static function create(array $geometries, $is3D, $isMeasured, $srid = 0)
     {
         $is3D       = (bool) $is3D;
         $isMeasured = (bool) $isMeasured;

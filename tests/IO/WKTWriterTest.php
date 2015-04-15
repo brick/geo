@@ -271,7 +271,7 @@ class WKTWriterTest extends WKTAbstractTest
             $geometries = [];
         }
 
-        $geometryCollection = GeometryCollection::create($geometries, $is3D, $isMeasured, 0);
+        $geometryCollection = GeometryCollection::create($geometries, $is3D, $isMeasured);
         $this->assertSame($wkt, $writer->write($geometryCollection));
     }
 

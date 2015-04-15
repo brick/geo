@@ -19,7 +19,7 @@ class Triangle extends Polygon
      *
      * @throws GeometryException
      */
-    public static function create(array $rings, $is3D, $isMeasured, $srid)
+    public static function create(array $rings, $is3D, $isMeasured, $srid = 0)
     {
         $triangle = parent::create($rings, $is3D, $isMeasured, $srid);
 

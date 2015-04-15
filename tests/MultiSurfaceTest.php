@@ -65,7 +65,7 @@ class MultiSurfaceTest extends AbstractTestCase
      */
     public function testCreateWithNonSurfaceContentsThrowsException()
     {
-        MultiSurface::create([Point::xyEmpty()], false, false, 0);
+        MultiSurface::create([Point::xyEmpty()], false, false);
     }
 
     /**

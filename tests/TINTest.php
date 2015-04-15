@@ -15,7 +15,7 @@ class TINTest extends AbstractTestCase
         $triangle1 = Triangle::fromText('TRIANGLE ((1 1, 1 2, 2 2, 1 1))');
         $triangle2 = Triangle::fromText('TRIANGLE ((1 1, 2 2, 2 1, 1 1))');
 
-        $tin = TIN::create([$triangle1, $triangle2], false, false, 0);
+        $tin = TIN::create([$triangle1, $triangle2], false, false);
         $this->assertWktEquals($tin, 'TIN (((1 1, 1 2, 2 2, 1 1)), ((1 1, 2 2, 2 1, 1 1)))');
     }
 }
