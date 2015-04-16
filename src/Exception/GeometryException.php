@@ -85,7 +85,7 @@ class GeometryException extends \Exception
      */
     public static function incompatibleDimensionality(Geometry $geometry, $geometryType, $is3D, $isMeasured)
     {
-        $message = 'Incompatible dimensionality: %s cannot contain %s.';
+        $message = 'Incompatible dimensionality: cannot mix %s with %s.';
 
         $a = self::geometryType($geometryType, $is3D, $isMeasured);
         $b = self::typeOf($geometry);
@@ -102,7 +102,7 @@ class GeometryException extends \Exception
      */
     public static function incompatibleSRID(Geometry $geometry, $geometryType, $srid)
     {
-        $message = 'Incompatible SRID: %s with SRID %d cannot contain %s with SRID %d.';
+        $message = 'Incompatible SRID: cannot mix %s using SRID %d with %s using SRID %d.';
 
         return new self(sprintf($message, $geometryType, $srid, $geometry->geometryType(), $geometry->SRID()));
     }

@@ -2,6 +2,7 @@
 
 namespace Brick\Geo\Tests;
 
+use Brick\Geo\CoordinateSystem;
 use Brick\Geo\LineString;
 use Brick\Geo\Triangle;
 
@@ -13,7 +14,7 @@ class TriangleTest extends AbstractTestCase
     public function testCreate()
     {
         $ring = LineString::fromText('LINESTRING (1 1, 1 2, 2 2, 1 1)');
-        $triangle = Triangle::create([$ring], false, false);
+        $triangle = Triangle::create([$ring]);
         $this->assertWktEquals($triangle, 'TRIANGLE ((1 1, 1 2, 2 2, 1 1))');
     }
 
@@ -24,7 +25,7 @@ class TriangleTest extends AbstractTestCase
     {
         $ring = LineString::fromText('LINESTRING (1 1, 1 2, 2 2, 2 1, 1 1)');
 
-        Triangle::create([$ring], false, false);
+        Triangle::create([$ring]);
     }
 
     /**
@@ -35,6 +36,6 @@ class TriangleTest extends AbstractTestCase
         $exteriorRing = LineString::fromText('LINESTRING (0 0, 0 3, 3 3, 0 0)');
         $interiorRing = LineString::fromText('LINESTRING (1 1, 1 2, 2 2, 1 1)');
 
-        Triangle::create([$exteriorRing, $interiorRing], false, false);
+        Triangle::create([$exteriorRing, $interiorRing]);
     }
 }

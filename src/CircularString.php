@@ -20,23 +20,16 @@ class CircularString extends Curve implements \Countable, \IteratorAggregate
     protected $points = [];
 
     /**
-     * @param Point[] $points
-     * @param boolean $is3D
-     * @param boolean $isMeasured
-     * @param integer $srid
+     * @param Point[]               $points
+     * @param CoordinateSystem|null $cs
      *
      * @return CircularString
      *
      * @throws GeometryException
      */
-    public static function create(array $points, $is3D, $isMeasured, $srid = 0)
+    public static function create(array $points, CoordinateSystem $cs = null)
     {
-        $is3D       = (bool) $is3D;
-        $isMeasured = (bool) $isMeasured;
-
-        $srid = (int) $srid;
-
-        self::checkGeometries($points, Point::class, $is3D, $isMeasured, $srid);
+        $cs = self::checkGeometries($points, Point::class, $cs);
 
         if ($points) {
             $numPoints = count($points);
@@ -50,7 +43,7 @@ class CircularString extends Curve implements \Countable, \IteratorAggregate
             }
         }
 
-        $circularString = new CircularString(! $points, $is3D, $isMeasured, $srid);
+        $circularString = new CircularString($cs, ! $points);
         $circularString->points = array_values($points);
 
         return $circularString;

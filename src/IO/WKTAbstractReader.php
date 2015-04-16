@@ -2,6 +2,7 @@
 
 namespace Brick\Geo\IO;
 
+use Brick\Geo\Geometry;
 use Brick\Geo\Point;
 use Brick\Geo\LineString;
 use Brick\Geo\CircularString;
@@ -15,6 +16,7 @@ use Brick\Geo\GeometryCollection;
 use Brick\Geo\PolyhedralSurface;
 use Brick\Geo\TIN;
 use Brick\Geo\Triangle;
+use Brick\Geo\CoordinateSystem;
 use Brick\Geo\Exception\GeometryException;
 
 /**
@@ -26,9 +28,9 @@ abstract class WKTAbstractReader
      * @param WKTParser $parser
      * @param integer   $srid
      *
-     * @return \Brick\Geo\Geometry
+     * @return Geometry
      *
-     * @throws \Brick\Geo\Exception\GeometryException
+     * @throws GeometryException
      */
     protected function readGeometry(WKTParser $parser, $srid)
     {
@@ -64,97 +66,99 @@ abstract class WKTAbstractReader
             }
         }
 
+        $cs = CoordinateSystem::create($is3D, $isMeasured, $srid);
+
         switch ($geometryType) {
             case 'POINT':
                 if ($isEmpty) {
-                    return Point::pointEmpty($is3D, $isMeasured, $srid);
+                    return Point::pointEmpty($cs);
                 }
 
-                return $this->readPointText($parser, $is3D, $isMeasured, $srid);
+                return $this->readPointText($parser, $cs);
 
             case 'LINESTRING':
                 if ($isEmpty) {
-                    return LineString::create([], $is3D, $isMeasured, $srid);
+                    return LineString::create([], $cs);
                 }
 
-                return $this->readLineStringText($parser, $is3D, $isMeasured, $srid);
+                return $this->readLineStringText($parser, $cs);
 
             case 'CIRCULARSTRING':
                 if ($isEmpty) {
-                    return CircularString::create([], $is3D, $isMeasured, $srid);
+                    return CircularString::create([], $cs);
                 }
 
-                return $this->readCircularStringText($parser, $is3D, $isMeasured, $srid);
+                return $this->readCircularStringText($parser, $cs);
 
             case 'COMPOUNDCURVE':
                 if ($isEmpty) {
-                    return CompoundCurve::create([], $is3D, $isMeasured, $srid);
+                    return CompoundCurve::create([], $cs);
                 }
 
-                return $this->readCompoundCurveText($parser, $is3D, $isMeasured, $srid);
+                return $this->readCompoundCurveText($parser, $cs);
 
             case 'POLYGON':
                 if ($isEmpty) {
-                    return Polygon::create([], $is3D, $isMeasured, $srid);
+                    return Polygon::create([], $cs);
                 }
 
-                return $this->readPolygonText($parser, $is3D, $isMeasured, $srid);
+                return $this->readPolygonText($parser, $cs);
 
             case 'CURVEPOLYGON':
                 if ($isEmpty) {
-                    return CurvePolygon::create([], $is3D, $isMeasured, $srid);
+                    return CurvePolygon::create([], $cs);
                 }
 
-                return $this->readCurvePolygonText($parser, $is3D, $isMeasured, $srid);
+                return $this->readCurvePolygonText($parser, $cs);
 
             case 'MULTIPOINT':
                 if ($isEmpty) {
-                    return MultiPoint::create([], $is3D, $isMeasured, $srid);
+                    return MultiPoint::create([], $cs);
                 }
 
-                return $this->readMultiPointText($parser, $is3D, $isMeasured, $srid);
+                return $this->readMultiPointText($parser, $cs);
 
             case 'MULTILINESTRING':
                 if ($isEmpty) {
-                    return MultiLineString::create([], $is3D, $isMeasured, $srid);
+                    return MultiLineString::create([], $cs);
                 }
 
-                return $this->readMultiLineStringText($parser, $is3D, $isMeasured, $srid);
+                return $this->readMultiLineStringText($parser, $cs);
 
             case 'MULTIPOLYGON':
                 if ($isEmpty) {
-                    return MultiPolygon::create([], $is3D, $isMeasured, $srid);
+                    return MultiPolygon::create([], $cs);
                 }
 
-                return $this->readMultiPolygonText($parser, $is3D, $isMeasured, $srid);
+                return $this->readMultiPolygonText($parser, $cs);
 
             case 'GEOMETRYCOLLECTION':
                 if ($isEmpty) {
-                    return GeometryCollection::create([], $is3D, $isMeasured, $srid);
+                    return GeometryCollection::create([], $cs);
                 }
 
-                return $this->readGeometryCollectionText($parser, $is3D, $isMeasured, $srid);
+                return $this->readGeometryCollectionText($parser, $cs);
 
             case 'POLYHEDRALSURFACE':
                 if ($isEmpty) {
-                    return PolyhedralSurface::create([], $is3D, $isMeasured, $srid);
+                    return PolyhedralSurface::create([], $cs);
                 }
 
-                return $this->readPolyhedralSurfaceText($parser, $is3D, $isMeasured, $srid);
+                return $this->readPolyhedralSurfaceText($parser, $cs);
 
             case 'TIN':
                 if ($isEmpty) {
-                    return TIN::create([], $is3D, $isMeasured, $srid);
+                    return TIN::create([], $cs);
                 }
 
-                return $this->readTINText($parser, $is3D, $isMeasured, $srid);
+                return $this->readTINText($parser, $cs);
 
             case 'TRIANGLE':
                 if ($isEmpty) {
-                    return Triangle::create([], $is3D, $isMeasured, $srid);
+                    return Triangle::create([], $cs);
                 }
 
-            return $this->readTriangleText($parser, $is3D, $isMeasured, $srid);
+            return $this->readTriangleText($parser, $cs);
         }
 
         throw new GeometryException('Unknown geometry type: ' . $geometryType);
@@ -163,57 +167,35 @@ abstract class WKTAbstractReader
     /**
      * x y
      *
-     * @param WKTParser $parser
-     * @param boolean   $is3D
-     * @param boolean   $isMeasured
-     * @param integer   $srid
+     * @param WKTParser        $parser
+     * @param CoordinateSystem $cs
      *
-     * @return \Brick\Geo\Point
+     * @return Point
      */
-    private function readPoint(WKTParser $parser, $is3D, $isMeasured, $srid)
+    private function readPoint(WKTParser $parser, CoordinateSystem $cs)
     {
+        $dim = $cs->coordinateDimension();
         $coords = [];
 
-        $coords[] = $parser->getNextNumber();
-        $coords[] = $parser->getNextNumber();
-
-        if ($is3D) {
+        for ($i = 0; $i < $dim; $i++) {
             $coords[] = $parser->getNextNumber();
         }
 
-        if ($isMeasured) {
-            $coords[] = $parser->getNextNumber();
-        }
-
-        if ($is3D && $isMeasured) {
-            return Point::xyzm($coords[0], $coords[1], $coords[2], $coords[3], $srid);
-        }
-
-        if ($is3D) {
-            return Point::xyz($coords[0], $coords[1], $coords[2], $srid);
-        }
-
-        if ($isMeasured) {
-            return Point::xym($coords[0], $coords[1], $coords[2], $srid);
-        }
-
-        return Point::xy($coords[0], $coords[1], $srid);
+        return Point::create($coords, $cs);
     }
 
     /**
      * (x y)
      *
-     * @param WKTParser $parser
-     * @param boolean   $is3D
-     * @param boolean   $isMeasured
-     * @param integer   $srid
+     * @param WKTParser        $parser
+     * @param CoordinateSystem $cs
      *
-     * @return \Brick\Geo\Point
+     * @return Point
      */
-    private function readPointText(WKTParser $parser, $is3D, $isMeasured, $srid)
+    private function readPointText(WKTParser $parser, CoordinateSystem $cs)
     {
         $parser->matchOpener();
-        $point = $this->readPoint($parser, $is3D, $isMeasured, $srid);
+        $point = $this->readPoint($parser, $cs);
         $parser->matchCloser();
 
         return $point;
@@ -222,20 +204,18 @@ abstract class WKTAbstractReader
     /**
      * (x y, ...)
      *
-     * @param WKTParser $parser
-     * @param boolean   $is3D
-     * @param boolean   $isMeasured
-     * @param integer   $srid
+     * @param WKTParser        $parser
+     * @param CoordinateSystem $cs
      *
-     * @return \Brick\Geo\Point[]
+     * @return Point[]
      */
-    private function readMultiPoint(WKTParser $parser, $is3D, $isMeasured, $srid)
+    private function readMultiPoint(WKTParser $parser, CoordinateSystem $cs)
     {
         $parser->matchOpener();
         $points = [];
 
         do {
-            $points[] = $this->readPoint($parser, $is3D, $isMeasured, $srid);
+            $points[] = $this->readPoint($parser, $cs);
             $nextToken = $parser->getNextCloserOrComma();
         } while ($nextToken === ',');
 
@@ -245,99 +225,89 @@ abstract class WKTAbstractReader
     /**
      * (x y, ...)
      *
-     * @param WKTParser $parser
-     * @param boolean   $is3D
-     * @param boolean   $isMeasured
-     * @param integer   $srid
+     * @param WKTParser        $parser
+     * @param CoordinateSystem $cs
      *
-     * @return \Brick\Geo\LineString
+     * @return LineString
      */
-    private function readLineStringText(WKTParser $parser, $is3D, $isMeasured, $srid)
+    private function readLineStringText(WKTParser $parser, CoordinateSystem $cs)
     {
-        $points = $this->readMultiPoint($parser, $is3D, $isMeasured, $srid);
+        $points = $this->readMultiPoint($parser, $cs);
 
-        return LineString::create($points, $is3D, $isMeasured, $srid);
+        return LineString::create($points, $cs);
     }
 
     /**
      * (x y, ...)
      *
-     * @param WKTParser $parser
-     * @param boolean   $is3D
-     * @param boolean   $isMeasured
-     * @param integer   $srid
+     * @param WKTParser        $parser
+     * @param CoordinateSystem $cs
      *
-     * @return \Brick\Geo\LineString
+     * @return LineString
      */
-    private function readCircularStringText(WKTParser $parser, $is3D, $isMeasured, $srid)
+    private function readCircularStringText(WKTParser $parser, CoordinateSystem $cs)
     {
-        $points = $this->readMultiPoint($parser, $is3D, $isMeasured, $srid);
+        $points = $this->readMultiPoint($parser, $cs);
 
-        return CircularString::create($points, $is3D, $isMeasured, $srid);
+        return CircularString::create($points, $cs);
     }
 
     /**
-     * @param WKTParser $parser
-     * @param boolean   $is3D
-     * @param boolean   $isMeasured
-     * @param integer   $srid
+     * @param WKTParser        $parser
+     * @param CoordinateSystem $cs
      *
-     * @return \Brick\Geo\CompoundCurve
+     * @return CompoundCurve
      *
      * @throws GeometryException
      */
-    private function readCompoundCurveText(WKTParser $parser, $is3D, $isMeasured, $srid)
+    private function readCompoundCurveText(WKTParser $parser, CoordinateSystem $cs)
     {
         $parser->matchOpener();
         $curves = [];
 
         do {
             if ($parser->isNextOpenerOrWord()) {
-                $curves[] = $this->readLineStringText($parser, $is3D, $isMeasured, $srid);
+                $curves[] = $this->readLineStringText($parser, $cs);
             } else {
-                $curves[] = $this->readGeometry($parser, $srid);
+                $curves[] = $this->readGeometry($parser, $cs->SRID());
             }
 
             $nextToken = $parser->getNextCloserOrComma();
         } while ($nextToken === ',');
 
-        return CompoundCurve::create($curves, $is3D, $isMeasured, $srid);
+        return CompoundCurve::create($curves, $cs);
     }
 
     /**
      * (x y, ...)
      *
-     * @param WKTParser $parser
-     * @param boolean   $is3D
-     * @param boolean   $isMeasured
-     * @param integer   $srid
+     * @param WKTParser        $parser
+     * @param CoordinateSystem $cs
      *
-     * @return \Brick\Geo\MultiPoint
+     * @return MultiPoint
      */
-    private function readMultiPointText(WKTParser $parser, $is3D, $isMeasured, $srid)
+    private function readMultiPointText(WKTParser $parser, CoordinateSystem $cs)
     {
-        $points = $this->readMultiPoint($parser, $is3D, $isMeasured, $srid);
+        $points = $this->readMultiPoint($parser, $cs);
 
-        return MultiPoint::factory($points);
+        return MultiPoint::create($points, $cs);
     }
 
     /**
      * ((x y, ...), ...)
      *
-     * @param WKTParser $parser
-     * @param boolean   $is3D
-     * @param boolean   $isMeasured
-     * @param integer   $srid
+     * @param WKTParser        $parser
+     * @param CoordinateSystem $cs
      *
-     * @return \Brick\Geo\LineString[]
+     * @return LineString[]
      */
-    private function readMultiLineString(WKTParser $parser, $is3D, $isMeasured, $srid)
+    private function readMultiLineString(WKTParser $parser, CoordinateSystem $cs)
     {
         $parser->matchOpener();
         $lineStrings = [];
 
         do {
-            $lineStrings[] = $this->readLineStringText($parser, $is3D, $isMeasured, $srid);
+            $lineStrings[] = $this->readLineStringText($parser, $cs);
             $nextToken = $parser->getNextCloserOrComma();
         } while ($nextToken === ',');
 
@@ -347,169 +317,153 @@ abstract class WKTAbstractReader
     /**
      * ((x y, ...), ...)
      *
-     * @param WKTParser $parser
-     * @param boolean   $is3D
-     * @param boolean   $isMeasured
-     * @param integer   $srid
+     * @param WKTParser        $parser
+     * @param CoordinateSystem $cs
      *
-     * @return \Brick\Geo\Polygon
+     * @return Polygon
      */
-    private function readPolygonText(WKTParser $parser, $is3D, $isMeasured, $srid)
+    private function readPolygonText(WKTParser $parser, CoordinateSystem $cs)
     {
-        $rings = $this->readMultiLineString($parser, $is3D, $isMeasured, $srid);
+        $rings = $this->readMultiLineString($parser, $cs);
 
-        return Polygon::create($rings, $is3D, $isMeasured, $srid);
+        return Polygon::create($rings, $cs);
     }
 
     /**
-     * @param WKTParser $parser
-     * @param boolean   $is3D
-     * @param boolean   $isMeasured
-     * @param integer   $srid
+     * @param WKTParser        $parser
+     * @param CoordinateSystem $cs
      *
-     * @return \Brick\Geo\CurvePolygon
+     * @return CurvePolygon
      */
-    private function readCurvePolygonText(WKTParser $parser, $is3D, $isMeasured, $srid)
+    private function readCurvePolygonText(WKTParser $parser, CoordinateSystem $cs)
     {
         $parser->matchOpener();
         $curves = [];
 
         do {
             if ($parser->isNextOpenerOrWord()) {
-                $curves[] = $this->readLineStringText($parser, $is3D, $isMeasured, $srid);
+                $curves[] = $this->readLineStringText($parser, $cs);
             } else {
-                $curves[] = $this->readGeometry($parser, $srid);
+                $curves[] = $this->readGeometry($parser, $cs->SRID());
             }
 
             $nextToken = $parser->getNextCloserOrComma();
         } while ($nextToken === ',');
 
-        return CurvePolygon::create($curves, $is3D, $isMeasured, $srid);
+        return CurvePolygon::create($curves, $cs);
     }
 
     /**
      * ((x y, ...), ...)
      *
-     * @param WKTParser $parser
-     * @param boolean   $is3D
-     * @param boolean   $isMeasured
-     * @param integer   $srid
+     * @param WKTParser        $parser
+     * @param CoordinateSystem $cs
      *
-     * @return \Brick\Geo\Polygon
+     * @return Polygon
      */
-    private function readTriangleText(WKTParser $parser, $is3D, $isMeasured, $srid)
+    private function readTriangleText(WKTParser $parser, CoordinateSystem $cs)
     {
-        $rings = $this->readMultiLineString($parser, $is3D, $isMeasured, $srid);
+        $rings = $this->readMultiLineString($parser, $cs);
 
-        return Triangle::create($rings, $is3D, $isMeasured, $srid);
+        return Triangle::create($rings, $cs);
     }
 
     /**
      * ((x y, ...), ...)
      *
-     * @param WKTParser $parser
-     * @param boolean   $is3D
-     * @param boolean   $isMeasured
-     * @param integer   $srid
+     * @param WKTParser        $parser
+     * @param CoordinateSystem $cs
      *
-     * @return \Brick\Geo\MultiLineString
+     * @return MultiLineString
      */
-    private function readMultiLineStringText(WKTParser $parser, $is3D, $isMeasured, $srid)
+    private function readMultiLineStringText(WKTParser $parser, CoordinateSystem $cs)
     {
-        $rings = $this->readMultiLineString($parser, $is3D, $isMeasured, $srid);
+        $rings = $this->readMultiLineString($parser, $cs);
 
-        return MultiLineString::factory($rings);
+        return MultiLineString::create($rings, $cs);
     }
 
     /**
      * (((x y, ...), ...), ...)
      *
-     * @param WKTParser $parser
-     * @param boolean   $is3D
-     * @param boolean   $isMeasured
-     * @param integer   $srid
+     * @param WKTParser        $parser
+     * @param CoordinateSystem $cs
      *
-     * @return \Brick\Geo\MultiPolygon
+     * @return MultiPolygon
      */
-    private function readMultiPolygonText(WKTParser $parser, $is3D, $isMeasured, $srid)
+    private function readMultiPolygonText(WKTParser $parser, CoordinateSystem $cs)
     {
         $parser->matchOpener();
         $polygons = [];
 
         do {
-            $polygons[] = $this->readPolygonText($parser, $is3D, $isMeasured, $srid);
+            $polygons[] = $this->readPolygonText($parser, $cs);
             $nextToken = $parser->getNextCloserOrComma();
         } while ($nextToken === ',');
 
-        return MultiPolygon::factory($polygons);
+        return MultiPolygon::create($polygons, $cs);
     }
 
     /**
-     * @param WKTParser $parser
-     * @param boolean   $is3D
-     * @param boolean   $isMeasured
-     * @param integer   $srid
+     * @param WKTParser        $parser
+     * @param CoordinateSystem $cs
      *
-     * @return \Brick\Geo\GeometryCollection
+     * @return GeometryCollection
      *
      * @throws GeometryException
      */
-    private function readGeometryCollectionText(WKTParser $parser, $is3D, $isMeasured, $srid)
+    private function readGeometryCollectionText(WKTParser $parser, CoordinateSystem $cs)
     {
         $parser->matchOpener();
         $geometries = [];
 
         do {
-            $geometries[] = $this->readGeometry($parser, $srid);
+            $geometries[] = $this->readGeometry($parser, $cs->SRID());
             $nextToken = $parser->getNextCloserOrComma();
         } while ($nextToken === ',');
 
-        return GeometryCollection::create($geometries, $is3D, $isMeasured, $srid);
+        return GeometryCollection::create($geometries, $cs);
     }
 
     /**
-     * @param WKTParser $parser
-     * @param boolean   $is3D
-     * @param boolean   $isMeasured
-     * @param integer   $srid
+     * @param WKTParser        $parser
+     * @param CoordinateSystem $cs
      *
-     * @return \Brick\Geo\PolyhedralSurface
+     * @return PolyhedralSurface
      *
      * @throws GeometryException
      */
-    private function readPolyhedralSurfaceText(WKTParser $parser, $is3D, $isMeasured, $srid)
+    private function readPolyhedralSurfaceText(WKTParser $parser, CoordinateSystem $cs)
     {
         $parser->matchOpener();
         $patches = [];
 
         do {
-            $patches[] = $this->readPolygonText($parser, $is3D, $isMeasured, $srid);
+            $patches[] = $this->readPolygonText($parser, $cs);
             $nextToken = $parser->getNextCloserOrComma();
         } while ($nextToken === ',');
 
-        return PolyhedralSurface::create($patches, $is3D, $isMeasured, $srid);
+        return PolyhedralSurface::create($patches, $cs);
     }
 
     /**
-     * @param WKTParser $parser
-     * @param boolean   $is3D
-     * @param boolean   $isMeasured
-     * @param integer   $srid
+     * @param WKTParser        $parser
+     * @param CoordinateSystem $cs
      *
-     * @return \Brick\Geo\TIN
+     * @return TIN
      *
      * @throws GeometryException
      */
-    private function readTINText(WKTParser $parser, $is3D, $isMeasured, $srid)
+    private function readTINText(WKTParser $parser, CoordinateSystem $cs)
     {
         $parser->matchOpener();
         $patches = [];
 
         do {
-            $patches[] = $this->readTriangleText($parser, $is3D, $isMeasured, $srid);
+            $patches[] = $this->readTriangleText($parser, $cs);
             $nextToken = $parser->getNextCloserOrComma();
         } while ($nextToken === ',');
 
-        return TIN::create($patches, $is3D, $isMeasured, $srid);
+        return TIN::create($patches, $cs);
     }
 }

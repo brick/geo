@@ -17,23 +17,16 @@ class CompoundCurve extends Curve implements \Countable, \IteratorAggregate
     protected $curves = [];
 
     /**
-     * @param Curve[] $curves
-     * @param boolean $is3D
-     * @param boolean $isMeasured
-     * @param integer $srid
+     * @param Curve[]               $curves
+     * @param CoordinateSystem|null $cs
      *
      * @return CompoundCurve
      *
      * @throws GeometryException
      */
-    public static function create(array $curves, $is3D, $isMeasured, $srid = 0)
+    public static function create(array $curves, CoordinateSystem $cs = null)
     {
-        $is3D       = (bool) $is3D;
-        $isMeasured = (bool) $isMeasured;
-
-        $srid = (int) $srid;
-
-        self::checkGeometries($curves, Curve::class, $is3D, $isMeasured, $srid);
+        $cs = self::checkGeometries($curves, Curve::class, $cs);
 
         /** @var Curve|null $previousCurve */
         $previousCurve = null;
@@ -51,7 +44,7 @@ class CompoundCurve extends Curve implements \Countable, \IteratorAggregate
             $previousCurve = $curve;
         }
 
-        $compoundCurve = new CompoundCurve(! $curves, $is3D, $isMeasured, $srid);
+        $compoundCurve = new CompoundCurve($cs, ! $curves);
         $compoundCurve->curves = array_values($curves);
 
         return $compoundCurve;

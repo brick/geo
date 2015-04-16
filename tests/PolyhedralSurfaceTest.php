@@ -2,6 +2,7 @@
 
 namespace Brick\Geo\Tests;
 
+use Brick\Geo\CoordinateSystem;
 use Brick\Geo\Polygon;
 use Brick\Geo\PolyhedralSurface;
 use Brick\Geo\Exception\GeometryException;
@@ -14,20 +15,21 @@ class PolyhedralSurfaceTest extends AbstractTestCase
     /**
      * @dataProvider providerCreate
      *
-     * @param string[] $patches           The WKT of the patches (polygons) that compose the PolyhedralSurface.
-     * @param boolean  $is3D              Whether the patches have Z coordinates.
-     * @param boolean  $isMeasured        Whether the patches have M coordinates.
-     * @param string   $polyhedralSurface The WKT of the expected PolyhedralSurface.
+     * @param string[] $patchesWKT           The WKT of the patches (polygons) that compose the PolyhedralSurface.
+     * @param boolean  $is3D                 Whether the patches have Z coordinates.
+     * @param boolean  $isMeasured           Whether the patches have M coordinates.
+     * @param string   $polyhedralSurfaceWKT The WKT of the expected PolyhedralSurface.
      */
-    public function testCreate(array $patches, $is3D, $isMeasured, $polyhedralSurface)
+    public function testCreate(array $patchesWKT, $is3D, $isMeasured, $polyhedralSurfaceWKT)
     {
         foreach ([0, 1] as $srid) {
             $instantiatePolygon = function ($patch) use ($srid) {
                 return Polygon::fromText($patch, $srid);
             };
 
-            $ps = PolyhedralSurface::create(array_map($instantiatePolygon, $patches), $is3D, $isMeasured, $srid);
-            $this->assertWktEquals($ps, $polyhedralSurface, $srid);
+            $cs = CoordinateSystem::create($is3D, $isMeasured, $srid);
+            $polyhedralSurface = PolyhedralSurface::create(array_map($instantiatePolygon, $patchesWKT), $cs);
+            $this->assertWktEquals($polyhedralSurface, $polyhedralSurfaceWKT, $srid);
         }
     }
 

@@ -35,25 +35,18 @@ class PolyhedralSurface extends Surface implements \Countable, \IteratorAggregat
     protected $patches = [];
 
     /**
-     * @param Polygon[] $patches
-     * @param boolean   $is3D
-     * @param boolean   $isMeasured
-     * @param integer   $srid
+     * @param Polygon[]             $patches
+     * @param CoordinateSystem|null $cs
      *
      * @return PolyhedralSurface
      *
      * @throws GeometryException
      */
-    public static function create(array $patches, $is3D, $isMeasured, $srid = 0)
+    public static function create(array $patches, CoordinateSystem $cs = null)
     {
-        $is3D       = (bool) $is3D;
-        $isMeasured = (bool) $isMeasured;
+        $cs = self::checkGeometries($patches, Polygon::class, $cs);
 
-        $srid = (int) $srid;
-
-        self::checkGeometries($patches, Polygon::class, $is3D, $isMeasured, $srid);
-
-        $polyhedralSurface = new static(! $patches, $is3D, $isMeasured, $srid);
+        $polyhedralSurface = new static($cs, ! $patches);
         $polyhedralSurface->patches = array_values($patches);
 
         return $polyhedralSurface;
@@ -61,6 +54,8 @@ class PolyhedralSurface extends Surface implements \Countable, \IteratorAggregat
 
     /**
      * Factory method to create a new PolyhedralSurface.
+     *
+     * @deprecated Use create() instead.
      *
      * @param Polygon[] $patches
      *
@@ -70,24 +65,7 @@ class PolyhedralSurface extends Surface implements \Countable, \IteratorAggregat
      */
     public static function factory(array $patches)
     {
-        if (! $patches) {
-            throw new GeometryException('A PolyhedralSurface must be constructed with at least one patch.');
-        }
-
-        $geometryType = static::containedGeometryType();
-
-        foreach ($patches as $patch) {
-            if (! $patch instanceof $geometryType) {
-                throw GeometryException::unexpectedGeometryType($geometryType, $patch);
-            }
-        }
-
-        self::getDimensions($patches, $is3D, $isMeasured, $srid);
-
-        $polyhedralSurface = new static(false, $is3D, $isMeasured, $srid);
-        $polyhedralSurface->patches = array_values($patches);
-
-        return $polyhedralSurface;
+        return static::create($patches);
     }
 
     /**

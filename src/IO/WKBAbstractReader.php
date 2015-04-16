@@ -2,6 +2,7 @@
 
 namespace Brick\Geo\IO;
 
+use Brick\Geo\CoordinateSystem;
 use Brick\Geo\Exception\GeometryException;
 use Brick\Geo\Exception\GeometryParseException;
 use Brick\Geo\Geometry;
@@ -51,320 +52,283 @@ abstract class WKBAbstractReader
 
         $this->readGeometryHeader($buffer, $geometryType, $is3D, $isMeasured, $srid);
 
+        $cs = CoordinateSystem::create($is3D, $isMeasured, $srid);
+
         switch ($geometryType) {
             case Geometry::POINT:
-                return $this->readPoint($buffer, $is3D, $isMeasured, $srid);
+                return $this->readPoint($buffer, $cs);
 
             case Geometry::LINESTRING:
-                return $this->readLineString($buffer, $is3D, $isMeasured, $srid);
+                return $this->readLineString($buffer, $cs);
 
             case Geometry::CIRCULARSTRING:
-                return $this->readCircularString($buffer, $is3D, $isMeasured, $srid);
+                return $this->readCircularString($buffer, $cs);
 
             case Geometry::COMPOUNDCURVE:
-                return $this->readCompoundCurve($buffer, $is3D, $isMeasured, $srid);
+                return $this->readCompoundCurve($buffer, $cs);
 
             case Geometry::POLYGON:
-                return $this->readPolygon($buffer, $is3D, $isMeasured, $srid);
+                return $this->readPolygon($buffer, $cs);
 
             case Geometry::CURVEPOLYGON:
-                return $this->readCurvePolygon($buffer, $is3D, $isMeasured, $srid);
+                return $this->readCurvePolygon($buffer, $cs);
 
             case Geometry::MULTIPOINT:
-                return $this->readMultiPoint($buffer, $is3D, $isMeasured, $srid);
+                return $this->readMultiPoint($buffer, $cs);
 
             case Geometry::MULTILINESTRING:
-                return $this->readMultiLineString($buffer, $is3D, $isMeasured, $srid);
+                return $this->readMultiLineString($buffer, $cs);
 
             case Geometry::MULTIPOLYGON:
-                return $this->readMultiPolygon($buffer, $is3D, $isMeasured, $srid);
+                return $this->readMultiPolygon($buffer, $cs);
 
             case Geometry::GEOMETRYCOLLECTION:
-                return $this->readGeometryCollection($buffer, $is3D, $isMeasured, $srid);
+                return $this->readGeometryCollection($buffer, $cs);
 
             case Geometry::POLYHEDRALSURFACE:
-                return $this->readPolyhedralSurface($buffer, $is3D, $isMeasured, $srid);
+                return $this->readPolyhedralSurface($buffer, $cs);
 
             case Geometry::TIN:
-                return $this->readTIN($buffer, $is3D, $isMeasured, $srid);
+                return $this->readTIN($buffer, $cs);
 
             case Geometry::TRIANGLE:
-                return $this->readTriangle($buffer, $is3D, $isMeasured, $srid);
+                return $this->readTriangle($buffer, $cs);
         }
 
         throw GeometryParseException::unsupportedGeometryType($geometryType);
     }
 
     /**
-     * @param WKBBuffer $buffer
-     * @param boolean   $is3D
-     * @param boolean   $isMeasured
-     * @param integer   $srid
+     * @param WKBBuffer        $buffer
+     * @param CoordinateSystem $cs
      *
      * @return \Brick\Geo\Point
      */
-    private function readPoint(WKBBuffer $buffer, $is3D, $isMeasured, $srid)
+    private function readPoint(WKBBuffer $buffer, CoordinateSystem $cs)
     {
-        $count = 2 + ($is3D ? 1 : 0) + ($isMeasured ? 1 : 0);
-        $values = $buffer->readDoubles($count);
+        $coords = $buffer->readDoubles($cs->coordinateDimension());
 
-        if ($is3D && $isMeasured) {
-            return Point::xyzm($values[1], $values[2], $values[3], $values[4], $srid);
-        }
-
-        if ($is3D) {
-            return Point::xyz($values[1], $values[2], $values[3], $srid);
-        }
-
-        if ($isMeasured) {
-            return Point::xym($values[1], $values[2], $values[3], $srid);
-        }
-
-        return Point::xy($values[1], $values[2], $srid);
+        return Point::create(array_values($coords), $cs);
     }
 
     /**
-     * @param WKBBuffer $buffer
-     * @param boolean   $is3D
-     * @param boolean   $isMeasured
-     * @param integer   $srid
+     * @param WKBBuffer        $buffer
+     * @param CoordinateSystem $cs
      *
      * @return \Brick\Geo\LineString
      */
-    private function readLineString(WKBBuffer $buffer, $is3D, $isMeasured, $srid)
+    private function readLineString(WKBBuffer $buffer, CoordinateSystem $cs)
     {
         $numPoints = $buffer->readUnsignedLong();
 
         $points = [];
 
         for ($i = 0; $i < $numPoints; $i++) {
-            $points[] = $this->readPoint($buffer, $is3D, $isMeasured, $srid);
+            $points[] = $this->readPoint($buffer, $cs);
         }
 
-        return LineString::create($points, $is3D, $isMeasured, $srid);
+        return LineString::create($points, $cs);
     }
 
     /**
-     * @param WKBBuffer $buffer
-     * @param boolean   $is3D
-     * @param boolean   $isMeasured
-     * @param integer   $srid
+     * @param WKBBuffer        $buffer
+     * @param CoordinateSystem $cs
      *
      * @return \Brick\Geo\LineString
      */
-    private function readCircularString(WKBBuffer $buffer, $is3D, $isMeasured, $srid)
+    private function readCircularString(WKBBuffer $buffer, CoordinateSystem $cs)
     {
         $numPoints = $buffer->readUnsignedLong();
 
         $points = [];
 
         for ($i = 0; $i < $numPoints; $i++) {
-            $points[] = $this->readPoint($buffer, $is3D, $isMeasured, $srid);
+            $points[] = $this->readPoint($buffer, $cs);
         }
 
-        return CircularString::create($points, $is3D, $isMeasured, $srid);
+        return CircularString::create($points, $cs);
     }
 
     /**
-     * @param WKBBuffer $buffer
-     * @param boolean   $is3D
-     * @param boolean   $isMeasured
-     * @param integer   $srid
+     * @param WKBBuffer        $buffer
+     * @param CoordinateSystem $cs
      *
      * @return \Brick\Geo\CompoundCurve
      */
-    private function readCompoundCurve(WKBBuffer $buffer, $is3D, $isMeasured, $srid)
+    private function readCompoundCurve(WKBBuffer $buffer, CoordinateSystem $cs)
     {
         $numCurves = $buffer->readUnsignedLong();
         $curves = [];
 
         for ($i = 0; $i < $numCurves; $i++) {
-            $curves[] = $this->readGeometry($buffer, $srid);
+            $curves[] = $this->readGeometry($buffer, $cs->SRID());
         }
 
-        return CompoundCurve::create($curves, $is3D, $isMeasured, $srid);
+        return CompoundCurve::create($curves, $cs);
     }
 
     /**
-     * @param WKBBuffer $buffer
-     * @param boolean   $is3D
-     * @param boolean   $isMeasured
-     * @param integer   $srid
+     * @param WKBBuffer        $buffer
+     * @param CoordinateSystem $cs
      *
      * @return \Brick\Geo\Polygon
      */
-    private function readPolygon(WKBBuffer $buffer, $is3D, $isMeasured, $srid)
+    private function readPolygon(WKBBuffer $buffer, CoordinateSystem $cs)
     {
         $numRings = $buffer->readUnsignedLong();
 
         $rings = [];
 
         for ($i = 0; $i < $numRings; $i++) {
-            $rings[] = $this->readLineString($buffer, $is3D, $isMeasured, $srid);
+            $rings[] = $this->readLineString($buffer, $cs);
         }
 
-        return Polygon::create($rings, $is3D, $isMeasured, $srid);
+        return Polygon::create($rings, $cs);
     }
 
     /**
-     * @param WKBBuffer $buffer
-     * @param boolean   $is3D
-     * @param boolean   $isMeasured
-     * @param integer   $srid
+     * @param WKBBuffer        $buffer
+     * @param CoordinateSystem $cs
      *
      * @return \Brick\Geo\CurvePolygon
      */
-    private function readCurvePolygon(WKBBuffer $buffer, $is3D, $isMeasured, $srid)
+    private function readCurvePolygon(WKBBuffer $buffer, CoordinateSystem $cs)
     {
         $numRings = $buffer->readUnsignedLong();
 
         $rings = [];
 
         for ($i = 0; $i < $numRings; $i++) {
-            $rings[] = $this->readGeometry($buffer, $srid);
+            $rings[] = $this->readGeometry($buffer, $cs->SRID());
         }
 
-        return CurvePolygon::create($rings, $is3D, $isMeasured, $srid);
+        return CurvePolygon::create($rings, $cs);
     }
 
     /**
-     * @param WKBBuffer $buffer
-     * @param boolean   $is3D
-     * @param boolean   $isMeasured
-     * @param integer   $srid
+     * @param WKBBuffer        $buffer
+     * @param CoordinateSystem $cs
      *
      * @return \Brick\Geo\MultiPoint
      */
-    private function readMultiPoint(WKBBuffer $buffer, $is3D, $isMeasured, $srid)
+    private function readMultiPoint(WKBBuffer $buffer, CoordinateSystem $cs)
     {
         $numPoints = $buffer->readUnsignedLong();
         $points = [];
 
         for ($i = 0; $i < $numPoints; $i++) {
-            $points[] = $this->readGeometry($buffer, $srid);
+            $points[] = $this->readGeometry($buffer, $cs->SRID());
         }
 
-        return MultiPoint::create($points, $is3D, $isMeasured, $srid);
+        return MultiPoint::create($points, $cs);
     }
 
     /**
-     * @param WKBBuffer $buffer
-     * @param boolean   $is3D
-     * @param boolean   $isMeasured
-     * @param integer   $srid
+     * @param WKBBuffer        $buffer
+     * @param CoordinateSystem $cs
      *
      * @return \Brick\Geo\MultiLineString
      */
-    private function readMultiLineString(WKBBuffer $buffer, $is3D, $isMeasured, $srid)
+    private function readMultiLineString(WKBBuffer $buffer, CoordinateSystem $cs)
     {
         $numLineStrings = $buffer->readUnsignedLong();
         $lineStrings = [];
 
         for ($i = 0; $i < $numLineStrings; $i++) {
-            $lineStrings[] = $this->readGeometry($buffer, $srid);
+            $lineStrings[] = $this->readGeometry($buffer, $cs->SRID());
         }
 
-        return MultiLineString::create($lineStrings, $is3D, $isMeasured, $srid);
+        return MultiLineString::create($lineStrings, $cs);
     }
 
     /**
-     * @param WKBBuffer $buffer
-     * @param boolean   $is3D
-     * @param boolean   $isMeasured
-     * @param integer   $srid
+     * @param WKBBuffer        $buffer
+     * @param CoordinateSystem $cs
      *
      * @return \Brick\Geo\MultiPolygon
      */
-    private function readMultiPolygon(WKBBuffer $buffer, $is3D, $isMeasured, $srid)
+    private function readMultiPolygon(WKBBuffer $buffer, CoordinateSystem $cs)
     {
         $numPolygons = $buffer->readUnsignedLong();
         $polygons = [];
 
         for ($i = 0; $i < $numPolygons; $i++) {
-            $polygons[] = $this->readGeometry($buffer, $srid);
+            $polygons[] = $this->readGeometry($buffer, $cs->SRID());
         }
 
-        return MultiPolygon::create($polygons, $is3D, $isMeasured, $srid);
+        return MultiPolygon::create($polygons, $cs);
     }
 
     /**
-     * @param WKBBuffer $buffer
-     * @param boolean   $is3D
-     * @param boolean   $isMeasured
-     * @param integer   $srid
+     * @param WKBBuffer        $buffer
+     * @param CoordinateSystem $cs
      *
      * @return \Brick\Geo\GeometryCollection
      */
-    private function readGeometryCollection(WKBBuffer $buffer, $is3D, $isMeasured, $srid)
+    private function readGeometryCollection(WKBBuffer $buffer, CoordinateSystem $cs)
     {
         $numGeometries = $buffer->readUnsignedLong();
         $geometries = [];
 
         for ($i = 0; $i < $numGeometries; $i++) {
-            $geometries[] = $this->readGeometry($buffer, $srid);
+            $geometries[] = $this->readGeometry($buffer, $cs->SRID());
         }
 
-        return GeometryCollection::create($geometries, $is3D, $isMeasured, $srid);
+        return GeometryCollection::create($geometries, $cs);
     }
 
     /**
-     * @param WKBBuffer $buffer
-     * @param boolean   $is3D
-     * @param boolean   $isMeasured
-     * @param integer   $srid
+     * @param WKBBuffer        $buffer
+     * @param CoordinateSystem $cs
      *
      * @return \Brick\Geo\PolyhedralSurface
      */
-    private function readPolyhedralSurface(WKBBuffer $buffer, $is3D, $isMeasured, $srid)
+    private function readPolyhedralSurface(WKBBuffer $buffer, CoordinateSystem $cs)
     {
         $numPatches = $buffer->readUnsignedLong();
         $patches = [];
 
         for ($i = 0; $i < $numPatches; $i++) {
-            $patches[] = $this->readGeometry($buffer, $srid);
+            $patches[] = $this->readGeometry($buffer, $cs->SRID());
         }
 
-        return PolyhedralSurface::create($patches, $is3D, $isMeasured, $srid);
+        return PolyhedralSurface::create($patches, $cs);
     }
 
     /**
-     * @param WKBBuffer $buffer
-     * @param boolean   $is3D
-     * @param boolean   $isMeasured
-     * @param integer   $srid
+     * @param WKBBuffer        $buffer
+     * @param CoordinateSystem $cs
      *
      * @return \Brick\Geo\TIN
      */
-    private function readTIN(WKBBuffer $buffer, $is3D, $isMeasured, $srid)
+    private function readTIN(WKBBuffer $buffer, CoordinateSystem $cs)
     {
         $numPatches = $buffer->readUnsignedLong();
         $patches = [];
 
         for ($i = 0; $i < $numPatches; $i++) {
-            $patches[] = $this->readGeometry($buffer, $srid);
+            $patches[] = $this->readGeometry($buffer, $cs->SRID());
         }
 
-        return TIN::create($patches, $is3D, $isMeasured, $srid);
+        return TIN::create($patches, $cs);
     }
 
     /**
-     * @param WKBBuffer $buffer
-     * @param boolean   $is3D
-     * @param boolean   $isMeasured
-     * @param integer   $srid
+     * @param WKBBuffer        $buffer
+     * @param CoordinateSystem $cs
      *
      * @return \Brick\Geo\Triangle
      */
-    private function readTriangle(WKBBuffer $buffer, $is3D, $isMeasured, $srid)
+    private function readTriangle(WKBBuffer $buffer, CoordinateSystem $cs)
     {
         $numRings = $buffer->readUnsignedLong();
 
         $rings = [];
 
         for ($i = 0; $i < $numRings; $i++) {
-            $rings[] = $this->readLineString($buffer, $is3D, $isMeasured, $srid);
+            $rings[] = $this->readLineString($buffer, $cs);
         }
 
-        return Triangle::create($rings, $is3D, $isMeasured, $srid);
+        return Triangle::create($rings, $cs);
     }
 }

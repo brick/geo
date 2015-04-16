@@ -3,6 +3,7 @@
 namespace Brick\Geo\Tests;
 
 use Brick\Geo\CircularString;
+use Brick\Geo\CoordinateSystem;
 use Brick\Geo\Point;
 
 /**
@@ -13,20 +14,21 @@ class CircularStringTest extends AbstractTestCase
     /**
      * @dataProvider providerCreate
      *
-     * @param string[] $points         The WKT of the Points that compose the CircularString.
-     * @param boolean  $is3D           Whether the points have Z coordinates.
-     * @param boolean  $isMeasured     Whether the points have M coordinates.
-     * @param string   $circularString The WKT of the expected CircularString.
+     * @param string[] $pointsWKT        The WKT of the Points that compose the CircularString.
+     * @param boolean  $is3D              Whether the points have Z coordinates.
+     * @param boolean  $isMeasured        Whether the points have M coordinates.
+     * @param string   $circularStringWKT The WKT of the expected CircularString.
      */
-    public function testCreate(array $points, $is3D, $isMeasured, $circularString)
+    public function testCreate(array $pointsWKT, $is3D, $isMeasured, $circularStringWKT)
     {
         foreach ([0, 1] as $srid) {
             $instantiatePoint = function ($point) use ($srid) {
                 return Point::fromText($point, $srid);
             };
 
-            $cs = CircularString::create(array_map($instantiatePoint, $points), $is3D, $isMeasured, $srid);
-            $this->assertWktEquals($cs, $circularString, $srid);
+            $cs = CoordinateSystem::create($is3D, $isMeasured, $srid);
+            $circularString = CircularString::create(array_map($instantiatePoint, $pointsWKT), $cs);
+            $this->assertWktEquals($circularString, $circularStringWKT, $srid);
         }
     }
 

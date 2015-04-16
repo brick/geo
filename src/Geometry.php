@@ -42,42 +42,20 @@ abstract class Geometry
     protected $isEmpty;
 
     /**
-     * Whether this geometry has z coordinate values.
-     *
-     * @var boolean
+     * @var CoordinateSystem
      */
-    protected $is3D;
-
-    /**
-     * Whether this geometry has m coordinate values.
-     *
-     * @var boolean
-     */
-    protected $isMeasured;
-
-    /**
-     * The Spatial Reference System ID for this geometry.
-     *
-     * @var integer
-     */
-    protected $srid;
+    protected $coordinateSystem;
 
     /**
      * Private constructor. Use a factory method to obtain an instance.
      *
-     * All parameters are assumed to be validated as their respective types.
-     *
-     * @param boolean $isEmpty    Whether this geometry is empty.
-     * @param boolean $is3D       Whether this geometry has z coordinate values.
-     * @param boolean $isMeasured Whether this geometry has m coordinate values.
-     * @param integer $srid       The Spatial Reference System ID for this geometry.
+     * @param CoordinateSystem $coordinateSystem The coordinate system of this geometry.
+     * @param boolean          $isEmpty          Whether this geometry is empty. Must be validated as a boolean.
      */
-    protected function __construct($isEmpty, $is3D, $isMeasured, $srid)
+    protected function __construct(CoordinateSystem $coordinateSystem, $isEmpty)
     {
-        $this->isEmpty    = $isEmpty;
-        $this->is3D       = $is3D;
-        $this->isMeasured = $isMeasured;
-        $this->srid       = $srid;
+        $this->coordinateSystem = $coordinateSystem;
+        $this->isEmpty          = $isEmpty;
     }
 
     /**
@@ -161,22 +139,10 @@ abstract class Geometry
      * The ordinates x, y and z are spatial, and the ordinate m is a measure.
      *
      * @return integer
-     *
-     * @throws GeometryException
      */
     public function coordinateDimension()
     {
-        $coordinateDimension = 2;
-
-        if ($this->is3D) {
-            $coordinateDimension++;
-        }
-
-        if ($this->isMeasured) {
-            $coordinateDimension++;
-        }
-
-        return $coordinateDimension;
+        return $this->coordinateSystem->coordinateDimension();
     }
 
     /**
@@ -189,7 +155,7 @@ abstract class Geometry
      */
     public function spatialDimension()
     {
-        return $this->is3D ? 3 : 2;
+        return $this->coordinateSystem->spatialDimension();
     }
 
     /**
@@ -206,7 +172,7 @@ abstract class Geometry
      */
     public function SRID()
     {
-        return $this->srid;
+        return $this->coordinateSystem->SRID();
     }
 
     /**
@@ -312,7 +278,7 @@ abstract class Geometry
      */
     public function is3D()
     {
-        return $this->is3D;
+        return $this->coordinateSystem->hasZ();
     }
 
     /**
@@ -322,7 +288,7 @@ abstract class Geometry
      */
     public function isMeasured()
     {
-        return $this->isMeasured;
+        return $this->coordinateSystem->hasM();
     }
 
     /**
@@ -679,6 +645,16 @@ abstract class Geometry
     }
 
     /**
+     * Returns the coordinate system of this geometry.
+     *
+     * @return CoordinateSystem
+     */
+    public function coordinateSystem()
+    {
+        return $this->coordinateSystem;
+    }
+
+    /**
      * Returns the raw coordinates of this geometry as an array.
      *
      * @return array
@@ -698,58 +674,16 @@ abstract class Geometry
     }
 
     /**
-     * Gets the dimensions of an array of geometries.
+     * @param array                 $geometries The geometries to check.
+     * @param string                $className  The expected FQCN of the geometries.
+     * @param CoordinateSystem|null $cs         The expected coordinate system of the geometries.
+     *                                          Set to NULL to infer the coordinate system from the geometries.
      *
-     * If dimensionality is mixed, an exception is thrown.
-     *
-     * @internal
-     *
-     * @param Geometry[] $geometries The geometries, validated as such.
-     * @param boolean    $is3D       A variable to store whether the geometries have Z coordinates.
-     * @param boolean    $isMeasured A variable to store whether the geometries have M coordinates.
-     * @param integer    $srid       A variable to store the SRID of the geometries.
-     *
-     * @return void
-     *
-     * @throws GeometryException If dimensionality is mixed.
-     */
-    protected static function getDimensions(array $geometries, & $is3D, & $isMeasured, & $srid)
-    {
-        $is3D       = false;
-        $isMeasured = false;
-        $srid       = 0;
-
-        $previous = null;
-
-        foreach ($geometries as $geometry) {
-            if ($previous === null) {
-                $is3D       = $geometry->is3D();
-                $isMeasured = $geometry->isMeasured();
-                $srid       = $geometry->SRID();
-                $previous   = $geometry;
-            } else {
-                if ($geometry->is3D() !== $is3D || $geometry->isMeasured() !== $isMeasured) {
-                    throw GeometryException::dimensionalityMix($previous, $geometry);
-                }
-                if ($geometry->SRID() !== $srid) {
-                    throw new GeometryException('Incompatible SRID: %d and %d.', $srid, $geometry->SRID());
-                }
-            }
-        }
-    }
-
-    /**
-     * @param array   $geometries   The geometries to check.
-     * @param string  $className    The expected FQCN of the geometries.
-     * @param boolean $is3D         Whether the geometries are expected to have a Z coordinate.
-     * @param boolean $isMeasured   Whether the geometries are expected to have a M coordinate.
-     * @param integer $srid         The expected SRID of the geometries.
-     *
-     * @return void
+     * @return CoordinateSystem
      *
      * @throws GeometryException
      */
-    protected static function checkGeometries(array $geometries, $className, $is3D, $isMeasured, $srid)
+    protected static function checkGeometries(array $geometries, $className, CoordinateSystem $cs = null)
     {
         $reflectionClass = new \ReflectionClass(static::class);
         $geometryType = $reflectionClass->getShortName();
@@ -766,13 +700,24 @@ abstract class Geometry
 
             /** @var Geometry $geometry */
 
-            if ($geometry->is3D() !== $is3D || $geometry->isMeasured() !== $isMeasured) {
-                throw GeometryException::incompatibleDimensionality($geometry, $geometryType, $is3D, $isMeasured);
-            }
+            if ($cs === null) {
+                $cs = $geometry->coordinateSystem();
+                $geometryType = $geometry->geometryType();
+            } else {
+                if ($geometry->is3D() !== $cs->hasZ() || $geometry->isMeasured() !== $cs->hasM()) {
+                    throw GeometryException::incompatibleDimensionality($geometry, $geometryType, $cs->hasZ(), $cs->hasM());
+                }
 
-            if ($geometry->SRID() !== $srid) {
-                throw GeometryException::incompatibleSRID($geometry, $geometryType, $srid);
+                if ($geometry->SRID() !== $cs->SRID()) {
+                    throw GeometryException::incompatibleSRID($geometry, $geometryType, $cs->SRID());
+                }
             }
         }
+
+        if ($cs === null) {
+            throw new GeometryException(sprintf('A Coordinate System must be provided when creating an empty %s.', $geometryType));
+        }
+
+        return $cs;
     }
 }

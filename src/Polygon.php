@@ -40,31 +40,26 @@ class Polygon extends Surface implements \Countable, \IteratorAggregate
     protected $rings = [];
 
     /**
-     * @param LineString[] $rings
-     * @param boolean      $is3D
-     * @param boolean      $isMeasured
-     * @param integer      $srid
+     * @param LineString[]          $rings
+     * @param CoordinateSystem|null $cs
      *
      * @return static
      *
      * @throws GeometryException
      */
-    public static function create(array $rings, $is3D, $isMeasured, $srid = 0)
+    public static function create(array $rings, CoordinateSystem $cs = null)
     {
-        $is3D       = (bool) $is3D;
-        $isMeasured = (bool) $isMeasured;
+        $cs = self::checkGeometries($rings, LineString::class, $cs);
 
-        $srid = (int) $srid;
-
-        self::checkGeometries($rings, LineString::class, $is3D, $isMeasured, $srid);
-
-        $polygon = new static(! $rings, $is3D, $isMeasured, $srid);
+        $polygon = new static($cs, ! $rings);
         $polygon->rings = array_values($rings);
 
         return $polygon;
     }
 
     /**
+     * @deprecated Use create() instead.
+     *
      * @param LineString[] $rings
      *
      * @return Polygon
@@ -73,27 +68,11 @@ class Polygon extends Surface implements \Countable, \IteratorAggregate
      */
     public static function factory(array $rings)
     {
-        foreach ($rings as $ring) {
-            if (! $ring instanceof LineString) {
-                throw GeometryException::unexpectedGeometryType(LineString::class, $ring);
-            }
-        }
-
-        if (! $rings) {
-            throw new GeometryException('A Polygon must have at least 1 ring (the exterior ring).');
-        }
-
-        self::getDimensions($rings, $is3D, $isMeasured, $srid);
-
         if (count($rings) === 1 && count(reset($rings)) === 3 + 1) {
-            $polygon = new Triangle(false, $is3D, $isMeasured, $srid);
-        } else {
-            $polygon = new Polygon(false, $is3D, $isMeasured, $srid);
+            return Triangle::create($rings);
         }
 
-        $polygon->rings = array_values($rings);
-
-        return $polygon;
+        return Polygon::create($rings);
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace Brick\Geo\Tests;
 
 use Brick\Geo\CompoundCurve;
+use Brick\Geo\CoordinateSystem;
 use Brick\Geo\Curve;
 use Brick\Geo\Exception\GeometryException;
 
@@ -14,20 +15,21 @@ class CompoundCurveTest extends AbstractTestCase
     /**
      * @dataProvider providerCreate
      *
-     * @param string[] $curves        The WKT of the Curves that compose the CompoundCurve.
-     * @param boolean  $is3D          Whether the curves have Z coordinates.
-     * @param boolean  $isMeasured    Whether the curves have M coordinates.
-     * @param string   $compoundCurve The WKT of the expected CompoundCurve.
+     * @param string[] $curvesWKT        The WKT of the Curves that compose the CompoundCurve.
+     * @param boolean  $is3D             Whether the curves have Z coordinates.
+     * @param boolean  $isMeasured       Whether the curves have M coordinates.
+     * @param string   $compoundCurveWKT The WKT of the expected CompoundCurve.
      */
-    public function testCreate(array $curves, $is3D, $isMeasured, $compoundCurve)
+    public function testCreate(array $curvesWKT, $is3D, $isMeasured, $compoundCurveWKT)
     {
         foreach ([0, 1] as $srid) {
             $instantiateCurve = function ($curve) use ($srid) {
                 return Curve::fromText($curve, $srid);
             };
 
-            $cs = CompoundCurve::create(array_map($instantiateCurve, $curves), $is3D, $isMeasured, $srid);
-            $this->assertWktEquals($cs, $compoundCurve, $srid);
+            $cs = CoordinateSystem::create($is3D, $isMeasured, $srid);
+            $compoundCurve = CompoundCurve::create(array_map($instantiateCurve, $curvesWKT), $cs);
+            $this->assertWktEquals($compoundCurve, $compoundCurveWKT, $srid);
         }
     }
 

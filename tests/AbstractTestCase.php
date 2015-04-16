@@ -2,6 +2,7 @@
 
 namespace Brick\Geo\Tests;
 
+use Brick\Geo\CoordinateSystem;
 use Brick\Geo\Engine\GeometryEngineRegistry;
 use Brick\Geo\Engine\GEOSEngine;
 use Brick\Geo\Engine\PDOEngine;
@@ -321,82 +322,48 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param array   $coords
-     * @param boolean $is3D
-     * @param boolean $isMeasured
-     * @param integer $srid
+     * @param array            $coords
+     * @param CoordinateSystem $cs
      *
      * @return Point
      */
-    final protected function createPoint(array $coords, $is3D, $isMeasured, $srid = 0)
+    final protected function createPoint(array $coords, CoordinateSystem $cs)
     {
-        if (! $coords) {
-            if ($is3D && $isMeasured) {
-                return Point::xyzmEmpty($srid);
-            }
-
-            if ($is3D) {
-                return Point::xyzEmpty($srid);
-            }
-
-            if ($isMeasured) {
-                return Point::xymEmpty($srid);
-            }
-
-            return Point::xyEmpty($srid);
-        }
-
-        if ($is3D && $isMeasured) {
-            return Point::xyzm($coords[0], $coords[1], $coords[2], $coords[3], $srid);
-        }
-
-        if ($is3D) {
-            return Point::xyz($coords[0], $coords[1], $coords[2], $srid);
-        }
-
-        if ($isMeasured) {
-            return Point::xym($coords[0], $coords[1], $coords[2], $srid);
-        }
-
-        return Point::xy($coords[0], $coords[1], $srid);
+        return Point::create($coords, $cs);
     }
 
     /**
-     * @param array   $coords
-     * @param boolean $is3D
-     * @param boolean $isMeasured
-     * @param integer $srid
+     * @param array            $coords
+     * @param CoordinateSystem $cs
      *
      * @return LineString
      */
-    final protected function createLineString(array $coords, $is3D, $isMeasured, $srid = 0)
+    final protected function createLineString(array $coords, CoordinateSystem $cs)
     {
         $points = [];
 
         foreach ($coords as $point) {
-            $points[] = $this->createPoint($point, $is3D, $isMeasured, $srid);
+            $points[] = $this->createPoint($point, $cs);
         }
 
-        return LineString::create($points, $is3D, $isMeasured, $srid);
+        return LineString::create($points, $cs);
     }
 
     /**
-     * @param array   $coords
-     * @param boolean $is3D
-     * @param boolean $isMeasured
-     * @param integer $srid
+     * @param array            $coords
+     * @param CoordinateSystem $cs
      *
-     * @return LineString
+     * @return CircularString
      */
-    final protected function createCircularString(array $coords, $is3D, $isMeasured, $srid = 0)
+    final protected function createCircularString(array $coords, CoordinateSystem $cs)
     {
         $points = [];
 
         foreach ($coords as $point) {
-            $points[] = $this->createPoint($point, $is3D, $isMeasured, $srid);
+            $points[] = $this->createPoint($point,$cs);
         }
 
-        return CircularString::create($points, $is3D, $isMeasured, $srid);
+        return CircularString::create($points, $cs);
     }
 
     /**
@@ -405,197 +372,177 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
      * For the purpose of these tests, it is assumed that a curve with an even number of points is
      * a LineString, and a curve with an odd number of points is a CircularString.
      *
-     * @param array   $coords
-     * @param boolean $is3D
-     * @param boolean $isMeasured
-     * @param integer $srid
+     * @param array            $coords
+     * @param CoordinateSystem $cs
      *
      * @return Curve
      */
-    final protected function createLineStringOrCircularString(array $coords, $is3D, $isMeasured, $srid = 0)
+    final protected function createLineStringOrCircularString(array $coords, CoordinateSystem $cs)
     {
         if (count($coords) % 2 == 0) {
-            return $this->createLineString($coords, $is3D, $isMeasured, $srid);
+            return $this->createLineString($coords, $cs);
         } else {
-            return $this->createCircularString($coords, $is3D, $isMeasured, $srid);
+            return $this->createCircularString($coords, $cs);
         }
     }
 
     /**
-     * @param array   $coords
-     * @param boolean $is3D
-     * @param boolean $isMeasured
-     * @param integer $srid
+     * @param array            $coords
+     * @param CoordinateSystem $cs
      *
-     * @return LineString
+     * @return CompoundCurve
      */
-    final protected function createCompoundCurve(array $coords, $is3D, $isMeasured, $srid = 0)
+    final protected function createCompoundCurve(array $coords, CoordinateSystem $cs)
     {
         $curves = [];
 
         foreach ($coords as $curve) {
-            $curves[] = $this->createLineStringOrCircularString($curve, $is3D, $isMeasured, $srid);
+            $curves[] = $this->createLineStringOrCircularString($curve, $cs);
         }
 
-        return CompoundCurve::create($curves, $is3D, $isMeasured, $srid);
+        return CompoundCurve::create($curves, $cs);
     }
 
     /**
-     * @param array   $coords
-     * @param boolean $is3D
-     * @param boolean $isMeasured
-     * @param integer $srid
+     * @param array            $coords
+     * @param CoordinateSystem $cs
      *
      * @return Polygon
      */
-    final protected function createPolygon(array $coords, $is3D, $isMeasured, $srid = 0)
+    final protected function createPolygon(array $coords, CoordinateSystem $cs)
     {
         $rings = [];
 
         foreach ($coords as $ring) {
-            $rings[] = $this->createLineString($ring, $is3D, $isMeasured, $srid);
+            $rings[] = $this->createLineString($ring, $cs);
         }
 
-        return Polygon::create($rings, $is3D, $isMeasured, $srid);
+        return Polygon::create($rings, $cs);
     }
 
     /**
-     * @param array   $coords
-     * @param boolean $is3D
-     * @param boolean $isMeasured
-     * @param integer $srid
+     * @param array            $coords
+     * @param CoordinateSystem $cs
      *
      * @return Triangle
      */
-    final protected function createTriangle(array $coords, $is3D, $isMeasured, $srid = 0)
+    final protected function createTriangle(array $coords, CoordinateSystem $cs)
     {
         $rings = [];
 
         foreach ($coords as $ring) {
-            $rings[] = $this->createLineString($ring, $is3D, $isMeasured, $srid);
+            $rings[] = $this->createLineString($ring, $cs);
         }
 
-        return Triangle::create($rings, $is3D, $isMeasured, $srid);
+        return Triangle::create($rings, $cs);
     }
 
     /**
-     * @param array   $coords
-     * @param boolean $is3D
-     * @param boolean $isMeasured
-     * @param integer $srid
+     * @param array            $coords
+     * @param CoordinateSystem $cs
      *
      * @return CurvePolygon
      */
-    final protected function createCurvePolygon(array $coords, $is3D, $isMeasured, $srid = 0)
+    final protected function createCurvePolygon(array $coords, CoordinateSystem $cs)
     {
         $rings = [];
 
         foreach ($coords as $ring) {
             if (is_array($ring[0][0])) {
                 // CompoundCurve
-                $rings[] = $this->createCompoundCurve($ring, $is3D, $isMeasured, $srid);
+                $rings[] = $this->createCompoundCurve($ring, $cs);
             } else {
                 // LineString or CircularString
-                $rings[] = $this->createLineStringOrCircularString($ring, $is3D, $isMeasured, $srid);
+                $rings[] = $this->createLineStringOrCircularString($ring, $cs);
             }
         }
 
-        return CurvePolygon::create($rings, $is3D, $isMeasured, $srid);
+        return CurvePolygon::create($rings, $cs);
     }
 
     /**
-     * @param array   $coords
-     * @param boolean $is3D
-     * @param boolean $isMeasured
-     * @param integer $srid
+     * @param array            $coords
+     * @param CoordinateSystem $cs
      *
      * @return MultiPoint
      */
-    final protected function createMultiPoint(array $coords, $is3D, $isMeasured, $srid = 0)
+    final protected function createMultiPoint(array $coords, CoordinateSystem $cs)
     {
         $points = [];
 
         foreach ($coords as $point) {
-            $points[] = $this->createPoint($point, $is3D, $isMeasured, $srid);
+            $points[] = $this->createPoint($point, $cs);
         }
 
-        return MultiPoint::create($points, $is3D, $isMeasured, $srid);
+        return MultiPoint::create($points, $cs);
     }
 
     /**
-     * @param array   $coords
-     * @param boolean $is3D
-     * @param boolean $isMeasured
-     * @param integer $srid
+     * @param array            $coords
+     * @param CoordinateSystem $cs
      *
      * @return MultiLineString
      */
-    final protected function createMultiLineString(array $coords, $is3D, $isMeasured, $srid = 0)
+    final protected function createMultiLineString(array $coords, CoordinateSystem $cs)
     {
         $lineStrings = [];
 
         foreach ($coords as $lineString) {
-            $lineStrings[] = $this->createLineString($lineString, $is3D, $isMeasured, $srid);
+            $lineStrings[] = $this->createLineString($lineString, $cs);
         }
 
-        return MultiLineString::create($lineStrings, $is3D, $isMeasured, $srid);
+        return MultiLineString::create($lineStrings, $cs);
     }
 
     /**
-     * @param array   $coords
-     * @param boolean $is3D
-     * @param boolean $isMeasured
-     * @param integer $srid
+     * @param array            $coords
+     * @param CoordinateSystem $cs
      *
      * @return MultiPolygon
      */
-    final protected function createMultiPolygon(array $coords, $is3D, $isMeasured, $srid = 0)
+    final protected function createMultiPolygon(array $coords, CoordinateSystem $cs)
     {
         $polygons = [];
 
         foreach ($coords as $polygon) {
-            $polygons[] = $this->createPolygon($polygon, $is3D, $isMeasured, $srid);
+            $polygons[] = $this->createPolygon($polygon, $cs);
         }
 
-        return MultiPolygon::create($polygons, $is3D, $isMeasured, $srid);
+        return MultiPolygon::create($polygons, $cs);
     }
 
     /**
-     * @param array   $coords
-     * @param boolean $is3D
-     * @param boolean $isMeasured
-     * @param integer $srid
+     * @param array            $coords
+     * @param CoordinateSystem $cs
      *
      * @return PolyhedralSurface
      */
-    final protected function createPolyhedralSurface(array $coords, $is3D, $isMeasured, $srid = 0)
+    final protected function createPolyhedralSurface(array $coords, CoordinateSystem $cs)
     {
         $patches = [];
 
         foreach ($coords as $patch) {
-            $patches[] = $this->createPolygon($patch, $is3D, $isMeasured, $srid);
+            $patches[] = $this->createPolygon($patch, $cs);
         }
 
-        return PolyhedralSurface::create($patches, $is3D, $isMeasured, $srid);
+        return PolyhedralSurface::create($patches, $cs);
     }
 
     /**
-     * @param array   $coords
-     * @param boolean $is3D
-     * @param boolean $isMeasured
-     * @param integer $srid
+     * @param array            $coords
+     * @param CoordinateSystem $cs
      *
      * @return TIN
      */
-    final protected function createTIN(array $coords, $is3D, $isMeasured, $srid = 0)
+    final protected function createTIN(array $coords, CoordinateSystem $cs)
     {
         $patches = [];
 
         foreach ($coords as $patch) {
-            $patches[] = $this->createTriangle($patch, $is3D, $isMeasured, $srid);
+            $patches[] = $this->createTriangle($patch, $cs);
         }
 
-        return TIN::create($patches, $is3D, $isMeasured, $srid);
+        return TIN::create($patches, $cs);
     }
 
     /**

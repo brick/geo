@@ -2,6 +2,7 @@
 
 namespace Brick\Geo\Tests\IO;
 
+use Brick\Geo\CoordinateSystem;
 use Brick\Geo\GeometryCollection;
 use Brick\Geo\IO\WKTWriter;
 use Brick\Geo\MultiLineString;
@@ -23,9 +24,11 @@ class WKTWriterTest extends WKTAbstractTest
         $writer = new WKTWriter();
         $writer->setPrettyPrint($prettyPrint);
 
-        $point = $this->createPoint([1, 2, 3], $is3D, false);
-        $lineString1 = $this->createLineString([[1, 2, 3], [4, 5, 6]], $is3D, false);
-        $lineString2 = $this->createLineString([[2, 3, 4], [5, 6, 7]], $is3D, false);
+        $cs = CoordinateSystem::create($is3D, false);
+
+        $point = $this->createPoint([1, 2, 3], $cs);
+        $lineString1 = $this->createLineString([[1, 2, 3], [4, 5, 6]], $cs);
+        $lineString2 = $this->createLineString([[2, 3, 4], [5, 6, 7]], $cs);
         $multiLineString = MultiLineString::factory([$lineString1, $lineString2]);
         $geometryCollection = GeometryCollection::factory([$point, $multiLineString]);
 
@@ -59,7 +62,9 @@ class WKTWriterTest extends WKTAbstractTest
         $writer = new WKTWriter();
         $writer->setPrettyPrint(false);
 
-        $point = $this->createPoint($coords, $is3D, $isMeasured);
+        $cs = CoordinateSystem::create($is3D, $isMeasured);
+        $point = $this->createPoint($coords, $cs);
+
         $this->assertSame($wkt, $writer->write($point));
     }
 
@@ -76,7 +81,9 @@ class WKTWriterTest extends WKTAbstractTest
         $writer = new WKTWriter();
         $writer->setPrettyPrint(false);
 
-        $lineString = $this->createLineString($coords, $is3D, $isMeasured);
+        $cs = CoordinateSystem::create($is3D, $isMeasured);
+        $lineString = $this->createLineString($coords, $cs);
+
         $this->assertSame($wkt, $writer->write($lineString));
     }
 
@@ -93,7 +100,9 @@ class WKTWriterTest extends WKTAbstractTest
         $writer = new WKTWriter();
         $writer->setPrettyPrint(false);
 
-        $lineString = $this->createCircularString($coords, $is3D, $isMeasured);
+        $cs = CoordinateSystem::create($is3D, $isMeasured);
+        $lineString = $this->createCircularString($coords, $cs);
+
         $this->assertSame($wkt, $writer->write($lineString));
     }
 
@@ -110,7 +119,9 @@ class WKTWriterTest extends WKTAbstractTest
         $writer = new WKTWriter();
         $writer->setPrettyPrint(false);
 
-        $compoundCurve = $this->createCompoundCurve($coords, $is3D, $isMeasured);
+        $cs = CoordinateSystem::create($is3D, $isMeasured);
+        $compoundCurve = $this->createCompoundCurve($coords, $cs);
+
         $this->assertSame($wkt, $writer->write($compoundCurve));
     }
 
@@ -127,7 +138,9 @@ class WKTWriterTest extends WKTAbstractTest
         $writer = new WKTWriter();
         $writer->setPrettyPrint(false);
 
-        $polygon = $this->createPolygon($coords, $is3D, $isMeasured);
+        $cs = CoordinateSystem::create($is3D, $isMeasured);
+        $polygon = $this->createPolygon($coords, $cs);
+
         $this->assertSame($wkt, $writer->write($polygon));
     }
 
@@ -144,7 +157,9 @@ class WKTWriterTest extends WKTAbstractTest
         $writer = new WKTWriter();
         $writer->setPrettyPrint(false);
 
-        $triangle = $this->createTriangle($coords, $is3D, $isMeasured);
+        $cs = CoordinateSystem::create($is3D, $isMeasured);
+        $triangle = $this->createTriangle($coords, $cs);
+
         $this->assertSame($wkt, $writer->write($triangle));
     }
 
@@ -161,7 +176,9 @@ class WKTWriterTest extends WKTAbstractTest
         $writer = new WKTWriter();
         $writer->setPrettyPrint(false);
 
-        $polygon = $this->createCurvePolygon($coords, $is3D, $isMeasured);
+        $cs = CoordinateSystem::create($is3D, $isMeasured);
+        $polygon = $this->createCurvePolygon($coords, $cs);
+
         $this->assertSame($wkt, $writer->write($polygon));
     }
 
@@ -178,7 +195,9 @@ class WKTWriterTest extends WKTAbstractTest
         $writer = new WKTWriter();
         $writer->setPrettyPrint(false);
 
-        $polyhedralSurface = $this->createPolyhedralSurface($coords, $is3D, $isMeasured);
+        $cs = CoordinateSystem::create($is3D, $isMeasured);
+        $polyhedralSurface = $this->createPolyhedralSurface($coords, $cs);
+
         $this->assertSame($wkt, $writer->write($polyhedralSurface));
     }
 
@@ -195,7 +214,9 @@ class WKTWriterTest extends WKTAbstractTest
         $writer = new WKTWriter();
         $writer->setPrettyPrint(false);
 
-        $tin = $this->createTIN($coords, $is3D, $isMeasured);
+        $cs = CoordinateSystem::create($is3D, $isMeasured);
+        $tin = $this->createTIN($coords, $cs);
+
         $this->assertSame($wkt, $writer->write($tin));
     }
 
@@ -212,7 +233,9 @@ class WKTWriterTest extends WKTAbstractTest
         $writer = new WKTWriter();
         $writer->setPrettyPrint(false);
 
-        $multiPoint = $this->createMultiPoint($coords, $is3D, $isMeasured);
+        $cs = CoordinateSystem::create($is3D, $isMeasured);
+        $multiPoint = $this->createMultiPoint($coords, $cs);
+
         $this->assertSame($wkt, $writer->write($multiPoint));
     }
 
@@ -229,7 +252,9 @@ class WKTWriterTest extends WKTAbstractTest
         $writer = new WKTWriter();
         $writer->setPrettyPrint(false);
 
-        $multiLineString = $this->createMultiLineString($coords, $is3D, $isMeasured);
+        $cs = CoordinateSystem::create($is3D, $isMeasured);
+        $multiLineString = $this->createMultiLineString($coords, $cs);
+
         $this->assertSame($wkt, $writer->write($multiLineString));
     }
 
@@ -246,7 +271,9 @@ class WKTWriterTest extends WKTAbstractTest
         $writer = new WKTWriter();
         $writer->setPrettyPrint(false);
 
-        $multiPolygon = $this->createMultiPolygon($coords, $is3D, $isMeasured);
+        $cs = CoordinateSystem::create($is3D, $isMeasured);
+        $multiPolygon = $this->createMultiPolygon($coords, $cs);
+
         $this->assertSame($wkt, $writer->write($multiPolygon));
     }
 
@@ -263,15 +290,17 @@ class WKTWriterTest extends WKTAbstractTest
         $writer = new WKTWriter();
         $writer->setPrettyPrint(false);
 
+        $cs = CoordinateSystem::create($is3D, $isMeasured);
+
         if ($coords) {
-            $point = $this->createPoint($coords[0], $is3D, $isMeasured);
-            $lineString = $this->createLineString($coords[1], $is3D, $isMeasured);
+            $point = $this->createPoint($coords[0], $cs);
+            $lineString = $this->createLineString($coords[1], $cs);
             $geometries = [$point, $lineString];
         } else {
             $geometries = [];
         }
 
-        $geometryCollection = GeometryCollection::create($geometries, $is3D, $isMeasured);
+        $geometryCollection = GeometryCollection::create($geometries, $cs);
         $this->assertSame($wkt, $writer->write($geometryCollection));
     }
 

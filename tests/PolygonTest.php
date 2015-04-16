@@ -2,6 +2,7 @@
 
 namespace Brick\Geo\Tests;
 
+use Brick\Geo\CoordinateSystem;
 use Brick\Geo\Exception\GeometryException;
 use Brick\Geo\Polygon;
 
@@ -19,7 +20,8 @@ class PolygonTest extends AbstractTestCase
      */
     public function testEmptyFactoryMethod($is3D, $isMeasured, $srid)
     {
-        $polygon = Polygon::create([], $is3D, $isMeasured, $srid);
+        $cs = CoordinateSystem::create($is3D, $isMeasured, $srid);
+        $polygon = Polygon::create([], $cs);
 
         $this->assertTrue($polygon->isEmpty());
         $this->assertSame($is3D, $polygon->is3D());

@@ -23,25 +23,18 @@ class CurvePolygon extends Surface implements \Countable, \IteratorAggregate
     protected $rings = [];
 
     /**
-     * @param Curve[] $rings
-     * @param boolean $is3D
-     * @param boolean $isMeasured
-     * @param integer $srid
+     * @param Curve[]               $rings
+     * @param CoordinateSystem|null $cs
      *
      * @return static
      *
      * @throws GeometryException
      */
-    public static function create(array $rings, $is3D, $isMeasured, $srid = 0)
+    public static function create(array $rings, CoordinateSystem $cs = null)
     {
-        $is3D       = (bool) $is3D;
-        $isMeasured = (bool) $isMeasured;
+        $cs = self::checkGeometries($rings, Curve::class, $cs);
 
-        $srid = (int) $srid;
-
-        self::checkGeometries($rings, Curve::class, $is3D, $isMeasured, $srid);
-
-        $CurvePolygon = new static(! $rings, $is3D, $isMeasured, $srid);
+        $CurvePolygon = new static($cs, ! $rings);
         $CurvePolygon->rings = array_values($rings);
 
         return $CurvePolygon;

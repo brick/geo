@@ -10,18 +10,11 @@ use Brick\Geo\Exception\GeometryException;
 class Triangle extends Polygon
 {
     /**
-     * @param LineString[] $rings
-     * @param boolean      $is3D
-     * @param boolean      $isMeasured
-     * @param integer      $srid
-     *
-     * @return static
-     *
-     * @throws GeometryException
+     * {@inheritdoc}
      */
-    public static function create(array $rings, $is3D, $isMeasured, $srid = 0)
+    public static function create(array $rings, CoordinateSystem $cs = null)
     {
-        $triangle = parent::create($rings, $is3D, $isMeasured, $srid);
+        $triangle = parent::create($rings, $cs);
 
         if (! $triangle->isEmpty()) {
             if ($triangle->exteriorRing()->numPoints() !== 4) {
