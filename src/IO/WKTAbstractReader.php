@@ -71,7 +71,7 @@ abstract class WKTAbstractReader
         switch ($geometryType) {
             case 'POINT':
                 if ($isEmpty) {
-                    return Point::pointEmpty($cs);
+                    return Point::create([], $cs);
                 }
 
                 return $this->readPointText($parser, $cs);

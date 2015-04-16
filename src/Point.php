@@ -234,16 +234,6 @@ class Point extends Geometry
     }
 
     /**
-     * @param CoordinateSystem $cs
-     *
-     * @return Point
-     */
-    public static function pointEmpty(CoordinateSystem $cs)
-    {
-        return new Point($cs, true);
-    }
-
-    /**
      * Factory method to create a new Point.
      *
      * Deprecated in favor of xy(), xyz(), xym() and xyzm() factory methods.
