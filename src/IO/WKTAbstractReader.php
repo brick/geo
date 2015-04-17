@@ -243,7 +243,7 @@ abstract class WKTAbstractReader
      * @param WKTParser        $parser
      * @param CoordinateSystem $cs
      *
-     * @return LineString
+     * @return CircularString
      */
     private function readCircularStringText(WKTParser $parser, CoordinateSystem $cs)
     {
@@ -257,8 +257,6 @@ abstract class WKTAbstractReader
      * @param CoordinateSystem $cs
      *
      * @return CompoundCurve
-     *
-     * @throws GeometryException
      */
     private function readCompoundCurveText(WKTParser $parser, CoordinateSystem $cs)
     {
@@ -359,7 +357,7 @@ abstract class WKTAbstractReader
      * @param WKTParser        $parser
      * @param CoordinateSystem $cs
      *
-     * @return Polygon
+     * @return Triangle
      */
     private function readTriangleText(WKTParser $parser, CoordinateSystem $cs)
     {
@@ -409,8 +407,6 @@ abstract class WKTAbstractReader
      * @param CoordinateSystem $cs
      *
      * @return GeometryCollection
-     *
-     * @throws GeometryException
      */
     private function readGeometryCollectionText(WKTParser $parser, CoordinateSystem $cs)
     {
@@ -430,8 +426,6 @@ abstract class WKTAbstractReader
      * @param CoordinateSystem $cs
      *
      * @return PolyhedralSurface
-     *
-     * @throws GeometryException
      */
     private function readPolyhedralSurfaceText(WKTParser $parser, CoordinateSystem $cs)
     {
@@ -451,8 +445,6 @@ abstract class WKTAbstractReader
      * @param CoordinateSystem $cs
      *
      * @return TIN
-     *
-     * @throws GeometryException
      */
     private function readTINText(WKTParser $parser, CoordinateSystem $cs)
     {

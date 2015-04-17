@@ -102,7 +102,7 @@ abstract class WKBAbstractReader
      * @param WKBBuffer        $buffer
      * @param CoordinateSystem $cs
      *
-     * @return \Brick\Geo\Point
+     * @return Point
      */
     private function readPoint(WKBBuffer $buffer, CoordinateSystem $cs)
     {
@@ -115,7 +115,7 @@ abstract class WKBAbstractReader
      * @param WKBBuffer        $buffer
      * @param CoordinateSystem $cs
      *
-     * @return \Brick\Geo\LineString
+     * @return LineString
      */
     private function readLineString(WKBBuffer $buffer, CoordinateSystem $cs)
     {
@@ -134,7 +134,7 @@ abstract class WKBAbstractReader
      * @param WKBBuffer        $buffer
      * @param CoordinateSystem $cs
      *
-     * @return \Brick\Geo\LineString
+     * @return CircularString
      */
     private function readCircularString(WKBBuffer $buffer, CoordinateSystem $cs)
     {
@@ -153,7 +153,7 @@ abstract class WKBAbstractReader
      * @param WKBBuffer        $buffer
      * @param CoordinateSystem $cs
      *
-     * @return \Brick\Geo\CompoundCurve
+     * @return CompoundCurve
      */
     private function readCompoundCurve(WKBBuffer $buffer, CoordinateSystem $cs)
     {
@@ -171,7 +171,7 @@ abstract class WKBAbstractReader
      * @param WKBBuffer        $buffer
      * @param CoordinateSystem $cs
      *
-     * @return \Brick\Geo\Polygon
+     * @return Polygon
      */
     private function readPolygon(WKBBuffer $buffer, CoordinateSystem $cs)
     {
@@ -190,7 +190,7 @@ abstract class WKBAbstractReader
      * @param WKBBuffer        $buffer
      * @param CoordinateSystem $cs
      *
-     * @return \Brick\Geo\CurvePolygon
+     * @return CurvePolygon
      */
     private function readCurvePolygon(WKBBuffer $buffer, CoordinateSystem $cs)
     {
@@ -209,7 +209,7 @@ abstract class WKBAbstractReader
      * @param WKBBuffer        $buffer
      * @param CoordinateSystem $cs
      *
-     * @return \Brick\Geo\MultiPoint
+     * @return MultiPoint
      */
     private function readMultiPoint(WKBBuffer $buffer, CoordinateSystem $cs)
     {
@@ -227,7 +227,7 @@ abstract class WKBAbstractReader
      * @param WKBBuffer        $buffer
      * @param CoordinateSystem $cs
      *
-     * @return \Brick\Geo\MultiLineString
+     * @return MultiLineString
      */
     private function readMultiLineString(WKBBuffer $buffer, CoordinateSystem $cs)
     {
@@ -245,7 +245,7 @@ abstract class WKBAbstractReader
      * @param WKBBuffer        $buffer
      * @param CoordinateSystem $cs
      *
-     * @return \Brick\Geo\MultiPolygon
+     * @return MultiPolygon
      */
     private function readMultiPolygon(WKBBuffer $buffer, CoordinateSystem $cs)
     {
@@ -263,7 +263,7 @@ abstract class WKBAbstractReader
      * @param WKBBuffer        $buffer
      * @param CoordinateSystem $cs
      *
-     * @return \Brick\Geo\GeometryCollection
+     * @return GeometryCollection
      */
     private function readGeometryCollection(WKBBuffer $buffer, CoordinateSystem $cs)
     {
@@ -281,7 +281,7 @@ abstract class WKBAbstractReader
      * @param WKBBuffer        $buffer
      * @param CoordinateSystem $cs
      *
-     * @return \Brick\Geo\PolyhedralSurface
+     * @return PolyhedralSurface
      */
     private function readPolyhedralSurface(WKBBuffer $buffer, CoordinateSystem $cs)
     {
@@ -299,7 +299,7 @@ abstract class WKBAbstractReader
      * @param WKBBuffer        $buffer
      * @param CoordinateSystem $cs
      *
-     * @return \Brick\Geo\TIN
+     * @return TIN
      */
     private function readTIN(WKBBuffer $buffer, CoordinateSystem $cs)
     {
@@ -317,7 +317,7 @@ abstract class WKBAbstractReader
      * @param WKBBuffer        $buffer
      * @param CoordinateSystem $cs
      *
-     * @return \Brick\Geo\Triangle
+     * @return Triangle
      */
     private function readTriangle(WKBBuffer $buffer, CoordinateSystem $cs)
     {
