@@ -22,31 +22,61 @@ class LineString extends Curve
     protected $points = [];
 
     /**
-     * @param CoordinateSystem|null    $cs     The coordinate system, optional if points are provided.
-     * @param Point                 ...$points The points that compose the LineString.
+     * Class constructor.
+     *
+     * A LineString must be composed of 2 points or more, or 0 points for an empty LineString.
+     * A LineString with exactly 1 point is not allowed.
+     *
+     * The coordinate system of each of the points must match the one of the LineString.
+     *
+     * @param CoordinateSystem     $cs     The coordinate system of the LineString.
+     * @param Point             ...$points The points that compose the LineString.
+     *
+     * @throws GeometryException
+     */
+    public function __construct(CoordinateSystem $cs, Point ...$points)
+    {
+        parent::__construct($cs, ! $points);
+
+        foreach ($points as $point) {
+            $cs->checkMatches($point->coordinateSystem());
+        }
+
+        if ($points && count($points) < 2) {
+            throw new GeometryException('A LineString must be composed of at least 2 points.');
+        }
+
+        $this->points = $points;
+    }
+
+    /**
+     * Returns a LineString composed of the given points.
+     *
+     * The coordinate system is inferred from the points, so at least one point must be provided.
+     * All points must be using the same coordinate system.
+     *
+     * To explicitly specify the coordinate system and be allowed to create any kind of LineString,
+     * including an empty LineString, use the class constructor instead.
+     *
+     * @param Point ...$points The points that compose the LineString.
      *
      * @return LineString
      *
      * @throws GeometryException
      */
-    public static function create(CoordinateSystem $cs = null, Point ...$points)
+    public static function of(Point ...$points)
     {
-        $cs = self::checkGeometries($points, Point::class, $cs);
-
-        if ($points && count($points) < 2) {
-            throw new GeometryException('A LineString must be made of at least 2 points.');
+        if (! $points) {
+            throw GeometryException::atLeastOneGeometryExpected(static::class, __FUNCTION__);
         }
 
-        $lineString = new LineString($cs, ! $points);
-        $lineString->points = $points;
-
-        return $lineString;
+        return new LineString($points[0]->coordinateSystem(), ...$points);
     }
 
     /**
      * Creates a LineString from an array of Points.
      *
-     * @deprecated Use create() instead.
+     * @deprecated Use of() instead.
      *
      * @param Point[] $points
      *
@@ -58,7 +88,7 @@ class LineString extends Curve
      */
     public static function factory(array $points)
     {
-        return static::create(null, ...$points);
+        return LineString::of(...$points);
     }
 
     /**

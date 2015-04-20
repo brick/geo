@@ -20,12 +20,12 @@ class LoadMultiLineStringData implements FixtureInterface {
         $point1 = Point::xy(0,0);
         $point2 = Point::xy(1,0);
         $point3 = Point::xy(1,1);
-        $lineString1 = LineString::create(null, $point1, $point2, $point3);
+        $lineString1 = LineString::of($point1, $point2, $point3);
 
         $point4 = Point::xy(2,2);
         $point5 = Point::xy(3,2);
         $point6 = Point::xy(3,3);
-        $lineString2 = LineString::create(null, $point4, $point5, $point6);
+        $lineString2 = LineString::of($point4, $point5, $point6);
 
         $multilineString1 = new MultiLineStringEntity();
         $multilineString1->setMultiLineString(MultiLineString::create([$lineString1, $lineString2]));

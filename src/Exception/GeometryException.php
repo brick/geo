@@ -145,4 +145,15 @@ class GeometryException extends \Exception
 
         return $geometryType;
     }
+
+    /**
+     * @param string $className
+     * @param string $methodName
+     *
+     * @return GeometryException
+     */
+    public static function atLeastOneGeometryExpected($className, $methodName)
+    {
+        return new self(sprintf('%s::%s() expects at least 1 geometry, 0 given.', $className, $methodName));
+    }
 }

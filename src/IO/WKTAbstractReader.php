@@ -71,14 +71,14 @@ abstract class WKTAbstractReader
         switch ($geometryType) {
             case 'POINT':
                 if ($isEmpty) {
-                    return Point::create($cs);
+                    return new Point($cs);
                 }
 
                 return $this->readPointText($parser, $cs);
 
             case 'LINESTRING':
                 if ($isEmpty) {
-                    return LineString::create($cs);
+                    return new LineString($cs);
                 }
 
                 return $this->readLineStringText($parser, $cs);
@@ -181,7 +181,7 @@ abstract class WKTAbstractReader
             $coords[] = $parser->getNextNumber();
         }
 
-        return Point::create($cs, ...$coords);
+        return new Point($cs, ...$coords);
     }
 
     /**
@@ -234,7 +234,7 @@ abstract class WKTAbstractReader
     {
         $points = $this->readMultiPoint($parser, $cs);
 
-        return LineString::create($cs, ...$points);
+        return new LineString($cs, ...$points);
     }
 
     /**

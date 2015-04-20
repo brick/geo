@@ -182,4 +182,20 @@ class CoordinateSystem
     {
         return $this->hasZ ? 3 : 2;
     }
+
+    /**
+     * Checks that this CoordinateSystem matches another.
+     *
+     * @param CoordinateSystem $other
+     *
+     * @return void
+     *
+     * @throws GeometryException
+     */
+    public function checkMatches(CoordinateSystem $other)
+    {
+        if ($other != $this) {
+            throw new GeometryException('Cannot mix geometries with different coordinate systems.');
+        }
+    }
 }

@@ -343,7 +343,7 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
      */
     final protected function createPoint(array $coords, CoordinateSystem $cs)
     {
-        return Point::create($cs, ...$coords);
+        return new Point($cs, ...$coords);
     }
 
     /**
@@ -360,7 +360,7 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
             $points[] = $this->createPoint($point, $cs);
         }
 
-        return LineString::create($cs, ...$points);
+        return new LineString($cs, ...$points);
     }
 
     /**

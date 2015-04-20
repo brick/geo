@@ -43,18 +43,16 @@ class Point extends Geometry
     private $m;
 
     /**
-     * Creates a Point from an array of coordinates.
-     *
-     * @param CoordinateSystem    $cs
-     * @param float            ...$coords
+     * @param CoordinateSystem    $cs     The coordinate system.
+     * @param float            ...$coords The point coordinates; can be empty for an empty point.
      *
      * @return Point
      *
      * @throws GeometryException
      */
-    public static function create(CoordinateSystem $cs, ...$coords)
+    public function __construct(CoordinateSystem $cs, ...$coords)
     {
-        $point = new Point($cs, ! $coords);
+        parent::__construct($cs, ! $coords);
 
         if ($coords) {
             if (count($coords) !== $cs->coordinateDimension()) {
@@ -66,24 +64,22 @@ class Point extends Geometry
                 ));
             }
 
-            $point->x = (float) $coords[0];
-            $point->y = (float) $coords[1];
+            $this->x = (float) $coords[0];
+            $this->y = (float) $coords[1];
 
             $hasZ = $cs->hasZ();
             $hasM = $cs->hasM();
 
             if ($hasZ) {
-                $point->z = (float) $coords[2];
+                $this->z = (float) $coords[2];
 
                 if ($hasM) {
-                    $point->m = (float) $coords[3];
+                    $this->m = (float) $coords[3];
                 }
             } elseif ($hasM) {
-                $point->m = (float) $coords[2];
+                $this->m = (float) $coords[2];
             }
         }
-
-        return $point;
     }
 
     /**
@@ -97,14 +93,7 @@ class Point extends Geometry
      */
     public static function xy($x, $y, $srid = 0)
     {
-        $cs = CoordinateSystem::xy($srid);
-
-        $point = new Point($cs, false);
-
-        $point->x = (float) $x;
-        $point->y = (float) $y;
-
-        return $point;
+        return new Point(CoordinateSystem::xy($srid), $x, $y);
     }
 
     /**
@@ -119,15 +108,7 @@ class Point extends Geometry
      */
     public static function xyz($x, $y, $z, $srid = 0)
     {
-        $cs = CoordinateSystem::xyz($srid);
-
-        $point = new Point($cs, false);
-
-        $point->x = (float) $x;
-        $point->y = (float) $y;
-        $point->z = (float) $z;
-
-        return $point;
+        return new Point(CoordinateSystem::xyz($srid), $x, $y, $z);
     }
 
     /**
@@ -142,15 +123,7 @@ class Point extends Geometry
      */
     public static function xym($x, $y, $m, $srid = 0)
     {
-        $cs = CoordinateSystem::xym($srid);
-
-        $point = new Point($cs, false);
-
-        $point->x = (float) $x;
-        $point->y = (float) $y;
-        $point->m = (float) $m;
-
-        return $point;
+        return new Point(CoordinateSystem::xym($srid), $x, $y, $m);
     }
 
     /**
@@ -166,16 +139,7 @@ class Point extends Geometry
      */
     public static function xyzm($x, $y, $z, $m, $srid = 0)
     {
-        $cs = CoordinateSystem::xyzm($srid);
-
-        $point = new Point($cs, false);
-
-        $point->x = (float) $x;
-        $point->y = (float) $y;
-        $point->z = (float) $z;
-        $point->m = (float) $m;
-
-        return $point;
+        return new Point(CoordinateSystem::xyzm($srid), $x, $y, $z, $m);
     }
 
     /**
@@ -187,9 +151,7 @@ class Point extends Geometry
      */
     public static function xyEmpty($srid = 0)
     {
-        $cs = CoordinateSystem::xy($srid);
-
-        return new Point($cs, true);
+        return new Point(CoordinateSystem::xy($srid));
     }
 
     /**
@@ -201,9 +163,7 @@ class Point extends Geometry
      */
     public static function xyzEmpty($srid = 0)
     {
-        $cs = CoordinateSystem::xyz($srid);
-
-        return new Point($cs, true);
+        return new Point(CoordinateSystem::xyz($srid));
     }
 
     /**
@@ -215,9 +175,7 @@ class Point extends Geometry
      */
     public static function xymEmpty($srid = 0)
     {
-        $cs = CoordinateSystem::xym($srid);
-
-        return new Point($cs, true);
+        return new Point(CoordinateSystem::xym($srid));
     }
 
     /**
@@ -229,15 +187,11 @@ class Point extends Geometry
      */
     public static function xyzmEmpty($srid = 0)
     {
-        $cs = CoordinateSystem::xyzm($srid);
-
-        return new Point($cs, true);
+        return new Point(CoordinateSystem::xyzm($srid));
     }
 
     /**
      * Factory method to create a new Point.
-     *
-     * Deprecated in favor of xy(), xyz(), xym() and xyzm() factory methods.
      *
      * @deprecated
      *
@@ -253,28 +207,19 @@ class Point extends Geometry
     {
         if ($z !== null && $m !== null) {
             $cs = CoordinateSystem::xyzm($srid);
+            $coords = [$x, $y, $z, $m];
         } elseif ($z !== null) {
             $cs = CoordinateSystem::xyz($srid);
+            $coords = [$x, $y, $z];
         } elseif ($m !== null) {
             $cs = CoordinateSystem::xym($srid);
+            $coords = [$x, $y, $m];
         } else {
             $cs = CoordinateSystem::xy($srid);
+            $coords = [$x, $y];
         }
 
-        $point = new Point($cs, false);
-
-        $point->x = (float) $x;
-        $point->y = (float) $y;
-
-        if ($z !== null) {
-            $point->z = (float) $z;
-        }
-
-        if ($m !== null) {
-            $point->m = (float) $m;
-        }
-
-        return $point;
+        return new Point($cs, ...$coords);
     }
 
     /**
