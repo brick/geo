@@ -174,6 +174,18 @@ class CurvePolygonProxy extends CurvePolygon implements ProxyInterface
     /**
      * {@inheritdoc}
      */
+    public function interiorRings()
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->interiorRings();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function toArray()
     {
         if ($this->proxyGeometry === null) {
@@ -277,6 +289,18 @@ class CurvePolygonProxy extends CurvePolygon implements ProxyInterface
         }
 
         return $this->proxyGeometry->isMeasured();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function coordinateSystem()
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->coordinateSystem();
     }
 
 }

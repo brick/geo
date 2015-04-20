@@ -162,6 +162,18 @@ class MultiSurfaceProxy extends MultiSurface implements ProxyInterface
     /**
      * {@inheritdoc}
      */
+    public function geometries()
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->geometries();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function dimension()
     {
         if ($this->proxyGeometry === null) {
@@ -277,6 +289,18 @@ class MultiSurfaceProxy extends MultiSurface implements ProxyInterface
         }
 
         return $this->proxyGeometry->isMeasured();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function coordinateSystem()
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->coordinateSystem();
     }
 
 }

@@ -35,7 +35,7 @@ foreach ($classes as $class) {
     $methods = '';
 
     foreach ($class->getMethods(ReflectionMethod::IS_PUBLIC) as $method) {
-        if ($method->isStatic()) {
+        if ($method->isConstructor() || $method->isStatic()) {
             continue;
         }
 

@@ -246,6 +246,18 @@ class CurveProxy extends Curve implements ProxyInterface
     /**
      * {@inheritdoc}
      */
+    public function coordinateSystem()
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->coordinateSystem();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function toArray()
     {
         if ($this->proxyGeometry === null) {

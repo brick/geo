@@ -186,6 +186,18 @@ class LineStringProxy extends LineString implements ProxyInterface
     /**
      * {@inheritdoc}
      */
+    public function points()
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->points();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function toArray()
     {
         if ($this->proxyGeometry === null) {
@@ -289,6 +301,18 @@ class LineStringProxy extends LineString implements ProxyInterface
         }
 
         return $this->proxyGeometry->isMeasured();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function coordinateSystem()
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->coordinateSystem();
     }
 
 }

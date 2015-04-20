@@ -162,6 +162,18 @@ class PolyhedralSurfaceProxy extends PolyhedralSurface implements ProxyInterface
     /**
      * {@inheritdoc}
      */
+    public function patches()
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->patches();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function toArray()
     {
         if ($this->proxyGeometry === null) {
@@ -265,6 +277,18 @@ class PolyhedralSurfaceProxy extends PolyhedralSurface implements ProxyInterface
         }
 
         return $this->proxyGeometry->isMeasured();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function coordinateSystem()
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->coordinateSystem();
     }
 
 }

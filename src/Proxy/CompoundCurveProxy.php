@@ -186,6 +186,18 @@ class CompoundCurveProxy extends CompoundCurve implements ProxyInterface
     /**
      * {@inheritdoc}
      */
+    public function curves()
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->curves();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function toArray()
     {
         if ($this->proxyGeometry === null) {
@@ -289,6 +301,18 @@ class CompoundCurveProxy extends CompoundCurve implements ProxyInterface
         }
 
         return $this->proxyGeometry->isMeasured();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function coordinateSystem()
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->coordinateSystem();
     }
 
 }

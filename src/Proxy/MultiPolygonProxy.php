@@ -150,18 +150,6 @@ class MultiPolygonProxy extends MultiPolygon implements ProxyInterface
     /**
      * {@inheritdoc}
      */
-    public function getPolygons()
-    {
-        if ($this->proxyGeometry === null) {
-            $this->load();
-        }
-
-        return $this->proxyGeometry->getPolygons();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function numGeometries()
     {
         if ($this->proxyGeometry === null) {
@@ -181,6 +169,18 @@ class MultiPolygonProxy extends MultiPolygon implements ProxyInterface
         }
 
         return $this->proxyGeometry->geometryN($n);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function geometries()
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->geometries();
     }
 
     /**
@@ -289,6 +289,18 @@ class MultiPolygonProxy extends MultiPolygon implements ProxyInterface
         }
 
         return $this->proxyGeometry->isMeasured();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function coordinateSystem()
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->coordinateSystem();
     }
 
 }
