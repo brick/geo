@@ -5,6 +5,9 @@ $proxyTemplate  = __DIR__ . '/proxy-template.php';
 $classFiles     = __DIR__ . '/src/*.php';
 $classNamespace = 'Brick\Geo';
 
+use Brick\Geo\CoordinateSystem;
+use Brick\Reflection\ReflectionTools;
+
 require __DIR__ . '/vendor/autoload.php';
 
 $classes = [];
@@ -27,10 +30,14 @@ $methodTemplate = $matches[1];
 
 $proxyTemplate = str_replace($matches[0], '// METHODS', $proxyTemplate);
 
-$reflectionTools = new Brick\Reflection\ReflectionTools();
+$reflectionTools = new ReflectionTools();
 
 foreach ($classes as $class) {
     $class = new ReflectionClass($classNamespace . '\\' .  $class);
+
+    if ($class->getName() == CoordinateSystem::class) {
+        continue;
+    }
 
     $methods = '';
 
