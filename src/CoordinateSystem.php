@@ -29,29 +29,17 @@ class CoordinateSystem
     private $srid;
 
     /**
-     * Private constructor. Use a factory method to obtain an instance.
+     * Class constructor.
      *
      * @param boolean $hasZ Whether the coordinate system has Z-coordinates.
      * @param boolean $hasM Whether the coordinate system has M-coordinates.
-     * @param integer $srid The Spatial Reference ID of the coordinate system.
+     * @param integer $srid The optional Spatial Reference ID of the coordinate system.
      */
-    private function __construct($hasZ, $hasM, $srid)
+    public function __construct($hasZ, $hasM, $srid = 0)
     {
-        $this->hasZ = $hasZ;
-        $this->hasM = $hasM;
-        $this->srid = $srid;
-    }
-
-    /**
-     * @param boolean $hasZ Whether the coordinate system has Z-coordinates.
-     * @param boolean $hasM Whether the coordinate system has M-coordinates.
-     * @param integer $srid The Spatial Reference ID of the coordinate system.
-     *
-     * @return CoordinateSystem
-     */
-    public static function create($hasZ, $hasM, $srid = 0)
-    {
-        return new self((bool) $hasZ, (bool) $hasM, (int) $srid);
+        $this->hasZ = (bool) $hasZ;
+        $this->hasM = (bool) $hasM;
+        $this->srid = (int)  $srid;
     }
 
     /**

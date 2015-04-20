@@ -26,7 +26,7 @@ class CircularStringTest extends AbstractTestCase
                 return Point::fromText($point, $srid);
             };
 
-            $cs = CoordinateSystem::create($is3D, $isMeasured, $srid);
+            $cs = new CoordinateSystem($is3D, $isMeasured, $srid);
             $circularString = new CircularString($cs, ...array_map($instantiatePoint, $pointsWKT));
             $this->assertWktEquals($circularString, $circularStringWKT, $srid);
         }

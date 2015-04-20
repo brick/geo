@@ -66,7 +66,7 @@ abstract class WKTAbstractReader
             }
         }
 
-        $cs = CoordinateSystem::create($is3D, $isMeasured, $srid);
+        $cs = new CoordinateSystem($is3D, $isMeasured, $srid);
 
         switch ($geometryType) {
             case 'POINT':

@@ -51,7 +51,7 @@ class EWKTWriterTest extends EWKTAbstractTest
         $writer = new EWKTWriter();
         $writer->setPrettyPrint(false);
 
-        $cs = CoordinateSystem::create($is3D, $isMeasured, 4326);
+        $cs = new CoordinateSystem($is3D, $isMeasured, 4326);
         $point = $this->createPoint($coords, $cs);
 
         $this->assertSame($this->toEWKT($wkt, 4326), $writer->write($point));
@@ -70,7 +70,7 @@ class EWKTWriterTest extends EWKTAbstractTest
         $writer = new EWKTWriter();
         $writer->setPrettyPrint(false);
 
-        $cs = CoordinateSystem::create($is3D, $isMeasured, 4326);
+        $cs = new CoordinateSystem($is3D, $isMeasured, 4326);
         $lineString = $this->createLineString($coords, $cs);
 
         $this->assertSame($this->toEWKT($wkt, 4326), $writer->write($lineString));
@@ -89,7 +89,7 @@ class EWKTWriterTest extends EWKTAbstractTest
         $writer = new EWKTWriter();
         $writer->setPrettyPrint(false);
 
-        $cs = CoordinateSystem::create($is3D, $isMeasured, 4326);
+        $cs = new CoordinateSystem($is3D, $isMeasured, 4326);
         $lineString = $this->createCircularString($coords, $cs);
 
         $this->assertSame($this->toEWKT($wkt, 4326), $writer->write($lineString));
@@ -108,7 +108,7 @@ class EWKTWriterTest extends EWKTAbstractTest
         $writer = new EWKTWriter();
         $writer->setPrettyPrint(false);
 
-        $cs = CoordinateSystem::create($is3D, $isMeasured, 4326);
+        $cs = new CoordinateSystem($is3D, $isMeasured, 4326);
         $compoundCurve = $this->createCompoundCurve($coords, $cs);
 
         $this->assertSame($this->toEWKT($wkt, 4326), $writer->write($compoundCurve));
@@ -127,7 +127,7 @@ class EWKTWriterTest extends EWKTAbstractTest
         $writer = new EWKTWriter();
         $writer->setPrettyPrint(false);
 
-        $cs = CoordinateSystem::create($is3D, $isMeasured, 4326);
+        $cs = new CoordinateSystem($is3D, $isMeasured, 4326);
         $polygon = $this->createPolygon($coords, $cs);
 
         $this->assertSame($this->toEWKT($wkt, 4326), $writer->write($polygon));
@@ -146,7 +146,7 @@ class EWKTWriterTest extends EWKTAbstractTest
         $writer = new EWKTWriter();
         $writer->setPrettyPrint(false);
 
-        $cs = CoordinateSystem::create($is3D, $isMeasured, 4326);
+        $cs = new CoordinateSystem($is3D, $isMeasured, 4326);
         $triangle = $this->createTriangle($coords, $cs);
 
         $this->assertSame($this->toEWKT($wkt, 4326), $writer->write($triangle));
@@ -165,7 +165,7 @@ class EWKTWriterTest extends EWKTAbstractTest
         $writer = new EWKTWriter();
         $writer->setPrettyPrint(false);
 
-        $cs = CoordinateSystem::create($is3D, $isMeasured, 4326);
+        $cs = new CoordinateSystem($is3D, $isMeasured, 4326);
         $polygon = $this->createCurvePolygon($coords, $cs);
 
         $this->assertSame($this->toEWKT($wkt, 4326), $writer->write($polygon));
@@ -184,7 +184,7 @@ class EWKTWriterTest extends EWKTAbstractTest
         $writer = new EWKTWriter();
         $writer->setPrettyPrint(false);
 
-        $cs = CoordinateSystem::create($is3D, $isMeasured, 4326);
+        $cs = new CoordinateSystem($is3D, $isMeasured, 4326);
         $polyhedralSurface = $this->createPolyhedralSurface($coords, $cs);
 
         $this->assertSame($this->toEWKT($wkt, 4326), $writer->write($polyhedralSurface));
@@ -203,7 +203,7 @@ class EWKTWriterTest extends EWKTAbstractTest
         $writer = new EWKTWriter();
         $writer->setPrettyPrint(false);
 
-        $cs = CoordinateSystem::create($is3D, $isMeasured, 4326);
+        $cs = new CoordinateSystem($is3D, $isMeasured, 4326);
         $tin = $this->createTIN($coords, $cs);
 
         $this->assertSame($this->toEWKT($wkt, 4326), $writer->write($tin));
@@ -222,7 +222,7 @@ class EWKTWriterTest extends EWKTAbstractTest
         $writer = new EWKTWriter();
         $writer->setPrettyPrint(false);
 
-        $cs = CoordinateSystem::create($is3D, $isMeasured, 4326);
+        $cs = new CoordinateSystem($is3D, $isMeasured, 4326);
         $multiPoint = $this->createMultiPoint($coords, $cs);
 
         $this->assertSame($this->toEWKT($wkt, 4326), $writer->write($multiPoint));
@@ -241,7 +241,7 @@ class EWKTWriterTest extends EWKTAbstractTest
         $writer = new EWKTWriter();
         $writer->setPrettyPrint(false);
 
-        $cs = CoordinateSystem::create($is3D, $isMeasured, 4326);
+        $cs = new CoordinateSystem($is3D, $isMeasured, 4326);
         $multiLineString = $this->createMultiLineString($coords, $cs);
 
         $this->assertSame($this->toEWKT($wkt, 4326), $writer->write($multiLineString));
@@ -260,7 +260,7 @@ class EWKTWriterTest extends EWKTAbstractTest
         $writer = new EWKTWriter();
         $writer->setPrettyPrint(false);
 
-        $cs = CoordinateSystem::create($is3D, $isMeasured, 4326);
+        $cs = new CoordinateSystem($is3D, $isMeasured, 4326);
         $multiPolygon = $this->createMultiPolygon($coords, $cs);
 
         $this->assertSame($this->toEWKT($wkt, 4326), $writer->write($multiPolygon));
@@ -279,7 +279,7 @@ class EWKTWriterTest extends EWKTAbstractTest
         $writer = new EWKTWriter();
         $writer->setPrettyPrint(false);
 
-        $cs = CoordinateSystem::create($is3D, $isMeasured, 4326);
+        $cs = new CoordinateSystem($is3D, $isMeasured, 4326);
 
         if ($coords) {
             $point = $this->createPoint($coords[0], $cs);

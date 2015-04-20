@@ -27,7 +27,7 @@ class PolyhedralSurfaceTest extends AbstractTestCase
                 return Polygon::fromText($patch, $srid);
             };
 
-            $cs = CoordinateSystem::create($is3D, $isMeasured, $srid);
+            $cs = new CoordinateSystem($is3D, $isMeasured, $srid);
             $polyhedralSurface = new PolyhedralSurface($cs, ...array_map($instantiatePolygon, $patchesWKT));
             $this->assertWktEquals($polyhedralSurface, $polyhedralSurfaceWKT, $srid);
         }
