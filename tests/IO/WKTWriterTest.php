@@ -34,8 +34,8 @@ class WKTWriterTest extends WKTAbstractTest
         $point = $this->createPoint($one, $cs);
         $lineString1 = $this->createLineString([$one, $four], $cs);
         $lineString2 = $this->createLineString([$two, $five], $cs);
-        $multiLineString = MultiLineString::create([$lineString1, $lineString2]);
-        $geometryCollection = GeometryCollection::create([$point, $multiLineString]);
+        $multiLineString = MultiLineString::of($lineString1, $lineString2);
+        $geometryCollection = GeometryCollection::of($point, $multiLineString);
 
         $this->assertSame($wkt, $writer->write($geometryCollection));
     }
@@ -305,7 +305,7 @@ class WKTWriterTest extends WKTAbstractTest
             $geometries = [];
         }
 
-        $geometryCollection = GeometryCollection::create($geometries, $cs);
+        $geometryCollection = new GeometryCollection($cs, ...$geometries);
         $this->assertSame($wkt, $writer->write($geometryCollection));
     }
 

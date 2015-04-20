@@ -42,25 +42,54 @@ class Polygon extends Surface
     protected $rings = [];
 
     /**
-     * @param LineString[]          $rings
-     * @param CoordinateSystem|null $cs
+     * Class constructor.
      *
-     * @return static
+     * The coordinate system of each of the rings must match the one of the Polygon.
+     *
+     * @param CoordinateSystem $cs       The coordinate system of the Polygon.
+     * @param LineString       ...$rings The rings that compose the Polygon.
      *
      * @throws GeometryException
      */
-    public static function create(array $rings, CoordinateSystem $cs = null)
+    public function __construct(CoordinateSystem $cs, LineString ...$rings)
     {
-        $cs = self::checkGeometries($rings, LineString::class, $cs);
+        parent::__construct($cs, ! $rings);
 
-        $polygon = new static($cs, ! $rings);
-        $polygon->rings = array_values($rings);
+        if (! $rings) {
+            return;
+        }
 
-        return $polygon;
+        foreach ($rings as $ring) {
+            $cs->checkMatches($ring->coordinateSystem());
+        }
+
+        $this->rings = $rings;
     }
 
     /**
-     * @deprecated Use create() instead.
+     * Returns a Polygon composed of the given rings.
+     *
+     * All rings must be using the same coordinate system.
+     * The coordinate system being inferred from the rings, an empty ring list is not allowed.
+     * To create an empty Polygon, use the class constructor instead.
+     *
+     * @param LineString ...$rings The rings that compose the Polygon.
+     *
+     * @return Polygon
+     *
+     * @throws GeometryException
+     */
+    public static function of(LineString ...$rings)
+    {
+        if (! $rings) {
+            throw GeometryException::atLeastOneGeometryExpected(static::class, __FUNCTION__);
+        }
+
+        return new static($rings[0]->coordinateSystem(), ...$rings);
+    }
+
+    /**
+     * @deprecated Use of() instead.
      *
      * @param LineString[] $rings
      *
@@ -71,10 +100,10 @@ class Polygon extends Surface
     public static function factory(array $rings)
     {
         if (count($rings) === 1 && count(reset($rings)) === 3 + 1) {
-            return Triangle::create($rings);
+            return Triangle::of(...$rings);
         }
 
-        return Polygon::create($rings);
+        return Polygon::of(...$rings);
     }
 
     /**
@@ -100,7 +129,7 @@ class Polygon extends Surface
 
         $ring = LineString::of($p1, $p2, $p3, $p4, $p1);
 
-        return Polygon::create([$ring]);
+        return Polygon::of($ring);
     }
 
     /**

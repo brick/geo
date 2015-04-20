@@ -25,21 +25,50 @@ class CurvePolygon extends Surface
     protected $rings = [];
 
     /**
-     * @param Curve[]               $rings
-     * @param CoordinateSystem|null $cs
+     * Class constructor.
      *
-     * @return static
+     * The coordinate system of each of the rings must match the one of the CurvePolygon.
+     *
+     * @param CoordinateSystem $cs       The coordinate system of the CurvePolygon.
+     * @param Curve            ...$rings The rings that compose the CurvePolygon.
      *
      * @throws GeometryException
      */
-    public static function create(array $rings, CoordinateSystem $cs = null)
+    public function __construct(CoordinateSystem $cs, Curve ...$rings)
     {
-        $cs = self::checkGeometries($rings, Curve::class, $cs);
+        parent::__construct($cs, ! $rings);
 
-        $CurvePolygon = new static($cs, ! $rings);
-        $CurvePolygon->rings = array_values($rings);
+        if (! $rings) {
+            return;
+        }
 
-        return $CurvePolygon;
+        foreach ($rings as $ring) {
+            $cs->checkMatches($ring->coordinateSystem());
+        }
+
+        $this->rings = $rings;
+    }
+
+    /**
+     * Returns a CurvePolygon composed of the given rings.
+     *
+     * All rings must be using the same coordinate system.
+     * The coordinate system being inferred from the rings, an empty ring list is not allowed.
+     * To create an empty CurvePolygon, use the class constructor instead.
+     *
+     * @param Curve ...$rings The rings that compose the CurvePolygon.
+     *
+     * @return CurvePolygon
+     *
+     * @throws GeometryException
+     */
+    public static function of(Curve ...$rings)
+    {
+        if (! $rings) {
+            throw GeometryException::atLeastOneGeometryExpected(static::class, __FUNCTION__);
+        }
+
+        return new static($rings[0]->coordinateSystem(), ...$rings);
     }
 
     /**

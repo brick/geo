@@ -85,77 +85,77 @@ abstract class WKTAbstractReader
 
             case 'CIRCULARSTRING':
                 if ($isEmpty) {
-                    return CircularString::create([], $cs);
+                    return new CircularString($cs);
                 }
 
                 return $this->readCircularStringText($parser, $cs);
 
             case 'COMPOUNDCURVE':
                 if ($isEmpty) {
-                    return CompoundCurve::create([], $cs);
+                    return new CompoundCurve($cs);
                 }
 
                 return $this->readCompoundCurveText($parser, $cs);
 
             case 'POLYGON':
                 if ($isEmpty) {
-                    return Polygon::create([], $cs);
+                    return new Polygon($cs);
                 }
 
                 return $this->readPolygonText($parser, $cs);
 
             case 'CURVEPOLYGON':
                 if ($isEmpty) {
-                    return CurvePolygon::create([], $cs);
+                    return new CurvePolygon($cs);
                 }
 
                 return $this->readCurvePolygonText($parser, $cs);
 
             case 'MULTIPOINT':
                 if ($isEmpty) {
-                    return MultiPoint::create([], $cs);
+                    return new MultiPoint($cs);
                 }
 
                 return $this->readMultiPointText($parser, $cs);
 
             case 'MULTILINESTRING':
                 if ($isEmpty) {
-                    return MultiLineString::create([], $cs);
+                    return new MultiLineString($cs);
                 }
 
                 return $this->readMultiLineStringText($parser, $cs);
 
             case 'MULTIPOLYGON':
                 if ($isEmpty) {
-                    return MultiPolygon::create([], $cs);
+                    return new MultiPolygon($cs);
                 }
 
                 return $this->readMultiPolygonText($parser, $cs);
 
             case 'GEOMETRYCOLLECTION':
                 if ($isEmpty) {
-                    return GeometryCollection::create([], $cs);
+                    return new GeometryCollection($cs);
                 }
 
                 return $this->readGeometryCollectionText($parser, $cs);
 
             case 'POLYHEDRALSURFACE':
                 if ($isEmpty) {
-                    return PolyhedralSurface::create([], $cs);
+                    return new PolyhedralSurface($cs);
                 }
 
                 return $this->readPolyhedralSurfaceText($parser, $cs);
 
             case 'TIN':
                 if ($isEmpty) {
-                    return TIN::create([], $cs);
+                    return new TIN($cs);
                 }
 
                 return $this->readTINText($parser, $cs);
 
             case 'TRIANGLE':
                 if ($isEmpty) {
-                    return Triangle::create([], $cs);
+                    return new Triangle($cs);
                 }
 
             return $this->readTriangleText($parser, $cs);
@@ -249,7 +249,7 @@ abstract class WKTAbstractReader
     {
         $points = $this->readMultiPoint($parser, $cs);
 
-        return CircularString::create($points, $cs);
+        return new CircularString($cs, ...$points);
     }
 
     /**
@@ -273,7 +273,7 @@ abstract class WKTAbstractReader
             $nextToken = $parser->getNextCloserOrComma();
         } while ($nextToken === ',');
 
-        return CompoundCurve::create($curves, $cs);
+        return new CompoundCurve($cs, ...$curves);
     }
 
     /**
@@ -288,7 +288,7 @@ abstract class WKTAbstractReader
     {
         $points = $this->readMultiPoint($parser, $cs);
 
-        return MultiPoint::create($points, $cs);
+        return new MultiPoint($cs, ...$points);
     }
 
     /**
@@ -324,7 +324,7 @@ abstract class WKTAbstractReader
     {
         $rings = $this->readMultiLineString($parser, $cs);
 
-        return Polygon::create($rings, $cs);
+        return new Polygon($cs, ...$rings);
     }
 
     /**
@@ -348,7 +348,7 @@ abstract class WKTAbstractReader
             $nextToken = $parser->getNextCloserOrComma();
         } while ($nextToken === ',');
 
-        return CurvePolygon::create($curves, $cs);
+        return new CurvePolygon($cs, ...$curves);
     }
 
     /**
@@ -363,7 +363,7 @@ abstract class WKTAbstractReader
     {
         $rings = $this->readMultiLineString($parser, $cs);
 
-        return Triangle::create($rings, $cs);
+        return new Triangle($cs, ...$rings);
     }
 
     /**
@@ -376,9 +376,9 @@ abstract class WKTAbstractReader
      */
     private function readMultiLineStringText(WKTParser $parser, CoordinateSystem $cs)
     {
-        $rings = $this->readMultiLineString($parser, $cs);
+        $lineStrings = $this->readMultiLineString($parser, $cs);
 
-        return MultiLineString::create($rings, $cs);
+        return new MultiLineString($cs, ...$lineStrings);
     }
 
     /**
@@ -399,7 +399,7 @@ abstract class WKTAbstractReader
             $nextToken = $parser->getNextCloserOrComma();
         } while ($nextToken === ',');
 
-        return MultiPolygon::create($polygons, $cs);
+        return new MultiPolygon($cs, ...$polygons);
     }
 
     /**
@@ -418,7 +418,7 @@ abstract class WKTAbstractReader
             $nextToken = $parser->getNextCloserOrComma();
         } while ($nextToken === ',');
 
-        return GeometryCollection::create($geometries, $cs);
+        return new GeometryCollection($cs, ...$geometries);
     }
 
     /**
@@ -437,7 +437,7 @@ abstract class WKTAbstractReader
             $nextToken = $parser->getNextCloserOrComma();
         } while ($nextToken === ',');
 
-        return PolyhedralSurface::create($patches, $cs);
+        return new PolyhedralSurface($cs, ...$patches);
     }
 
     /**
@@ -456,6 +456,6 @@ abstract class WKTAbstractReader
             $nextToken = $parser->getNextCloserOrComma();
         } while ($nextToken === ',');
 
-        return TIN::create($patches, $cs);
+        return new TIN($cs, ...$patches);
     }
 }

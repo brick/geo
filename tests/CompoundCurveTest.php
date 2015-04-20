@@ -28,7 +28,7 @@ class CompoundCurveTest extends AbstractTestCase
             };
 
             $cs = CoordinateSystem::create($is3D, $isMeasured, $srid);
-            $compoundCurve = CompoundCurve::create(array_map($instantiateCurve, $curvesWKT), $cs);
+            $compoundCurve = new CompoundCurve($cs, ...array_map($instantiateCurve, $curvesWKT));
             $this->assertWktEquals($compoundCurve, $compoundCurveWKT, $srid);
         }
     }

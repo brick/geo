@@ -30,6 +30,62 @@ class GeometryCollection extends Geometry
     protected $geometries = [];
 
     /**
+     * Class constructor.
+     *
+     * @param CoordinateSystem $cs
+     * @param Geometry         ...$geometries
+     *
+     * @throws GeometryException
+     */
+    public function __construct(CoordinateSystem $cs, Geometry ...$geometries)
+    {
+        parent::__construct($cs, self::checkEmpty($geometries));
+
+        if (! $geometries) {
+            return;
+        }
+
+        $containedGeometryType = static::containedGeometryType();
+
+        foreach ($geometries as $geometry) {
+            $cs->checkMatches($geometry->coordinateSystem());
+
+            if (! $geometry instanceof $containedGeometryType) {
+                throw new GeometryException(sprintf(
+                    '%s expects instance of %s, instance of %s given.',
+                    static::class,
+                    $containedGeometryType,
+                    get_class($geometry)
+                ));
+            }
+        }
+
+        $this->geometries = $geometries;
+    }
+
+    /**
+     * Returns a GeometryCollection composed of the given geometries.
+     *
+     * All geometries must be using the same coordinate system.
+     * The coordinate system being inferred from the geometries, an empty geometry list is not allowed.
+     * To create an empty GeometryCollection, use the class constructor instead.
+     *
+     * @param Geometry ...$geometries The geometries that compose the GeometryCollection.
+     *
+     * @return static
+     *
+     * @throws GeometryException
+     */
+    public static function of(Geometry ...$geometries)
+    {
+        if (! $geometries) {
+            throw GeometryException::atLeastOneGeometryExpected(static::class, __FUNCTION__);
+        }
+
+        return new static($geometries[0]->coordinateSystem(), ...$geometries);
+    }
+
+    /**
      * @param Geometry[]            $geometries
      * @param CoordinateSystem|null $cs
      *
@@ -48,7 +104,7 @@ class GeometryCollection extends Geometry
     }
 
     /**
-     * @deprecated Use create() instead.
+     * @deprecated Use of() instead.
      *
      * @param array $geometries An array of Geometry objects.
      *
@@ -58,7 +114,7 @@ class GeometryCollection extends Geometry
      */
     public static function factory(array $geometries)
     {
-        return static::create($geometries);
+        return static::of(...$geometries);
     }
 
     /**

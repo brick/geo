@@ -61,14 +61,6 @@ class MultiSurfaceTest extends AbstractTestCase
     }
 
     /**
-     * @expectedException \Brick\Geo\Exception\GeometryException
-     */
-    public function testCreateWithNonSurfaceContentsThrowsException()
-    {
-        MultiSurface::create([Point::xyEmpty()]);
-    }
-
-    /**
      * @dataProvider providerArea
      *
      * @param string $multiSurface The WKT of the MultiSurface to test.

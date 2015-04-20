@@ -377,7 +377,7 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
             $points[] = $this->createPoint($point,$cs);
         }
 
-        return CircularString::create($points, $cs);
+        return new CircularString($cs, ...$points);
     }
 
     /**
@@ -414,7 +414,7 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
             $curves[] = $this->createLineStringOrCircularString($curve, $cs);
         }
 
-        return CompoundCurve::create($curves, $cs);
+        return new CompoundCurve($cs, ...$curves);
     }
 
     /**
@@ -431,7 +431,7 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
             $rings[] = $this->createLineString($ring, $cs);
         }
 
-        return Polygon::create($rings, $cs);
+        return new Polygon($cs, ...$rings);
     }
 
     /**
@@ -448,7 +448,7 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
             $rings[] = $this->createLineString($ring, $cs);
         }
 
-        return Triangle::create($rings, $cs);
+        return new Triangle($cs, ...$rings);
     }
 
     /**
@@ -471,7 +471,7 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
             }
         }
 
-        return CurvePolygon::create($rings, $cs);
+        return new CurvePolygon($cs, ...$rings);
     }
 
     /**
@@ -488,7 +488,7 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
             $points[] = $this->createPoint($point, $cs);
         }
 
-        return MultiPoint::create($points, $cs);
+        return new MultiPoint($cs, ...$points);
     }
 
     /**
@@ -505,7 +505,7 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
             $lineStrings[] = $this->createLineString($lineString, $cs);
         }
 
-        return MultiLineString::create($lineStrings, $cs);
+        return new MultiLineString($cs, ...$lineStrings);
     }
 
     /**
@@ -522,7 +522,7 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
             $polygons[] = $this->createPolygon($polygon, $cs);
         }
 
-        return MultiPolygon::create($polygons, $cs);
+        return new MultiPolygon($cs, ...$polygons);
     }
 
     /**
@@ -539,7 +539,7 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
             $patches[] = $this->createPolygon($patch, $cs);
         }
 
-        return PolyhedralSurface::create($patches, $cs);
+        return new PolyhedralSurface($cs, ...$patches);
     }
 
     /**
@@ -556,7 +556,7 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
             $patches[] = $this->createTriangle($patch, $cs);
         }
 
-        return TIN::create($patches, $cs);
+        return new TIN($cs, ...$patches);
     }
 
     /**

@@ -37,27 +37,56 @@ class PolyhedralSurface extends Surface
     protected $patches = [];
 
     /**
-     * @param Polygon[]             $patches
-     * @param CoordinateSystem|null $cs
+     * Class constructor.
+     *
+     * The coordinate system of each of the patches must match the one of the PolyhedralSurface.
+     *
+     * @param CoordinateSystem $cs         The coordinate system of the PolyhedralSurface.
+     * @param Polygon          ...$patches The patches that compose the PolyhedralSurface.
+     *
+     * @throws GeometryException
+     */
+    public function __construct(CoordinateSystem $cs, Polygon ...$patches)
+    {
+        parent::__construct($cs, ! $patches);
+
+        if (! $patches) {
+            return;
+        }
+
+        foreach ($patches as $patch) {
+            $cs->checkMatches($patch->coordinateSystem());
+        }
+
+        $this->patches = $patches;
+    }
+
+    /**
+     * Returns a PolyhedralSurface composed of the given patches.
+     *
+     * All patches must be using the same coordinate system.
+     * The coordinate system being inferred from the patches, an empty patch list is not allowed.
+     * To create an empty PolyhedralSurface, use the class constructor instead.
+     *
+     * @param Polygon ...$patches The patches that compose the PolyhedralSurface.
      *
      * @return PolyhedralSurface
      *
      * @throws GeometryException
      */
-    public static function create(array $patches, CoordinateSystem $cs = null)
+    public static function of(Polygon ...$patches)
     {
-        $cs = self::checkGeometries($patches, Polygon::class, $cs);
+        if (! $patches) {
+            throw GeometryException::atLeastOneGeometryExpected(static::class, __FUNCTION__);
+        }
 
-        $polyhedralSurface = new static($cs, ! $patches);
-        $polyhedralSurface->patches = array_values($patches);
-
-        return $polyhedralSurface;
+        return new static($patches[0]->coordinateSystem(), ...$patches);
     }
 
     /**
      * Factory method to create a new PolyhedralSurface.
      *
-     * @deprecated Use create() instead.
+     * @deprecated Use of() instead.
      *
      * @param Polygon[] $patches
      *
@@ -67,7 +96,7 @@ class PolyhedralSurface extends Surface
      */
     public static function factory(array $patches)
     {
-        return static::create($patches);
+        return static::of(...$patches);
     }
 
     /**

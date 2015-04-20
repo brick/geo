@@ -29,8 +29,8 @@ class LineString extends Curve
      *
      * The coordinate system of each of the points must match the one of the LineString.
      *
-     * @param CoordinateSystem     $cs     The coordinate system of the LineString.
-     * @param Point             ...$points The points that compose the LineString.
+     * @param CoordinateSystem $cs        The coordinate system of the LineString.
+     * @param Point            ...$points The points that compose the LineString.
      *
      * @throws GeometryException
      */
@@ -38,11 +38,15 @@ class LineString extends Curve
     {
         parent::__construct($cs, ! $points);
 
+        if (! $points) {
+            return;
+        }
+
         foreach ($points as $point) {
             $cs->checkMatches($point->coordinateSystem());
         }
 
-        if ($points && count($points) < 2) {
+        if (count($points) < 2) {
             throw new GeometryException('A LineString must be composed of at least 2 points.');
         }
 
@@ -52,11 +56,9 @@ class LineString extends Curve
     /**
      * Returns a LineString composed of the given points.
      *
-     * The coordinate system is inferred from the points, so at least one point must be provided.
      * All points must be using the same coordinate system.
-     *
-     * To explicitly specify the coordinate system and be allowed to create any kind of LineString,
-     * including an empty LineString, use the class constructor instead.
+     * The coordinate system being inferred from the points, an empty point list is not allowed.
+     * To create an empty LineString, use the class constructor instead.
      *
      * @param Point ...$points The points that compose the LineString.
      *

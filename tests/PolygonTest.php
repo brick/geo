@@ -21,7 +21,7 @@ class PolygonTest extends AbstractTestCase
     public function testEmptyFactoryMethod($is3D, $isMeasured, $srid)
     {
         $cs = CoordinateSystem::create($is3D, $isMeasured, $srid);
-        $polygon = Polygon::create([], $cs);
+        $polygon = new Polygon($cs);
 
         $this->assertTrue($polygon->isEmpty());
         $this->assertSame($is3D, $polygon->is3D());

@@ -21,7 +21,7 @@ class CurvePolygonTest extends AbstractTestCase
     public function testEmptyFactoryMethod($is3D, $isMeasured, $srid)
     {
         $cs = CoordinateSystem::create($is3D, $isMeasured, $srid);
-        $polygon = CurvePolygon::create([], $cs);
+        $polygon = new CurvePolygon($cs);
 
         $this->assertTrue($polygon->isEmpty());
         $this->assertSame($is3D, $polygon->is3D());

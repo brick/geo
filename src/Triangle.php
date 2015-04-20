@@ -12,21 +12,19 @@ class Triangle extends Polygon
     /**
      * {@inheritdoc}
      */
-    public static function create(array $rings, CoordinateSystem $cs = null)
+    public function __construct(CoordinateSystem $cs, LineString ...$rings)
     {
-        $triangle = parent::create($rings, $cs);
+        parent::__construct($cs, ...$rings);
 
-        if (! $triangle->isEmpty()) {
-            if ($triangle->exteriorRing()->numPoints() !== 4) {
+        if (! $this->isEmpty()) {
+            if ($this->exteriorRing()->numPoints() !== 4) {
                 throw new GeometryException('A triangle must have exactly 4 points.');
             }
 
-            if ($triangle->numInteriorRings() !== 0) {
+            if ($this->numInteriorRings() !== 0) {
                 throw new GeometryException('A triangle cannot have interior rings.');
             }
         }
-
-        return $triangle;
     }
 
     /**

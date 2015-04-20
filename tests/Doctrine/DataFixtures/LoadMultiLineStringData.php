@@ -28,7 +28,7 @@ class LoadMultiLineStringData implements FixtureInterface {
         $lineString2 = LineString::of($point4, $point5, $point6);
 
         $multilineString1 = new MultiLineStringEntity();
-        $multilineString1->setMultiLineString(MultiLineString::create([$lineString1, $lineString2]));
+        $multilineString1->setMultiLineString(MultiLineString::of($lineString1, $lineString2));
 
         $manager->persist($multilineString1);
         $manager->flush();

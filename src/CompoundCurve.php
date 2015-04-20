@@ -19,21 +19,29 @@ class CompoundCurve extends Curve
     protected $curves = [];
 
     /**
-     * @param Curve[]               $curves
-     * @param CoordinateSystem|null $cs
+     * Class constructor.
      *
-     * @return CompoundCurve
+     * The coordinate system of each of the curves must match the one of the CompoundCurve.
+     *
+     * @param CoordinateSystem $cs        The coordinate system of the CompoundCurve.
+     * @param Curve            ...$curves The curves that compose the CompoundCurve.
      *
      * @throws GeometryException
      */
-    public static function create(array $curves, CoordinateSystem $cs = null)
+    public function __construct(CoordinateSystem $cs, Curve ...$curves)
     {
-        $cs = self::checkGeometries($curves, Curve::class, $cs);
+        parent::__construct($cs, ! $curves);
+
+        if (! $curves) {
+            return;
+        }
 
         /** @var Curve|null $previousCurve */
         $previousCurve = null;
 
         foreach ($curves as $curve) {
+            $cs->checkMatches($curve->coordinateSystem());
+
             if ($previousCurve) {
                 $endPoint = $previousCurve->endPoint();
                 $startPoint = $curve->startPoint();
@@ -46,10 +54,29 @@ class CompoundCurve extends Curve
             $previousCurve = $curve;
         }
 
-        $compoundCurve = new CompoundCurve($cs, ! $curves);
-        $compoundCurve->curves = array_values($curves);
+        $this->curves = $curves;
+    }
 
-        return $compoundCurve;
+    /**
+     * Returns a CompoundCurve composed of the given curves.
+     *
+     * All curves must be using the same coordinate system.
+     * The coordinate system being inferred from the curves, an empty curve list is not allowed.
+     * To create an empty CompoundCurve, use the class constructor instead.
+     *
+     * @param Curve ...$curves The curves that compose the CompoundCurve.
+     *
+     * @return CompoundCurve
+     *
+     * @throws GeometryException
+     */
+    public static function of(Curve ...$curves)
+    {
+        if (! $curves) {
+            throw GeometryException::atLeastOneGeometryExpected(static::class, __FUNCTION__);
+        }
+
+        return new CompoundCurve($curves[0]->coordinateSystem(), ...$curves);
     }
 
     /**

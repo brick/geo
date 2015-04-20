@@ -22,33 +22,58 @@ class CircularString extends Curve
     protected $points = [];
 
     /**
-     * @param Point[]               $points
-     * @param CoordinateSystem|null $cs
+     * @param CoordinateSystem $cs
+     * @param Point            ...$points
      *
      * @return CircularString
      *
      * @throws GeometryException
      */
-    public static function create(array $points, CoordinateSystem $cs = null)
+    public function __construct(CoordinateSystem $cs, Point ...$points)
     {
-        $cs = self::checkGeometries($points, Point::class, $cs);
+        parent::__construct($cs, ! $points);
 
-        if ($points) {
-            $numPoints = count($points);
-
-            if ($numPoints < 3) {
-                throw new GeometryException('A CircularString must be made of at least 3 points.');
-            }
-
-            if ($numPoints %2 === 0) {
-                throw new GeometryException('A CircularString must have an odd number of points.');
-            }
+        if (! $points) {
+            return;
         }
 
-        $circularString = new CircularString($cs, ! $points);
-        $circularString->points = array_values($points);
+        foreach ($points as $point) {
+            $cs->checkMatches($point->coordinateSystem());
+        }
 
-        return $circularString;
+        $numPoints = count($points);
+
+        if ($numPoints < 3) {
+            throw new GeometryException('A CircularString must be made of at least 3 points.');
+        }
+
+        if ($numPoints %2 === 0) {
+            throw new GeometryException('A CircularString must have an odd number of points.');
+        }
+
+        $this->points = $points;
+    }
+
+    /**
+     * Returns a CircularString composed of the given points.
+     *
+     * All points must be using the same coordinate system.
+     * The coordinate system being inferred from the points, an empty point list is not allowed.
+     * To create an empty CircularString, use the class constructor instead.
+     *
+     * @param Point ...$points The points that compose the CircularString.
+     *
+     * @return CircularString
+     *
+     * @throws GeometryException
+     */
+    public static function of(Point ...$points)
+    {
+        if (! $points) {
+            throw GeometryException::atLeastOneGeometryExpected(static::class, __FUNCTION__);
+        }
+
+        return new CircularString($points[0]->coordinateSystem(), ...$points);
     }
 
     /**

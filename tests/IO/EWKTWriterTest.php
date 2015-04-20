@@ -289,7 +289,7 @@ class EWKTWriterTest extends EWKTAbstractTest
             $geometries = [];
         }
 
-        $geometryCollection = GeometryCollection::create($geometries, $cs);
+        $geometryCollection = new GeometryCollection($cs, ...$geometries);
         $this->assertSame($this->toEWKT($wkt, 4326), $writer->write($geometryCollection));
     }
 }

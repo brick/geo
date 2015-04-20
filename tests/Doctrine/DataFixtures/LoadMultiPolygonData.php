@@ -25,7 +25,7 @@ class LoadMultiPolygonData implements FixtureInterface {
         $point5 = Point::xy(0,0);
 
         $ring1 = LineString::of($point1, $point2, $point3, $point4, $point5);
-        $poly1 = Polygon::create([$ring1]);
+        $poly1 = Polygon::of($ring1);
 
         $point6 = Point::xy(2,2);
         $point7 = Point::xy(3,2);
@@ -34,10 +34,10 @@ class LoadMultiPolygonData implements FixtureInterface {
         $point10 = Point::xy(2,2);
 
         $ring2 = LineString::of($point6, $point7, $point8, $point9, $point10);
-        $poly2 = Polygon::create([$ring2]);
+        $poly2 = Polygon::of($ring2);
 
         $multiPoly1 = new MultiPolygonEntity();
-        $multiPoly1->setMultiPolygon(MultiPolygon::create([$poly1, $poly2]));
+        $multiPoly1->setMultiPolygon(MultiPolygon::of($poly1, $poly2));
 
         $manager->persist($multiPoly1);
         $manager->flush();

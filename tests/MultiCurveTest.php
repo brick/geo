@@ -4,7 +4,6 @@ namespace Brick\Geo\Tests;
 
 use Brick\Geo\Exception\GeometryEngineException;
 use Brick\Geo\MultiCurve;
-use Brick\Geo\Point;
 
 /**
  * Unit tests for class MultiCurve.
@@ -58,14 +57,6 @@ class MultiCurveTest extends AbstractTestCase
             ['010700000000000000'],
             ['01ee03000000000000'],
         ];
-    }
-
-    /**
-     * @expectedException \Brick\Geo\Exception\GeometryException
-     */
-    public function testCreateWithNonCurveContentsThrowsException()
-    {
-        MultiCurve::create([Point::xyEmpty()]);
     }
 
     /**

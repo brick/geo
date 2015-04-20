@@ -43,7 +43,7 @@ class Point extends Geometry
     private $m;
 
     /**
-     * @param CoordinateSystem    $cs     The coordinate system.
+     * @param CoordinateSystem $cs        The coordinate system.
      * @param float            ...$coords The point coordinates; can be empty for an empty point.
      *
      * @return Point

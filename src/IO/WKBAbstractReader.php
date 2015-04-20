@@ -146,7 +146,7 @@ abstract class WKBAbstractReader
             $points[] = $this->readPoint($buffer, $cs);
         }
 
-        return CircularString::create($points, $cs);
+        return new CircularString($cs, ...$points);
     }
 
     /**
@@ -164,7 +164,7 @@ abstract class WKBAbstractReader
             $curves[] = $this->readGeometry($buffer, $cs->SRID());
         }
 
-        return CompoundCurve::create($curves, $cs);
+        return new CompoundCurve($cs, ...$curves);
     }
 
     /**
@@ -183,7 +183,7 @@ abstract class WKBAbstractReader
             $rings[] = $this->readLineString($buffer, $cs);
         }
 
-        return Polygon::create($rings, $cs);
+        return new Polygon($cs, ...$rings);
     }
 
     /**
@@ -202,7 +202,7 @@ abstract class WKBAbstractReader
             $rings[] = $this->readGeometry($buffer, $cs->SRID());
         }
 
-        return CurvePolygon::create($rings, $cs);
+        return new CurvePolygon($cs, ...$rings);
     }
 
     /**
@@ -220,7 +220,7 @@ abstract class WKBAbstractReader
             $points[] = $this->readGeometry($buffer, $cs->SRID());
         }
 
-        return MultiPoint::create($points, $cs);
+        return new MultiPoint($cs, ...$points);
     }
 
     /**
@@ -238,7 +238,7 @@ abstract class WKBAbstractReader
             $lineStrings[] = $this->readGeometry($buffer, $cs->SRID());
         }
 
-        return MultiLineString::create($lineStrings, $cs);
+        return new MultiLineString($cs, ...$lineStrings);
     }
 
     /**
@@ -256,7 +256,7 @@ abstract class WKBAbstractReader
             $polygons[] = $this->readGeometry($buffer, $cs->SRID());
         }
 
-        return MultiPolygon::create($polygons, $cs);
+        return new MultiPolygon($cs, ...$polygons);
     }
 
     /**
@@ -274,7 +274,7 @@ abstract class WKBAbstractReader
             $geometries[] = $this->readGeometry($buffer, $cs->SRID());
         }
 
-        return GeometryCollection::create($geometries, $cs);
+        return new GeometryCollection($cs, ...$geometries);
     }
 
     /**
@@ -292,7 +292,7 @@ abstract class WKBAbstractReader
             $patches[] = $this->readGeometry($buffer, $cs->SRID());
         }
 
-        return PolyhedralSurface::create($patches, $cs);
+        return new PolyhedralSurface($cs, ...$patches);
     }
 
     /**
@@ -310,7 +310,7 @@ abstract class WKBAbstractReader
             $patches[] = $this->readGeometry($buffer, $cs->SRID());
         }
 
-        return TIN::create($patches, $cs);
+        return new TIN($cs, ...$patches);
     }
 
     /**
@@ -329,6 +329,6 @@ abstract class WKBAbstractReader
             $rings[] = $this->readLineString($buffer, $cs);
         }
 
-        return Triangle::create($rings, $cs);
+        return new Triangle($cs, ...$rings);
     }
 }
