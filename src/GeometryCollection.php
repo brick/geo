@@ -30,50 +30,6 @@ class GeometryCollection extends Geometry implements \Countable, \IteratorAggreg
     protected $geometries = [];
 
     /**
-     * @param Geometry[] $geometries
-     * @param integer    $srid
-     *
-     * @return static
-     */
-    public static function xy(array $geometries, $srid = 0)
-    {
-        return self::create($geometries, CoordinateSystem::xy($srid));
-    }
-
-    /**
-     * @param Geometry[] $geometries
-     * @param integer    $srid
-     *
-     * @return static
-     */
-    public static function xyz(array $geometries, $srid = 0)
-    {
-        return self::create($geometries, CoordinateSystem::xyz($srid));
-    }
-
-    /**
-     * @param Geometry[] $geometries
-     * @param integer    $srid
-     *
-     * @return static
-     */
-    public static function xym(array $geometries, $srid = 0)
-    {
-        return self::create($geometries, CoordinateSystem::xym($srid));
-    }
-
-    /**
-     * @param Geometry[] $geometries
-     * @param integer    $srid
-     *
-     * @return static
-     */
-    public static function xyzm(array $geometries, $srid = 0)
-    {
-        return self::create($geometries, CoordinateSystem::xyzm($srid));
-    }
-
-    /**
      * @param Geometry[]            $geometries
      * @param CoordinateSystem|null $cs
      *

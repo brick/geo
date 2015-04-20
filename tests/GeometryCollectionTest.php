@@ -86,7 +86,7 @@ class GeometryCollectionTest extends AbstractTestCase
         $point = Point::fromText('POINT (1 2)');
         $lineString = LineString::fromText('LINESTRING (1 2, 3 4)');
 
-        $geometryCollection = GeometryCollection::xy([$point, $lineString]);
+        $geometryCollection = GeometryCollection::create([$point, $lineString]);
 
         $this->assertInstanceOf(\Countable::class, $geometryCollection);
         $this->assertSame(2, count($geometryCollection));
