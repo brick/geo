@@ -360,7 +360,7 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
             $points[] = $this->createPoint($point, $cs);
         }
 
-        return LineString::create($points, $cs);
+        return LineString::create($cs, ...$points);
     }
 
     /**

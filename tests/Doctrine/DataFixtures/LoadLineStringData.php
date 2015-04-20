@@ -21,7 +21,7 @@ class LoadLineStringData implements FixtureInterface {
         $point3 = Point::xy(1,1);
 
         $lineString1 = new LineStringEntity();
-        $lineString1->setLineString(LineString::create([$point1, $point2, $point3]));
+        $lineString1->setLineString(LineString::create(null, $point1, $point2, $point3));
 
         $manager->persist($lineString1);
         $manager->flush();

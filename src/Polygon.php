@@ -98,7 +98,7 @@ class Polygon extends Surface
         $p3 = Point::xy($x2, $y2);
         $p4 = Point::xy($x1, $y2);
 
-        $ring = LineString::create([$p1, $p2, $p3, $p4, $p1]);
+        $ring = LineString::create(null, $p1, $p2, $p3, $p4, $p1);
 
         return Polygon::create([$ring]);
     }

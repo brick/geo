@@ -127,7 +127,7 @@ abstract class WKBAbstractReader
             $points[] = $this->readPoint($buffer, $cs);
         }
 
-        return LineString::create($points, $cs);
+        return LineString::create($cs, ...$points);
     }
 
     /**

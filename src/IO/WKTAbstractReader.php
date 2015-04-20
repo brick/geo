@@ -78,7 +78,7 @@ abstract class WKTAbstractReader
 
             case 'LINESTRING':
                 if ($isEmpty) {
-                    return LineString::create([], $cs);
+                    return LineString::create($cs);
                 }
 
                 return $this->readLineStringText($parser, $cs);
@@ -234,7 +234,7 @@ abstract class WKTAbstractReader
     {
         $points = $this->readMultiPoint($parser, $cs);
 
-        return LineString::create($points, $cs);
+        return LineString::create($cs, ...$points);
     }
 
     /**

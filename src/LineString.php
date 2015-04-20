@@ -22,14 +22,14 @@ class LineString extends Curve
     protected $points = [];
 
     /**
-     * @param Point[]               $points The points that compose the LineString.
-     * @param CoordinateSystem|null $cs     The coordinate system, optional if the point array is not empty.
+     * @param CoordinateSystem|null    $cs     The coordinate system, optional if points are provided.
+     * @param Point                 ...$points The points that compose the LineString.
      *
      * @return LineString
      *
      * @throws GeometryException
      */
-    public static function create(array $points, CoordinateSystem $cs = null)
+    public static function create(CoordinateSystem $cs = null, Point ...$points)
     {
         $cs = self::checkGeometries($points, Point::class, $cs);
 
@@ -38,7 +38,7 @@ class LineString extends Curve
         }
 
         $lineString = new LineString($cs, ! $points);
-        $lineString->points = array_values($points);
+        $lineString->points = $points;
 
         return $lineString;
     }
@@ -58,7 +58,7 @@ class LineString extends Curve
      */
     public static function factory(array $points)
     {
-        return static::create($points);
+        return static::create(null, ...$points);
     }
 
     /**
