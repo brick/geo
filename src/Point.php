@@ -191,38 +191,6 @@ class Point extends Geometry
     }
 
     /**
-     * Factory method to create a new Point.
-     *
-     * @deprecated
-     *
-     * @param float      $x    The x-coordinate.
-     * @param float      $y    The y-coordinate.
-     * @param float|null $z    The z-coordinate, optional.
-     * @param float|null $m    The m-coordinate, optional.
-     * @param integer    $srid The SRID, optional.
-     *
-     * @return Point
-     */
-    public static function factory($x, $y, $z = null, $m = null, $srid = 0)
-    {
-        if ($z !== null && $m !== null) {
-            $cs = CoordinateSystem::xyzm($srid);
-            $coords = [$x, $y, $z, $m];
-        } elseif ($z !== null) {
-            $cs = CoordinateSystem::xyz($srid);
-            $coords = [$x, $y, $z];
-        } elseif ($m !== null) {
-            $cs = CoordinateSystem::xym($srid);
-            $coords = [$x, $y, $m];
-        } else {
-            $cs = CoordinateSystem::xy($srid);
-            $coords = [$x, $y];
-        }
-
-        return new Point($cs, ...$coords);
-    }
-
-    /**
      * Returns the x-coordinate value for this Point.
      *
      * Returns NULL if the Point is empty.

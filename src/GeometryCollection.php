@@ -86,38 +86,6 @@ class GeometryCollection extends Geometry
     }
 
     /**
-     * @param Geometry[]            $geometries
-     * @param CoordinateSystem|null $cs
-     *
-     * @return static
-     *
-     * @throws GeometryException
-     */
-    public static function create(array $geometries, CoordinateSystem $cs = null)
-    {
-        $cs = self::checkGeometries($geometries, static::containedGeometryType(), $cs);
-
-        $geometryCollection = new static($cs, self::checkEmpty($geometries));
-        $geometryCollection->geometries = array_values($geometries);
-
-        return $geometryCollection;
-    }
-
-    /**
-     * @deprecated Use of() instead.
-     *
-     * @param array $geometries An array of Geometry objects.
-     *
-     * @return static
-     *
-     * @throws GeometryException If the array contains objects not of the current type.
-     */
-    public static function factory(array $geometries)
-    {
-        return static::of(...$geometries);
-    }
-
-    /**
      * Returns the number of geometries in this GeometryCollection.
      *
      * @return integer

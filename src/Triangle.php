@@ -28,26 +28,6 @@ class Triangle extends Polygon
     }
 
     /**
-     * Builds a Triangle from an array of LineString objects.
-     *
-     * @param LineString[] $rings
-     *
-     * @return Triangle
-     *
-     * @throws GeometryException
-     */
-    public static function factory(array $rings)
-    {
-        $triangle = parent::factory($rings);
-
-        if (! $triangle instanceof Triangle) {
-            throw new GeometryException('The LineString(s) provided do not form a Triangle');
-        }
-
-        return $triangle;
-    }
-
-    /**
      * @noproxy
      *
      * {@inheritdoc}

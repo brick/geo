@@ -49,7 +49,7 @@ abstract class Geometry implements \Countable, \IteratorAggregate
     protected $isEmpty;
 
     /**
-     * Private constructor. Use a factory method to obtain an instance.
+     * Class constructor.
      *
      * @param CoordinateSystem $coordinateSystem The coordinate system of this geometry.
      * @param boolean          $isEmpty          Whether this geometry is empty. Must be validated as a boolean.

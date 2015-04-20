@@ -76,24 +76,6 @@ class LineString extends Curve
     }
 
     /**
-     * Creates a LineString from an array of Points.
-     *
-     * @deprecated Use of() instead.
-     *
-     * @param Point[] $points
-     *
-     * @return static The LineString instance.
-     *
-     * @throws GeometryException If the array contains non-Point objects,
-     *                           the result is not of the expected type,
-     *                           or dimensionality is mixed.
-     */
-    public static function factory(array $points)
-    {
-        return LineString::of(...$points);
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function startPoint()

@@ -89,25 +89,9 @@ class Polygon extends Surface
     }
 
     /**
-     * @deprecated Use of() instead.
-     *
-     * @param LineString[] $rings
-     *
-     * @return Polygon
-     *
-     * @throws GeometryException
-     */
-    public static function factory(array $rings)
-    {
-        if (count($rings) === 1 && count(reset($rings)) === 3 + 1) {
-            return Triangle::of(...$rings);
-        }
-
-        return Polygon::of(...$rings);
-    }
-
-    /**
      * Creates a rectangle from two corner 2D points.
+     *
+     * @deprecated Will be removed soon.
      *
      * @param Point $a The first corner point.
      * @param Point $b The second corner point.

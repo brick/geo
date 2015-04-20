@@ -84,22 +84,6 @@ class PolyhedralSurface extends Surface
     }
 
     /**
-     * Factory method to create a new PolyhedralSurface.
-     *
-     * @deprecated Use of() instead.
-     *
-     * @param Polygon[] $patches
-     *
-     * @return PolyhedralSurface
-     *
-     * @throws GeometryException
-     */
-    public static function factory(array $patches)
-    {
-        return static::of(...$patches);
-    }
-
-    /**
      * @return integer
      */
     public function numPatches()
