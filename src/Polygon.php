@@ -35,6 +35,8 @@ class Polygon extends Surface implements \Countable, \IteratorAggregate
      * The first one represents the exterior ring, and the
      * (optional) other ones represent the interior rings of the Polygon.
      *
+     * An empty Polygon contains no rings.
+     *
      * @var LineString[]
      */
     protected $rings = [];

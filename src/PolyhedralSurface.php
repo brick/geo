@@ -30,6 +30,8 @@ class PolyhedralSurface extends Surface implements \Countable, \IteratorAggregat
     /**
      * The polygons that compose this PolyhedralSurface.
      *
+     * An empty PolyhedralSurface contains no polygons.
+     *
      * @var Polygon[]
      */
     protected $patches = [];

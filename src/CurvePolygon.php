@@ -18,6 +18,8 @@ class CurvePolygon extends Surface implements \Countable, \IteratorAggregate
      * The first one represents the exterior ring, and the
      * (optional) other ones represent the interior rings of the CurvePolygon.
      *
+     * An empty CurvePolygon contains no rings.
+     *
      * @var Curve[]
      */
     protected $rings = [];

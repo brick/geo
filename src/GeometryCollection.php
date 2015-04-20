@@ -21,7 +21,9 @@ use Brick\Geo\Exception\GeometryException;
 class GeometryCollection extends Geometry implements \Countable, \IteratorAggregate
 {
     /**
-     * An array of Geometry objects in the collection.
+     * The geometries that compose this GeometryCollection.
+     *
+     * This array can be empty.
      *
      * @var Geometry[]
      */

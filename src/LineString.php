@@ -14,6 +14,9 @@ class LineString extends Curve implements \Countable, \IteratorAggregate
     /**
      * The Points that compose this LineString.
      *
+     * An empty LineString contains no points.
+     * A non-empty LineString contains a minimum of 2 points.
+     *
      * @var Point[]
      */
     protected $points = [];

@@ -12,6 +12,8 @@ class CompoundCurve extends Curve implements \Countable, \IteratorAggregate
     /**
      * The Curves that compose this CompoundCurve.
      *
+     * This array can be empty.
+     *
      * @var Curve[]
      */
     protected $curves = [];

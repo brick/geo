@@ -15,6 +15,8 @@ class CircularString extends Curve implements \Countable, \IteratorAggregate
     /**
      * The Points that compose this CircularString.
      *
+     * An empty CircularString contains no points.
+     *
      * @var Point[]
      */
     protected $points = [];
