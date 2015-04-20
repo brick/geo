@@ -43,26 +43,27 @@ class Point extends Geometry
     private $m;
 
     /**
-     * Creates a Point from an array of coordinates, and a Coordinate System.
+     * Creates a Point from an array of coordinates.
      *
-     * @param array            $coords
-     * @param CoordinateSystem $cs
+     * @param CoordinateSystem    $cs
+     * @param float            ...$coords
      *
      * @return Point
      *
      * @throws GeometryException
      */
-    public static function create(array $coords, CoordinateSystem $cs)
+    public static function create(CoordinateSystem $cs, ...$coords)
     {
         $point = new Point($cs, ! $coords);
 
         if ($coords) {
-            $dim = $cs->coordinateDimension();
-
-            for ($i = 0; $i < $dim; $i++) {
-                if (! isset($coords[$i])) {
-                    throw new GeometryException('Not enough coordinates provided to Point::create().');
-                }
+            if (count($coords) !== $cs->coordinateDimension()) {
+                throw new GeometryException(sprintf(
+                    'Expected %d coordinates for Point %s, got %d.',
+                    $cs->coordinateDimension(),
+                    $cs->coordinateName(),
+                    count($coords)
+                ));
             }
 
             $point->x = (float) $coords[0];

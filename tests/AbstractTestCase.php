@@ -343,7 +343,7 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
      */
     final protected function createPoint(array $coords, CoordinateSystem $cs)
     {
-        return Point::create($coords, $cs);
+        return Point::create($cs, ...$coords);
     }
 
     /**

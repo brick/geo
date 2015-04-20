@@ -108,7 +108,7 @@ abstract class WKBAbstractReader
     {
         $coords = $buffer->readDoubles($cs->coordinateDimension());
 
-        return Point::create(array_values($coords), $cs);
+        return Point::create($cs, ...$coords);
     }
 
     /**

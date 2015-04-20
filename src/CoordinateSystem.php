@@ -134,6 +134,26 @@ class CoordinateSystem
     }
 
     /**
+     * Returns a name for the coordinates in this system, such as XY or XYZ.
+     *
+     * @return string
+     */
+    public function coordinateName()
+    {
+        $name = 'XY';
+
+        if ($this->hasZ) {
+            $name .= 'Z';
+        }
+
+        if ($this->hasM) {
+            $name .= 'M';
+        }
+
+        return $name;
+    }
+
+    /**
      * Returns the coordinate dimension of this coordinate system.
      *
      * @return integer 2 for (X,Y), 3 for (X,Y,Z) and (X,Y,M), 4 for (X,Y,Z,M).

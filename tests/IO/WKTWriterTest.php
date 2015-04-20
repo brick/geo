@@ -26,9 +26,14 @@ class WKTWriterTest extends WKTAbstractTest
 
         $cs = CoordinateSystem::create($is3D, false);
 
-        $point = $this->createPoint([1, 2, 3], $cs);
-        $lineString1 = $this->createLineString([[1, 2, 3], [4, 5, 6]], $cs);
-        $lineString2 = $this->createLineString([[2, 3, 4], [5, 6, 7]], $cs);
+        $one  = $is3D ? [1, 2, 3] : [1, 2];
+        $two  = $is3D ? [2, 3, 4] : [2, 3];
+        $four = $is3D ? [4, 5, 6] : [4, 5];
+        $five = $is3D ? [5, 6, 7] : [5, 6];
+
+        $point = $this->createPoint($one, $cs);
+        $lineString1 = $this->createLineString([$one, $four], $cs);
+        $lineString2 = $this->createLineString([$two, $five], $cs);
         $multiLineString = MultiLineString::create([$lineString1, $lineString2]);
         $geometryCollection = GeometryCollection::create([$point, $multiLineString]);
 
