@@ -35,16 +35,16 @@ abstract class Geometry
     const TRIANGLE           = 17;
 
     /**
+     * @var CoordinateSystem
+     */
+    protected $coordinateSystem;
+
+    /**
      * Whether this geometry is empty.
      *
      * @var boolean
      */
     protected $isEmpty;
-
-    /**
-     * @var CoordinateSystem
-     */
-    protected $coordinateSystem;
 
     /**
      * Private constructor. Use a factory method to obtain an instance.
