@@ -2,8 +2,9 @@
 
 namespace Brick\Geo\Tests;
 
-use Brick\Geo\CoordinateSystem;
 use Brick\Geo\Exception\GeometryException;
+use Brick\Geo\CoordinateSystem;
+use Brick\Geo\LineString;
 use Brick\Geo\Polygon;
 
 /**
@@ -12,13 +13,13 @@ use Brick\Geo\Polygon;
 class PolygonTest extends AbstractTestCase
 {
     /**
-     * @dataProvider providerEmptyFactoryMethod
+     * @dataProvider providerConstructorEmpty
      *
      * @param boolean $is3D
      * @param boolean $isMeasured
      * @param integer $srid
      */
-    public function testEmptyFactoryMethod($is3D, $isMeasured, $srid)
+    public function testConstructorEmpty($is3D, $isMeasured, $srid)
     {
         $cs = new CoordinateSystem($is3D, $isMeasured, $srid);
         $polygon = new Polygon($cs);
@@ -32,7 +33,7 @@ class PolygonTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerEmptyFactoryMethod()
+    public function providerConstructorEmpty()
     {
         return [
             [false, false, 0],
@@ -42,7 +43,166 @@ class PolygonTest extends AbstractTestCase
             [false, false, 4326],
             [true ,false, 4326],
             [false, true, 4326],
-            [true, true, 4326]
+            [true, true, 4326],
+        ];
+    }
+
+    /**
+     * @dataProvider providerConstructor
+     *
+     * @param string[] $ringsWKT
+     * @param string   $polygonWKT
+     * @param boolean  $hasZ
+     * @param boolean  $hasM
+     * @param integer  $srid
+     */
+    public function testConstructor(array $ringsWKT, $polygonWKT, $hasZ, $hasM, $srid)
+    {
+        $rings = [];
+
+        foreach ($ringsWKT as $lineStringWKT) {
+            $rings[] = LineString::fromText($lineStringWKT, $srid);
+        }
+
+        $cs = new CoordinateSystem($hasZ, $hasM, $srid);
+        $polygon = new Polygon($cs, ...$rings);
+        $this->assertWktEquals($polygon, $polygonWKT, $srid);
+    }
+
+    /**
+     * @return \Generator
+     */
+    public function providerConstructor()
+    {
+        $tests = [
+            [['LINESTRING (0 0, 0 3, 3 3, 3 0)', 'LINESTRING (1 1, 1 2, 2 2, 2 1, 1 1)'], 'POLYGON ((0 0, 0 3, 3 3, 3 0), (1 1, 1 2, 2 2, 2 1, 1 1))', false, false],
+            [['LINESTRING Z (0 0 1, 0 3 1, 3 3 1, 3 0 1, 0 0 1)'], 'POLYGON Z ((0 0 1, 0 3 1, 3 3 1, 3 0 1, 0 0 1))', true, false],
+            [['LINESTRING M (0 0 1, 0 3 2, 3 3 3, 3 0 4, 0 0 1)'], 'POLYGON M ((0 0 1, 0 3 2, 3 3 3, 3 0 4, 0 0 1))', false, true],
+            [['LINESTRING ZM (0 0 1 1, 0 1 1 2, 1 1 1 3, 0 0 1 1)'], 'POLYGON ZM ((0 0 1 1, 0 1 1 2, 1 1 1 3, 0 0 1 1))', true, true],
+        ];
+
+        foreach ($tests as $test) {
+            foreach ([0, 1] as $srid) {
+                yield array_merge($test, [$srid]);
+            }
+        }
+    }
+
+    /**
+     * @dataProvider providerConstructorWithCoordinateSystemMix
+     * @expectedException \Brick\Geo\Exception\GeometryException
+     *
+     * @param string  $ringWKT  The WKT of the outer ring of the polygon.
+     * @param integer $ringSRID The SRID of the outer ring of the polygon.
+     * @param boolean $hasZ     Whether the coordinate system has Z coordinates.
+     * @param boolean $hasM     Whether the coordinate system has M coordinates.
+     * @param boolean $srid     The SRID of the coordinate system.
+     */
+    public function testConstructorWithCoordinateSystemMix($ringWKT, $ringSRID, $hasZ, $hasM, $srid)
+    {
+        $cs = new CoordinateSystem($hasZ, $hasM, $srid);
+        $ring = LineString::fromText($ringWKT, $ringSRID);
+        new Polygon($cs, $ring);
+    }
+
+    /**
+     * @return array
+     */
+    public function providerConstructorWithCoordinateSystemMix()
+    {
+        return [
+            ['LINESTRING (0 0, 0 1, 1 1, 0 0)', 0, false, false, 1],
+            ['LINESTRING (0 0, 0 1, 1 1, 0 0)', 0, true, false, 0],
+            ['LINESTRING (0 0, 0 1, 1 1, 0 0)', 0, false, true, 0],
+            ['LINESTRING Z (0 0 1, 0 1 1, 1 1 1, 0 0 1)', 1, true, false, 0],
+            ['LINESTRING Z (0 0 1, 0 1 1, 1 1 1, 0 0 1)', 1, false, false, 1],
+            ['LINESTRING Z (0 0 1, 0 1 1, 1 1 1, 0 0 1)', 1, false, true, 1],
+            ['LINESTRING M (0 0 1, 0 1 2, 1 1 3, 0 0 1', 2, false, true, 3],
+            ['LINESTRING M (0 0 1, 0 1 2, 1 1 3, 0 0 1', 2, false, false, 2],
+            ['LINESTRING M (0 0 1, 0 1 2, 1 1 3, 0 0 1)', 2, true, false, 2],
+            ['LINESTRING ZM (0 0 1 1, 0 1 1 2, 1 1 1 3, 0 0 1 1)', 3, true, true, 2],
+            ['LINESTRING ZM (0 0 1 1, 0 1 1 2, 1 1 1 3, 0 0 1 1)', 3, false, true, 3],
+            ['LINESTRING ZM (0 0 1 1, 0 1 1 2, 1 1 1 3, 0 0 1 1)', 3, true, false, 3],
+        ];
+    }
+
+    /**
+     * @dataProvider providerOf
+     *
+     * @param string[] $ringsWKT
+     * @param string   $polygonWKT
+     * @param integer  $srid
+     */
+    public function testOf(array $ringsWKT, $polygonWKT, $srid)
+    {
+        $rings = [];
+
+        foreach ($ringsWKT as $ringWKT) {
+            $rings[] = LineString::fromText($ringWKT, $srid);
+        }
+
+        $polygon = Polygon::of(...$rings);
+        $this->assertWktEquals($polygon, $polygonWKT, $srid);
+    }
+
+    /**
+     * @return \Generator
+     */
+    public function providerOf()
+    {
+        $tests = [
+            [['LINESTRING (0 0, 0 3, 3 3, 3 0)', 'LINESTRING (1 1, 1 2, 2 2, 2 1, 1 1)'], 'POLYGON ((0 0, 0 3, 3 3, 3 0), (1 1, 1 2, 2 2, 2 1, 1 1))'],
+            [['LINESTRING Z (0 0 1, 0 3 1, 3 3 1, 3 0 1, 0 0 1)'], 'POLYGON Z ((0 0 1, 0 3 1, 3 3 1, 3 0 1, 0 0 1))'],
+            [['LINESTRING M (0 0 1, 0 3 2, 3 3 3, 3 0 4, 0 0 1)'], 'POLYGON M ((0 0 1, 0 3 2, 3 3 3, 3 0 4, 0 0 1))'],
+            [['LINESTRING ZM (0 0 1 1, 0 1 1 2, 1 1 1 3, 0 0 1 1)'], 'POLYGON ZM ((0 0 1 1, 0 1 1 2, 1 1 1 3, 0 0 1 1))'],
+        ];
+
+        foreach ($tests as $test) {
+            foreach ([0, 1] as $srid) {
+                yield array_merge($test, [$srid]);
+            }
+        }
+    }
+
+    /**
+     * @expectedException \Brick\Geo\Exception\GeometryException
+     */
+    public function testOfWithNoParameters()
+    {
+        Polygon::of();
+    }
+
+    /**
+     * @dataProvider providerOfWithCoordinateSystemMix
+     * @expectedException \Brick\Geo\Exception\GeometryException
+     *
+     * @param string  $outerRingWKT
+     * @param string  $innerRingWKT
+     * @param integer $outerRingSRID
+     * @param integer $innerRingSRID
+     */
+    public function testOfWithCoordinateSystemMix($outerRingWKT, $innerRingWKT, $outerRingSRID, $innerRingSRID)
+    {
+        $outerRing = LineString::fromText($outerRingWKT, $outerRingSRID);
+        $innerRing = LineString::fromText($innerRingWKT, $innerRingSRID);
+
+        Polygon::of($outerRing, $innerRing);
+    }
+
+    /**
+     * @return array
+     */
+    public function providerOfWithCoordinateSystemMix()
+    {
+        return [
+            ['LINESTRING (0 0, 0 3, 3 3, 0 0)', 'LINESTRING (1 1, 1 2, 2 2, 1 1)', 0, 1],
+            ['LINESTRING (0 0, 0 3, 3 3, 0 0)', 'LINESTRING (1 1, 1 2, 2 2, 1 1)', 1, 0],
+            ['LINESTRING (0 0, 0 3, 3 3, 0 0)', 'LINESTRING Z (1 1 0, 1 2 0, 2 2 0, 1 1 0)', 0, 0],
+            ['LINESTRING Z (0 0 0, 0 3 0, 3 3 0, 0 0 0)', 'LINESTRING (1 1, 1 2, 2 2, 1 1)', 1, 1],
+            ['LINESTRING (0 0, 0 3, 3 3, 0 0)', 'LINESTRING M (1 1 1, 1 2 2, 2 2 3, 1 1 1)', 0, 0],
+            ['LINESTRING M (0 0 1, 0 3 2, 3 3 3, 0 0 1)', 'LINESTRING (1 1, 1 2, 2 2, 1 1)', 1, 1],
+            ['LINESTRING (0 0, 0 3, 3 3, 0 0)', 'LINESTRING ZM (0 0 0 1, 0 3 0 2, 3 3 0 3, 0 0 0 1)', 0, 0],
+            ['LINESTRING ZM (0 0 0 1, 0 3 0 2, 3 3 0 3, 0 0 0 1)', 'LINESTRING M (0 0 1, 0 3 2, 3 3 3, 0 0 1)', 1, 1],
         ];
     }
 
