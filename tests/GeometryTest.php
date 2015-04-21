@@ -319,7 +319,7 @@ class GeometryTest extends AbstractTestCase
      * @param string $geometry The WKT of the geometry to test.
      * @param string $envelope The WKT of the expected envelope.
      */
-    public function envelope($geometry, $envelope)
+    public function testEnvelope($geometry, $envelope)
     {
         $this->assertSame($envelope, Geometry::fromText($geometry)->envelope()->asText());
     }
