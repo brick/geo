@@ -4,6 +4,8 @@ namespace Brick\Geo\Tests\Doctrine;
 
 use Brick\Geo\Point;
 use Brick\Geo\Tests\Doctrine\Fixtures;
+use Brick\Geo\Engine\GeometryEngineRegistry;
+use Brick\Geo\Engine\PDOEngine;
 
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\FixtureInterface;
@@ -52,8 +54,14 @@ class TypeFunctionalTestCase extends DbalFunctionalTestCase
     {
         parent::setUp();
 
-        if (getenv('ENGINE') == 'SQLite3' || getenv('ENGINE') == 'GEOS') {
-            $this->markTestSkipped('The doctrine types currently only work with MySQL and PostgreSQL');
+        if (! GeometryEngineRegistry::has()) {
+            $this->markTestSkipped('This test requires a connection to a database.');
+        }
+
+        $engine = GeometryEngineRegistry::get();
+
+        if (! $engine instanceof PDOEngine) {
+            $this->markTestSkipped('This test currently only works with a PDO connection.');
         }
 
         $this->platform = $this->_conn->getDatabasePlatform();

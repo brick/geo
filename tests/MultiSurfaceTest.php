@@ -76,6 +76,8 @@ class MultiSurfaceTest extends AbstractTestCase
      */
     public function testArea($multiSurface, $area)
     {
+        $this->requiresGeometryEngine();
+
         $multiSurface = MultiSurface::fromText($multiSurface);
         $this->skipIfUnsupportedGeometry($multiSurface);
 
@@ -107,6 +109,8 @@ class MultiSurfaceTest extends AbstractTestCase
      */
     public function testCentroid($multiMultiSurface, $centroid)
     {
+        $this->requiresGeometryEngine();
+
         $multiSurface = MultiSurface::fromText($multiMultiSurface);
         $this->skipIfUnsupportedGeometry($multiSurface);
         $this->assertWktEquals($multiSurface->centroid(), $centroid);
@@ -131,6 +135,8 @@ class MultiSurfaceTest extends AbstractTestCase
      */
     public function testPointOnSurface($multiMultiSurface)
     {
+        $this->requiresGeometryEngine();
+
         if ($this->isMySQL() || $this->isMariaDB()) {
             // MySQL and MariaDB do not support ST_PointOnSurface()
             $this->setExpectedException(GeometryEngineException::class);

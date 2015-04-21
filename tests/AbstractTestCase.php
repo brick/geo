@@ -30,6 +30,20 @@ use Brick\Geo\Triangle;
 class AbstractTestCase extends \PHPUnit_Framework_TestCase
 {
     /**
+     * Marks the current test as requiring a geometry engine to be set.
+     *
+     * If no engine is set, the test will be skipped.
+     *
+     * @return void
+     */
+    final protected function requiresGeometryEngine()
+    {
+        if (! GeometryEngineRegistry::has()) {
+            $this->markTestSkipped('This test requires a geometry engine to be set.');
+        }
+    }
+
+    /**
      * @param string|null $operatorAndVersion
      *
      * @return boolean

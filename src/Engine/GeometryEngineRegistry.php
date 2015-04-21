@@ -7,12 +7,22 @@ use Brick\Geo\Exception\GeometryException;
 /**
  * This class holds the GeometryEngine implementation to use for calculations.
  */
-class GeometryEngineRegistry
+final class GeometryEngineRegistry
 {
     /**
      * @var GeometryEngine|null
      */
     private static $engine;
+
+    /**
+     * Returns whether a geometry engine is set.
+     *
+     * @return boolean
+     */
+    public static function has()
+    {
+        return self::$engine !== null;
+    }
 
     /**
      * Sets the GeometryEngine to use for calculations.
@@ -21,7 +31,7 @@ class GeometryEngineRegistry
      *
      * @return void
      */
-    final public static function set(GeometryEngine $engine)
+    public static function set(GeometryEngine $engine)
     {
         self::$engine = $engine;
     }
@@ -33,7 +43,7 @@ class GeometryEngineRegistry
      *
      * @throws \Brick\Geo\Exception\GeometryException
      */
-    final public static function get()
+    public static function get()
     {
         if (self::$engine === null) {
             throw GeometryException::noEngineSet();

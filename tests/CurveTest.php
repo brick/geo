@@ -17,6 +17,8 @@ class CurveTest extends AbstractTestCase
      */
     public function testLength($curve, $length)
     {
+        $this->requiresGeometryEngine();
+
         $curve = Curve::fromText($curve);
         $this->skipIfUnsupportedGeometry($curve);
 
@@ -140,6 +142,8 @@ class CurveTest extends AbstractTestCase
      */
     public function testIsClosed($curve, $isClosed)
     {
+        $this->requiresGeometryEngine();
+
         $curve = Curve::fromText($curve);
         $this->skipIfUnsupportedGeometry($curve);
 
@@ -180,6 +184,8 @@ class CurveTest extends AbstractTestCase
      */
     public function testIsRing($curve, $isRing)
     {
+        $this->requiresGeometryEngine();
+
         $curve = Curve::fromText($curve);
         $this->skipIfUnsupportedGeometry($curve);
 

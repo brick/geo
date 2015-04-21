@@ -76,6 +76,8 @@ class MultiCurveTest extends AbstractTestCase
      */
     public function testLength($curve, $length)
     {
+        $this->requiresGeometryEngine();
+
         $curve = MultiCurve::fromText($curve);
         $this->skipIfUnsupportedGeometry($curve);
 
@@ -108,6 +110,8 @@ class MultiCurveTest extends AbstractTestCase
      */
     public function testIsClosed($curve, $isClosed)
     {
+        $this->requiresGeometryEngine();
+
         $curve = MultiCurve::fromText($curve);
         $this->skipIfUnsupportedGeometry($curve);
 

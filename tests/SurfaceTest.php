@@ -19,6 +19,8 @@ class SurfaceTest extends AbstractTestCase
      */
     public function testArea($surface, $area)
     {
+        $this->requiresGeometryEngine();
+
         $surface = Surface::fromText($surface);
         $this->skipIfUnsupportedGeometry($surface);
 
@@ -52,6 +54,8 @@ class SurfaceTest extends AbstractTestCase
      */
     public function testCentroid($surface, $centroid)
     {
+        $this->requiresGeometryEngine();
+
         $surface = Surface::fromText($surface);
         $this->skipIfUnsupportedGeometry($surface);
         $this->assertWktEquals($surface->centroid(), $centroid);
@@ -77,6 +81,8 @@ class SurfaceTest extends AbstractTestCase
      */
     public function testPointOnSurface($surface)
     {
+        $this->requiresGeometryEngine();
+
         if ($this->isMySQL() || $this->isMariaDB()) {
             // MySQL and MariaDB do not support ST_PointOnSurface()
             $this->setExpectedException(GeometryEngineException::class);

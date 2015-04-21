@@ -321,6 +321,8 @@ class GeometryTest extends AbstractTestCase
      */
     public function testEnvelope($geometry, $envelope)
     {
+        $this->requiresGeometryEngine();
+
         $this->assertSame($envelope, Geometry::fromText($geometry)->envelope()->asText());
     }
 
@@ -370,6 +372,8 @@ class GeometryTest extends AbstractTestCase
      */
     public function testIsValid($geometry, $isValid)
     {
+        $this->requiresGeometryEngine();
+
         if ($this->isMySQL('< 5.7.6-m16') || $this->isMariaDB('>= 10.0')) {
             $this->setExpectedException(GeometryEngineException::class);
         }
@@ -404,6 +408,8 @@ class GeometryTest extends AbstractTestCase
      */
     public function testIsSimple($geometry, $isSimple)
     {
+        $this->requiresGeometryEngine();
+
         $geometry = Geometry::fromText($geometry);
         $this->skipIfUnsupportedGeometry($geometry);
         $this->assertSame($isSimple, $geometry->isSimple());
@@ -472,6 +478,8 @@ class GeometryTest extends AbstractTestCase
      */
     public function testBoundary($geometry, $boundary)
     {
+        $this->requiresGeometryEngine();
+
         $geometry = Geometry::fromText($geometry);
 
         if ($this->isMySQL() || $this->isMariaDB()) {
@@ -511,6 +519,8 @@ class GeometryTest extends AbstractTestCase
      */
     public function testEquals($geometry1, $geometry2, $equals)
     {
+        $this->requiresGeometryEngine();
+
         $geometry1 = Geometry::fromText($geometry1);
         $geometry2 = Geometry::fromText($geometry2);
 
@@ -551,6 +561,8 @@ class GeometryTest extends AbstractTestCase
      */
     public function testDisjoint($geometry1, $geometry2, $disjoint)
     {
+        $this->requiresGeometryEngine();
+
         $geometry1 = Geometry::fromText($geometry1);
         $geometry2 = Geometry::fromText($geometry2);
 
@@ -583,6 +595,8 @@ class GeometryTest extends AbstractTestCase
      */
     public function testIntersects($geometry1, $geometry2, $intersects)
     {
+        $this->requiresGeometryEngine();
+
         $geometry1 = Geometry::fromText($geometry1);
         $geometry2 = Geometry::fromText($geometry2);
 
@@ -615,6 +629,8 @@ class GeometryTest extends AbstractTestCase
      */
     public function testTouches($geometry1, $geometry2, $touches)
     {
+        $this->requiresGeometryEngine();
+
         $geometry1 = Geometry::fromText($geometry1);
         $geometry2 = Geometry::fromText($geometry2);
 
@@ -649,6 +665,8 @@ class GeometryTest extends AbstractTestCase
      */
     public function testCrosses($geometry1, $geometry2, $crosses)
     {
+        $this->requiresGeometryEngine();
+
         $geometry1 = Geometry::fromText($geometry1);
         $geometry2 = Geometry::fromText($geometry2);
 
@@ -683,6 +701,8 @@ class GeometryTest extends AbstractTestCase
      */
     public function testWithin($geometry1, $geometry2, $within)
     {
+        $this->requiresGeometryEngine();
+
         $geometry1 = Geometry::fromText($geometry1);
         $geometry2 = Geometry::fromText($geometry2);
 
@@ -712,6 +732,8 @@ class GeometryTest extends AbstractTestCase
      */
     public function testContains($geometry1, $geometry2, $contains)
     {
+        $this->requiresGeometryEngine();
+
         $geometry1 = Geometry::fromText($geometry1);
         $geometry2 = Geometry::fromText($geometry2);
 
@@ -741,6 +763,8 @@ class GeometryTest extends AbstractTestCase
      */
     public function testOverlaps($geometry1, $geometry2, $overlaps)
     {
+        $this->requiresGeometryEngine();
+
         $geometry1 = Geometry::fromText($geometry1);
         $geometry2 = Geometry::fromText($geometry2);
 
@@ -768,6 +792,8 @@ class GeometryTest extends AbstractTestCase
      */
     public function testRelate($geometry1, $geometry2, $matrix, $relate)
     {
+        $this->requiresGeometryEngine();
+
         if ($this->isMySQL() || $this->isMariaDB()) {
             $this->setExpectedException(GeometryEngineException::class);
         }
@@ -800,6 +826,8 @@ class GeometryTest extends AbstractTestCase
      */
     public function testLocateAlong($geometry, $measure, $result)
     {
+        $this->requiresGeometryEngine();
+
         if ($this->isGEOS() || $this->isMySQL() || $this->isMariaDB()) {
             $this->setExpectedException(GeometryEngineException::class);
         }
@@ -828,6 +856,8 @@ class GeometryTest extends AbstractTestCase
      */
     public function testLocateBetween($geometry, $mStart, $mEnd, $result)
     {
+        $this->requiresGeometryEngine();
+
         if ($this->isGEOS() || $this->isMySQL() || $this->isMariaDB()) {
             $this->setExpectedException(GeometryEngineException::class);
         }
@@ -855,6 +885,8 @@ class GeometryTest extends AbstractTestCase
      */
     public function testDistance($geometry1, $geometry2, $distance)
     {
+        $this->requiresGeometryEngine();
+
         $geometry1 = Geometry::fromText($geometry1);
         $geometry2 = Geometry::fromText($geometry2);
 
@@ -880,6 +912,8 @@ class GeometryTest extends AbstractTestCase
      */
     public function testBuffer($geometry, $distance)
     {
+        $this->requiresGeometryEngine();
+
         $geometry = Geometry::fromText($geometry);
         $buffer = $geometry->buffer($distance);
 
@@ -914,6 +948,8 @@ class GeometryTest extends AbstractTestCase
      */
     public function testConvexHull($geometry, $result)
     {
+        $this->requiresGeometryEngine();
+
         if ($this->isMySQL('< 5.7.6-m16') || $this->isMariaDB('>= 10.0')) {
             $this->setExpectedException(GeometryEngineException::class);
         }
@@ -945,6 +981,8 @@ class GeometryTest extends AbstractTestCase
      */
     public function testIntersection($geometry1, $geometry2, $result)
     {
+        $this->requiresGeometryEngine();
+
         $geometry1 = Geometry::fromText($geometry1);
         $geometry2 = Geometry::fromText($geometry2);
         $result    = Geometry::fromText($result);
@@ -974,6 +1012,8 @@ class GeometryTest extends AbstractTestCase
      */
     public function testUnion($geometry1, $geometry2, $result)
     {
+        $this->requiresGeometryEngine();
+
         $geometry1 = Geometry::fromText($geometry1);
         $geometry2 = Geometry::fromText($geometry2);
         $result    = Geometry::fromText($result);
@@ -1018,6 +1058,8 @@ class GeometryTest extends AbstractTestCase
      */
     public function testDifference($geometry1, $geometry2, $result)
     {
+        $this->requiresGeometryEngine();
+
         if ($this->isMySQL('< 5.7')) {
             $this->markTestSkipped('MySQL 5.6 difference() implementation is very buggy and should not be used.');
         }
@@ -1050,6 +1092,8 @@ class GeometryTest extends AbstractTestCase
      */
     public function testSymDifference($geometry1, $geometry2, $result)
     {
+        $this->requiresGeometryEngine();
+
         $geometry1 = Geometry::fromText($geometry1);
         $geometry2 = Geometry::fromText($geometry2);
         $result    = Geometry::fromText($result);
@@ -1078,6 +1122,8 @@ class GeometryTest extends AbstractTestCase
      */
     public function testSnapToGrid($geometry, $size, $result)
     {
+        $this->requiresGeometryEngine();
+
         if ($this->isGEOS() || $this->isMySQL() || $this->isMariaDB()) {
             $this->setExpectedException(GeometryEngineException::class);
         }
@@ -1112,6 +1158,8 @@ class GeometryTest extends AbstractTestCase
      */
     public function testSimplify($geometry, $tolerance, $result)
     {
+        $this->requiresGeometryEngine();
+
         if ($this->isMySQL('< 5.7.6-m16') || $this->isMariaDB('>= 10.0') || $this->isSpatiaLite('< 4.1.0')) {
             $this->setExpectedException(GeometryEngineException::class);
         }
@@ -1142,6 +1190,8 @@ class GeometryTest extends AbstractTestCase
      */
     public function testMaxDistance($geometry1, $geometry2, $maxDistance)
     {
+        $this->requiresGeometryEngine();
+
         if ($this->isGEOS() || $this->isMySQL() || $this->isMariaDB() || $this->isSpatiaLite()) {
             $this->setExpectedException(GeometryEngineException::class);
         }
