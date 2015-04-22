@@ -72,12 +72,10 @@ class Point extends Geometry
 
             if ($hasZ) {
                 $this->z = (float) $coords[2];
+            }
 
-                if ($hasM) {
-                    $this->m = (float) $coords[3];
-                }
-            } elseif ($hasM) {
-                $this->m = (float) $coords[2];
+            if ($hasM) {
+                $this->m = (float) $coords[$hasZ ? 3 : 2];
             }
         }
     }
