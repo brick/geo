@@ -145,12 +145,4 @@ class GeometryException extends \Exception
 
         return $geometryType;
     }
-
-    /**
-     * @return GeometryException
-     */
-    public static function noEngineSet()
-    {
-        return new self('A GeometryEngine must be set to support this feature.');
-    }
 }

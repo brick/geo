@@ -10,6 +10,14 @@ namespace Brick\Geo\Exception;
 class GeometryEngineException extends GeometryException
 {
     /**
+     * @return GeometryEngineException
+     */
+    public static function noEngineSet()
+    {
+        return new self('A GeometryEngine must be set to support this feature.');
+    }
+
+    /**
      * @param \Exception $e
      *
      * @return GeometryEngineException

@@ -2,7 +2,7 @@
 
 namespace Brick\Geo\Engine;
 
-use Brick\Geo\Exception\GeometryException;
+use Brick\Geo\Exception\GeometryEngineException;
 
 /**
  * This class holds the GeometryEngine implementation to use for calculations.
@@ -39,14 +39,14 @@ final class GeometryEngineRegistry
     /**
      * Returns the GeometryEngine to use for calculations.
      *
-     * @return GeometryEngine
+     * @return GeometryEngineException
      *
      * @throws \Brick\Geo\Exception\GeometryException
      */
     public static function get()
     {
         if (self::$engine === null) {
-            throw GeometryException::noEngineSet();
+            throw GeometryEngineException::noEngineSet();
         }
 
         return self::$engine;
