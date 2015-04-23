@@ -323,7 +323,10 @@ class GeometryTest extends AbstractTestCase
     {
         $this->requiresGeometryEngine();
 
-        $this->assertSame($envelope, Geometry::fromText($geometry)->envelope()->asText());
+        $geometry = Geometry::fromText($geometry);
+        $envelope = Geometry::fromText($envelope);
+
+        $this->assertGeometryEquals($envelope, $geometry->envelope());
     }
 
     /**
@@ -332,8 +335,9 @@ class GeometryTest extends AbstractTestCase
     public function providerEnvelope()
     {
         return [
-            ['POINT (1 3)', 'POINT (1 3)'],
             ['LINESTRING (0 0, 1 3)', 'POLYGON ((0 0, 0 3, 1 3, 1 0, 0 0))'],
+            ['POLYGON ((0 0, 0 1, 1 1, 0 0))', 'POLYGON ((0 0, 0 1, 1 1, 1 0, 0 0))'],
+            ['MULTIPOINT (1 1, 2 2)', 'POLYGON ((1 1, 1 2, 2 2, 2 1, 1 1))']
         ];
     }
 
