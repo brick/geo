@@ -39,7 +39,7 @@ final class GeometryEngineRegistry
     /**
      * Returns the GeometryEngine to use for calculations.
      *
-     * @return GeometryEngineException
+     * @return GeometryEngine
      *
      * @throws \Brick\Geo\Exception\GeometryException
      */
