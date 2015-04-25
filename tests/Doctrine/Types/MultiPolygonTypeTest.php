@@ -6,13 +6,13 @@ use Brick\Geo\LineString;
 use Brick\Geo\Polygon;
 use Brick\Geo\MultiPolygon;
 use Brick\Geo\Tests\Doctrine\DataFixtures\LoadMultiPolygonData;
-use Brick\Geo\Tests\Doctrine\TypeFunctionalTestCase;
+use Brick\Geo\Tests\Doctrine\FunctionalTestCase;
 use Brick\Geo\Tests\Doctrine\Fixtures\MultiPolygonEntity;
 
 /**
  * Integrations tests for class MultiPolygonType.
  */
-class MultiPolygonTypeTest extends TypeFunctionalTestCase
+class MultiPolygonTypeTest extends FunctionalTestCase
 {
     /**
      * {@inheritdoc}

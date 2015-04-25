@@ -5,13 +5,13 @@ namespace Brick\Geo\Tests\Doctrine\Types;
 use Brick\Geo\Point;
 use Brick\Geo\MultiPoint;
 use Brick\Geo\Tests\Doctrine\DataFixtures\LoadMultiPointData;
-use Brick\Geo\Tests\Doctrine\TypeFunctionalTestCase;
+use Brick\Geo\Tests\Doctrine\FunctionalTestCase;
 use Brick\Geo\Tests\Doctrine\Fixtures\MultiPointEntity;
 
 /**
  * Integrations tests for class MultiPointType.
  */
-class MultiPointTypeTest extends TypeFunctionalTestCase
+class MultiPointTypeTest extends FunctionalTestCase
 {
     /**
      * {@inheritdoc}

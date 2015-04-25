@@ -5,13 +5,13 @@ namespace Brick\Geo\Tests\Doctrine\Types;
 use Brick\Geo\LineString;
 use Brick\Geo\MultiLineString;
 use Brick\Geo\Tests\Doctrine\DataFixtures\LoadMultiLineStringData;
-use Brick\Geo\Tests\Doctrine\TypeFunctionalTestCase;
+use Brick\Geo\Tests\Doctrine\FunctionalTestCase;
 use Brick\Geo\Tests\Doctrine\Fixtures\MultiLineStringEntity;
 
 /**
  * Integrations tests for class MultiLineStringType.
  */
-class MultiLineStringTypeTest extends TypeFunctionalTestCase
+class MultiLineStringTypeTest extends FunctionalTestCase
 {
     /**
      * {@inheritdoc}

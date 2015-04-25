@@ -3,13 +3,13 @@
 namespace Brick\Geo\Tests\Doctrine\Types;
 
 use Brick\Geo\Tests\Doctrine\DataFixtures\LoadPointData;
-use Brick\Geo\Tests\Doctrine\TypeFunctionalTestCase;
+use Brick\Geo\Tests\Doctrine\FunctionalTestCase;
 use Brick\Geo\Tests\Doctrine\Fixtures\PointEntity;
 
 /**
  * Integrations tests for class PointType.
  */
-class PointTypeTest extends TypeFunctionalTestCase
+class PointTypeTest extends FunctionalTestCase
 {
     /**
      * {@inheritdoc}
@@ -26,7 +26,7 @@ class PointTypeTest extends TypeFunctionalTestCase
         $repository = $this->getEntityManager()->getRepository(PointEntity::class);
 
         /** @var PointEntity $pointEntity */
-        $pointEntity = $repository->findOneBy(['id' => 1]);
+        $pointEntity = $repository->findOneBy([]);
         $this->assertNotNull($pointEntity);
 
         $point = $pointEntity->getPoint();

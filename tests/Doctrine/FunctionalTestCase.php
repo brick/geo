@@ -2,6 +2,7 @@
 
 namespace Brick\Geo\Tests\Doctrine;
 
+use Brick\Geo\Doctrine\Functions\GreatCircleDistanceFunction;
 use Brick\Geo\Point;
 use Brick\Geo\Tests\Doctrine\Fixtures;
 use Brick\Geo\Engine\GeometryEngineRegistry;
@@ -20,7 +21,7 @@ use Doctrine\Tests\DbalFunctionalTestCase;
 /**
  * Base class for Doctrine types functional test cases.
  */
-class TypeFunctionalTestCase extends DbalFunctionalTestCase
+abstract class FunctionalTestCase extends DbalFunctionalTestCase
 {
     /**
      * @var MockPlatform
@@ -82,6 +83,9 @@ class TypeFunctionalTestCase extends DbalFunctionalTestCase
         $this->fixtureLoader = new Loader();
 
         $config = Setup::createAnnotationMetadataConfiguration([ __DIR__ . '/Fixtures' ], false);
+
+        $config->addCustomNumericFunction('GreatCircleDistance', GreatCircleDistanceFunction::class);
+
         $this->em = EntityManager::create($this->_conn, $config, $this->platform->getEventManager());
         $this->schemaTool = new SchemaTool($this->em);
 

@@ -5,13 +5,13 @@ namespace Brick\Geo\Tests\Doctrine\Types;
 use Brick\Geo\Point;
 use Brick\Geo\Proxy\GeometryProxy;
 use Brick\Geo\Tests\Doctrine\DataFixtures\LoadGeometryData;
-use Brick\Geo\Tests\Doctrine\TypeFunctionalTestCase;
+use Brick\Geo\Tests\Doctrine\FunctionalTestCase;
 use Brick\Geo\Tests\Doctrine\Fixtures\GeometryEntity;
 
 /**
  * Integrations tests for class GeometryType.
  */
-class GeometryTypeTest extends TypeFunctionalTestCase
+class GeometryTypeTest extends FunctionalTestCase
 {
     /**
      * {@inheritdoc}

@@ -23,12 +23,16 @@ class GreatCircleDistanceFunction extends FunctionNode
     const FORMULA = '(%s * ACOS(SIN(%s) * SIN(%s) + COS(%s) * COS(%s) * COS(%s - %s)))';
 
     /**
-     * The quadratic mean approximation of the average
-     * great-circle circumference of the Earth, in meters.
+     * The average great-circle circumference of the Earth, in meters.
      *
      * @const float
      */
-    const EARTH_RADIUS = 6372797.5559;
+    const EARTH_RADIUS = 6371007.1809;
+
+    /**
+     * The number of radians in a degree.
+     */
+    const DEGREES_TO_RADIANS = 0.0174532925;
 
     /**
      * @var \Doctrine\ORM\Query\AST\Node
@@ -45,6 +49,24 @@ class GreatCircleDistanceFunction extends FunctionNode
      */
     public function getSql(SqlWalker $s)
     {
+        $platform = $s->getConnection()->getDatabasePlatform()->getName();
+
+        switch ($platform) {
+            case 'postgresql':
+                return sprintf(
+                    'ST_Distance_Sphere(%s, %s)',
+                    $this->arg1->dispatch($s),
+                    $this->arg2->dispatch($s)
+                );
+
+            case 'sqlite':
+                return sprintf(
+                    'GreatCircleLength(MakeLine(%s, %s))',
+                    $this->arg1->dispatch($s),
+                    $this->arg2->dispatch($s)
+                );
+        }
+
         return sprintf(
             self::FORMULA,
             self::EARTH_RADIUS,
@@ -79,7 +101,7 @@ class GreatCircleDistanceFunction extends FunctionNode
      */
     private static function x($value)
     {
-        return sprintf('RADIANS(ST_X(%s))', $value);
+        return sprintf('ST_X(%s) * %f', $value, self::DEGREES_TO_RADIANS);
     }
 
     /**
@@ -89,6 +111,6 @@ class GreatCircleDistanceFunction extends FunctionNode
      */
     private function y($value)
     {
-        return sprintf('RADIANS(ST_Y(%s))', $value);
+        return sprintf('ST_Y(%s) * %f', $value, self::DEGREES_TO_RADIANS);
     }
 }

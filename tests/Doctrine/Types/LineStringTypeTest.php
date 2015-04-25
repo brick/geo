@@ -4,13 +4,13 @@ namespace Brick\Geo\Tests\Doctrine\Types;
 
 use Brick\Geo\LineString;
 use Brick\Geo\Tests\Doctrine\DataFixtures\LoadLineStringData;
-use Brick\Geo\Tests\Doctrine\TypeFunctionalTestCase;
+use Brick\Geo\Tests\Doctrine\FunctionalTestCase;
 use Brick\Geo\Tests\Doctrine\Fixtures\LineStringEntity;
 
 /**
  * Integrations tests for class LineStringType.
  */
-class LineStringTypeTest extends TypeFunctionalTestCase
+class LineStringTypeTest extends FunctionalTestCase
 {
     /**
      * {@inheritdoc}

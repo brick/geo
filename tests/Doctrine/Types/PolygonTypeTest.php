@@ -5,13 +5,13 @@ namespace Brick\Geo\Tests\Doctrine\Types;
 use Brick\Geo\LineString;
 use Brick\Geo\Polygon;
 use Brick\Geo\Tests\Doctrine\DataFixtures\LoadPolygonData;
-use Brick\Geo\Tests\Doctrine\TypeFunctionalTestCase;
+use Brick\Geo\Tests\Doctrine\FunctionalTestCase;
 use Brick\Geo\Tests\Doctrine\Fixtures\PolygonEntity;
 
 /**
  * Integrations tests for class PolygonType.
  */
-class PolygonTypeTest extends TypeFunctionalTestCase
+class PolygonTypeTest extends FunctionalTestCase
 {
     /**
      * {@inheritdoc}
