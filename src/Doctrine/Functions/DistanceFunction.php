@@ -2,50 +2,24 @@
 
 namespace Brick\Geo\Doctrine\Functions;
 
-use Doctrine\ORM\Query\AST\Functions\FunctionNode;
-use Doctrine\ORM\Query\Lexer;
-use Doctrine\ORM\Query\SqlWalker;
-use Doctrine\ORM\Query\Parser;
-
 /**
- * Distance() function for geometries.
+ * Distance() function.
  */
-class DistanceFunction extends FunctionNode
+class DistanceFunction extends AbstractFunction
 {
-    /**
-     * @var \Doctrine\ORM\Query\AST\Node
-     */
-    private $firstArg;
-
-    /**
-     * @var \Doctrine\ORM\Query\AST\Node
-     */
-    private $secondArg;
-
     /**
      * {@inheritdoc}
      */
-    public function getSql(SqlWalker $sqlWalker)
+    protected function getSqlFunctionName()
     {
-        return sprintf(
-            'ST_Distance(%s, %s)',
-            $this->firstArg->dispatch($sqlWalker),
-            $this->secondArg->dispatch($sqlWalker)
-        );
+        return 'ST_Distance';
     }
 
     /**
      * {@inheritdoc}
      */
-    public function parse(Parser $parser)
+    protected function getParameterCount()
     {
-        $parser->match(Lexer::T_IDENTIFIER);
-        $parser->match(Lexer::T_OPEN_PARENTHESIS);
-
-        $this->firstArg = $parser->ArithmeticPrimary();
-        $parser->match(Lexer::T_COMMA);
-        $this->secondArg = $parser->ArithmeticPrimary();
-
-        $parser->match(Lexer::T_CLOSE_PARENTHESIS);
+        return 2;
     }
 }

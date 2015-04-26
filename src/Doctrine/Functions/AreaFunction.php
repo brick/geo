@@ -2,42 +2,24 @@
 
 namespace Brick\Geo\Doctrine\Functions;
 
-use Doctrine\ORM\Query\AST\Functions\FunctionNode;
-use Doctrine\ORM\Query\Lexer;
-use Doctrine\ORM\Query\SqlWalker;
-use Doctrine\ORM\Query\Parser;
-
 /**
- * Area() function for geometries.
+ * Area() function.
  */
-class AreaFunction extends FunctionNode
+class AreaFunction extends AbstractFunction
 {
-    /**
-     * @var \Doctrine\ORM\Query\AST\Node
-     */
-    private $arg;
-
     /**
      * {@inheritdoc}
      */
-    public function getSql(SqlWalker $sqlWalker)
+    protected function getSqlFunctionName()
     {
-        return sprintf(
-            'ST_Area(%s)',
-            $this->arg->dispatch($sqlWalker)
-        );
+        return 'ST_Area';
     }
 
     /**
      * {@inheritdoc}
      */
-    public function parse(Parser $parser)
+    protected function getParameterCount()
     {
-        $parser->match(Lexer::T_IDENTIFIER);
-        $parser->match(Lexer::T_OPEN_PARENTHESIS);
-
-        $this->arg = $parser->ArithmeticPrimary();
-
-        $parser->match(Lexer::T_CLOSE_PARENTHESIS);
+        return 1;
     }
 }
