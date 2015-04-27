@@ -2,8 +2,6 @@
 
 namespace Brick\Geo;
 
-use Brick\Geo\Exception\GeometryException;
-
 /**
  * Represents the dimensionality and spatial reference system of a geometry.
  */
@@ -139,8 +137,6 @@ class CoordinateSystem
      * Returns the coordinate dimension of this coordinate system.
      *
      * @return integer 2 for (X,Y), 3 for (X,Y,Z) and (X,Y,M), 4 for (X,Y,Z,M).
-     *
-     * @throws GeometryException
      */
     public function coordinateDimension()
     {
