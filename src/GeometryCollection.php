@@ -39,7 +39,16 @@ class GeometryCollection extends Geometry
      */
     public function __construct(CoordinateSystem $cs, Geometry ...$geometries)
     {
-        parent::__construct($cs, self::checkEmpty($geometries));
+        $isEmpty = true;
+
+        foreach ($geometries as $geometry) {
+            if (! $geometry->isEmpty()) {
+                $isEmpty = false;
+                break;
+            }
+        }
+
+        parent::__construct($cs, $isEmpty);
 
         if (! $geometries) {
             return;
@@ -199,21 +208,5 @@ class GeometryCollection extends Geometry
     protected static function containedGeometryType()
     {
         return Geometry::class;
-    }
-
-    /**
-     * @param Geometry[] $geometries
-     *
-     * @return boolean
-     */
-    private static function checkEmpty(array $geometries)
-    {
-        foreach ($geometries as $geometry) {
-            if (! $geometry->isEmpty()) {
-                return false;
-            }
-        }
-
-        return true;
     }
 }
