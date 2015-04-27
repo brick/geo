@@ -90,7 +90,7 @@ class PolygonTest extends AbstractTestCase
 
     /**
      * @dataProvider providerConstructorWithCoordinateSystemMix
-     * @expectedException \Brick\Geo\Exception\GeometryException
+     * @expectedException \Brick\Geo\Exception\CoordinateSystemException
      *
      * @param string  $ringWKT  The WKT of the outer ring of the polygon.
      * @param integer $ringSRID The SRID of the outer ring of the polygon.
@@ -117,8 +117,8 @@ class PolygonTest extends AbstractTestCase
             ['LINESTRING Z (0 0 1, 0 1 1, 1 1 1, 0 0 1)', 1, true, false, 0],
             ['LINESTRING Z (0 0 1, 0 1 1, 1 1 1, 0 0 1)', 1, false, false, 1],
             ['LINESTRING Z (0 0 1, 0 1 1, 1 1 1, 0 0 1)', 1, false, true, 1],
-            ['LINESTRING M (0 0 1, 0 1 2, 1 1 3, 0 0 1', 2, false, true, 3],
-            ['LINESTRING M (0 0 1, 0 1 2, 1 1 3, 0 0 1', 2, false, false, 2],
+            ['LINESTRING M (0 0 1, 0 1 2, 1 1 3, 0 0 1)', 2, false, true, 3],
+            ['LINESTRING M (0 0 1, 0 1 2, 1 1 3, 0 0 1)', 2, false, false, 2],
             ['LINESTRING M (0 0 1, 0 1 2, 1 1 3, 0 0 1)', 2, true, false, 2],
             ['LINESTRING ZM (0 0 1 1, 0 1 1 2, 1 1 1 3, 0 0 1 1)', 3, true, true, 2],
             ['LINESTRING ZM (0 0 1 1, 0 1 1 2, 1 1 1 3, 0 0 1 1)', 3, false, true, 3],
@@ -174,7 +174,7 @@ class PolygonTest extends AbstractTestCase
 
     /**
      * @dataProvider providerOfWithCoordinateSystemMix
-     * @expectedException \Brick\Geo\Exception\GeometryException
+     * @expectedException \Brick\Geo\Exception\CoordinateSystemException
      *
      * @param string  $outerRingWKT
      * @param string  $innerRingWKT

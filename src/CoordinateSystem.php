@@ -2,6 +2,8 @@
 
 namespace Brick\Geo;
 
+use Brick\Geo\Exception\CoordinateSystemException;
+
 /**
  * Represents the dimensionality and spatial reference system of a geometry.
  */
@@ -178,12 +180,12 @@ class CoordinateSystem
      *
      * @return void
      *
-     * @throws GeometryException
+     * @throws CoordinateSystemException
      */
     public function checkMatches(CoordinateSystem $other)
     {
         if ($other != $this) {
-            throw new GeometryException('Cannot mix geometries with different coordinate systems.');
+            throw new CoordinateSystemException('Cannot mix geometries with different coordinate systems.');
         }
     }
 }
