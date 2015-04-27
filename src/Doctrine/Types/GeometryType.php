@@ -97,7 +97,7 @@ class GeometryType extends Type
      */
     public function convertToDatabaseValueSQL($sqlExpr, AbstractPlatform $platform)
     {
-        return sprintf('ST_GeomFromWkb(%s, %d)', $sqlExpr, self::$srid);
+        return sprintf('ST_GeomFromWKB(%s, %d)', $sqlExpr, self::$srid);
     }
 
     /**
