@@ -9,7 +9,7 @@ use Brick\Geo\Exception\GeometryException;
  *
  * Each consecutive pair of Points defines a line segment.
  */
-class LineString extends Curve implements \Countable, \IteratorAggregate
+class LineString extends Curve
 {
     /**
      * The Points that compose this LineString.
@@ -150,9 +150,11 @@ class LineString extends Curve implements \Countable, \IteratorAggregate
     }
 
     /**
-     * Alias for `numPoints()`, required by interface Countable.
+     * Returns the number of points in this LineString.
      *
-     * @return integer
+     * Required by interface Countable.
+     *
+     * {@inheritdoc}
      */
     public function count()
     {
@@ -160,9 +162,11 @@ class LineString extends Curve implements \Countable, \IteratorAggregate
     }
 
     /**
-     * Returns an iterator for the points, required by interface IteratorAggregate.
+     * Returns an iterator for the points in this LineString.
      *
-     * @return \ArrayIterator
+     * Required by interface IteratorAggregate.
+     *
+     * {@inheritdoc}
      */
     public function getIterator()
     {

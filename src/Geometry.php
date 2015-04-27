@@ -13,7 +13,7 @@ use Brick\Geo\IO\WKBWriter;
 /**
  * Geometry is the root class of the hierarchy.
  */
-abstract class Geometry
+abstract class Geometry implements \Countable, \IteratorAggregate
 {
     const GEOMETRY           = 0;
     const POINT              = 1;

@@ -27,7 +27,7 @@ use Brick\Geo\Exception\GeometryException;
  * In the above assertions, interior, closure and exterior have the standard topological definitions. The combination
  * of (a) and (c) makes a Polygon a regular closed Point set. Polygons are simple geometric objects.
  */
-class Polygon extends Surface implements \Countable, \IteratorAggregate
+class Polygon extends Surface
 {
     /**
      * The rings that compose this polygon.
@@ -188,11 +188,11 @@ class Polygon extends Surface implements \Countable, \IteratorAggregate
     }
 
     /**
-     * Returns the total number of rings in this Polygon (exterior + interior).
+     * Returns the number of rings (exterior + interior) in this Polygon.
      *
      * Required by interface Countable.
      *
-     * @return integer
+     * {@inheritdoc}
      */
     public function count()
     {
@@ -200,9 +200,11 @@ class Polygon extends Surface implements \Countable, \IteratorAggregate
     }
 
     /**
+     * Returns an iterator for the rings (exterior + interior) in this Polygon.
+     *
      * Required by interface IteratorAggregate.
      *
-     * @return \ArrayIterator
+     * {@inheritdoc}
      */
     public function getIterator()
     {

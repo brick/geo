@@ -25,7 +25,7 @@ use Brick\Geo\Exception\GeometryException;
  * is the interior of the infinite complement of the enclosed solid. A Ball with some number of voids (holes) inside
  * can thus be presented as one exterior boundary shell, and some number in interior boundary shells.
  */
-class PolyhedralSurface extends Surface implements \Countable, \IteratorAggregate
+class PolyhedralSurface extends Surface
 {
     /**
      * The polygons that compose this PolyhedralSurface.
@@ -161,11 +161,11 @@ class PolyhedralSurface extends Surface implements \Countable, \IteratorAggregat
     }
 
     /**
-     * Returns the total number of rings in this Polygon (exterior + interior).
+     * Returns the number of patches in this PolyhedralSurface.
      *
      * Required by interface Countable.
      *
-     * @return integer
+     * {@inheritdoc}
      */
     public function count()
     {
@@ -173,9 +173,11 @@ class PolyhedralSurface extends Surface implements \Countable, \IteratorAggregat
     }
 
     /**
+     * Returns an iterator for the patches in this PolyhedralSurface.
+     *
      * Required by interface IteratorAggregate.
      *
-     * @return \ArrayIterator
+     * {@inheritdoc}
      */
     public function getIterator()
     {

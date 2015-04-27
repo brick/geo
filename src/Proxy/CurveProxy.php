@@ -267,4 +267,28 @@ class CurveProxy extends Curve implements ProxyInterface
         return $this->proxyGeometry->toArray();
     }
 
+    /**
+     * {@inheritdoc}
+     */
+    public function count()
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->count();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getIterator()
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->getIterator();
+    }
+
 }

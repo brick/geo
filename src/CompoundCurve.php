@@ -7,7 +7,7 @@ use Brick\Geo\Exception\GeometryException;
 /**
  * A CompoundCurve is a collection of zero or more continuous CircularString or LineString instances.
  */
-class CompoundCurve extends Curve implements \Countable, \IteratorAggregate
+class CompoundCurve extends Curve
 {
     /**
      * The Curves that compose this CompoundCurve.
@@ -143,9 +143,11 @@ class CompoundCurve extends Curve implements \Countable, \IteratorAggregate
     }
 
     /**
-     * Alias for `numCurves()`, required by interface Countable.
+     * Returns the number of curves in this CompoundCurve.
      *
-     * @return integer
+     * Required by interface Countable.
+     *
+     * {@inheritdoc}
      */
     public function count()
     {
@@ -153,9 +155,11 @@ class CompoundCurve extends Curve implements \Countable, \IteratorAggregate
     }
 
     /**
-     * Returns an iterator for the curves, required by interface IteratorAggregate.
+     * Returns an iterator for the curves in this CompoundCurve.
      *
-     * @return \ArrayIterator
+     * Required by interface IteratorAggregate.
+     *
+     * {@inheritdoc}
      */
     public function getIterator()
     {

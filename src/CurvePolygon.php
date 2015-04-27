@@ -10,7 +10,7 @@ use Brick\Geo\Exception\GeometryException;
  * A CurvePolygon instance differs from a Polygon instance in that a CurvePolygon instance may contain
  * the following circular arc segments: CircularString and CompoundCurve in addition to LineString.
  */
-class CurvePolygon extends Surface implements \Countable, \IteratorAggregate
+class CurvePolygon extends Surface
 {
     /**
      * The rings that compose this CurvePolygon.
@@ -127,11 +127,11 @@ class CurvePolygon extends Surface implements \Countable, \IteratorAggregate
     }
 
     /**
-     * Returns the total number of rings in this CurvePolygon (exterior + interior).
+     * Returns the number of rings (exterior + interior) in this CurvePolygon.
      *
      * Required by interface Countable.
      *
-     * @return integer
+     * {@inheritdoc}
      */
     public function count()
     {
@@ -139,9 +139,11 @@ class CurvePolygon extends Surface implements \Countable, \IteratorAggregate
     }
 
     /**
+     * Returns an iterator for the rings (exterior + interior) in this CurvePolygon.
+     *
      * Required by interface IteratorAggregate.
      *
-     * @return \ArrayIterator
+     * {@inheritdoc}
      */
     public function getIterator()
     {

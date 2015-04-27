@@ -18,7 +18,7 @@ use Brick\Geo\Exception\GeometryException;
  * Two collections whose difference is only this order are spatially equal and will return equivalent results in any
  * geometric-defined operations.
  */
-class GeometryCollection extends Geometry implements \Countable, \IteratorAggregate
+class GeometryCollection extends Geometry
 {
     /**
      * The geometries that compose this GeometryCollection.
@@ -144,11 +144,11 @@ class GeometryCollection extends Geometry implements \Countable, \IteratorAggreg
     }
 
     /**
-     * Returns the total number of geometries in this GeometryCollection.
+     * Returns the number of geometries in this GeometryCollection.
      *
      * Required by interface Countable.
      *
-     * @return integer
+     * {@inheritdoc}
      */
     public function count()
     {
@@ -156,9 +156,11 @@ class GeometryCollection extends Geometry implements \Countable, \IteratorAggreg
     }
 
     /**
+     * Returns an iterator for the geometries in this GeometryCollection.
+     *
      * Required by interface IteratorAggregate.
      *
-     * @return \ArrayIterator
+     * {@inheritdoc}
      */
     public function getIterator()
     {

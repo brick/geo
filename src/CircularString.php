@@ -10,7 +10,7 @@ use Brick\Geo\Exception\GeometryException;
  * A circular arc segment is a curved segment defined by three points in a two-dimensional plane;
  * the first point cannot be the same as the third point.
  */
-class CircularString extends Curve implements \Countable, \IteratorAggregate
+class CircularString extends Curve
 {
     /**
      * The Points that compose this CircularString.
@@ -140,9 +140,11 @@ class CircularString extends Curve implements \Countable, \IteratorAggregate
     }
 
     /**
-     * Alias for `numPoints()`, required by interface Countable.
+     * Returns the number of points in this CircularString.
      *
-     * @return integer
+     * Required by interface Countable.
+     *
+     * {@inheritdoc}
      */
     public function count()
     {
@@ -150,9 +152,11 @@ class CircularString extends Curve implements \Countable, \IteratorAggregate
     }
 
     /**
-     * Returns an iterator for the points, required by interface IteratorAggregate.
+     * Returns an iterator for the points in this CircularString.
      *
-     * @return \ArrayIterator
+     * Required by interface IteratorAggregate.
+     *
+     * {@inheritdoc}
      */
     public function getIterator()
     {

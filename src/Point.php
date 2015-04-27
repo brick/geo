@@ -12,7 +12,7 @@ use Brick\Geo\Exception\GeometryException;
  *
  * The boundary of a Point is the empty set.
  */
-class Point extends Geometry implements \Countable, \IteratorAggregate
+class Point extends Geometry
 {
     /**
      * The x-coordinate value for this Point, or NULL if the point is empty.
@@ -369,6 +369,8 @@ class Point extends Geometry implements \Countable, \IteratorAggregate
     /**
      * Returns the number of coordinates in this Point.
      *
+     * Required by interface Countable.
+     *
      * {@inheritdoc}
      */
     public function count()
@@ -382,6 +384,8 @@ class Point extends Geometry implements \Countable, \IteratorAggregate
 
     /**
      * Returns an iterator for the coordinates in this Point.
+     *
+     * Required by interface IteratorAggregate.
      *
      * {@inheritdoc}
      */
