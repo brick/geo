@@ -35,6 +35,8 @@ abstract class Geometry
     const TRIANGLE           = 17;
 
     /**
+     * The coordinate system of this geometry.
+     *
      * @var CoordinateSystem
      */
     protected $coordinateSystem;

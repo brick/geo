@@ -2,7 +2,6 @@
 
 namespace Brick\Geo\Tests;
 
-use Brick\Geo\CoordinateSystem;
 use Brick\Geo\LineString;
 use Brick\Geo\Triangle;
 
