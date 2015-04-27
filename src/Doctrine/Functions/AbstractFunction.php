@@ -32,16 +32,19 @@ abstract class AbstractFunction extends FunctionNode
      */
     public function getSql(SqlWalker $sqlWalker)
     {
-        $placeholders = implode(', ', array_fill(0, count($this->args), '%s'));
-        $function = $this->getSqlFunctionName() . '(' . $placeholders . ')';
+        $sql = $this->getSqlFunctionName() . '(';
 
-        $args = [$function];
+        foreach ($this->args as $key => $arg) {
+            if ($key !== 0) {
+                $sql .= ', ';
+            }
 
-        foreach ($this->args as $arg) {
-            $args[] = $arg->dispatch($sqlWalker);
+            $sql .= $arg->dispatch($sqlWalker);
         }
 
-        return call_user_func_array('sprintf', $args);
+        $sql .= ')';
+
+        return $sql;
     }
 
     /**
