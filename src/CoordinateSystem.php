@@ -51,7 +51,7 @@ class CoordinateSystem
      */
     public static function xy($srid = 0)
     {
-        return new self(false, false, (int) $srid);
+        return new self(false, false, $srid);
     }
 
     /**
@@ -63,7 +63,7 @@ class CoordinateSystem
      */
     public static function xyz($srid = 0)
     {
-        return new self(true, false, (int) $srid);
+        return new self(true, false, $srid);
     }
 
     /**
@@ -75,7 +75,7 @@ class CoordinateSystem
      */
     public static function xym($srid = 0)
     {
-        return new self(false, true, (int) $srid);
+        return new self(false, true, $srid);
     }
 
 
@@ -88,7 +88,7 @@ class CoordinateSystem
      */
     public static function xyzm($srid = 0)
     {
-        return new self(true, true, (int) $srid);
+        return new self(true, true, $srid);
     }
 
     /**
