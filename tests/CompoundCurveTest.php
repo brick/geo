@@ -48,7 +48,7 @@ class CompoundCurveTest extends AbstractTestCase
 
     /**
      * @dataProvider providerCreateInvalidCompoundCurve
-     * @expectedException \Brick\Geo\Exception\GeometryException
+     * @expectedException \Brick\Geo\Exception\InvalidGeometryException
      *
      * @param string $compoundCurve The WKT of an invalid CompoundCurve.
      */
@@ -64,7 +64,7 @@ class CompoundCurveTest extends AbstractTestCase
     {
         return [
             ['COMPOUNDCURVE ((1 1))'], // contains an invalid LineString
-            ['COMPOUNDCURVE ((CIRCULARSTRING (1 1, 2 2))'], // contains an invalid CircularString
+            ['COMPOUNDCURVE (CIRCULARSTRING (1 1, 2 2))'], // contains an invalid CircularString
             ['COMPOUNDCURVE ((1 1, 2 2), CIRCULARSTRING (1 1, 2 2, 4 4))'], // incontinuous compound curve
         ];
     }

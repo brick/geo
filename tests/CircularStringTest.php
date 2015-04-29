@@ -47,7 +47,7 @@ class CircularStringTest extends AbstractTestCase
 
     /**
      * @dataProvider providerCreateInvalidCircularString
-     * @expectedException \Brick\Geo\Exception\GeometryException
+     * @expectedException \Brick\Geo\Exception\InvalidGeometryException
      *
      * @param string $circularString The WKT of an invalid CircularString.
      */
@@ -65,7 +65,7 @@ class CircularStringTest extends AbstractTestCase
             ['CIRCULARSTRING (1 1)'],
             ['CIRCULARSTRING (1 1, 2 2)'],
             ['CIRCULARSTRING (1 1, 2 2, 3 3, 4 4)'],
-            ['CIRCULARSTRING (1 1, 2 2, 3 3, 4 4, 5 5, 6 6'],
+            ['CIRCULARSTRING (1 1, 2 2, 3 3, 4 4, 5 5, 6 6)'],
         ];
     }
 

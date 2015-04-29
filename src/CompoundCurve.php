@@ -3,6 +3,7 @@
 namespace Brick\Geo;
 
 use Brick\Geo\Exception\GeometryException;
+use Brick\Geo\Exception\InvalidGeometryException;
 
 /**
  * A CompoundCurve is a collection of zero or more continuous CircularString or LineString instances.
@@ -47,7 +48,7 @@ class CompoundCurve extends Curve
                 $startPoint = $curve->startPoint();
 
                 if ($endPoint != $startPoint) { // on purpose by-value comparison!
-                    throw new GeometryException('Incontinuous compound curve.');
+                    throw new InvalidGeometryException('Incontinuous compound curve.');
                 }
             }
 

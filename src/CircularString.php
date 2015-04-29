@@ -3,6 +3,7 @@
 namespace Brick\Geo;
 
 use Brick\Geo\Exception\GeometryException;
+use Brick\Geo\Exception\InvalidGeometryException;
 
 /**
  * A CircularString is a Curve made of zero or more connected circular arc segments.
@@ -27,7 +28,7 @@ class CircularString extends Curve
      *
      * @return CircularString
      *
-     * @throws GeometryException
+     * @throws InvalidGeometryException
      */
     public function __construct(CoordinateSystem $cs, Point ...$points)
     {
@@ -44,11 +45,11 @@ class CircularString extends Curve
         $numPoints = count($points);
 
         if ($numPoints < 3) {
-            throw new GeometryException('A CircularString must be made of at least 3 points.');
+            throw new InvalidGeometryException('A CircularString must be made of at least 3 points.');
         }
 
-        if ($numPoints %2 === 0) {
-            throw new GeometryException('A CircularString must have an odd number of points.');
+        if ($numPoints % 2 === 0) {
+            throw new InvalidGeometryException('A CircularString must have an odd number of points.');
         }
 
         $this->points = $points;

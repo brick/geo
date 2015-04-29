@@ -18,7 +18,7 @@ class TriangleTest extends AbstractTestCase
     }
 
     /**
-     * @expectedException \Brick\Geo\Exception\GeometryException
+     * @expectedException \Brick\Geo\Exception\InvalidGeometryException
      */
     public function testCreateWithInvalidNumberOfPoints()
     {
@@ -28,7 +28,7 @@ class TriangleTest extends AbstractTestCase
     }
 
     /**
-     * @expectedException \Brick\Geo\Exception\GeometryException
+     * @expectedException \Brick\Geo\Exception\InvalidGeometryException
      */
     public function testCreateWithInteriorRings()
     {

@@ -3,6 +3,7 @@
 namespace Brick\Geo;
 
 use Brick\Geo\Exception\GeometryException;
+use Brick\Geo\Exception\InvalidGeometryException;
 
 /**
  * A LineString is a Curve with linear interpolation between Points.
@@ -47,7 +48,7 @@ class LineString extends Curve
         }
 
         if (count($points) < 2) {
-            throw new GeometryException('A LineString must be composed of at least 2 points.');
+            throw new InvalidGeometryException('A LineString must be composed of at least 2 points.');
         }
 
         $this->points = $points;
