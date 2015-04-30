@@ -17,7 +17,7 @@ use Brick\Geo\PolyhedralSurface;
 use Brick\Geo\TIN;
 use Brick\Geo\Triangle;
 use Brick\Geo\CoordinateSystem;
-use Brick\Geo\Exception\GeometryException;
+use Brick\Geo\Exception\GeometryParseException;
 
 /**
  * Base class for WKTReader and EWKTReader.
@@ -30,7 +30,7 @@ abstract class WKTAbstractReader
      *
      * @return Geometry
      *
-     * @throws GeometryException
+     * @throws GeometryParseException
      */
     protected function readGeometry(WKTParser $parser, $srid)
     {
@@ -52,7 +52,7 @@ abstract class WKTAbstractReader
             } elseif ($word === 'EMPTY') {
                 $isEmpty = true;
             } else {
-                throw new GeometryException('Unexpected word in WKT: ' . $word);
+                throw new GeometryParseException('Unexpected word in WKT: ' . $word);
             }
 
             if (! $isEmpty) {
@@ -61,7 +61,7 @@ abstract class WKTAbstractReader
                 if ($word === 'EMPTY') {
                     $isEmpty = true;
                 } elseif ($word !== null) {
-                    throw new GeometryException('Unexpected word in WKT: ' . $word);
+                    throw new GeometryParseException('Unexpected word in WKT: ' . $word);
                 }
             }
         }
@@ -161,7 +161,7 @@ abstract class WKTAbstractReader
             return $this->readTriangleText($parser, $cs);
         }
 
-        throw new GeometryException('Unknown geometry type: ' . $geometryType);
+        throw new GeometryParseException('Unknown geometry type: ' . $geometryType);
     }
 
     /**
