@@ -3,6 +3,7 @@
 namespace Brick\Geo;
 
 use Brick\Geo\Exception\GeometryException;
+use Brick\Geo\Exception\CoordinateSystemException;
 use Brick\Geo\Exception\EmptyGeometryException;
 use Brick\Geo\Exception\InvalidGeometryException;
 use Brick\Geo\Exception\NoSuchGeometryException;
@@ -30,7 +31,8 @@ class CircularString extends Curve
      *
      * @return CircularString
      *
-     * @throws InvalidGeometryException
+     * @throws InvalidGeometryException  If the number of points is invalid for a circular string.
+     * @throws CoordinateSystemException If different coordinate systems are used.
      */
     public function __construct(CoordinateSystem $cs, Point ...$points)
     {

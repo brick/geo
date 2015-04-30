@@ -3,6 +3,7 @@
 namespace Brick\Geo;
 
 use Brick\Geo\Exception\GeometryException;
+use Brick\Geo\Exception\CoordinateSystemException;
 use Brick\Geo\Exception\NoSuchGeometryException;
 
 /**
@@ -36,7 +37,8 @@ class GeometryCollection extends Geometry
      * @param CoordinateSystem $cs
      * @param Geometry         ...$geometries
      *
-     * @throws GeometryException
+     * @throws CoordinateSystemException If different coordinate systems are used.
+     * @throws GeometryException         If a geometry is not a valid type for a sub-class of GeometryCollection.
      */
     public function __construct(CoordinateSystem $cs, Geometry ...$geometries)
     {

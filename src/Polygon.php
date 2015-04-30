@@ -3,6 +3,7 @@
 namespace Brick\Geo;
 
 use Brick\Geo\Exception\GeometryException;
+use Brick\Geo\Exception\CoordinateSystemException;
 use Brick\Geo\Exception\EmptyGeometryException;
 use Brick\Geo\Exception\NoSuchGeometryException;
 
@@ -51,7 +52,7 @@ class Polygon extends Surface
      * @param CoordinateSystem $cs       The coordinate system of the Polygon.
      * @param LineString       ...$rings The rings that compose the Polygon.
      *
-     * @throws GeometryException
+     * @throws CoordinateSystemException If different coordinate systems are used.
      */
     public function __construct(CoordinateSystem $cs, LineString ...$rings)
     {

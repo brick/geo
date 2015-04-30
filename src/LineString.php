@@ -3,6 +3,7 @@
 namespace Brick\Geo;
 
 use Brick\Geo\Exception\GeometryException;
+use Brick\Geo\Exception\CoordinateSystemException;
 use Brick\Geo\Exception\EmptyGeometryException;
 use Brick\Geo\Exception\InvalidGeometryException;
 use Brick\Geo\Exception\NoSuchGeometryException;
@@ -35,7 +36,8 @@ class LineString extends Curve
      * @param CoordinateSystem $cs        The coordinate system of the LineString.
      * @param Point            ...$points The points that compose the LineString.
      *
-     * @throws GeometryException
+     * @throws InvalidGeometryException  If only one point was given.
+     * @throws CoordinateSystemException If different coordinate systems are used.
      */
     public function __construct(CoordinateSystem $cs, Point ...$points)
     {

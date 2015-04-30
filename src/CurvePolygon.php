@@ -3,6 +3,7 @@
 namespace Brick\Geo;
 
 use Brick\Geo\Exception\GeometryException;
+use Brick\Geo\Exception\CoordinateSystemException;
 use Brick\Geo\Exception\EmptyGeometryException;
 use Brick\Geo\Exception\NoSuchGeometryException;
 
@@ -34,7 +35,7 @@ class CurvePolygon extends Surface
      * @param CoordinateSystem $cs       The coordinate system of the CurvePolygon.
      * @param Curve            ...$rings The rings that compose the CurvePolygon.
      *
-     * @throws GeometryException
+     * @throws CoordinateSystemException If different coordinate systems are used.
      */
     public function __construct(CoordinateSystem $cs, Curve ...$rings)
     {
@@ -110,7 +111,7 @@ class CurvePolygon extends Surface
      *
      * @return Curve
      *
-     * @throws GeometryException If there is no interior ring at this index.
+     * @throws NoSuchGeometryException If there is no interior ring at this index.
      */
     public function interiorRingN($n)
     {

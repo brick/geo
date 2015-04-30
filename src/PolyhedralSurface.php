@@ -4,6 +4,7 @@ namespace Brick\Geo;
 
 use Brick\Geo\Engine\GeometryEngineRegistry;
 use Brick\Geo\Exception\GeometryException;
+use Brick\Geo\Exception\CoordinateSystemException;
 use Brick\Geo\Exception\NoSuchGeometryException;
 
 /**
@@ -45,7 +46,7 @@ class PolyhedralSurface extends Surface
      * @param CoordinateSystem $cs         The coordinate system of the PolyhedralSurface.
      * @param Polygon          ...$patches The patches that compose the PolyhedralSurface.
      *
-     * @throws GeometryException
+     * @throws CoordinateSystemException If different coordinate systems are used.
      */
     public function __construct(CoordinateSystem $cs, Polygon ...$patches)
     {

@@ -2,6 +2,8 @@
 
 namespace Brick\Geo;
 
+use Brick\Geo\Exception\CoordinateSystemException;
+use Brick\Geo\Exception\EmptyGeometryException;
 use Brick\Geo\Exception\InvalidGeometryException;
 
 /**
@@ -10,7 +12,15 @@ use Brick\Geo\Exception\InvalidGeometryException;
 class Triangle extends Polygon
 {
     /**
-     * {@inheritdoc}
+     * Class constructor.
+     *
+     * The coordinate system of each of the rings must match the one of the Polygon.
+     *
+     * @param CoordinateSystem $cs       The coordinate system of the Polygon.
+     * @param LineString       ...$rings The rings that compose the Polygon.
+     *
+     * @throws InvalidGeometryException  If the number of points is not right, or interior rings are used.
+     * @throws CoordinateSystemException If different coordinate systems are used.
      */
     public function __construct(CoordinateSystem $cs, LineString ...$rings)
     {

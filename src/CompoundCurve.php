@@ -3,6 +3,7 @@
 namespace Brick\Geo;
 
 use Brick\Geo\Exception\GeometryException;
+use Brick\Geo\Exception\CoordinateSystemException;
 use Brick\Geo\Exception\EmptyGeometryException;
 use Brick\Geo\Exception\InvalidGeometryException;
 use Brick\Geo\Exception\NoSuchGeometryException;
@@ -29,7 +30,9 @@ class CompoundCurve extends Curve
      * @param CoordinateSystem $cs        The coordinate system of the CompoundCurve.
      * @param Curve            ...$curves The curves that compose the CompoundCurve.
      *
-     * @throws GeometryException
+     * @throws EmptyGeometryException    If any of the input curves is empty.
+     * @throws InvalidGeometryException  If the compound curve is not continuous.
+     * @throws CoordinateSystemException If different coordinate systems are used.
      */
     public function __construct(CoordinateSystem $cs, Curve ...$curves)
     {

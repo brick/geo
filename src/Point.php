@@ -48,7 +48,7 @@ class Point extends Geometry
      *
      * @return Point
      *
-     * @throws GeometryException
+     * @throws GeometryException If the number of coordinates does not match the coordinate system.
      */
     public function __construct(CoordinateSystem $cs, ...$coords)
     {
