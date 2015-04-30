@@ -75,7 +75,7 @@ class CurvePolygonTest extends AbstractTestCase
 
     /**
      * @dataProvider providerExteriorRingOfEmptyCurvePolygon
-     * @expectedException \Brick\Geo\Exception\GeometryException
+     * @expectedException \Brick\Geo\Exception\EmptyGeometryException
      *
      * @param string $polygon The WKT of the CurvePolygon to test.
      */

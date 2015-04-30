@@ -236,7 +236,7 @@ class PolygonTest extends AbstractTestCase
 
     /**
      * @dataProvider providerExteriorRingOfEmptyPolygon
-     * @expectedException \Brick\Geo\Exception\GeometryException
+     * @expectedException \Brick\Geo\Exception\EmptyGeometryException
      *
      * @param string $polygon The WKT of the polygon to test.
      */

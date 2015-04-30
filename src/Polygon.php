@@ -3,6 +3,7 @@
 namespace Brick\Geo;
 
 use Brick\Geo\Exception\GeometryException;
+use Brick\Geo\Exception\EmptyGeometryException;
 
 /**
  * A Polygon is a planar Surface defined by 1 exterior boundary and 0 or more interior boundaries.
@@ -121,12 +122,12 @@ class Polygon extends Surface
      *
      * @return LineString
      *
-     * @throws GeometryException
+     * @throws EmptyGeometryException
      */
     public function exteriorRing()
     {
         if ($this->isEmpty) {
-            throw new GeometryException('An empty Polygon has no exterior ring.');
+            throw new EmptyGeometryException('An empty Polygon has no exterior ring.');
         }
 
         return $this->rings[0];

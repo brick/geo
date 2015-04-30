@@ -91,7 +91,7 @@ class CurveTest extends AbstractTestCase
 
     /**
      * @dataProvider providerEmptyCurve
-     * @expectedException \Brick\Geo\Exception\GeometryException
+     * @expectedException \Brick\Geo\Exception\EmptyGeometryException
      *
      * @param string $lineString
      */
@@ -102,7 +102,7 @@ class CurveTest extends AbstractTestCase
 
     /**
      * @dataProvider providerEmptyCurve
-     * @expectedException \Brick\Geo\Exception\GeometryException
+     * @expectedException \Brick\Geo\Exception\EmptyGeometryException
      *
      * @param string $lineString
      */

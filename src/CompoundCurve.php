@@ -3,6 +3,7 @@
 namespace Brick\Geo;
 
 use Brick\Geo\Exception\GeometryException;
+use Brick\Geo\Exception\EmptyGeometryException;
 use Brick\Geo\Exception\InvalidGeometryException;
 
 /**
@@ -86,7 +87,7 @@ class CompoundCurve extends Curve
     public function startPoint()
     {
         if ($this->isEmpty) {
-            throw new GeometryException('The CompoundCurve is empty and has no start point.');
+            throw new EmptyGeometryException('The CompoundCurve is empty and has no start point.');
         }
 
         return $this->curves[0]->startPoint();
@@ -98,7 +99,7 @@ class CompoundCurve extends Curve
     public function endPoint()
     {
         if ($this->isEmpty) {
-            throw new GeometryException('The CompoundCurve is empty and has no end point.');
+            throw new EmptyGeometryException('The CompoundCurve is empty and has no end point.');
         }
 
         $count = count($this->curves);

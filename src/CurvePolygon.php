@@ -3,6 +3,7 @@
 namespace Brick\Geo;
 
 use Brick\Geo\Exception\GeometryException;
+use Brick\Geo\Exception\EmptyGeometryException;
 
 /**
  * A CurvePolygon is a planar Surface defined by 1 exterior boundary and 0 or more interior boundaries.
@@ -76,12 +77,12 @@ class CurvePolygon extends Surface
      *
      * @return Curve
      *
-     * @throws GeometryException
+     * @throws EmptyGeometryException
      */
     public function exteriorRing()
     {
         if ($this->isEmpty) {
-            throw new GeometryException('An empty CurvePolygon has no exterior ring.');
+            throw new EmptyGeometryException('An empty CurvePolygon has no exterior ring.');
         }
 
         return $this->rings[0];

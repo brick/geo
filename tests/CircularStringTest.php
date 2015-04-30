@@ -100,7 +100,7 @@ class CircularStringTest extends AbstractTestCase
 
     /**
      * @dataProvider providerEmptyCircularString
-     * @expectedException \Brick\Geo\Exception\GeometryException
+     * @expectedException \Brick\Geo\Exception\EmptyGeometryException
      *
      * @param string $circularString The WKT of an empty CircularString.
      */
@@ -111,7 +111,7 @@ class CircularStringTest extends AbstractTestCase
 
     /**
      * @dataProvider providerEmptyCircularString
-     * @expectedException \Brick\Geo\Exception\GeometryException
+     * @expectedException \Brick\Geo\Exception\EmptyGeometryException
      *
      * @param string $circularString The WKT of an empty CircularString.
      */

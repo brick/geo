@@ -100,7 +100,7 @@ class CompoundCurveTest extends AbstractTestCase
 
     /**
      * @dataProvider providerEmptyCompoundCurve
-     * @expectedException \Brick\Geo\Exception\GeometryException
+     * @expectedException \Brick\Geo\Exception\EmptyGeometryException
      *
      * @param string $compoundCurve The WKT of an empty CompoundCurve.
      */
@@ -111,7 +111,7 @@ class CompoundCurveTest extends AbstractTestCase
 
     /**
      * @dataProvider providerEmptyCompoundCurve
-     * @expectedException \Brick\Geo\Exception\GeometryException
+     * @expectedException \Brick\Geo\Exception\EmptyGeometryException
      *
      * @param string $compoundCurve The WKT of an empty CompoundCurve.
      */

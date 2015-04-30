@@ -3,6 +3,7 @@
 namespace Brick\Geo;
 
 use Brick\Geo\Exception\GeometryException;
+use Brick\Geo\Exception\EmptyGeometryException;
 use Brick\Geo\Exception\InvalidGeometryException;
 
 /**
@@ -82,7 +83,7 @@ class LineString extends Curve
     public function startPoint()
     {
         if ($this->isEmpty) {
-            throw new GeometryException('The LineString is empty and has no start point.');
+            throw new EmptyGeometryException('The LineString is empty and has no start point.');
         }
 
         return $this->points[0];
@@ -94,7 +95,7 @@ class LineString extends Curve
     public function endPoint()
     {
         if ($this->isEmpty) {
-            throw new GeometryException('The LineString is empty and has no end point.');
+            throw new EmptyGeometryException('The LineString is empty and has no end point.');
         }
 
         return end($this->points);
