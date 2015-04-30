@@ -4,6 +4,7 @@ namespace Brick\Geo;
 
 use Brick\Geo\Engine\GeometryEngineRegistry;
 use Brick\Geo\Exception\GeometryException;
+use Brick\Geo\Exception\NoSuchGeometryException;
 
 /**
  * A PolyhedralSurface is a contiguous collection of polygons, which share common boundary segments.
@@ -98,14 +99,14 @@ class PolyhedralSurface extends Surface
      *
      * @return Polygon
      *
-     * @throws GeometryException If there is no patch at this index.
+     * @throws NoSuchGeometryException If there is no patch at this index.
      */
     public function patchN($n)
     {
         $n = (int) $n;
 
         if (! isset($this->patches[$n - 1])) {
-            throw new GeometryException('There is no patch in this PolyhedralSurface at index ' . $n);
+            throw new NoSuchGeometryException('There is no patch in this PolyhedralSurface at index ' . $n);
         }
 
         return $this->patches[$n - 1];

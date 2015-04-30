@@ -5,6 +5,7 @@ namespace Brick\Geo;
 use Brick\Geo\Exception\GeometryException;
 use Brick\Geo\Exception\EmptyGeometryException;
 use Brick\Geo\Exception\InvalidGeometryException;
+use Brick\Geo\Exception\NoSuchGeometryException;
 
 /**
  * A CircularString is a Curve made of zero or more connected circular arc segments.
@@ -119,14 +120,14 @@ class CircularString extends Curve
      *
      * @return Point
      *
-     * @throws GeometryException If there is no Point at this index.
+     * @throws NoSuchGeometryException If there is no Point at this index.
      */
     public function pointN($n)
     {
         $n = (int) $n;
 
         if (! isset($this->points[$n - 1])) {
-            throw new GeometryException('There is no Point in this CircularString at index ' . $n);
+            throw new NoSuchGeometryException('There is no Point in this CircularString at index ' . $n);
         }
 
         return $this->points[$n - 1];

@@ -4,7 +4,7 @@ namespace Brick\Geo\Tests;
 
 use Brick\Geo\CoordinateSystem;
 use Brick\Geo\CurvePolygon;
-use Brick\Geo\Exception\GeometryException;
+use Brick\Geo\Exception\NoSuchGeometryException;
 
 /**
  * Unit tests for class CurvePolygon.
@@ -137,7 +137,7 @@ class CurvePolygonTest extends AbstractTestCase
     public function testInteriorRingN($curvePolygon, $n, $interiorRingN, $srid)
     {
         if ($interiorRingN === null) {
-            $this->setExpectedException(GeometryException::class);
+            $this->setExpectedException(NoSuchGeometryException::class);
         }
 
         $ring = CurvePolygon::fromText($curvePolygon, $srid)->interiorRingN($n);

@@ -5,6 +5,7 @@ namespace Brick\Geo;
 use Brick\Geo\Exception\GeometryException;
 use Brick\Geo\Exception\EmptyGeometryException;
 use Brick\Geo\Exception\InvalidGeometryException;
+use Brick\Geo\Exception\NoSuchGeometryException;
 
 /**
  * A LineString is a Curve with linear interpolation between Points.
@@ -118,14 +119,14 @@ class LineString extends Curve
      *
      * @return Point
      *
-     * @throws GeometryException If there is no Point at this index.
+     * @throws NoSuchGeometryException If there is no Point at this index.
      */
     public function pointN($n)
     {
         $n = (int) $n;
 
         if (! isset($this->points[$n - 1])) {
-            throw new GeometryException('There is no Point in this LineString at index ' . $n);
+            throw new NoSuchGeometryException('There is no Point in this LineString at index ' . $n);
         }
 
         return $this->points[$n - 1];

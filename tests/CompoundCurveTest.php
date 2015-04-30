@@ -5,7 +5,7 @@ namespace Brick\Geo\Tests;
 use Brick\Geo\CompoundCurve;
 use Brick\Geo\CoordinateSystem;
 use Brick\Geo\Curve;
-use Brick\Geo\Exception\GeometryException;
+use Brick\Geo\Exception\NoSuchGeometryException;
 
 /**
  * Unit tests for class CompoundCurve.
@@ -172,7 +172,7 @@ class CompoundCurveTest extends AbstractTestCase
     public function testCurveN($compoundCurve, $n, $curveN, $srid)
     {
         if ($curveN === null) {
-            $this->setExpectedException(GeometryException::class);
+            $this->setExpectedException(NoSuchGeometryException::class);
         }
 
         $curve = CompoundCurve::fromText($compoundCurve, $srid)->curveN($n);

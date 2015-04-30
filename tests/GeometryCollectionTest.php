@@ -2,7 +2,7 @@
 
 namespace Brick\Geo\Tests;
 
-use Brick\Geo\Exception\GeometryException;
+use Brick\Geo\Exception\NoSuchGeometryException;
 use Brick\Geo\GeometryCollection;
 use Brick\Geo\LineString;
 use Brick\Geo\Point;
@@ -47,7 +47,7 @@ class GeometryCollectionTest extends AbstractTestCase
     public function testGeometryN($geometry, $n, $geometryN, $srid)
     {
         if ($geometryN === null) {
-            $this->setExpectedException(GeometryException::class);
+            $this->setExpectedException(NoSuchGeometryException::class);
         }
 
         $g = GeometryCollection::fromText($geometry, $srid);

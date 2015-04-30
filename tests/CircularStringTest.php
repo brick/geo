@@ -200,7 +200,7 @@ class CircularStringTest extends AbstractTestCase
 
     /**
      * @dataProvider providerInvalidPointNThrowsException
-     * @expectedException \Brick\Geo\Exception\GeometryException
+     * @expectedException \Brick\Geo\Exception\NoSuchGeometryException
      *
      * @param string  $lineString
      * @param integer $n
@@ -220,8 +220,8 @@ class CircularStringTest extends AbstractTestCase
             ['CIRCULARSTRING (1 2, 3 4, 5 2)', 4],
             ['CIRCULARSTRING Z (1 2 3, 4 5 6, 7 2 9)', 0],
             ['CIRCULARSTRING Z (1 2 3, 4 5 6, 7 2 9)', 4],
-            ['CIRCULARSTRING ZM (1 2 3 4, 5 6 7 8, 2 3 4 5, 3 4 5 6)', 0],
-            ['CIRCULARSTRING ZM (1 2 3 4, 5 6 7 8, 2 3 4 5, 3 4 5 6)', 5],
+            ['CIRCULARSTRING ZM (1 2 3 4, 5 6 7 8, 2 3 4 5, 3 4 5 6, 4 5 6 7)', 0],
+            ['CIRCULARSTRING ZM (1 2 3 4, 5 6 7 8, 2 3 4 5, 3 4 5 6, 4 5 6 7)', 6]
         ];
     }
 

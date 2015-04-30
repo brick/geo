@@ -4,6 +4,7 @@ namespace Brick\Geo;
 
 use Brick\Geo\Exception\GeometryException;
 use Brick\Geo\Exception\EmptyGeometryException;
+use Brick\Geo\Exception\NoSuchGeometryException;
 
 /**
  * A Polygon is a planar Surface defined by 1 exterior boundary and 0 or more interior boundaries.
@@ -154,14 +155,14 @@ class Polygon extends Surface
      *
      * @return LineString
      *
-     * @throws GeometryException If there is no interior ring at this index.
+     * @throws NoSuchGeometryException If there is no interior ring at this index.
      */
     public function interiorRingN($n)
     {
         $n = (int) $n;
 
         if ($n === 0 || ! isset($this->rings[$n])) {
-            throw new GeometryException('There is no interior ring in this Polygon at index ' . $n);
+            throw new NoSuchGeometryException('There is no interior ring in this Polygon at index ' . $n);
         }
 
         return $this->rings[$n];

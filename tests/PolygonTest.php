@@ -2,8 +2,8 @@
 
 namespace Brick\Geo\Tests;
 
-use Brick\Geo\Exception\GeometryException;
 use Brick\Geo\CoordinateSystem;
+use Brick\Geo\Exception\NoSuchGeometryException;
 use Brick\Geo\LineString;
 use Brick\Geo\Polygon;
 
@@ -299,7 +299,7 @@ class PolygonTest extends AbstractTestCase
     public function testInteriorRingN($polygon, $n, $interiorRingN, $srid)
     {
         if ($interiorRingN === null) {
-            $this->setExpectedException(GeometryException::class);
+            $this->setExpectedException(NoSuchGeometryException::class);
         }
 
         $ring = Polygon::fromText($polygon, $srid)->interiorRingN($n);

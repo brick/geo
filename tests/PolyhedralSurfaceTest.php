@@ -2,10 +2,10 @@
 
 namespace Brick\Geo\Tests;
 
+use Brick\Geo\Exception\NoSuchGeometryException;
 use Brick\Geo\CoordinateSystem;
 use Brick\Geo\Polygon;
 use Brick\Geo\PolyhedralSurface;
-use Brick\Geo\Exception\GeometryException;
 
 /**
  * Unit tests for class PolyhedralSurface.
@@ -85,7 +85,7 @@ class PolyhedralSurfaceTest extends AbstractTestCase
     public function testPatchN($polyhedralSurface, $n, $patchN, $srid)
     {
         if ($patchN === null) {
-            $this->setExpectedException(GeometryException::class);
+            $this->setExpectedException(NoSuchGeometryException::class);
         }
 
         $patch = PolyhedralSurface::fromText($polyhedralSurface, $srid)->patchN($n);

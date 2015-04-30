@@ -5,6 +5,7 @@ namespace Brick\Geo;
 use Brick\Geo\Exception\GeometryException;
 use Brick\Geo\Exception\EmptyGeometryException;
 use Brick\Geo\Exception\InvalidGeometryException;
+use Brick\Geo\Exception\NoSuchGeometryException;
 
 /**
  * A CompoundCurve is a collection of zero or more continuous CircularString or LineString instances.
@@ -124,14 +125,14 @@ class CompoundCurve extends Curve
      *
      * @return Curve
      *
-     * @throws GeometryException If there is no Curve at this index.
+     * @throws NoSuchGeometryException If there is no Curve at this index.
      */
     public function curveN($n)
     {
         $n = (int) $n;
 
         if (! isset($this->curves[$n - 1])) {
-            throw new GeometryException('There is no Curve in this CompoundCurve at index ' . $n);
+            throw new NoSuchGeometryException('There is no Curve in this CompoundCurve at index ' . $n);
         }
 
         return $this->curves[$n - 1];

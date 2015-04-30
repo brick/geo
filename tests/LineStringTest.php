@@ -74,7 +74,7 @@ class LineStringTest extends AbstractTestCase
 
     /**
      * @dataProvider providerInvalidPointNThrowsException
-     * @expectedException \Brick\Geo\Exception\GeometryException
+     * @expectedException \Brick\Geo\Exception\NoSuchGeometryException
      *
      * @param string  $lineString
      * @param integer $n

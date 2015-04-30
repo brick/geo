@@ -4,6 +4,7 @@ namespace Brick\Geo;
 
 use Brick\Geo\Exception\GeometryException;
 use Brick\Geo\Exception\EmptyGeometryException;
+use Brick\Geo\Exception\NoSuchGeometryException;
 
 /**
  * A CurvePolygon is a planar Surface defined by 1 exterior boundary and 0 or more interior boundaries.
@@ -116,7 +117,7 @@ class CurvePolygon extends Surface
         $n = (int) $n;
 
         if ($n === 0 || ! isset($this->rings[$n])) {
-            throw new GeometryException('There is no interior ring in this CurvePolygon at index ' . $n);
+            throw new NoSuchGeometryException('There is no interior ring in this CurvePolygon at index ' . $n);
         }
 
         return $this->rings[$n];

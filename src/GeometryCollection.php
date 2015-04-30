@@ -3,6 +3,7 @@
 namespace Brick\Geo;
 
 use Brick\Geo\Exception\GeometryException;
+use Brick\Geo\Exception\NoSuchGeometryException;
 
 /**
  * A GeometryCollection is a geometric object that is a collection of some number of geometric objects.
@@ -111,14 +112,14 @@ class GeometryCollection extends Geometry
      *
      * @return Geometry
      *
-     * @throws GeometryException If there is no Geometry at this index.
+     * @throws NoSuchGeometryException If there is no Geometry at this index.
      */
     public function geometryN($n)
     {
         $n = (int) $n;
 
         if (! isset($this->geometries[$n - 1])) {
-            throw new GeometryException('There is no Geometry in this GeometryCollection at index ' . $n);
+            throw new NoSuchGeometryException('There is no Geometry in this GeometryCollection at index ' . $n);
         }
 
         return $this->geometries[$n - 1];
