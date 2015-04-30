@@ -38,7 +38,7 @@ function bootstrap()
     } else {
         switch ($engine) {
             case 'PDO_MYSQL':
-                echo 'Using PDOEngine with MySQL' . PHP_EOL;
+                echo 'Using PDOEngine for MySQL' . PHP_EOL;
 
                 $pdo = new PDO('mysql:host=localhost', 'root', '');
 
@@ -72,7 +72,7 @@ function bootstrap()
                 break;
 
             case 'PDO_PGSQL':
-                echo 'Using PDOEngine with PostgreSQL' . PHP_EOL;
+                echo 'Using PDOEngine for PostgreSQL' . PHP_EOL;
 
                 $pdo = new PDO('pgsql:host=localhost', 'postgres', '');
 

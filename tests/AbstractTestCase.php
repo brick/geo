@@ -2,12 +2,12 @@
 
 namespace Brick\Geo\Tests;
 
-use Brick\Geo\CoordinateSystem;
+use Brick\Geo\Exception\GeometryEngineException;
 use Brick\Geo\Engine\GeometryEngineRegistry;
 use Brick\Geo\Engine\GEOSEngine;
 use Brick\Geo\Engine\PDOEngine;
 use Brick\Geo\Engine\SQLite3Engine;
-use Brick\Geo\Exception\GeometryException;
+use Brick\Geo\CoordinateSystem;
 use Brick\Geo\Geometry;
 use Brick\Geo\GeometryCollection;
 use Brick\Geo\MultiLineString;
@@ -141,7 +141,7 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
         if ($geometry->is3D() || $geometry->isMeasured()) {
             if ($this->isMySQL() || $this->isMariaDB()) {
                 // MySQL and MariaDB do not support Z and M coordinates.
-                $this->setExpectedException(GeometryException::class);
+                $this->setExpectedException(GeometryEngineException::class);
             }
         }
 
@@ -154,7 +154,7 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
         if ($geometry->isEmpty() && ! $geometry instanceof GeometryCollection) {
             if ($this->isMySQL() || $this->isMariaDB()) {
                 // MySQL and MariaDB do not correctly handle empty geometries, apart from collections.
-                $this->setExpectedException(GeometryException::class);
+                $this->setExpectedException(GeometryEngineException::class);
             }
 
             if ($this->isSpatiaLite()) {
@@ -166,7 +166,7 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
             if ($this->isGEOS() || $this->isSpatiaLite() || $this->isMySQL() || $this->isMariaDB()) {
                 // GEOS, SpatiaLite, MySQL and MariaDB do not support these geometries.
                 // Only PostGIS currently supports these.
-                $this->setExpectedException(GeometryException::class);
+                $this->setExpectedException(GeometryEngineException::class);
             }
         }
     }
