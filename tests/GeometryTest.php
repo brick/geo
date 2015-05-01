@@ -32,7 +32,7 @@ class GeometryTest extends AbstractTestCase
     }
 
     /**
-     * @expectedException \Brick\Geo\Exception\GeometryException
+     * @expectedException \Brick\Geo\Exception\UnexpectedGeometryException
      */
     public function testFromTextOnWrongSubclassThrowsException()
     {

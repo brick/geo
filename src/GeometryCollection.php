@@ -5,6 +5,7 @@ namespace Brick\Geo;
 use Brick\Geo\Exception\GeometryException;
 use Brick\Geo\Exception\CoordinateSystemException;
 use Brick\Geo\Exception\NoSuchGeometryException;
+use Brick\Geo\Exception\UnexpectedGeometryException;
 
 /**
  * A GeometryCollection is a geometric object that is a collection of some number of geometric objects.
@@ -63,7 +64,7 @@ class GeometryCollection extends Geometry
             $cs->checkMatches($geometry->coordinateSystem());
 
             if (! $geometry instanceof $containedGeometryType) {
-                throw new GeometryException(sprintf(
+                throw new UnexpectedGeometryException(sprintf(
                     '%s expects instance of %s, instance of %s given.',
                     static::class,
                     $containedGeometryType,

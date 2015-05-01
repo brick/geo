@@ -5,6 +5,7 @@ namespace Brick\Geo;
 use Brick\Geo\Engine\GeometryEngineRegistry;
 use Brick\Geo\Exception\GeometryException;
 use Brick\Geo\Exception\GeometryParseException;
+use Brick\Geo\Exception\UnexpectedGeometryException;
 use Brick\Geo\IO\WKTReader;
 use Brick\Geo\IO\WKTWriter;
 use Brick\Geo\IO\WKBReader;
@@ -85,7 +86,7 @@ abstract class Geometry implements \Countable, \IteratorAggregate
         $geometry = $wktReader->read($wkt, $srid);
 
         if (! $geometry instanceof static) {
-            throw GeometryException::unexpectedGeometryType(static::class, $geometry);
+            throw UnexpectedGeometryException::unexpectedGeometryType(static::class, $geometry);
         }
 
         return $geometry;
@@ -116,7 +117,7 @@ abstract class Geometry implements \Countable, \IteratorAggregate
         $geometry = $wkbReader->read($wkb, $srid);
 
         if (! $geometry instanceof static) {
-            throw GeometryException::unexpectedGeometryType(static::class, $geometry);
+            throw UnexpectedGeometryException::unexpectedGeometryType(static::class, $geometry);
         }
 
         return $geometry;

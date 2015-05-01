@@ -12,7 +12,7 @@ class MultiCurveTest extends AbstractTestCase
 {
     /**
      * @dataProvider providerInvalidFromText
-     * @expectedException \Brick\Geo\Exception\GeometryException
+     * @expectedException \Brick\Geo\Exception\UnexpectedGeometryException
      *
      * @param string $wkt A valid WKT, for a non-multicurve geometry.
      */
