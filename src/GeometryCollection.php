@@ -57,7 +57,7 @@ class GeometryCollection extends Geometry
             return;
         }
 
-        $containedGeometryType = static::containedGeometryType();
+        $containedGeometryType = $this->containedGeometryType();
 
         foreach ($geometries as $geometry) {
             $cs->checkMatches($geometry->coordinateSystem());
@@ -208,7 +208,7 @@ class GeometryCollection extends Geometry
      *
      * @return string
      */
-    protected static function containedGeometryType()
+    protected function containedGeometryType()
     {
         return Geometry::class;
     }

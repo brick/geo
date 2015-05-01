@@ -49,12 +49,4 @@ abstract class MultiCurve extends GeometryCollection
     {
         return GeometryEngineRegistry::get()->length($this);
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected static function containedGeometryType()
-    {
-        return Curve::class;
-    }
 }
