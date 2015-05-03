@@ -394,4 +394,12 @@ abstract class DatabaseEngine implements GeometryEngine
     {
         return $this->queryFloat('ST_MaxDistance', [$a, $b]);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function boundingPolygons(Geometry $g)
+    {
+        throw GeometryEngineException::unimplementedMethod(__METHOD__);
+    }
 }

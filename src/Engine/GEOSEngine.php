@@ -453,4 +453,12 @@ class GEOSEngine implements GeometryEngine
     {
         throw GeometryEngineException::unimplementedMethod(__METHOD__);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function boundingPolygons(Geometry $g)
+    {
+        throw GeometryEngineException::unimplementedMethod(__METHOD__);
+    }
 }

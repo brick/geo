@@ -18,6 +18,18 @@ class GeometryEngineException extends GeometryException
     }
 
     /**
+     * @param string $methodName
+     *
+     * @return GeometryEngineException
+     */
+    public static function unimplementedMethod($methodName)
+    {
+        $message = sprintf('%s() is currently not implemented.', $methodName);
+
+        return new self($message);
+    }
+
+    /**
      * @param \Exception $e
      *
      * @return GeometryEngineException

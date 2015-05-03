@@ -378,4 +378,15 @@ interface GeometryEngine
      * @throws GeometryEngineException If the operation is not supported by the engine.
      */
     public function maxDistance(Geometry $a, Geometry $b);
+
+    /**
+     * Returns the collection of polygons that bounds the given polygon 'p' for any polygon 'p' in the surface.
+     *
+     * @param Geometry $g
+     *
+     * @return Geometry
+     *
+     * @throws GeometryEngineException If the operation is not supported by the engine.
+     */
+    public function boundingPolygons(Geometry $g);
 }

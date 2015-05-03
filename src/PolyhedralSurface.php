@@ -120,19 +120,17 @@ class PolyhedralSurface extends Surface
     /**
      * Returns the collection of polygons in this surface that bounds the given polygon 'p' for any polygon 'p' in the surface.
      *
-     * @todo needs implementation
-     *
      * @noproxy
      *
      * @param Polygon $p
      *
      * @return MultiPolygon
      *
-     * @throws GeometryException
+     * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
     public function boundingPolygons(Polygon $p)
     {
-        throw GeometryException::unimplementedMethod(__METHOD__);
+        return GeometryEngineRegistry::get()->boundingPolygons($p);
     }
 
     /**
