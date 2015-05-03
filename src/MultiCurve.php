@@ -3,6 +3,7 @@
 namespace Brick\Geo;
 
 use Brick\Geo\Engine\GeometryEngineRegistry;
+use Brick\Geo\Exception\GeometryEngineException;
 
 /**
  * A MultiCurve is a 1-dimensional GeometryCollection whose elements are Curves.
@@ -30,6 +31,8 @@ abstract class MultiCurve extends GeometryCollection
      * @noproxy
      *
      * @return integer
+     *
+     * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
     public function isClosed()
     {
@@ -44,6 +47,8 @@ abstract class MultiCurve extends GeometryCollection
      * @noproxy
      *
      * @return float
+     *
+     * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
     public function length()
     {

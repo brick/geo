@@ -4,6 +4,7 @@ namespace Brick\Geo;
 
 use Brick\Geo\Engine\GeometryEngineRegistry;
 use Brick\Geo\Exception\EmptyGeometryException;
+use Brick\Geo\Exception\GeometryEngineException;
 
 /**
  * A Curve is a 1-dimensional geometric object usually stored as a sequence of Points.
@@ -30,6 +31,8 @@ abstract class Curve extends Geometry
      * @noproxy
      *
      * @return float
+     *
+     * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
     public function length()
     {
@@ -62,6 +65,8 @@ abstract class Curve extends Geometry
      * @noproxy
      *
      * @return boolean
+     *
+     * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
     public function isClosed()
     {
@@ -79,6 +84,8 @@ abstract class Curve extends Geometry
      * @noproxy
      *
      * @return boolean
+     *
+     * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
     public function isRing()
     {

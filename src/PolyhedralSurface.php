@@ -3,6 +3,7 @@
 namespace Brick\Geo;
 
 use Brick\Geo\Engine\GeometryEngineRegistry;
+use Brick\Geo\Exception\GeometryEngineException;
 use Brick\Geo\Exception\GeometryException;
 use Brick\Geo\Exception\CoordinateSystemException;
 use Brick\Geo\Exception\NoSuchGeometryException;
@@ -138,6 +139,8 @@ class PolyhedralSurface extends Surface
      * @noproxy
      *
      * @return boolean
+     *
+     * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
     public function isClosed()
     {

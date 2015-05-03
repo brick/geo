@@ -3,6 +3,7 @@
 namespace Brick\Geo;
 
 use Brick\Geo\Engine\GeometryEngineRegistry;
+use Brick\Geo\Exception\GeometryEngineException;
 
 /**
  * A Surface is a 2-dimensional geometric object.
@@ -41,6 +42,8 @@ abstract class Surface extends Geometry
      * @noproxy
      *
      * @return float
+     *
+     * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
     public function area()
     {
@@ -55,6 +58,8 @@ abstract class Surface extends Geometry
      * @noproxy
      *
      * @return Point
+     *
+     * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
     public function centroid()
     {
@@ -67,6 +72,8 @@ abstract class Surface extends Geometry
      * @noproxy
      *
      * @return Point
+     *
+     * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
     public function pointOnSurface()
     {

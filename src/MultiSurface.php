@@ -3,6 +3,7 @@
 namespace Brick\Geo;
 
 use Brick\Geo\Engine\GeometryEngineRegistry;
+use Brick\Geo\Exception\GeometryEngineException;
 
 /**
  * A MultiSurface is a 2-dimensional GeometryCollection whose elements are Surfaces.
@@ -25,6 +26,8 @@ abstract class MultiSurface extends GeometryCollection
      * @noproxy
      *
      * @return float
+     *
+     * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
     public function area()
     {
@@ -39,6 +42,8 @@ abstract class MultiSurface extends GeometryCollection
      * @noproxy
      *
      * @return Point
+     *
+     * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
     public function centroid()
     {
@@ -51,6 +56,8 @@ abstract class MultiSurface extends GeometryCollection
      * @noproxy
      *
      * @return Point
+     *
+     * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
     public function pointOnSurface()
     {

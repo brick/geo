@@ -3,6 +3,7 @@
 namespace Brick\Geo;
 
 use Brick\Geo\Engine\GeometryEngineRegistry;
+use Brick\Geo\Exception\GeometryEngineException;
 use Brick\Geo\Exception\GeometryException;
 use Brick\Geo\Exception\GeometryParseException;
 use Brick\Geo\Exception\UnexpectedGeometryException;
@@ -191,6 +192,8 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      * @noproxy
      *
      * @return Geometry
+     *
+     * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
     public function envelope()
     {
@@ -253,6 +256,8 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      * @noproxy
      *
      * @return boolean
+     *
+     * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
     public function isValid()
     {
@@ -268,6 +273,8 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      * @noproxy
      *
      * @return boolean
+     *
+     * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
     public function isSimple()
     {
@@ -303,6 +310,8 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      * @noproxy
      *
      * @return Geometry
+     *
+     * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
     public function boundary()
     {
@@ -317,6 +326,8 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      * @param Geometry $geometry
      *
      * @return boolean
+     *
+     * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
     public function equals(Geometry $geometry)
     {
@@ -334,6 +345,8 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      * @param Geometry $geometry
      *
      * @return boolean
+     *
+     * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
     public function disjoint(Geometry $geometry)
     {
@@ -351,6 +364,8 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      * @param Geometry $geometry
      *
      * @return boolean
+     *
+     * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
     public function intersects(Geometry $geometry)
     {
@@ -367,6 +382,8 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      * @param Geometry $geometry
      *
      * @return boolean
+     *
+     * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
     public function touches(Geometry $geometry)
     {
@@ -383,6 +400,8 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      * @param Geometry $geometry
      *
      * @return boolean
+     *
+     * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
     public function crosses(Geometry $geometry)
     {
@@ -399,6 +418,8 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      * @param Geometry $geometry
      *
      * @return boolean
+     *
+     * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
     public function within(Geometry $geometry)
     {
@@ -415,6 +436,8 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      * @param Geometry $geometry
      *
      * @return boolean
+     *
+     * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
     public function contains(Geometry $geometry)
     {
@@ -431,6 +454,8 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      * @param Geometry $geometry
      *
      * @return boolean
+     *
+     * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
     public function overlaps(Geometry $geometry)
     {
@@ -453,6 +478,8 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      * @param string   $matrix
      *
      * @return boolean
+     *
+     * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
     public function relate(Geometry $geometry, $matrix)
     {
@@ -467,6 +494,8 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      * @param float $mValue
      *
      * @return Geometry
+     *
+     * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
     public function locateAlong($mValue)
     {
@@ -482,6 +511,8 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      * @param float $mEnd
      *
      * @return Geometry
+     *
+     * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
     public function locateBetween($mStart, $mEnd)
     {
@@ -502,6 +533,8 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      * @param Geometry $geometry
      *
      * @return float
+     *
+     * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
     public function distance(Geometry $geometry)
     {
@@ -522,6 +555,8 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      * @param float $distance
      *
      * @return Geometry
+     *
+     * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
     public function buffer($distance)
     {
@@ -538,6 +573,8 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      * @noproxy
      *
      * @return Geometry
+     *
+     * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
     public function convexHull()
     {
@@ -554,6 +591,8 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      * @param Geometry $geometry
      *
      * @return Geometry
+     *
+     * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
     public function intersection(Geometry $geometry)
     {
@@ -568,6 +607,8 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      * @param Geometry $geometry
      *
      * @return Geometry
+     *
+     * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
     public function union(Geometry $geometry)
     {
@@ -582,6 +623,8 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      * @param Geometry $geometry
      *
      * @return Geometry
+     *
+     * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
     public function difference(Geometry $geometry)
     {
@@ -599,6 +642,8 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      * @param Geometry $geometry
      *
      * @return Geometry
+     *
+     * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
     public function symDifference(Geometry $geometry)
     {
@@ -613,6 +658,8 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      * @param float $size
      *
      * @return Geometry
+     *
+     * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
     public function snapToGrid($size)
     {
@@ -627,6 +674,8 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      * @param float $tolerance
      *
      * @return Geometry
+     *
+     * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
     public function simplify($tolerance)
     {
@@ -641,6 +690,8 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      * @param Geometry $geometry
      *
      * @return float
+     *
+     * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
     public function maxDistance(Geometry $geometry)
     {
