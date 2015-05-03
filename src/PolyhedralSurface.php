@@ -191,14 +191,4 @@ class PolyhedralSurface extends Surface
     {
         return new \ArrayIterator($this->patches);
     }
-
-    /**
-     * Returns the FQCN of the contained Geometry type.
-     *
-     * @return string
-     */
-    protected static function containedGeometryType()
-    {
-        return Polygon::class;
-    }
 }
