@@ -64,25 +64,18 @@ class PolyhedralSurface extends Surface
     }
 
     /**
-     * Returns a PolyhedralSurface composed of the given patches.
+     * Creates a non-empty PolyhedralSurface composed of the given patches.
      *
-     * All patches must be using the same coordinate system.
-     * The coordinate system being inferred from the patches, an empty patch list is not allowed.
-     * To create an empty PolyhedralSurface, use the class constructor instead.
-     *
-     * @param Polygon ...$patches The patches that compose the PolyhedralSurface.
+     * @param Polygon    $patch1 The first patch.
+     * @param Polygon ...$patchN The subsequent patches, if any.
      *
      * @return PolyhedralSurface
      *
-     * @throws GeometryException
+     * @throws CoordinateSystemException If the patches use different coordinate systems.
      */
-    public static function of(Polygon ...$patches)
+    public static function of(Polygon $patch1, Polygon ...$patchN)
     {
-        if (! $patches) {
-            throw GeometryException::atLeastOneGeometryExpected(static::class, __FUNCTION__);
-        }
-
-        return new static($patches[0]->coordinateSystem(), ...$patches);
+        return new static($patch1->coordinateSystem(), $patch1, ...$patchN);
     }
 
     /**

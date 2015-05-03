@@ -2,7 +2,6 @@
 
 namespace Brick\Geo;
 
-use Brick\Geo\Exception\GeometryException;
 use Brick\Geo\Exception\CoordinateSystemException;
 use Brick\Geo\Exception\NoSuchGeometryException;
 use Brick\Geo\Exception\UnexpectedGeometryException;
@@ -38,8 +37,8 @@ class GeometryCollection extends Geometry
      * @param CoordinateSystem $cs
      * @param Geometry         ...$geometries
      *
-     * @throws CoordinateSystemException If different coordinate systems are used.
-     * @throws GeometryException         If a geometry is not a valid type for a sub-class of GeometryCollection.
+     * @throws CoordinateSystemException   If different coordinate systems are used.
+     * @throws UnexpectedGeometryException If a geometry is not a valid type for a sub-class of GeometryCollection.
      */
     public function __construct(CoordinateSystem $cs, Geometry ...$geometries)
     {
@@ -77,25 +76,19 @@ class GeometryCollection extends Geometry
     }
 
     /**
-     * Returns a GeometryCollection composed of the given geometries.
+     * Creates a non-empty GeometryCollection composed of the given geometries.
      *
-     * All geometries must be using the same coordinate system.
-     * The coordinate system being inferred from the geometries, an empty geometry list is not allowed.
-     * To create an empty GeometryCollection, use the class constructor instead.
-     *
-     * @param Geometry ...$geometries The geometries that compose the GeometryCollection.
+     * @param Geometry    $geometry1 The first geometry.
+     * @param Geometry ...$geometryN The subsequent geometries, if any.
      *
      * @return static
      *
-     * @throws GeometryException
+     * @throws CoordinateSystemException   If the geometries use different coordinate systems.
+     * @throws UnexpectedGeometryException If a geometry is not a valid type for a sub-class of GeometryCollection.
      */
-    public static function of(Geometry ...$geometries)
+    public static function of(Geometry $geometry1, Geometry ...$geometryN)
     {
-        if (! $geometries) {
-            throw GeometryException::atLeastOneGeometryExpected(static::class, __FUNCTION__);
-        }
-
-        return new static($geometries[0]->coordinateSystem(), ...$geometries);
+        return new static($geometry1->coordinateSystem(), $geometry1, ...$geometryN);
     }
 
     /**

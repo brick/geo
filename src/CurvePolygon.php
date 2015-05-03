@@ -2,7 +2,6 @@
 
 namespace Brick\Geo;
 
-use Brick\Geo\Exception\GeometryException;
 use Brick\Geo\Exception\CoordinateSystemException;
 use Brick\Geo\Exception\EmptyGeometryException;
 use Brick\Geo\Exception\NoSuchGeometryException;
@@ -53,25 +52,18 @@ class CurvePolygon extends Surface
     }
 
     /**
-     * Returns a CurvePolygon composed of the given rings.
+     * Creates a non-empty CurvePolygon composed of the given rings.
      *
-     * All rings must be using the same coordinate system.
-     * The coordinate system being inferred from the rings, an empty ring list is not allowed.
-     * To create an empty CurvePolygon, use the class constructor instead.
-     *
-     * @param Curve ...$rings The rings that compose the CurvePolygon.
+     * @param Curve    $exteriorRing  The exterior ring.
+     * @param Curve ...$interiorRings The interior rings, if any.
      *
      * @return CurvePolygon
      *
-     * @throws GeometryException
+     * @throws CoordinateSystemException If the rings use different coordinate systems.
      */
-    public static function of(Curve ...$rings)
+    public static function of(Curve $exteriorRing, Curve ...$interiorRings)
     {
-        if (! $rings) {
-            throw GeometryException::atLeastOneGeometryExpected(static::class, __FUNCTION__);
-        }
-
-        return new static($rings[0]->coordinateSystem(), ...$rings);
+        return new static($exteriorRing->coordinateSystem(), $exteriorRing, ...$interiorRings);
     }
 
     /**

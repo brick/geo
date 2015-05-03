@@ -2,9 +2,9 @@
 
 namespace Brick\Geo;
 
-use Brick\Geo\Exception\GeometryException;
 use Brick\Geo\Exception\CoordinateSystemException;
 use Brick\Geo\Exception\EmptyGeometryException;
+use Brick\Geo\Exception\InvalidGeometryException;
 use Brick\Geo\Exception\NoSuchGeometryException;
 
 /**
@@ -50,8 +50,9 @@ class Polygon extends Surface
      * The coordinate system of each of the rings must match the one of the Polygon.
      *
      * @param CoordinateSystem $cs       The coordinate system of the Polygon.
-     * @param LineString       ...$rings The rings that compose the Polygon.
+     * @param LineString       ...$rings The rings that compose the Polygon, the first one being the exterior ring.
      *
+     * @throws InvalidGeometryException  If the resulting geometry is not valid for a sub-type of Polygon.
      * @throws CoordinateSystemException If different coordinate systems are used.
      */
     public function __construct(CoordinateSystem $cs, LineString ...$rings)
@@ -70,25 +71,19 @@ class Polygon extends Surface
     }
 
     /**
-     * Returns a Polygon composed of the given rings.
+     * Creates a non-empty Polygon composed of the given rings.
      *
-     * All rings must be using the same coordinate system.
-     * The coordinate system being inferred from the rings, an empty ring list is not allowed.
-     * To create an empty Polygon, use the class constructor instead.
-     *
-     * @param LineString ...$rings The rings that compose the Polygon.
+     * @param LineString    $exteriorRing  The exterior ring.
+     * @param LineString ...$interiorRings The interior rings, if any.
      *
      * @return Polygon
      *
-     * @throws GeometryException
+     * @throws InvalidGeometryException  If the resulting geometry is not valid for a sub-type of Polygon.
+     * @throws CoordinateSystemException If the rings use different coordinate systems.
      */
-    public static function of(LineString ...$rings)
+    public static function of(LineString $exteriorRing, LineString ...$interiorRings)
     {
-        if (! $rings) {
-            throw GeometryException::atLeastOneGeometryExpected(static::class, __FUNCTION__);
-        }
-
-        return new static($rings[0]->coordinateSystem(), ...$rings);
+        return new static($exteriorRing->coordinateSystem(), $exteriorRing, ...$interiorRings);
     }
 
     /**

@@ -2,7 +2,6 @@
 
 namespace Brick\Geo;
 
-use Brick\Geo\Exception\GeometryException;
 use Brick\Geo\Exception\CoordinateSystemException;
 use Brick\Geo\Exception\EmptyGeometryException;
 use Brick\Geo\Exception\InvalidGeometryException;
@@ -64,25 +63,20 @@ class CompoundCurve extends Curve
     }
 
     /**
-     * Returns a CompoundCurve composed of the given curves.
+     * Creates a non-empty CompoundCurve composed of the given curves.
      *
-     * All curves must be using the same coordinate system.
-     * The coordinate system being inferred from the curves, an empty curve list is not allowed.
-     * To create an empty CompoundCurve, use the class constructor instead.
-     *
-     * @param Curve ...$curves The curves that compose the CompoundCurve.
+     * @param Curve    $curve1 The first curve.
+     * @param Curve ...$curveN The subsequent curves, if any.
      *
      * @return CompoundCurve
      *
-     * @throws GeometryException
+     * @throws EmptyGeometryException    If any of the input curves is empty.
+     * @throws InvalidGeometryException  If the compound curve is not continuous.
+     * @throws CoordinateSystemException If the curves use different coordinate systems.
      */
-    public static function of(Curve ...$curves)
+    public static function of(Curve $curve1, Curve ...$curveN)
     {
-        if (! $curves) {
-            throw GeometryException::atLeastOneGeometryExpected(static::class, __FUNCTION__);
-        }
-
-        return new CompoundCurve($curves[0]->coordinateSystem(), ...$curves);
+        return new CompoundCurve($curve1->coordinateSystem(), $curve1, ...$curveN);
     }
 
     /**

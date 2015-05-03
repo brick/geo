@@ -2,7 +2,6 @@
 
 namespace Brick\Geo;
 
-use Brick\Geo\Exception\GeometryException;
 use Brick\Geo\Exception\CoordinateSystemException;
 use Brick\Geo\Exception\EmptyGeometryException;
 use Brick\Geo\Exception\InvalidGeometryException;
@@ -31,7 +30,7 @@ class CircularString extends Curve
      *
      * @return CircularString
      *
-     * @throws InvalidGeometryException  If the number of points is invalid for a circular string.
+     * @throws InvalidGeometryException  If the number of points is invalid.
      * @throws CoordinateSystemException If different coordinate systems are used.
      */
     public function __construct(CoordinateSystem $cs, Point ...$points)
@@ -60,25 +59,19 @@ class CircularString extends Curve
     }
 
     /**
-     * Returns a CircularString composed of the given points.
+     * Creates a non-empty CircularString composed of the given points.
      *
-     * All points must be using the same coordinate system.
-     * The coordinate system being inferred from the points, an empty point list is not allowed.
-     * To create an empty CircularString, use the class constructor instead.
-     *
-     * @param Point ...$points The points that compose the CircularString.
+     * @param Point    $point1 The first point.
+     * @param Point ...$pointN The subsequent points.
      *
      * @return CircularString
      *
-     * @throws GeometryException
+     * @throws InvalidGeometryException  If the number of points is invalid.
+     * @throws CoordinateSystemException If the points use different coordinate systems.
      */
-    public static function of(Point ...$points)
+    public static function of(Point $point1, Point ...$pointN)
     {
-        if (! $points) {
-            throw GeometryException::atLeastOneGeometryExpected(static::class, __FUNCTION__);
-        }
-
-        return new CircularString($points[0]->coordinateSystem(), ...$points);
+        return new CircularString($point1->coordinateSystem(), $point1, ...$pointN);
     }
 
     /**

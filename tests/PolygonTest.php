@@ -165,14 +165,6 @@ class PolygonTest extends AbstractTestCase
     }
 
     /**
-     * @expectedException \Brick\Geo\Exception\GeometryException
-     */
-    public function testOfWithNoParameters()
-    {
-        Polygon::of();
-    }
-
-    /**
      * @dataProvider providerOfWithCoordinateSystemMix
      * @expectedException \Brick\Geo\Exception\CoordinateSystemException
      *

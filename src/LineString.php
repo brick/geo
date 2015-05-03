@@ -2,7 +2,6 @@
 
 namespace Brick\Geo;
 
-use Brick\Geo\Exception\GeometryException;
 use Brick\Geo\Exception\CoordinateSystemException;
 use Brick\Geo\Exception\EmptyGeometryException;
 use Brick\Geo\Exception\InvalidGeometryException;
@@ -59,25 +58,19 @@ class LineString extends Curve
     }
 
     /**
-     * Returns a LineString composed of the given points.
+     * Creates a non-empty LineString composed of the given points.
      *
-     * All points must be using the same coordinate system.
-     * The coordinate system being inferred from the points, an empty point list is not allowed.
-     * To create an empty LineString, use the class constructor instead.
-     *
-     * @param Point ...$points The points that compose the LineString.
+     * @param Point    $point1 The first point.
+     * @param Point ...$pointN The subsequent points.
      *
      * @return LineString
      *
-     * @throws GeometryException
+     * @throws InvalidGeometryException  If only one point was given.
+     * @throws CoordinateSystemException If the points use different coordinate systems.
      */
-    public static function of(Point ...$points)
+    public static function of(Point $point1, Point ...$pointN)
     {
-        if (! $points) {
-            throw GeometryException::atLeastOneGeometryExpected(static::class, __FUNCTION__);
-        }
-
-        return new LineString($points[0]->coordinateSystem(), ...$points);
+        return new LineString($point1->coordinateSystem(), $point1, ...$pointN);
     }
 
     /**
