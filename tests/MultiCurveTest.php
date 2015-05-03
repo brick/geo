@@ -36,7 +36,7 @@ class MultiCurveTest extends AbstractTestCase
 
     /**
      * @dataProvider providerInvalidFromBinary
-     * @expectedException \Brick\Geo\Exception\GeometryException
+     * @expectedException \Brick\Geo\Exception\UnexpectedGeometryException
      *
      * @param string $wkb A valid HEX WKB, for a non-multicurve geometry.
      */
