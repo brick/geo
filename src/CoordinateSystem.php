@@ -174,32 +174,29 @@ class CoordinateSystem
     }
 
     /**
-     * Checks that this CoordinateSystem matches another.
-     *
-     * @param CoordinateSystem $other
+     * @param Geometry    $reference  The geometry holding the reference coordinate system.
+     * @param Geometry ...$geometries The geometries to check against this coordinate system.
      *
      * @return void
      *
-     * @throws CoordinateSystemException
+     * @throws CoordinateSystemException If the coordinate systems differ.
      */
-    public function checkMatches(CoordinateSystem $other)
+    public static function check(Geometry $reference, Geometry ...$geometries)
     {
-        if ($other == $this) { // by-value comparison.
-            return;
-        }
+        $referenceCS = $reference->coordinateSystem();
 
-        if ($other->srid !== $this->srid) {
-            throw new CoordinateSystemException(sprintf(
-                'Expected geometry with SRID %d, got %d.',
-                $this->srid,
-                $other->srid
-            ));
-        }
+        foreach ($geometries as $geometry) {
+            $geometryCS = $geometry->coordinateSystem();
 
-        throw new CoordinateSystemException(sprintf(
-            'Expected geometry with dimensionality %s, got %s.',
-            $this->coordinateName(),
-            $other->coordinateName()
-        ));
+            if ($geometryCS == $referenceCS) { // by-value comparison.
+                continue;
+            }
+
+            if ($geometryCS->srid !== $referenceCS->srid) {
+                throw CoordinateSystemException::sridMix($reference, $geometry);
+            }
+
+            throw CoordinateSystemException::dimensionalityMix($reference, $geometry);
+        }
     }
 }

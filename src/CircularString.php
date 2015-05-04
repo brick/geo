@@ -41,9 +41,7 @@ class CircularString extends Curve
             return;
         }
 
-        foreach ($points as $point) {
-            $cs->checkMatches($point->coordinateSystem());
-        }
+        CoordinateSystem::check($this, ...$points);
 
         $numPoints = count($points);
 

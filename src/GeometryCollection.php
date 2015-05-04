@@ -57,11 +57,11 @@ class GeometryCollection extends Geometry
             return;
         }
 
+        CoordinateSystem::check($this, ...$geometries);
+
         $containedGeometryType = $this->containedGeometryType();
 
         foreach ($geometries as $geometry) {
-            $cs->checkMatches($geometry->coordinateSystem());
-
             if (! $geometry instanceof $containedGeometryType) {
                 throw new UnexpectedGeometryException(sprintf(
                     '%s expects instance of %s, instance of %s given.',

@@ -2,9 +2,9 @@
 
 namespace Brick\Geo\Tests;
 
-use Brick\Geo\CoordinateSystem;
 use Brick\Geo\Exception\CoordinateSystemException;
 use Brick\Geo\Exception\NoSuchGeometryException;
+use Brick\Geo\CoordinateSystem;
 use Brick\Geo\LineString;
 use Brick\Geo\Polygon;
 
@@ -97,16 +97,11 @@ class PolygonTest extends AbstractTestCase
      * @param boolean $hasZ     Whether the coordinate system has Z coordinates.
      * @param boolean $hasM     Whether the coordinate system has M coordinates.
      * @param boolean $srid     The SRID of the coordinate system.
-     * @param string  $expected The expected coordinate system in the exception message.
-     * @param string  $actual   The actual coordinate system in the exception message.
+     * @param string  $message  The expected exception message, optional.
      */
-    public function testConstructorWithCoordinateSystemMix($ringWKT, $ringSRID, $hasZ, $hasM, $srid, $expected, $actual)
+    public function testConstructorWithCoordinateSystemMix($ringWKT, $ringSRID, $hasZ, $hasM, $srid, $message = '')
     {
-        $this->setExpectedException(CoordinateSystemException::class, sprintf(
-            'Expected geometry with %s, got %s.',
-            $expected,
-            $actual
-        ));
+        $this->setExpectedException(CoordinateSystemException::class, $message);
 
         $cs = new CoordinateSystem($hasZ, $hasM, $srid);
         $ring = LineString::fromText($ringWKT, $ringSRID);
@@ -119,25 +114,25 @@ class PolygonTest extends AbstractTestCase
     public function providerConstructorWithCoordinateSystemMix()
     {
         return [
-            ['LINESTRING (0 0, 0 1, 1 1, 0 0)', 0, false, false, 1, 'SRID 1', '0'],
-            ['LINESTRING (0 0, 0 1, 1 1, 0 0)', 0, true, false, 0, 'dimensionality XYZ', 'XY'],
-            ['LINESTRING (0 0, 0 1, 1 1, 0 0)', 0, false, true, 0, 'dimensionality XYM', 'XY'],
-            ['LINESTRING (0 0, 0 1, 1 1, 0 0)', 0, true, true, 0, 'dimensionality XYZM', 'XY'],
+            ['LINESTRING (0 0, 0 1, 1 1, 0 0)', 0, false, false, 1, 'SRID mix: Polygon with SRID 1 cannot contain LineString with SRID 0.'],
+            ['LINESTRING (0 0, 0 1, 1 1, 0 0)', 0, true, false, 0, 'Dimensionality mix: Polygon XYZ cannot contain LineString XY.'],
+            ['LINESTRING (0 0, 0 1, 1 1, 0 0)', 0, false, true, 0],
+            ['LINESTRING (0 0, 0 1, 1 1, 0 0)', 0, true, true, 0],
 
-            ['LINESTRING Z (0 0 1, 0 1 1, 1 1 1, 0 0 1)', 1, true, false, 0, 'SRID 0', '1'],
-            ['LINESTRING Z (0 0 1, 0 1 1, 1 1 1, 0 0 1)', 1, false, false, 1, 'dimensionality XY', 'XYZ'],
-            ['LINESTRING Z (0 0 1, 0 1 1, 1 1 1, 0 0 1)', 1, false, true, 1, 'dimensionality XYM', 'XYZ'],
-            ['LINESTRING Z (0 0 1, 0 1 1, 1 1 1, 0 0 1)', 1, true, true, 1, 'dimensionality XYZM', 'XYZ'],
+            ['LINESTRING Z (0 0 1, 0 1 1, 1 1 1, 0 0 1)', 1, true, false, 0],
+            ['LINESTRING Z (0 0 1, 0 1 1, 1 1 1, 0 0 1)', 1, false, false, 1],
+            ['LINESTRING Z (0 0 1, 0 1 1, 1 1 1, 0 0 1)', 1, false, true, 1],
+            ['LINESTRING Z (0 0 1, 0 1 1, 1 1 1, 0 0 1)', 1, true, true, 1],
 
-            ['LINESTRING M (0 0 1, 0 1 2, 1 1 3, 0 0 1)', 2, false, true, 3, 'SRID 3', '2'],
-            ['LINESTRING M (0 0 1, 0 1 2, 1 1 3, 0 0 1)', 2, false, false, 2, 'dimensionality XY', 'XYM'],
-            ['LINESTRING M (0 0 1, 0 1 2, 1 1 3, 0 0 1)', 2, true, false, 2, 'dimensionality XYZ', 'XYM'],
-            ['LINESTRING M (0 0 1, 0 1 2, 1 1 3, 0 0 1)', 2, true, true, 2, 'dimensionality XYZM', 'XYM'],
+            ['LINESTRING M (0 0 1, 0 1 2, 1 1 3, 0 0 1)', 2, false, true, 3],
+            ['LINESTRING M (0 0 1, 0 1 2, 1 1 3, 0 0 1)', 2, false, false, 2],
+            ['LINESTRING M (0 0 1, 0 1 2, 1 1 3, 0 0 1)', 2, true, false, 2],
+            ['LINESTRING M (0 0 1, 0 1 2, 1 1 3, 0 0 1)', 2, true, true, 2],
 
-            ['LINESTRING ZM (0 0 1 1, 0 1 1 2, 1 1 1 3, 0 0 1 1)', 3, true, true, 2, 'SRID 2', '3'],
-            ['LINESTRING ZM (0 0 1 1, 0 1 1 2, 1 1 1 3, 0 0 1 1)', 3, false, false, 3, 'dimensionality XY', 'XYZM'],
-            ['LINESTRING ZM (0 0 1 1, 0 1 1 2, 1 1 1 3, 0 0 1 1)', 3, false, true, 3, 'dimensionality XYM', 'XYZM'],
-            ['LINESTRING ZM (0 0 1 1, 0 1 1 2, 1 1 1 3, 0 0 1 1)', 3, true, false, 3, 'dimensionality XYZ', 'XYZM'],
+            ['LINESTRING ZM (0 0 1 1, 0 1 1 2, 1 1 1 3, 0 0 1 1)', 3, true, true, 2],
+            ['LINESTRING ZM (0 0 1 1, 0 1 1 2, 1 1 1 3, 0 0 1 1)', 3, false, false, 3],
+            ['LINESTRING ZM (0 0 1 1, 0 1 1 2, 1 1 1 3, 0 0 1 1)', 3, false, true, 3],
+            ['LINESTRING ZM (0 0 1 1, 0 1 1 2, 1 1 1 3, 0 0 1 1)', 3, true, false, 3],
         ];
     }
 

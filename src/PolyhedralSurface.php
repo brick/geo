@@ -57,9 +57,7 @@ class PolyhedralSurface extends Surface
             return;
         }
 
-        foreach ($patches as $patch) {
-            $cs->checkMatches($patch->coordinateSystem());
-        }
+        CoordinateSystem::check($this, ...$patches);
 
         $this->patches = $patches;
     }

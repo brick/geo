@@ -46,9 +46,7 @@ class LineString extends Curve
             return;
         }
 
-        foreach ($points as $point) {
-            $cs->checkMatches($point->coordinateSystem());
-        }
+        CoordinateSystem::check($this, ...$points);
 
         if (count($points) < 2) {
             throw new InvalidGeometryException('A LineString must be composed of at least 2 points.');

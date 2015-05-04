@@ -63,9 +63,7 @@ class Polygon extends Surface
             return;
         }
 
-        foreach ($rings as $ring) {
-            $cs->checkMatches($ring->coordinateSystem());
-        }
+        CoordinateSystem::check($this, ...$rings);
 
         $this->rings = $rings;
     }

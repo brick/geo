@@ -41,12 +41,12 @@ class CompoundCurve extends Curve
             return;
         }
 
+        CoordinateSystem::check($this, ...$curves);
+
         /** @var Curve|null $previousCurve */
         $previousCurve = null;
 
         foreach ($curves as $curve) {
-            $cs->checkMatches($curve->coordinateSystem());
-
             if ($previousCurve) {
                 $endPoint = $previousCurve->endPoint();
                 $startPoint = $curve->startPoint();
