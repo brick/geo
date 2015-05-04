@@ -184,8 +184,22 @@ class CoordinateSystem
      */
     public function checkMatches(CoordinateSystem $other)
     {
-        if ($other != $this) {
-            throw new CoordinateSystemException('Cannot mix geometries with different coordinate systems.');
+        if ($other == $this) { // by-value comparison.
+            return;
         }
+
+        if ($other->srid !== $this->srid) {
+            throw new CoordinateSystemException(sprintf(
+                'Expected geometry with SRID %d, got %d.',
+                $this->srid,
+                $other->srid
+            ));
+        }
+
+        throw new CoordinateSystemException(sprintf(
+            'Expected geometry with dimensionality %s, got %s.',
+            $this->coordinateName(),
+            $other->coordinateName()
+        ));
     }
 }
