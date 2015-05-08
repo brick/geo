@@ -3,15 +3,15 @@
 namespace Brick\Geo\IO;
 
 use Brick\Geo\Exception\GeometryException;
-use Brick\Geo\Geometry;
-use Brick\Geo\Point;
-use Brick\Geo\LineString;
 use Brick\Geo\CircularString;
 use Brick\Geo\CompoundCurve;
-use Brick\Geo\Polygon;
+use Brick\Geo\Curve;
 use Brick\Geo\CurvePolygon;
-use Brick\Geo\Triangle;
+use Brick\Geo\Geometry;
 use Brick\Geo\GeometryCollection;
+use Brick\Geo\LineString;
+use Brick\Geo\Point;
+use Brick\Geo\Polygon;
 use Brick\Geo\PolyhedralSurface;
 
 /**
@@ -77,27 +77,31 @@ class WKBWriter
         if ($geometry instanceof Point) {
             return $this->writePoint($geometry, $outer);
         }
+
         if ($geometry instanceof LineString) {
-            return $this->writeLineString($geometry, $outer);
+            return $this->writeCurve($geometry, $outer);
         }
+
         if ($geometry instanceof CircularString) {
-            return $this->writeCircularString($geometry, $outer);
+            return $this->writeCurve($geometry, $outer);
         }
-        if ($geometry instanceof CompoundCurve) {
-            return $this->writeComposedGeometry($geometry, $outer);
-        }
-        if ($geometry instanceof Triangle) {
-            return $this->writeTriangle($geometry, $outer);
-        }
+
         if ($geometry instanceof Polygon) {
             return $this->writePolygon($geometry, $outer);
         }
+
+        if ($geometry instanceof CompoundCurve) {
+            return $this->writeComposedGeometry($geometry, $outer);
+        }
+
         if ($geometry instanceof CurvePolygon) {
             return $this->writeComposedGeometry($geometry, $outer);
         }
+
         if ($geometry instanceof GeometryCollection) {
             return $this->writeComposedGeometry($geometry, $outer);
         }
+
         if ($geometry instanceof PolyhedralSurface) {
             return $this->writeComposedGeometry($geometry, $outer);
         }
@@ -163,7 +167,7 @@ class WKBWriter
     }
 
     /**
-     * @param \Brick\Geo\Point $point
+     * @param Point $point
      *
      * @return string
      *
@@ -188,31 +192,15 @@ class WKBWriter
     }
 
     /**
-     * @param \Brick\Geo\LineString $lineString
+     * @param Curve $curve
      *
      * @return string
      */
-    private function packLineString(LineString $lineString)
+    private function packCurve(Curve $curve)
     {
-        $wkb = $this->packUnsignedInteger($lineString->count());
+        $wkb = $this->packUnsignedInteger($curve->count());
 
-        foreach ($lineString as $point) {
-            $wkb .= $this->packPoint($point);
-        }
-
-        return $wkb;
-    }
-
-    /**
-     * @param \Brick\Geo\CircularString $circularString
-     *
-     * @return string
-     */
-    private function packCircularString(CircularString $circularString)
-    {
-        $wkb = $this->packUnsignedInteger($circularString->count());
-
-        foreach ($circularString as $point) {
+        foreach ($curve as $point) {
             $wkb .= $this->packPoint($point);
         }
 
@@ -235,31 +223,16 @@ class WKBWriter
     }
 
     /**
-     * @param LineString $lineString
-     * @param boolean    $outer
+     * @param Curve   $curve
+     * @param boolean $outer
      *
      * @return string
      */
-    private function writeLineString(LineString $lineString, $outer)
+    private function writeCurve(Curve $curve, $outer)
     {
         $wkb = $this->packByteOrder();
-        $wkb.= $this->packHeader($lineString, $outer);
-        $wkb.= $this->packLineString($lineString);
-
-        return $wkb;
-    }
-
-    /**
-     * @param CircularString $circularString
-     * @param boolean        $outer
-     *
-     * @return string
-     */
-    private function writeCircularString(CircularString $circularString, $outer)
-    {
-        $wkb = $this->packByteOrder();
-        $wkb.= $this->packHeader($circularString, $outer);
-        $wkb.= $this->packCircularString($circularString);
+        $wkb.= $this->packHeader($curve, $outer);
+        $wkb.= $this->packCurve($curve);
 
         return $wkb;
     }
@@ -277,26 +250,7 @@ class WKBWriter
         $wkb.= $this->packUnsignedInteger($polygon->count());
 
         foreach ($polygon as $ring) {
-            $wkb .= $this->packLineString($ring);
-        }
-
-        return $wkb;
-    }
-
-    /**
-     * @param Triangle $triangle
-     * @param boolean $outer
-     *
-     * @return string
-     */
-    private function writeTriangle(Triangle $triangle, $outer)
-    {
-        $wkb = $this->packByteOrder();
-        $wkb.= $this->packHeader($triangle, $outer);
-        $wkb.= $this->packUnsignedInteger($triangle->count());
-
-        foreach ($triangle as $ring) {
-            $wkb .= $this->packLineString($ring);
+            $wkb .= $this->packCurve($ring);
         }
 
         return $wkb;
