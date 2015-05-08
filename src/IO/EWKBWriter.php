@@ -7,7 +7,7 @@ use Brick\Geo\Geometry;
 /**
  * Writes geometries in the Extended WKB format designed by PostGIS.
  */
-class EWKBWriter extends WKBWriter
+class EWKBWriter extends AbstractWKBWriter
 {
     /**
      * {@inheritdoc}

@@ -7,14 +7,10 @@ use Brick\Geo\Geometry;
 /**
  * Writes geometries in the Extended WKT format designed by PostGIS.
  */
-class EWKTWriter extends WKTWriter
+class EWKTWriter extends AbstractWKTWriter
 {
     /**
-     * @param \Brick\Geo\Geometry $geometry
-     *
-     * @return string
-     *
-     * @throws \Brick\Geo\Exception\GeometryException
+     * {@inheritdoc}
      */
     public function write(Geometry $geometry)
     {

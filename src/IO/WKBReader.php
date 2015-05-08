@@ -7,7 +7,7 @@ use Brick\Geo\Exception\GeometryParseException;
 /**
  * Builds geometries out of Well-Known Binary strings.
  */
-class WKBReader extends WKBAbstractReader
+class WKBReader extends AbstractWKBReader
 {
     /**
      * @param string  $wkb  The WKB to read.

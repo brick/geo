@@ -23,7 +23,7 @@ use Brick\Geo\Triangle;
 /**
  * Base class for WKBReader and EWKBReader.
  */
-abstract class WKBAbstractReader
+abstract class AbstractWKBReader
 {
     /**
      * @param WKBBuffer $buffer       The WKB buffer.

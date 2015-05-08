@@ -8,7 +8,7 @@ use Brick\Geo\Exception\GeometryParseException;
 /**
  * Reads geometries out of the Extended WKB format designed by PostGIS.
  */
-class EWKBReader extends WKBAbstractReader
+class EWKBReader extends AbstractWKBReader
 {
     /**
      * @param string $ewkb The EWKB to read.

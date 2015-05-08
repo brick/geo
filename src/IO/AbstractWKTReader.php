@@ -22,7 +22,7 @@ use Brick\Geo\Exception\GeometryParseException;
 /**
  * Base class for WKTReader and EWKTReader.
  */
-abstract class WKTAbstractReader
+abstract class AbstractWKTReader
 {
     /**
      * @param WKTParser $parser
