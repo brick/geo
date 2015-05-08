@@ -11,12 +11,8 @@ use Brick\Geo\CompoundCurve;
 use Brick\Geo\Polygon;
 use Brick\Geo\CurvePolygon;
 use Brick\Geo\Triangle;
-use Brick\Geo\MultiPoint;
-use Brick\Geo\MultiLineString;
-use Brick\Geo\MultiPolygon;
 use Brick\Geo\GeometryCollection;
 use Brick\Geo\PolyhedralSurface;
-use Brick\Geo\TIN;
 
 /**
  * Converter class from Geometry to WKB.
@@ -88,7 +84,7 @@ class WKBWriter
             return $this->writeCircularString($geometry, $outer);
         }
         if ($geometry instanceof CompoundCurve) {
-            return $this->writeCompoundCurve($geometry, $outer);
+            return $this->writeComposedGeometry($geometry, $outer);
         }
         if ($geometry instanceof Triangle) {
             return $this->writeTriangle($geometry, $outer);
@@ -97,25 +93,13 @@ class WKBWriter
             return $this->writePolygon($geometry, $outer);
         }
         if ($geometry instanceof CurvePolygon) {
-            return $this->writeCurvePolygon($geometry, $outer);
-        }
-        if ($geometry instanceof MultiPoint) {
-            return $this->writeMultiPoint($geometry, $outer);
-        }
-        if ($geometry instanceof MultiLineString) {
-            return $this->writeMultiLineString($geometry, $outer);
-        }
-        if ($geometry instanceof MultiPolygon) {
-            return $this->writeMultiPolygon($geometry, $outer);
+            return $this->writeComposedGeometry($geometry, $outer);
         }
         if ($geometry instanceof GeometryCollection) {
-            return $this->writeGeometryCollection($geometry, $outer);
-        }
-        if ($geometry instanceof TIN) {
-            return $this->writeTIN($geometry, $outer);
+            return $this->writeComposedGeometry($geometry, $outer);
         }
         if ($geometry instanceof PolyhedralSurface) {
-            return $this->writePolyhedralSurface($geometry, $outer);
+            return $this->writeComposedGeometry($geometry, $outer);
         }
 
         throw GeometryException::unsupportedGeometryType($geometry->geometryType());
@@ -281,25 +265,6 @@ class WKBWriter
     }
 
     /**
-     * @param CompoundCurve $compoundCurve
-     * @param boolean       $outer
-     *
-     * @return string
-     */
-    private function writeCompoundCurve(CompoundCurve $compoundCurve, $outer)
-    {
-        $wkb = $this->packByteOrder();
-        $wkb.= $this->packHeader($compoundCurve, $outer);
-        $wkb.= $this->packUnsignedInteger($compoundCurve->count());
-
-        foreach ($compoundCurve as $curve) {
-            $wkb .= $this->doWrite($curve, false);
-        }
-
-        return $wkb;
-    }
-
-    /**
      * @param Polygon $polygon
      * @param boolean $outer
      *
@@ -313,25 +278,6 @@ class WKBWriter
 
         foreach ($polygon as $ring) {
             $wkb .= $this->packLineString($ring);
-        }
-
-        return $wkb;
-    }
-
-    /**
-     * @param CurvePolygon $curvePolygon
-     * @param boolean      $outer
-     *
-     * @return string
-     */
-    private function writeCurvePolygon(CurvePolygon $curvePolygon, $outer)
-    {
-        $wkb = $this->packByteOrder();
-        $wkb.= $this->packHeader($curvePolygon, $outer);
-        $wkb.= $this->packUnsignedInteger($curvePolygon->count());
-
-        foreach ($curvePolygon as $ring) {
-            $wkb .= $this->doWrite($ring, false);
         }
 
         return $wkb;
@@ -357,69 +303,12 @@ class WKBWriter
     }
 
     /**
-     * @param MultiPoint $multiPoint
-     * @param boolean    $outer
+     * @param Geometry $collection
+     * @param boolean  $outer
      *
      * @return string
      */
-    private function writeMultiPoint(MultiPoint $multiPoint, $outer)
-    {
-        $wkb = $this->packByteOrder();
-        $wkb.= $this->packHeader($multiPoint, $outer);
-        $wkb.= $this->packUnsignedInteger($multiPoint->count());
-
-        foreach ($multiPoint as $point) {
-            $wkb .= $this->doWrite($point, false);
-        }
-
-        return $wkb;
-    }
-
-    /**
-     * @param MultiLineString $multiLineString
-     * @param boolean         $outer
-     *
-     * @return string
-     */
-    private function writeMultiLineString(MultiLineString $multiLineString, $outer)
-    {
-        $wkb = $this->packByteOrder();
-        $wkb.= $this->packHeader($multiLineString, $outer);
-        $wkb.= $this->packUnsignedInteger($multiLineString->count());
-
-        foreach ($multiLineString as $lineString) {
-            $wkb .= $this->writeLineString($lineString, false);
-        }
-
-        return $wkb;
-    }
-
-    /**
-     * @param MultiPolygon $multiPolygon
-     * @param boolean $outer
-     *
-     * @return string
-     */
-    private function writeMultiPolygon(MultiPolygon $multiPolygon, $outer)
-    {
-        $wkb = $this->packByteOrder();
-        $wkb.= $this->packHeader($multiPolygon, $outer);
-        $wkb.= $this->packUnsignedInteger($multiPolygon->count());
-
-        foreach ($multiPolygon as $polygon) {
-            $wkb .= $this->writePolygon($polygon, false);
-        }
-
-        return $wkb;
-    }
-
-    /**
-     * @param GeometryCollection $collection
-     * @param boolean            $outer
-     *
-     * @return string
-     */
-    private function writeGeometryCollection(GeometryCollection $collection, $outer)
+    private function writeComposedGeometry(Geometry $collection, $outer)
     {
         $wkb = $this->packByteOrder();
         $wkb.= $this->packHeader($collection, $outer);
@@ -427,44 +316,6 @@ class WKBWriter
 
         foreach ($collection as $geometry) {
             $wkb .= $this->doWrite($geometry, false);
-        }
-
-        return $wkb;
-    }
-
-    /**
-     * @param PolyhedralSurface $surface
-     * @param boolean           $outer
-     *
-     * @return string
-     */
-    private function writePolyhedralSurface(PolyhedralSurface $surface, $outer)
-    {
-        $wkb = $this->packByteOrder();
-        $wkb.= $this->packHeader($surface, $outer);
-        $wkb.= $this->packUnsignedInteger($surface->count());
-
-        foreach ($surface as $polygon) {
-            $wkb .= $this->writePolygon($polygon, false);
-        }
-
-        return $wkb;
-    }
-
-    /**
-     * @param TIN     $tin
-     * @param boolean $outer
-     *
-     * @return string
-     */
-    private function writeTIN(TIN $tin, $outer)
-    {
-        $wkb = $this->packByteOrder();
-        $wkb.= $this->packHeader($tin, $outer);
-        $wkb.= $this->packUnsignedInteger($tin->count());
-
-        foreach ($tin as $patch) {
-            $wkb .= $this->writeTriangle($patch, false);
         }
 
         return $wkb;
