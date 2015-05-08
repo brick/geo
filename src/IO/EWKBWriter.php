@@ -14,15 +14,17 @@ class EWKBWriter extends WKBWriter
      */
     protected function packHeader($geometryType, Geometry $geometry, $outer)
     {
-        if ($geometry->is3D()) {
+        $cs = $geometry->coordinateSystem();
+
+        if ($cs->hasZ()) {
             $geometryType |= EWKBTools::Z;
         }
 
-        if ($geometry->isMeasured()) {
+        if ($cs->hasM()) {
             $geometryType |= EWKBTools::M;
         }
 
-        $srid = $geometry->SRID();
+        $srid = $cs->SRID();
 
         if ($srid !== 0 && $outer) {
             $geometryType |= EWKBTools::S;

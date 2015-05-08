@@ -71,18 +71,20 @@ class WKTWriter
     {
         $type = strtoupper($geometry->geometryType());
 
-        $z = $geometry->is3D();
-        $m = $geometry->isMeasured();
+        $cs = $geometry->coordinateSystem();
+
+        $hasZ = $cs->hasZ();
+        $hasM = $cs->hasM();
 
         $dimensionality = '';
 
-        if ($z || $m) {
+        if ($hasZ || $hasM) {
             $dimensionality .= ' ';
 
-            if ($z) {
+            if ($hasZ) {
                 $dimensionality .= 'Z';
             }
-            if ($m) {
+            if ($hasM) {
                 $dimensionality .= 'M';
             }
         }

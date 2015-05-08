@@ -37,18 +37,18 @@ abstract class WKTAbstractReader
         $geometryType = $parser->getNextWord();
         $word = $parser->getOptionalNextWord();
 
-        $is3D       = false;
-        $isMeasured = false;
+        $hasZ = false;
+        $hasM = false;
         $isEmpty    = false;
 
         if ($word !== null) {
             if ($word === 'Z') {
-                $is3D = true;
+                $hasZ = true;
             } elseif ($word === 'M') {
-                $isMeasured = true;
+                $hasM = true;
             } elseif ($word === 'ZM') {
-                $is3D       = true;
-                $isMeasured = true;
+                $hasZ = true;
+                $hasM = true;
             } elseif ($word === 'EMPTY') {
                 $isEmpty = true;
             } else {
@@ -66,7 +66,7 @@ abstract class WKTAbstractReader
             }
         }
 
-        $cs = new CoordinateSystem($is3D, $isMeasured, $srid);
+        $cs = new CoordinateSystem($hasZ, $hasM, $srid);
 
         switch ($geometryType) {
             case 'POINT':

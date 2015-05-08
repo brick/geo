@@ -32,7 +32,7 @@ class EWKBReader extends WKBAbstractReader
     /**
      * {@inheritdoc}
      */
-    protected function readGeometryHeader(WKBBuffer $buffer, & $geometryType, & $is3D, & $isMeasured, & $srid)
+    protected function readGeometryHeader(WKBBuffer $buffer, & $geometryType, & $hasZ, & $hasM, & $srid)
     {
         $header = $buffer->readUnsignedLong();
 
@@ -44,13 +44,13 @@ class EWKBReader extends WKBAbstractReader
                 throw GeometryParseException::unsupportedWKBType($header);
             }
 
-            $is3D = ($dimension === 1 || $dimension === 3);
-            $isMeasured = ($dimension === 2 || $dimension === 3);
+            $hasZ = ($dimension === 1 || $dimension === 3);
+            $hasM = ($dimension === 2 || $dimension === 3);
         } else {
             $geometryType = $header & 0xFFF;
 
-            $is3D = (($header & EWKBTools::Z) !== 0);
-            $isMeasured = (($header & EWKBTools::M) !== 0);
+            $hasZ    = (($header & EWKBTools::Z) !== 0);
+            $hasM    = (($header & EWKBTools::M) !== 0);
             $hasSRID = (($header & EWKBTools::S) !== 0);
 
             if ($hasSRID) {

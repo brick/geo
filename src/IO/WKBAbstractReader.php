@@ -28,15 +28,15 @@ abstract class WKBAbstractReader
     /**
      * @param WKBBuffer $buffer       The WKB buffer.
      * @param integer   $geometryType A variable to store the geometry type.
-     * @param boolean   $is3D         A variable to store whether the geometry has Z coordinates.
-     * @param boolean   $isMeasured   A variable to store whether the geometry has M coordinates.
+     * @param boolean   $hasZ         A variable to store whether the geometry has Z coordinates.
+     * @param boolean   $hasM         A variable to store whether the geometry has M coordinates.
      * @param integer   $srid         A variable to store the SRID.
      *
      * @return void
      *
      * @throws GeometryException
      */
-    abstract protected function readGeometryHeader(WKBBuffer $buffer, & $geometryType, & $is3D, & $isMeasured, & $srid);
+    abstract protected function readGeometryHeader(WKBBuffer $buffer, & $geometryType, & $hasZ, & $hasM, & $srid);
 
     /**
      * @param WKBBuffer $buffer
@@ -50,9 +50,9 @@ abstract class WKBAbstractReader
     {
         $buffer->readByteOrder();
 
-        $this->readGeometryHeader($buffer, $geometryType, $is3D, $isMeasured, $srid);
+        $this->readGeometryHeader($buffer, $geometryType, $hasZ, $hasM, $srid);
 
-        $cs = new CoordinateSystem($is3D, $isMeasured, $srid);
+        $cs = new CoordinateSystem($hasZ, $hasM, $srid);
 
         switch ($geometryType) {
             case Geometry::POINT:

@@ -164,11 +164,13 @@ class WKBWriter
      */
     protected function packHeader($geometryType, Geometry $geometry, $outer)
     {
-        if ($geometry->is3D()) {
+        $cs = $geometry->coordinateSystem();
+
+        if ($cs->hasZ()) {
             $geometryType += 1000;
         }
 
-        if ($geometry->isMeasured()) {
+        if ($cs->hasM()) {
             $geometryType += 2000;
         }
 
