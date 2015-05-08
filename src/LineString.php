@@ -146,6 +146,16 @@ class LineString extends Curve
     }
 
     /**
+     * @noproxy
+     *
+     * {@inheritdoc}
+     */
+    public function geometryTypeBinary()
+    {
+        return Geometry::LINESTRING;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function toArray()

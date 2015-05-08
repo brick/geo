@@ -154,6 +154,16 @@ class PolyhedralSurface extends Surface
     }
 
     /**
+     * @noproxy
+     *
+     * {@inheritdoc}
+     */
+    public function geometryTypeBinary()
+    {
+        return Geometry::POLYHEDRALSURFACE;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function toArray()

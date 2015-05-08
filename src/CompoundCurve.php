@@ -156,6 +156,16 @@ class CompoundCurve extends Curve
     }
 
     /**
+     * @noproxy
+     *
+     * {@inheritdoc}
+     */
+    public function geometryTypeBinary()
+    {
+        return Geometry::COMPOUNDCURVE;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function toArray()

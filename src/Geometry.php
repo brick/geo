@@ -170,6 +170,11 @@ abstract class Geometry implements \Countable, \IteratorAggregate
     abstract public function geometryType();
 
     /**
+     * @return integer
+     */
+    abstract public function geometryTypeBinary();
+
+    /**
      * Returns the Spatial Reference System ID for this geometry.
      *
      * @return integer The SRID, zero if not set.

@@ -183,6 +183,16 @@ class Polygon extends Surface
     }
 
     /**
+     * @noproxy
+     *
+     * {@inheritdoc}
+     */
+    public function geometryTypeBinary()
+    {
+        return Geometry::POLYGON;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function toArray()

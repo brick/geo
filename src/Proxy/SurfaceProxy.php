@@ -174,6 +174,18 @@ class SurfaceProxy extends Surface implements ProxyInterface
     /**
      * {@inheritdoc}
      */
+    public function geometryTypeBinary()
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->geometryTypeBinary();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function SRID()
     {
         if ($this->proxyGeometry === null) {

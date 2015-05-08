@@ -32,6 +32,16 @@ class MultiPolygon extends MultiSurface
     }
 
     /**
+     * @noproxy
+     *
+     * {@inheritdoc}
+     */
+    public function geometryTypeBinary()
+    {
+        return Geometry::MULTIPOLYGON;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function dimension()

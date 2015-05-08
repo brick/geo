@@ -147,6 +147,16 @@ class CircularString extends Curve
     }
 
     /**
+     * @noproxy
+     *
+     * {@inheritdoc}
+     */
+    public function geometryTypeBinary()
+    {
+        return Geometry::CIRCULARSTRING;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function toArray()

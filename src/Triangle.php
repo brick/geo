@@ -38,4 +38,14 @@ class Triangle extends Polygon
     {
         return 'Triangle';
     }
+
+    /**
+     * @noproxy
+     *
+     * {@inheritdoc}
+     */
+    public function geometryTypeBinary()
+    {
+        return Geometry::TRIANGLE;
+    }
 }

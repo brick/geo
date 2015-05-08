@@ -34,4 +34,14 @@ class TIN extends PolyhedralSurface
     {
         return 'TIN';
     }
+
+    /**
+     * @noproxy
+     *
+     * {@inheritdoc}
+     */
+    public function geometryTypeBinary()
+    {
+        return Geometry::TIN;
+    }
 }

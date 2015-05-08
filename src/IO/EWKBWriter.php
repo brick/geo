@@ -12,8 +12,10 @@ class EWKBWriter extends WKBWriter
     /**
      * {@inheritdoc}
      */
-    protected function packHeader($geometryType, Geometry $geometry, $outer)
+    protected function packHeader(Geometry $geometry, $outer)
     {
+        $geometryType = $geometry->geometryTypeBinary();
+
         $cs = $geometry->coordinateSystem();
 
         if ($cs->hasZ()) {

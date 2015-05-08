@@ -142,6 +142,16 @@ class GeometryCollection extends Geometry
     }
 
     /**
+     * @noproxy
+     *
+     * {@inheritdoc}
+     */
+    public function geometryTypeBinary()
+    {
+        return Geometry::GEOMETRYCOLLECTION;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function dimension()

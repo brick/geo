@@ -156,14 +156,15 @@ class WKBWriter
     }
 
     /**
-     * @param integer  $geometryType
      * @param Geometry $geometry
      * @param boolean  $outer
      *
      * @return string
      */
-    protected function packHeader($geometryType, Geometry $geometry, $outer)
+    protected function packHeader(Geometry $geometry, $outer)
     {
+        $geometryType = $geometry->geometryTypeBinary();
+
         $cs = $geometry->coordinateSystem();
 
         if ($cs->hasZ()) {
@@ -243,7 +244,7 @@ class WKBWriter
     private function writePoint(Point $point, $outer)
     {
         $wkb = $this->packByteOrder();
-        $wkb.= $this->packHeader(Geometry::POINT, $point, $outer);
+        $wkb.= $this->packHeader($point, $outer);
         $wkb.= $this->packPoint($point);
 
         return $wkb;
@@ -258,7 +259,7 @@ class WKBWriter
     private function writeLineString(LineString $lineString, $outer)
     {
         $wkb = $this->packByteOrder();
-        $wkb.= $this->packHeader(Geometry::LINESTRING, $lineString, $outer);
+        $wkb.= $this->packHeader($lineString, $outer);
         $wkb.= $this->packLineString($lineString);
 
         return $wkb;
@@ -273,7 +274,7 @@ class WKBWriter
     private function writeCircularString(CircularString $circularString, $outer)
     {
         $wkb = $this->packByteOrder();
-        $wkb.= $this->packHeader(Geometry::CIRCULARSTRING, $circularString, $outer);
+        $wkb.= $this->packHeader($circularString, $outer);
         $wkb.= $this->packCircularString($circularString);
 
         return $wkb;
@@ -288,7 +289,7 @@ class WKBWriter
     private function writeCompoundCurve(CompoundCurve $compoundCurve, $outer)
     {
         $wkb = $this->packByteOrder();
-        $wkb.= $this->packHeader(Geometry::COMPOUNDCURVE, $compoundCurve, $outer);
+        $wkb.= $this->packHeader($compoundCurve, $outer);
         $wkb.= $this->packUnsignedInteger($compoundCurve->count());
 
         foreach ($compoundCurve as $curve) {
@@ -307,7 +308,7 @@ class WKBWriter
     private function writePolygon(Polygon $polygon, $outer)
     {
         $wkb = $this->packByteOrder();
-        $wkb.= $this->packHeader(Geometry::POLYGON, $polygon, $outer);
+        $wkb.= $this->packHeader($polygon, $outer);
         $wkb.= $this->packUnsignedInteger($polygon->count());
 
         foreach ($polygon as $ring) {
@@ -326,7 +327,7 @@ class WKBWriter
     private function writeCurvePolygon(CurvePolygon $curvePolygon, $outer)
     {
         $wkb = $this->packByteOrder();
-        $wkb.= $this->packHeader(Geometry::CURVEPOLYGON, $curvePolygon, $outer);
+        $wkb.= $this->packHeader($curvePolygon, $outer);
         $wkb.= $this->packUnsignedInteger($curvePolygon->count());
 
         foreach ($curvePolygon as $ring) {
@@ -345,7 +346,7 @@ class WKBWriter
     private function writeTriangle(Triangle $triangle, $outer)
     {
         $wkb = $this->packByteOrder();
-        $wkb.= $this->packHeader(Geometry::TRIANGLE, $triangle, $outer);
+        $wkb.= $this->packHeader($triangle, $outer);
         $wkb.= $this->packUnsignedInteger($triangle->count());
 
         foreach ($triangle as $ring) {
@@ -364,11 +365,11 @@ class WKBWriter
     private function writeMultiPoint(MultiPoint $multiPoint, $outer)
     {
         $wkb = $this->packByteOrder();
-        $wkb.= $this->packHeader(Geometry::MULTIPOINT, $multiPoint, $outer);
+        $wkb.= $this->packHeader($multiPoint, $outer);
         $wkb.= $this->packUnsignedInteger($multiPoint->count());
 
         foreach ($multiPoint as $point) {
-            $wkb .= $this->writePoint($point, false);
+            $wkb .= $this->doWrite($point, false);
         }
 
         return $wkb;
@@ -383,7 +384,7 @@ class WKBWriter
     private function writeMultiLineString(MultiLineString $multiLineString, $outer)
     {
         $wkb = $this->packByteOrder();
-        $wkb.= $this->packHeader(Geometry::MULTILINESTRING, $multiLineString, $outer);
+        $wkb.= $this->packHeader($multiLineString, $outer);
         $wkb.= $this->packUnsignedInteger($multiLineString->count());
 
         foreach ($multiLineString as $lineString) {
@@ -402,7 +403,7 @@ class WKBWriter
     private function writeMultiPolygon(MultiPolygon $multiPolygon, $outer)
     {
         $wkb = $this->packByteOrder();
-        $wkb.= $this->packHeader(Geometry::MULTIPOLYGON, $multiPolygon, $outer);
+        $wkb.= $this->packHeader($multiPolygon, $outer);
         $wkb.= $this->packUnsignedInteger($multiPolygon->count());
 
         foreach ($multiPolygon as $polygon) {
@@ -421,7 +422,7 @@ class WKBWriter
     private function writeGeometryCollection(GeometryCollection $collection, $outer)
     {
         $wkb = $this->packByteOrder();
-        $wkb.= $this->packHeader(Geometry::GEOMETRYCOLLECTION, $collection, $outer);
+        $wkb.= $this->packHeader($collection, $outer);
         $wkb.= $this->packUnsignedInteger($collection->count());
 
         foreach ($collection as $geometry) {
@@ -440,7 +441,7 @@ class WKBWriter
     private function writePolyhedralSurface(PolyhedralSurface $surface, $outer)
     {
         $wkb = $this->packByteOrder();
-        $wkb.= $this->packHeader(Geometry::POLYHEDRALSURFACE, $surface, $outer);
+        $wkb.= $this->packHeader($surface, $outer);
         $wkb.= $this->packUnsignedInteger($surface->count());
 
         foreach ($surface as $polygon) {
@@ -459,7 +460,7 @@ class WKBWriter
     private function writeTIN(TIN $tin, $outer)
     {
         $wkb = $this->packByteOrder();
-        $wkb.= $this->packHeader(Geometry::TIN, $tin, $outer);
+        $wkb.= $this->packHeader($tin, $outer);
         $wkb.= $this->packUnsignedInteger($tin->count());
 
         foreach ($tin as $patch) {

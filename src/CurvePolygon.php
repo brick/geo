@@ -135,6 +135,16 @@ class CurvePolygon extends Surface
     }
 
     /**
+     * @noproxy
+     *
+     * {@inheritdoc}
+     */
+    public function geometryTypeBinary()
+    {
+        return Geometry::CURVEPOLYGON;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function toArray()

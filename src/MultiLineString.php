@@ -18,6 +18,16 @@ class MultiLineString extends MultiCurve
     }
 
     /**
+     * @noproxy
+     *
+     * {@inheritdoc}
+     */
+    public function geometryTypeBinary()
+    {
+        return Geometry::MULTILINESTRING;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function dimension()

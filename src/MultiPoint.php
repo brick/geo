@@ -24,6 +24,16 @@ class MultiPoint extends GeometryCollection
     }
 
     /**
+     * @noproxy
+     *
+     * {@inheritdoc}
+     */
+    public function geometryTypeBinary()
+    {
+        return Geometry::MULTIPOINT;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function dimension()

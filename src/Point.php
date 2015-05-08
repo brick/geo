@@ -251,6 +251,16 @@ class Point extends Geometry
      *
      * {@inheritdoc}
      */
+    public function geometryTypeBinary()
+    {
+        return Geometry::POINT;
+    }
+
+    /**
+     * @noproxy
+     *
+     * {@inheritdoc}
+     */
     public function dimension()
     {
         return 0;
