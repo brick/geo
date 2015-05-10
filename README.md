@@ -132,7 +132,7 @@ Update the `libspatialite` extension name as required. In this example we have c
 Geometry hierarchy
 ------------------
 
-All geometry objects extend a base `Geometry` class:
+All geometry objects reside in the `Brick\Geo` namespace, and extend a base `Geometry` class:
 
 - [Geometry](https://github.com/brick/geo/blob/master/src/Geometry.php) `abstract`
   - [Point](https://github.com/brick/geo/blob/master/src/Point.php)
@@ -152,6 +152,25 @@ All geometry objects extend a base `Geometry` class:
       - [MultiLineString](https://github.com/brick/geo/blob/master/src/MultiLineString.php)
     - [MultiSurface](https://github.com/brick/geo/blob/master/src/MultiSurface.php) `abstract`
       - [MultiPolygon](https://github.com/brick/geo/blob/master/src/MultiPolygon.php)
+
+Geometry exceptions
+-------------------
+
+All geometry exceptions reside in the `Brick\Geo\Exception` namespace, and extend a base `GeometryException` object.
+
+Geometry exceptions are fine-grained: only subclasses of the base `GeometryException` class are thrown throughout
+the project. This leaves to the user the choice to catch only specific exceptions, or all geometry-related exceptions.
+
+Here is a list of all exceptions:
+
+- `CoordinateSystemException` is thrown when mixing objects with different SRID or dimensionality (e.g. XY with XYZ)
+- `EmptyGeometryException` is thrown when trying to access a non-existent property on an empty geometry
+- `GeometryEngineException` is thrown when a functionality is not supported by the current geometry engine
+- `GeometryIOException` is thrown when an error occurs while reading or writing (E)WKB/T data
+- `InvalidGeometryException` is thrown when creating an invalid geometry, such as a `LineString` with only one `Point`
+- `NoSuchGeometryException` is thrown when attempting to get a geometry at an non-existing index in a collection
+- `UnexpectedGeometryException` is thrown when a geometry is not an instance of the expected sub-type, for example when
+calling `Point::fromText()` with a `LineString` WKT.
 
 Example
 -------
