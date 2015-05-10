@@ -2,6 +2,7 @@
 
 namespace Brick\Geo\IO;
 
+use Brick\Geo\Exception\GeometryIOException;
 use Brick\Geo\Geometry;
 use Brick\Geo\Point;
 use Brick\Geo\LineString;
@@ -16,7 +17,6 @@ use Brick\Geo\GeometryCollection;
 use Brick\Geo\PolyhedralSurface;
 use Brick\Geo\TIN;
 use Brick\Geo\Triangle;
-use Brick\Geo\Exception\GeometryException;
 
 /**
  * Base class for WKTWriter and EWKTWriter.
@@ -49,20 +49,20 @@ abstract class AbstractWKTWriter
     }
 
     /**
-     * @param Geometry $geometry
+     * @param Geometry $geometry The geometry to export as WKT.
      *
-     * @return string
+     * @return string The WKT representation of the given geometry.
      *
-     * @throws GeometryException
+     * @throws GeometryIOException If the given geometry cannot be exported as WKT.
      */
     abstract public function write(Geometry $geometry);
 
     /**
-     * @param Geometry $geometry
+     * @param Geometry $geometry The geometry to export as WKT.
      *
-     * @return string
+     * @return string The WKT representation of the given geometry.
      *
-     * @throws GeometryException
+     * @throws GeometryIOException If the given geometry cannot be exported as WKT.
      */
     protected function doWrite(Geometry $geometry)
     {
@@ -123,7 +123,7 @@ abstract class AbstractWKTWriter
         } elseif ($geometry instanceof PolyhedralSurface) {
             $data = $this->writePolyhedralSurface($geometry);
         } else {
-            throw GeometryException::unsupportedGeometryType($geometry->geometryType());
+            throw GeometryIOException::unsupportedGeometryType($geometry->geometryType());
         }
 
         return $type . $dimensionality . $this->prettyPrintSpace . '(' . $data . ')';
@@ -186,7 +186,7 @@ abstract class AbstractWKTWriter
      *
      * @return string
      *
-     * @throws GeometryException
+     * @throws GeometryIOException
      */
     private function writeCompoundCurve(CompoundCurve $compoundCurve)
     {
@@ -198,7 +198,7 @@ abstract class AbstractWKTWriter
             } elseif ($curve instanceof CircularString) {
                 $result[] = $this->doWrite($curve);
             } else {
-                throw new GeometryException('Only LineString and CircularString are allowed in CompoundCurve WKT.');
+                throw new GeometryIOException('Only LineString and CircularString are allowed in CompoundCurve WKT.');
             }
         }
 

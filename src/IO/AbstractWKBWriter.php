@@ -3,6 +3,7 @@
 namespace Brick\Geo\IO;
 
 use Brick\Geo\Exception\GeometryException;
+use Brick\Geo\Exception\GeometryIOException;
 use Brick\Geo\CircularString;
 use Brick\Geo\CompoundCurve;
 use Brick\Geo\Curve;
@@ -53,11 +54,11 @@ abstract class AbstractWKBWriter
     }
 
     /**
-     * @param Geometry $geometry
+     * @param Geometry $geometry The geometry to export as WKB.
      *
-     * @return string
+     * @return string The WKB representation of the given geometry.
      *
-     * @throws GeometryException
+     * @throws GeometryIOException If the given geometry cannot be exported as WKB.
      */
     public function write(Geometry $geometry)
     {
@@ -65,12 +66,12 @@ abstract class AbstractWKBWriter
     }
 
     /**
-     * @param Geometry $geometry The geometry to write.
-     * @param boolean  $outer    False if the geometry is nested in a collection, true otherwise.
+     * @param Geometry $geometry The geometry export as WKB write.
+     * @param boolean  $outer    False if the geometry is nested in another geometry, true otherwise.
      *
-     * @return string
+     * @return string The WKB representation of the given geometry.
      *
-     * @throws GeometryException
+     * @throws GeometryIOException If the given geometry cannot be exported as WKT.
      */
     protected function doWrite(Geometry $geometry, $outer)
     {
@@ -106,7 +107,7 @@ abstract class AbstractWKBWriter
             return $this->writeComposedGeometry($geometry, $outer);
         }
 
-        throw GeometryException::unsupportedGeometryType($geometry->geometryType());
+        throw GeometryIOException::unsupportedGeometryType($geometry->geometryType());
     }
 
     /**
@@ -148,12 +149,12 @@ abstract class AbstractWKBWriter
      *
      * @return string
      *
-     * @throws GeometryException
+     * @throws GeometryIOException
      */
     private function packPoint(Point $point)
     {
         if ($point->isEmpty()) {
-            throw new GeometryException('Empty points have no WKB representation.');
+            throw new GeometryIOException('Empty points have no WKB representation.');
         }
 
         $binary = $this->packDouble($point->x()) . $this->packDouble($point->y());

@@ -56,7 +56,7 @@ class EWKBWriterTest extends EWKBAbstractTest
 
     /**
      * @dataProvider providerWriteEmptyPointThrowsException
-     * @expectedException \Brick\Geo\Exception\GeometryException
+     * @expectedException \Brick\Geo\Exception\GeometryIOException
      *
      * @param Point $point
      */

@@ -44,4 +44,16 @@ class GeometryIOException extends GeometryException
 
         return new self($message);
     }
+
+    /**
+     * @param string $geometryType
+     *
+     * @return GeometryIOException
+     */
+    public static function unsupportedGeometryType($geometryType)
+    {
+        $message = sprintf('Unsupported geometry type: %s.', $geometryType);
+
+        return new static($message);
+    }
 }
