@@ -2,7 +2,7 @@
 
 namespace Brick\Geo\IO;
 
-use Brick\Geo\Exception\GeometryParseException;
+use Brick\Geo\Exception\GeometryIOException;
 
 /**
  * Well-Known Text parser.
@@ -91,51 +91,51 @@ class WKTParser
     /**
      * @return void
      *
-     * @throws \Brick\Geo\Exception\GeometryParseException
+     * @throws \Brick\Geo\Exception\GeometryIOException
      */
     public function matchOpener()
     {
         $token = $this->nextToken();
 
         if ($token === false) {
-            throw new GeometryParseException("Expected '(' but encountered end of stream");
+            throw new GeometryIOException("Expected '(' but encountered end of stream");
         }
         if ($token[1] !== '(') {
-            throw new GeometryParseException("Expected '(' but encountered '" . $token[1] . "'");
+            throw new GeometryIOException("Expected '(' but encountered '" . $token[1] . "'");
         }
     }
 
     /**
      * @return void
      *
-     * @throws \Brick\Geo\Exception\GeometryParseException
+     * @throws \Brick\Geo\Exception\GeometryIOException
      */
     public function matchCloser()
     {
         $token = $this->nextToken();
 
         if ($token === false) {
-            throw new GeometryParseException("Expected ')' but encountered end of stream");
+            throw new GeometryIOException("Expected ')' but encountered end of stream");
         }
         if ($token[1] !== ')') {
-            throw new GeometryParseException("Expected ')' but encountered '" . $token[1] . "'");
+            throw new GeometryIOException("Expected ')' but encountered '" . $token[1] . "'");
         }
     }
 
     /**
      * @return string
      *
-     * @throws \Brick\Geo\Exception\GeometryParseException
+     * @throws \Brick\Geo\Exception\GeometryIOException
      */
     public function getNextWord()
     {
         $token = $this->nextToken();
 
         if ($token === false) {
-            throw new GeometryParseException("Expected word but encountered end of stream");
+            throw new GeometryIOException("Expected word but encountered end of stream");
         }
         if ($token[0] !== static::T_WORD) {
-            throw new GeometryParseException("Expected word but encountered '" . $token[1] . "'");
+            throw new GeometryIOException("Expected word but encountered '" . $token[1] . "'");
         }
 
         return $token[1];
@@ -165,14 +165,14 @@ class WKTParser
      *
      * @return boolean True if the next token is an opener, false if it is a word.
      *
-     * @throws GeometryParseException If the next token is not an opener or a word, or if there is no next token.
+     * @throws GeometryIOException If the next token is not an opener or a word, or if there is no next token.
      */
     public function isNextOpenerOrWord()
     {
         $token = current($this->tokens);
 
         if ($token === false) {
-            throw new GeometryParseException("Expected '(' or word but encountered end of stream");
+            throw new GeometryIOException("Expected '(' or word but encountered end of stream");
         }
 
         if ($token[1] === '(') {
@@ -183,23 +183,23 @@ class WKTParser
             return false;
         }
 
-        throw new GeometryParseException("Expected '(' or word but encountered '" . $token[1] . "'");
+        throw new GeometryIOException("Expected '(' or word but encountered '" . $token[1] . "'");
     }
 
     /**
      * @return string
      *
-     * @throws \Brick\Geo\Exception\GeometryParseException
+     * @throws \Brick\Geo\Exception\GeometryIOException
      */
     public function getNextNumber()
     {
         $token = $this->nextToken();
 
         if ($token === false) {
-            throw new GeometryParseException("Expected number but encountered end of stream");
+            throw new GeometryIOException("Expected number but encountered end of stream");
         }
         if ($token[0] !== static::T_NUMBER) {
-            throw new GeometryParseException("Expected number but encountered '" . $token[1] . "'");
+            throw new GeometryIOException("Expected number but encountered '" . $token[1] . "'");
         }
 
         return $token[1];
@@ -208,17 +208,17 @@ class WKTParser
     /**
      * @return string
      *
-     * @throws \Brick\Geo\Exception\GeometryParseException
+     * @throws \Brick\Geo\Exception\GeometryIOException
      */
     public function getNextCloserOrComma()
     {
         $token = $this->nextToken();
 
         if ($token === false) {
-            throw new GeometryParseException("Expected ')' or ',' but encountered end of stream");
+            throw new GeometryIOException("Expected ')' or ',' but encountered end of stream");
         }
         if ($token[1] !== ')' && $token[1] !== ',') {
-            throw new GeometryParseException("Expected ')' or ',' but encountered '" . $token[1] . "'");
+            throw new GeometryIOException("Expected ')' or ',' but encountered '" . $token[1] . "'");
         }
 
         return $token[1];

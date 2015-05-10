@@ -5,7 +5,7 @@ namespace Brick\Geo;
 use Brick\Geo\Engine\GeometryEngineRegistry;
 use Brick\Geo\Exception\GeometryEngineException;
 use Brick\Geo\Exception\GeometryException;
-use Brick\Geo\Exception\GeometryParseException;
+use Brick\Geo\Exception\GeometryIOException;
 use Brick\Geo\Exception\UnexpectedGeometryException;
 use Brick\Geo\IO\WKTReader;
 use Brick\Geo\IO\WKTWriter;
@@ -73,8 +73,8 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      *
      * @return static
      *
-     * @throws GeometryParseException If the WKT data is invalid.
-     * @throws GeometryException      If the geometry is invalid or of an unexpected type.
+     * @throws GeometryIOException If the WKT data is invalid.
+     * @throws GeometryException   If the geometry is invalid or of an unexpected type.
      */
     public static function fromText($wkt, $srid = 0)
     {
@@ -104,8 +104,8 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      *
      * @return static
      *
-     * @throws GeometryParseException If the WKB data is invalid.
-     * @throws GeometryException      If the geometry is invalid or of an unexpected type.
+     * @throws GeometryIOException If the WKB data is invalid.
+     * @throws GeometryException   If the geometry is invalid or of an unexpected type.
      */
     public static function fromBinary($wkb, $srid = 0)
     {

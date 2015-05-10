@@ -2,7 +2,7 @@
 
 namespace Brick\Geo\IO;
 
-use Brick\Geo\Exception\GeometryParseException;
+use Brick\Geo\Exception\GeometryIOException;
 use Brick\Geo\Geometry;
 
 /**
@@ -16,7 +16,7 @@ class WKTReader extends AbstractWKTReader
      *
      * @return Geometry
      *
-     * @throws GeometryParseException
+     * @throws GeometryIOException
      */
     public function read($wkt, $srid = 0)
     {
@@ -24,7 +24,7 @@ class WKTReader extends AbstractWKTReader
         $geometry = $this->readGeometry($parser, $srid);
 
         if (! $parser->isEndOfStream()) {
-            throw GeometryParseException::invalidWKT();
+            throw GeometryIOException::invalidWKT();
         }
 
         return $geometry;

@@ -4,7 +4,7 @@ namespace Brick\Geo\IO;
 
 use Brick\Geo\CoordinateSystem;
 use Brick\Geo\Exception\GeometryException;
-use Brick\Geo\Exception\GeometryParseException;
+use Brick\Geo\Exception\GeometryIOException;
 use Brick\Geo\Geometry;
 use Brick\Geo\Point;
 use Brick\Geo\LineString;
@@ -44,7 +44,7 @@ abstract class AbstractWKBReader
      *
      * @return Geometry
      *
-     * @throws GeometryParseException
+     * @throws GeometryIOException
      */
     protected function readGeometry(WKBBuffer $buffer, $srid)
     {
@@ -95,7 +95,7 @@ abstract class AbstractWKBReader
                 return $this->readTriangle($buffer, $cs);
         }
 
-        throw GeometryParseException::unsupportedGeometryType($geometryType);
+        throw GeometryIOException::unsupportedGeometryType($geometryType);
     }
 
     /**

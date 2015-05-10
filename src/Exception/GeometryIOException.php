@@ -3,14 +3,14 @@
 namespace Brick\Geo\Exception;
 
 /**
- * Exception thrown when parsing invalid WKT or WKB representations.
+ * Exception thrown when an error occurs reading or writing WKT/WKB representations.
  */
-class GeometryParseException extends GeometryException
+class GeometryIOException extends GeometryException
 {
     /**
      * @param string $message
      *
-     * @return GeometryParseException
+     * @return GeometryIOException
      */
     public static function invalidWKB($message)
     {
@@ -18,7 +18,7 @@ class GeometryParseException extends GeometryException
     }
 
     /**
-     * @return GeometryParseException
+     * @return GeometryIOException
      */
     public static function invalidWKT()
     {
@@ -26,7 +26,7 @@ class GeometryParseException extends GeometryException
     }
 
     /**
-     * @return GeometryParseException
+     * @return GeometryIOException
      */
     public static function invalidEWKT()
     {
@@ -36,7 +36,7 @@ class GeometryParseException extends GeometryException
     /**
      * @param string $wkbType
      *
-     * @return GeometryParseException
+     * @return GeometryIOException
      */
     public static function unsupportedWKBType($wkbType)
     {

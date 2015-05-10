@@ -2,7 +2,7 @@
 
 namespace Brick\Geo\IO;
 
-use Brick\Geo\Exception\GeometryParseException;
+use Brick\Geo\Exception\GeometryIOException;
 
 /**
  * Builds geometries out of Well-Known Binary strings.
@@ -15,7 +15,7 @@ class WKBReader extends AbstractWKBReader
      *
      * @return \Brick\Geo\Geometry
      *
-     * @throws \Brick\Geo\Exception\GeometryParseException
+     * @throws \Brick\Geo\Exception\GeometryIOException
      */
     public function read($wkb, $srid = 0)
     {
@@ -23,7 +23,7 @@ class WKBReader extends AbstractWKBReader
         $geometry = $this->readGeometry($buffer, $srid);
 
         if (! $buffer->isEndOfStream()) {
-            throw GeometryParseException::invalidWKB('unexpected data at end of stream');
+            throw GeometryIOException::invalidWKB('unexpected data at end of stream');
         }
 
         return $geometry;
@@ -40,7 +40,7 @@ class WKBReader extends AbstractWKBReader
         $dimension = ($wkbType - $geometryType) / 1000;
 
         if ($dimension < 0 || $dimension > 3) {
-            throw GeometryParseException::unsupportedWKBType($wkbType);
+            throw GeometryIOException::unsupportedWKBType($wkbType);
         }
 
         $hasZ = ($dimension === 1 || $dimension === 3);

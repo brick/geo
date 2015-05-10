@@ -3,7 +3,7 @@
 namespace Brick\Geo\IO;
 
 use Brick\Geo\Geometry;
-use Brick\Geo\Exception\GeometryParseException;
+use Brick\Geo\Exception\GeometryIOException;
 
 /**
  * Reads geometries out of the Extended WKB format designed by PostGIS.
@@ -15,7 +15,7 @@ class EWKBReader extends AbstractWKBReader
      *
      * @return Geometry
      *
-     * @throws GeometryParseException
+     * @throws GeometryIOException
      */
     public function read($ewkb)
     {
@@ -23,7 +23,7 @@ class EWKBReader extends AbstractWKBReader
         $geometry = $this->readGeometry($buffer, 0);
 
         if (! $buffer->isEndOfStream()) {
-            throw GeometryParseException::invalidWKB('unexpected data at end of stream');
+            throw GeometryIOException::invalidWKB('unexpected data at end of stream');
         }
 
         return $geometry;
@@ -41,7 +41,7 @@ class EWKBReader extends AbstractWKBReader
             $dimension = ($header - $geometryType) / 1000;
 
             if ($dimension < 0 || $dimension > 3) {
-                throw GeometryParseException::unsupportedWKBType($header);
+                throw GeometryIOException::unsupportedWKBType($header);
             }
 
             $hasZ = ($dimension === 1 || $dimension === 3);

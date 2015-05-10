@@ -2,7 +2,7 @@
 
 namespace Brick\Geo\IO;
 
-use Brick\Geo\Exception\GeometryParseException;
+use Brick\Geo\Exception\GeometryIOException;
 
 /**
  * Reads geometries from the Extended WKT format designed by PostGIS.
@@ -14,7 +14,7 @@ class EWKTReader extends AbstractWKTReader
      *
      * @return \Brick\Geo\Geometry
      *
-     * @throws GeometryParseException
+     * @throws GeometryIOException
      */
     public function read($ewkt)
     {
@@ -23,7 +23,7 @@ class EWKTReader extends AbstractWKTReader
         $geometry = $this->readGeometry($parser, $srid);
 
         if (! $parser->isEndOfStream()) {
-            throw GeometryParseException::invalidEWKT();
+            throw GeometryIOException::invalidEWKT();
         }
 
         return $geometry;
