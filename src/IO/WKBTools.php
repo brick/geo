@@ -15,7 +15,7 @@ abstract class WKBTools
     /**
      * @return void
      *
-     * @throws \Brick\Geo\Exception\GeometryException
+     * @throws GeometryException
      */
     private static function checkDoubleIs64Bit()
     {
@@ -43,7 +43,7 @@ abstract class WKBTools
      *
      * @return integer
      *
-     * @throws \Brick\Geo\Exception\GeometryException
+     * @throws GeometryException
      */
     public static function getMachineByteOrder()
     {

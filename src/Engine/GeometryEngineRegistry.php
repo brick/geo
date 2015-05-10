@@ -41,7 +41,7 @@ final class GeometryEngineRegistry
      *
      * @return GeometryEngine
      *
-     * @throws \Brick\Geo\Exception\GeometryException
+     * @throws GeometryEngineException
      */
     public static function get()
     {

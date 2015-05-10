@@ -2,6 +2,8 @@
 
 namespace Brick\Geo\Proxy;
 
+use Brick\Geo\Geometry;
+
 /**
  * Interface implemented by geometry proxies.
  */
@@ -17,7 +19,7 @@ interface ProxyInterface
     /**
      * Loads and returns the underlying Geometry.
      *
-     * @return \Brick\Geo\Geometry
+     * @return Geometry
      */
     public function getGeometry();
 }

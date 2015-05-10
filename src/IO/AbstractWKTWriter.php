@@ -58,11 +58,11 @@ abstract class AbstractWKTWriter
     abstract public function write(Geometry $geometry);
 
     /**
-     * @param \Brick\Geo\Geometry $geometry
+     * @param Geometry $geometry
      *
      * @return string
      *
-     * @throws \Brick\Geo\Exception\GeometryException
+     * @throws GeometryException
      */
     protected function doWrite(Geometry $geometry)
     {
@@ -130,7 +130,7 @@ abstract class AbstractWKTWriter
     }
 
     /**
-     * @param \Brick\Geo\Point $point
+     * @param Point $point
      *
      * @return string
      */
@@ -150,7 +150,7 @@ abstract class AbstractWKTWriter
     }
 
     /**
-     * @param \Brick\Geo\LineString $lineString
+     * @param LineString $lineString
      *
      * @return string
      */
@@ -166,7 +166,7 @@ abstract class AbstractWKTWriter
     }
 
     /**
-     * @param \Brick\Geo\CircularString $circularString
+     * @param CircularString $circularString
      *
      * @return string
      */
@@ -182,7 +182,7 @@ abstract class AbstractWKTWriter
     }
 
     /**
-     * @param \Brick\Geo\CompoundCurve $compoundCurve
+     * @param CompoundCurve $compoundCurve
      *
      * @return string
      *
@@ -206,7 +206,7 @@ abstract class AbstractWKTWriter
     }
 
     /**
-     * @param \Brick\Geo\Polygon $polygon
+     * @param Polygon $polygon
      *
      * @return string
      */
@@ -222,7 +222,7 @@ abstract class AbstractWKTWriter
     }
 
     /**
-     * @param \Brick\Geo\CurvePolygon $curvePolygon
+     * @param CurvePolygon $curvePolygon
      *
      * @return string
      */
@@ -242,7 +242,7 @@ abstract class AbstractWKTWriter
     }
 
     /**
-     * @param \Brick\Geo\MultiPoint $multiPoint
+     * @param MultiPoint $multiPoint
      *
      * @return string
      */
@@ -258,7 +258,7 @@ abstract class AbstractWKTWriter
     }
 
     /**
-     * @param \Brick\Geo\MultiLineString $multiLineString
+     * @param MultiLineString $multiLineString
      *
      * @return string
      */
@@ -274,7 +274,7 @@ abstract class AbstractWKTWriter
     }
 
     /**
-     * @param \Brick\Geo\MultiPolygon $multiPolygon
+     * @param MultiPolygon $multiPolygon
      *
      * @return string
      */
@@ -290,7 +290,7 @@ abstract class AbstractWKTWriter
     }
 
     /**
-     * @param \Brick\Geo\GeometryCollection $collection
+     * @param GeometryCollection $collection
      *
      * @return string
      */
@@ -306,7 +306,7 @@ abstract class AbstractWKTWriter
     }
 
     /**
-     * @param \Brick\Geo\PolyhedralSurface $polyhedralSurface
+     * @param PolyhedralSurface $polyhedralSurface
      *
      * @return string
      */

@@ -27,8 +27,6 @@ class EWKTParser extends WKTParser
 
     /**
      * @return integer
-     *
-     * @throws \Brick\Geo\Exception\GeometryException
      */
     public function getOptionalSRID()
     {

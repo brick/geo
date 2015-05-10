@@ -2,6 +2,7 @@
 
 namespace Brick\Geo\IO;
 
+use Brick\Geo\Geometry;
 use Brick\Geo\Exception\GeometryIOException;
 
 /**
@@ -13,9 +14,9 @@ class WKBReader extends AbstractWKBReader
      * @param string  $wkb  The WKB to read.
      * @param integer $srid The optional SRID of the geometry.
      *
-     * @return \Brick\Geo\Geometry
+     * @return Geometry
      *
-     * @throws \Brick\Geo\Exception\GeometryIOException
+     * @throws GeometryIOException
      */
     public function read($wkb, $srid = 0)
     {

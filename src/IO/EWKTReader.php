@@ -2,6 +2,7 @@
 
 namespace Brick\Geo\IO;
 
+use Brick\Geo\Geometry;
 use Brick\Geo\Exception\GeometryIOException;
 
 /**
@@ -12,7 +13,7 @@ class EWKTReader extends AbstractWKTReader
     /**
      * @param string $ewkt The EWKT to read.
      *
-     * @return \Brick\Geo\Geometry
+     * @return Geometry
      *
      * @throws GeometryIOException
      */

@@ -91,7 +91,7 @@ class WKTParser
     /**
      * @return void
      *
-     * @throws \Brick\Geo\Exception\GeometryIOException
+     * @throws GeometryIOException
      */
     public function matchOpener()
     {
@@ -108,7 +108,7 @@ class WKTParser
     /**
      * @return void
      *
-     * @throws \Brick\Geo\Exception\GeometryIOException
+     * @throws GeometryIOException
      */
     public function matchCloser()
     {
@@ -125,7 +125,7 @@ class WKTParser
     /**
      * @return string
      *
-     * @throws \Brick\Geo\Exception\GeometryIOException
+     * @throws GeometryIOException
      */
     public function getNextWord()
     {
@@ -189,7 +189,7 @@ class WKTParser
     /**
      * @return string
      *
-     * @throws \Brick\Geo\Exception\GeometryIOException
+     * @throws GeometryIOException
      */
     public function getNextNumber()
     {
@@ -208,7 +208,7 @@ class WKTParser
     /**
      * @return string
      *
-     * @throws \Brick\Geo\Exception\GeometryIOException
+     * @throws GeometryIOException
      */
     public function getNextCloserOrComma()
     {

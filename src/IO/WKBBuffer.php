@@ -54,7 +54,7 @@ class WKBBuffer
      *
      * @return string
      *
-     * @throws \Brick\Geo\Exception\GeometryIOException
+     * @throws GeometryIOException
      */
     private function read($words, $wordLength)
     {
@@ -118,7 +118,7 @@ class WKBBuffer
     /**
      * Reads the machine byte order from the buffer and stores the result to act accordingly.
      *
-     * @throws \Brick\Geo\Exception\GeometryIOException
+     * @throws GeometryIOException
      */
     public function readByteOrder()
     {
