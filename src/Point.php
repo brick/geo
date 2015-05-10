@@ -2,7 +2,7 @@
 
 namespace Brick\Geo;
 
-use Brick\Geo\Exception\GeometryException;
+use Brick\Geo\Exception\InvalidGeometryException;
 
 /**
  * A Point is a 0-dimensional geometric object and represents a single location in coordinate space.
@@ -48,7 +48,7 @@ class Point extends Geometry
      *
      * @return Point
      *
-     * @throws GeometryException If the number of coordinates does not match the coordinate system.
+     * @throws InvalidGeometryException If the number of coordinates does not match the coordinate system.
      */
     public function __construct(CoordinateSystem $cs, ...$coords)
     {
@@ -56,7 +56,7 @@ class Point extends Geometry
 
         if ($coords) {
             if (count($coords) !== $cs->coordinateDimension()) {
-                throw new GeometryException(sprintf(
+                throw new InvalidGeometryException(sprintf(
                     'Expected %d coordinates for Point %s, got %d.',
                     $cs->coordinateDimension(),
                     $cs->coordinateName(),
