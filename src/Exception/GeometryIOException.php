@@ -56,4 +56,12 @@ class GeometryIOException extends GeometryException
 
         return new static($message);
     }
+
+    /**
+     * @return GeometryIOException
+     */
+    public static function unsupportedEndianness()
+    {
+        return new self('This platform has an unsupported endianness.');
+    }
 }

@@ -2,7 +2,7 @@
 
 namespace Brick\Geo\IO;
 
-use Brick\Geo\Exception\GeometryException;
+use Brick\Geo\Exception\GeometryIOException;
 
 /**
  * Tools for WKB classes.
@@ -15,12 +15,12 @@ abstract class WKBTools
     /**
      * @return void
      *
-     * @throws GeometryException
+     * @throws GeometryIOException
      */
     private static function checkDoubleIs64Bit()
     {
         if (strlen(pack('d', 0.0)) !== 8) {
-            throw new GeometryException('The double type is not 64 bit on this platform.');
+            throw new GeometryIOException('The double type is not 64 bit on this platform.');
         }
     }
 
@@ -43,7 +43,7 @@ abstract class WKBTools
      *
      * @return integer
      *
-     * @throws GeometryException
+     * @throws GeometryIOException
      */
     public static function getMachineByteOrder()
     {
@@ -62,7 +62,7 @@ abstract class WKBTools
                     break;
 
                 default:
-                    throw GeometryException::unsupportedPlatform();
+                    throw GeometryIOException::unsupportedEndianness();
             }
         }
 

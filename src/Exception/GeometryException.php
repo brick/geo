@@ -7,11 +7,4 @@ namespace Brick\Geo\Exception;
  */
 class GeometryException extends \Exception
 {
-    /**
-     * @return GeometryException
-     */
-    public static function unsupportedPlatform()
-    {
-        return new self('This platform has an unsupported endianness.');
-    }
 }

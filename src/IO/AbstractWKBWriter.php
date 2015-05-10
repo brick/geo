@@ -2,7 +2,6 @@
 
 namespace Brick\Geo\IO;
 
-use Brick\Geo\Exception\GeometryException;
 use Brick\Geo\Exception\GeometryIOException;
 use Brick\Geo\CircularString;
 use Brick\Geo\CompoundCurve;
@@ -33,7 +32,7 @@ abstract class AbstractWKBWriter
     private $machineByteOrder;
 
     /**
-     * @throws GeometryException
+     * @throws GeometryIOException
      */
     public function __construct()
     {

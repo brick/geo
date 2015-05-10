@@ -3,7 +3,6 @@
 namespace Brick\Geo\IO;
 
 use Brick\Geo\CoordinateSystem;
-use Brick\Geo\Exception\GeometryException;
 use Brick\Geo\Exception\GeometryIOException;
 use Brick\Geo\Geometry;
 use Brick\Geo\Point;
@@ -34,7 +33,7 @@ abstract class AbstractWKBReader
      *
      * @return void
      *
-     * @throws GeometryException
+     * @throws GeometryIOException
      */
     abstract protected function readGeometryHeader(WKBBuffer $buffer, & $geometryType, & $hasZ, & $hasM, & $srid);
 

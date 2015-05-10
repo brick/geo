@@ -11,7 +11,7 @@ class UnexpectedGeometryException extends GeometryException
      * @param string $expectedClass
      * @param mixed  $value
      *
-     * @return GeometryException
+     * @return UnexpectedGeometryException
      */
     public static function unexpectedGeometryType($expectedClass, $value)
     {
