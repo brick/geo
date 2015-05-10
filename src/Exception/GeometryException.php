@@ -3,7 +3,7 @@
 namespace Brick\Geo\Exception;
 
 /**
- * Default exception thrown by Geometry objects.
+ * Base class for all geometry exceptions.
  */
 class GeometryException extends \Exception
 {

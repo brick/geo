@@ -3,9 +3,10 @@
 namespace Brick\Geo;
 
 use Brick\Geo\Engine\GeometryEngineRegistry;
+use Brick\Geo\Exception\CoordinateSystemException;
 use Brick\Geo\Exception\GeometryEngineException;
-use Brick\Geo\Exception\GeometryException;
 use Brick\Geo\Exception\GeometryIOException;
+use Brick\Geo\Exception\InvalidGeometryException;
 use Brick\Geo\Exception\UnexpectedGeometryException;
 use Brick\Geo\IO\WKTReader;
 use Brick\Geo\IO\WKTWriter;
@@ -73,8 +74,10 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      *
      * @return static
      *
-     * @throws GeometryIOException If the WKT data is invalid.
-     * @throws GeometryException   If the geometry is invalid or of an unexpected type.
+     * @throws GeometryIOException         If the given string is not a valid WKT representation.
+     * @throws CoordinateSystemException   If the WKT contains mixed coordinate systems.
+     * @throws InvalidGeometryException    If the WKT represents an invalid geometry.
+     * @throws UnexpectedGeometryException If the resulting geometry is not an instance of the current class.
      */
     public static function fromText($wkt, $srid = 0)
     {
@@ -104,8 +107,10 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      *
      * @return static
      *
-     * @throws GeometryIOException If the WKB data is invalid.
-     * @throws GeometryException   If the geometry is invalid or of an unexpected type.
+     * @throws GeometryIOException         If the given string is not a valid WKB representation.
+     * @throws CoordinateSystemException   If the WKB contains mixed coordinate systems.
+     * @throws InvalidGeometryException    If the WKB represents an invalid geometry.
+     * @throws UnexpectedGeometryException If the resulting geometry is not an instance of the current class.
      */
     public static function fromBinary($wkb, $srid = 0)
     {
@@ -131,8 +136,6 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      * In non-homogeneous collections, this will return the largest topological dimension of the contained objects.
      *
      * @return integer
-     *
-     * @throws GeometryException If the geometry is empty.
      */
     abstract public function dimension();
 
