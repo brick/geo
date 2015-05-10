@@ -2,8 +2,6 @@
 
 namespace Brick\Geo\Exception;
 
-use Brick\Geo\Geometry;
-
 /**
  * Default exception thrown by Geometry objects.
  */
