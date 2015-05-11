@@ -37,20 +37,17 @@ abstract class DatabaseEngine implements GeometryEngine
         $parameters = implode(', ', $parameters);
         $query = sprintf('SELECT %s(%s)', $function, $parameters);
 
-        if ($returnsGeometry) {
-            $query = sprintf("
-                SELECT
-                    CASE WHEN isPointEmpty THEN ST_AsText(g) ELSE NULL END,
-                    CASE WHEN isPointEmpty THEN NULL ELSE ST_AsBinary(g) END,
-                    ST_SRID(g)
-                FROM (
-                    SELECT g, GeometryType(g) = 'POINT' AND ST_IsEmpty(g) AS isPointEmpty
-                    FROM (%s AS g) AS a
-                ) AS b
-            ", $query);
+        if (! $returnsGeometry) {
+            return $query;
         }
 
-        return $query;
+        return sprintf('
+            SELECT
+                CASE WHEN ST_IsEmpty(g) THEN ST_AsText(g) ELSE NULL END,
+                CASE WHEN ST_IsEmpty(g) THEN NULL ELSE ST_AsBinary(g) END,
+                ST_SRID(g)
+            FROM (%s AS g) AS q
+        ', $query);
     }
 
     /**
