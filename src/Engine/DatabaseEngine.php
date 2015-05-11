@@ -87,14 +87,14 @@ abstract class DatabaseEngine implements GeometryEngine
     /**
      * Queries a GIS function returning a boolean value.
      *
-     * @param string $function   The SQL GIS function to execute.
-     * @param array  $parameters The Geometry objects or scalar values to pass as parameters.
+     * @param string   $function   The SQL GIS function to execute.
+     * @param mixed ...$parameters The Geometry objects or scalar values to pass as parameters.
      *
      * @return boolean
      *
      * @throws GeometryEngineException
      */
-    private function queryBoolean($function, array $parameters)
+    private function queryBoolean($function, ...$parameters)
     {
         list ($result) = $this->query($function, $parameters, false);
 
@@ -108,14 +108,14 @@ abstract class DatabaseEngine implements GeometryEngine
     /**
      * Queries a GIS function returning a floating point value.
      *
-     * @param string $function   The SQL GIS function to execute.
-     * @param array  $parameters The Geometry objects or scalar values to pass as parameters.
+     * @param string   $function   The SQL GIS function to execute.
+     * @param mixed ...$parameters The Geometry objects or scalar values to pass as parameters.
      *
      * @return float
      *
      * @throws GeometryEngineException
      */
-    private function queryFloat($function, array $parameters)
+    private function queryFloat($function, ...$parameters)
     {
         list ($result) = $this->query($function, $parameters, false);
 
@@ -129,14 +129,14 @@ abstract class DatabaseEngine implements GeometryEngine
     /**
      * Queries a GIS function returning a Geometry object.
      *
-     * @param string $function   The SQL GIS function to execute.
-     * @param array  $parameters The Geometry objects or scalar values to pass as parameters.
+     * @param string   $function   The SQL GIS function to execute.
+     * @param mixed ...$parameters The Geometry objects or scalar values to pass as parameters.
      *
      * @return Geometry
      *
      * @throws GeometryEngineException
      */
-    private function queryGeometry($function, array $parameters)
+    private function queryGeometry($function, ...$parameters)
     {
         list ($wkt, $wkb, $srid) = $this->query($function, $parameters, true);
 
@@ -160,7 +160,7 @@ abstract class DatabaseEngine implements GeometryEngine
      */
     public function contains(Geometry $a, Geometry $b)
     {
-        return $this->queryBoolean('ST_Contains', [$a, $b]);
+        return $this->queryBoolean('ST_Contains', $a, $b);
     }
 
     /**
@@ -168,7 +168,7 @@ abstract class DatabaseEngine implements GeometryEngine
      */
     public function intersects(Geometry $a, Geometry $b)
     {
-        return $this->queryBoolean('ST_Intersects', [$a, $b]);
+        return $this->queryBoolean('ST_Intersects', $a, $b);
     }
 
     /**
@@ -176,7 +176,7 @@ abstract class DatabaseEngine implements GeometryEngine
      */
     public function union(Geometry $a, Geometry $b)
     {
-        return $this->queryGeometry('ST_Union', [$a, $b]);
+        return $this->queryGeometry('ST_Union', $a, $b);
     }
 
     /**
@@ -184,7 +184,7 @@ abstract class DatabaseEngine implements GeometryEngine
      */
     public function intersection(Geometry $a, Geometry $b)
     {
-        return $this->queryGeometry('ST_Intersection', [$a, $b]);
+        return $this->queryGeometry('ST_Intersection', $a, $b);
     }
 
     /**
@@ -192,7 +192,7 @@ abstract class DatabaseEngine implements GeometryEngine
      */
     public function difference(Geometry $a, Geometry $b)
     {
-        return $this->queryGeometry('ST_Difference', [$a, $b]);
+        return $this->queryGeometry('ST_Difference', $a, $b);
     }
 
     /**
@@ -200,7 +200,7 @@ abstract class DatabaseEngine implements GeometryEngine
      */
     public function envelope(Geometry $g)
     {
-        return $this->queryGeometry('ST_Envelope', [$g]);
+        return $this->queryGeometry('ST_Envelope', $g);
     }
 
     /**
@@ -208,7 +208,7 @@ abstract class DatabaseEngine implements GeometryEngine
      */
     public function centroid(Geometry $g)
     {
-        return $this->queryGeometry('ST_Centroid', [$g]);
+        return $this->queryGeometry('ST_Centroid', $g);
     }
 
     /**
@@ -216,7 +216,7 @@ abstract class DatabaseEngine implements GeometryEngine
      */
     public function pointOnSurface(Geometry $g)
     {
-        return $this->queryGeometry('ST_PointOnSurface', [$g]);
+        return $this->queryGeometry('ST_PointOnSurface', $g);
     }
 
     /**
@@ -224,7 +224,7 @@ abstract class DatabaseEngine implements GeometryEngine
      */
     public function length(Geometry $g)
     {
-        return $this->queryFloat('ST_Length', [$g]);
+        return $this->queryFloat('ST_Length', $g);
     }
 
     /**
@@ -232,7 +232,7 @@ abstract class DatabaseEngine implements GeometryEngine
      */
     public function area(Geometry $g)
     {
-        return $this->queryFloat('ST_Area', [$g]);
+        return $this->queryFloat('ST_Area', $g);
     }
 
     /**
@@ -240,7 +240,7 @@ abstract class DatabaseEngine implements GeometryEngine
      */
     public function boundary(Geometry $g)
     {
-        return $this->queryGeometry('ST_Boundary', [$g]);
+        return $this->queryGeometry('ST_Boundary', $g);
     }
 
     /**
@@ -248,7 +248,7 @@ abstract class DatabaseEngine implements GeometryEngine
      */
     public function isValid(Geometry $g)
     {
-        return $this->queryBoolean('ST_IsValid', [$g]);
+        return $this->queryBoolean('ST_IsValid', $g);
     }
 
     /**
@@ -256,7 +256,7 @@ abstract class DatabaseEngine implements GeometryEngine
      */
     public function isClosed(Geometry $g)
     {
-        return $this->queryBoolean('ST_IsClosed', [$g]);
+        return $this->queryBoolean('ST_IsClosed', $g);
     }
 
     /**
@@ -264,7 +264,7 @@ abstract class DatabaseEngine implements GeometryEngine
      */
     public function isSimple(Geometry $g)
     {
-        return $this->queryBoolean('ST_IsSimple', [$g]);
+        return $this->queryBoolean('ST_IsSimple', $g);
     }
 
     /**
@@ -272,7 +272,7 @@ abstract class DatabaseEngine implements GeometryEngine
      */
     public function equals(Geometry $a, Geometry $b)
     {
-        return $this->queryBoolean('ST_Equals', [$a, $b]);
+        return $this->queryBoolean('ST_Equals', $a, $b);
     }
 
     /**
@@ -280,7 +280,7 @@ abstract class DatabaseEngine implements GeometryEngine
      */
     public function disjoint(Geometry $a, Geometry $b)
     {
-        return $this->queryBoolean('ST_Disjoint', [$a, $b]);
+        return $this->queryBoolean('ST_Disjoint', $a, $b);
     }
 
     /**
@@ -288,7 +288,7 @@ abstract class DatabaseEngine implements GeometryEngine
      */
     public function touches(Geometry $a, Geometry $b)
     {
-        return $this->queryBoolean('ST_Touches', [$a, $b]);
+        return $this->queryBoolean('ST_Touches', $a, $b);
     }
 
     /**
@@ -296,7 +296,7 @@ abstract class DatabaseEngine implements GeometryEngine
      */
     public function crosses(Geometry $a, Geometry $b)
     {
-        return $this->queryBoolean('ST_Crosses', [$a, $b]);
+        return $this->queryBoolean('ST_Crosses', $a, $b);
     }
 
     /**
@@ -304,7 +304,7 @@ abstract class DatabaseEngine implements GeometryEngine
      */
     public function within(Geometry $a, Geometry $b)
     {
-        return $this->queryBoolean('ST_Within', [$a, $b]);
+        return $this->queryBoolean('ST_Within', $a, $b);
     }
 
     /**
@@ -312,7 +312,7 @@ abstract class DatabaseEngine implements GeometryEngine
      */
     public function overlaps(Geometry $a, Geometry $b)
     {
-        return $this->queryBoolean('ST_Overlaps', [$a, $b]);
+        return $this->queryBoolean('ST_Overlaps', $a, $b);
     }
 
     /**
@@ -320,7 +320,7 @@ abstract class DatabaseEngine implements GeometryEngine
      */
     public function relate(Geometry $a, Geometry $b, $matrix)
     {
-        return $this->queryBoolean('ST_Relate', [$a, $b, $matrix]);
+        return $this->queryBoolean('ST_Relate', $a, $b, $matrix);
     }
 
     /**
@@ -328,7 +328,7 @@ abstract class DatabaseEngine implements GeometryEngine
      */
     public function locateAlong(Geometry $g, $mValue)
     {
-        return $this->queryGeometry('ST_LocateAlong', [$g, $mValue]);
+        return $this->queryGeometry('ST_LocateAlong', $g, $mValue);
     }
 
     /**
@@ -336,7 +336,7 @@ abstract class DatabaseEngine implements GeometryEngine
      */
     public function locateBetween(Geometry $g, $mStart, $mEnd)
     {
-        return $this->queryGeometry('ST_LocateBetween', [$g, $mStart, $mEnd]);
+        return $this->queryGeometry('ST_LocateBetween', $g, $mStart, $mEnd);
     }
 
     /**
@@ -344,7 +344,7 @@ abstract class DatabaseEngine implements GeometryEngine
      */
     public function distance(Geometry $a, Geometry $b)
     {
-        return $this->queryFloat('ST_Distance', [$a, $b]);
+        return $this->queryFloat('ST_Distance', $a, $b);
     }
 
     /**
@@ -352,7 +352,7 @@ abstract class DatabaseEngine implements GeometryEngine
      */
     public function buffer(Geometry $g, $distance)
     {
-        return $this->queryGeometry('ST_Buffer', [$g, $distance]);
+        return $this->queryGeometry('ST_Buffer', $g, $distance);
     }
 
     /**
@@ -360,7 +360,7 @@ abstract class DatabaseEngine implements GeometryEngine
      */
     public function convexHull(Geometry $g)
     {
-        return $this->queryGeometry('ST_ConvexHull', [$g]);
+        return $this->queryGeometry('ST_ConvexHull', $g);
     }
 
     /**
@@ -368,7 +368,7 @@ abstract class DatabaseEngine implements GeometryEngine
      */
     public function symDifference(Geometry $a, Geometry $b)
     {
-        return $this->queryGeometry('ST_SymDifference', [$a, $b]);
+        return $this->queryGeometry('ST_SymDifference', $a, $b);
     }
 
     /**
@@ -376,7 +376,7 @@ abstract class DatabaseEngine implements GeometryEngine
      */
     public function snapToGrid(Geometry $g, $size)
     {
-        return $this->queryGeometry('ST_SnapToGrid', [$g, $size]);
+        return $this->queryGeometry('ST_SnapToGrid', $g, $size);
     }
 
     /**
@@ -384,7 +384,7 @@ abstract class DatabaseEngine implements GeometryEngine
      */
     public function simplify(Geometry $g, $tolerance)
     {
-        return $this->queryGeometry('ST_Simplify', [$g, $tolerance]);
+        return $this->queryGeometry('ST_Simplify', $g, $tolerance);
     }
 
     /**
@@ -392,7 +392,7 @@ abstract class DatabaseEngine implements GeometryEngine
      */
     public function maxDistance(Geometry $a, Geometry $b)
     {
-        return $this->queryFloat('ST_MaxDistance', [$a, $b]);
+        return $this->queryFloat('ST_MaxDistance', $a, $b);
     }
 
     /**
