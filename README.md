@@ -30,7 +30,7 @@ Just define the following requirement in your `composer.json` file:
 
 Then head on to the [Configuration](#configuration) section to configure a GIS geometry engine.
 
-Failure to configure a geometry engine would result in a `GeometryException` being thrown when trying to use a method that requires one.
+Failure to configure a geometry engine would result in a `GeometryEngineException` being thrown when trying to use a method that requires one.
 
 Configuration
 -------------
