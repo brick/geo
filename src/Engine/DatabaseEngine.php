@@ -4,7 +4,6 @@ namespace Brick\Geo\Engine;
 
 use Brick\Geo\Exception\GeometryEngineException;
 use Brick\Geo\Geometry;
-use Brick\Geo\Point;
 
 /**
  * Database implementation of the GeometryEngine.
@@ -25,10 +24,12 @@ abstract class DatabaseEngine implements GeometryEngine
     private function buildQuery($function, array $parameters, $returnsGeometry)
     {
         foreach ($parameters as & $parameter) {
-            if ($parameter instanceof Point && $parameter->isEmpty()) {
-                $parameter = 'ST_GeomFromText(?, ?)';
-            } elseif ($parameter instanceof Geometry) {
-                $parameter = 'ST_GeomFromWKB(?, ?)';
+            if ($parameter instanceof Geometry) {
+                if ($parameter->isEmpty()) {
+                    $parameter = 'ST_GeomFromText(?, ?)';
+                } else {
+                    $parameter = 'ST_GeomFromWKB(?, ?)';
+                }
             } else {
                 $parameter = '?';
             }

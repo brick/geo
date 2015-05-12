@@ -5,7 +5,6 @@ namespace Brick\Geo\Engine;
 use Brick\Geo\Exception\GeometryEngineException;
 use Brick\Geo\Exception\SQLite3Exception;
 use Brick\Geo\Geometry;
-use Brick\Geo\Point;
 
 /**
  * Database engine based on a SQLite3 driver.
@@ -80,12 +79,14 @@ class SQLite3Engine extends DatabaseEngine
         $index = 1;
 
         foreach ($parameters as $parameter) {
-            if ($parameter instanceof Point && $parameter->isEmpty()) {
-                $statement->bindValue($index++, $parameter->asText(), SQLITE3_TEXT);
-                $statement->bindValue($index++, $parameter->SRID(), SQLITE3_INTEGER);
-            } elseif ($parameter instanceof Geometry) {
-                $statement->bindValue($index++, $parameter->asBinary(), SQLITE3_BLOB);
-                $statement->bindValue($index++, $parameter->SRID(), SQLITE3_INTEGER);
+            if ($parameter instanceof Geometry) {
+                if ($parameter->isEmpty()) {
+                    $statement->bindValue($index++, $parameter->asText(), SQLITE3_TEXT);
+                    $statement->bindValue($index++, $parameter->SRID(), SQLITE3_INTEGER);
+                } else {
+                    $statement->bindValue($index++, $parameter->asBinary(), SQLITE3_BLOB);
+                    $statement->bindValue($index++, $parameter->SRID(), SQLITE3_INTEGER);
+                }
             } else {
                 if ($parameter === null) {
                     $type = SQLITE3_NULL;
