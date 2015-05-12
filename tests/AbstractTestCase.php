@@ -114,26 +114,6 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param string $message
-     */
-    final protected function skipMySQL($message)
-    {
-       if ($this->isMySQL()) {
-           $this->markTestSkipped($message);
-       }
-    }
-
-    /**
-     * @param string $message
-     */
-    final protected function skipPostGIS($message)
-    {
-        if ($this->isPostGIS()) {
-            $this->markTestSkipped($message);
-        }
-    }
-
-    /**
      * @param Geometry $geometry
      */
     final protected function skipIfUnsupportedGeometry(Geometry $geometry)
