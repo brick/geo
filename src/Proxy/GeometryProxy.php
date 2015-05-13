@@ -111,6 +111,14 @@ class GeometryProxy extends Geometry implements ProxyInterface
     /**
      * {@inheritdoc}
      */
+    public function SRID()
+    {
+        return $this->proxySRID;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function asText()
     {
         if (! $this->proxyIsBinary) {
@@ -199,18 +207,6 @@ class GeometryProxy extends Geometry implements ProxyInterface
         }
 
         return $this->proxyGeometry->geometryTypeBinary();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function SRID()
-    {
-        if ($this->proxyGeometry === null) {
-            $this->load();
-        }
-
-        return $this->proxyGeometry->SRID();
     }
 
     /**

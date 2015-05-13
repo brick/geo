@@ -111,6 +111,14 @@ class _CLASSNAME_Proxy extends _CLASSNAME_ implements ProxyInterface
     /**
      * {@inheritdoc}
      */
+    public function SRID()
+    {
+        return $this->proxySRID;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function asText()
     {
         if (! $this->proxyIsBinary) {

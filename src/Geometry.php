@@ -180,6 +180,8 @@ abstract class Geometry implements \Countable, \IteratorAggregate
     /**
      * Returns the Spatial Reference System ID for this geometry.
      *
+     * @noproxy
+     *
      * @return integer The SRID, zero if not set.
      */
     public function SRID()

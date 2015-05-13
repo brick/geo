@@ -111,6 +111,14 @@ class TriangleProxy extends Triangle implements ProxyInterface
     /**
      * {@inheritdoc}
      */
+    public function SRID()
+    {
+        return $this->proxySRID;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function asText()
     {
         if (! $this->proxyIsBinary) {
@@ -247,18 +255,6 @@ class TriangleProxy extends Triangle implements ProxyInterface
         }
 
         return $this->proxyGeometry->spatialDimension();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function SRID()
-    {
-        if ($this->proxyGeometry === null) {
-            $this->load();
-        }
-
-        return $this->proxyGeometry->SRID();
     }
 
     /**
