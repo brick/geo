@@ -50,9 +50,9 @@ class MultiLineStringProxy extends MultiLineString implements ProxyInterface
      */
     public function __construct($data, $isBinary, $srid = 0)
     {
-        $this->proxyData     = $data;
-        $this->proxyIsBinary = $isBinary;
-        $this->proxySRID     = $srid;
+        $this->proxyData     = (string) $data;
+        $this->proxyIsBinary = (bool) $isBinary;
+        $this->proxySRID     = (int) $srid;
     }
 
     /**
