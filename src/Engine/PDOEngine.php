@@ -27,11 +27,13 @@ class PDOEngine extends DatabaseEngine
     /**
      * Class constructor.
      *
-     * @param \PDO $pdo
+     * @param \PDO    $pdo
+     * @param boolean $useProxy
      */
-    public function __construct(\PDO $pdo)
+    public function __construct(\PDO $pdo, $useProxy = true)
     {
-        $this->pdo = $pdo;
+        $this->pdo      = $pdo;
+        $this->useProxy = $useProxy;
     }
 
     /**

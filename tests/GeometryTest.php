@@ -1027,8 +1027,6 @@ class GeometryTest extends AbstractTestCase
 
         $union = $geometry1->union($geometry2);
 
-        $this->assertSame(get_class($result), get_class($union));
-
         if ($union->asText() === $result->asText()) {
             // GEOS does not consider POINT EMPTY to be equal to another POINT EMPTY;
             // a successful WKT comparison is a successful assertion for us here.
@@ -1037,6 +1035,7 @@ class GeometryTest extends AbstractTestCase
             return;
         }
 
+        $this->assertSame($result->geometryType(), $union->geometryType());
         $this->assertTrue($union->equals($result));
     }
 

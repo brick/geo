@@ -4,6 +4,7 @@ namespace Brick\Geo\Engine;
 
 use Brick\Geo\Exception\GeometryEngineException;
 use Brick\Geo\Geometry;
+use Brick\Geo\Proxy\PointProxy;
 
 /**
  * Database implementation of the GeometryEngine.
@@ -12,6 +13,11 @@ use Brick\Geo\Geometry;
  */
 abstract class DatabaseEngine implements GeometryEngine
 {
+    /**
+     * @var boolean
+     */
+    protected $useProxy;
+
     /**
      * Builds a SQL query for a GIS function.
      *
@@ -46,6 +52,7 @@ abstract class DatabaseEngine implements GeometryEngine
             SELECT
                 CASE WHEN ST_IsEmpty(g) THEN ST_AsText(g) ELSE NULL END,
                 CASE WHEN ST_IsEmpty(g) THEN NULL ELSE ST_AsBinary(g) END,
+                ST_GeometryType(g),
                 ST_SRID(g)
             FROM (%s AS g) AS q
         ', $query);
@@ -136,15 +143,30 @@ abstract class DatabaseEngine implements GeometryEngine
      */
     private function queryGeometry($function, ...$parameters)
     {
-        list ($wkt, $wkb, $srid) = $this->query($function, $parameters, true);
+        list ($wkt, $wkb, $geometryType, $srid) = $this->query($function, $parameters, true);
+
+        $geometryType = str_replace('ST_', '', $geometryType);
+        $proxyClassName = sprintf('Brick\Geo\Proxy\%sProxy', $geometryType);
+
+        if (! class_exists($proxyClassName)) {
+            throw new GeometryEngineException('Unknown geometry type: ' . $geometryType);
+        }
 
         if ($wkt !== null) {
+            if ($this->useProxy) {
+                return new $proxyClassName($wkt, false, $srid);
+            }
+
             return Geometry::fromText($wkt, $srid);
         }
 
         if ($wkb !== null) {
             if (is_resource($wkb)) {
                 $wkb = stream_get_contents($wkb);
+            }
+
+            if ($this->useProxy) {
+                return new $proxyClassName($wkb, true, $srid);
             }
 
             return Geometry::fromBinary($wkb, $srid);
