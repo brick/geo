@@ -145,15 +145,10 @@ abstract class DatabaseEngine implements GeometryEngine
     {
         list ($wkt, $wkb, $geometryType, $srid) = $this->query($function, $parameters, true);
 
-        $geometryType = str_replace('ST_', '', $geometryType);
-        $proxyClassName = sprintf('Brick\Geo\Proxy\%sProxy', $geometryType);
-
-        if (! class_exists($proxyClassName)) {
-            throw new GeometryEngineException('Unknown geometry type: ' . $geometryType);
-        }
-
         if ($wkt !== null) {
             if ($this->useProxy) {
+                $proxyClassName = $this->getProxyClassName($geometryType);
+
                 return new $proxyClassName($wkt, false, $srid);
             }
 
@@ -166,6 +161,8 @@ abstract class DatabaseEngine implements GeometryEngine
             }
 
             if ($this->useProxy) {
+                $proxyClassName = $this->getProxyClassName($geometryType);
+
                 return new $proxyClassName($wkb, true, $srid);
             }
 
@@ -173,6 +170,27 @@ abstract class DatabaseEngine implements GeometryEngine
         }
 
         throw GeometryEngineException::operationYieldedNoResult();
+    }
+
+    /**
+     * @param string $geometryType
+     *
+     * @return string
+     *
+     * @throws GeometryEngineException
+     */
+    private function getProxyClassName($geometryType)
+    {
+        $geometryType = preg_replace('/^ST_/', '', $geometryType);
+        $geometryType = preg_replace('/ .+/', '', $geometryType);
+
+        $proxyClassName = sprintf('Brick\Geo\Proxy\%sProxy', $geometryType);
+
+        if (! class_exists($proxyClassName)) {
+            throw new GeometryEngineException('Unknown geometry type: ' . $geometryType);
+        }
+
+        return $proxyClassName;
     }
 
     /**
