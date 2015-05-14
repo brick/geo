@@ -36,7 +36,7 @@ class GeometryTest extends AbstractTestCase
      */
     public function testFromTextOnWrongSubclassThrowsException()
     {
-        Point::fromText('LINESTRING (1 2, 3 4)');
+        Point::fromText('LINESTRING (1 2, 3 4)', 0, false);
     }
 
     /**
@@ -491,7 +491,7 @@ class GeometryTest extends AbstractTestCase
             $this->setExpectedException(GeometryEngineException::class);
         }
 
-        if ($this->isSpatiaLite() && $geometry instanceof Point) {
+        if ($this->isSpatiaLite() && $geometry->geometryType() === 'Point') {
             // SpatiaLite fails to return a result for a point's boundary.
             $this->setExpectedException(GeometryEngineException::class);
         }

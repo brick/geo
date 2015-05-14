@@ -68,8 +68,8 @@ class PointProxy extends Point implements ProxyInterface
     private function load()
     {
         $this->proxyGeometry = $this->proxyIsBinary
-            ? Point::fromBinary($this->proxyData, $this->proxySRID)
-            : Point::fromText($this->proxyData, $this->proxySRID);
+            ? Point::fromBinary($this->proxyData, $this->proxySRID, false)
+            : Point::fromText($this->proxyData, $this->proxySRID, false);
     }
 
     /**
@@ -90,22 +90,6 @@ class PointProxy extends Point implements ProxyInterface
         }
 
         return $this->proxyGeometry;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function fromText($wkt, $srid = 0)
-    {
-        return new self($wkt, false, $srid);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function fromBinary($wkb, $srid = 0)
-    {
-        return new self($wkb, true, $srid);
     }
 
     /**

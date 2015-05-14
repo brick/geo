@@ -68,8 +68,8 @@ class PolygonProxy extends Polygon implements ProxyInterface
     private function load()
     {
         $this->proxyGeometry = $this->proxyIsBinary
-            ? Polygon::fromBinary($this->proxyData, $this->proxySRID)
-            : Polygon::fromText($this->proxyData, $this->proxySRID);
+            ? Polygon::fromBinary($this->proxyData, $this->proxySRID, false)
+            : Polygon::fromText($this->proxyData, $this->proxySRID, false);
     }
 
     /**
@@ -90,22 +90,6 @@ class PolygonProxy extends Polygon implements ProxyInterface
         }
 
         return $this->proxyGeometry;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function fromText($wkt, $srid = 0)
-    {
-        return new self($wkt, false, $srid);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function fromBinary($wkb, $srid = 0)
-    {
-        return new self($wkb, true, $srid);
     }
 
     /**

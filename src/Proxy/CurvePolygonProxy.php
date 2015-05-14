@@ -68,8 +68,8 @@ class CurvePolygonProxy extends CurvePolygon implements ProxyInterface
     private function load()
     {
         $this->proxyGeometry = $this->proxyIsBinary
-            ? CurvePolygon::fromBinary($this->proxyData, $this->proxySRID)
-            : CurvePolygon::fromText($this->proxyData, $this->proxySRID);
+            ? CurvePolygon::fromBinary($this->proxyData, $this->proxySRID, false)
+            : CurvePolygon::fromText($this->proxyData, $this->proxySRID, false);
     }
 
     /**
@@ -90,22 +90,6 @@ class CurvePolygonProxy extends CurvePolygon implements ProxyInterface
         }
 
         return $this->proxyGeometry;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function fromText($wkt, $srid = 0)
-    {
-        return new self($wkt, false, $srid);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function fromBinary($wkb, $srid = 0)
-    {
-        return new self($wkb, true, $srid);
     }
 
     /**

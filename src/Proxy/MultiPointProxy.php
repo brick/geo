@@ -68,8 +68,8 @@ class MultiPointProxy extends MultiPoint implements ProxyInterface
     private function load()
     {
         $this->proxyGeometry = $this->proxyIsBinary
-            ? MultiPoint::fromBinary($this->proxyData, $this->proxySRID)
-            : MultiPoint::fromText($this->proxyData, $this->proxySRID);
+            ? MultiPoint::fromBinary($this->proxyData, $this->proxySRID, false)
+            : MultiPoint::fromText($this->proxyData, $this->proxySRID, false);
     }
 
     /**
@@ -90,22 +90,6 @@ class MultiPointProxy extends MultiPoint implements ProxyInterface
         }
 
         return $this->proxyGeometry;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function fromText($wkt, $srid = 0)
-    {
-        return new self($wkt, false, $srid);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function fromBinary($wkb, $srid = 0)
-    {
-        return new self($wkb, true, $srid);
     }
 
     /**

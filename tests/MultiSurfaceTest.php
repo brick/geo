@@ -19,7 +19,7 @@ class MultiSurfaceTest extends AbstractTestCase
      */
     public function testInvalidFromText($wkt)
     {
-        MultiSurface::fromText($wkt);
+        MultiSurface::fromText($wkt, 0, false);
     }
 
     /**
@@ -43,7 +43,7 @@ class MultiSurfaceTest extends AbstractTestCase
      */
     public function testInvalidFromBinary($wkb)
     {
-        MultiSurface::fromBinary(hex2bin($wkb));
+        MultiSurface::fromBinary(hex2bin($wkb), 0, false);
     }
 
     /**

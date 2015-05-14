@@ -53,7 +53,7 @@ class CircularStringTest extends AbstractTestCase
      */
     public function testCreateInvalidCircularString($circularString)
     {
-        CircularString::fromText($circularString);
+        CircularString::fromText($circularString, 0, false);
     }
 
     /**

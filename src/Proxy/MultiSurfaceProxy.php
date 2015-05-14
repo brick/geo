@@ -68,8 +68,8 @@ class MultiSurfaceProxy extends MultiSurface implements ProxyInterface
     private function load()
     {
         $this->proxyGeometry = $this->proxyIsBinary
-            ? MultiSurface::fromBinary($this->proxyData, $this->proxySRID)
-            : MultiSurface::fromText($this->proxyData, $this->proxySRID);
+            ? MultiSurface::fromBinary($this->proxyData, $this->proxySRID, false)
+            : MultiSurface::fromText($this->proxyData, $this->proxySRID, false);
     }
 
     /**
@@ -90,22 +90,6 @@ class MultiSurfaceProxy extends MultiSurface implements ProxyInterface
         }
 
         return $this->proxyGeometry;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function fromText($wkt, $srid = 0)
-    {
-        return new self($wkt, false, $srid);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function fromBinary($wkb, $srid = 0)
-    {
-        return new self($wkb, true, $srid);
     }
 
     /**

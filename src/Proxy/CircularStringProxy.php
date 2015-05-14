@@ -68,8 +68,8 @@ class CircularStringProxy extends CircularString implements ProxyInterface
     private function load()
     {
         $this->proxyGeometry = $this->proxyIsBinary
-            ? CircularString::fromBinary($this->proxyData, $this->proxySRID)
-            : CircularString::fromText($this->proxyData, $this->proxySRID);
+            ? CircularString::fromBinary($this->proxyData, $this->proxySRID, false)
+            : CircularString::fromText($this->proxyData, $this->proxySRID, false);
     }
 
     /**
@@ -90,22 +90,6 @@ class CircularStringProxy extends CircularString implements ProxyInterface
         }
 
         return $this->proxyGeometry;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function fromText($wkt, $srid = 0)
-    {
-        return new self($wkt, false, $srid);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function fromBinary($wkb, $srid = 0)
-    {
-        return new self($wkb, true, $srid);
     }
 
     /**

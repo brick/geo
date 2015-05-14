@@ -18,7 +18,7 @@ class MultiCurveTest extends AbstractTestCase
      */
     public function testInvalidFromText($wkt)
     {
-        MultiCurve::fromText($wkt);
+        MultiCurve::fromText($wkt, 0, false);
     }
 
     /**
@@ -42,7 +42,7 @@ class MultiCurveTest extends AbstractTestCase
      */
     public function testInvalidFromBinary($wkb)
     {
-        MultiCurve::fromBinary(hex2bin($wkb));
+        MultiCurve::fromBinary(hex2bin($wkb), 0, false);
     }
 
     /**

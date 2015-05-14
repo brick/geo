@@ -68,8 +68,8 @@ class GeometryProxy extends Geometry implements ProxyInterface
     private function load()
     {
         $this->proxyGeometry = $this->proxyIsBinary
-            ? Geometry::fromBinary($this->proxyData, $this->proxySRID)
-            : Geometry::fromText($this->proxyData, $this->proxySRID);
+            ? Geometry::fromBinary($this->proxyData, $this->proxySRID, false)
+            : Geometry::fromText($this->proxyData, $this->proxySRID, false);
     }
 
     /**
@@ -90,22 +90,6 @@ class GeometryProxy extends Geometry implements ProxyInterface
         }
 
         return $this->proxyGeometry;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function fromText($wkt, $srid = 0)
-    {
-        return new self($wkt, false, $srid);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function fromBinary($wkb, $srid = 0)
-    {
-        return new self($wkb, true, $srid);
     }
 
     /**

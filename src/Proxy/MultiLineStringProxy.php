@@ -68,8 +68,8 @@ class MultiLineStringProxy extends MultiLineString implements ProxyInterface
     private function load()
     {
         $this->proxyGeometry = $this->proxyIsBinary
-            ? MultiLineString::fromBinary($this->proxyData, $this->proxySRID)
-            : MultiLineString::fromText($this->proxyData, $this->proxySRID);
+            ? MultiLineString::fromBinary($this->proxyData, $this->proxySRID, false)
+            : MultiLineString::fromText($this->proxyData, $this->proxySRID, false);
     }
 
     /**
@@ -90,22 +90,6 @@ class MultiLineStringProxy extends MultiLineString implements ProxyInterface
         }
 
         return $this->proxyGeometry;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function fromText($wkt, $srid = 0)
-    {
-        return new self($wkt, false, $srid);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function fromBinary($wkb, $srid = 0)
-    {
-        return new self($wkb, true, $srid);
     }
 
     /**
