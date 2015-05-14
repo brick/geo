@@ -45,8 +45,6 @@ class PointTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerFactoryMethodsAndAccessors
-     *
      * @param Point      $point
      * @param float      $x
      * @param float      $y
@@ -54,7 +52,7 @@ class PointTest extends AbstractTestCase
      * @param float|null $m
      * @param int        $srid
      */
-    public function testFactoryMethodsAndAccessors(Point $point, $x, $y, $z, $m, $srid)
+    private function assertPointFactoryMethodAndAccessors(Point $point, $x, $y, $z, $m, $srid)
     {
         $this->assertSame($x, $point->x());
         $this->assertSame($y, $point->y());
@@ -64,32 +62,61 @@ class PointTest extends AbstractTestCase
         $this->assertFalse($point->isEmpty());
     }
 
-    /**
-     * @return array
-     */
-    public function providerFactoryMethodsAndAccessors()
+    public function testXy()
     {
-        return [
-            [Point::xy(1.2, 3.4), 1.2, 3.4, null, null, 0],
-            [Point::xy('2.3', '4.5', '4326'), 2.3, 4.5, null, null, 4326],
-            [Point::xyz(1.2, 3.4, 5.6), 1.2, 3.4, 5.6, null, 0],
-            [Point::xyz('2.3', '4.5', '6.7', 4326), 2.3, 4.5, 6.7, null, 4326],
-            [Point::xym(1.2, 3.4, 5.6), 1.2, 3.4, null, 5.6, 0],
-            [Point::xym('2.3', '4.5', '6.7', 4326), 2.3, 4.5, null, 6.7, 4326],
-            [Point::xyzm(1.2, 3.4, 5.6, 7.8), 1.2, 3.4, 5.6, 7.8, 0],
-            [Point::xyzm('2.3', '4.5', '6.7', '8.9', 4326), 2.3, 4.5, 6.7, 8.9, 4326]
-        ];
+        $point = Point::xy('1.2', '3.4');
+        $this->assertPointFactoryMethodAndAccessors($point, 1.2, 3.4, null, null, 0);
+    }
+
+    public function testXyWithSRID()
+    {
+        $point = Point::xy('1.2', '3.4', 123);
+        $this->assertPointFactoryMethodAndAccessors($point, 1.2, 3.4, null, null, 123);
+    }
+
+    public function testXyz()
+    {
+        $point = Point::xyz('2.3', '3.4', '4.5');
+        $this->assertPointFactoryMethodAndAccessors($point, 2.3, 3.4, 4.5, null, 0);
+    }
+
+    public function testXyzWithSRID()
+    {
+        $point = Point::xyz('2.3', '3.4', '4.5', 123);
+        $this->assertPointFactoryMethodAndAccessors($point, 2.3, 3.4, 4.5, null, 123);
+    }
+
+    public function testXym()
+    {
+        $point = Point::xym('3.4', '4.5', '5.6');
+        $this->assertPointFactoryMethodAndAccessors($point, 3.4, 4.5, null, 5.6, 0);
+    }
+
+    public function testXymWithSRID()
+    {
+        $point = Point::xym('3.4', '4.5', '5.6', 123);
+        $this->assertPointFactoryMethodAndAccessors($point, 3.4, 4.5, null, 5.6, 123);
+    }
+
+    public function testXyzm()
+    {
+        $point = Point::xyzm('4.5', '5.6', '6.7', '7.8');
+        $this->assertPointFactoryMethodAndAccessors($point, 4.5, 5.6, 6.7, 7.8, 0);
+    }
+
+    public function testXyzmWithSRID()
+    {
+        $point = Point::xyzm('4.5', '5.6', '6.7', '7.8', 123);
+        $this->assertPointFactoryMethodAndAccessors($point, 4.5, 5.6, 6.7, 7.8, 123);
     }
 
     /**
-     * @dataProvider providerEmptyFactoryMethods
-     *
      * @param Point   $point
      * @param boolean $is3D
      * @param boolean $isMeasured
      * @param integer $srid
      */
-    public function testEmptyFactoryMethods(Point $point, $is3D, $isMeasured, $srid)
+    private function assertPointEmptyFactoryMethod(Point $point, $is3D, $isMeasured, $srid)
     {
         $this->assertTrue($point->isEmpty());
         $this->assertNull($point->x());
@@ -101,20 +128,43 @@ class PointTest extends AbstractTestCase
         $this->assertSame($srid, $point->SRID());
     }
 
-    /**
-     * @return array
-     */
-    public function providerEmptyFactoryMethods()
+    public function testXyEmpty()
     {
-        return [
-            [Point::xyEmpty(), false, false, 0],
-            [Point::xyzEmpty(), true ,false, 0],
-            [Point::xymEmpty(), false, true, 0],
-            [Point::xyzmEmpty(), true, true, 0],
-            [Point::xyEmpty(4326), false, false, 4326],
-            [Point::xyzEmpty(4326), true ,false, 4326],
-            [Point::xymEmpty(4326), false, true, 4326],
-            [Point::xyzmEmpty(4326), true, true, 4326]
-        ];
+        $this->assertPointEmptyFactoryMethod(Point::xyEmpty(), false, false, 0);
+    }
+
+    public function testXyEmptyWithSRID()
+    {
+        $this->assertPointEmptyFactoryMethod(Point::xyEmpty(123), false, false, 123);
+    }
+
+    public function testXyzEmpty()
+    {
+        $this->assertPointEmptyFactoryMethod(Point::xyzEmpty(), true, false, 0);
+    }
+
+    public function testXyzEmptyWithSRID()
+    {
+        $this->assertPointEmptyFactoryMethod(Point::xyzEmpty(123), true, false, 123);
+    }
+
+    public function testXymEmpty()
+    {
+        $this->assertPointEmptyFactoryMethod(Point::xymEmpty(), false, true, 0);
+    }
+
+    public function testXymEmptyWithSRID()
+    {
+        $this->assertPointEmptyFactoryMethod(Point::xymEmpty(123), false, true, 123);
+    }
+
+    public function testXyzmEmpty()
+    {
+        $this->assertPointEmptyFactoryMethod(Point::xyzmEmpty(), true, true, 0);
+    }
+
+    public function testXyzmEmptyWithSRID()
+    {
+        $this->assertPointEmptyFactoryMethod(Point::xyzmEmpty(123), true, true, 123);
     }
 }
