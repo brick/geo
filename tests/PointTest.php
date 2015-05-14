@@ -167,4 +167,35 @@ class PointTest extends AbstractTestCase
     {
         $this->assertPointEmptyFactoryMethod(Point::xyzmEmpty(123), true, true, 123);
     }
+
+    /**
+     * @dataProvider providerToArrayAndInterfaces
+     *
+     * @param string $point       The WKT of the point to test.
+     * @param array  $coordinates The expected coordinates.
+     */
+    public function testToArrayAndInterfaces($point, array $coordinates)
+    {
+        $point = Point::fromText($point);
+        $this->assertSame($coordinates, $point->toArray());
+        $this->assertSame($coordinates, iterator_to_array($point));
+        $this->assertSame(count($coordinates), count($point));
+    }
+
+    /**
+     * @return array
+     */
+    public function providerToArrayAndInterfaces()
+    {
+        return [
+            ['POINT EMPTY', []],
+            ['POINT Z EMPTY', []],
+            ['POINT M EMPTY', []],
+            ['POINT ZM EMPTY', []],
+            ['POINT (1.2 2.3)', [1.2, 2.3]],
+            ['POINT Z (2.3 3.4 4.5)', [2.3, 3.4, 4.5]],
+            ['POINT M (3.4 4.5 5.6)', [3.4, 4.5, 5.6]],
+            ['POINT ZM (4.5 5.6 6.7 7.8)', [4.5, 5.6, 6.7, 7.8]],
+        ];
+    }
 }
