@@ -2,6 +2,7 @@
 
 namespace Brick\Geo\Tests;
 
+use Brick\Geo\CoordinateSystem;
 use Brick\Geo\Point;
 
 /**
@@ -9,6 +10,40 @@ use Brick\Geo\Point;
  */
 class PointTest extends AbstractTestCase
 {
+    /**
+     * @expectedException \Brick\Geo\Exception\InvalidGeometryException
+     * @dataProvider providerConstructorWithInvalidCoordinates
+     *
+     * @param boolean $z
+     * @param boolean $m
+     * @param float   ...$coords
+     */
+    public function testConstructorWithInvalidCoordinates($z, $m, ...$coords)
+    {
+        new Point(new CoordinateSystem($z, $m), ...$coords);
+    }
+
+    /**
+     * @return array
+     */
+    public function providerConstructorWithInvalidCoordinates()
+    {
+        return [
+            [false, false, 1],
+            [false, false, 1, 2, 3],
+            [true,  false, 1],
+            [true,  false, 1, 2],
+            [true,  false, 1, 2, 3, 4],
+            [false, true,  1],
+            [false, true,  1, 2],
+            [false, true,  1, 2, 3, 4],
+            [true,  true,  1],
+            [true,  true,  1, 2],
+            [true,  true,  1, 2, 3],
+            [true,  true,  1, 2, 3, 4, 5],
+        ];
+    }
+
     /**
      * @dataProvider providerFactoryMethodsAndAccessors
      *
