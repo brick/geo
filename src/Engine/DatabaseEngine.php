@@ -4,7 +4,7 @@ namespace Brick\Geo\Engine;
 
 use Brick\Geo\Exception\GeometryEngineException;
 use Brick\Geo\Geometry;
-use Brick\Geo\Proxy\PointProxy;
+use Brick\Geo\Proxy;
 
 /**
  * Database implementation of the GeometryEngine.
@@ -181,16 +181,36 @@ abstract class DatabaseEngine implements GeometryEngine
      */
     private function getProxyClassName($geometryType)
     {
+        $proxyClasses = [
+            'CIRCULARSTRING'     => Proxy\CircularStringProxy::class,
+            'COMPOUNDCURVE'      => Proxy\CompoundCurveProxy::class,
+            'CURVE'              => Proxy\CurveProxy::class,
+            'CURVEPOLYGON'       => Proxy\CurvePolygonProxy::class,
+            'GEOMETRY'           => Proxy\GeometryProxy::class,
+            'GEOMETRYCOLLECTION' => Proxy\GeometryCollectionProxy::class,
+            'LINESTRING'         => Proxy\LineStringProxy::class,
+            'MULTICURVE'         => Proxy\MultiCurveProxy::class,
+            'MULTILINESTRING'    => Proxy\MultiLineStringProxy::class,
+            'MULTIPOINT'         => Proxy\MultiPointProxy::class,
+            'MULTIPOLYGON'       => Proxy\MultiPolygonProxy::class,
+            'MULTISURFACE'       => Proxy\MultiSurfaceProxy::class,
+            'POINT'              => Proxy\PointProxy::class,
+            'POLYGON'            => Proxy\PolygonProxy::class,
+            'POLYHEDRALSURFACE'  => Proxy\PolyhedralSurfaceProxy::class,
+            'SURFACE'            => Proxy\SurfaceProxy::class,
+            'TIN'                => Proxy\TINProxy::class,
+            'TRIANGLE'           => Proxy\TriangleProxy::class
+        ];
+
+        $geometryType = strtoupper($geometryType);
         $geometryType = preg_replace('/^ST_/', '', $geometryType);
-        $geometryType = preg_replace('/ .+/', '', $geometryType);
+        $geometryType = preg_replace('/ .*/', '', $geometryType);
 
-        $proxyClassName = sprintf('Brick\Geo\Proxy\%sProxy', $geometryType);
-
-        if (! class_exists($proxyClassName)) {
+        if (! isset($proxyClasses[$geometryType])) {
             throw new GeometryEngineException('Unknown geometry type: ' . $geometryType);
         }
 
-        return $proxyClassName;
+        return $proxyClasses[$geometryType];
     }
 
     /**
