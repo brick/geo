@@ -6,7 +6,6 @@ use Brick\Geo\Exception\GeometryEngineException;
 use Brick\Geo\IO\EWKBReader;
 use Brick\Geo\IO\EWKBWriter;
 use Brick\Geo\Geometry;
-use Brick\Geo\Point;
 
 /**
  * GeometryEngine implementation based on the GEOS PHP bindings.
@@ -76,8 +75,7 @@ class GEOSEngine implements GeometryEngine
      */
     private function toGEOS(Geometry $geometry)
     {
-        if ($geometry instanceof Point && $geometry->isEmpty()) {
-            // POINT EMPTY has no WKB representation, using WKT instead.
+        if ($geometry->isEmpty()) {
             $geosGeometry = $this->wktReader->read($geometry->asText());
             $geosGeometry->setSRID($geometry->SRID());
 
@@ -98,8 +96,7 @@ class GEOSEngine implements GeometryEngine
      */
     private function fromGEOS(\GEOSGeometry $geometry)
     {
-        if ($geometry->typeName() === 'Point' && $geometry->isEmpty()) {
-            // POINT EMPTY has no WKB representation, using WKT instead.
+        if ($geometry->isEmpty()) {
             return Geometry::fromText($this->wktWriter->write($geometry), $geometry->getSRID());
         }
 
