@@ -68,8 +68,8 @@ class MultiPolygonProxy extends MultiPolygon implements ProxyInterface
     private function load()
     {
         $this->proxyGeometry = $this->proxyIsBinary
-            ? MultiPolygon::fromBinary($this->proxyData, $this->proxySRID, false)
-            : MultiPolygon::fromText($this->proxyData, $this->proxySRID, false);
+            ? MultiPolygon::fromBinary($this->proxyData, $this->proxySRID)
+            : MultiPolygon::fromText($this->proxyData, $this->proxySRID);
     }
 
     /**
@@ -90,6 +90,22 @@ class MultiPolygonProxy extends MultiPolygon implements ProxyInterface
         }
 
         return $this->proxyGeometry;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function fromText($wkt, $srid = 0)
+    {
+        return new self($wkt, false, $srid);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function fromBinary($wkb, $srid = 0)
+    {
+        return new self($wkb, true, $srid);
     }
 
     /**

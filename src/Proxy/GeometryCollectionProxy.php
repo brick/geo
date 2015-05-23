@@ -68,8 +68,8 @@ class GeometryCollectionProxy extends GeometryCollection implements ProxyInterfa
     private function load()
     {
         $this->proxyGeometry = $this->proxyIsBinary
-            ? GeometryCollection::fromBinary($this->proxyData, $this->proxySRID, false)
-            : GeometryCollection::fromText($this->proxyData, $this->proxySRID, false);
+            ? GeometryCollection::fromBinary($this->proxyData, $this->proxySRID)
+            : GeometryCollection::fromText($this->proxyData, $this->proxySRID);
     }
 
     /**
@@ -90,6 +90,22 @@ class GeometryCollectionProxy extends GeometryCollection implements ProxyInterfa
         }
 
         return $this->proxyGeometry;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function fromText($wkt, $srid = 0)
+    {
+        return new self($wkt, false, $srid);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function fromBinary($wkb, $srid = 0)
+    {
+        return new self($wkb, true, $srid);
     }
 
     /**

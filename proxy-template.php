@@ -68,8 +68,8 @@ class _CLASSNAME_Proxy extends _CLASSNAME_ implements ProxyInterface
     private function load()
     {
         $this->proxyGeometry = $this->proxyIsBinary
-            ? _CLASSNAME_::fromBinary($this->proxyData, $this->proxySRID, false)
-            : _CLASSNAME_::fromText($this->proxyData, $this->proxySRID, false);
+            ? _CLASSNAME_::fromBinary($this->proxyData, $this->proxySRID)
+            : _CLASSNAME_::fromText($this->proxyData, $this->proxySRID);
     }
 
     /**
@@ -90,6 +90,22 @@ class _CLASSNAME_Proxy extends _CLASSNAME_ implements ProxyInterface
         }
 
         return $this->proxyGeometry;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function fromText($wkt, $srid = 0)
+    {
+        return new self($wkt, false, $srid);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function fromBinary($wkb, $srid = 0)
+    {
+        return new self($wkb, true, $srid);
     }
 
     /**

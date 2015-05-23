@@ -24,7 +24,7 @@ class CompoundCurveTest extends AbstractTestCase
     {
         foreach ([0, 1] as $srid) {
             $instantiateCurve = function ($curve) use ($srid) {
-                return Curve::fromText($curve, $srid, false);
+                return Curve::fromText($curve, $srid);
             };
 
             $cs = new CoordinateSystem($is3D, $isMeasured, $srid);
@@ -54,7 +54,7 @@ class CompoundCurveTest extends AbstractTestCase
      */
     public function testCreateInvalidCompoundCurve($compoundCurve)
     {
-        CompoundCurve::fromText($compoundCurve, 0, false);
+        CompoundCurve::fromText($compoundCurve);
     }
 
     /**

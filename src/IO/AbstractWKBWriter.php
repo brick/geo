@@ -3,7 +3,6 @@
 namespace Brick\Geo\IO;
 
 use Brick\Geo\Exception\GeometryIOException;
-use Brick\Geo\Proxy\ProxyInterface;
 use Brick\Geo\CircularString;
 use Brick\Geo\CompoundCurve;
 use Brick\Geo\Curve;
@@ -75,10 +74,6 @@ abstract class AbstractWKBWriter
      */
     protected function doWrite(Geometry $geometry, $outer)
     {
-        if ($geometry instanceof ProxyInterface) {
-            $geometry = $geometry->getGeometry();
-        }
-
         if ($geometry instanceof Point) {
             return $this->writePoint($geometry, $outer);
         }

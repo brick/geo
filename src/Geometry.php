@@ -69,12 +69,8 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      * If the resulting geometry is valid but is not an instance of the class this method is called on,
      * for example passing a Polygon WKT to Point::fromText(), an exception is thrown.
      *
-     * This method returns a proxy class by default. In this case, any exception related to an invalid WKT
-     * will only be thrown when a method that requires the proxied geometry to be loaded is called.
-     *
-     * @param string  $wkt      The Well-Known Text representation.
-     * @param integer $srid     The optional SRID to use.
-     * @param boolean $useProxy Whether to return a proxy class, or to instantiate the geometry directly.
+     * @param string  $wkt  The Well-Known Text representation.
+     * @param integer $srid The optional SRID to use.
      *
      * @return static
      *
@@ -83,14 +79,8 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      * @throws InvalidGeometryException    If the WKT represents an invalid geometry.
      * @throws UnexpectedGeometryException If the resulting geometry is not an instance of the current class.
      */
-    public static function fromText($wkt, $srid = 0, $useProxy = true)
+    public static function fromText($wkt, $srid = 0)
     {
-        if ($useProxy) {
-            $proxyClassName = static::getProxyClassName();
-
-            return new $proxyClassName($wkt, false, $srid);
-        }
-
         static $wktReader;
 
         if ($wktReader === null) {
@@ -112,12 +102,8 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      * If the resulting geometry is valid but is not an instance of the class this method is called on,
      * for example passing a Polygon WKB to Point::fromBinary(), an exception is thrown.
      *
-     * This method returns a proxy class by default. In this case, any exception related to an invalid WKB
-     * will only be thrown when a method that requires the proxied geometry to be loaded is called.
-     *
-     * @param string  $wkb      The Well-Known Binary representation.
-     * @param integer $srid     The optional SRID to use.
-     * @param boolean $useProxy Whether to return a proxy class, or to instantiate the geometry directly.
+     * @param string  $wkb  The Well-Known Binary representation.
+     * @param integer $srid The optional SRID to use.
      *
      * @return static
      *
@@ -126,14 +112,8 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      * @throws InvalidGeometryException    If the WKB represents an invalid geometry.
      * @throws UnexpectedGeometryException If the resulting geometry is not an instance of the current class.
      */
-    public static function fromBinary($wkb, $srid = 0, $useProxy = true)
+    public static function fromBinary($wkb, $srid = 0)
     {
-        if ($useProxy) {
-            $proxyClassName = static::getProxyClassName();
-
-            return new $proxyClassName($wkb, true, $srid);
-        }
-
         static $wkbReader;
 
         if ($wkbReader === null) {
@@ -147,16 +127,6 @@ abstract class Geometry implements \Countable, \IteratorAggregate
         }
 
         return $geometry;
-    }
-
-    /**
-     * Returns the proxy class name for the current class.
-     *
-     * @return string
-     */
-    private static function getProxyClassName()
-    {
-        return preg_replace('/\\\\([^\\\\]+)$/', '\\\\Proxy\\\\$1Proxy', static::class);
     }
 
     /**

@@ -68,8 +68,8 @@ class SurfaceProxy extends Surface implements ProxyInterface
     private function load()
     {
         $this->proxyGeometry = $this->proxyIsBinary
-            ? Surface::fromBinary($this->proxyData, $this->proxySRID, false)
-            : Surface::fromText($this->proxyData, $this->proxySRID, false);
+            ? Surface::fromBinary($this->proxyData, $this->proxySRID)
+            : Surface::fromText($this->proxyData, $this->proxySRID);
     }
 
     /**
@@ -90,6 +90,22 @@ class SurfaceProxy extends Surface implements ProxyInterface
         }
 
         return $this->proxyGeometry;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function fromText($wkt, $srid = 0)
+    {
+        return new self($wkt, false, $srid);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function fromBinary($wkb, $srid = 0)
+    {
+        return new self($wkb, true, $srid);
     }
 
     /**

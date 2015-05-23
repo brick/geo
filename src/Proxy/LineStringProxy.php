@@ -68,8 +68,8 @@ class LineStringProxy extends LineString implements ProxyInterface
     private function load()
     {
         $this->proxyGeometry = $this->proxyIsBinary
-            ? LineString::fromBinary($this->proxyData, $this->proxySRID, false)
-            : LineString::fromText($this->proxyData, $this->proxySRID, false);
+            ? LineString::fromBinary($this->proxyData, $this->proxySRID)
+            : LineString::fromText($this->proxyData, $this->proxySRID);
     }
 
     /**
@@ -90,6 +90,22 @@ class LineStringProxy extends LineString implements ProxyInterface
         }
 
         return $this->proxyGeometry;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function fromText($wkt, $srid = 0)
+    {
+        return new self($wkt, false, $srid);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function fromBinary($wkb, $srid = 0)
+    {
+        return new self($wkb, true, $srid);
     }
 
     /**

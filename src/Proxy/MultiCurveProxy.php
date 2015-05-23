@@ -68,8 +68,8 @@ class MultiCurveProxy extends MultiCurve implements ProxyInterface
     private function load()
     {
         $this->proxyGeometry = $this->proxyIsBinary
-            ? MultiCurve::fromBinary($this->proxyData, $this->proxySRID, false)
-            : MultiCurve::fromText($this->proxyData, $this->proxySRID, false);
+            ? MultiCurve::fromBinary($this->proxyData, $this->proxySRID)
+            : MultiCurve::fromText($this->proxyData, $this->proxySRID);
     }
 
     /**
@@ -90,6 +90,22 @@ class MultiCurveProxy extends MultiCurve implements ProxyInterface
         }
 
         return $this->proxyGeometry;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function fromText($wkt, $srid = 0)
+    {
+        return new self($wkt, false, $srid);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function fromBinary($wkb, $srid = 0)
+    {
+        return new self($wkb, true, $srid);
     }
 
     /**
