@@ -1,8 +1,6 @@
-GEOS_VERSION=svn-trunk
-
-wget https://github.com/libgeos/libgeos/archive/$GEOS_VERSION.tar.gz
-tar zxf $GEOS_VERSION.tar.gz
-cd libgeos-$GEOS_VERSION
+wget https://github.com/libgeos/libgeos/archive/$VERSION.tar.gz
+tar zxf $VERSION.tar.gz
+cd libgeos-$VERSION
 ./autogen.sh
 ./configure --enable-php
 make
