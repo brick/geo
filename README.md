@@ -17,7 +17,8 @@ geometry calculations. Several engines are supported, from native PHP extensions
 Requirements and installation
 -----------------------------
 
-This library requires PHP 5.6, PHP 7 or [HHVM](http://hhvm.com/).
+This library requires PHP 5.6 or PHP 7.
+[HHVM](http://hhvm.com/) will be supported as soon as [issue #4858](https://github.com/facebook/hhvm/issues/4858) is fixed.
 
 We recommend installing it with [Composer](https://getcomposer.org/).
 Just define the following requirement in your `composer.json` file:
