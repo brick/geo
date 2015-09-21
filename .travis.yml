@@ -33,6 +33,8 @@ after_script:
 
 matrix:
   exclude:
+    - php: 7
+      env: ENGINE=GEOS # no bindings for PHP 7 yet
     - php: hhvm
       env: ENGINE=PDO_PGSQL # driver currently unsupported by HHVM
     - php: hhvm
@@ -44,5 +46,4 @@ matrix:
     - php: hhvm
       env: ENGINE=PDO_MYSQL_MARIADB10 # current installation script uninstalls HHVM
   allow_failures:
-    - php: 7
     - php: hhvm
