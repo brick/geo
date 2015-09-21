@@ -48,8 +48,8 @@ function bootstrap()
                 $pdo->exec('CREATE DATABASE geo_tests_tmp');
                 $pdo->exec('USE geo_tests');
 
-                $statement = $pdo->query("SHOW VARIABLES LIKE 'version'");
-                $version = $statement->fetchColumn(1);
+                $statement = $pdo->query('SELECT VERSION()');
+                $version = $statement->fetchColumn();
 
                 echo 'MySQL version: ' . $version . PHP_EOL;
 

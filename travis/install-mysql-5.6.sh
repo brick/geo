@@ -1,8 +1,8 @@
 apt-get remove mysql-server-5.5 mysql-server-core-5.5
 apt-get autoremove
 apt-get install libaio1
-wget http://cdn.mysql.com/Downloads/MySQL-5.6/mysql-5.6.23-debian6.0-x86_64.deb
-dpkg -i mysql-5.6.23-debian6.0-x86_64.deb
+wget https://dev.mysql.com/get/Downloads/MySQL-5.6/mysql-5.6.26-debian6.0-x86_64.deb
+dpkg -i mysql-5.6.26-debian6.0-x86_64.deb
 cp /opt/mysql/server-5.6/support-files/mysql.server /etc/init.d/mysql.server
 ln -sf /opt/mysql/server-5.6/bin/* /usr/bin/
 sed -i'' 's/table_cache/table_open_cache/' /etc/mysql/my.cnf
