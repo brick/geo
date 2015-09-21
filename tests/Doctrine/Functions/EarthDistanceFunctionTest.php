@@ -7,18 +7,18 @@ use Brick\Geo\Tests\Doctrine\Fixtures\PointEntity;
 use Brick\Geo\Tests\Doctrine\FunctionalTestCase;
 
 /**
- * Tests for GreatCircleDistance Doctrine function.
+ * Tests for EarthDistance Doctrine function.
  */
-class GreatCircleDistanceFunctionTest extends FunctionalTestCase
+class EarthDistanceFunctionTest extends FunctionalTestCase
 {
     /**
-     * @dataProvider providerGreatCircleDistanceFunction
+     * @dataProvider providerEarthDistanceFunction
      *
      * @param string $pointA           The WKT of the first point, with Lon/Lat coordinates.
      * @param string $pointB           The WKT of the second point, with Lon/Lat coordinates.
      * @param float  $expectedDistance The expected distance in meters.
      */
-    public function testGreatCircleDistanceFunction($pointA, $pointB, $expectedDistance)
+    public function testEarthDistanceFunction($pointA, $pointB, $expectedDistance)
     {
         $pointA = Point::fromText($pointA, 4326);
         $pointB = Point::fromText($pointB, 4326);
@@ -39,7 +39,7 @@ class GreatCircleDistanceFunctionTest extends FunctionalTestCase
         $em->flush($pointEntity);
 
         $actualDistance = $em->createQueryBuilder()
-            ->select('GreatCircleDistance(p.point, :point)')
+            ->select('EarthDistance(p.point, :point)')
             ->from(PointEntity::class, 'p')
             ->setParameter('point', $pointB, 'point')
             ->getQuery()
@@ -53,7 +53,7 @@ class GreatCircleDistanceFunctionTest extends FunctionalTestCase
     /**
      * @return array
      */
-    public function providerGreatCircleDistanceFunction()
+    public function providerEarthDistanceFunction()
     {
         $paris      = 'POINT (2.35 48.85)';
         $london     = 'POINT (0.13 51.50)';
