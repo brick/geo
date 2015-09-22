@@ -66,6 +66,8 @@ class GEOSWKBWriter
     /**
      * Writes the given geometry as WKB.
      *
+     * @since 3.5.0
+     *
      * @param GEOSGeometry $geom
      *
      * @return string

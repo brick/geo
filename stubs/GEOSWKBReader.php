@@ -18,6 +18,8 @@ class GEOSWKBReader
     /**
      * Reads a geometry out of the given WKB.
      *
+     * @since 3.5.0
+     *
      * @param string $wkb
      *
      * @return GEOSGeometry
