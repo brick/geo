@@ -72,6 +72,44 @@ class LineString extends Curve
     }
 
     /**
+     * Creates a rectangle out of two 2D corner points.
+     *
+     * This result is a linear ring (closed and simple).
+     *
+     * @param Point $a
+     * @param Point $b
+     *
+     * @return LineString
+     *
+     * @throws CoordinateSystemException If the points use different coordinate systems, or are not 2D.
+     */
+    public static function rectangle(Point $a, Point $b)
+    {
+        $cs = $a->coordinateSystem();
+
+        if ($cs != $b->coordinateSystem()) { // by-value comparison.
+            throw CoordinateSystemException::dimensionalityMix($a, $b);
+        }
+
+        if ($cs->coordinateDimension() != 2) {
+            throw new CoordinateSystemException(__METHOD__ . ' expects 2D points.');
+        }
+
+        $x1 = min($a->x(), $b->x());
+        $x2 = max($a->x(), $b->x());
+
+        $y1 = min($a->y(), $b->y());
+        $y2 = max($a->y(), $b->y());
+
+        $p1 = new Point($cs, $x1, $y1);
+        $p2 = new Point($cs, $x2, $y1);
+        $p3 = new Point($cs, $x2, $y2);
+        $p4 = new Point($cs, $x1, $y2);
+
+        return new LineString($cs, $p1, $p2, $p3, $p4, $p1);
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function startPoint()

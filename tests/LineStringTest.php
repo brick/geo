@@ -3,6 +3,7 @@
 namespace Brick\Geo\Tests;
 
 use Brick\Geo\LineString;
+use Brick\Geo\Point;
 
 /**
  * Unit tests for class LineString.
@@ -117,5 +118,64 @@ class LineStringTest extends AbstractTestCase
             $lineString->pointN(2),
             $lineString->pointN(3)
         ], iterator_to_array($lineString));
+    }
+
+    /**
+     * @dataProvider providerRectangle
+     *
+     * @param string $point1
+     * @param string $point2
+     * @param string $expected
+     */
+    public function testRectangle($point1, $point2, $expected)
+    {
+        $point1 = Point::fromText($point1);
+        $point2 = Point::fromText($point2);
+
+        $actual = LineString::rectangle($point1, $point2);
+
+        $this->assertSame($expected, $actual->asText());
+    }
+
+    /**
+     * @return array
+     */
+    public function providerRectangle()
+    {
+        return [
+            ['POINT (1 2)', 'POINT (3 4)', 'LINESTRING (1 2, 3 2, 3 4, 1 4, 1 2)'],
+            ['POINT (1 4)', 'POINT (3 2)', 'LINESTRING (1 2, 3 2, 3 4, 1 4, 1 2)'],
+            ['POINT (3 2)', 'POINT (1 4)', 'LINESTRING (1 2, 3 2, 3 4, 1 4, 1 2)'],
+        ];
+    }
+
+    /**
+     * @dataProvider providerRectangleWithInvalidPoints
+     * @expectedException \Brick\Geo\Exception\CoordinateSystemException
+     *
+     * @param string $point1
+     * @param string $point2
+     * @param int    $srid1
+     * @param int    $srid2
+     */
+    public function testRectangleWithInvalidPoints($point1, $point2, $srid1 = 0, $srid2 = 0)
+    {
+        $point1 = Point::fromText($point1, $srid1);
+        $point2 = Point::fromText($point2, $srid2);
+
+        LineString::rectangle($point1, $point2);
+    }
+
+    /**
+     * @return array
+     */
+    public function providerRectangleWithInvalidPoints()
+    {
+        return [
+            ['POINT (1 1)', 'POINT Z (2 3 4)'],
+            ['POINT M (1 2 3)', 'POINT (3 3)'],
+            ['POINT (1 2)', 'POINT ZM (3 4 5 6)'],
+            ['POINT (1 2)', 'POINT (3 4)', 1, 2],
+        ];
     }
 }
