@@ -65,7 +65,9 @@ class GEOSEngine implements GeometryEngine
         $this->ewkbReader = new EWKBReader();
         $this->ewkbWriter = new EWKBWriter();
 
-        $this->hasBinaryReadWrite = version_compare(GEOSVersion(), '3.5.0', '>=');
+        $this->hasBinaryReadWrite =
+            method_exists($this->wkbReader, 'read') &&
+            method_exists($this->wkbWriter, 'write');
     }
 
     /**
