@@ -146,6 +146,8 @@ class CoordinateSystem
     /**
      * Returns the coordinate dimension of this coordinate system.
      *
+     * The coordinate dimension is the total number of coordinates in the coordinate system.
+     *
      * @return integer 2 for (X,Y), 3 for (X,Y,Z) and (X,Y,M), 4 for (X,Y,Z,M).
      */
     public function coordinateDimension()
@@ -165,6 +167,8 @@ class CoordinateSystem
 
     /**
      * Returns the spatial dimension of this coordinate system.
+     *
+     * The spatial dimension is 3 if the coordinate system has a Z coordinate, 2 otherwise.
      *
      * @return integer 2 for (X,Y) and (X,Y,M), 3 for (X,Y,Z) and (X,Y,Z,M).
      */
