@@ -107,7 +107,14 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
                 return true;
             }
 
-            return $this->isVersion(GEOSVersion(), $operatorAndVersion);
+            $version = GEOSVersion();
+            $dashPos = strpos($version, '-');
+
+            if ($dashPos !== false) {
+                $version = substr($version, 0, $dashPos);
+            }
+
+            return $this->isVersion($version, $operatorAndVersion);
         }
 
         return false;

@@ -106,10 +106,10 @@ class MultiCurveTest extends AbstractTestCase
         $curve = MultiCurve::fromText($curve);
         $this->skipIfUnsupportedGeometry($curve);
 
-//        if ($this->isGEOS('< 3.5.0')) {
-//            // GEOS PHP bindings did not support isClosed() on MultiCurve in older versions.
-//            $this->setExpectedException(GeometryEngineException::class);
-//        }
+        if ($this->isGEOS('< 3.5.0')) {
+            // GEOS PHP bindings do not support isClosed() on MultiCurve in older versions.
+            $this->setExpectedException(GeometryEngineException::class);
+        }
 
         $this->assertSame($isClosed, $curve->isClosed());
     }
