@@ -74,7 +74,7 @@ class LineString extends Curve
     /**
      * Creates a rectangle out of two 2D corner points.
      *
-     * This result is a linear ring (closed and simple).
+     * The result is a linear ring (closed and simple).
      *
      * @param Point $a
      * @param Point $b
