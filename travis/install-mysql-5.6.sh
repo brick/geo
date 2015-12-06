@@ -1,3 +1,4 @@
+apt-get update
 apt-get remove mysql-server-5.5 mysql-server-core-5.5
 apt-get autoremove
 apt-get install libaio1

@@ -1,3 +1,4 @@
+sudo apt-get update
 sudo apt-get install libproj-dev libfreexl-dev libxml2-dev
 
 wget http://download.osgeo.org/geos/geos-3.4.2.tar.bz2
