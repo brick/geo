@@ -85,24 +85,6 @@ class Polygon extends Surface
     }
 
     /**
-     * Creates a rectangle from two corner 2D points.
-     *
-     * @deprecated Use Polygon::of(LineString::rectangle($a, $b))
-     *
-     * @param Point $a The first corner point.
-     * @param Point $b The second corner point.
-     *
-     * @return Polygon
-     *
-     * @throws InvalidGeometryException
-     * @throws CoordinateSystemException
-     */
-    public static function createRectangle(Point $a, Point $b)
-    {
-        return Polygon::of(LineString::rectangle($a, $b));
-    }
-
-    /**
      * Returns the exterior ring of this Polygon.
      *
      * @return LineString
