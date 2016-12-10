@@ -612,8 +612,8 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
             $pdo = $engine->getPDO();
 
             if ($pdo->getAttribute(\PDO::ATTR_DRIVER_NAME) === 'mysql') {
-                $statement = $pdo->query("SHOW VARIABLES LIKE 'version'");
-                $version = $statement->fetchColumn(1);
+                $statement = $pdo->query('SELECT VERSION()');
+                $version = $statement->fetchColumn();
 
                 $isMariaDB = (substr($version, -8) === '-MariaDB');
 
