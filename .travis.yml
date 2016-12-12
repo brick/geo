@@ -36,14 +36,6 @@ after_script:
 
 matrix:
   exclude:
-    - php: 7
-      env: ENGINE=GEOS34 # see https://git.osgeo.org/gogs/geos/php-geos/issues/12
-    - php: 7
-      env: ENGINE=GEOS35 # see https://git.osgeo.org/gogs/geos/php-geos/issues/12
-    - php: 7.1
-      env: ENGINE=GEOS34 # see https://git.osgeo.org/gogs/geos/php-geos/issues/12
-    - php: 7.1
-      env: ENGINE=GEOS35 # see https://git.osgeo.org/gogs/geos/php-geos/issues/12
     - php: hhvm
       env: ENGINE=PDO_PGSQL # driver currently unsupported by HHVM
     - php: hhvm

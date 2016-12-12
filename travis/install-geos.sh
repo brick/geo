@@ -11,8 +11,8 @@ make
 sudo make install
 cd ..
 
-wget https://git.osgeo.org/gogs/geos/php-geos/archive/1.0.0rc1.tar.gz
-tar zxf 1.0.0rc1.tar.gz
+wget https://git.osgeo.org/gogs/geos/php-geos/archive/1.0.0rc2.tar.gz
+tar zxf 1.0.0rc2.tar.gz
 cd php-geos
 ./autogen.sh
 ./configure
