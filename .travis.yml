@@ -15,14 +15,16 @@ env:
   - ENGINE=SQLite3
   - ENGINE=GEOS34
   - ENGINE=GEOS35
+  - ENGINE=GEOS36
 
 before_script:
   - if [[ $ENGINE = PDO_MYSQL56 ]]; then ENGINE=PDO_MYSQL; sudo bash travis/install-mysql-5.6.sh; fi;
   - if [[ $ENGINE = PDO_MYSQL57 ]]; then ENGINE=PDO_MYSQL; sudo bash travis/install-mysql-5.7.sh; fi;
   - if [[ $ENGINE = PDO_MYSQL_MARIADB55 ]]; then ENGINE=PDO_MYSQL; sudo VERSION=5.5 bash travis/install-mariadb.sh; fi;
   - if [[ $ENGINE = PDO_MYSQL_MARIADB10 ]]; then ENGINE=PDO_MYSQL; sudo VERSION=10.0 bash travis/install-mariadb.sh; fi;
-  - if [[ $ENGINE = GEOS34 ]]; then ENGINE=GEOS; VERSION=svn-3.4 bash travis/install-geos.sh; fi; # 3.4.3 with fix for ZTS not released yet
-  - if [[ $ENGINE = GEOS35 ]]; then ENGINE=GEOS; VERSION=3.5.0 bash travis/install-geos.sh; fi;
+  - if [[ $ENGINE = GEOS34 ]]; then ENGINE=GEOS; VERSION=3.4.3 bash travis/install-geos.sh; fi;
+  - if [[ $ENGINE = GEOS35 ]]; then ENGINE=GEOS; VERSION=3.5.1 bash travis/install-geos.sh; fi;
+  - if [[ $ENGINE = GEOS36 ]]; then ENGINE=GEOS; VERSION=3.6.0 bash travis/install-geos.sh; fi;
   - if [[ $ENGINE = SQLite3 ]]; then bash travis/install-spatialite.sh; fi;
   - composer self-update
   - composer install
@@ -42,6 +44,8 @@ matrix:
       env: ENGINE=GEOS34 # extension currently unsupported by HHVM
     - php: hhvm
       env: ENGINE=GEOS35 # extension currently unsupported by HHVM
+    - php: hhvm
+      env: ENGINE=GEOS36 # extension currently unsupported by HHVM
     - php: hhvm
       env: ENGINE=PDO_MYSQL57 # current installation script uninstalls HHVM
     - php: hhvm
