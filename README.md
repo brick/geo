@@ -114,11 +114,11 @@ all you need to do is create an additional in-memory SQLite3 database just to po
         $sqlite3->loadExtension('mod_spatialite.so');
         GeometryEngineRegistry::set(new SQLite3Engine($sqlite3));
 
-Update the `libspatialite` extension name as required. In this example we have created an in-memory database for our GIS calculations, but you can also use an existing `SQLite3` connection.
+In this example we have created an in-memory database for our GIS calculations, but you can also use an existing `SQLite3` connection.
 
 ### Using GEOS PHP bindings
 
-- Ensure that [GEOS is installed](https://github.com/libgeos/libgeos) on your server. GEOS must have been compiled with the `--enable-php` flag to provide the PHP extension.
+- Ensure that [the PHP bindings for GEOS](https://git.osgeo.org/gogs/geos/php-geos) are installed on your server (GEOS 3.6.0 onwards; previous versions require compiling GEOS with the `--enable-php` flag).
 - Ensure that the GEOS extension is enabled in your `php.ini`:
 
         extension=geos.so
