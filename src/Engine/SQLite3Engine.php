@@ -52,6 +52,7 @@ class SQLite3Engine extends DatabaseEngine
     {
         if (isset($this->statements[$query])) {
             $statement = $this->statements[$query];
+            $statement->reset();
         } else {
             // Temporary set the error reporting level to 0 to avoid any warning.
             $errorReportingLevel = error_reporting(0);
