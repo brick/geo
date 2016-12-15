@@ -114,7 +114,7 @@ function bootstrap()
                     $prefix = '/usr/local/lib/';
                 }
 
-                $sqlite3->loadExtension($prefix . 'libspatialite.so');
+                $sqlite3->loadExtension($prefix . 'mod_spatialite.so');
 
                 $statement = $sqlite3->query('SELECT sqlite_version(), spatialite_version()');
                 list ($sqliteVersion, $spatialiteVersion) = $statement->fetchArray(SQLITE3_NUM);

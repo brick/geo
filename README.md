@@ -111,7 +111,7 @@ all you need to do is create an additional in-memory SQLite3 database just to po
         use Brick\Geo\Engine\SQLite3Engine;
 
         $sqlite3 = new SQLite3(':memory:');
-        $sqlite3->loadExtension('libspatialite.so.3');
+        $sqlite3->loadExtension('mod_spatialite.so');
         GeometryEngineRegistry::set(new SQLite3Engine($sqlite3));
 
 Update the `libspatialite` extension name as required. In this example we have created an in-memory database for our GIS calculations, but you can also use an existing `SQLite3` connection.
