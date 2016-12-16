@@ -109,6 +109,10 @@ function bootstrap()
                 echo 'Using SQLite3Engine' . PHP_EOL;
 
                 $sqlite3 = new SQLite3(':memory:');
+
+                $sqliteVersion = $sqlite3->querySingle('SELECT sqlite_version()');
+                echo 'SQLite version: ' . $sqliteVersion . PHP_EOL;
+
                 $prefix = '';
                 if (getenv('TRAVIS_PHP_VERSION') === 'hhvm') {
                     $prefix = '/usr/local/lib/';
@@ -116,10 +120,7 @@ function bootstrap()
 
                 $sqlite3->loadExtension($prefix . 'mod_spatialite.so');
 
-                $statement = $sqlite3->query('SELECT sqlite_version(), spatialite_version()');
-                list ($sqliteVersion, $spatialiteVersion) = $statement->fetchArray(SQLITE3_NUM);
-
-                echo 'SQLite version: ' . $sqliteVersion . PHP_EOL;
+                $spatialiteVersion = $sqlite3->querySingle('SELECT spatialite_version()');
                 echo 'SpatiaLite version: ' . $spatialiteVersion . PHP_EOL;
 
                 $engine = new SQLite3Engine($sqlite3);
