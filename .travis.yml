@@ -54,3 +54,6 @@ matrix:
       env: ENGINE=PDO_MYSQL_MARIADB10 # current installation script uninstalls HHVM
   allow_failures:
     - php: hhvm
+
+dist: trusty
+sudo: required
