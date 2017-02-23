@@ -17,8 +17,8 @@
         "brick/reflection": "dev-master",
         "doctrine/orm": "*",
         "doctrine/data-fixtures": "*",
-        "phpunit/phpunit": "*",
-        "satooshi/php-coveralls": "dev-master"
+        "phpunit/phpunit": "5.*",
+        "satooshi/php-coveralls": "1.*"
     },
     "autoload": {
         "psr-4": {
