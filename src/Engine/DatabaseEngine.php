@@ -147,6 +147,8 @@ abstract class DatabaseEngine implements GeometryEngine
     {
         list ($wkt, $wkb, $geometryType, $srid) = $this->query($function, $parameters, true);
 
+        $srid = (int) $srid;
+
         if ($wkt !== null) {
             if ($this->useProxy) {
                 $proxyClassName = $this->getProxyClassName($geometryType);
