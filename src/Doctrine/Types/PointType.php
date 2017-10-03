@@ -20,7 +20,7 @@ class PointType extends GeometryType
     /**
      * {@inheritdoc}
      */
-    protected function getProxyClassName()
+    protected function getProxyClassName() : string
     {
         return PointProxy::class;
     }

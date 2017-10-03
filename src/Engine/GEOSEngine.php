@@ -75,7 +75,7 @@ class GEOSEngine implements GeometryEngine
      *
      * @return \GEOSGeometry
      */
-    private function toGEOS(Geometry $geometry)
+    private function toGEOS(Geometry $geometry) : \GEOSGeometry
     {
         if ($geometry->isEmpty()) {
             $geosGeometry = $this->wktReader->read($geometry->asText());
@@ -96,7 +96,7 @@ class GEOSEngine implements GeometryEngine
      *
      * @return Geometry
      */
-    private function fromGEOS(\GEOSGeometry $geometry)
+    private function fromGEOS(\GEOSGeometry $geometry) : Geometry
     {
         if ($geometry->isEmpty()) {
             return Geometry::fromText($this->wktWriter->write($geometry), $geometry->getSRID());
@@ -112,7 +112,7 @@ class GEOSEngine implements GeometryEngine
     /**
      * {@inheritdoc}
      */
-    public function union(Geometry $a, Geometry $b)
+    public function union(Geometry $a, Geometry $b) : Geometry
     {
         try {
             return $this->fromGEOS($this->toGEOS($a)->union($this->toGEOS($b)));
@@ -124,7 +124,7 @@ class GEOSEngine implements GeometryEngine
     /**
      * {@inheritdoc}
      */
-    public function difference(Geometry $a, Geometry $b)
+    public function difference(Geometry $a, Geometry $b) : Geometry
     {
         try {
             return $this->fromGEOS($this->toGEOS($a)->difference($this->toGEOS($b)));
@@ -136,7 +136,7 @@ class GEOSEngine implements GeometryEngine
     /**
      * {@inheritdoc}
      */
-    public function envelope(Geometry $g)
+    public function envelope(Geometry $g) : Geometry
     {
         try {
             return $this->fromGEOS($this->toGEOS($g)->envelope());
@@ -148,7 +148,7 @@ class GEOSEngine implements GeometryEngine
     /**
      * {@inheritdoc}
      */
-    public function length(Geometry $g)
+    public function length(Geometry $g) : float
     {
         try {
             return $this->toGEOS($g)->length();
@@ -160,7 +160,7 @@ class GEOSEngine implements GeometryEngine
     /**
      * {@inheritdoc}
      */
-    public function area(Geometry $g)
+    public function area(Geometry $g) : float
     {
         try {
             return $this->toGEOS($g)->area();
@@ -172,7 +172,7 @@ class GEOSEngine implements GeometryEngine
     /**
      * {@inheritdoc}
      */
-    public function centroid(Geometry $g)
+    public function centroid(Geometry $g) : Geometry
     {
         try {
             return $this->fromGEOS($this->toGEOS($g)->centroid());
@@ -184,7 +184,7 @@ class GEOSEngine implements GeometryEngine
     /**
      * {@inheritdoc}
      */
-    public function pointOnSurface(Geometry $g)
+    public function pointOnSurface(Geometry $g) : Geometry
     {
         try {
             return $this->fromGEOS($this->toGEOS($g)->pointOnSurface());
@@ -196,7 +196,7 @@ class GEOSEngine implements GeometryEngine
     /**
      * {@inheritdoc}
      */
-    public function boundary(Geometry $g)
+    public function boundary(Geometry $g) : Geometry
     {
         try {
             return $this->fromGEOS($this->toGEOS($g)->boundary());
@@ -208,7 +208,7 @@ class GEOSEngine implements GeometryEngine
     /**
      * {@inheritdoc}
      */
-    public function isValid(Geometry $g)
+    public function isValid(Geometry $g) : bool
     {
         try {
             return $this->toGEOS($g)->checkValidity()['valid'];
@@ -220,7 +220,7 @@ class GEOSEngine implements GeometryEngine
     /**
      * {@inheritdoc}
      */
-    public function isClosed(Geometry $g)
+    public function isClosed(Geometry $g) : bool
     {
         try {
             return $this->toGEOS($g)->isClosed();
@@ -232,7 +232,7 @@ class GEOSEngine implements GeometryEngine
     /**
      * {@inheritdoc}
      */
-    public function isSimple(Geometry $g)
+    public function isSimple(Geometry $g) : bool
     {
         try {
             return $this->toGEOS($g)->isSimple();
@@ -244,7 +244,7 @@ class GEOSEngine implements GeometryEngine
     /**
      * {@inheritdoc}
      */
-    public function equals(Geometry $a, Geometry $b)
+    public function equals(Geometry $a, Geometry $b) : bool
     {
         try {
             return $this->toGEOS($a)->equals($this->toGEOS($b));
@@ -256,7 +256,7 @@ class GEOSEngine implements GeometryEngine
     /**
      * {@inheritdoc}
      */
-    public function disjoint(Geometry $a, Geometry $b)
+    public function disjoint(Geometry $a, Geometry $b) : bool
     {
         try {
             return $this->toGEOS($a)->disjoint($this->toGEOS($b));
@@ -268,7 +268,7 @@ class GEOSEngine implements GeometryEngine
     /**
      * {@inheritdoc}
      */
-    public function intersects(Geometry $a, Geometry $b)
+    public function intersects(Geometry $a, Geometry $b) : bool
     {
         try {
             return $this->toGEOS($a)->intersects($this->toGEOS($b));
@@ -280,7 +280,7 @@ class GEOSEngine implements GeometryEngine
     /**
      * {@inheritdoc}
      */
-    public function touches(Geometry $a, Geometry $b)
+    public function touches(Geometry $a, Geometry $b) : bool
     {
         try {
             return $this->toGEOS($a)->touches($this->toGEOS($b));
@@ -292,7 +292,7 @@ class GEOSEngine implements GeometryEngine
     /**
      * {@inheritdoc}
      */
-    public function crosses(Geometry $a, Geometry $b)
+    public function crosses(Geometry $a, Geometry $b) : bool
     {
         try {
             return $this->toGEOS($a)->crosses($this->toGEOS($b));
@@ -304,7 +304,7 @@ class GEOSEngine implements GeometryEngine
     /**
      * {@inheritdoc}
      */
-    public function within(Geometry $a, Geometry $b)
+    public function within(Geometry $a, Geometry $b) : bool
     {
         try {
             return $this->toGEOS($a)->within($this->toGEOS($b));
@@ -316,7 +316,7 @@ class GEOSEngine implements GeometryEngine
     /**
      * {@inheritdoc}
      */
-    public function contains(Geometry $a, Geometry $b)
+    public function contains(Geometry $a, Geometry $b) : bool
     {
         try {
             return $this->toGEOS($a)->contains($this->toGEOS($b));
@@ -328,7 +328,7 @@ class GEOSEngine implements GeometryEngine
     /**
      * {@inheritdoc}
      */
-    public function overlaps(Geometry $a, Geometry $b)
+    public function overlaps(Geometry $a, Geometry $b) : bool
     {
         try {
             return $this->toGEOS($a)->overlaps($this->toGEOS($b));
@@ -340,7 +340,7 @@ class GEOSEngine implements GeometryEngine
     /**
      * {@inheritdoc}
      */
-    public function relate(Geometry $a, Geometry $b, $matrix)
+    public function relate(Geometry $a, Geometry $b, string $matrix) : bool
     {
         try {
             return $this->toGEOS($a)->relate($this->toGEOS($b), $matrix);
@@ -352,7 +352,7 @@ class GEOSEngine implements GeometryEngine
     /**
      * {@inheritdoc}
      */
-    public function locateAlong(Geometry $g, $mValue)
+    public function locateAlong(Geometry $g, float $mValue) : Geometry
     {
         throw GeometryEngineException::unimplementedMethod(__METHOD__);
     }
@@ -360,7 +360,7 @@ class GEOSEngine implements GeometryEngine
     /**
      * {@inheritdoc}
      */
-    public function locateBetween(Geometry $g, $mStart, $mEnd)
+    public function locateBetween(Geometry $g, float $mStart, float $mEnd) : Geometry
     {
         throw GeometryEngineException::unimplementedMethod(__METHOD__);
     }
@@ -368,7 +368,7 @@ class GEOSEngine implements GeometryEngine
     /**
      * {@inheritdoc}
      */
-    public function distance(Geometry $a, Geometry $b)
+    public function distance(Geometry $a, Geometry $b) : float
     {
         try {
             return $this->toGEOS($a)->distance($this->toGEOS($b));
@@ -380,7 +380,7 @@ class GEOSEngine implements GeometryEngine
     /**
      * {@inheritdoc}
      */
-    public function buffer(Geometry $g, $distance)
+    public function buffer(Geometry $g, float $distance) : Geometry
     {
         try {
             return $this->fromGEOS($this->toGEOS($g)->buffer($distance));
@@ -392,7 +392,7 @@ class GEOSEngine implements GeometryEngine
     /**
      * {@inheritdoc}
      */
-    public function convexHull(Geometry $g)
+    public function convexHull(Geometry $g) : Geometry
     {
         try {
             return $this->fromGEOS($this->toGEOS($g)->convexHull());
@@ -404,7 +404,7 @@ class GEOSEngine implements GeometryEngine
     /**
      * {@inheritdoc}
      */
-    public function intersection(Geometry $a, Geometry $b)
+    public function intersection(Geometry $a, Geometry $b) : Geometry
     {
         try {
             return $this->fromGEOS($this->toGEOS($a)->intersection($this->toGEOS($b)));
@@ -416,7 +416,7 @@ class GEOSEngine implements GeometryEngine
     /**
      * {@inheritdoc}
      */
-    public function symDifference(Geometry $a, Geometry $b)
+    public function symDifference(Geometry $a, Geometry $b) : Geometry
     {
         try {
             return $this->fromGEOS($this->toGEOS($a)->symDifference($this->toGEOS($b)));
@@ -428,7 +428,7 @@ class GEOSEngine implements GeometryEngine
     /**
      * {@inheritdoc}
      */
-    public function snapToGrid(Geometry $g, $size)
+    public function snapToGrid(Geometry $g, float $size) : Geometry
     {
         throw GeometryEngineException::unimplementedMethod(__METHOD__);
     }
@@ -436,7 +436,7 @@ class GEOSEngine implements GeometryEngine
     /**
      * {@inheritdoc}
      */
-    public function simplify(Geometry $g, $tolerance)
+    public function simplify(Geometry $g, float $tolerance) : Geometry
     {
         try {
             return $this->fromGEOS($this->toGEOS($g)->simplify($tolerance));
@@ -448,7 +448,7 @@ class GEOSEngine implements GeometryEngine
     /**
      * {@inheritdoc}
      */
-    public function maxDistance(Geometry $a, Geometry $b)
+    public function maxDistance(Geometry $a, Geometry $b) : float
     {
         throw GeometryEngineException::unimplementedMethod(__METHOD__);
     }
@@ -456,7 +456,7 @@ class GEOSEngine implements GeometryEngine
     /**
      * {@inheritdoc}
      */
-    public function boundingPolygons(Geometry $g)
+    public function boundingPolygons(Geometry $g) : Geometry
     {
         throw GeometryEngineException::unimplementedMethod(__METHOD__);
     }

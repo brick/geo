@@ -37,11 +37,11 @@ class CoordinateSystem
      * @param bool $hasM Whether the coordinate system has M-coordinates.
      * @param int  $srid The optional Spatial Reference ID of the coordinate system.
      */
-    public function __construct($hasZ, $hasM, $srid = 0)
+    public function __construct(bool $hasZ, bool $hasM, int $srid = 0)
     {
-        $this->hasZ = (bool) $hasZ;
-        $this->hasM = (bool) $hasM;
-        $this->srid = (int)  $srid;
+        $this->hasZ = $hasZ;
+        $this->hasM = $hasM;
+        $this->srid = $srid;
     }
 
     /**
@@ -51,7 +51,7 @@ class CoordinateSystem
      *
      * @return CoordinateSystem
      */
-    public static function xy($srid = 0)
+    public static function xy(int $srid = 0) : CoordinateSystem
     {
         return new self(false, false, $srid);
     }
@@ -63,7 +63,7 @@ class CoordinateSystem
      *
      * @return CoordinateSystem
      */
-    public static function xyz($srid = 0)
+    public static function xyz(int $srid = 0) : CoordinateSystem
     {
         return new self(true, false, $srid);
     }
@@ -75,7 +75,7 @@ class CoordinateSystem
      *
      * @return CoordinateSystem
      */
-    public static function xym($srid = 0)
+    public static function xym(int $srid = 0) : CoordinateSystem
     {
         return new self(false, true, $srid);
     }
@@ -88,7 +88,7 @@ class CoordinateSystem
      *
      * @return CoordinateSystem
      */
-    public static function xyzm($srid = 0)
+    public static function xyzm(int $srid = 0) : CoordinateSystem
     {
         return new self(true, true, $srid);
     }
@@ -98,7 +98,7 @@ class CoordinateSystem
      *
      * @return bool
      */
-    public function hasZ()
+    public function hasZ() : bool
     {
         return $this->hasZ;
     }
@@ -108,7 +108,7 @@ class CoordinateSystem
      *
      * @return bool
      */
-    public function hasM()
+    public function hasM() : bool
     {
         return $this->hasM;
     }
@@ -118,7 +118,7 @@ class CoordinateSystem
      *
      * @return int
      */
-    public function SRID()
+    public function SRID() : int
     {
         return $this->srid;
     }
@@ -128,7 +128,7 @@ class CoordinateSystem
      *
      * @return string
      */
-    public function coordinateName()
+    public function coordinateName() : string
     {
         $name = 'XY';
 
@@ -150,7 +150,7 @@ class CoordinateSystem
      *
      * @return int 2 for (X,Y), 3 for (X,Y,Z) and (X,Y,M), 4 for (X,Y,Z,M).
      */
-    public function coordinateDimension()
+    public function coordinateDimension() : int
     {
         $coordinateDimension = 2;
 
@@ -172,7 +172,7 @@ class CoordinateSystem
      *
      * @return int 2 for (X,Y) and (X,Y,M), 3 for (X,Y,Z) and (X,Y,Z,M).
      */
-    public function spatialDimension()
+    public function spatialDimension() : int
     {
         return $this->hasZ ? 3 : 2;
     }
@@ -185,7 +185,7 @@ class CoordinateSystem
      *
      * @throws CoordinateSystemException If the coordinate systems differ.
      */
-    public static function check(Geometry $reference, Geometry ...$geometries)
+    public static function check(Geometry $reference, Geometry ...$geometries) : void
     {
         $referenceCS = $reference->coordinateSystem();
 

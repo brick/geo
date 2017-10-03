@@ -31,7 +31,7 @@ class SQLite3Engine extends DatabaseEngine
      * @param \SQLite3 $sqlite3
      * @param bool     $useProxy
      */
-    public function __construct(\SQLite3 $sqlite3, $useProxy = true)
+    public function __construct(\SQLite3 $sqlite3, bool $useProxy = true)
     {
         $this->sqlite3  = $sqlite3;
         $this->useProxy = $useProxy;
@@ -40,7 +40,7 @@ class SQLite3Engine extends DatabaseEngine
     /**
      * @return \SQLite3
      */
-    public function getSQLite3()
+    public function getSQLite3() : \SQLite3
     {
         return $this->sqlite3;
     }
@@ -48,7 +48,7 @@ class SQLite3Engine extends DatabaseEngine
     /**
      * {@inheritdoc}
      */
-    protected function executeQuery($query, array $parameters)
+    protected function executeQuery(string $query, array $parameters) : array
     {
         if (isset($this->statements[$query])) {
             $statement = $this->statements[$query];

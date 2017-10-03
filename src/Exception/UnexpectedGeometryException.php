@@ -13,7 +13,7 @@ class UnexpectedGeometryException extends GeometryException
      *
      * @return UnexpectedGeometryException
      */
-    public static function unexpectedGeometryType($expectedClass, $value)
+    public static function unexpectedGeometryType(string $expectedClass, $value) : UnexpectedGeometryException
     {
         $value = is_object($value) ? get_class($value) : gettype($value);
         $message = sprintf('Unexpected geometry type: expected %s, got %s.', $expectedClass, $value);

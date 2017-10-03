@@ -65,7 +65,7 @@ class CircularString extends Curve
      * @throws InvalidGeometryException  If the number of points is invalid.
      * @throws CoordinateSystemException If the points use different coordinate systems.
      */
-    public static function of(Point $point1, Point ...$pointN)
+    public static function of(Point $point1, Point ...$pointN) : CircularString
     {
         return new CircularString($point1->coordinateSystem(), $point1, ...$pointN);
     }
@@ -73,7 +73,7 @@ class CircularString extends Curve
     /**
      * {@inheritdoc}
      */
-    public function startPoint()
+    public function startPoint() : Point
     {
         if ($this->isEmpty) {
             throw new EmptyGeometryException('The CircularString is empty and has no start point.');
@@ -85,7 +85,7 @@ class CircularString extends Curve
     /**
      * {@inheritdoc}
      */
-    public function endPoint()
+    public function endPoint() : Point
     {
         if ($this->isEmpty) {
             throw new EmptyGeometryException('The CircularString is empty and has no end point.');
@@ -99,7 +99,7 @@ class CircularString extends Curve
      *
      * @return int
      */
-    public function numPoints()
+    public function numPoints() : int
     {
         return count($this->points);
     }
@@ -113,7 +113,7 @@ class CircularString extends Curve
      *
      * @throws NoSuchGeometryException If there is no Point at this index.
      */
-    public function pointN($n)
+    public function pointN(int $n) : Point
     {
         $n = (int) $n;
 
@@ -129,7 +129,7 @@ class CircularString extends Curve
      *
      * @return Point[]
      */
-    public function points()
+    public function points() : array
     {
         return $this->points;
     }
@@ -139,7 +139,7 @@ class CircularString extends Curve
      *
      * {@inheritdoc}
      */
-    public function geometryType()
+    public function geometryType() : string
     {
         return 'CircularString';
     }
@@ -149,7 +149,7 @@ class CircularString extends Curve
      *
      * {@inheritdoc}
      */
-    public function geometryTypeBinary()
+    public function geometryTypeBinary() : int
     {
         return Geometry::CIRCULARSTRING;
     }
@@ -157,7 +157,7 @@ class CircularString extends Curve
     /**
      * {@inheritdoc}
      */
-    public function toArray()
+    public function toArray() : array
     {
         $result = [];
 
@@ -175,7 +175,7 @@ class CircularString extends Curve
      *
      * {@inheritdoc}
      */
-    public function count()
+    public function count() : int
     {
         return count($this->points);
     }

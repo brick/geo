@@ -32,7 +32,7 @@ abstract class AbstractWKTReader
      *
      * @throws GeometryIOException
      */
-    protected function readGeometry(WKTParser $parser, $srid)
+    protected function readGeometry(WKTParser $parser, int $srid) : Geometry
     {
         $geometryType = $parser->getNextWord();
         $word = $parser->getOptionalNextWord();
@@ -172,7 +172,7 @@ abstract class AbstractWKTReader
      *
      * @return Point
      */
-    private function readPoint(WKTParser $parser, CoordinateSystem $cs)
+    private function readPoint(WKTParser $parser, CoordinateSystem $cs) : Point
     {
         $dim = $cs->coordinateDimension();
         $coords = [];
@@ -192,7 +192,7 @@ abstract class AbstractWKTReader
      *
      * @return Point
      */
-    private function readPointText(WKTParser $parser, CoordinateSystem $cs)
+    private function readPointText(WKTParser $parser, CoordinateSystem $cs) : Point
     {
         $parser->matchOpener();
         $point = $this->readPoint($parser, $cs);
@@ -209,7 +209,7 @@ abstract class AbstractWKTReader
      *
      * @return Point[]
      */
-    private function readMultiPoint(WKTParser $parser, CoordinateSystem $cs)
+    private function readMultiPoint(WKTParser $parser, CoordinateSystem $cs) : array
     {
         $parser->matchOpener();
         $points = [];
@@ -230,7 +230,7 @@ abstract class AbstractWKTReader
      *
      * @return LineString
      */
-    private function readLineStringText(WKTParser $parser, CoordinateSystem $cs)
+    private function readLineStringText(WKTParser $parser, CoordinateSystem $cs) : LineString
     {
         $points = $this->readMultiPoint($parser, $cs);
 
@@ -245,7 +245,7 @@ abstract class AbstractWKTReader
      *
      * @return CircularString
      */
-    private function readCircularStringText(WKTParser $parser, CoordinateSystem $cs)
+    private function readCircularStringText(WKTParser $parser, CoordinateSystem $cs) : CircularString
     {
         $points = $this->readMultiPoint($parser, $cs);
 
@@ -258,7 +258,7 @@ abstract class AbstractWKTReader
      *
      * @return CompoundCurve
      */
-    private function readCompoundCurveText(WKTParser $parser, CoordinateSystem $cs)
+    private function readCompoundCurveText(WKTParser $parser, CoordinateSystem $cs) : CompoundCurve
     {
         $parser->matchOpener();
         $curves = [];
@@ -284,7 +284,7 @@ abstract class AbstractWKTReader
      *
      * @return MultiPoint
      */
-    private function readMultiPointText(WKTParser $parser, CoordinateSystem $cs)
+    private function readMultiPointText(WKTParser $parser, CoordinateSystem $cs) : MultiPoint
     {
         $points = $this->readMultiPoint($parser, $cs);
 
@@ -299,7 +299,7 @@ abstract class AbstractWKTReader
      *
      * @return LineString[]
      */
-    private function readMultiLineString(WKTParser $parser, CoordinateSystem $cs)
+    private function readMultiLineString(WKTParser $parser, CoordinateSystem $cs) : array
     {
         $parser->matchOpener();
         $lineStrings = [];
@@ -320,7 +320,7 @@ abstract class AbstractWKTReader
      *
      * @return Polygon
      */
-    private function readPolygonText(WKTParser $parser, CoordinateSystem $cs)
+    private function readPolygonText(WKTParser $parser, CoordinateSystem $cs) : Polygon
     {
         $rings = $this->readMultiLineString($parser, $cs);
 
@@ -333,7 +333,7 @@ abstract class AbstractWKTReader
      *
      * @return CurvePolygon
      */
-    private function readCurvePolygonText(WKTParser $parser, CoordinateSystem $cs)
+    private function readCurvePolygonText(WKTParser $parser, CoordinateSystem $cs) : CurvePolygon
     {
         $parser->matchOpener();
         $curves = [];
@@ -359,7 +359,7 @@ abstract class AbstractWKTReader
      *
      * @return Triangle
      */
-    private function readTriangleText(WKTParser $parser, CoordinateSystem $cs)
+    private function readTriangleText(WKTParser $parser, CoordinateSystem $cs) : Triangle
     {
         $rings = $this->readMultiLineString($parser, $cs);
 
@@ -374,7 +374,7 @@ abstract class AbstractWKTReader
      *
      * @return MultiLineString
      */
-    private function readMultiLineStringText(WKTParser $parser, CoordinateSystem $cs)
+    private function readMultiLineStringText(WKTParser $parser, CoordinateSystem $cs) : MultiLineString
     {
         $lineStrings = $this->readMultiLineString($parser, $cs);
 
@@ -389,7 +389,7 @@ abstract class AbstractWKTReader
      *
      * @return MultiPolygon
      */
-    private function readMultiPolygonText(WKTParser $parser, CoordinateSystem $cs)
+    private function readMultiPolygonText(WKTParser $parser, CoordinateSystem $cs) : MultiPolygon
     {
         $parser->matchOpener();
         $polygons = [];
@@ -408,7 +408,7 @@ abstract class AbstractWKTReader
      *
      * @return GeometryCollection
      */
-    private function readGeometryCollectionText(WKTParser $parser, CoordinateSystem $cs)
+    private function readGeometryCollectionText(WKTParser $parser, CoordinateSystem $cs) : GeometryCollection
     {
         $parser->matchOpener();
         $geometries = [];
@@ -427,7 +427,7 @@ abstract class AbstractWKTReader
      *
      * @return PolyhedralSurface
      */
-    private function readPolyhedralSurfaceText(WKTParser $parser, CoordinateSystem $cs)
+    private function readPolyhedralSurfaceText(WKTParser $parser, CoordinateSystem $cs) : PolyhedralSurface
     {
         $parser->matchOpener();
         $patches = [];
@@ -446,7 +446,7 @@ abstract class AbstractWKTReader
      *
      * @return TIN
      */
-    private function readTINText(WKTParser $parser, CoordinateSystem $cs)
+    private function readTINText(WKTParser $parser, CoordinateSystem $cs) : TIN
     {
         $parser->matchOpener();
         $patches = [];

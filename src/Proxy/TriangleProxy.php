@@ -7,6 +7,7 @@ use Brick\Geo\Exception\CoordinateSystemException;
 use Brick\Geo\Exception\InvalidGeometryException;
 use Brick\Geo\Exception\UnexpectedGeometryException;
 use Brick\Geo\Triangle;
+use Brick\Geo\Geometry;
 
 /**
  * Proxy class for Triangle.
@@ -48,11 +49,11 @@ class TriangleProxy extends Triangle implements ProxyInterface
      * @param bool   $isBinary Whether the data is binary (true) or text (false).
      * @param int    $srid     The SRID of the geometry.
      */
-    public function __construct($data, $isBinary, $srid = 0)
+    public function __construct(string $data, bool $isBinary, int $srid = 0)
     {
-        $this->proxyData     = (string) $data;
-        $this->proxyIsBinary = (bool) $isBinary;
-        $this->proxySRID     = (int) $srid;
+        $this->proxyData     = $data;
+        $this->proxyIsBinary = $isBinary;
+        $this->proxySRID     = $srid;
     }
 
     /**
@@ -65,7 +66,7 @@ class TriangleProxy extends Triangle implements ProxyInterface
      * @throws InvalidGeometryException    If the resulting geometry is not valid.
      * @throws UnexpectedGeometryException If the resulting geometry is not an instance of the proxied class.
      */
-    private function load()
+    private function load() : void
     {
         $this->proxyGeometry = $this->proxyIsBinary
             ? Triangle::fromBinary($this->proxyData, $this->proxySRID)
@@ -75,7 +76,7 @@ class TriangleProxy extends Triangle implements ProxyInterface
     /**
      * {@inheritdoc}
      */
-    public function isLoaded()
+    public function isLoaded() : bool
     {
         return $this->proxyGeometry !== null;
     }
@@ -83,7 +84,7 @@ class TriangleProxy extends Triangle implements ProxyInterface
     /**
      * {@inheritdoc}
      */
-    public function getGeometry()
+    public function getGeometry() : Geometry
     {
         if ($this->proxyGeometry === null) {
             $this->load();
@@ -95,7 +96,7 @@ class TriangleProxy extends Triangle implements ProxyInterface
     /**
      * {@inheritdoc}
      */
-    public static function fromText($wkt, $srid = 0)
+    public static function fromText(string $wkt, int $srid = 0) : Geometry
     {
         return new self($wkt, false, $srid);
     }
@@ -103,7 +104,7 @@ class TriangleProxy extends Triangle implements ProxyInterface
     /**
      * {@inheritdoc}
      */
-    public static function fromBinary($wkb, $srid = 0)
+    public static function fromBinary(string $wkb, int $srid = 0) : Geometry
     {
         return new self($wkb, true, $srid);
     }
@@ -111,7 +112,7 @@ class TriangleProxy extends Triangle implements ProxyInterface
     /**
      * {@inheritdoc}
      */
-    public function SRID()
+    public function SRID() : int
     {
         return $this->proxySRID;
     }
@@ -119,7 +120,7 @@ class TriangleProxy extends Triangle implements ProxyInterface
     /**
      * {@inheritdoc}
      */
-    public function asText()
+    public function asText() : string
     {
         if (! $this->proxyIsBinary) {
             return $this->proxyData;
@@ -135,7 +136,7 @@ class TriangleProxy extends Triangle implements ProxyInterface
     /**
      * {@inheritdoc}
      */
-    public function asBinary()
+    public function asBinary() : string
     {
         if ($this->proxyIsBinary) {
             return $this->proxyData;
@@ -152,7 +153,7 @@ class TriangleProxy extends Triangle implements ProxyInterface
     /**
      * {@inheritdoc}
      */
-    public function exteriorRing()
+    public function exteriorRing() : \Brick\Geo\LineString
     {
         if ($this->proxyGeometry === null) {
             $this->load();
@@ -164,7 +165,7 @@ class TriangleProxy extends Triangle implements ProxyInterface
     /**
      * {@inheritdoc}
      */
-    public function numInteriorRings()
+    public function numInteriorRings() : int
     {
         if ($this->proxyGeometry === null) {
             $this->load();
@@ -176,7 +177,7 @@ class TriangleProxy extends Triangle implements ProxyInterface
     /**
      * {@inheritdoc}
      */
-    public function interiorRingN($n)
+    public function interiorRingN(int $n) : \Brick\Geo\LineString
     {
         if ($this->proxyGeometry === null) {
             $this->load();
@@ -188,7 +189,7 @@ class TriangleProxy extends Triangle implements ProxyInterface
     /**
      * {@inheritdoc}
      */
-    public function interiorRings()
+    public function interiorRings() : array
     {
         if ($this->proxyGeometry === null) {
             $this->load();
@@ -200,7 +201,7 @@ class TriangleProxy extends Triangle implements ProxyInterface
     /**
      * {@inheritdoc}
      */
-    public function toArray()
+    public function toArray() : array
     {
         if ($this->proxyGeometry === null) {
             $this->load();
@@ -212,7 +213,7 @@ class TriangleProxy extends Triangle implements ProxyInterface
     /**
      * {@inheritdoc}
      */
-    public function count()
+    public function count() : int
     {
         if ($this->proxyGeometry === null) {
             $this->load();
@@ -236,7 +237,7 @@ class TriangleProxy extends Triangle implements ProxyInterface
     /**
      * {@inheritdoc}
      */
-    public function coordinateDimension()
+    public function coordinateDimension() : int
     {
         if ($this->proxyGeometry === null) {
             $this->load();
@@ -248,7 +249,7 @@ class TriangleProxy extends Triangle implements ProxyInterface
     /**
      * {@inheritdoc}
      */
-    public function spatialDimension()
+    public function spatialDimension() : int
     {
         if ($this->proxyGeometry === null) {
             $this->load();
@@ -260,7 +261,7 @@ class TriangleProxy extends Triangle implements ProxyInterface
     /**
      * {@inheritdoc}
      */
-    public function isEmpty()
+    public function isEmpty() : bool
     {
         if ($this->proxyGeometry === null) {
             $this->load();
@@ -272,7 +273,7 @@ class TriangleProxy extends Triangle implements ProxyInterface
     /**
      * {@inheritdoc}
      */
-    public function is3D()
+    public function is3D() : bool
     {
         if ($this->proxyGeometry === null) {
             $this->load();
@@ -284,7 +285,7 @@ class TriangleProxy extends Triangle implements ProxyInterface
     /**
      * {@inheritdoc}
      */
-    public function isMeasured()
+    public function isMeasured() : bool
     {
         if ($this->proxyGeometry === null) {
             $this->load();
@@ -296,7 +297,7 @@ class TriangleProxy extends Triangle implements ProxyInterface
     /**
      * {@inheritdoc}
      */
-    public function coordinateSystem()
+    public function coordinateSystem() : \Brick\Geo\CoordinateSystem
     {
         if ($this->proxyGeometry === null) {
             $this->load();

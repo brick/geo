@@ -79,7 +79,7 @@ class Polygon extends Surface
      * @throws InvalidGeometryException  If the resulting geometry is not valid for a sub-type of Polygon.
      * @throws CoordinateSystemException If the rings use different coordinate systems.
      */
-    public static function of(LineString $exteriorRing, LineString ...$interiorRings)
+    public static function of(LineString $exteriorRing, LineString ...$interiorRings) : Polygon
     {
         return new static($exteriorRing->coordinateSystem(), $exteriorRing, ...$interiorRings);
     }
@@ -91,7 +91,7 @@ class Polygon extends Surface
      *
      * @throws EmptyGeometryException
      */
-    public function exteriorRing()
+    public function exteriorRing() : LineString
     {
         if ($this->isEmpty) {
             throw new EmptyGeometryException('An empty Polygon has no exterior ring.');
@@ -105,7 +105,7 @@ class Polygon extends Surface
      *
      * @return int
      */
-    public function numInteriorRings()
+    public function numInteriorRings() : int
     {
         if ($this->isEmpty) {
             return 0;
@@ -123,10 +123,8 @@ class Polygon extends Surface
      *
      * @throws NoSuchGeometryException If there is no interior ring at this index.
      */
-    public function interiorRingN($n)
+    public function interiorRingN(int $n) : LineString
     {
-        $n = (int) $n;
-
         if ($n === 0 || ! isset($this->rings[$n])) {
             throw new NoSuchGeometryException('There is no interior ring in this Polygon at index ' . $n);
         }
@@ -139,7 +137,7 @@ class Polygon extends Surface
      *
      * @return LineString[]
      */
-    public function interiorRings()
+    public function interiorRings() : array
     {
         return array_slice($this->rings, 1);
     }
@@ -149,7 +147,7 @@ class Polygon extends Surface
      *
      * {@inheritdoc}
      */
-    public function geometryType()
+    public function geometryType() : string
     {
         return 'Polygon';
     }
@@ -159,7 +157,7 @@ class Polygon extends Surface
      *
      * {@inheritdoc}
      */
-    public function geometryTypeBinary()
+    public function geometryTypeBinary() : int
     {
         return Geometry::POLYGON;
     }
@@ -167,7 +165,7 @@ class Polygon extends Surface
     /**
      * {@inheritdoc}
      */
-    public function toArray()
+    public function toArray() : array
     {
         $result = [];
 
@@ -185,7 +183,7 @@ class Polygon extends Surface
      *
      * {@inheritdoc}
      */
-    public function count()
+    public function count() : int
     {
         return count($this->rings);
     }

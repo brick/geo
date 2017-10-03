@@ -34,7 +34,7 @@ class Triangle extends Polygon
      *
      * {@inheritdoc}
      */
-    public function geometryType()
+    public function geometryType() : string
     {
         return 'Triangle';
     }
@@ -44,7 +44,7 @@ class Triangle extends Polygon
      *
      * {@inheritdoc}
      */
-    public function geometryTypeBinary()
+    public function geometryTypeBinary() : int
     {
         return Geometry::TRIANGLE;
     }

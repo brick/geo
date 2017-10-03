@@ -12,7 +12,7 @@ class GeometryIOException extends GeometryException
      *
      * @return GeometryIOException
      */
-    public static function invalidWKB($message)
+    public static function invalidWKB(string $message) : GeometryIOException
     {
         return new self('Invalid WKB: ' . $message);
     }
@@ -20,7 +20,7 @@ class GeometryIOException extends GeometryException
     /**
      * @return GeometryIOException
      */
-    public static function invalidWKT()
+    public static function invalidWKT() : GeometryIOException
     {
         return new self('Invalid WKT.');
     }
@@ -28,7 +28,7 @@ class GeometryIOException extends GeometryException
     /**
      * @return GeometryIOException
      */
-    public static function invalidEWKT()
+    public static function invalidEWKT() : GeometryIOException
     {
         return new self('Invalid EWKT.');
     }
@@ -38,7 +38,7 @@ class GeometryIOException extends GeometryException
      *
      * @return GeometryIOException
      */
-    public static function unsupportedWKBType($wkbType)
+    public static function unsupportedWKBType(string $wkbType) : GeometryIOException
     {
         $message = sprintf('Unsupported WKB type: %s.', $wkbType);
 
@@ -50,7 +50,7 @@ class GeometryIOException extends GeometryException
      *
      * @return GeometryIOException
      */
-    public static function unsupportedGeometryType($geometryType)
+    public static function unsupportedGeometryType(string $geometryType) : GeometryIOException
     {
         $message = sprintf('Unsupported geometry type: %s.', $geometryType);
 
@@ -60,7 +60,7 @@ class GeometryIOException extends GeometryException
     /**
      * @return GeometryIOException
      */
-    public static function unsupportedEndianness()
+    public static function unsupportedEndianness() : GeometryIOException
     {
         return new self('This platform has an unsupported endianness.');
     }

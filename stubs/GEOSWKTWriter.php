@@ -25,33 +25,33 @@ class GEOSWKTWriter
     public function write(GEOSGeometry $geom) {}
 
     /**
-     * @param boolean $trim
+     * @param bool $trim
      *
      * @return void
      */
     public function setTrim($trim) {}
 
     /**
-     * @param integer $prec
+     * @param int $prec
      *
      * @return void
      */
     public function setRoundingPrecision($prec) {}
 
     /**
-     * @param integer $dim
+     * @param int $dim
      *
      * @return void
      */
     public function setOutputDimension($dim) {}
 
     /**
-     * @return integer
+     * @return int
      */
     public function getOutputDimension() {}
 
     /**
-     * @param boolean $val
+     * @param bool $val
      *
      * @return void
      */

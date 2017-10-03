@@ -59,7 +59,7 @@ class CurvePolygon extends Surface
      *
      * @throws CoordinateSystemException If the rings use different coordinate systems.
      */
-    public static function of(Curve $exteriorRing, Curve ...$interiorRings)
+    public static function of(Curve $exteriorRing, Curve ...$interiorRings) :  CurvePolygon
     {
         return new static($exteriorRing->coordinateSystem(), $exteriorRing, ...$interiorRings);
     }
@@ -71,7 +71,7 @@ class CurvePolygon extends Surface
      *
      * @throws EmptyGeometryException
      */
-    public function exteriorRing()
+    public function exteriorRing() : Curve
     {
         if ($this->isEmpty) {
             throw new EmptyGeometryException('An empty CurvePolygon has no exterior ring.');
@@ -85,7 +85,7 @@ class CurvePolygon extends Surface
      *
      * @return int
      */
-    public function numInteriorRings()
+    public function numInteriorRings() : int
     {
         if ($this->isEmpty) {
             return 0;
@@ -103,7 +103,7 @@ class CurvePolygon extends Surface
      *
      * @throws NoSuchGeometryException If there is no interior ring at this index.
      */
-    public function interiorRingN($n)
+    public function interiorRingN(int $n) : Curve
     {
         $n = (int) $n;
 
@@ -119,7 +119,7 @@ class CurvePolygon extends Surface
      *
      * @return Curve[]
      */
-    public function interiorRings()
+    public function interiorRings() : array
     {
         return array_slice($this->rings, 1);
     }
@@ -129,7 +129,7 @@ class CurvePolygon extends Surface
      *
      * {@inheritdoc}
      */
-    public function geometryType()
+    public function geometryType() : string
     {
         return 'CurvePolygon';
     }
@@ -139,7 +139,7 @@ class CurvePolygon extends Surface
      *
      * {@inheritdoc}
      */
-    public function geometryTypeBinary()
+    public function geometryTypeBinary() : int
     {
         return Geometry::CURVEPOLYGON;
     }
@@ -147,7 +147,7 @@ class CurvePolygon extends Surface
     /**
      * {@inheritdoc}
      */
-    public function toArray()
+    public function toArray() : array
     {
         $result = [];
 
@@ -165,7 +165,7 @@ class CurvePolygon extends Surface
      *
      * {@inheritdoc}
      */
-    public function count()
+    public function count() : int
     {
         return count($this->rings);
     }

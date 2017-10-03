@@ -18,7 +18,7 @@ class MultiPoint extends GeometryCollection
      *
      * {@inheritdoc}
      */
-    public function geometryType()
+    public function geometryType() : string
     {
         return 'MultiPoint';
     }
@@ -28,7 +28,7 @@ class MultiPoint extends GeometryCollection
      *
      * {@inheritdoc}
      */
-    public function geometryTypeBinary()
+    public function geometryTypeBinary() : int
     {
         return Geometry::MULTIPOINT;
     }
@@ -36,7 +36,7 @@ class MultiPoint extends GeometryCollection
     /**
      * {@inheritdoc}
      */
-    public function dimension()
+    public function dimension() : int
     {
         return 0;
     }
@@ -44,7 +44,7 @@ class MultiPoint extends GeometryCollection
     /**
      * {@inheritdoc}
      */
-    protected function containedGeometryType()
+    protected function containedGeometryType() : string
     {
         return Point::class;
     }

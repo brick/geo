@@ -14,7 +14,7 @@
         "php": ">=5.6"
     },
     "require-dev": {
-        "brick/reflection": "dev-master",
+        "brick/reflection": "0.2.*",
         "doctrine/orm": "2.*",
         "doctrine/data-fixtures": "1.*",
         "phpunit/phpunit": "5.*",

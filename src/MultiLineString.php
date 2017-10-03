@@ -12,7 +12,7 @@ class MultiLineString extends MultiCurve
      *
      * {@inheritdoc}
      */
-    public function geometryType()
+    public function geometryType() : string
     {
         return 'MultiLineString';
     }
@@ -22,7 +22,7 @@ class MultiLineString extends MultiCurve
      *
      * {@inheritdoc}
      */
-    public function geometryTypeBinary()
+    public function geometryTypeBinary() : int
     {
         return Geometry::MULTILINESTRING;
     }
@@ -30,7 +30,7 @@ class MultiLineString extends MultiCurve
     /**
      * {@inheritdoc}
      */
-    public function dimension()
+    public function dimension() : int
     {
         return 1;
     }
@@ -38,7 +38,7 @@ class MultiLineString extends MultiCurve
     /**
      * {@inheritdoc}
      */
-    protected function containedGeometryType()
+    protected function containedGeometryType() : string
     {
         return LineString::class;
     }

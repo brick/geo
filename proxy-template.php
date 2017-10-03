@@ -7,6 +7,7 @@ use Brick\Geo\Exception\CoordinateSystemException;
 use Brick\Geo\Exception\InvalidGeometryException;
 use Brick\Geo\Exception\UnexpectedGeometryException;
 use Brick\Geo\_CLASSNAME_;
+use Brick\Geo\Geometry;
 
 /**
  * Proxy class for _CLASSNAME_.
@@ -48,11 +49,11 @@ class _CLASSNAME_Proxy extends _CLASSNAME_ implements ProxyInterface
      * @param bool   $isBinary Whether the data is binary (true) or text (false).
      * @param int    $srid     The SRID of the geometry.
      */
-    public function __construct($data, $isBinary, $srid = 0)
+    public function __construct(string $data, bool $isBinary, int $srid = 0)
     {
-        $this->proxyData     = (string) $data;
-        $this->proxyIsBinary = (bool) $isBinary;
-        $this->proxySRID     = (int) $srid;
+        $this->proxyData     = $data;
+        $this->proxyIsBinary = $isBinary;
+        $this->proxySRID     = $srid;
     }
 
     /**
@@ -65,7 +66,7 @@ class _CLASSNAME_Proxy extends _CLASSNAME_ implements ProxyInterface
      * @throws InvalidGeometryException    If the resulting geometry is not valid.
      * @throws UnexpectedGeometryException If the resulting geometry is not an instance of the proxied class.
      */
-    private function load()
+    private function load() : void
     {
         $this->proxyGeometry = $this->proxyIsBinary
             ? _CLASSNAME_::fromBinary($this->proxyData, $this->proxySRID)
@@ -75,7 +76,7 @@ class _CLASSNAME_Proxy extends _CLASSNAME_ implements ProxyInterface
     /**
      * {@inheritdoc}
      */
-    public function isLoaded()
+    public function isLoaded() : bool
     {
         return $this->proxyGeometry !== null;
     }
@@ -83,7 +84,7 @@ class _CLASSNAME_Proxy extends _CLASSNAME_ implements ProxyInterface
     /**
      * {@inheritdoc}
      */
-    public function getGeometry()
+    public function getGeometry() : Geometry
     {
         if ($this->proxyGeometry === null) {
             $this->load();
@@ -95,7 +96,7 @@ class _CLASSNAME_Proxy extends _CLASSNAME_ implements ProxyInterface
     /**
      * {@inheritdoc}
      */
-    public static function fromText($wkt, $srid = 0)
+    public static function fromText(string $wkt, int $srid = 0) : Geometry
     {
         return new self($wkt, false, $srid);
     }
@@ -103,7 +104,7 @@ class _CLASSNAME_Proxy extends _CLASSNAME_ implements ProxyInterface
     /**
      * {@inheritdoc}
      */
-    public static function fromBinary($wkb, $srid = 0)
+    public static function fromBinary(string $wkb, int $srid = 0) : Geometry
     {
         return new self($wkb, true, $srid);
     }
@@ -111,7 +112,7 @@ class _CLASSNAME_Proxy extends _CLASSNAME_ implements ProxyInterface
     /**
      * {@inheritdoc}
      */
-    public function SRID()
+    public function SRID() : int
     {
         return $this->proxySRID;
     }
@@ -119,7 +120,7 @@ class _CLASSNAME_Proxy extends _CLASSNAME_ implements ProxyInterface
     /**
      * {@inheritdoc}
      */
-    public function asText()
+    public function asText() : string
     {
         if (! $this->proxyIsBinary) {
             return $this->proxyData;
@@ -135,7 +136,7 @@ class _CLASSNAME_Proxy extends _CLASSNAME_ implements ProxyInterface
     /**
      * {@inheritdoc}
      */
-    public function asBinary()
+    public function asBinary() : string
     {
         if ($this->proxyIsBinary) {
             return $this->proxyData;

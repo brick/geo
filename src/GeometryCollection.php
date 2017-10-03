@@ -86,7 +86,7 @@ class GeometryCollection extends Geometry
      * @throws CoordinateSystemException   If the geometries use different coordinate systems.
      * @throws UnexpectedGeometryException If a geometry is not a valid type for a sub-class of GeometryCollection.
      */
-    public static function of(Geometry $geometry1, Geometry ...$geometryN)
+    public static function of(Geometry $geometry1, Geometry ...$geometryN) : GeometryCollection
     {
         return new static($geometry1->coordinateSystem(), $geometry1, ...$geometryN);
     }
@@ -96,7 +96,7 @@ class GeometryCollection extends Geometry
      *
      * @return int
      */
-    public function numGeometries()
+    public function numGeometries() : int
     {
         return count($this->geometries);
     }
@@ -110,7 +110,7 @@ class GeometryCollection extends Geometry
      *
      * @throws NoSuchGeometryException If there is no Geometry at this index.
      */
-    public function geometryN($n)
+    public function geometryN(int $n) : Geometry
     {
         $n = (int) $n;
 
@@ -126,7 +126,7 @@ class GeometryCollection extends Geometry
      *
      * @return Geometry[]
      */
-    public function geometries()
+    public function geometries() : array
     {
         return $this->geometries;
     }
@@ -136,7 +136,7 @@ class GeometryCollection extends Geometry
      *
      * {@inheritdoc}
      */
-    public function geometryType()
+    public function geometryType() : string
     {
         return 'GeometryCollection';
     }
@@ -146,7 +146,7 @@ class GeometryCollection extends Geometry
      *
      * {@inheritdoc}
      */
-    public function geometryTypeBinary()
+    public function geometryTypeBinary() : int
     {
         return Geometry::GEOMETRYCOLLECTION;
     }
@@ -154,7 +154,7 @@ class GeometryCollection extends Geometry
     /**
      * {@inheritdoc}
      */
-    public function dimension()
+    public function dimension() : int
     {
         $dimension = 0;
 
@@ -172,7 +172,7 @@ class GeometryCollection extends Geometry
     /**
      * {@inheritdoc}
      */
-    public function toArray()
+    public function toArray() : array
     {
         $result = [];
 
@@ -190,7 +190,7 @@ class GeometryCollection extends Geometry
      *
      * {@inheritdoc}
      */
-    public function count()
+    public function count() : int
     {
         return count($this->geometries);
     }
@@ -212,7 +212,7 @@ class GeometryCollection extends Geometry
      *
      * @return string
      */
-    protected function containedGeometryType()
+    protected function containedGeometryType() : string
     {
         return Geometry::class;
     }

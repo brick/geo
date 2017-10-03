@@ -12,7 +12,7 @@ class EWKBWriter extends AbstractWKBWriter
     /**
      * {@inheritdoc}
      */
-    protected function packHeader(Geometry $geometry, $outer)
+    protected function packHeader(Geometry $geometry, bool $outer) : string
     {
         $geometryType = $geometry->geometryTypeBinary();
 

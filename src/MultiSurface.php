@@ -29,7 +29,7 @@ abstract class MultiSurface extends GeometryCollection
      *
      * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
-    public function area()
+    public function area() : float
     {
         return GeometryEngineRegistry::get()->area($this);
     }
@@ -45,7 +45,7 @@ abstract class MultiSurface extends GeometryCollection
      *
      * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
-    public function centroid()
+    public function centroid() : Point
     {
         return GeometryEngineRegistry::get()->centroid($this);
     }
@@ -59,7 +59,7 @@ abstract class MultiSurface extends GeometryCollection
      *
      * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
-    public function pointOnSurface()
+    public function pointOnSurface() : Point
     {
         return GeometryEngineRegistry::get()->pointOnSurface($this);
     }

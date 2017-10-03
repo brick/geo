@@ -32,7 +32,7 @@ class GeometryType extends Type
     /**
      * @return string
      */
-    protected function getProxyClassName()
+    protected function getProxyClassName() : string
     {
         return GeometryProxy::class;
     }

@@ -14,12 +14,12 @@ interface ProxyInterface
      *
      * @return bool
      */
-    public function isLoaded();
+    public function isLoaded() : bool;
 
     /**
      * Loads and returns the underlying Geometry.
      *
      * @return Geometry
      */
-    public function getGeometry();
+    public function getGeometry() : Geometry;
 }

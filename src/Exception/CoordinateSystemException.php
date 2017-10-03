@@ -15,7 +15,7 @@ class CoordinateSystemException extends GeometryException
      *
      * @return CoordinateSystemException
      */
-    public static function sridMix(Geometry $reference, Geometry $culprit)
+    public static function sridMix(Geometry $reference, Geometry $culprit) : CoordinateSystemException
     {
         return new CoordinateSystemException(sprintf(
             'SRID mix: %s with SRID %d cannot contain %s with SRID %d.',
@@ -32,7 +32,7 @@ class CoordinateSystemException extends GeometryException
      *
      * @return CoordinateSystemException
      */
-    public static function dimensionalityMix(Geometry $reference, Geometry $culprit)
+    public static function dimensionalityMix(Geometry $reference, Geometry $culprit) : CoordinateSystemException
     {
         return new CoordinateSystemException(sprintf(
             'Dimensionality mix: %s %s cannot contain %s %s.',

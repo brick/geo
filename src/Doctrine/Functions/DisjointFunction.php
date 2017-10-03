@@ -10,7 +10,7 @@ class DisjointFunction extends AbstractFunction
     /**
      * {@inheritdoc}
      */
-    protected function getSqlFunctionName()
+    protected function getSqlFunctionName() : string
     {
         return 'ST_Disjoint';
     }
@@ -18,7 +18,7 @@ class DisjointFunction extends AbstractFunction
     /**
      * {@inheritdoc}
      */
-    protected function getParameterCount()
+    protected function getParameterCount() : int
     {
         return 2;
     }

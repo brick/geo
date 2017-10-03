@@ -39,7 +39,7 @@ class WKBBuffer
      *
      * @param string $wkb
      */
-    public function __construct($wkb)
+    public function __construct(string $wkb)
     {
         $this->wkb = $wkb;
         $this->length = strlen($wkb);
@@ -56,7 +56,7 @@ class WKBBuffer
      *
      * @throws GeometryIOException
      */
-    private function read($words, $wordLength)
+    private function read(int $words, int $wordLength) : string
     {
         $length = $words * $wordLength;
 
@@ -88,7 +88,7 @@ class WKBBuffer
      *
      * @return int
      */
-    private function readUnsignedChar()
+    private function readUnsignedChar() : int
     {
         return unpack('C', $this->read(1, 1))[1];
     }
@@ -98,7 +98,7 @@ class WKBBuffer
      *
      * @return int
      */
-    public function readUnsignedLong()
+    public function readUnsignedLong() : int
     {
         return unpack('L', $this->read(1, 4))[1];
     }
@@ -110,7 +110,7 @@ class WKBBuffer
      *
      * @return float[] A 1-based array containing the numbers.
      */
-    public function readDoubles($count)
+    public function readDoubles($count) : array
     {
         return unpack('d' . $count, $this->read($count, 8));
     }
@@ -118,9 +118,11 @@ class WKBBuffer
     /**
      * Reads the machine byte order from the buffer and stores the result to act accordingly.
      *
+     * @return void
+     *
      * @throws GeometryIOException
      */
-    public function readByteOrder()
+    public function readByteOrder() : void
     {
         $byteOrder = $this->readUnsignedChar();
 
@@ -136,7 +138,7 @@ class WKBBuffer
      *
      * @return void
      */
-    public function rewind($bytes)
+    public function rewind(int $bytes) : void
     {
         $this->position -= $bytes;
     }
@@ -146,7 +148,7 @@ class WKBBuffer
      *
      * @return bool
      */
-    public function isEndOfStream()
+    public function isEndOfStream() : bool
     {
         return $this->position === $this->length;
     }

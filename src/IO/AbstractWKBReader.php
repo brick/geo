@@ -2,22 +2,23 @@
 
 namespace Brick\Geo\IO;
 
-use Brick\Geo\CoordinateSystem;
-use Brick\Geo\Exception\GeometryIOException;
-use Brick\Geo\Geometry;
-use Brick\Geo\Point;
-use Brick\Geo\LineString;
 use Brick\Geo\CircularString;
 use Brick\Geo\CompoundCurve;
-use Brick\Geo\Polygon;
+use Brick\Geo\CoordinateSystem;
 use Brick\Geo\CurvePolygon;
-use Brick\Geo\MultiPoint;
-use Brick\Geo\MultiLineString;
-use Brick\Geo\MultiPolygon;
+use Brick\Geo\Geometry;
 use Brick\Geo\GeometryCollection;
+use Brick\Geo\LineString;
+use Brick\Geo\MultiLineString;
+use Brick\Geo\MultiPoint;
+use Brick\Geo\MultiPolygon;
+use Brick\Geo\Point;
+use Brick\Geo\Polygon;
 use Brick\Geo\PolyhedralSurface;
 use Brick\Geo\TIN;
 use Brick\Geo\Triangle;
+
+use Brick\Geo\Exception\GeometryIOException;
 
 /**
  * Base class for WKBReader and EWKBReader.
@@ -35,7 +36,7 @@ abstract class AbstractWKBReader
      *
      * @throws GeometryIOException
      */
-    abstract protected function readGeometryHeader(WKBBuffer $buffer, & $geometryType, & $hasZ, & $hasM, & $srid);
+    abstract protected function readGeometryHeader(WKBBuffer $buffer, & $geometryType, & $hasZ, & $hasM, & $srid) : void;
 
     /**
      * @param WKBBuffer $buffer
@@ -45,7 +46,7 @@ abstract class AbstractWKBReader
      *
      * @throws GeometryIOException
      */
-    protected function readGeometry(WKBBuffer $buffer, $srid)
+    protected function readGeometry(WKBBuffer $buffer, int $srid) : Geometry
     {
         $buffer->readByteOrder();
 
@@ -103,7 +104,7 @@ abstract class AbstractWKBReader
      *
      * @return Point
      */
-    private function readPoint(WKBBuffer $buffer, CoordinateSystem $cs)
+    private function readPoint(WKBBuffer $buffer, CoordinateSystem $cs) : Point
     {
         $coords = $buffer->readDoubles($cs->coordinateDimension());
 
@@ -116,7 +117,7 @@ abstract class AbstractWKBReader
      *
      * @return LineString
      */
-    private function readLineString(WKBBuffer $buffer, CoordinateSystem $cs)
+    private function readLineString(WKBBuffer $buffer, CoordinateSystem $cs) : LineString
     {
         $numPoints = $buffer->readUnsignedLong();
 
@@ -135,7 +136,7 @@ abstract class AbstractWKBReader
      *
      * @return CircularString
      */
-    private function readCircularString(WKBBuffer $buffer, CoordinateSystem $cs)
+    private function readCircularString(WKBBuffer $buffer, CoordinateSystem $cs) : CircularString
     {
         $numPoints = $buffer->readUnsignedLong();
 
@@ -154,7 +155,7 @@ abstract class AbstractWKBReader
      *
      * @return CompoundCurve
      */
-    private function readCompoundCurve(WKBBuffer $buffer, CoordinateSystem $cs)
+    private function readCompoundCurve(WKBBuffer $buffer, CoordinateSystem $cs) : CompoundCurve
     {
         $numCurves = $buffer->readUnsignedLong();
         $curves = [];
@@ -172,7 +173,7 @@ abstract class AbstractWKBReader
      *
      * @return Polygon
      */
-    private function readPolygon(WKBBuffer $buffer, CoordinateSystem $cs)
+    private function readPolygon(WKBBuffer $buffer, CoordinateSystem $cs) : Polygon
     {
         $numRings = $buffer->readUnsignedLong();
 
@@ -191,7 +192,7 @@ abstract class AbstractWKBReader
      *
      * @return CurvePolygon
      */
-    private function readCurvePolygon(WKBBuffer $buffer, CoordinateSystem $cs)
+    private function readCurvePolygon(WKBBuffer $buffer, CoordinateSystem $cs) : CurvePolygon
     {
         $numRings = $buffer->readUnsignedLong();
 
@@ -210,7 +211,7 @@ abstract class AbstractWKBReader
      *
      * @return MultiPoint
      */
-    private function readMultiPoint(WKBBuffer $buffer, CoordinateSystem $cs)
+    private function readMultiPoint(WKBBuffer $buffer, CoordinateSystem $cs) : MultiPoint
     {
         $numPoints = $buffer->readUnsignedLong();
         $points = [];
@@ -228,7 +229,7 @@ abstract class AbstractWKBReader
      *
      * @return MultiLineString
      */
-    private function readMultiLineString(WKBBuffer $buffer, CoordinateSystem $cs)
+    private function readMultiLineString(WKBBuffer $buffer, CoordinateSystem $cs) : MultiLineString
     {
         $numLineStrings = $buffer->readUnsignedLong();
         $lineStrings = [];
@@ -246,7 +247,7 @@ abstract class AbstractWKBReader
      *
      * @return MultiPolygon
      */
-    private function readMultiPolygon(WKBBuffer $buffer, CoordinateSystem $cs)
+    private function readMultiPolygon(WKBBuffer $buffer, CoordinateSystem $cs) : MultiPolygon
     {
         $numPolygons = $buffer->readUnsignedLong();
         $polygons = [];
@@ -264,7 +265,7 @@ abstract class AbstractWKBReader
      *
      * @return GeometryCollection
      */
-    private function readGeometryCollection(WKBBuffer $buffer, CoordinateSystem $cs)
+    private function readGeometryCollection(WKBBuffer $buffer, CoordinateSystem $cs) : GeometryCollection
     {
         $numGeometries = $buffer->readUnsignedLong();
         $geometries = [];
@@ -282,7 +283,7 @@ abstract class AbstractWKBReader
      *
      * @return PolyhedralSurface
      */
-    private function readPolyhedralSurface(WKBBuffer $buffer, CoordinateSystem $cs)
+    private function readPolyhedralSurface(WKBBuffer $buffer, CoordinateSystem $cs) : PolyhedralSurface
     {
         $numPatches = $buffer->readUnsignedLong();
         $patches = [];
@@ -300,7 +301,7 @@ abstract class AbstractWKBReader
      *
      * @return TIN
      */
-    private function readTIN(WKBBuffer $buffer, CoordinateSystem $cs)
+    private function readTIN(WKBBuffer $buffer, CoordinateSystem $cs) : TIN
     {
         $numPatches = $buffer->readUnsignedLong();
         $patches = [];
@@ -318,7 +319,7 @@ abstract class AbstractWKBReader
      *
      * @return Triangle
      */
-    private function readTriangle(WKBBuffer $buffer, CoordinateSystem $cs)
+    private function readTriangle(WKBBuffer $buffer, CoordinateSystem $cs) : Triangle
     {
         $numRings = $buffer->readUnsignedLong();
 

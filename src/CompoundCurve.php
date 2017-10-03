@@ -74,7 +74,7 @@ class CompoundCurve extends Curve
      * @throws InvalidGeometryException  If the compound curve is not continuous.
      * @throws CoordinateSystemException If the curves use different coordinate systems.
      */
-    public static function of(Curve $curve1, Curve ...$curveN)
+    public static function of(Curve $curve1, Curve ...$curveN) : CompoundCurve
     {
         return new CompoundCurve($curve1->coordinateSystem(), $curve1, ...$curveN);
     }
@@ -82,7 +82,7 @@ class CompoundCurve extends Curve
     /**
      * {@inheritdoc}
      */
-    public function startPoint()
+    public function startPoint() : Point
     {
         if ($this->isEmpty) {
             throw new EmptyGeometryException('The CompoundCurve is empty and has no start point.');
@@ -94,7 +94,7 @@ class CompoundCurve extends Curve
     /**
      * {@inheritdoc}
      */
-    public function endPoint()
+    public function endPoint() : Point
     {
         if ($this->isEmpty) {
             throw new EmptyGeometryException('The CompoundCurve is empty and has no end point.');
@@ -110,7 +110,7 @@ class CompoundCurve extends Curve
      *
      * @return int
      */
-    public function numCurves()
+    public function numCurves() : int
     {
         return count($this->curves);
     }
@@ -124,10 +124,8 @@ class CompoundCurve extends Curve
      *
      * @throws NoSuchGeometryException If there is no Curve at this index.
      */
-    public function curveN($n)
+    public function curveN(int $n) : Curve
     {
-        $n = (int) $n;
-
         if (! isset($this->curves[$n - 1])) {
             throw new NoSuchGeometryException('There is no Curve in this CompoundCurve at index ' . $n);
         }
@@ -140,7 +138,7 @@ class CompoundCurve extends Curve
      *
      * @return Curve[]
      */
-    public function curves()
+    public function curves() : array
     {
         return $this->curves;
     }
@@ -150,7 +148,7 @@ class CompoundCurve extends Curve
      *
      * {@inheritdoc}
      */
-    public function geometryType()
+    public function geometryType() : string
     {
         return 'CompoundCurve';
     }
@@ -160,7 +158,7 @@ class CompoundCurve extends Curve
      *
      * {@inheritdoc}
      */
-    public function geometryTypeBinary()
+    public function geometryTypeBinary() : int
     {
         return Geometry::COMPOUNDCURVE;
     }
@@ -168,7 +166,7 @@ class CompoundCurve extends Curve
     /**
      * {@inheritdoc}
      */
-    public function toArray()
+    public function toArray() : array
     {
         $result = [];
 
@@ -186,7 +184,7 @@ class CompoundCurve extends Curve
      *
      * {@inheritdoc}
      */
-    public function count()
+    public function count() : int
     {
         return count($this->curves);
     }

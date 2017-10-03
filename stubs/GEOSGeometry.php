@@ -24,7 +24,7 @@ class GEOSGeometry
 
     /**
      * @param GEOSGeometry $other
-     * @param boolean      $normalized
+     * @param bool         $normalized
      *
      * @return float
      *
@@ -33,8 +33,8 @@ class GEOSGeometry
     public function project(GEOSGeometry $other, $normalized = false) {}
 
     /**
-     * @param float   $dist
-     * @param boolean $normalized
+     * @param float $dist
+     * @param bool  $normalized
      *
      * @return GEOSGeometry
      *
@@ -137,7 +137,7 @@ class GEOSGeometry
      * @param GEOSGeometry $otherGeom
      * @param string       $pattern
      *
-     * @return string|boolean String if pattern is omitted, boolean if pattern is set.
+     * @return string|bool String if pattern is omitted, boolean if pattern is set.
      *
      * @throws \Exception
      */
@@ -145,7 +145,7 @@ class GEOSGeometry
 
     /**
      * @param GEOSGeometry $otherGeom
-     * @param integer      $rule
+     * @param int          $rule
      *
      * @return string
      *
@@ -154,8 +154,8 @@ class GEOSGeometry
     public function relateBoundaryNodeRule(GEOSGeometry $otherGeom, $rule) {}
 
     /**
-     * @param float   $tolerance
-     * @param boolean $preserveTopology
+     * @param float $tolerance
+     * @param bool  $preserveTopology
      *
      * @return GEOSGeometry
      *
@@ -180,7 +180,7 @@ class GEOSGeometry
     /**
      * @param GEOSGeometry $geom
      *
-     * @return boolean
+     * @return bool
      *
      * @throws \Exception
      */
@@ -189,7 +189,7 @@ class GEOSGeometry
     /**
      * @param GEOSGeometry $geom
      *
-     * @return boolean
+     * @return bool
      *
      * @throws \Exception
      */
@@ -198,7 +198,7 @@ class GEOSGeometry
     /**
      * @param GEOSGeometry $geom
      *
-     * @return boolean
+     * @return bool
      *
      * @throws \Exception
      */
@@ -207,7 +207,7 @@ class GEOSGeometry
     /**
      * @param GEOSGeometry $geom
      *
-     * @return boolean
+     * @return bool
      *
      * @throws \Exception
      */
@@ -216,7 +216,7 @@ class GEOSGeometry
     /**
      * @param GEOSGeometry $geom
      *
-     * @return boolean
+     * @return bool
      *
      * @throws \Exception
      */
@@ -225,7 +225,7 @@ class GEOSGeometry
     /**
      * @param GEOSGeometry $geom
      *
-     * @return boolean
+     * @return bool
      *
      * @throws \Exception
      */
@@ -234,7 +234,7 @@ class GEOSGeometry
     /**
      * @param GEOSGeometry $geom
      *
-     * @return boolean
+     * @return bool
      *
      * @throws \Exception
      */
@@ -243,7 +243,7 @@ class GEOSGeometry
     /**
      * @param GEOSGeometry $geom
      *
-     * @return boolean
+     * @return bool
      *
      * @throws \Exception
      */
@@ -252,7 +252,7 @@ class GEOSGeometry
     /**
      * @param GEOSGeometry $geom
      *
-     * @return boolean
+     * @return bool
      *
      * @throws \Exception
      */
@@ -261,7 +261,7 @@ class GEOSGeometry
     /**
      * @param GEOSGeometry $geom
      *
-     * @return boolean
+     * @return bool
      *
      * @throws \Exception
      */
@@ -271,14 +271,14 @@ class GEOSGeometry
      * @param GEOSGeometry $geom
      * @param float        $tolerance
      *
-     * @return boolean
+     * @return bool
      *
      * @throws \Exception
      */
     public function equalsExact(GEOSGeometry $geom, $tolerance = 0.0) {}
 
     /**
-     * @return boolean
+     * @return bool
      *
      * @throws \Exception
      */
@@ -302,28 +302,28 @@ class GEOSGeometry
     public function checkValidity() {}
 
     /**
-     * @return boolean
+     * @return bool
      *
      * @throws \Exception
      */
     public function isSimple() {}
 
     /**
-     * @return boolean
+     * @return bool
      *
      * @throws \Exception
      */
     public function isRing() {}
 
     /**
-     * @return boolean
+     * @return bool
      *
      * @throws \Exception
      */
     public function hasZ() {}
 
     /**
-     * @return boolean
+     * @return bool
      *
      * @throws \Exception On error, e.g. if this geometry is not a LineString.
      */
@@ -337,21 +337,21 @@ class GEOSGeometry
     public function typeName() {}
 
     /**
-     * @return integer
+     * @return int
      *
      * @throws \Exception
      */
     public function typeId() {}
 
     /**
-     * @return integer
+     * @return int
      *
      * @throws \Exception
      */
     public function getSRID() {}
 
     /**
-     * @param integer $srid
+     * @param int $srid
      *
      * @return void
      *
@@ -360,14 +360,14 @@ class GEOSGeometry
     public function setSRID($srid) {}
 
     /**
-     * @return integer
+     * @return int
      *
      * @throws \Exception
      */
     public function numGeometries() {}
 
     /**
-     * @param integer $num
+     * @param int $num
      *
      * @return GEOSGeometry
      *
@@ -376,14 +376,14 @@ class GEOSGeometry
     public function geometryN($num) {}
 
     /**
-     * @return integer
+     * @return int
      *
      * @throws \Exception
      */
     public function numInteriorRings() {}
 
     /**
-     * @return integer
+     * @return int
      *
      * @throws \Exception
      */
@@ -404,7 +404,7 @@ class GEOSGeometry
     public function getY() {}
 
     /**
-     * @param integer $num
+     * @param int $num
      *
      * @return GEOSGeometry
      *
@@ -420,28 +420,28 @@ class GEOSGeometry
     public function exteriorRing() {}
 
     /**
-     * @return integer
+     * @return int
      *
      * @throws \Exception
      */
     public function numCoordinates() {}
 
     /**
-     * @return integer
+     * @return int
      *
      * @throws \Exception
      */
     public function dimension() {}
 
     /**
-     * @return integer
+     * @return int
      *
      * @throws \Exception
      */
     public function coordinateDimension() {}
 
     /**
-     * @param integer $num
+     * @param int $num
      *
      * @return GEOSGeometry
      *
@@ -513,8 +513,8 @@ class GEOSGeometry
     public function node() {}
 
     /**
-     * @param float   $tolerance Snapping tolerance to use for improved robustness.
-     * @param boolean $onlyEdges If true will return a MULTILINESTRING, otherwise (the default)
+     * @param float $tolerance Snapping tolerance to use for improved robustness.
+     * @param bool  $onlyEdges If true will return a MULTILINESTRING, otherwise (the default)
      *                           it will return a GEOMETRYCOLLECTION containing triangular POLYGONs.
      *
      * @return GEOSGeometry
@@ -525,7 +525,7 @@ class GEOSGeometry
 
     /**
      * @param float        $tolerance Snapping tolerance to use for improved robustness.
-     * @param boolean      $onlyEdges If true will return a MULTILINESTRING, otherwise (the default)
+     * @param bool         $onlyEdges If true will return a MULTILINESTRING, otherwise (the default)
      *                                it will return a GEOMETRYCOLLECTION containing POLYGONs.
      * @param GEOSGeometry $extent    Clip returned diagram by the extent of the given geometry.
      *                                Optional, but explicit NULL value is not allowed.

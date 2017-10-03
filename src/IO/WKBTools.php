@@ -17,7 +17,7 @@ abstract class WKBTools
      *
      * @throws GeometryIOException
      */
-    private static function checkDoubleIs64Bit()
+    private static function checkDoubleIs64Bit() : void
     {
         if (strlen(pack('d', 0.0)) !== 8) {
             throw new GeometryIOException('The double type is not 64 bit on this platform.');
@@ -31,7 +31,7 @@ abstract class WKBTools
      *
      * @throws \InvalidArgumentException
      */
-    public static function checkByteOrder($byteOrder)
+    public static function checkByteOrder(int $byteOrder) : void
     {
         if ($byteOrder !== self::BIG_ENDIAN && $byteOrder !== self::LITTLE_ENDIAN) {
             throw new \InvalidArgumentException('Invalid byte order: ' . var_export($byteOrder, true));
@@ -45,7 +45,7 @@ abstract class WKBTools
      *
      * @throws GeometryIOException
      */
-    public static function getMachineByteOrder()
+    public static function getMachineByteOrder() : int
     {
         static $byteOrder;
 

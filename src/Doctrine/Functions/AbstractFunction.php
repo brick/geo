@@ -20,12 +20,12 @@ abstract class AbstractFunction extends FunctionNode
     /**
      * @return string
      */
-    abstract protected function getSqlFunctionName();
+    abstract protected function getSqlFunctionName() : string;
 
     /**
      * @return int
      */
-    abstract protected function getParameterCount();
+    abstract protected function getParameterCount() : int;
 
     /**
      * {@inheritdoc}

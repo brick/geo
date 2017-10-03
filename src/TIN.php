@@ -30,7 +30,7 @@ class TIN extends PolyhedralSurface
      *
      * {@inheritdoc}
      */
-    public function geometryType()
+    public function geometryType() : string
     {
         return 'TIN';
     }
@@ -40,7 +40,7 @@ class TIN extends PolyhedralSurface
      *
      * {@inheritdoc}
      */
-    public function geometryTypeBinary()
+    public function geometryTypeBinary() : int
     {
         return Geometry::TIN;
     }

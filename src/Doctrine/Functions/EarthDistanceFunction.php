@@ -101,7 +101,7 @@ class EarthDistanceFunction extends FunctionNode
      *
      * @return string
      */
-    private static function x($value)
+    private static function x(string $value) : string
     {
         return sprintf('ST_X(%s) * %f', $value, self::DEGREES_TO_RADIANS);
     }
@@ -111,7 +111,7 @@ class EarthDistanceFunction extends FunctionNode
      *
      * @return string
      */
-    private function y($value)
+    private function y(string $value) : string
     {
         return sprintf('ST_Y(%s) * %f', $value, self::DEGREES_TO_RADIANS);
     }

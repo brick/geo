@@ -42,7 +42,7 @@ abstract class AbstractWKTWriter
      *
      * @return void
      */
-    public function setPrettyPrint($prettyPrint)
+    public function setPrettyPrint(bool $prettyPrint) : void
     {
         $this->prettyPrint = (bool) $prettyPrint;
         $this->prettyPrintSpace = $prettyPrint ? ' ' : '';
@@ -55,7 +55,7 @@ abstract class AbstractWKTWriter
      *
      * @throws GeometryIOException If the given geometry cannot be exported as WKT.
      */
-    abstract public function write(Geometry $geometry);
+    abstract public function write(Geometry $geometry) : string;
 
     /**
      * @param Geometry $geometry The geometry to export as WKT.
@@ -64,7 +64,7 @@ abstract class AbstractWKTWriter
      *
      * @throws GeometryIOException If the given geometry cannot be exported as WKT.
      */
-    protected function doWrite(Geometry $geometry)
+    protected function doWrite(Geometry $geometry) : string
     {
         $type = strtoupper($geometry->geometryType());
 
@@ -134,7 +134,7 @@ abstract class AbstractWKTWriter
      *
      * @return string
      */
-    private function writePoint(Point $point)
+    private function writePoint(Point $point) : string
     {
         $result = $point->x() . ' ' . $point->y();
 
@@ -154,7 +154,7 @@ abstract class AbstractWKTWriter
      *
      * @return string
      */
-    private function writeLineString(LineString $lineString)
+    private function writeLineString(LineString $lineString) : string
     {
         $result = [];
 
@@ -170,7 +170,7 @@ abstract class AbstractWKTWriter
      *
      * @return string
      */
-    private function writeCircularString(CircularString $circularString)
+    private function writeCircularString(CircularString $circularString) : string
     {
         $result = [];
 
@@ -188,7 +188,7 @@ abstract class AbstractWKTWriter
      *
      * @throws GeometryIOException
      */
-    private function writeCompoundCurve(CompoundCurve $compoundCurve)
+    private function writeCompoundCurve(CompoundCurve $compoundCurve) : string
     {
         $result = [];
 
@@ -210,7 +210,7 @@ abstract class AbstractWKTWriter
      *
      * @return string
      */
-    private function writePolygon(Polygon $polygon)
+    private function writePolygon(Polygon $polygon) : string
     {
         $result = [];
 
@@ -226,7 +226,7 @@ abstract class AbstractWKTWriter
      *
      * @return string
      */
-    private function writeCurvePolygon(CurvePolygon $curvePolygon)
+    private function writeCurvePolygon(CurvePolygon $curvePolygon) : string
     {
         $result = [];
 
@@ -246,7 +246,7 @@ abstract class AbstractWKTWriter
      *
      * @return string
      */
-    private function writeMultiPoint(MultiPoint $multiPoint)
+    private function writeMultiPoint(MultiPoint $multiPoint) : string
     {
         $result = [];
 
@@ -262,7 +262,7 @@ abstract class AbstractWKTWriter
      *
      * @return string
      */
-    private function writeMultiLineString(MultiLineString $multiLineString)
+    private function writeMultiLineString(MultiLineString $multiLineString) : string
     {
         $result = [];
 
@@ -278,7 +278,7 @@ abstract class AbstractWKTWriter
      *
      * @return string
      */
-    private function writeMultiPolygon(MultiPolygon $multiPolygon)
+    private function writeMultiPolygon(MultiPolygon $multiPolygon) : string
     {
         $result = [];
 
@@ -294,7 +294,7 @@ abstract class AbstractWKTWriter
      *
      * @return string
      */
-    private function writeGeometryCollection(GeometryCollection $collection)
+    private function writeGeometryCollection(GeometryCollection $collection) : string
     {
         $result = [];
 
@@ -310,7 +310,7 @@ abstract class AbstractWKTWriter
      *
      * @return string
      */
-    private function writePolyhedralSurface(PolyhedralSurface $polyhedralSurface)
+    private function writePolyhedralSurface(PolyhedralSurface $polyhedralSurface) : string
     {
         $result = [];
 

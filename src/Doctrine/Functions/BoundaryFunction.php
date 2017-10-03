@@ -10,7 +10,7 @@ class BoundaryFunction extends AbstractFunction
     /**
      * {@inheritdoc}
      */
-    protected function getSqlFunctionName()
+    protected function getSqlFunctionName() : string
     {
         return 'ST_Boundary';
     }
@@ -18,7 +18,7 @@ class BoundaryFunction extends AbstractFunction
     /**
      * {@inheritdoc}
      */
-    protected function getParameterCount()
+    protected function getParameterCount() : int
     {
         return 1;
     }

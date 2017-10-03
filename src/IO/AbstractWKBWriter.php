@@ -46,7 +46,7 @@ abstract class AbstractWKBWriter
      *
      * @throws \InvalidArgumentException If the byte order is invalid.
      */
-    public function setByteOrder($byteOrder)
+    public function setByteOrder(int $byteOrder) : void
     {
         WKBTools::checkByteOrder($byteOrder);
         $this->byteOrder = $byteOrder;
@@ -59,7 +59,7 @@ abstract class AbstractWKBWriter
      *
      * @throws GeometryIOException If the given geometry cannot be exported as WKB.
      */
-    public function write(Geometry $geometry)
+    public function write(Geometry $geometry) : string
     {
         return $this->doWrite($geometry, true);
     }
@@ -72,7 +72,7 @@ abstract class AbstractWKBWriter
      *
      * @throws GeometryIOException If the given geometry cannot be exported as WKT.
      */
-    protected function doWrite(Geometry $geometry, $outer)
+    protected function doWrite(Geometry $geometry, bool $outer): string
     {
         if ($geometry instanceof Point) {
             return $this->writePoint($geometry, $outer);
@@ -112,7 +112,7 @@ abstract class AbstractWKBWriter
     /**
      * @return string
      */
-    private function packByteOrder()
+    private function packByteOrder() : string
     {
         return pack('C', $this->byteOrder);
     }
@@ -122,7 +122,7 @@ abstract class AbstractWKBWriter
      *
      * @return string
      */
-    protected function packUnsignedInteger($uint)
+    protected function packUnsignedInteger(int $uint) : string
     {
         return pack($this->byteOrder === WKBTools::BIG_ENDIAN ? 'N' : 'V', $uint);
     }
@@ -132,7 +132,7 @@ abstract class AbstractWKBWriter
      *
      * @return string
      */
-    private function packDouble($double)
+    private function packDouble(float $double) : string
     {
         $binary = pack('d', $double);
 
@@ -150,7 +150,7 @@ abstract class AbstractWKBWriter
      *
      * @throws GeometryIOException
      */
-    private function packPoint(Point $point)
+    private function packPoint(Point $point) : string
     {
         if ($point->isEmpty()) {
             throw new GeometryIOException('Empty points have no WKB representation.');
@@ -173,7 +173,7 @@ abstract class AbstractWKBWriter
      *
      * @return string
      */
-    private function packCurve(Curve $curve)
+    private function packCurve(Curve $curve) : string
     {
         $wkb = $this->packUnsignedInteger($curve->count());
 
@@ -190,7 +190,7 @@ abstract class AbstractWKBWriter
      *
      * @return string
      */
-    private function writePoint(Point $point, $outer)
+    private function writePoint(Point $point, bool $outer) : string
     {
         $wkb = $this->packByteOrder();
         $wkb.= $this->packHeader($point, $outer);
@@ -205,7 +205,7 @@ abstract class AbstractWKBWriter
      *
      * @return string
      */
-    private function writeCurve(Curve $curve, $outer)
+    private function writeCurve(Curve $curve, bool $outer) : string
     {
         $wkb = $this->packByteOrder();
         $wkb.= $this->packHeader($curve, $outer);
@@ -220,7 +220,7 @@ abstract class AbstractWKBWriter
      *
      * @return string
      */
-    private function writePolygon(Polygon $polygon, $outer)
+    private function writePolygon(Polygon $polygon, bool $outer) : string
     {
         $wkb = $this->packByteOrder();
         $wkb.= $this->packHeader($polygon, $outer);
@@ -239,7 +239,7 @@ abstract class AbstractWKBWriter
      *
      * @return string
      */
-    private function writeComposedGeometry(Geometry $collection, $outer)
+    private function writeComposedGeometry(Geometry $collection, bool $outer) : string
     {
         $wkb = $this->packByteOrder();
         $wkb.= $this->packHeader($collection, $outer);
@@ -258,5 +258,5 @@ abstract class AbstractWKBWriter
      *
      * @return string
      */
-    abstract protected function packHeader(Geometry $geometry, $outer);
+    abstract protected function packHeader(Geometry $geometry, bool $outer) : string;
 }

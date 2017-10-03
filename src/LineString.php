@@ -66,7 +66,7 @@ class LineString extends Curve
      * @throws InvalidGeometryException  If only one point was given.
      * @throws CoordinateSystemException If the points use different coordinate systems.
      */
-    public static function of(Point $point1, Point ...$pointN)
+    public static function of(Point $point1, Point ...$pointN) : LineString
     {
         return new LineString($point1->coordinateSystem(), $point1, ...$pointN);
     }
@@ -83,7 +83,7 @@ class LineString extends Curve
      *
      * @throws CoordinateSystemException If the points use different coordinate systems, or are not 2D.
      */
-    public static function rectangle(Point $a, Point $b)
+    public static function rectangle(Point $a, Point $b) : LineString
     {
         $cs = $a->coordinateSystem();
 
@@ -112,7 +112,7 @@ class LineString extends Curve
     /**
      * {@inheritdoc}
      */
-    public function startPoint()
+    public function startPoint() : Point
     {
         if ($this->isEmpty) {
             throw new EmptyGeometryException('The LineString is empty and has no start point.');
@@ -124,7 +124,7 @@ class LineString extends Curve
     /**
      * {@inheritdoc}
      */
-    public function endPoint()
+    public function endPoint() : Point
     {
         if ($this->isEmpty) {
             throw new EmptyGeometryException('The LineString is empty and has no end point.');
@@ -138,7 +138,7 @@ class LineString extends Curve
      *
      * @return int
      */
-    public function numPoints()
+    public function numPoints() : int
     {
         return count($this->points);
     }
@@ -152,7 +152,7 @@ class LineString extends Curve
      *
      * @throws NoSuchGeometryException If there is no Point at this index.
      */
-    public function pointN($n)
+    public function pointN(int $n) : Point
     {
         $n = (int) $n;
 
@@ -168,7 +168,7 @@ class LineString extends Curve
      *
      * @return Point[]
      */
-    public function points()
+    public function points() : array
     {
         return $this->points;
     }
@@ -178,7 +178,7 @@ class LineString extends Curve
      *
      * {@inheritdoc}
      */
-    public function geometryType()
+    public function geometryType() : string
     {
         return 'LineString';
     }
@@ -188,7 +188,7 @@ class LineString extends Curve
      *
      * {@inheritdoc}
      */
-    public function geometryTypeBinary()
+    public function geometryTypeBinary() : int
     {
         return Geometry::LINESTRING;
     }
@@ -196,7 +196,7 @@ class LineString extends Curve
     /**
      * {@inheritdoc}
      */
-    public function toArray()
+    public function toArray() : array
     {
         $result = [];
 
@@ -214,7 +214,7 @@ class LineString extends Curve
      *
      * {@inheritdoc}
      */
-    public function count()
+    public function count() : int
     {
         return count($this->points);
     }

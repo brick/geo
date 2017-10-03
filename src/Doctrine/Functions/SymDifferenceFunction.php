@@ -10,7 +10,7 @@ class SymDifferenceFunction extends AbstractFunction
     /**
      * {@inheritdoc}
      */
-    protected function getSqlFunctionName()
+    protected function getSqlFunctionName() : string
     {
         return 'ST_SymDifference';
     }
@@ -18,7 +18,7 @@ class SymDifferenceFunction extends AbstractFunction
     /**
      * {@inheritdoc}
      */
-    protected function getParameterCount()
+    protected function getParameterCount() : int
     {
         return 2;
     }

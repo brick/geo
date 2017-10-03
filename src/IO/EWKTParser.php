@@ -16,7 +16,7 @@ class EWKTParser extends WKTParser
     /**
      * {@inheritdoc}
      */
-    protected function getRegex()
+    protected function getRegex() : array
     {
         return [
             self::T_SRID   => self::REGEX_SRID,
@@ -28,7 +28,7 @@ class EWKTParser extends WKTParser
     /**
      * @return int
      */
-    public function getOptionalSRID()
+    public function getOptionalSRID() : int
     {
         $token = current($this->tokens);
 

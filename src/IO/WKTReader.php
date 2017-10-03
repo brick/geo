@@ -18,7 +18,7 @@ class WKTReader extends AbstractWKTReader
      *
      * @throws GeometryIOException
      */
-    public function read($wkt, $srid = 0)
+    public function read(string $wkt, int $srid = 0) : Geometry
     {
         $parser = new WKTParser(strtoupper($wkt));
         $geometry = $this->readGeometry($parser, $srid);

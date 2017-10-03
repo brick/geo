@@ -10,7 +10,7 @@ class PointOnSurfaceFunction extends AbstractFunction
     /**
      * {@inheritdoc}
      */
-    protected function getSqlFunctionName()
+    protected function getSqlFunctionName() : string
     {
         return 'ST_PointOnSurface';
     }
@@ -18,7 +18,7 @@ class PointOnSurfaceFunction extends AbstractFunction
     /**
      * {@inheritdoc}
      */
-    protected function getParameterCount()
+    protected function getParameterCount() : int
     {
         return 1;
     }

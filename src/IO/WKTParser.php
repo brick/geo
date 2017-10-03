@@ -27,7 +27,7 @@ class WKTParser
      *
      * @param string $wkt
      */
-    public function __construct($wkt)
+    public function __construct(string $wkt)
     {
         $this->scan($wkt);
     }
@@ -35,7 +35,7 @@ class WKTParser
     /**
      * @return array
      */
-    protected function getRegex()
+    protected function getRegex() : array
     {
         return [
             self::T_WORD   => self::REGEX_WORD,
@@ -48,7 +48,7 @@ class WKTParser
      *
      * @return void
      */
-    private function scan($wkt)
+    private function scan(string $wkt) : void
     {
         $regex = $this->getRegex();
         $regex[] = '\s+';
@@ -93,7 +93,7 @@ class WKTParser
      *
      * @throws GeometryIOException
      */
-    public function matchOpener()
+    public function matchOpener() : void
     {
         $token = $this->nextToken();
 
@@ -110,7 +110,7 @@ class WKTParser
      *
      * @throws GeometryIOException
      */
-    public function matchCloser()
+    public function matchCloser() : void
     {
         $token = $this->nextToken();
 
@@ -127,7 +127,7 @@ class WKTParser
      *
      * @throws GeometryIOException
      */
-    public function getNextWord()
+    public function getNextWord() : string
     {
         $token = $this->nextToken();
 
@@ -144,7 +144,7 @@ class WKTParser
     /**
      * @return string|null The next word, or NULL if the next token is not a word, or there are no more tokens.
      */
-    public function getOptionalNextWord()
+    public function getOptionalNextWord() : ?string
     {
         $token = current($this->tokens);
 
@@ -167,7 +167,7 @@ class WKTParser
      *
      * @throws GeometryIOException If the next token is not an opener or a word, or if there is no next token.
      */
-    public function isNextOpenerOrWord()
+    public function isNextOpenerOrWord() : bool
     {
         $token = current($this->tokens);
 
@@ -191,7 +191,7 @@ class WKTParser
      *
      * @throws GeometryIOException
      */
-    public function getNextNumber()
+    public function getNextNumber() : string
     {
         $token = $this->nextToken();
 
@@ -210,7 +210,7 @@ class WKTParser
      *
      * @throws GeometryIOException
      */
-    public function getNextCloserOrComma()
+    public function getNextCloserOrComma() : string
     {
         $token = $this->nextToken();
 
@@ -227,7 +227,7 @@ class WKTParser
     /**
      * @return bool
      */
-    public function isEndOfStream()
+    public function isEndOfStream() : bool
     {
         return $this->nextToken() === false;
     }

@@ -48,7 +48,7 @@ class Point extends Geometry
      *
      * @throws InvalidGeometryException If the number of coordinates does not match the coordinate system.
      */
-    public function __construct(CoordinateSystem $cs, ...$coords)
+    public function __construct(CoordinateSystem $cs, float ...$coords)
     {
         parent::__construct($cs, ! $coords);
 
@@ -62,18 +62,18 @@ class Point extends Geometry
                 ));
             }
 
-            $this->x = (float) $coords[0];
-            $this->y = (float) $coords[1];
+            $this->x = $coords[0];
+            $this->y = $coords[1];
 
             $hasZ = $cs->hasZ();
             $hasM = $cs->hasM();
 
             if ($hasZ) {
-                $this->z = (float) $coords[2];
+                $this->z = $coords[2];
             }
 
             if ($hasM) {
-                $this->m = (float) $coords[$hasZ ? 3 : 2];
+                $this->m = $coords[$hasZ ? 3 : 2];
             }
         }
     }
@@ -87,7 +87,7 @@ class Point extends Geometry
      *
      * @return Point
      */
-    public static function xy($x, $y, $srid = 0)
+    public static function xy(float $x, float $y, int $srid = 0) : Point
     {
         return new Point(CoordinateSystem::xy($srid), $x, $y);
     }
@@ -102,7 +102,7 @@ class Point extends Geometry
      *
      * @return Point
      */
-    public static function xyz($x, $y, $z, $srid = 0)
+    public static function xyz(float $x, float $y, float $z, int $srid = 0) : Point
     {
         return new Point(CoordinateSystem::xyz($srid), $x, $y, $z);
     }
@@ -117,7 +117,7 @@ class Point extends Geometry
      *
      * @return Point
      */
-    public static function xym($x, $y, $m, $srid = 0)
+    public static function xym(float $x, float $y, float $m, int $srid = 0) : Point
     {
         return new Point(CoordinateSystem::xym($srid), $x, $y, $m);
     }
@@ -133,7 +133,7 @@ class Point extends Geometry
      *
      * @return Point
      */
-    public static function xyzm($x, $y, $z, $m, $srid = 0)
+    public static function xyzm(float $x, float $y, float $z, float $m, int $srid = 0) : Point
     {
         return new Point(CoordinateSystem::xyzm($srid), $x, $y, $z, $m);
     }
@@ -145,7 +145,7 @@ class Point extends Geometry
      *
      * @return Point
      */
-    public static function xyEmpty($srid = 0)
+    public static function xyEmpty(int $srid = 0) : Point
     {
         return new Point(CoordinateSystem::xy($srid));
     }
@@ -157,7 +157,7 @@ class Point extends Geometry
      *
      * @return Point
      */
-    public static function xyzEmpty($srid = 0)
+    public static function xyzEmpty(int $srid = 0) : Point
     {
         return new Point(CoordinateSystem::xyz($srid));
     }
@@ -169,7 +169,7 @@ class Point extends Geometry
      *
      * @return Point
      */
-    public static function xymEmpty($srid = 0)
+    public static function xymEmpty(int $srid = 0) : Point
     {
         return new Point(CoordinateSystem::xym($srid));
     }
@@ -181,7 +181,7 @@ class Point extends Geometry
      *
      * @return Point
      */
-    public static function xyzmEmpty($srid = 0)
+    public static function xyzmEmpty(int $srid = 0) : Point
     {
         return new Point(CoordinateSystem::xyzm($srid));
     }
@@ -193,7 +193,7 @@ class Point extends Geometry
      *
      * @return float|null
      */
-    public function x()
+    public function x() : ?float
     {
         return $this->x;
     }
@@ -205,7 +205,7 @@ class Point extends Geometry
      *
      * @return float|null
      */
-    public function y()
+    public function y() : ?float
     {
         return $this->y;
     }
@@ -217,7 +217,7 @@ class Point extends Geometry
      *
      * @return float|null
      */
-    public function z()
+    public function z() : ?float
     {
         return $this->z;
     }
@@ -229,7 +229,7 @@ class Point extends Geometry
      *
      * @return float|null
      */
-    public function m()
+    public function m() : ?float
     {
         return $this->m;
     }
@@ -239,7 +239,7 @@ class Point extends Geometry
      *
      * {@inheritdoc}
      */
-    public function geometryType()
+    public function geometryType() : string
     {
         return 'Point';
     }
@@ -249,7 +249,7 @@ class Point extends Geometry
      *
      * {@inheritdoc}
      */
-    public function geometryTypeBinary()
+    public function geometryTypeBinary() : int
     {
         return Geometry::POINT;
     }
@@ -259,7 +259,7 @@ class Point extends Geometry
      *
      * {@inheritdoc}
      */
-    public function dimension()
+    public function dimension() : int
     {
         return 0;
     }
@@ -267,7 +267,7 @@ class Point extends Geometry
     /**
      * {@inheritdoc}
      */
-    public function toArray()
+    public function toArray() : array
     {
         if ($this->isEmpty) {
             return [];
@@ -293,7 +293,7 @@ class Point extends Geometry
      *
      * {@inheritdoc}
      */
-    public function count()
+    public function count() : int
     {
         if ($this->isEmpty) {
             return 0;

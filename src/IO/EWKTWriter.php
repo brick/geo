@@ -12,7 +12,7 @@ class EWKTWriter extends AbstractWKTWriter
     /**
      * {@inheritdoc}
      */
-    public function write(Geometry $geometry)
+    public function write(Geometry $geometry) : string
     {
         $srid = $geometry->SRID();
 

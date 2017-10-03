@@ -20,7 +20,7 @@ class MultiPointType extends GeometryType
     /**
      * {@inheritdoc}
      */
-    protected function getProxyClassName()
+    protected function getProxyClassName() : string
     {
         return MultiPointProxy::class;
     }

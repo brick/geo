@@ -71,7 +71,7 @@ class PolyhedralSurface extends Surface
      *
      * @throws CoordinateSystemException If the patches use different coordinate systems.
      */
-    public static function of(Polygon $patch1, Polygon ...$patchN)
+    public static function of(Polygon $patch1, Polygon ...$patchN) : PolyhedralSurface
     {
         return new static($patch1->coordinateSystem(), $patch1, ...$patchN);
     }
@@ -79,7 +79,7 @@ class PolyhedralSurface extends Surface
     /**
      * @return int
      */
-    public function numPatches()
+    public function numPatches() : int
     {
         return count($this->patches);
     }
@@ -93,7 +93,7 @@ class PolyhedralSurface extends Surface
      *
      * @throws NoSuchGeometryException If there is no patch at this index.
      */
-    public function patchN($n)
+    public function patchN(int $n) : Polygon
     {
         $n = (int) $n;
 
@@ -109,7 +109,7 @@ class PolyhedralSurface extends Surface
      *
      * @return Polygon[]
      */
-    public function patches()
+    public function patches() : array
     {
         return $this->patches;
     }
@@ -125,7 +125,7 @@ class PolyhedralSurface extends Surface
      *
      * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
-    public function boundingPolygons(Polygon $p)
+    public function boundingPolygons(Polygon $p) : MultiPolygon
     {
         return GeometryEngineRegistry::get()->boundingPolygons($p);
     }
@@ -137,7 +137,7 @@ class PolyhedralSurface extends Surface
      *
      * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
-    public function isClosed()
+    public function isClosed() : bool
     {
         return GeometryEngineRegistry::get()->isClosed($this);
     }
@@ -147,7 +147,7 @@ class PolyhedralSurface extends Surface
      *
      * {@inheritdoc}
      */
-    public function geometryType()
+    public function geometryType() : string
     {
         return 'PolyhedralSurface';
     }
@@ -157,7 +157,7 @@ class PolyhedralSurface extends Surface
      *
      * {@inheritdoc}
      */
-    public function geometryTypeBinary()
+    public function geometryTypeBinary() : int
     {
         return Geometry::POLYHEDRALSURFACE;
     }
@@ -165,7 +165,7 @@ class PolyhedralSurface extends Surface
     /**
      * {@inheritdoc}
      */
-    public function toArray()
+    public function toArray() : array
     {
         $result = [];
 
@@ -183,7 +183,7 @@ class PolyhedralSurface extends Surface
      *
      * {@inheritdoc}
      */
-    public function count()
+    public function count() : int
     {
         return count($this->patches);
     }

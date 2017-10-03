@@ -30,7 +30,7 @@ class PDOEngine extends DatabaseEngine
      * @param \PDO $pdo
      * @param bool $useProxy
      */
-    public function __construct(\PDO $pdo, $useProxy = true)
+    public function __construct(\PDO $pdo, bool $useProxy = true)
     {
         $this->pdo      = $pdo;
         $this->useProxy = $useProxy;
@@ -39,7 +39,7 @@ class PDOEngine extends DatabaseEngine
     /**
      * @return \PDO
      */
-    public function getPDO()
+    public function getPDO() : \PDO
     {
         return $this->pdo;
     }
@@ -47,7 +47,7 @@ class PDOEngine extends DatabaseEngine
     /**
      * {@inheritdoc}
      */
-    protected function executeQuery($query, array $parameters)
+    protected function executeQuery(string $query, array $parameters) : array
     {
         $errMode = $this->pdo->getAttribute(\PDO::ATTR_ERRMODE);
         $this->pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);

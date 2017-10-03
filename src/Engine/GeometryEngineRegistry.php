@@ -19,7 +19,7 @@ final class GeometryEngineRegistry
      *
      * @return bool
      */
-    public static function has()
+    public static function has() : bool
     {
         return self::$engine !== null;
     }
@@ -31,7 +31,7 @@ final class GeometryEngineRegistry
      *
      * @return void
      */
-    public static function set(GeometryEngine $engine)
+    public static function set(GeometryEngine $engine) : void
     {
         self::$engine = $engine;
     }
@@ -43,7 +43,7 @@ final class GeometryEngineRegistry
      *
      * @throws GeometryEngineException
      */
-    public static function get()
+    public static function get() : GeometryEngine
     {
         if (self::$engine === null) {
             throw GeometryEngineException::noEngineSet();

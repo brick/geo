@@ -59,6 +59,6 @@ function GEOSSharedPaths(GEOSGeometry $geom1, GEOSGeometry $geom2) {}
  * @param string $matrix
  * @param string $pattern
  *
- * @return boolean
+ * @return bool
  */
 function GEOSRelateMatch($matrix, $pattern) {}

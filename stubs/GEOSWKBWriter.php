@@ -18,14 +18,14 @@ class GEOSWKBWriter
     /**
      * Returns the output dimension.
      *
-     * @return integer 2 or 2D, 3 for 3D.
+     * @return int 2 or 2D, 3 for 3D.
      */
     public function getOutputDimension() {}
 
     /**
      * Sets the output dimension.
      *
-     * @param integer $dim 2 or 2D, 3 for 3D.
+     * @param int $dim 2 or 2D, 3 for 3D.
      *
      * @return void
      */
@@ -34,14 +34,14 @@ class GEOSWKBWriter
     /**
      * Returns the output WKB byte order.
      *
-     * @return integer 0 for BIG endian, 1 for LITTLE endian.
+     * @return int 0 for BIG endian, 1 for LITTLE endian.
      */
     public function getByteOrder() {}
 
     /**
      * Sets the output WKB byte order.
      *
-     * @param integer $byteOrder 0 for BIG endian, 1 for LITTLE endian.
+     * @param int $byteOrder 0 for BIG endian, 1 for LITTLE endian.
      *
      * @return void
      */
@@ -50,14 +50,14 @@ class GEOSWKBWriter
     /**
      * Returns whether the output includes SRID.
      *
-     * @return boolean
+     * @return bool
      */
     public function getIncludeSRID() {}
 
     /**
      * Sets whether the output includes SRID.
      *
-     * @param boolean $inc
+     * @param bool $inc
      *
      * @return void
      */

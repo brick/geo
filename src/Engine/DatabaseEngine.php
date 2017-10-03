@@ -27,7 +27,7 @@ abstract class DatabaseEngine implements GeometryEngine
      *
      * @return string
      */
-    private function buildQuery($function, array $parameters, $returnsGeometry)
+    private function buildQuery(string $function, array $parameters, bool $returnsGeometry) : string
     {
         foreach ($parameters as & $parameter) {
             if ($parameter instanceof Geometry) {
@@ -68,7 +68,7 @@ abstract class DatabaseEngine implements GeometryEngine
      *
      * @throws GeometryEngineException
      */
-    abstract protected function executeQuery($query, array $parameters);
+    abstract protected function executeQuery(string $query, array $parameters) : array;
 
     /**
      * Builds and executes a SQL query for a GIS function.
@@ -81,7 +81,7 @@ abstract class DatabaseEngine implements GeometryEngine
      *
      * @throws GeometryEngineException
      */
-    private function query($function, array $parameters, $returnsGeometry)
+    private function query(string $function, array $parameters, bool $returnsGeometry) : array
     {
         $query = $this->buildQuery($function, $parameters, $returnsGeometry);
         $result = $this->executeQuery($query, $parameters);
@@ -99,7 +99,7 @@ abstract class DatabaseEngine implements GeometryEngine
      *
      * @throws GeometryEngineException
      */
-    private function queryBoolean($function, ...$parameters)
+    private function queryBoolean(string $function, ...$parameters) : bool
     {
         list ($result) = $this->query($function, $parameters, false);
 
@@ -120,7 +120,7 @@ abstract class DatabaseEngine implements GeometryEngine
      *
      * @throws GeometryEngineException
      */
-    private function queryFloat($function, ...$parameters)
+    private function queryFloat(string $function, ...$parameters) : float
     {
         list ($result) = $this->query($function, $parameters, false);
 
@@ -141,7 +141,7 @@ abstract class DatabaseEngine implements GeometryEngine
      *
      * @throws GeometryEngineException
      */
-    private function queryGeometry($function, ...$parameters)
+    private function queryGeometry(string $function, ...$parameters) : Geometry
     {
         list ($wkt, $wkb, $geometryType, $srid) = $this->query($function, $parameters, true);
 
@@ -179,7 +179,7 @@ abstract class DatabaseEngine implements GeometryEngine
      *
      * @throws GeometryEngineException
      */
-    private function getProxyClassName($geometryType)
+    private function getProxyClassName(string $geometryType) : string
     {
         $proxyClasses = [
             'CIRCULARSTRING'     => Proxy\CircularStringProxy::class,
@@ -216,7 +216,7 @@ abstract class DatabaseEngine implements GeometryEngine
     /**
      * {@inheritdoc}
      */
-    public function contains(Geometry $a, Geometry $b)
+    public function contains(Geometry $a, Geometry $b) : bool
     {
         return $this->queryBoolean('ST_Contains', $a, $b);
     }
@@ -224,7 +224,7 @@ abstract class DatabaseEngine implements GeometryEngine
     /**
      * {@inheritdoc}
      */
-    public function intersects(Geometry $a, Geometry $b)
+    public function intersects(Geometry $a, Geometry $b) : bool
     {
         return $this->queryBoolean('ST_Intersects', $a, $b);
     }
@@ -232,7 +232,7 @@ abstract class DatabaseEngine implements GeometryEngine
     /**
      * {@inheritdoc}
      */
-    public function union(Geometry $a, Geometry $b)
+    public function union(Geometry $a, Geometry $b) : Geometry
     {
         return $this->queryGeometry('ST_Union', $a, $b);
     }
@@ -240,7 +240,7 @@ abstract class DatabaseEngine implements GeometryEngine
     /**
      * {@inheritdoc}
      */
-    public function intersection(Geometry $a, Geometry $b)
+    public function intersection(Geometry $a, Geometry $b) : Geometry
     {
         return $this->queryGeometry('ST_Intersection', $a, $b);
     }
@@ -248,7 +248,7 @@ abstract class DatabaseEngine implements GeometryEngine
     /**
      * {@inheritdoc}
      */
-    public function difference(Geometry $a, Geometry $b)
+    public function difference(Geometry $a, Geometry $b) : Geometry
     {
         return $this->queryGeometry('ST_Difference', $a, $b);
     }
@@ -256,7 +256,7 @@ abstract class DatabaseEngine implements GeometryEngine
     /**
      * {@inheritdoc}
      */
-    public function envelope(Geometry $g)
+    public function envelope(Geometry $g) : Geometry
     {
         return $this->queryGeometry('ST_Envelope', $g);
     }
@@ -264,7 +264,7 @@ abstract class DatabaseEngine implements GeometryEngine
     /**
      * {@inheritdoc}
      */
-    public function centroid(Geometry $g)
+    public function centroid(Geometry $g) : Geometry
     {
         return $this->queryGeometry('ST_Centroid', $g);
     }
@@ -272,7 +272,7 @@ abstract class DatabaseEngine implements GeometryEngine
     /**
      * {@inheritdoc}
      */
-    public function pointOnSurface(Geometry $g)
+    public function pointOnSurface(Geometry $g) : Geometry
     {
         return $this->queryGeometry('ST_PointOnSurface', $g);
     }
@@ -280,7 +280,7 @@ abstract class DatabaseEngine implements GeometryEngine
     /**
      * {@inheritdoc}
      */
-    public function length(Geometry $g)
+    public function length(Geometry $g) : float
     {
         return $this->queryFloat('ST_Length', $g);
     }
@@ -288,7 +288,7 @@ abstract class DatabaseEngine implements GeometryEngine
     /**
      * {@inheritdoc}
      */
-    public function area(Geometry $g)
+    public function area(Geometry $g) : float
     {
         return $this->queryFloat('ST_Area', $g);
     }
@@ -296,7 +296,7 @@ abstract class DatabaseEngine implements GeometryEngine
     /**
      * {@inheritdoc}
      */
-    public function boundary(Geometry $g)
+    public function boundary(Geometry $g) : Geometry
     {
         return $this->queryGeometry('ST_Boundary', $g);
     }
@@ -304,7 +304,7 @@ abstract class DatabaseEngine implements GeometryEngine
     /**
      * {@inheritdoc}
      */
-    public function isValid(Geometry $g)
+    public function isValid(Geometry $g) : bool
     {
         return $this->queryBoolean('ST_IsValid', $g);
     }
@@ -312,7 +312,7 @@ abstract class DatabaseEngine implements GeometryEngine
     /**
      * {@inheritdoc}
      */
-    public function isClosed(Geometry $g)
+    public function isClosed(Geometry $g) : bool
     {
         return $this->queryBoolean('ST_IsClosed', $g);
     }
@@ -320,7 +320,7 @@ abstract class DatabaseEngine implements GeometryEngine
     /**
      * {@inheritdoc}
      */
-    public function isSimple(Geometry $g)
+    public function isSimple(Geometry $g) : bool
     {
         return $this->queryBoolean('ST_IsSimple', $g);
     }
@@ -328,7 +328,7 @@ abstract class DatabaseEngine implements GeometryEngine
     /**
      * {@inheritdoc}
      */
-    public function equals(Geometry $a, Geometry $b)
+    public function equals(Geometry $a, Geometry $b) : bool
     {
         return $this->queryBoolean('ST_Equals', $a, $b);
     }
@@ -336,7 +336,7 @@ abstract class DatabaseEngine implements GeometryEngine
     /**
      * {@inheritdoc}
      */
-    public function disjoint(Geometry $a, Geometry $b)
+    public function disjoint(Geometry $a, Geometry $b) : bool
     {
         return $this->queryBoolean('ST_Disjoint', $a, $b);
     }
@@ -344,7 +344,7 @@ abstract class DatabaseEngine implements GeometryEngine
     /**
      * {@inheritdoc}
      */
-    public function touches(Geometry $a, Geometry $b)
+    public function touches(Geometry $a, Geometry $b) : bool
     {
         return $this->queryBoolean('ST_Touches', $a, $b);
     }
@@ -352,7 +352,7 @@ abstract class DatabaseEngine implements GeometryEngine
     /**
      * {@inheritdoc}
      */
-    public function crosses(Geometry $a, Geometry $b)
+    public function crosses(Geometry $a, Geometry $b) : bool
     {
         return $this->queryBoolean('ST_Crosses', $a, $b);
     }
@@ -360,7 +360,7 @@ abstract class DatabaseEngine implements GeometryEngine
     /**
      * {@inheritdoc}
      */
-    public function within(Geometry $a, Geometry $b)
+    public function within(Geometry $a, Geometry $b) : bool
     {
         return $this->queryBoolean('ST_Within', $a, $b);
     }
@@ -368,7 +368,7 @@ abstract class DatabaseEngine implements GeometryEngine
     /**
      * {@inheritdoc}
      */
-    public function overlaps(Geometry $a, Geometry $b)
+    public function overlaps(Geometry $a, Geometry $b) : bool
     {
         return $this->queryBoolean('ST_Overlaps', $a, $b);
     }
@@ -376,7 +376,7 @@ abstract class DatabaseEngine implements GeometryEngine
     /**
      * {@inheritdoc}
      */
-    public function relate(Geometry $a, Geometry $b, $matrix)
+    public function relate(Geometry $a, Geometry $b, string $matrix) : bool
     {
         return $this->queryBoolean('ST_Relate', $a, $b, $matrix);
     }
@@ -384,7 +384,7 @@ abstract class DatabaseEngine implements GeometryEngine
     /**
      * {@inheritdoc}
      */
-    public function locateAlong(Geometry $g, $mValue)
+    public function locateAlong(Geometry $g, float $mValue) : Geometry
     {
         return $this->queryGeometry('ST_LocateAlong', $g, $mValue);
     }
@@ -392,7 +392,7 @@ abstract class DatabaseEngine implements GeometryEngine
     /**
      * {@inheritdoc}
      */
-    public function locateBetween(Geometry $g, $mStart, $mEnd)
+    public function locateBetween(Geometry $g, float $mStart, float $mEnd) : Geometry
     {
         return $this->queryGeometry('ST_LocateBetween', $g, $mStart, $mEnd);
     }
@@ -400,7 +400,7 @@ abstract class DatabaseEngine implements GeometryEngine
     /**
      * {@inheritdoc}
      */
-    public function distance(Geometry $a, Geometry $b)
+    public function distance(Geometry $a, Geometry $b) : float
     {
         return $this->queryFloat('ST_Distance', $a, $b);
     }
@@ -408,7 +408,7 @@ abstract class DatabaseEngine implements GeometryEngine
     /**
      * {@inheritdoc}
      */
-    public function buffer(Geometry $g, $distance)
+    public function buffer(Geometry $g, float $distance) : Geometry
     {
         return $this->queryGeometry('ST_Buffer', $g, $distance);
     }
@@ -416,7 +416,7 @@ abstract class DatabaseEngine implements GeometryEngine
     /**
      * {@inheritdoc}
      */
-    public function convexHull(Geometry $g)
+    public function convexHull(Geometry $g) : Geometry
     {
         return $this->queryGeometry('ST_ConvexHull', $g);
     }
@@ -424,7 +424,7 @@ abstract class DatabaseEngine implements GeometryEngine
     /**
      * {@inheritdoc}
      */
-    public function symDifference(Geometry $a, Geometry $b)
+    public function symDifference(Geometry $a, Geometry $b) : Geometry
     {
         return $this->queryGeometry('ST_SymDifference', $a, $b);
     }
@@ -432,7 +432,7 @@ abstract class DatabaseEngine implements GeometryEngine
     /**
      * {@inheritdoc}
      */
-    public function snapToGrid(Geometry $g, $size)
+    public function snapToGrid(Geometry $g, float $size) : Geometry
     {
         return $this->queryGeometry('ST_SnapToGrid', $g, $size);
     }
@@ -440,7 +440,7 @@ abstract class DatabaseEngine implements GeometryEngine
     /**
      * {@inheritdoc}
      */
-    public function simplify(Geometry $g, $tolerance)
+    public function simplify(Geometry $g, float $tolerance) : Geometry
     {
         return $this->queryGeometry('ST_Simplify', $g, $tolerance);
     }
@@ -448,7 +448,7 @@ abstract class DatabaseEngine implements GeometryEngine
     /**
      * {@inheritdoc}
      */
-    public function maxDistance(Geometry $a, Geometry $b)
+    public function maxDistance(Geometry $a, Geometry $b) : float
     {
         return $this->queryFloat('ST_MaxDistance', $a, $b);
     }
@@ -456,7 +456,7 @@ abstract class DatabaseEngine implements GeometryEngine
     /**
      * {@inheritdoc}
      */
-    public function boundingPolygons(Geometry $g)
+    public function boundingPolygons(Geometry $g) : Geometry
     {
         throw GeometryEngineException::unimplementedMethod(__METHOD__);
     }

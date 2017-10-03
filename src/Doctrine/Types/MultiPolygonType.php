@@ -20,7 +20,7 @@ class MultiPolygonType extends GeometryType
     /**
      * {@inheritdoc}
      */
-    protected function getProxyClassName()
+    protected function getProxyClassName() : string
     {
         return MultiPolygonProxy::class;
     }
