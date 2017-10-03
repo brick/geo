@@ -38,7 +38,7 @@ class GeometryEngineException extends GeometryException
      */
     public static function operationNotSupportedByEngine(\Exception $e) : GeometryEngineException
     {
-        return new self('This operation is not supported by the geometry engine.', $e->getCode(), $e);
+        return new self('This operation is not supported by the geometry engine.', 0, $e);
     }
 
     /**
