@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Brick\Geo\Doctrine\Types;
 
 use Brick\Geo\Proxy\MultiLineStringProxy;

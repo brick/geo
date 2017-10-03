@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Brick\Geo\Exception;
 
 use Brick\Geo\Geometry;

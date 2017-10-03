@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Brick\Geo\Proxy;
 
 use Brick\Geo\Exception\GeometryIOException;

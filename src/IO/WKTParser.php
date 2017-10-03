@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Brick\Geo\IO;
 
 use Brick\Geo\Exception\GeometryIOException;
@@ -187,11 +189,11 @@ class WKTParser
     }
 
     /**
-     * @return string
+     * @return float
      *
      * @throws GeometryIOException
      */
-    public function getNextNumber() : string
+    public function getNextNumber() : float
     {
         $token = $this->nextToken();
 
@@ -202,7 +204,7 @@ class WKTParser
             throw new GeometryIOException("Expected number but encountered '" . $token[1] . "'");
         }
 
-        return $token[1];
+        return (float) $token[1];
     }
 
     /**

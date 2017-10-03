@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Brick\Geo\IO;
 
 use Brick\Geo\CircularString;
