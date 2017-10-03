@@ -26,13 +26,6 @@ use Brick\Geo\Triangle;
 abstract class AbstractWKTWriter
 {
     /**
-     * Whether to pretty-print (add extra spaces for readability) the WKT.
-     *
-     * @var bool
-     */
-    private $prettyPrint = true;
-
-    /**
      * A space if prettyPrint is true, an empty string otherwise.
      *
      * @var string
@@ -46,7 +39,6 @@ abstract class AbstractWKTWriter
      */
     public function setPrettyPrint(bool $prettyPrint) : void
     {
-        $this->prettyPrint = $prettyPrint;
         $this->prettyPrintSpace = $prettyPrint ? ' ' : '';
     }
 
