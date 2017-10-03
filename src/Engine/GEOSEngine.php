@@ -47,7 +47,7 @@ class GEOSEngine implements GeometryEngine
      *
      * These methods are available since GEOS 3.5.0.
      *
-     * @var boolean
+     * @var bool
      */
     private $hasBinaryReadWrite;
 

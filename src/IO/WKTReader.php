@@ -11,8 +11,8 @@ use Brick\Geo\Geometry;
 class WKTReader extends AbstractWKTReader
 {
     /**
-     * @param string  $wkt  The WKT to read.
-     * @param integer $srid The optional SRID of the geometry.
+     * @param string $wkt  The WKT to read.
+     * @param int    $srid The optional SRID of the geometry.
      *
      * @return Geometry
      *

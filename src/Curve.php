@@ -64,7 +64,7 @@ abstract class Curve extends Geometry
      *
      * @noproxy
      *
-     * @return boolean
+     * @return bool
      *
      * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
@@ -83,7 +83,7 @@ abstract class Curve extends Geometry
      *
      * @noproxy
      *
-     * @return boolean
+     * @return bool
      *
      * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */

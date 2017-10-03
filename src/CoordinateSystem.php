@@ -12,30 +12,30 @@ class CoordinateSystem
     /**
      * Whether this coordinate system has Z-coordinates.
      *
-     * @var boolean
+     * @var bool
      */
     private $hasZ;
 
     /**
      * Whether this coordinate system has M-coordinates.
      *
-     * @var boolean
+     * @var bool
      */
     private $hasM;
 
     /**
      * The Spatial Reference System Identifier of this coordinate system.
      *
-     * @var integer
+     * @var int
      */
     private $srid;
 
     /**
      * Class constructor.
      *
-     * @param boolean $hasZ Whether the coordinate system has Z-coordinates.
-     * @param boolean $hasM Whether the coordinate system has M-coordinates.
-     * @param integer $srid The optional Spatial Reference ID of the coordinate system.
+     * @param bool $hasZ Whether the coordinate system has Z-coordinates.
+     * @param bool $hasM Whether the coordinate system has M-coordinates.
+     * @param int  $srid The optional Spatial Reference ID of the coordinate system.
      */
     public function __construct($hasZ, $hasM, $srid = 0)
     {
@@ -47,7 +47,7 @@ class CoordinateSystem
     /**
      * Returns a CoordinateSystem with X and Y coordinates, and an optional SRID.
      *
-     * @param integer $srid The optional Spatial Reference ID.
+     * @param int $srid The optional Spatial Reference ID.
      *
      * @return CoordinateSystem
      */
@@ -59,7 +59,7 @@ class CoordinateSystem
     /**
      * Returns a CoordinateSystem with X, Y and Z coordinates, and an optional SRID.
      *
-     * @param integer $srid The optional Spatial Reference ID.
+     * @param int $srid The optional Spatial Reference ID.
      *
      * @return CoordinateSystem
      */
@@ -71,7 +71,7 @@ class CoordinateSystem
     /**
      * Returns a CoordinateSystem with X, Y and M coordinates, and an optional SRID.
      *
-     * @param integer $srid The optional Spatial Reference ID.
+     * @param int $srid The optional Spatial Reference ID.
      *
      * @return CoordinateSystem
      */
@@ -84,7 +84,7 @@ class CoordinateSystem
     /**
      * Returns a CoordinateSystem with X, Y, Z and M coordinates, and an optional SRID.
      *
-     * @param integer $srid The optional Spatial Reference ID.
+     * @param int $srid The optional Spatial Reference ID.
      *
      * @return CoordinateSystem
      */
@@ -96,7 +96,7 @@ class CoordinateSystem
     /**
      * Returns whether this coordinate system has Z-coordinates.
      *
-     * @return boolean
+     * @return bool
      */
     public function hasZ()
     {
@@ -106,7 +106,7 @@ class CoordinateSystem
     /**
      * Returns whether this coordinate system has M-coordinates.
      *
-     * @return boolean
+     * @return bool
      */
     public function hasM()
     {
@@ -116,7 +116,7 @@ class CoordinateSystem
     /**
      * Returns the Spatial Reference System Identifier of this coordinate system.
      *
-     * @return integer
+     * @return int
      */
     public function SRID()
     {
@@ -148,7 +148,7 @@ class CoordinateSystem
      *
      * The coordinate dimension is the total number of coordinates in the coordinate system.
      *
-     * @return integer 2 for (X,Y), 3 for (X,Y,Z) and (X,Y,M), 4 for (X,Y,Z,M).
+     * @return int 2 for (X,Y), 3 for (X,Y,Z) and (X,Y,M), 4 for (X,Y,Z,M).
      */
     public function coordinateDimension()
     {
@@ -170,7 +170,7 @@ class CoordinateSystem
      *
      * The spatial dimension is 3 if the coordinate system has a Z coordinate, 2 otherwise.
      *
-     * @return integer 2 for (X,Y) and (X,Y,M), 3 for (X,Y,Z) and (X,Y,Z,M).
+     * @return int 2 for (X,Y) and (X,Y,M), 3 for (X,Y,Z) and (X,Y,Z,M).
      */
     public function spatialDimension()
     {

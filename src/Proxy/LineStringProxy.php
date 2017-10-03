@@ -23,14 +23,14 @@ class LineStringProxy extends LineString implements ProxyInterface
     /**
      * `true` if WKB, `false` if WKT.
      *
-     * @var boolean
+     * @var bool
      */
     private $proxyIsBinary;
 
     /**
      * The SRID of the underlying geometry.
      *
-     * @var integer
+     * @var int
      */
     private $proxySRID;
 
@@ -44,9 +44,9 @@ class LineStringProxy extends LineString implements ProxyInterface
     /**
      * Class constructor.
      *
-     * @param string  $data     The WKT or WKB data.
-     * @param boolean $isBinary Whether the data is binary (true) or text (false).
-     * @param integer $srid     The SRID of the geometry.
+     * @param string $data     The WKT or WKB data.
+     * @param bool   $isBinary Whether the data is binary (true) or text (false).
+     * @param int    $srid     The SRID of the geometry.
      */
     public function __construct($data, $isBinary, $srid = 0)
     {

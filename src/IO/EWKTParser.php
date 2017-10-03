@@ -26,7 +26,7 @@ class EWKTParser extends WKTParser
     }
 
     /**
-     * @return integer
+     * @return int
      */
     public function getOptionalSRID()
     {

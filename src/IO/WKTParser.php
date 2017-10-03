@@ -163,7 +163,7 @@ class WKTParser
     /**
      * Returns whether the next token is an opener or a word.
      *
-     * @return boolean True if the next token is an opener, false if it is a word.
+     * @return bool True if the next token is an opener, false if it is a word.
      *
      * @throws GeometryIOException If the next token is not an opener or a word, or if there is no next token.
      */
@@ -225,7 +225,7 @@ class WKTParser
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isEndOfStream()
     {

@@ -47,7 +47,7 @@ abstract class Geometry implements \Countable, \IteratorAggregate
     /**
      * Whether this geometry is empty.
      *
-     * @var boolean
+     * @var bool
      */
     protected $isEmpty;
 
@@ -55,7 +55,7 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      * Class constructor.
      *
      * @param CoordinateSystem $coordinateSystem The coordinate system of this geometry.
-     * @param boolean          $isEmpty          Whether this geometry is empty. Must be validated as a boolean.
+     * @param bool             $isEmpty          Whether this geometry is empty. Must be validated as a boolean.
      */
     protected function __construct(CoordinateSystem $coordinateSystem, $isEmpty)
     {
@@ -69,8 +69,8 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      * If the resulting geometry is valid but is not an instance of the class this method is called on,
      * for example passing a Polygon WKT to Point::fromText(), an exception is thrown.
      *
-     * @param string  $wkt  The Well-Known Text representation.
-     * @param integer $srid The optional SRID to use.
+     * @param string $wkt  The Well-Known Text representation.
+     * @param int    $srid The optional SRID to use.
      *
      * @return static
      *
@@ -102,8 +102,8 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      * If the resulting geometry is valid but is not an instance of the class this method is called on,
      * for example passing a Polygon WKB to Point::fromBinary(), an exception is thrown.
      *
-     * @param string  $wkb  The Well-Known Binary representation.
-     * @param integer $srid The optional SRID to use.
+     * @param string $wkb  The Well-Known Binary representation.
+     * @param int    $srid The optional SRID to use.
      *
      * @return static
      *
@@ -135,7 +135,7 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      * This dimension must be less than or equal to the coordinate dimension.
      * In non-homogeneous collections, this will return the largest topological dimension of the contained objects.
      *
-     * @return integer
+     * @return int
      */
     abstract public function dimension();
 
@@ -147,7 +147,7 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      * The coordinate dimension can be 2 (for x and y), 3 (with z or m added), or 4 (with both z and m added).
      * The ordinates x, y and z are spatial, and the ordinate m is a measure.
      *
-     * @return integer
+     * @return int
      */
     public function coordinateDimension()
     {
@@ -162,7 +162,7 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      *
      * The spatial dimension is 3 if the coordinate system has a Z coordinate, 2 otherwise.
      *
-     * @return integer
+     * @return int
      */
     public function spatialDimension()
     {
@@ -177,7 +177,7 @@ abstract class Geometry implements \Countable, \IteratorAggregate
     abstract public function geometryType();
 
     /**
-     * @return integer
+     * @return int
      */
     abstract public function geometryTypeBinary();
 
@@ -186,7 +186,7 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      *
      * @noproxy
      *
-     * @return integer The SRID, zero if not set.
+     * @return int The SRID, zero if not set.
      */
     public function SRID()
     {
@@ -255,7 +255,7 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      *
      * If true, then this geometry represents the empty point set for the coordinate space.
      *
-     * @return boolean
+     * @return bool
      */
     public function isEmpty()
     {
@@ -269,7 +269,7 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      *
      * @noproxy
      *
-     * @return boolean
+     * @return bool
      *
      * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
@@ -286,7 +286,7 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      *
      * @noproxy
      *
-     * @return boolean
+     * @return bool
      *
      * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
@@ -298,7 +298,7 @@ abstract class Geometry implements \Countable, \IteratorAggregate
     /**
      * Returns whether this geometry has z coordinate values.
      *
-     * @return boolean
+     * @return bool
      */
     public function is3D()
     {
@@ -308,7 +308,7 @@ abstract class Geometry implements \Countable, \IteratorAggregate
     /**
      * Returns whether this geometry has m coordinate values.
      *
-     * @return boolean
+     * @return bool
      */
     public function isMeasured()
     {
@@ -339,7 +339,7 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      *
      * @param Geometry $geometry
      *
-     * @return boolean
+     * @return bool
      *
      * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
@@ -358,7 +358,7 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      *
      * @param Geometry $geometry
      *
-     * @return boolean
+     * @return bool
      *
      * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
@@ -377,7 +377,7 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      *
      * @param Geometry $geometry
      *
-     * @return boolean
+     * @return bool
      *
      * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
@@ -395,7 +395,7 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      *
      * @param Geometry $geometry
      *
-     * @return boolean
+     * @return bool
      *
      * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
@@ -413,7 +413,7 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      *
      * @param Geometry $geometry
      *
-     * @return boolean
+     * @return bool
      *
      * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
@@ -431,7 +431,7 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      *
      * @param Geometry $geometry
      *
-     * @return boolean
+     * @return bool
      *
      * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
@@ -449,7 +449,7 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      *
      * @param Geometry $geometry
      *
-     * @return boolean
+     * @return bool
      *
      * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
@@ -467,7 +467,7 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      *
      * @param Geometry $geometry
      *
-     * @return boolean
+     * @return bool
      *
      * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
@@ -491,7 +491,7 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      * @param Geometry $geometry
      * @param string   $matrix
      *
-     * @return boolean
+     * @return bool
      *
      * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */

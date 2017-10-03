@@ -107,7 +107,7 @@ interface GeometryEngine
      *
      * @param Geometry $g The geometry.
      *
-     * @return boolean Whether the geometry is valid.
+     * @return bool Whether the geometry is valid.
      *
      * @throws GeometryEngineException If the operation is not supported by the engine.
      */
@@ -118,7 +118,7 @@ interface GeometryEngine
      *
      * @param Geometry $g The geometry.
      *
-     * @return boolean Whether the geometry is closed.
+     * @return bool Whether the geometry is closed.
      *
      * @throws GeometryEngineException If the operation is not supported by the engine.
      */
@@ -129,7 +129,7 @@ interface GeometryEngine
      *
      * @param Geometry $g The geometry.
      *
-     * @return boolean Whether the geometry is simple.
+     * @return bool Whether the geometry is simple.
      *
      * @throws GeometryEngineException If the operation is not supported by the engine.
      */
@@ -141,7 +141,7 @@ interface GeometryEngine
      * @param Geometry $a The first geometry.
      * @param Geometry $b The second geometry.
      *
-     * @return boolean Whether the geometries are spatially equal.
+     * @return bool Whether the geometries are spatially equal.
      *
      * @throws GeometryEngineException If the operation is not supported by the engine.
      */
@@ -155,7 +155,7 @@ interface GeometryEngine
      * @param Geometry $a The first geometry.
      * @param Geometry $b The second geometry.
      *
-     * @return boolean Whether the geometries are disjoint.
+     * @return bool Whether the geometries are disjoint.
      *
      * @throws GeometryEngineException If the operation is not supported by the engine.
      */
@@ -169,7 +169,7 @@ interface GeometryEngine
      * @param Geometry $a The first geometry.
      * @param Geometry $b The second geometry.
      *
-     * @return boolean Whether the geometries intersect.
+     * @return bool Whether the geometries intersect.
      *
      * @throws GeometryEngineException If the operation is not supported by the engine.
      */
@@ -181,7 +181,7 @@ interface GeometryEngine
      * @param Geometry $a The first geometry.
      * @param Geometry $b The second geometry.
      *
-     * @return boolean Whether the geometries touch.
+     * @return bool Whether the geometries touch.
      *
      * @throws GeometryEngineException If the operation is not supported by the engine.
      */
@@ -193,7 +193,7 @@ interface GeometryEngine
      * @param Geometry $a The first geometry.
      * @param Geometry $b The second geometry.
      *
-     * @return boolean Whether the geometries cross.
+     * @return bool Whether the geometries cross.
      *
      * @throws GeometryEngineException If the operation is not supported by the engine.
      */
@@ -205,7 +205,7 @@ interface GeometryEngine
      * @param Geometry $a The first geometry.
      * @param Geometry $b The second geometry.
      *
-     * @return boolean Whether the first geometry is within the second.
+     * @return bool Whether the first geometry is within the second.
      *
      * @throws GeometryEngineException If the operation is not supported by the engine.
      */
@@ -220,7 +220,7 @@ interface GeometryEngine
      * @param Geometry $a The first geometry.
      * @param Geometry $b The second geometry.
      *
-     * @return boolean Whether the first geometry contains the second.
+     * @return bool Whether the first geometry contains the second.
      *
      * @throws GeometryEngineException If the operation is not supported by the engine.
      */
@@ -235,7 +235,7 @@ interface GeometryEngine
      * @param Geometry $a The first geometry.
      * @param Geometry $b The second geometry.
      *
-     * @return boolean Whether the geometries overlap.
+     * @return bool Whether the geometries overlap.
      *
      * @throws GeometryEngineException If the operation is not supported by the engine.
      */
@@ -251,7 +251,7 @@ interface GeometryEngine
      * @param Geometry $b      The second geometry.
      * @param string   $matrix The DE-9IM matrix pattern.
      *
-     * @return boolean Whether the geometries relate according to the matrix pattern.
+     * @return bool Whether the geometries relate according to the matrix pattern.
      *
      * @throws GeometryEngineException If the operation is not supported by the engine.
      */

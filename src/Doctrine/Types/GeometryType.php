@@ -24,7 +24,7 @@ class GeometryType extends Type
      *
      * @see http://www.doctrine-project.org/jira/browse/DDC-3319
      *
-     * @var integer
+     * @var int
      */
     public static $srid = 0;
 

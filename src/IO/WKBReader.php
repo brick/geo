@@ -11,8 +11,8 @@ use Brick\Geo\Exception\GeometryIOException;
 class WKBReader extends AbstractWKBReader
 {
     /**
-     * @param string  $wkb  The WKB to read.
-     * @param integer $srid The optional SRID of the geometry.
+     * @param string $wkb  The WKB to read.
+     * @param int    $srid The optional SRID of the geometry.
      *
      * @return Geometry
      *

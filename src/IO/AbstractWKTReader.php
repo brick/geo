@@ -26,7 +26,7 @@ abstract class AbstractWKTReader
 {
     /**
      * @param WKTParser $parser
-     * @param integer   $srid
+     * @param int       $srid
      *
      * @return Geometry
      *

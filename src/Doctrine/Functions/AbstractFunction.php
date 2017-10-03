@@ -23,7 +23,7 @@ abstract class AbstractFunction extends FunctionNode
     abstract protected function getSqlFunctionName();
 
     /**
-     * @return integer
+     * @return int
      */
     abstract protected function getParameterCount();
 

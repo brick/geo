@@ -15,22 +15,22 @@ class WKBBuffer
     private $wkb;
 
     /**
-     * @var integer
+     * @var int
      */
     private $length;
 
     /**
-     * @var integer
+     * @var int
      */
     private $position = 0;
 
     /**
-     * @var integer
+     * @var int
      */
     private $machineByteOrder;
 
     /**
-     * @var boolean
+     * @var bool
      */
     private $invert = false;
 
@@ -49,8 +49,8 @@ class WKBBuffer
     /**
      * Reads words from the buffer.
      *
-     * @param integer $words      The number of words to read.
-     * @param integer $wordLength The word length in bytes.
+     * @param int $words      The number of words to read.
+     * @param int $wordLength The word length in bytes.
      *
      * @return string
      *
@@ -86,7 +86,7 @@ class WKBBuffer
     /**
      * Reads an unsigned char (8 bit) integer from the buffer.
      *
-     * @return integer
+     * @return int
      */
     private function readUnsignedChar()
     {
@@ -96,7 +96,7 @@ class WKBBuffer
     /**
      * Reads an unsigned long (32 bit) integer from the buffer.
      *
-     * @return integer
+     * @return int
      */
     public function readUnsignedLong()
     {
@@ -106,7 +106,7 @@ class WKBBuffer
     /**
      * Reads double-precision floating point numbers from the buffer.
      *
-     * @param integer $count The number of doubles to read.
+     * @param int $count The number of doubles to read.
      *
      * @return float[] A 1-based array containing the numbers.
      */
@@ -132,7 +132,7 @@ class WKBBuffer
     }
 
     /**
-     * @param integer $bytes
+     * @param int $bytes
      *
      * @return void
      */
@@ -144,7 +144,7 @@ class WKBBuffer
     /**
      * Checks whether the pointer is at the end of the buffer.
      *
-     * @return boolean
+     * @return bool
      */
     public function isEndOfStream()
     {

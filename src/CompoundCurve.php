@@ -108,7 +108,7 @@ class CompoundCurve extends Curve
     /**
      * Returns the number of Curves in this CompoundCurve.
      *
-     * @return integer
+     * @return int
      */
     public function numCurves()
     {
@@ -118,7 +118,7 @@ class CompoundCurve extends Curve
     /**
      * Returns the specified Curve N in this CompoundCurve.
      *
-     * @param integer $n The curve number, 1-based.
+     * @param int $n The curve number, 1-based.
      *
      * @return Curve
      *

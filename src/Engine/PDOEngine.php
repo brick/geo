@@ -27,8 +27,8 @@ class PDOEngine extends DatabaseEngine
     /**
      * Class constructor.
      *
-     * @param \PDO    $pdo
-     * @param boolean $useProxy
+     * @param \PDO $pdo
+     * @param bool $useProxy
      */
     public function __construct(\PDO $pdo, $useProxy = true)
     {

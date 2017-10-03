@@ -99,7 +99,7 @@ class CircularString extends Curve
     /**
      * Returns the number of Points in this CircularString.
      *
-     * @return integer
+     * @return int
      */
     public function numPoints()
     {
@@ -109,7 +109,7 @@ class CircularString extends Curve
     /**
      * Returns the specified Point N in this CircularString.
      *
-     * @param integer $n The point number, 1-based.
+     * @param int $n The point number, 1-based.
      *
      * @return Point
      *

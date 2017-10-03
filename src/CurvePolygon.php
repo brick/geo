@@ -83,7 +83,7 @@ class CurvePolygon extends Surface
     /**
      * Returns the number of interior rings in this CurvePolygon.
      *
-     * @return integer
+     * @return int
      */
     public function numInteriorRings()
     {
@@ -97,7 +97,7 @@ class CurvePolygon extends Surface
     /**
      * Returns the specified interior ring N in this CurvePolygon.
      *
-     * @param integer $n The ring number, 1-based.
+     * @param int $n The ring number, 1-based.
      *
      * @return Curve
      *

@@ -94,7 +94,7 @@ class GeometryCollection extends Geometry
     /**
      * Returns the number of geometries in this GeometryCollection.
      *
-     * @return integer
+     * @return int
      */
     public function numGeometries()
     {
@@ -104,7 +104,7 @@ class GeometryCollection extends Geometry
     /**
      * Returns the specified geometry N in this GeometryCollection.
      *
-     * @param integer $n The geometry number, 1-based.
+     * @param int $n The geometry number, 1-based.
      *
      * @return Geometry
      *

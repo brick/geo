@@ -26,10 +26,10 @@ abstract class AbstractWKBReader
 {
     /**
      * @param WKBBuffer $buffer       The WKB buffer.
-     * @param integer   $geometryType A variable to store the geometry type.
-     * @param boolean   $hasZ         A variable to store whether the geometry has Z coordinates.
-     * @param boolean   $hasM         A variable to store whether the geometry has M coordinates.
-     * @param integer   $srid         A variable to store the SRID.
+     * @param int       $geometryType A variable to store the geometry type.
+     * @param bool      $hasZ         A variable to store whether the geometry has Z coordinates.
+     * @param bool      $hasM         A variable to store whether the geometry has M coordinates.
+     * @param int       $srid         A variable to store the SRID.
      *
      * @return void
      *
@@ -39,7 +39,7 @@ abstract class AbstractWKBReader
 
     /**
      * @param WKBBuffer $buffer
-     * @param integer   $srid
+     * @param int       $srid
      *
      * @return Geometry
      *

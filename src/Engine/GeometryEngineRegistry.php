@@ -17,7 +17,7 @@ final class GeometryEngineRegistry
     /**
      * Returns whether a geometry engine is set.
      *
-     * @return boolean
+     * @return bool
      */
     public static function has()
     {

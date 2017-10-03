@@ -14,16 +14,16 @@ use Brick\Geo\Proxy;
 abstract class DatabaseEngine implements GeometryEngine
 {
     /**
-     * @var boolean
+     * @var bool
      */
     protected $useProxy;
 
     /**
      * Builds a SQL query for a GIS function.
      *
-     * @param string  $function        The SQL GIS function to execute.
-     * @param array   $parameters      The Geometry objects or scalar values to pass as parameters.
-     * @param boolean $returnsGeometry Whether the GIS function returns a Geometry.
+     * @param string $function        The SQL GIS function to execute.
+     * @param array  $parameters      The Geometry objects or scalar values to pass as parameters.
+     * @param bool   $returnsGeometry Whether the GIS function returns a Geometry.
      *
      * @return string
      */
@@ -73,9 +73,9 @@ abstract class DatabaseEngine implements GeometryEngine
     /**
      * Builds and executes a SQL query for a GIS function.
      *
-     * @param string  $function        The SQL GIS function to execute.
-     * @param array   $parameters      The Geometry objects or scalar values to pass as parameters.
-     * @param boolean $returnsGeometry Whether the GIS function returns a Geometry.
+     * @param string $function        The SQL GIS function to execute.
+     * @param array  $parameters      The Geometry objects or scalar values to pass as parameters.
+     * @param bool   $returnsGeometry Whether the GIS function returns a Geometry.
      *
      * @return array A numeric result array.
      *
@@ -95,7 +95,7 @@ abstract class DatabaseEngine implements GeometryEngine
      * @param string   $function   The SQL GIS function to execute.
      * @param mixed ...$parameters The Geometry objects or scalar values to pass as parameters.
      *
-     * @return boolean
+     * @return bool
      *
      * @throws GeometryEngineException
      */
@@ -107,7 +107,7 @@ abstract class DatabaseEngine implements GeometryEngine
             throw GeometryEngineException::operationYieldedNoResult();
         }
 
-        return (boolean) $result;
+        return (bool) $result;
     }
 
     /**

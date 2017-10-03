@@ -29,7 +29,7 @@ class SQLite3Engine extends DatabaseEngine
 
     /**
      * @param \SQLite3 $sqlite3
-     * @param boolean  $useProxy
+     * @param bool     $useProxy
      */
     public function __construct(\SQLite3 $sqlite3, $useProxy = true)
     {

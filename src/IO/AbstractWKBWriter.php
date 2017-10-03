@@ -22,12 +22,12 @@ abstract class AbstractWKBWriter
     /**
      * The output byte order, BIG_ENDIAN or LITTLE_ENDIAN.
      *
-     * @var integer
+     * @var int
      */
     private $byteOrder;
 
     /**
-     * @var integer
+     * @var int
      */
     private $machineByteOrder;
 
@@ -40,7 +40,7 @@ abstract class AbstractWKBWriter
     }
 
     /**
-     * @param integer $byteOrder The byte order, one of the BIG_ENDIAN or LITTLE_ENDIAN constants.
+     * @param int $byteOrder The byte order, one of the BIG_ENDIAN or LITTLE_ENDIAN constants.
      *
      * @return void
      *
@@ -66,7 +66,7 @@ abstract class AbstractWKBWriter
 
     /**
      * @param Geometry $geometry The geometry export as WKB write.
-     * @param boolean  $outer    False if the geometry is nested in another geometry, true otherwise.
+     * @param bool     $outer    False if the geometry is nested in another geometry, true otherwise.
      *
      * @return string The WKB representation of the given geometry.
      *
@@ -118,7 +118,7 @@ abstract class AbstractWKBWriter
     }
 
     /**
-     * @param integer $uint
+     * @param int $uint
      *
      * @return string
      */
@@ -185,8 +185,8 @@ abstract class AbstractWKBWriter
     }
 
     /**
-     * @param Point   $point
-     * @param boolean $outer
+     * @param Point $point
+     * @param bool  $outer
      *
      * @return string
      */
@@ -200,8 +200,8 @@ abstract class AbstractWKBWriter
     }
 
     /**
-     * @param Curve   $curve
-     * @param boolean $outer
+     * @param Curve $curve
+     * @param bool  $outer
      *
      * @return string
      */
@@ -216,7 +216,7 @@ abstract class AbstractWKBWriter
 
     /**
      * @param Polygon $polygon
-     * @param boolean $outer
+     * @param bool    $outer
      *
      * @return string
      */
@@ -235,7 +235,7 @@ abstract class AbstractWKBWriter
 
     /**
      * @param Geometry $collection
-     * @param boolean  $outer
+     * @param bool     $outer
      *
      * @return string
      */
@@ -254,7 +254,7 @@ abstract class AbstractWKBWriter
 
     /**
      * @param Geometry $geometry
-     * @param boolean  $outer
+     * @param bool     $outer
      *
      * @return string
      */

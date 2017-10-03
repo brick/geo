@@ -12,7 +12,7 @@ interface ProxyInterface
     /**
      * Returns whether the underlying Geometry is loaded.
      *
-     * @return boolean
+     * @return bool
      */
     public function isLoaded();
 

@@ -26,7 +26,7 @@ abstract class AbstractWKTWriter
     /**
      * Whether to pretty-print (add extra spaces for readability) the WKT.
      *
-     * @var boolean
+     * @var bool
      */
     private $prettyPrint = true;
 
@@ -38,7 +38,7 @@ abstract class AbstractWKTWriter
     protected $prettyPrintSpace = ' ';
 
     /**
-     * @param boolean $prettyPrint
+     * @param bool $prettyPrint
      *
      * @return void
      */

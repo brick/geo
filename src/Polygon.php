@@ -103,7 +103,7 @@ class Polygon extends Surface
     /**
      * Returns the number of interior rings in this Polygon.
      *
-     * @return integer
+     * @return int
      */
     public function numInteriorRings()
     {
@@ -117,7 +117,7 @@ class Polygon extends Surface
     /**
      * Returns the specified interior ring N in this Polygon.
      *
-     * @param integer $n The ring number, 1-based.
+     * @param int $n The ring number, 1-based.
      *
      * @return LineString
      *

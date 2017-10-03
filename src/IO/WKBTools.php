@@ -25,7 +25,7 @@ abstract class WKBTools
     }
 
     /**
-     * @param integer $byteOrder
+     * @param int $byteOrder
      *
      * @return void
      *
@@ -41,7 +41,7 @@ abstract class WKBTools
     /**
      * Detects the machine byte order (big endian or little endian).
      *
-     * @return integer
+     * @return int
      *
      * @throws GeometryIOException
      */

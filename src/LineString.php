@@ -136,7 +136,7 @@ class LineString extends Curve
     /**
      * Returns the number of Points in this LineString.
      *
-     * @return integer
+     * @return int
      */
     public function numPoints()
     {
@@ -146,7 +146,7 @@ class LineString extends Curve
     /**
      * Returns the specified Point N in this LineString.
      *
-     * @param integer $n The point number, 1-based.
+     * @param int $n The point number, 1-based.
      *
      * @return Point
      *

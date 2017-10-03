@@ -83,9 +83,9 @@ class Point extends Geometry
     /**
      * Creates a point with X and Y coordinates.
      *
-     * @param float   $x    The X coordinate.
-     * @param float   $y    The Y coordinate.
-     * @param integer $srid An optional SRID.
+     * @param float $x    The X coordinate.
+     * @param float $y    The Y coordinate.
+     * @param int   $srid An optional SRID.
      *
      * @return Point
      */
@@ -97,10 +97,10 @@ class Point extends Geometry
     /**
      * Creates a point with X, Y and Z coordinates.
      *
-     * @param float   $x    The X coordinate.
-     * @param float   $y    The Y coordinate.
-     * @param float   $z    The Z coordinate.
-     * @param integer $srid An optional SRID.
+     * @param float $x    The X coordinate.
+     * @param float $y    The Y coordinate.
+     * @param float $z    The Z coordinate.
+     * @param int   $srid An optional SRID.
      *
      * @return Point
      */
@@ -112,10 +112,10 @@ class Point extends Geometry
     /**
      * Creates a point with X, Y and M coordinates.
      *
-     * @param float   $x    The X coordinate.
-     * @param float   $y    The Y coordinate.
-     * @param float   $m    The M coordinate.
-     * @param integer $srid An optional SRID.
+     * @param float $x    The X coordinate.
+     * @param float $y    The Y coordinate.
+     * @param float $m    The M coordinate.
+     * @param int   $srid An optional SRID.
      *
      * @return Point
      */
@@ -127,11 +127,11 @@ class Point extends Geometry
     /**
      * Creates a point with X, Y, Z and M coordinates.
      *
-     * @param float   $x    The X coordinate.
-     * @param float   $y    The Y coordinate.
-     * @param float   $z    The Z coordinate.
-     * @param float   $m    The M coordinate.
-     * @param integer $srid An optional SRID.
+     * @param float $x    The X coordinate.
+     * @param float $y    The Y coordinate.
+     * @param float $z    The Z coordinate.
+     * @param float $m    The M coordinate.
+     * @param int   $srid An optional SRID.
      *
      * @return Point
      */
@@ -143,7 +143,7 @@ class Point extends Geometry
     /**
      * Creates an empty Point with XY dimensionality.
      *
-     * @param integer $srid An optional SRID.
+     * @param int $srid An optional SRID.
      *
      * @return Point
      */
@@ -155,7 +155,7 @@ class Point extends Geometry
     /**
      * Creates an empty Point with XYZ dimensionality.
      *
-     * @param integer $srid An optional SRID.
+     * @param int $srid An optional SRID.
      *
      * @return Point
      */
@@ -167,7 +167,7 @@ class Point extends Geometry
     /**
      * Creates an empty Point with XYM dimensionality.
      *
-     * @param integer $srid An optional SRID.
+     * @param int $srid An optional SRID.
      *
      * @return Point
      */
@@ -179,7 +179,7 @@ class Point extends Geometry
     /**
      * Creates an empty Point with XYZM dimensionality.
      *
-     * @param integer $srid An optional SRID.
+     * @param int $srid An optional SRID.
      *
      * @return Point
      */

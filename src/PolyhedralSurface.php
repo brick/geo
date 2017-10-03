@@ -77,7 +77,7 @@ class PolyhedralSurface extends Surface
     }
 
     /**
-     * @return integer
+     * @return int
      */
     public function numPatches()
     {
@@ -87,7 +87,7 @@ class PolyhedralSurface extends Surface
     /**
      * Returns the specified patch N in this PolyhedralSurface.
      *
-     * @param integer $n The patch number, 1-based.
+     * @param int $n The patch number, 1-based.
      *
      * @return Polygon
      *
@@ -133,7 +133,7 @@ class PolyhedralSurface extends Surface
     /**
      * @noproxy
      *
-     * @return boolean
+     * @return bool
      *
      * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */

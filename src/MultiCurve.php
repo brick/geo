@@ -30,7 +30,7 @@ abstract class MultiCurve extends GeometryCollection
      *
      * @noproxy
      *
-     * @return integer
+     * @return int
      *
      * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
