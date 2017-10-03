@@ -156,8 +156,6 @@ class LineString extends Curve
      */
     public function pointN(int $n) : Point
     {
-        $n = (int) $n;
-
         if (! isset($this->points[$n - 1])) {
             throw new NoSuchGeometryException('There is no Point in this LineString at index ' . $n);
         }

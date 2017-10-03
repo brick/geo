@@ -107,8 +107,6 @@ class CurvePolygon extends Surface
      */
     public function interiorRingN(int $n) : Curve
     {
-        $n = (int) $n;
-
         if ($n === 0 || ! isset($this->rings[$n])) {
             throw new NoSuchGeometryException('There is no interior ring in this CurvePolygon at index ' . $n);
         }

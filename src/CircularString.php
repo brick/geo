@@ -117,8 +117,6 @@ class CircularString extends Curve
      */
     public function pointN(int $n) : Point
     {
-        $n = (int) $n;
-
         if (! isset($this->points[$n - 1])) {
             throw new NoSuchGeometryException('There is no Point in this CircularString at index ' . $n);
         }

@@ -97,8 +97,6 @@ class PolyhedralSurface extends Surface
      */
     public function patchN(int $n) : Polygon
     {
-        $n = (int) $n;
-
         if (! isset($this->patches[$n - 1])) {
             throw new NoSuchGeometryException('There is no patch in this PolyhedralSurface at index ' . $n);
         }

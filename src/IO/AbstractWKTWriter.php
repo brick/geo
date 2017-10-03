@@ -46,7 +46,7 @@ abstract class AbstractWKTWriter
      */
     public function setPrettyPrint(bool $prettyPrint) : void
     {
-        $this->prettyPrint = (bool) $prettyPrint;
+        $this->prettyPrint = $prettyPrint;
         $this->prettyPrintSpace = $prettyPrint ? ' ' : '';
     }
 

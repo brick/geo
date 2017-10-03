@@ -114,8 +114,6 @@ class GeometryCollection extends Geometry
      */
     public function geometryN(int $n) : Geometry
     {
-        $n = (int) $n;
-
         if (! isset($this->geometries[$n - 1])) {
             throw new NoSuchGeometryException('There is no Geometry in this GeometryCollection at index ' . $n);
         }
