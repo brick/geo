@@ -103,7 +103,7 @@ abstract class DatabaseEngine implements GeometryEngine
      */
     private function queryBoolean(string $function, ...$parameters) : bool
     {
-        list ($result) = $this->query($function, $parameters, false);
+        [$result] = $this->query($function, $parameters, false);
 
         if ($result === null || $result === -1) { // SQLite3 returns -1 when calling a boolean GIS function on a NULL result.
             throw GeometryEngineException::operationYieldedNoResult();
@@ -124,7 +124,7 @@ abstract class DatabaseEngine implements GeometryEngine
      */
     private function queryFloat(string $function, ...$parameters) : float
     {
-        list ($result) = $this->query($function, $parameters, false);
+        [$result] = $this->query($function, $parameters, false);
 
         if ($result === null) {
             throw GeometryEngineException::operationYieldedNoResult();
@@ -145,7 +145,7 @@ abstract class DatabaseEngine implements GeometryEngine
      */
     private function queryGeometry(string $function, ...$parameters) : Geometry
     {
-        list ($wkt, $wkb, $geometryType, $srid) = $this->query($function, $parameters, true);
+        [$wkt, $wkb, $geometryType, $srid] = $this->query($function, $parameters, true);
 
         $srid = (int) $srid;
 
