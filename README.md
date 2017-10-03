@@ -21,15 +21,14 @@ geometry calculations. Several engines are supported, from native PHP extensions
 Requirements and installation
 -----------------------------
 
-This library requires PHP 5.6 or PHP 7.
-[HHVM](http://hhvm.com/) will be supported as soon as [issue #6954](https://github.com/facebook/hhvm/issues/6954) is fixed.
+This library requires 7.1 or later. for PHP 5.6 and PHP 7.0 support, use version `0.1`.
 
 We recommend installing it with [Composer](https://getcomposer.org/).
 Just define the following requirement in your `composer.json` file:
 
     {
         "require": {
-            "brick/geo": "0.1.*"
+            "brick/geo": "0.2.*"
         }
     }
 
@@ -46,7 +45,7 @@ The current releases are numbered `0.x.y`. When a non-breaking change is introdu
 
 **When a breaking change is introduced, a new `0.x` version cycle is always started.**
 
-It is therefore safe to lock your project to a given release cycle, such as `0.1.*`.
+It is therefore safe to lock your project to a given release cycle, such as `0.2.*`.
 
 If you need to upgrade to a newer release cycle, check the [release history](https://github.com/brick/geo/releases) for a list of changes introduced by each further `0.x.0` version.
 
