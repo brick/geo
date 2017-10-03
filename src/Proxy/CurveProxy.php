@@ -8,13 +8,12 @@ use Brick\Geo\Exception\GeometryIOException;
 use Brick\Geo\Exception\CoordinateSystemException;
 use Brick\Geo\Exception\InvalidGeometryException;
 use Brick\Geo\Exception\UnexpectedGeometryException;
-use Brick\Geo\Curve;
 use Brick\Geo\Geometry;
 
 /**
  * Proxy class for Curve.
  */
-class CurveProxy extends Curve implements ProxyInterface
+class CurveProxy extends \Brick\Geo\Curve implements ProxyInterface
 {
     /**
      * The WKT or WKB data.
@@ -40,7 +39,7 @@ class CurveProxy extends Curve implements ProxyInterface
     /**
      * The underlying geometry, or NULL if not yet loaded.
      *
-     * @var Curve|null
+     * @var \Brick\Geo\Curve|null
      */
     private $proxyGeometry;
 
@@ -71,8 +70,8 @@ class CurveProxy extends Curve implements ProxyInterface
     private function load() : void
     {
         $this->proxyGeometry = $this->proxyIsBinary
-            ? Curve::fromBinary($this->proxyData, $this->proxySRID)
-            : Curve::fromText($this->proxyData, $this->proxySRID);
+            ? \Brick\Geo\Curve::fromBinary($this->proxyData, $this->proxySRID)
+            : \Brick\Geo\Curve::fromText($this->proxyData, $this->proxySRID);
     }
 
     /**

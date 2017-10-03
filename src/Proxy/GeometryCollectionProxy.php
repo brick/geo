@@ -8,13 +8,12 @@ use Brick\Geo\Exception\GeometryIOException;
 use Brick\Geo\Exception\CoordinateSystemException;
 use Brick\Geo\Exception\InvalidGeometryException;
 use Brick\Geo\Exception\UnexpectedGeometryException;
-use Brick\Geo\GeometryCollection;
 use Brick\Geo\Geometry;
 
 /**
  * Proxy class for GeometryCollection.
  */
-class GeometryCollectionProxy extends GeometryCollection implements ProxyInterface
+class GeometryCollectionProxy extends \Brick\Geo\GeometryCollection implements ProxyInterface
 {
     /**
      * The WKT or WKB data.
@@ -40,7 +39,7 @@ class GeometryCollectionProxy extends GeometryCollection implements ProxyInterfa
     /**
      * The underlying geometry, or NULL if not yet loaded.
      *
-     * @var GeometryCollection|null
+     * @var \Brick\Geo\GeometryCollection|null
      */
     private $proxyGeometry;
 
@@ -71,8 +70,8 @@ class GeometryCollectionProxy extends GeometryCollection implements ProxyInterfa
     private function load() : void
     {
         $this->proxyGeometry = $this->proxyIsBinary
-            ? GeometryCollection::fromBinary($this->proxyData, $this->proxySRID)
-            : GeometryCollection::fromText($this->proxyData, $this->proxySRID);
+            ? \Brick\Geo\GeometryCollection::fromBinary($this->proxyData, $this->proxySRID)
+            : \Brick\Geo\GeometryCollection::fromText($this->proxyData, $this->proxySRID);
     }
 
     /**

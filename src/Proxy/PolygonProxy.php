@@ -8,13 +8,12 @@ use Brick\Geo\Exception\GeometryIOException;
 use Brick\Geo\Exception\CoordinateSystemException;
 use Brick\Geo\Exception\InvalidGeometryException;
 use Brick\Geo\Exception\UnexpectedGeometryException;
-use Brick\Geo\Polygon;
 use Brick\Geo\Geometry;
 
 /**
  * Proxy class for Polygon.
  */
-class PolygonProxy extends Polygon implements ProxyInterface
+class PolygonProxy extends \Brick\Geo\Polygon implements ProxyInterface
 {
     /**
      * The WKT or WKB data.
@@ -40,7 +39,7 @@ class PolygonProxy extends Polygon implements ProxyInterface
     /**
      * The underlying geometry, or NULL if not yet loaded.
      *
-     * @var Polygon|null
+     * @var \Brick\Geo\Polygon|null
      */
     private $proxyGeometry;
 
@@ -71,8 +70,8 @@ class PolygonProxy extends Polygon implements ProxyInterface
     private function load() : void
     {
         $this->proxyGeometry = $this->proxyIsBinary
-            ? Polygon::fromBinary($this->proxyData, $this->proxySRID)
-            : Polygon::fromText($this->proxyData, $this->proxySRID);
+            ? \Brick\Geo\Polygon::fromBinary($this->proxyData, $this->proxySRID)
+            : \Brick\Geo\Polygon::fromText($this->proxyData, $this->proxySRID);
     }
 
     /**

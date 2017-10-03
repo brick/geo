@@ -8,13 +8,12 @@ use Brick\Geo\Exception\GeometryIOException;
 use Brick\Geo\Exception\CoordinateSystemException;
 use Brick\Geo\Exception\InvalidGeometryException;
 use Brick\Geo\Exception\UnexpectedGeometryException;
-use Brick\Geo\Triangle;
 use Brick\Geo\Geometry;
 
 /**
  * Proxy class for Triangle.
  */
-class TriangleProxy extends Triangle implements ProxyInterface
+class TriangleProxy extends \Brick\Geo\Triangle implements ProxyInterface
 {
     /**
      * The WKT or WKB data.
@@ -40,7 +39,7 @@ class TriangleProxy extends Triangle implements ProxyInterface
     /**
      * The underlying geometry, or NULL if not yet loaded.
      *
-     * @var Triangle|null
+     * @var \Brick\Geo\Triangle|null
      */
     private $proxyGeometry;
 
@@ -71,8 +70,8 @@ class TriangleProxy extends Triangle implements ProxyInterface
     private function load() : void
     {
         $this->proxyGeometry = $this->proxyIsBinary
-            ? Triangle::fromBinary($this->proxyData, $this->proxySRID)
-            : Triangle::fromText($this->proxyData, $this->proxySRID);
+            ? \Brick\Geo\Triangle::fromBinary($this->proxyData, $this->proxySRID)
+            : \Brick\Geo\Triangle::fromText($this->proxyData, $this->proxySRID);
     }
 
     /**

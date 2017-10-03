@@ -8,13 +8,12 @@ use Brick\Geo\Exception\GeometryIOException;
 use Brick\Geo\Exception\CoordinateSystemException;
 use Brick\Geo\Exception\InvalidGeometryException;
 use Brick\Geo\Exception\UnexpectedGeometryException;
-use Brick\Geo\MultiPoint;
 use Brick\Geo\Geometry;
 
 /**
  * Proxy class for MultiPoint.
  */
-class MultiPointProxy extends MultiPoint implements ProxyInterface
+class MultiPointProxy extends \Brick\Geo\MultiPoint implements ProxyInterface
 {
     /**
      * The WKT or WKB data.
@@ -40,7 +39,7 @@ class MultiPointProxy extends MultiPoint implements ProxyInterface
     /**
      * The underlying geometry, or NULL if not yet loaded.
      *
-     * @var MultiPoint|null
+     * @var \Brick\Geo\MultiPoint|null
      */
     private $proxyGeometry;
 
@@ -71,8 +70,8 @@ class MultiPointProxy extends MultiPoint implements ProxyInterface
     private function load() : void
     {
         $this->proxyGeometry = $this->proxyIsBinary
-            ? MultiPoint::fromBinary($this->proxyData, $this->proxySRID)
-            : MultiPoint::fromText($this->proxyData, $this->proxySRID);
+            ? \Brick\Geo\MultiPoint::fromBinary($this->proxyData, $this->proxySRID)
+            : \Brick\Geo\MultiPoint::fromText($this->proxyData, $this->proxySRID);
     }
 
     /**

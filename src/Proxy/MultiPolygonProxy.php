@@ -8,13 +8,12 @@ use Brick\Geo\Exception\GeometryIOException;
 use Brick\Geo\Exception\CoordinateSystemException;
 use Brick\Geo\Exception\InvalidGeometryException;
 use Brick\Geo\Exception\UnexpectedGeometryException;
-use Brick\Geo\MultiPolygon;
 use Brick\Geo\Geometry;
 
 /**
  * Proxy class for MultiPolygon.
  */
-class MultiPolygonProxy extends MultiPolygon implements ProxyInterface
+class MultiPolygonProxy extends \Brick\Geo\MultiPolygon implements ProxyInterface
 {
     /**
      * The WKT or WKB data.
@@ -40,7 +39,7 @@ class MultiPolygonProxy extends MultiPolygon implements ProxyInterface
     /**
      * The underlying geometry, or NULL if not yet loaded.
      *
-     * @var MultiPolygon|null
+     * @var \Brick\Geo\MultiPolygon|null
      */
     private $proxyGeometry;
 
@@ -71,8 +70,8 @@ class MultiPolygonProxy extends MultiPolygon implements ProxyInterface
     private function load() : void
     {
         $this->proxyGeometry = $this->proxyIsBinary
-            ? MultiPolygon::fromBinary($this->proxyData, $this->proxySRID)
-            : MultiPolygon::fromText($this->proxyData, $this->proxySRID);
+            ? \Brick\Geo\MultiPolygon::fromBinary($this->proxyData, $this->proxySRID)
+            : \Brick\Geo\MultiPolygon::fromText($this->proxyData, $this->proxySRID);
     }
 
     /**

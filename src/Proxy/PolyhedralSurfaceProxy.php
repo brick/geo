@@ -8,13 +8,12 @@ use Brick\Geo\Exception\GeometryIOException;
 use Brick\Geo\Exception\CoordinateSystemException;
 use Brick\Geo\Exception\InvalidGeometryException;
 use Brick\Geo\Exception\UnexpectedGeometryException;
-use Brick\Geo\PolyhedralSurface;
 use Brick\Geo\Geometry;
 
 /**
  * Proxy class for PolyhedralSurface.
  */
-class PolyhedralSurfaceProxy extends PolyhedralSurface implements ProxyInterface
+class PolyhedralSurfaceProxy extends \Brick\Geo\PolyhedralSurface implements ProxyInterface
 {
     /**
      * The WKT or WKB data.
@@ -40,7 +39,7 @@ class PolyhedralSurfaceProxy extends PolyhedralSurface implements ProxyInterface
     /**
      * The underlying geometry, or NULL if not yet loaded.
      *
-     * @var PolyhedralSurface|null
+     * @var \Brick\Geo\PolyhedralSurface|null
      */
     private $proxyGeometry;
 
@@ -71,8 +70,8 @@ class PolyhedralSurfaceProxy extends PolyhedralSurface implements ProxyInterface
     private function load() : void
     {
         $this->proxyGeometry = $this->proxyIsBinary
-            ? PolyhedralSurface::fromBinary($this->proxyData, $this->proxySRID)
-            : PolyhedralSurface::fromText($this->proxyData, $this->proxySRID);
+            ? \Brick\Geo\PolyhedralSurface::fromBinary($this->proxyData, $this->proxySRID)
+            : \Brick\Geo\PolyhedralSurface::fromText($this->proxyData, $this->proxySRID);
     }
 
     /**

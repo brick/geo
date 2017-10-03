@@ -8,13 +8,12 @@ use Brick\Geo\Exception\GeometryIOException;
 use Brick\Geo\Exception\CoordinateSystemException;
 use Brick\Geo\Exception\InvalidGeometryException;
 use Brick\Geo\Exception\UnexpectedGeometryException;
-use Brick\Geo\TIN;
 use Brick\Geo\Geometry;
 
 /**
  * Proxy class for TIN.
  */
-class TINProxy extends TIN implements ProxyInterface
+class TINProxy extends \Brick\Geo\TIN implements ProxyInterface
 {
     /**
      * The WKT or WKB data.
@@ -40,7 +39,7 @@ class TINProxy extends TIN implements ProxyInterface
     /**
      * The underlying geometry, or NULL if not yet loaded.
      *
-     * @var TIN|null
+     * @var \Brick\Geo\TIN|null
      */
     private $proxyGeometry;
 
@@ -71,8 +70,8 @@ class TINProxy extends TIN implements ProxyInterface
     private function load() : void
     {
         $this->proxyGeometry = $this->proxyIsBinary
-            ? TIN::fromBinary($this->proxyData, $this->proxySRID)
-            : TIN::fromText($this->proxyData, $this->proxySRID);
+            ? \Brick\Geo\TIN::fromBinary($this->proxyData, $this->proxySRID)
+            : \Brick\Geo\TIN::fromText($this->proxyData, $this->proxySRID);
     }
 
     /**

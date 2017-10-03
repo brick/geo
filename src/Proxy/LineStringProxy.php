@@ -8,13 +8,12 @@ use Brick\Geo\Exception\GeometryIOException;
 use Brick\Geo\Exception\CoordinateSystemException;
 use Brick\Geo\Exception\InvalidGeometryException;
 use Brick\Geo\Exception\UnexpectedGeometryException;
-use Brick\Geo\LineString;
 use Brick\Geo\Geometry;
 
 /**
  * Proxy class for LineString.
  */
-class LineStringProxy extends LineString implements ProxyInterface
+class LineStringProxy extends \Brick\Geo\LineString implements ProxyInterface
 {
     /**
      * The WKT or WKB data.
@@ -40,7 +39,7 @@ class LineStringProxy extends LineString implements ProxyInterface
     /**
      * The underlying geometry, or NULL if not yet loaded.
      *
-     * @var LineString|null
+     * @var \Brick\Geo\LineString|null
      */
     private $proxyGeometry;
 
@@ -71,8 +70,8 @@ class LineStringProxy extends LineString implements ProxyInterface
     private function load() : void
     {
         $this->proxyGeometry = $this->proxyIsBinary
-            ? LineString::fromBinary($this->proxyData, $this->proxySRID)
-            : LineString::fromText($this->proxyData, $this->proxySRID);
+            ? \Brick\Geo\LineString::fromBinary($this->proxyData, $this->proxySRID)
+            : \Brick\Geo\LineString::fromText($this->proxyData, $this->proxySRID);
     }
 
     /**

@@ -8,13 +8,12 @@ use Brick\Geo\Exception\GeometryIOException;
 use Brick\Geo\Exception\CoordinateSystemException;
 use Brick\Geo\Exception\InvalidGeometryException;
 use Brick\Geo\Exception\UnexpectedGeometryException;
-use Brick\Geo\MultiLineString;
 use Brick\Geo\Geometry;
 
 /**
  * Proxy class for MultiLineString.
  */
-class MultiLineStringProxy extends MultiLineString implements ProxyInterface
+class MultiLineStringProxy extends \Brick\Geo\MultiLineString implements ProxyInterface
 {
     /**
      * The WKT or WKB data.
@@ -40,7 +39,7 @@ class MultiLineStringProxy extends MultiLineString implements ProxyInterface
     /**
      * The underlying geometry, or NULL if not yet loaded.
      *
-     * @var MultiLineString|null
+     * @var \Brick\Geo\MultiLineString|null
      */
     private $proxyGeometry;
 
@@ -71,8 +70,8 @@ class MultiLineStringProxy extends MultiLineString implements ProxyInterface
     private function load() : void
     {
         $this->proxyGeometry = $this->proxyIsBinary
-            ? MultiLineString::fromBinary($this->proxyData, $this->proxySRID)
-            : MultiLineString::fromText($this->proxyData, $this->proxySRID);
+            ? \Brick\Geo\MultiLineString::fromBinary($this->proxyData, $this->proxySRID)
+            : \Brick\Geo\MultiLineString::fromText($this->proxyData, $this->proxySRID);
     }
 
     /**

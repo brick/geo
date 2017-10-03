@@ -71,6 +71,7 @@ foreach ($classes as $class) {
     }
 
     $proxyCode = $proxyTemplate;
+    $proxyCode = str_replace('_FQCN_', '\\' . $class->getName(), $proxyCode);
     $proxyCode = str_replace('_CLASSNAME_', $class->getShortName(), $proxyCode);
     $proxyCode = str_replace('// METHODS', $methods, $proxyCode);
 
