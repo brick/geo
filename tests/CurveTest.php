@@ -25,7 +25,7 @@ class CurveTest extends AbstractTestCase
         $actualLength = $curve->length();
 
         $this->assertInternalType('float', $actualLength);
-        $this->assertEquals($length, $actualLength, '', 0.001);
+        $this->assertEquals($length, $actualLength, '', 0.002);
     }
 
     /**
