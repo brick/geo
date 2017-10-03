@@ -46,8 +46,6 @@ class Point extends Geometry
      * @param CoordinateSystem $cs        The coordinate system.
      * @param float            ...$coords The point coordinates; can be empty for an empty point.
      *
-     * @return Point
-     *
      * @throws InvalidGeometryException If the number of coordinates does not match the coordinate system.
      */
     public function __construct(CoordinateSystem $cs, ...$coords)

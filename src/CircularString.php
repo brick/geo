@@ -28,8 +28,6 @@ class CircularString extends Curve
      * @param CoordinateSystem $cs
      * @param Point            ...$points
      *
-     * @return CircularString
-     *
      * @throws InvalidGeometryException  If the number of points is invalid.
      * @throws CoordinateSystemException If different coordinate systems are used.
      */
