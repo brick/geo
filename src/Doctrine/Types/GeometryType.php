@@ -7,6 +7,7 @@ use Brick\Geo\Proxy\GeometryProxy;
 
 use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
+use Doctrine\DBAL\Platforms\PostgreSqlPlatform;
 
 /**
  * Doctrine type for Geometry.
@@ -49,7 +50,7 @@ class GeometryType extends Type
      */
     public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform)
     {
-        if ($platform->getName() === 'postgresql') {
+        if ($platform instanceof PostgreSqlPlatform) {
             return 'GEOMETRY';
         }
 
