@@ -101,7 +101,11 @@ class PolygonTest extends AbstractTestCase
      */
     public function testConstructorWithCoordinateSystemMix($ringWKT, $ringSRID, $hasZ, $hasM, $srid, $message = '')
     {
-        $this->setExpectedException(CoordinateSystemException::class, $message);
+        $this->expectException(CoordinateSystemException::class);
+
+        if ($message !== '') {
+            $this->expectExceptionMessage($message);
+        }
 
         $cs = new CoordinateSystem($hasZ, $hasM, $srid);
         $ring = LineString::fromText($ringWKT, $ringSRID);
@@ -301,7 +305,7 @@ class PolygonTest extends AbstractTestCase
     public function testInteriorRingN($polygon, $n, $interiorRingN, $srid)
     {
         if ($interiorRingN === null) {
-            $this->setExpectedException(NoSuchGeometryException::class);
+            $this->expectException(NoSuchGeometryException::class);
         }
 
         $ring = Polygon::fromText($polygon, $srid)->interiorRingN($n);

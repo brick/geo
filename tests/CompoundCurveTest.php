@@ -172,7 +172,7 @@ class CompoundCurveTest extends AbstractTestCase
     public function testCurveN($compoundCurve, $n, $curveN, $srid)
     {
         if ($curveN === null) {
-            $this->setExpectedException(NoSuchGeometryException::class);
+            $this->expectException(NoSuchGeometryException::class);
         }
 
         $curve = CompoundCurve::fromText($compoundCurve, $srid)->curveN($n);

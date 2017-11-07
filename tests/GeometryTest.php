@@ -379,7 +379,7 @@ class GeometryTest extends AbstractTestCase
         $this->requiresGeometryEngine();
 
         if ($this->isMySQL('< 5.7.6-m16') || $this->isMariaDB('>= 10.0')) {
-            $this->setExpectedException(GeometryEngineException::class);
+            $this->expectException(GeometryEngineException::class);
         }
 
         $geometry = Geometry::fromText($geometry);
@@ -488,12 +488,12 @@ class GeometryTest extends AbstractTestCase
 
         if ($this->isMySQL() || $this->isMariaDB()) {
             // MySQL and MariaDB do not support boundary.
-            $this->setExpectedException(GeometryEngineException::class);
+            $this->expectException(GeometryEngineException::class);
         }
 
         if ($this->isSpatiaLite() && $geometry instanceof Point) {
             // SpatiaLite fails to return a result for a point's boundary.
-            $this->setExpectedException(GeometryEngineException::class);
+            $this->expectException(GeometryEngineException::class);
         }
 
         $this->assertSame($boundary, $geometry->boundary()->asText());
@@ -799,7 +799,7 @@ class GeometryTest extends AbstractTestCase
         $this->requiresGeometryEngine();
 
         if ($this->isMySQL() || $this->isMariaDB()) {
-            $this->setExpectedException(GeometryEngineException::class);
+            $this->expectException(GeometryEngineException::class);
         }
 
         $geometry1 = Geometry::fromText($geometry1);
@@ -833,7 +833,7 @@ class GeometryTest extends AbstractTestCase
         $this->requiresGeometryEngine();
 
         if ($this->isGEOS() || $this->isMySQL() || $this->isMariaDB()) {
-            $this->setExpectedException(GeometryEngineException::class);
+            $this->expectException(GeometryEngineException::class);
         }
 
         $this->assertSame($result, Geometry::fromText($geometry)->locateAlong($measure)->asText());
@@ -863,7 +863,7 @@ class GeometryTest extends AbstractTestCase
         $this->requiresGeometryEngine();
 
         if ($this->isGEOS() || $this->isMySQL() || $this->isMariaDB()) {
-            $this->setExpectedException(GeometryEngineException::class);
+            $this->expectException(GeometryEngineException::class);
         }
 
         $this->assertSame($result, Geometry::fromText($geometry)->locateBetween($mStart, $mEnd)->asText());
@@ -955,7 +955,7 @@ class GeometryTest extends AbstractTestCase
         $this->requiresGeometryEngine();
 
         if ($this->isMySQL('< 5.7.6-m16') || $this->isMariaDB('>= 10.0')) {
-            $this->setExpectedException(GeometryEngineException::class);
+            $this->expectException(GeometryEngineException::class);
         }
 
         $geometry = Geometry::fromText($geometry);
@@ -1128,7 +1128,7 @@ class GeometryTest extends AbstractTestCase
         $this->requiresGeometryEngine();
 
         if ($this->isGEOS() || $this->isMySQL() || $this->isMariaDB()) {
-            $this->setExpectedException(GeometryEngineException::class);
+            $this->expectException(GeometryEngineException::class);
         }
 
         $geometry = Geometry::fromText($geometry);
@@ -1164,7 +1164,7 @@ class GeometryTest extends AbstractTestCase
         $this->requiresGeometryEngine();
 
         if ($this->isMySQL('< 5.7.6-m16') || $this->isMariaDB('>= 10.0') || $this->isSpatiaLite('< 4.1.0')) {
-            $this->setExpectedException(GeometryEngineException::class);
+            $this->expectException(GeometryEngineException::class);
         }
 
         $geometry = Geometry::fromText($geometry);
@@ -1196,7 +1196,7 @@ class GeometryTest extends AbstractTestCase
         $this->requiresGeometryEngine();
 
         if ($this->isGEOS() || $this->isMySQL() || $this->isMariaDB() || $this->isSpatiaLite()) {
-            $this->setExpectedException(GeometryEngineException::class);
+            $this->expectException(GeometryEngineException::class);
         }
 
         $geometry1 = Geometry::fromText($geometry1);

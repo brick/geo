@@ -47,7 +47,7 @@ class GeometryCollectionTest extends AbstractTestCase
     public function testGeometryN($geometry, $n, $geometryN, $srid)
     {
         if ($geometryN === null) {
-            $this->setExpectedException(NoSuchGeometryException::class);
+            $this->expectException(NoSuchGeometryException::class);
         }
 
         $g = GeometryCollection::fromText($geometry, $srid);

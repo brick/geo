@@ -131,7 +131,7 @@ class MultiSurfaceTest extends AbstractTestCase
 
         if ($this->isMySQL() || $this->isMariaDB()) {
             // MySQL and MariaDB do not support ST_PointOnSurface()
-            $this->setExpectedException(GeometryEngineException::class);
+            $this->expectException(GeometryEngineException::class);
         }
 
         $multiSurface = MultiSurface::fromText($multiMultiSurface);

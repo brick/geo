@@ -85,7 +85,7 @@ class PolyhedralSurfaceTest extends AbstractTestCase
     public function testPatchN($polyhedralSurface, $n, $patchN, $srid)
     {
         if ($patchN === null) {
-            $this->setExpectedException(NoSuchGeometryException::class);
+            $this->expectException(NoSuchGeometryException::class);
         }
 
         $patch = PolyhedralSurface::fromText($polyhedralSurface, $srid)->patchN($n);

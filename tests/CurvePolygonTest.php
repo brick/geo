@@ -137,7 +137,7 @@ class CurvePolygonTest extends AbstractTestCase
     public function testInteriorRingN($curvePolygon, $n, $interiorRingN, $srid)
     {
         if ($interiorRingN === null) {
-            $this->setExpectedException(NoSuchGeometryException::class);
+            $this->expectException(NoSuchGeometryException::class);
         }
 
         $ring = CurvePolygon::fromText($curvePolygon, $srid)->interiorRingN($n);

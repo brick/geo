@@ -128,7 +128,7 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
         if ($geometry->is3D() || $geometry->isMeasured()) {
             if ($this->isMySQL() || $this->isMariaDB()) {
                 // MySQL and MariaDB do not support Z and M coordinates.
-                $this->setExpectedException(GeometryEngineException::class);
+                $this->expectException(GeometryEngineException::class);
             }
         }
 
@@ -141,7 +141,7 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
         if ($geometry->isEmpty() && ! $geometry instanceof GeometryCollection) {
             if ($this->isMySQL() || $this->isMariaDB()) {
                 // MySQL and MariaDB do not correctly handle empty geometries, apart from collections.
-                $this->setExpectedException(GeometryEngineException::class);
+                $this->expectException(GeometryEngineException::class);
             }
 
             if ($this->isSpatiaLite()) {
@@ -153,7 +153,7 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
             if ($this->isGEOS() || $this->isSpatiaLite() || $this->isMySQL() || $this->isMariaDB()) {
                 // GEOS, SpatiaLite, MySQL and MariaDB do not support these geometries.
                 // Only PostGIS currently supports these.
-                $this->setExpectedException(GeometryEngineException::class);
+                $this->expectException(GeometryEngineException::class);
             }
         }
     }
