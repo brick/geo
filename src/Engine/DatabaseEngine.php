@@ -86,9 +86,8 @@ abstract class DatabaseEngine implements GeometryEngine
     private function query(string $function, array $parameters, bool $returnsGeometry) : array
     {
         $query = $this->buildQuery($function, $parameters, $returnsGeometry);
-        $result = $this->executeQuery($query, $parameters);
 
-        return $result;
+        return $this->executeQuery($query, $parameters);
     }
 
     /**
