@@ -26,6 +26,7 @@ before_script:
   - if [[ $ENGINE = GEOS35 ]]; then ENGINE=GEOS; VERSION=3.5.1 bash travis/install-geos.sh; fi;
   - if [[ $ENGINE = GEOS36 ]]; then ENGINE=GEOS; VERSION=3.6.0 bash travis/install-geos.sh; fi;
   - if [[ $ENGINE = SQLite3 ]]; then bash travis/install-spatialite.sh; fi;
+  - if [[ $TRAVIS_PHP_VERSION = hhv* ]]; then echo hhvm.php7.all=1 >> /etc/hhvm/php.ini; fi
   - composer install
 
 script:
