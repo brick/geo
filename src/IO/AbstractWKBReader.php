@@ -97,7 +97,7 @@ abstract class AbstractWKBReader
                 return $this->readTriangle($buffer, $cs);
         }
 
-        throw GeometryIOException::unsupportedGeometryType($geometryType);
+        throw GeometryIOException::unsupportedWKBType($geometryType);
     }
 
     /**
