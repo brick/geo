@@ -36,13 +36,13 @@ class GeometryIOException extends GeometryException
     }
 
     /**
-     * @param string $wkbType
+     * @param int $wkbType
      *
      * @return GeometryIOException
      */
-    public static function unsupportedWKBType(string $wkbType) : GeometryIOException
+    public static function unsupportedWKBType(int $wkbType) : GeometryIOException
     {
-        $message = sprintf('Unsupported WKB type: %s.', $wkbType);
+        $message = sprintf('Unsupported WKB type: %d.', $wkbType);
 
         return new self($message);
     }
