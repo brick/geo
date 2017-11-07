@@ -75,7 +75,7 @@ class GeometryCollectionTest extends AbstractTestCase
             ['GEOMETRYCOLLECTION (LINESTRING (1 2, 3 4), POINT (5 6))', 3, null]
         ];
 
-        foreach ($tests as list ($geometryCollection, $n, $geometryN)) {
+        foreach ($tests as [$geometryCollection, $n, $geometryN]) {
             foreach ([0, 1] as $srid) {
                 yield [$geometryCollection, $n, $geometryN, $srid];
             }

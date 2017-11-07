@@ -32,29 +32,29 @@ class EWKBReaderTest extends EWKBAbstractTest
      */
     public function providerRead() : \Generator
     {
-        foreach ($this->providerBigEndianEWKB() as list($ewkt, $ewkb)) {
+        foreach ($this->providerBigEndianEWKB() as [$ewkt, $ewkb]) {
             yield [$ewkb, $ewkt];
         }
 
-        foreach ($this->providerBigEndianEWKB_SRID() as list($ewkt, $ewkb)) {
+        foreach ($this->providerBigEndianEWKB_SRID() as [$ewkt, $ewkb]) {
             yield [$ewkb, $ewkt];
         }
 
-        foreach ($this->providerLittleEndianEWKB() as list ($ewkt, $ewkb)) {
+        foreach ($this->providerLittleEndianEWKB() as [$ewkt, $ewkb]) {
             yield [$ewkb, $ewkt];
         }
 
-        foreach ($this->providerLittleEndianEWKB_SRID() as list ($ewkt, $ewkb)) {
+        foreach ($this->providerLittleEndianEWKB_SRID() as [$ewkt, $ewkb]) {
             yield [$ewkb, $ewkt];
         }
 
         /* WKB being valid EWKB, we test the reader against WKB as well */
 
-        foreach ($this->providerBigEndianWKB() as list($wkt, $wkb)) {
+        foreach ($this->providerBigEndianWKB() as [$wkt, $wkb]) {
             yield [$wkb, $wkt];
         }
 
-        foreach ($this->providerLittleEndianWKB() as list($wkt, $wkb)) {
+        foreach ($this->providerLittleEndianWKB() as [$wkt, $wkb]) {
             yield [$wkb, $wkt];
         }
     }

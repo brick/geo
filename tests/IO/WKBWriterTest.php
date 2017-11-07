@@ -39,11 +39,11 @@ class WKBWriterTest extends WKBAbstractTest
      */
     public function providerWrite() : \Generator
     {
-        foreach ($this->providerLittleEndianWKB() as list($wkt, $wkb)) {
+        foreach ($this->providerLittleEndianWKB() as [$wkt, $wkb]) {
             yield [$wkt, $wkb, WKBTools::LITTLE_ENDIAN];
         }
 
-        foreach ($this->providerBigEndianWKB() as list($wkt, $wkb)) {
+        foreach ($this->providerBigEndianWKB() as [$wkt, $wkb]) {
             yield [$wkt, $wkb, WKBTools::BIG_ENDIAN];
         }
     }

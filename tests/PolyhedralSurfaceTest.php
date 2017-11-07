@@ -146,7 +146,7 @@ class PolyhedralSurfaceTest extends AbstractTestCase
             ]],
         ];
 
-        foreach ($tests as list ($polyhedralSurface, $patchs)) {
+        foreach ($tests as [$polyhedralSurface, $patchs]) {
             foreach ($patchs as $n => $patchN) {
                 foreach ([0, 1] as $srid) {
                     yield [$polyhedralSurface, $n, $patchN, $srid];

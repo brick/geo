@@ -383,7 +383,7 @@ class PolygonTest extends AbstractTestCase
             ]],
         ];
 
-        foreach ($tests as list ($polygon, $interiorRings)) {
+        foreach ($tests as [$polygon, $interiorRings]) {
             foreach ($interiorRings as $n => $interiorRingN) {
                 foreach ([0, 1] as $srid) {
                     yield [$polygon, $n, $interiorRingN, $srid];

@@ -594,7 +594,7 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
     private function isVersion(string $version, string $operatorAndVersion) : bool
     {
         preg_match('/^([\<\>]?\=?) ?(.*)/', $operatorAndVersion, $matches);
-        list (, $operator, $testVersion) = $matches;
+        [, $operator, $testVersion] = $matches;
 
         if ($operator === '') {
             $operator = '=';

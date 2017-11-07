@@ -240,7 +240,7 @@ class CompoundCurveTest extends AbstractTestCase
             ]],
         ];
 
-        foreach ($tests as list ($compoundCurve, $curves)) {
+        foreach ($tests as [$compoundCurve, $curves]) {
             foreach ($curves as $n => $curveN) {
                 foreach ([0, 1] as $srid) {
                     yield [$compoundCurve, $n, $curveN, $srid];

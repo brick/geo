@@ -39,19 +39,19 @@ class EWKBWriterTest extends EWKBAbstractTest
      */
     public function providerWrite() : \Generator
     {
-        foreach ($this->providerLittleEndianEWKB() as list($wkt, $ewkb)) {
+        foreach ($this->providerLittleEndianEWKB() as [$wkt, $ewkb]) {
             yield [$wkt, $ewkb, EWKBTools::LITTLE_ENDIAN];
         }
 
-        foreach ($this->providerLittleEndianEWKB_SRID() as list($wkt, $ewkb)) {
+        foreach ($this->providerLittleEndianEWKB_SRID() as [$wkt, $ewkb]) {
             yield [$wkt, $ewkb, EWKBTools::LITTLE_ENDIAN];
         }
 
-        foreach ($this->providerBigEndianEWKB() as list($wkt, $ewkb)) {
+        foreach ($this->providerBigEndianEWKB() as [$wkt, $ewkb]) {
             yield [$wkt, $ewkb, EWKBTools::BIG_ENDIAN];
         }
 
-        foreach ($this->providerBigEndianEWKB_SRID() as list($wkt, $ewkb)) {
+        foreach ($this->providerBigEndianEWKB_SRID() as [$wkt, $ewkb]) {
             yield [$wkt, $ewkb, EWKBTools::BIG_ENDIAN];
         }
     }

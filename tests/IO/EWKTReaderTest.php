@@ -31,7 +31,7 @@ class EWKTReaderTest extends EWKTAbstractTest
      */
     public function providerRead() : \Generator
     {
-        foreach ($this->providerWKT() as list($wkt, $coords, $is3D, $isMeasured)) {
+        foreach ($this->providerWKT() as [$wkt, $coords, $is3D, $isMeasured]) {
             yield [$wkt, $coords, $is3D, $isMeasured, 0];
             yield [$this->toEWKT($wkt, 4326), $coords, $is3D, $isMeasured, 4326];
         }

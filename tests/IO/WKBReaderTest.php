@@ -31,11 +31,11 @@ class WKBReaderTest extends WKBAbstractTest
      */
     public function providerRead() : \Generator
     {
-        foreach ($this->providerLittleEndianWKB() as list($wkt, $wkb)) {
+        foreach ($this->providerLittleEndianWKB() as [$wkt, $wkb]) {
             yield [$wkb, $wkt];
         }
 
-        foreach ($this->providerBigEndianWKB() as list($wkt, $wkb)) {
+        foreach ($this->providerBigEndianWKB() as [$wkt, $wkb]) {
             yield [$wkb, $wkt];
         }
     }

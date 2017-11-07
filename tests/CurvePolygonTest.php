@@ -202,7 +202,7 @@ class CurvePolygonTest extends AbstractTestCase
             ]],
         ];
 
-        foreach ($tests as list ($curvePolygon, $interiorRings)) {
+        foreach ($tests as [$curvePolygon, $interiorRings]) {
             foreach ($interiorRings as $n => $interiorRingN) {
                 foreach ([0, 1] as $srid) {
                     yield [$curvePolygon, $n, $interiorRingN, $srid];
