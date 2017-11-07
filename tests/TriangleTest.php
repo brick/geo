@@ -10,7 +10,10 @@ use Brick\Geo\Triangle;
  */
 class TriangleTest extends AbstractTestCase
 {
-    public function testCreate()
+    /**
+     * @return void
+     */
+    public function testCreate() : void
     {
         $ring = LineString::fromText('LINESTRING (1 1, 1 2, 2 2, 1 1)');
         $triangle = Triangle::of($ring);
@@ -19,8 +22,10 @@ class TriangleTest extends AbstractTestCase
 
     /**
      * @expectedException \Brick\Geo\Exception\InvalidGeometryException
+     *
+     * @return void
      */
-    public function testCreateWithInvalidNumberOfPoints()
+    public function testCreateWithInvalidNumberOfPoints() : void
     {
         $ring = LineString::fromText('LINESTRING (1 1, 1 2, 2 2, 2 1, 1 1)');
 
@@ -29,8 +34,10 @@ class TriangleTest extends AbstractTestCase
 
     /**
      * @expectedException \Brick\Geo\Exception\InvalidGeometryException
+     *
+     * @return void
      */
-    public function testCreateWithInteriorRings()
+    public function testCreateWithInteriorRings() : void
     {
         $exteriorRing = LineString::fromText('LINESTRING (0 0, 0 3, 3 3, 0 0)');
         $interiorRing = LineString::fromText('LINESTRING (1 1, 1 2, 2 2, 1 1)');

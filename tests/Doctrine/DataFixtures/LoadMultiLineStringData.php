@@ -15,7 +15,7 @@ class LoadMultiLineStringData implements FixtureInterface {
     /**
      * {@inheritdoc}
      */
-    function load(ObjectManager $manager)
+    public function load(ObjectManager $manager)
     {
         $point1 = Point::xy(0,0);
         $point2 = Point::xy(1,0);

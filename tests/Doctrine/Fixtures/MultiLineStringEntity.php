@@ -31,15 +31,17 @@ class MultiLineStringEntity {
     /**
      * @return MultiLineString
      */
-    public function getMultiLineString()
+    public function getMultiLineString() : MultiLineString
     {
         return $this->multiLineString;
     }
 
     /**
      * @param MultiLineString $multiLineString
+     *
+     * @return void
      */
-    public function setMultiLineString($multiLineString)
+    public function setMultiLineString(MultiLineString $multiLineString) : void
     {
         $this->multiLineString = $multiLineString;
     }

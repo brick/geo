@@ -12,13 +12,15 @@ class EWKTReaderTest extends EWKTAbstractTest
     /**
      * @dataProvider providerRead
      *
-     * @param string  $ewkt       The EWKT to read.
-     * @param array   $coords     The expected Point coordinates.
-     * @param boolean $is3D       Whether the resulting Point has a Z coordinate.
-     * @param boolean $isMeasured Whether the resulting Point has a M coordinate.
-     * @param integer $srid       The expected SRID.
+     * @param string $ewkt       The EWKT to read.
+     * @param array  $coords     The expected Point coordinates.
+     * @param bool   $is3D       Whether the resulting Point has a Z coordinate.
+     * @param bool   $isMeasured Whether the resulting Point has a M coordinate.
+     * @param int    $srid       The expected SRID.
+     *
+     * @return void
      */
-    public function testRead($ewkt, array $coords, $is3D, $isMeasured, $srid)
+    public function testRead(string $ewkt, array $coords, bool $is3D, bool $isMeasured, int $srid) : void
     {
         $geometry = (new EWKTReader())->read($ewkt);
         $this->assertGeometryContents($geometry, $coords, $is3D, $isMeasured, $srid);
@@ -27,7 +29,7 @@ class EWKTReaderTest extends EWKTAbstractTest
     /**
      * @return \Generator
      */
-    public function providerRead()
+    public function providerRead() : \Generator
     {
         foreach ($this->providerWKT() as list($wkt, $coords, $is3D, $isMeasured)) {
             yield [$wkt, $coords, $is3D, $isMeasured, 0];

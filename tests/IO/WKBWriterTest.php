@@ -15,11 +15,13 @@ class WKBWriterTest extends WKBAbstractTest
     /**
      * @dataProvider providerWrite
      *
-     * @param string  $wkt       The WKT to read.
-     * @param string  $wkb       The expected WKB output, hex-encoded.
-     * @param integer $byteOrder The byte order to use.
+     * @param string $wkt       The WKT to read.
+     * @param string $wkb       The expected WKB output, hex-encoded.
+     * @param int    $byteOrder The byte order to use.
+     *
+     * @return void
      */
-    public function testWrite($wkt, $wkb, $byteOrder)
+    public function testWrite(string $wkt, string $wkb, int $byteOrder) : void
     {
         $writer = new WKBWriter();
         $writer->setByteOrder($byteOrder);
@@ -35,7 +37,7 @@ class WKBWriterTest extends WKBAbstractTest
     /**
      * @return \Generator
      */
-    public function providerWrite()
+    public function providerWrite() : \Generator
     {
         foreach ($this->providerLittleEndianWKB() as list($wkt, $wkb)) {
             yield [$wkt, $wkb, WKBTools::LITTLE_ENDIAN];
@@ -51,8 +53,10 @@ class WKBWriterTest extends WKBAbstractTest
      * @expectedException \Brick\Geo\Exception\GeometryIOException
      *
      * @param Point $point
+     *
+     * @return void
      */
-    public function testWriteEmptyPointThrowsException(Point $point)
+    public function testWriteEmptyPointThrowsException(Point $point) : void
     {
         $writer = new WKBWriter();
         $writer->write($point);
@@ -61,7 +65,7 @@ class WKBWriterTest extends WKBAbstractTest
     /**
      * @return array
      */
-    public function providerWriteEmptyPointThrowsException()
+    public function providerWriteEmptyPointThrowsException() : array
     {
         return [
             [Point::xyEmpty()],

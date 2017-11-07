@@ -12,13 +12,15 @@ class WKTReaderTest extends WKTAbstractTest
     /**
      * @dataProvider providerRead
      *
-     * @param string  $wkt        The WKT to read.
-     * @param array   $coords     The expected Point coordinates.
-     * @param boolean $is3D       Whether the resulting Point has a Z coordinate.
-     * @param boolean $isMeasured Whether the resulting Point has a M coordinate.
-     * @param integer $srid       The SRID to use.
+     * @param string $wkt        The WKT to read.
+     * @param array  $coords     The expected Point coordinates.
+     * @param bool   $is3D       Whether the resulting Point has a Z coordinate.
+     * @param bool   $isMeasured Whether the resulting Point has a M coordinate.
+     * @param int    $srid       The SRID to use.
+     *
+     * @return void
      */
-    public function testRead($wkt, array $coords, $is3D, $isMeasured, $srid)
+    public function testRead(string $wkt, array $coords, bool $is3D, bool $isMeasured, int $srid) : void
     {
         $geometry = (new WKTReader())->read($wkt, $srid);
         $this->assertGeometryContents($geometry, $coords, $is3D, $isMeasured, $srid);
@@ -27,7 +29,7 @@ class WKTReaderTest extends WKTAbstractTest
     /**
      * @return \Generator
      */
-    public function providerRead()
+    public function providerRead() : \Generator
     {
         foreach ($this->providerWKT() as list($wkt, $coords, $is3D, $isMeasured)) {
             yield [$wkt, $coords, $is3D, $isMeasured, 0];
@@ -44,7 +46,7 @@ class WKTReaderTest extends WKTAbstractTest
      *
      * @return string
      */
-    private function alter($wkt)
+    private function alter(string $wkt) : string
     {
         $search = [' ', '(', ')', ','];
         $replace = [];

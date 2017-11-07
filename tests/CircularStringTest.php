@@ -15,11 +15,13 @@ class CircularStringTest extends AbstractTestCase
      * @dataProvider providerCreate
      *
      * @param string[] $pointsWKT        The WKT of the Points that compose the CircularString.
-     * @param boolean  $is3D              Whether the points have Z coordinates.
-     * @param boolean  $isMeasured        Whether the points have M coordinates.
+     * @param bool     $is3D              Whether the points have Z coordinates.
+     * @param bool     $isMeasured        Whether the points have M coordinates.
      * @param string   $circularStringWKT The WKT of the expected CircularString.
+     *
+     * @return void
      */
-    public function testCreate(array $pointsWKT, $is3D, $isMeasured, $circularStringWKT)
+    public function testCreate(array $pointsWKT, bool $is3D, bool $isMeasured, string $circularStringWKT) : void
     {
         foreach ([0, 1] as $srid) {
             $instantiatePoint = function ($point) use ($srid) {
@@ -35,7 +37,7 @@ class CircularStringTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerCreate()
+    public function providerCreate() : array
     {
         return [
             [['POINT (1 1)', 'POINT (2 2)', 'POINT (3 3)'], false, false, 'CIRCULARSTRING (1 1, 2 2, 3 3)'],
@@ -50,8 +52,10 @@ class CircularStringTest extends AbstractTestCase
      * @expectedException \Brick\Geo\Exception\InvalidGeometryException
      *
      * @param string $circularString The WKT of an invalid CircularString.
+     *
+     * @return void
      */
-    public function testCreateInvalidCircularString($circularString)
+    public function testCreateInvalidCircularString(string $circularString) : void
     {
         CircularString::fromText($circularString);
     }
@@ -59,7 +63,7 @@ class CircularStringTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerCreateInvalidCircularString()
+    public function providerCreateInvalidCircularString() : array
     {
         return [
             ['CIRCULARSTRING (1 1)'],
@@ -75,8 +79,10 @@ class CircularStringTest extends AbstractTestCase
      * @param string $circularString
      * @param string $startPoint
      * @param string $endPoint
+     *
+     * @return void
      */
-    public function testStartPointEndPoint($circularString, $startPoint, $endPoint)
+    public function testStartPointEndPoint(string $circularString, string $startPoint, string $endPoint) : void
     {
         foreach ([0, 1] as $srid) {
             $cs = CircularString::fromText($circularString, $srid);
@@ -88,7 +94,7 @@ class CircularStringTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerStartPointEndPoint()
+    public function providerStartPointEndPoint() : array
     {
         return [
             ['CIRCULARSTRING (1 2, 3 4, 5 6, 7 8, 9 0)', 'POINT (1 2)', 'POINT (9 0)'],
@@ -103,8 +109,10 @@ class CircularStringTest extends AbstractTestCase
      * @expectedException \Brick\Geo\Exception\EmptyGeometryException
      *
      * @param string $circularString The WKT of an empty CircularString.
+     *
+     * @return void
      */
-    public function testStartPointOfEmptyCircularString($circularString)
+    public function testStartPointOfEmptyCircularString(string $circularString) : void
     {
         CircularString::fromText($circularString)->startPoint();
     }
@@ -114,8 +122,10 @@ class CircularStringTest extends AbstractTestCase
      * @expectedException \Brick\Geo\Exception\EmptyGeometryException
      *
      * @param string $circularString The WKT of an empty CircularString.
+     *
+     * @return void
      */
-    public function testEndPointOfEmptyCircularString($circularString)
+    public function testEndPointOfEmptyCircularString(string $circularString) : void
     {
         CircularString::fromText($circularString)->endPoint();
     }
@@ -123,7 +133,7 @@ class CircularStringTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerEmptyCircularString()
+    public function providerEmptyCircularString() : array
     {
         return [
             ['CIRCULARSTRING EMPTY'],
@@ -136,19 +146,21 @@ class CircularStringTest extends AbstractTestCase
     /**
      * @dataProvider providerNumPoints
      *
-     * @param string  $lineString
-     * @param integer $numPoints
+     * @param string $circularString
+     * @param int    $numPoints
+     *
+     * @return void
      */
-    public function testNumPoints($lineString, $numPoints)
+    public function testNumPoints(string $circularString, int $numPoints) : void
     {
-        $lineString = CircularString::fromText($lineString);
-        $this->assertSame($numPoints, $lineString->numPoints());
+        $circularString = CircularString::fromText($circularString);
+        $this->assertSame($numPoints, $circularString->numPoints());
     }
 
     /**
      * @return array
      */
-    public function providerNumPoints()
+    public function providerNumPoints() : array
     {
         return [
             ['CIRCULARSTRING EMPTY', 0],
@@ -165,11 +177,13 @@ class CircularStringTest extends AbstractTestCase
     /**
      * @dataProvider providerPointN
      *
-     * @param string  $lineString
-     * @param integer $n
-     * @param string  $pointN
+     * @param string $lineString
+     * @param int    $n
+     * @param string $pointN
+     *
+     * @return void
      */
-    public function testPointN($lineString, $n, $pointN)
+    public function testPointN(string $lineString, int $n, string $pointN) : void
     {
         foreach ([0, 1] as $srid) {
             $ls = CircularString::fromText($lineString, $srid);
@@ -180,7 +194,7 @@ class CircularStringTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerPointN()
+    public function providerPointN() : array
     {
         return [
             ['CIRCULARSTRING (1 2, 3 4, 5 6)', 1, 'POINT (1 2)'],
@@ -202,10 +216,12 @@ class CircularStringTest extends AbstractTestCase
      * @dataProvider providerInvalidPointNThrowsException
      * @expectedException \Brick\Geo\Exception\NoSuchGeometryException
      *
-     * @param string  $lineString
-     * @param integer $n
+     * @param string $lineString
+     * @param int    $n
+     *
+     * @return void
      */
-    public function testInvalidPointNThrowsException($lineString, $n)
+    public function testInvalidPointNThrowsException(string $lineString, int $n) : void
     {
         CircularString::fromText($lineString)->pointN($n);
     }
@@ -213,7 +229,7 @@ class CircularStringTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerInvalidPointNThrowsException()
+    public function providerInvalidPointNThrowsException() : array
     {
         return [
             ['CIRCULARSTRING (1 2, 3 4, 5 2)', 0],
@@ -227,8 +243,10 @@ class CircularStringTest extends AbstractTestCase
 
     /**
      * Tests Countable and Traversable interfaces.
+     *
+     * @return void
      */
-    public function testInterfaces()
+    public function testInterfaces() : void
     {
         $circularString = CircularString::fromText('CIRCULARSTRING (1 2, 3 4, 5 6)');
 

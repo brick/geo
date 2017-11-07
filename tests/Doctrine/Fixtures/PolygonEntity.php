@@ -31,15 +31,17 @@ class PolygonEntity {
     /**
      * @return Polygon
      */
-    public function getPolygon()
+    public function getPolygon() : Polygon
     {
         return $this->polygon;
     }
 
     /**
      * @param Polygon $polygon
+     *
+     * @return void
      */
-    public function setPolygon($polygon)
+    public function setPolygon(Polygon $polygon) : void
     {
         $this->polygon = $polygon;
     }

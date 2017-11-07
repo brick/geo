@@ -12,7 +12,7 @@ abstract class WKBAbstractTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerBigEndianWKB()
+    public function providerBigEndianWKB() : array
     {
         return [
             // Point
@@ -182,7 +182,7 @@ abstract class WKBAbstractTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerLittleEndianWKB()
+    public function providerLittleEndianWKB() : array
     {
         return [
             // Point

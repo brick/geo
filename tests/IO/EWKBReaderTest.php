@@ -13,10 +13,12 @@ class EWKBReaderTest extends EWKBAbstractTest
     /**
      * @dataProvider providerRead
      *
-     * @param string  $ewkb       The EWKB to read, hex-encoded.
-     * @param string  $ewkt       The expected EWKT output.
+     * @param string $ewkb The EWKB to read, hex-encoded.
+     * @param string $ewkt The expected EWKT output.
+     *
+     * @return void
      */
-    public function testRead($ewkb, $ewkt)
+    public function testRead(string $ewkb, string $ewkt) : void
     {
         $reader = new EWKBReader();
         $writer = new EWKTWriter();
@@ -26,9 +28,9 @@ class EWKBReaderTest extends EWKBAbstractTest
     }
 
     /**
-     * @return array
+     * @return \Generator
      */
-    public function providerRead()
+    public function providerRead() : \Generator
     {
         foreach ($this->providerBigEndianEWKB() as list($ewkt, $ewkb)) {
             yield [$ewkb, $ewkt];

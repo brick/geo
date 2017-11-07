@@ -10,12 +10,12 @@ abstract class EWKTAbstractTest extends WKTAbstractTest
     /**
      * Prepends the SRID to a WKT string, making it an EWKT.
      *
-     * @param string  $wkt  The WKT.
-     * @param integer $srid The SRID.
+     * @param string $wkt  The WKT.
+     * @param int    $srid The SRID.
      *
      * @return string The EWKT.
      */
-    protected function toEWKT($wkt, $srid)
+    protected function toEWKT(string $wkt, int $srid) : string
     {
         return 'SRID=' . $srid . ';' . $wkt;
     }

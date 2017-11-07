@@ -17,8 +17,10 @@ class GeometryTest extends AbstractTestCase
      * @dataProvider providerTextBinary
      *
      * @param string $text The WKT of the geometry to test.
+     *
+     * @return void
      */
-    public function testFromAsText($text)
+    public function testFromAsText(string $text) : void
     {
         $geometry = Geometry::fromText($text);
 
@@ -33,8 +35,10 @@ class GeometryTest extends AbstractTestCase
 
     /**
      * @expectedException \Brick\Geo\Exception\UnexpectedGeometryException
+     *
+     * @return void
      */
-    public function testFromTextOnWrongSubclassThrowsException()
+    public function testFromTextOnWrongSubclassThrowsException() : void
     {
         Point::fromText('LINESTRING (1 2, 3 4)');
     }
@@ -45,8 +49,10 @@ class GeometryTest extends AbstractTestCase
      * @param string $text               The WKT of the geometry under test.
      * @param string $bigEndianBinary    The big endian WKB of the geometry under test.
      * @param string $littleEndianBinary The little endian WKB of the geometry under test.
+     *
+     * @return void
      */
-    public function testFromBinary($text, $bigEndianBinary, $littleEndianBinary)
+    public function testFromBinary(string $text, string $bigEndianBinary, string $littleEndianBinary) : void
     {
         foreach ([$bigEndianBinary, $littleEndianBinary] as $binary) {
             $geometry = Geometry::fromBinary(hex2bin($binary));
@@ -67,8 +73,10 @@ class GeometryTest extends AbstractTestCase
      * @param string $text               The WKT of the geometry under test.
      * @param string $bigEndianBinary    The big endian WKB of the geometry under test.
      * @param string $littleEndianBinary The little endian WKB of the geometry under test.
+     *
+     * @return void
      */
-    public function testAsBinary($text, $bigEndianBinary, $littleEndianBinary)
+    public function testAsBinary(string $text, string $bigEndianBinary, string $littleEndianBinary) : void
     {
         $machineByteOrder = WKBTools::getMachineByteOrder();
 
@@ -87,7 +95,7 @@ class GeometryTest extends AbstractTestCase
      *
      * @return array
      */
-    public function providerTextBinary()
+    public function providerTextBinary() : array
     {
         return [
             ['POINT (1 2)', '00000000013ff00000000000004000000000000000', '0101000000000000000000f03f0000000000000040'],
@@ -100,10 +108,12 @@ class GeometryTest extends AbstractTestCase
     /**
      * @dataProvider providerDimension
      *
-     * @param string  $geometry
-     * @param integer $dimension
+     * @param string $geometry
+     * @param int    $dimension
+     *
+     * @return void
      */
-    public function testDimension($geometry, $dimension)
+    public function testDimension(string $geometry, int $dimension) : void
     {
         $geometry = Geometry::fromText($geometry);
         $this->assertSame($dimension, $geometry->dimension());
@@ -112,7 +122,7 @@ class GeometryTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerDimension()
+    public function providerDimension() : array
     {
         return [
             ['POINT EMPTY', 0],
@@ -166,10 +176,12 @@ class GeometryTest extends AbstractTestCase
     /**
      * @dataProvider providerCoordinateDimension
      *
-     * @param string  $geometry            The WKT of the geometry to test.
-     * @param integer $coordinateDimension The expected coordinate dimension.
+     * @param string $geometry            The WKT of the geometry to test.
+     * @param int    $coordinateDimension The expected coordinate dimension.
+     *
+     * @return void
      */
-    public function testCoordinateDimension($geometry, $coordinateDimension)
+    public function testCoordinateDimension(string $geometry, int $coordinateDimension) : void
     {
         $this->assertSame($coordinateDimension, Geometry::fromText($geometry)->coordinateDimension());
     }
@@ -177,7 +189,7 @@ class GeometryTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerCoordinateDimension()
+    public function providerCoordinateDimension() : array
     {
         return [
             ['POINT (1 2)', 2],
@@ -194,10 +206,12 @@ class GeometryTest extends AbstractTestCase
     /**
      * @dataProvider providerSpatialDimension
      *
-     * @param string  $geometry         The WKT of the geometry to test.
-     * @param integer $spatialDimension The expected spatial dimension.
+     * @param string $geometry         The WKT of the geometry to test.
+     * @param int    $spatialDimension The expected spatial dimension.
+     *
+     * @return void
      */
-    public function testSpatialDimension($geometry, $spatialDimension)
+    public function testSpatialDimension(string $geometry, int $spatialDimension) : void
     {
         $this->assertSame($spatialDimension, Geometry::fromText($geometry)->spatialDimension());
     }
@@ -205,7 +219,7 @@ class GeometryTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerSpatialDimension()
+    public function providerSpatialDimension() : array
     {
         return [
             ['POINT (1 2)', 2],
@@ -224,8 +238,10 @@ class GeometryTest extends AbstractTestCase
      *
      * @param string $geometry     The WKT of the geometry to test.
      * @param string $geometryType The expected geometry type.
+     *
+     * @return void
      */
-    public function testGeometryType($geometry, $geometryType)
+    public function testGeometryType(string $geometry, string $geometryType) : void
     {
         $geometry = Geometry::fromText($geometry);
         $this->assertSame($geometryType, $geometry->geometryType());
@@ -234,7 +250,7 @@ class GeometryTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerGeometryType()
+    public function providerGeometryType() : array
     {
         return [
             ['POINT EMPTY', 'Point'],
@@ -295,17 +311,19 @@ class GeometryTest extends AbstractTestCase
     /**
      * @dataProvider providerSRID
      *
-     * @param integer $srid
+     * @param int $srid
+     *
+     * @return void
      */
-    public function testSRID($srid)
+    public function testSRID(int $srid) : void
     {
-        $this->assertSame((int) $srid, Geometry::fromText('POINT EMPTY', $srid)->SRID());
+        $this->assertSame($srid, Geometry::fromText('POINT EMPTY', $srid)->SRID());
     }
 
     /**
      * @return array
      */
-    public function providerSRID()
+    public function providerSRID() : array
     {
         return [
             [4326],
@@ -318,8 +336,10 @@ class GeometryTest extends AbstractTestCase
      *
      * @param string $geometry The WKT of the geometry to test.
      * @param string $envelope The WKT of the expected envelope.
+     *
+     * @return void
      */
-    public function testEnvelope($geometry, $envelope)
+    public function testEnvelope(string $geometry, string $envelope) : void
     {
         $this->requiresGeometryEngine();
 
@@ -332,7 +352,7 @@ class GeometryTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerEnvelope()
+    public function providerEnvelope() : array
     {
         return [
             ['LINESTRING (0 0, 1 3)', 'POLYGON ((0 0, 0 3, 1 3, 1 0, 0 0))'],
@@ -344,10 +364,12 @@ class GeometryTest extends AbstractTestCase
     /**
      * @dataProvider providerIsEmpty
      *
-     * @param string  $geometry The WKT of the geometry to test.
-     * @param boolean $isEmpty  Whether the geometry is empty.
+     * @param string $geometry The WKT of the geometry to test.
+     * @param bool   $isEmpty  Whether the geometry is empty.
+     *
+     * @return void
      */
-    public function testIsEmpty($geometry, $isEmpty)
+    public function testIsEmpty(string $geometry, bool $isEmpty) : void
     {
         $this->assertSame($isEmpty, Geometry::fromText($geometry)->isEmpty());
     }
@@ -355,7 +377,7 @@ class GeometryTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerIsEmpty()
+    public function providerIsEmpty() : array
     {
         return [
             ['POINT EMPTY', true],
@@ -371,10 +393,12 @@ class GeometryTest extends AbstractTestCase
     /**
      * @dataProvider providerIsValid
      *
-     * @param string  $geometry The WKT of the geometry to test.
-     * @param boolean $isValid  Whether the geometry is valid.
+     * @param string $geometry The WKT of the geometry to test.
+     * @param bool   $isValid  Whether the geometry is valid.
+     *
+     * @return void
      */
-    public function testIsValid($geometry, $isValid)
+    public function testIsValid(string $geometry, bool $isValid) : void
     {
         $this->requiresGeometryEngine();
 
@@ -392,7 +416,7 @@ class GeometryTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerIsValid()
+    public function providerIsValid() : array
     {
         return [
             ['POINT (1 2)', true],
@@ -407,10 +431,12 @@ class GeometryTest extends AbstractTestCase
     /**
      * @dataProvider providerIsSimple
      *
-     * @param string  $geometry The WKT of the geometry to test.
-     * @param boolean $isSimple Whether the geometry is simple.
+     * @param string $geometry The WKT of the geometry to test.
+     * @param bool   $isSimple Whether the geometry is simple.
+     *
+     * @return void
      */
-    public function testIsSimple($geometry, $isSimple)
+    public function testIsSimple(string $geometry, bool $isSimple) : void
     {
         $this->requiresGeometryEngine();
 
@@ -422,7 +448,7 @@ class GeometryTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerIsSimple()
+    public function providerIsSimple() : array
     {
         return [
             ['POINT (1 2)', true],
@@ -447,11 +473,13 @@ class GeometryTest extends AbstractTestCase
     /**
      * @dataProvider providerDimensionality
      *
-     * @param string  $geometry   The geometry to test.
-     * @param boolean $is3D       Whether the geometry has a Z coordinate.
-     * @param boolean $isMeasured Whether the geometry has a M coordinate.
+     * @param string $geometry   The geometry to test.
+     * @param bool   $is3D       Whether the geometry has a Z coordinate.
+     * @param bool   $isMeasured Whether the geometry has a M coordinate.
+     *
+     * @return void
      */
-    public function testDimensionality($geometry, $is3D, $isMeasured)
+    public function testDimensionality(string $geometry, bool $is3D, bool $isMeasured) : void
     {
         $this->assertSame($is3D, Geometry::fromText($geometry)->is3D());
         $this->assertSame($isMeasured, Geometry::fromText($geometry)->isMeasured());
@@ -460,7 +488,7 @@ class GeometryTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerDimensionality()
+    public function providerDimensionality() : array
     {
         return [
             ['POINT EMPTY', false, false],
@@ -479,8 +507,10 @@ class GeometryTest extends AbstractTestCase
      *
      * @param string $geometry The WKT of the geometry to test.
      * @param string $boundary The WKT of the expected boundary.
+     *
+     * @return void
      */
-    public function testBoundary($geometry, $boundary)
+    public function testBoundary(string $geometry, string $boundary) : void
     {
         $this->requiresGeometryEngine();
 
@@ -502,7 +532,7 @@ class GeometryTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerBoundary()
+    public function providerBoundary() : array
     {
         return [
             ['POINT (1 2)', 'GEOMETRYCOLLECTION EMPTY'],
@@ -517,11 +547,13 @@ class GeometryTest extends AbstractTestCase
     /**
      * @dataProvider providerEquals
      *
-     * @param string  $geometry1 The WKT of the first geometry.
-     * @param string  $geometry2 The WKT of the second geometry.
-     * @param boolean $equals    Whether the geometries are spatially equal.
+     * @param string $geometry1 The WKT of the first geometry.
+     * @param string $geometry2 The WKT of the second geometry.
+     * @param bool   $equals    Whether the geometries are spatially equal.
+     *
+     * @return void
      */
-    public function testEquals($geometry1, $geometry2, $equals)
+    public function testEquals(string $geometry1, string $geometry2, bool $equals) : void
     {
         $this->requiresGeometryEngine();
 
@@ -537,7 +569,7 @@ class GeometryTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerEquals()
+    public function providerEquals() : array
     {
         return [
             ['POINT (1 2)', 'POINT (1 2)', true],
@@ -559,11 +591,13 @@ class GeometryTest extends AbstractTestCase
     /**
      * @dataProvider providerDisjoint
      *
-     * @param string  $geometry1 The WKT of the first geometry.
-     * @param string  $geometry2 The WKT of the second geometry.
-     * @param boolean $disjoint  Whether the geometries are spatially disjoint.
+     * @param string $geometry1 The WKT of the first geometry.
+     * @param string $geometry2 The WKT of the second geometry.
+     * @param bool   $disjoint  Whether the geometries are spatially disjoint.
+     *
+     * @return void
      */
-    public function testDisjoint($geometry1, $geometry2, $disjoint)
+    public function testDisjoint(string $geometry1, string $geometry2, bool $disjoint) : void
     {
         $this->requiresGeometryEngine();
 
@@ -578,7 +612,7 @@ class GeometryTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerDisjoint()
+    public function providerDisjoint() : array
     {
         return [
             ['LINESTRING (2 1, 2 2)', 'LINESTRING (2 0, 0 2)', true],
@@ -593,11 +627,13 @@ class GeometryTest extends AbstractTestCase
     /**
      * @dataProvider providerIntersects
      *
-     * @param string  $geometry1  The WKT of the first geometry.
-     * @param string  $geometry2  The WKT of the second geometry.
-     * @param boolean $intersects Whether the geometries spatially intersect.
+     * @param string $geometry1  The WKT of the first geometry.
+     * @param string $geometry2  The WKT of the second geometry.
+     * @param bool   $intersects Whether the geometries spatially intersect.
+     *
+     * @return void
      */
-    public function testIntersects($geometry1, $geometry2, $intersects)
+    public function testIntersects(string $geometry1, string $geometry2, bool $intersects) : void
     {
         $this->requiresGeometryEngine();
 
@@ -612,7 +648,7 @@ class GeometryTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerIntersects()
+    public function providerIntersects() : array
     {
         return [
             ['LINESTRING (2 1, 2 2)', 'LINESTRING (2 0, 0 2)', false],
@@ -627,11 +663,13 @@ class GeometryTest extends AbstractTestCase
     /**
      * @dataProvider providerTouches
      *
-     * @param string  $geometry1 The WKT of the first geometry.
-     * @param string  $geometry2 The WKT of the second geometry.
-     * @param boolean $touches   Whether the geometries spatially touch.
+     * @param string $geometry1 The WKT of the first geometry.
+     * @param string $geometry2 The WKT of the second geometry.
+     * @param bool   $touches   Whether the geometries spatially touch.
+     *
+     * @return void
      */
-    public function testTouches($geometry1, $geometry2, $touches)
+    public function testTouches(string $geometry1, string $geometry2, bool $touches) : void
     {
         $this->requiresGeometryEngine();
 
@@ -646,7 +684,7 @@ class GeometryTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerTouches()
+    public function providerTouches() : array
     {
         return [
             ['LINESTRING (1 1, 1 3)', 'LINESTRING (1 1, 3 1)', true],
@@ -663,11 +701,13 @@ class GeometryTest extends AbstractTestCase
     /**
      * @dataProvider providerCrosses
      *
-     * @param string  $geometry1 The WKT of the first geometry.
-     * @param string  $geometry2 The WKT of the second geometry.
-     * @param boolean $crosses   Whether the geometries spatially cross.
+     * @param string $geometry1 The WKT of the first geometry.
+     * @param string $geometry2 The WKT of the second geometry.
+     * @param bool   $crosses   Whether the geometries spatially cross.
+     *
+     * @return void
      */
-    public function testCrosses($geometry1, $geometry2, $crosses)
+    public function testCrosses(string $geometry1, string $geometry2, bool $crosses) : void
     {
         $this->requiresGeometryEngine();
 
@@ -682,7 +722,7 @@ class GeometryTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerCrosses()
+    public function providerCrosses() : array
     {
         return [
             ['MULTIPOINT (1 3, 2 2, 3 2)', 'LINESTRING (0 3, 1 1, 2 2, 2 0)', true],
@@ -699,11 +739,13 @@ class GeometryTest extends AbstractTestCase
     /**
      * @dataProvider providerWithin
      *
-     * @param string  $geometry1 The WKT of the first geometry.
-     * @param string  $geometry2 The WKT of the second geometry.
-     * @param boolean $within    Whether the first geometry is within the second one.
+     * @param string $geometry1 The WKT of the first geometry.
+     * @param string $geometry2 The WKT of the second geometry.
+     * @param bool   $within    Whether the first geometry is within the second one.
+     *
+     * @return void
      */
-    public function testWithin($geometry1, $geometry2, $within)
+    public function testWithin(string $geometry1, string $geometry2, bool $within) : void
     {
         $this->requiresGeometryEngine();
 
@@ -716,7 +758,7 @@ class GeometryTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerWithin()
+    public function providerWithin() : array
     {
         return [
             ['POLYGON ((2 2, 4 3, 4 2, 2 2))', 'POLYGON ((1 1, 1 3, 4 4, 6 3, 5 1, 1 1))', true],
@@ -730,11 +772,13 @@ class GeometryTest extends AbstractTestCase
     /**
      * @dataProvider providerContains
      *
-     * @param string  $geometry1 The WKT of the first geometry.
-     * @param string  $geometry2 The WKT of the second geometry.
-     * @param boolean $contains  Whether the first geometry contains the second one.
+     * @param string $geometry1 The WKT of the first geometry.
+     * @param string $geometry2 The WKT of the second geometry.
+     * @param bool   $contains  Whether the first geometry contains the second one.
+     *
+     * @return void
      */
-    public function testContains($geometry1, $geometry2, $contains)
+    public function testContains(string $geometry1, string $geometry2, bool $contains) : void
     {
         $this->requiresGeometryEngine();
 
@@ -747,7 +791,7 @@ class GeometryTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerContains()
+    public function providerContains() : array
     {
         return [
             ['POLYGON ((1 1, 1 3, 4 4, 6 3, 5 1, 1 1))', 'POLYGON ((2 2, 4 3, 4 2, 2 2))', true],
@@ -761,11 +805,13 @@ class GeometryTest extends AbstractTestCase
     /**
      * @dataProvider providerOverlaps
      *
-     * @param string  $geometry1 The WKT of the first geometry.
-     * @param string  $geometry2 The WKT of the second geometry.
-     * @param boolean $overlaps  Whether the first geometry overlaps the second one.
+     * @param string $geometry1 The WKT of the first geometry.
+     * @param string $geometry2 The WKT of the second geometry.
+     * @param bool   $overlaps  Whether the first geometry overlaps the second one.
+     *
+     * @return void
      */
-    public function testOverlaps($geometry1, $geometry2, $overlaps)
+    public function testOverlaps(string $geometry1, string $geometry2, bool $overlaps) : void
     {
         $this->requiresGeometryEngine();
 
@@ -778,7 +824,7 @@ class GeometryTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerOverlaps()
+    public function providerOverlaps() : array
     {
         return [
             ['POLYGON ((1 2, 2 4, 3 3, 2 1, 1 2))', 'POLYGON ((2 2, 2 3, 4 2, 3 1, 2 2))', true],
@@ -789,12 +835,14 @@ class GeometryTest extends AbstractTestCase
     /**
      * @dataProvider providerRelate
      *
-     * @param string  $geometry1 The WKT of the first geometry.
-     * @param string  $geometry2 The WKT of the second geometry.
-     * @param string  $matrix    The intersection matrix pattern.
-     * @param boolean $relate    Whether the first geometry is spatially related to the second one.
+     * @param string $geometry1 The WKT of the first geometry.
+     * @param string $geometry2 The WKT of the second geometry.
+     * @param string $matrix    The intersection matrix pattern.
+     * @param bool   $relate    Whether the first geometry is spatially related to the second one.
+     *
+     * @return void
      */
-    public function testRelate($geometry1, $geometry2, $matrix, $relate)
+    public function testRelate(string $geometry1, string $geometry2, string $matrix, bool $relate) : void
     {
         $this->requiresGeometryEngine();
 
@@ -811,7 +859,7 @@ class GeometryTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerRelate()
+    public function providerRelate() : array
     {
         return [
             ['POLYGON ((60 160, 220 160, 220 20, 60 20, 60 160))', 'POLYGON ((60 160, 20 200, 260 200, 140 80, 60 160))', '212101212', true],
@@ -827,8 +875,10 @@ class GeometryTest extends AbstractTestCase
      * @param string $geometry The WKT of the base geometry.
      * @param float  $measure  The test measure.
      * @param string $result   The WKT of the result geometry.
+     *
+     * @return void
      */
-    public function testLocateAlong($geometry, $measure, $result)
+    public function testLocateAlong(string $geometry, float $measure, string $result) : void
     {
         $this->requiresGeometryEngine();
 
@@ -842,7 +892,7 @@ class GeometryTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerLocateAlong()
+    public function providerLocateAlong() : array
     {
         return [
             ['MULTILINESTRING M((1 2 3, 3 4 2, 9 4 3), (1 2 3, 5 4 5))', 3.0, 'MULTIPOINT M (1 2 3, 9 4 3, 1 2 3)'],
@@ -857,8 +907,10 @@ class GeometryTest extends AbstractTestCase
      * @param string $mStart   The start measure.
      * @param string $mEnd     The end measure.
      * @param string $result   The WKT of the second geometry.
+     *
+     * @return void
      */
-    public function testLocateBetween($geometry, $mStart, $mEnd, $result)
+    public function testLocateBetween(string $geometry, string $mStart, string $mEnd, string $result) : void
     {
         $this->requiresGeometryEngine();
 
@@ -872,7 +924,7 @@ class GeometryTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerLocateBetween()
+    public function providerLocateBetween() : array
     {
         return [
             ['MULTIPOINT M(1 2 2)', 2.0, 5.0, 'MULTIPOINT M (1 2 2)'],
@@ -886,8 +938,10 @@ class GeometryTest extends AbstractTestCase
      * @param string $geometry1 The WKT of the first geometry.
      * @param string $geometry2 The WKT of the second geometry.
      * @param float  $distance  The distance between the geometries.
+     *
+     * @return void
      */
-    public function testDistance($geometry1, $geometry2, $distance)
+    public function testDistance(string $geometry1, string $geometry2, float $distance) : void
     {
         $this->requiresGeometryEngine();
 
@@ -900,7 +954,7 @@ class GeometryTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerDistance()
+    public function providerDistance() : array
     {
         return [
             ['POINT(2 1)', 'LINESTRING (3 0, 3 3)', 1.0],
@@ -913,8 +967,10 @@ class GeometryTest extends AbstractTestCase
      *
      * @param string $geometry The WKT of the base geometry.
      * @param float  $distance The distance of the buffer.
+     *
+     * @return void
      */
-    public function testBuffer($geometry, $distance)
+    public function testBuffer(string $geometry, float $distance) : void
     {
         $this->requiresGeometryEngine();
 
@@ -935,7 +991,7 @@ class GeometryTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerBuffer()
+    public function providerBuffer() : array
     {
         return [
             ['POINT (1 2)', 3.0],
@@ -949,8 +1005,10 @@ class GeometryTest extends AbstractTestCase
      *
      * @param string $geometry The WKT of the base geometry.
      * @param string $result   The WKT of the result geometry.
+     *
+     * @return void
      */
-    public function testConvexHull($geometry, $result)
+    public function testConvexHull(string $geometry, string $result) : void
     {
         $this->requiresGeometryEngine();
 
@@ -967,7 +1025,7 @@ class GeometryTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerConvexHull()
+    public function providerConvexHull() : array
     {
         return [
             ['LINESTRING (20 20, 30 30, 20 40, 30 50)', 'POLYGON ((20 20, 20 40, 30 50, 30 30, 20 20))'],
@@ -982,8 +1040,10 @@ class GeometryTest extends AbstractTestCase
      * @param string $geometry1 The WKT of the first geometry.
      * @param string $geometry2 The WKT of the second geometry.
      * @param string $result    The WKT of the result geometry.
+     *
+     * @return void
      */
-    public function testIntersection($geometry1, $geometry2, $result)
+    public function testIntersection(string $geometry1, string $geometry2, string $result) : void
     {
         $this->requiresGeometryEngine();
 
@@ -999,7 +1059,7 @@ class GeometryTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerIntersection()
+    public function providerIntersection() : array
     {
         return [
             ['POINT (0 0)', 'LINESTRING (0 0, 0 2)', 'POINT (0 0)'],
@@ -1013,8 +1073,10 @@ class GeometryTest extends AbstractTestCase
      * @param string $geometry1 The WKT of the first geometry.
      * @param string $geometry2 The WKT of the second geometry.
      * @param string $result    The WKT of the result geometry.
+     *
+     * @return void
      */
-    public function testUnion($geometry1, $geometry2, $result)
+    public function testUnion(string $geometry1, string $geometry2, string $result) : void
     {
         $this->requiresGeometryEngine();
 
@@ -1042,7 +1104,7 @@ class GeometryTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerUnion()
+    public function providerUnion() : array
     {
         return [
             ['POINT EMPTY', 'POINT (1 2)', 'POINT (1 2)'],
@@ -1058,8 +1120,10 @@ class GeometryTest extends AbstractTestCase
      * @param string $geometry1 The WKT of the first geometry.
      * @param string $geometry2 The WKT of the second geometry.
      * @param string $result    The WKT of the result geometry.
+     *
+     * @return void
      */
-    public function testDifference($geometry1, $geometry2, $result)
+    public function testDifference(string $geometry1, string $geometry2, string $result) : void
     {
         $this->requiresGeometryEngine();
 
@@ -1078,7 +1142,7 @@ class GeometryTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerDifference()
+    public function providerDifference() : array
     {
         return [
             ['MULTIPOINT (1 2, 3 4, 5 6)', 'MULTIPOINT (3 4)', 'MULTIPOINT (1 2, 5 6)'],
@@ -1092,8 +1156,10 @@ class GeometryTest extends AbstractTestCase
      * @param string $geometry1 The WKT of the first geometry.
      * @param string $geometry2 The WKT of the second geometry.
      * @param string $result    The WKT of the result geometry.
+     *
+     * @return void
      */
-    public function testSymDifference($geometry1, $geometry2, $result)
+    public function testSymDifference(string $geometry1, string $geometry2, string $result) : void
     {
         $this->requiresGeometryEngine();
 
@@ -1109,7 +1175,7 @@ class GeometryTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerSymDifference()
+    public function providerSymDifference() : array
     {
         return [
             ['POLYGON ((1 1, 1 2, 2 2, 2 4, 4 4, 4 1, 1 1))', 'POLYGON ((3 0, 3 3, 5 3, 5 0, 3 0))', 'MULTIPOLYGON (((1 1, 1 2, 2 2, 2 4, 4 4, 4 3, 3 3, 3 1, 1 1)), ((3 1, 4 1, 4 3, 5 3, 5 0, 3 0, 3 1)))'],
@@ -1122,8 +1188,10 @@ class GeometryTest extends AbstractTestCase
      * @param string $geometry The WKT of the geometry to test.
      * @param float  $size     The grid size.
      * @param string $result   The WKT of the result geometry.
+     *
+     * @return void
      */
-    public function testSnapToGrid($geometry, $size, $result)
+    public function testSnapToGrid(string $geometry, float $size, string $result) : void
     {
         $this->requiresGeometryEngine();
 
@@ -1142,7 +1210,7 @@ class GeometryTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerSnapToGrid()
+    public function providerSnapToGrid() : array
     {
         return [
             ['POINT (1.23 4.56)', 1.0, 'POINT (1 5)'],
@@ -1158,8 +1226,10 @@ class GeometryTest extends AbstractTestCase
      * @param string $geometry  The WKT of the geometry to test.
      * @param float  $tolerance The tolerance.
      * @param string $result    The WKT of the result geometry.
+     *
+     * @return void
      */
-    public function testSimplify($geometry, $tolerance, $result)
+    public function testSimplify(string$geometry, float $tolerance, string $result) : void
     {
         $this->requiresGeometryEngine();
 
@@ -1176,7 +1246,7 @@ class GeometryTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerSimplify()
+    public function providerSimplify() : array
     {
         return [
             ['POLYGON ((4 0, 2 1, 1 2, 0 4, 0 6, 1 8, 2 9, 4 10, 6 10, 8 9, 9 8, 10 6, 10 4, 9 2, 8 1, 6 0, 4 0))', 1, 'POLYGON ((4 0, 1 2, 0 6, 2 9, 6 10, 9 8, 10 4, 8 1, 4 0))'],
@@ -1190,8 +1260,10 @@ class GeometryTest extends AbstractTestCase
      * @param string $geometry1    The WKT of the first geometry.
      * @param string $geometry2    The WKT of the second geometry.
      * @param float  $maxDistance  The expected value.
+     *
+     * @return void
      */
-    public function testMaxDistance($geometry1, $geometry2, $maxDistance)
+    public function testMaxDistance(string $geometry1, string $geometry2, float $maxDistance) : void
     {
         $this->requiresGeometryEngine();
 
@@ -1208,7 +1280,7 @@ class GeometryTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerMaxDistance()
+    public function providerMaxDistance() : array
     {
         return [
             ['POINT (0 0)', 'LINESTRING (2 0, 0 2)', 2.0],
@@ -1222,8 +1294,10 @@ class GeometryTest extends AbstractTestCase
      *
      * @param string $geometry The WKT of the geometry to test.
      * @param array  $array    The expected result array.
+     *
+     * @return void
      */
-    public function testToArray($geometry, $array)
+    public function testToArray(string $geometry, array $array) : void
     {
         $this->castToFloat($array);
         $this->assertSame($array, Geometry::fromText($geometry)->toArray());
@@ -1232,7 +1306,7 @@ class GeometryTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerToArray()
+    public function providerToArray() : array
     {
         return [
             ['POINT EMPTY', []],

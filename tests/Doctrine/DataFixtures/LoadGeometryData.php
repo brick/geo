@@ -13,7 +13,7 @@ class LoadGeometryData implements FixtureInterface {
     /**
      * {@inheritdoc}
      */
-    function load(ObjectManager $manager)
+    public function load(ObjectManager $manager)
     {
         $point1 = new GeometryEntity();
         $point1->setGeometry(Point::xy(0, 0));

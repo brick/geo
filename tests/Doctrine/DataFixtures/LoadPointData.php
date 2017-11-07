@@ -13,7 +13,7 @@ class LoadPointData implements FixtureInterface {
     /**
      * {@inheritdoc}
      */
-    function load(ObjectManager $manager)
+    public function load(ObjectManager $manager)
     {
         $point1 = new PointEntity();
         $point1->setPoint(Point::xy(0, 0));

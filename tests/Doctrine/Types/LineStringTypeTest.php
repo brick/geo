@@ -22,7 +22,10 @@ class LineStringTypeTest extends FunctionalTestCase
         $this->loadFixtures();
     }
 
-    public function testReadFromDbAndConvertToPHPValue()
+    /**
+     * @return void
+     */
+    public function testReadFromDbAndConvertToPHPValue() : void
     {
         $repository = $this->getEntityManager()->getRepository(LineStringEntity::class);
 

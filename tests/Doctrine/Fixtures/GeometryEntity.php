@@ -31,15 +31,17 @@ class GeometryEntity {
     /**
      * @return Geometry
      */
-    public function getGeometry()
+    public function getGeometry() : Geometry
     {
         return $this->geometry;
     }
 
     /**
      * @param Geometry $geometry
+     *
+     * @return void
      */
-    public function setGeometry($geometry)
+    public function setGeometry(Geometry $geometry) : void
     {
         $this->geometry = $geometry;
     }

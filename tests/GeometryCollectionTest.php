@@ -15,10 +15,12 @@ class GeometryCollectionTest extends AbstractTestCase
     /**
      * @dataProvider providerNumGeometries
      *
-     * @param string  $geometry      The WKT of the GeometryCollection to test.
-     * @param integer $numGeometries The expected number of geometries.
+     * @param string $geometry      The WKT of the GeometryCollection to test.
+     * @param int    $numGeometries The expected number of geometries.
+     *
+     * @return void
      */
-    public function testNumGeometries($geometry, $numGeometries)
+    public function testNumGeometries(string $geometry, int $numGeometries) : void
     {
         $geometry = GeometryCollection::fromText($geometry);
         $this->assertSame($numGeometries, $geometry->numGeometries());
@@ -27,7 +29,7 @@ class GeometryCollectionTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerNumGeometries()
+    public function providerNumGeometries() : array
     {
         return [
             ['GEOMETRYCOLLECTION EMPTY', 0],
@@ -40,11 +42,13 @@ class GeometryCollectionTest extends AbstractTestCase
      * @dataProvider providerGeometryN
      *
      * @param string      $geometry  The WKT of the GeometryCollection to test.
-     * @param integer     $n         The number of the geometry to return.
+     * @param int         $n         The number of the geometry to return.
      * @param string|null $geometryN The WKT of the expected result, or NULL if an exception is expected.
-     * @param integer     $srid      The SRID of the geometries.
+     * @param int         $srid      The SRID of the geometries.
+     *
+     * @return void
      */
-    public function testGeometryN($geometry, $n, $geometryN, $srid)
+    public function testGeometryN(string $geometry, int $n, ?string $geometryN, int $srid) : void
     {
         if ($geometryN === null) {
             $this->expectException(NoSuchGeometryException::class);
@@ -57,7 +61,7 @@ class GeometryCollectionTest extends AbstractTestCase
     /**
      * @return \Generator
      */
-    public function providerGeometryN()
+    public function providerGeometryN() : \Generator
     {
         $tests = [
             ['GEOMETRYCOLLECTION EMPTY', 0, null],
@@ -80,8 +84,10 @@ class GeometryCollectionTest extends AbstractTestCase
 
     /**
      * Tests Countable and Traversable interfaces.
+     *
+     * @return void
      */
-    public function testInterfaces()
+    public function testInterfaces() : void
     {
         $point = Point::fromText('POINT (1 2)');
         $lineString = LineString::fromText('LINESTRING (1 2, 3 4)');

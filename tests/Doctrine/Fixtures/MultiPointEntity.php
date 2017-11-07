@@ -31,15 +31,17 @@ class MultiPointEntity {
     /**
      * @return MultiPoint
      */
-    public function getMultiPoint()
+    public function getMultiPoint() : MultiPoint
     {
         return $this->multiPoint;
     }
 
     /**
      * @param MultiPoint $multiPoint
+     *
+     * @return void
      */
-    public function setMultiPoint($multiPoint)
+    public function setMultiPoint(MultiPoint $multiPoint) : void
     {
         $this->multiPoint = $multiPoint;
     }

@@ -31,15 +31,17 @@ class PointEntity {
     /**
      * @return Point
      */
-    public function getPoint()
+    public function getPoint() : Point
     {
         return $this->point;
     }
 
     /**
      * @param Point $point
+     *
+     * @return void
      */
-    public function setPoint($point)
+    public function setPoint(Point $point) : void
     {
         $this->point = $point;
     }

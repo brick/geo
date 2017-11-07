@@ -10,7 +10,10 @@ use Brick\Geo\Triangle;
  */
 class TINTest extends AbstractTestCase
 {
-    public function testCreate()
+    /**
+     * @return void
+     */
+    public function testCreate() : void
     {
         $triangle1 = Triangle::fromText('TRIANGLE ((1 1, 1 2, 2 2, 1 1))');
         $triangle2 = Triangle::fromText('TRIANGLE ((1 1, 2 2, 2 1, 1 1))');

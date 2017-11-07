@@ -31,15 +31,17 @@ class MultiPolygonEntity {
     /**
      * @return MultiPolygon
      */
-    public function getMultiPolygon()
+    public function getMultiPolygon() : MultiPolygon
     {
         return $this->multiPolygon;
     }
 
     /**
      * @param MultiPolygon $multiPolygon
+     *
+     * @return void
      */
-    public function setMultiPolygon($multiPolygon)
+    public function setMultiPolygon(MultiPolygon $multiPolygon) : void
     {
         $this->multiPolygon = $multiPolygon;
     }

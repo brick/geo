@@ -10,7 +10,7 @@ abstract class EWKBAbstractTest extends WKBAbstractTest
     /**
      * @return array
      */
-    public function providerBigEndianEWKB()
+    public function providerBigEndianEWKB() : array
     {
         return [
             // Point
@@ -180,7 +180,7 @@ abstract class EWKBAbstractTest extends WKBAbstractTest
     /**
      * @return array
      */
-    public function providerBigEndianEWKB_SRID()
+    public function providerBigEndianEWKB_SRID() : array
     {
         return [
             // Point
@@ -350,7 +350,7 @@ abstract class EWKBAbstractTest extends WKBAbstractTest
     /**
      * @return array
      */
-    public function providerLittleEndianEWKB()
+    public function providerLittleEndianEWKB() : array
     {
         return [
             // Point
@@ -520,7 +520,7 @@ abstract class EWKBAbstractTest extends WKBAbstractTest
     /**
      * @return array
      */
-    public function providerLittleEndianEWKB_SRID()
+    public function providerLittleEndianEWKB_SRID() : array
     {
         return [
             // Point

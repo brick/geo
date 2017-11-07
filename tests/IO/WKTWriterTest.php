@@ -15,11 +15,13 @@ class WKTWriterTest extends WKTAbstractTest
     /**
      * @dataProvider providerPrettyPrint
      *
-     * @param boolean $is3D        Whether to use Z coordinates.
-     * @param boolean $prettyPrint Whether to set the prettyPrint parameter.
-     * @param string  $wkt         The expected result WKT.
+     * @param bool   $is3D        Whether to use Z coordinates.
+     * @param bool   $prettyPrint Whether to set the prettyPrint parameter.
+     * @param string $wkt         The expected result WKT.
+     *
+     * @return void
      */
-    public function testPrettyPrint($is3D, $prettyPrint, $wkt)
+    public function testPrettyPrint(bool $is3D, bool $prettyPrint, string $wkt) : void
     {
         $writer = new WKTWriter();
         $writer->setPrettyPrint($prettyPrint);
@@ -43,7 +45,7 @@ class WKTWriterTest extends WKTAbstractTest
     /**
      * @return array
      */
-    public function providerPrettyPrint()
+    public function providerPrettyPrint() : array
     {
         return [
             [false, false, 'GEOMETRYCOLLECTION(POINT(1 2),MULTILINESTRING((1 2,4 5),(2 3,5 6)))'],
@@ -57,12 +59,14 @@ class WKTWriterTest extends WKTAbstractTest
     /**
      * @dataProvider providerPointWKT
      *
-     * @param string  $wkt        The expected WKT.
-     * @param array   $coords     The Point coordinates.
-     * @param boolean $is3D       Whether the Point has a Z coordinate.
-     * @param boolean $isMeasured Whether the Point has a M coordinate.
+     * @param string $wkt        The expected WKT.
+     * @param array  $coords     The Point coordinates.
+     * @param bool   $is3D       Whether the Point has a Z coordinate.
+     * @param bool   $isMeasured Whether the Point has a M coordinate.
+     *
+     * @return void
      */
-    public function testWritePoint($wkt, array $coords, $is3D, $isMeasured)
+    public function testWritePoint(string $wkt, array $coords, bool $is3D, bool $isMeasured) : void
     {
         $writer = new WKTWriter();
         $writer->setPrettyPrint(false);
@@ -76,12 +80,14 @@ class WKTWriterTest extends WKTAbstractTest
     /**
      * @dataProvider providerLineStringWKT
      *
-     * @param string  $wkt        The expected WKT.
-     * @param array   $coords     The LineString coordinates.
-     * @param boolean $is3D       Whether the LineString has Z coordinates.
-     * @param boolean $isMeasured Whether the LineString has M coordinates.
+     * @param string $wkt        The expected WKT.
+     * @param array  $coords     The LineString coordinates.
+     * @param bool   $is3D       Whether the LineString has Z coordinates.
+     * @param bool   $isMeasured Whether the LineString has M coordinates.
+     *
+     * @return void
      */
-    public function testWriteLineString($wkt, array $coords, $is3D, $isMeasured)
+    public function testWriteLineString(string $wkt, array $coords, bool $is3D, bool $isMeasured) : void
     {
         $writer = new WKTWriter();
         $writer->setPrettyPrint(false);
@@ -95,12 +101,14 @@ class WKTWriterTest extends WKTAbstractTest
     /**
      * @dataProvider providerCircularStringWKT
      *
-     * @param string  $wkt        The expected WKT.
-     * @param array   $coords     The CircularString coordinates.
-     * @param boolean $is3D       Whether the CircularString has Z coordinates.
-     * @param boolean $isMeasured Whether the CircularString has M coordinates.
+     * @param string $wkt        The expected WKT.
+     * @param array  $coords     The CircularString coordinates.
+     * @param bool   $is3D       Whether the CircularString has Z coordinates.
+     * @param bool   $isMeasured Whether the CircularString has M coordinates.
+     *
+     * @return void
      */
-    public function testWriteCircularString($wkt, array $coords, $is3D, $isMeasured)
+    public function testWriteCircularString(string $wkt, array $coords, bool $is3D, bool $isMeasured) : void
     {
         $writer = new WKTWriter();
         $writer->setPrettyPrint(false);
@@ -114,12 +122,14 @@ class WKTWriterTest extends WKTAbstractTest
     /**
      * @dataProvider providerCompoundCurveWKT
      *
-     * @param string  $wkt        The expected WKT.
-     * @param array   $coords     The CompoundCurve coordinates.
-     * @param boolean $is3D       Whether the CompoundCurve has Z coordinates.
-     * @param boolean $isMeasured Whether the CompoundCurve has M coordinates.
+     * @param string $wkt        The expected WKT.
+     * @param array  $coords     The CompoundCurve coordinates.
+     * @param bool   $is3D       Whether the CompoundCurve has Z coordinates.
+     * @param bool   $isMeasured Whether the CompoundCurve has M coordinates.
+     *
+     * @return void
      */
-    public function testWriteCompoundCurve($wkt, array $coords, $is3D, $isMeasured)
+    public function testWriteCompoundCurve(string $wkt, array $coords, bool $is3D, bool $isMeasured) : void
     {
         $writer = new WKTWriter();
         $writer->setPrettyPrint(false);
@@ -133,12 +143,14 @@ class WKTWriterTest extends WKTAbstractTest
     /**
      * @dataProvider providerPolygonWKT
      *
-     * @param string  $wkt        The expected WKT.
-     * @param array   $coords     The Polygon coordinates.
-     * @param boolean $is3D       Whether the Polygon has Z coordinates.
-     * @param boolean $isMeasured Whether the Polygon has M coordinates.
+     * @param string $wkt        The expected WKT.
+     * @param array  $coords     The Polygon coordinates.
+     * @param bool   $is3D       Whether the Polygon has Z coordinates.
+     * @param bool   $isMeasured Whether the Polygon has M coordinates.
+     *
+     * @return void
      */
-    public function testWritePolygon($wkt, array $coords, $is3D, $isMeasured)
+    public function testWritePolygon(string $wkt, array $coords, bool $is3D, bool $isMeasured) : void
     {
         $writer = new WKTWriter();
         $writer->setPrettyPrint(false);
@@ -152,12 +164,14 @@ class WKTWriterTest extends WKTAbstractTest
     /**
      * @dataProvider providerTriangleWKT
      *
-     * @param string  $wkt        The expected WKT.
-     * @param array   $coords     The Triangle coordinates.
-     * @param boolean $is3D       Whether the Triangle has Z coordinates.
-     * @param boolean $isMeasured Whether the Triangle has M coordinates.
+     * @param string $wkt        The expected WKT.
+     * @param array  $coords     The Triangle coordinates.
+     * @param bool   $is3D       Whether the Triangle has Z coordinates.
+     * @param bool   $isMeasured Whether the Triangle has M coordinates.
+     *
+     * @return void
      */
-    public function testWriteTriangle($wkt, array $coords, $is3D, $isMeasured)
+    public function testWriteTriangle(string $wkt, array $coords, bool $is3D, bool $isMeasured) : void
     {
         $writer = new WKTWriter();
         $writer->setPrettyPrint(false);
@@ -171,12 +185,14 @@ class WKTWriterTest extends WKTAbstractTest
     /**
      * @dataProvider providerCurvePolygonWKT
      *
-     * @param string  $wkt        The expected WKT.
-     * @param array   $coords     The Polygon coordinates.
-     * @param boolean $is3D       Whether the Polygon has Z coordinates.
-     * @param boolean $isMeasured Whether the Polygon has M coordinates.
+     * @param string $wkt        The expected WKT.
+     * @param array  $coords     The Polygon coordinates.
+     * @param bool   $is3D       Whether the Polygon has Z coordinates.
+     * @param bool   $isMeasured Whether the Polygon has M coordinates.
+     *
+     * @return void
      */
-    public function testWriteCurvePolygon($wkt, array $coords, $is3D, $isMeasured)
+    public function testWriteCurvePolygon(string $wkt, array $coords, bool $is3D, bool $isMeasured) : void
     {
         $writer = new WKTWriter();
         $writer->setPrettyPrint(false);
@@ -190,12 +206,14 @@ class WKTWriterTest extends WKTAbstractTest
     /**
      * @dataProvider providerPolyhedralSurfaceWKT
      *
-     * @param string  $wkt        The expected WKT.
-     * @param array   $coords     The PolyhedralSurface coordinates.
-     * @param boolean $is3D       Whether the PolyhedralSurface has Z coordinates.
-     * @param boolean $isMeasured Whether the PolyhedralSurface has M coordinates.
+     * @param string $wkt        The expected WKT.
+     * @param array  $coords     The PolyhedralSurface coordinates.
+     * @param bool   $is3D       Whether the PolyhedralSurface has Z coordinates.
+     * @param bool   $isMeasured Whether the PolyhedralSurface has M coordinates.
+     *
+     * @return void
      */
-    public function testWritePolyhedralSurface($wkt, array $coords, $is3D, $isMeasured)
+    public function testWritePolyhedralSurface(string $wkt, array $coords, bool $is3D, bool $isMeasured) : void
     {
         $writer = new WKTWriter();
         $writer->setPrettyPrint(false);
@@ -209,12 +227,14 @@ class WKTWriterTest extends WKTAbstractTest
     /**
      * @dataProvider providerTINWKT
      *
-     * @param string  $wkt        The expected WKT.
-     * @param array   $coords     The TIN coordinates.
-     * @param boolean $is3D       Whether the TIN has Z coordinates.
-     * @param boolean $isMeasured Whether the TIN has M coordinates.
+     * @param string $wkt        The expected WKT.
+     * @param array  $coords     The TIN coordinates.
+     * @param bool   $is3D       Whether the TIN has Z coordinates.
+     * @param bool   $isMeasured Whether the TIN has M coordinates.
+     *
+     * @return void
      */
-    public function testWriteTIN($wkt, array $coords, $is3D, $isMeasured)
+    public function testWriteTIN(string $wkt, array $coords, bool $is3D, bool $isMeasured) : void
     {
         $writer = new WKTWriter();
         $writer->setPrettyPrint(false);
@@ -228,12 +248,14 @@ class WKTWriterTest extends WKTAbstractTest
     /**
      * @dataProvider providerMultiPointWKT
      *
-     * @param string  $wkt        The expected WKT.
-     * @param array   $coords     The MultiPoint coordinates.
-     * @param boolean $is3D       Whether the MultiPoint has Z coordinates.
-     * @param boolean $isMeasured Whether the MultiPoint has M coordinates.
+     * @param string $wkt        The expected WKT.
+     * @param array  $coords     The MultiPoint coordinates.
+     * @param bool   $is3D       Whether the MultiPoint has Z coordinates.
+     * @param bool   $isMeasured Whether the MultiPoint has M coordinates.
+     *
+     * @return void
      */
-    public function testWriteMultiPoint($wkt, array $coords, $is3D, $isMeasured)
+    public function testWriteMultiPoint(string $wkt, array $coords, bool $is3D, bool $isMeasured) : void
     {
         $writer = new WKTWriter();
         $writer->setPrettyPrint(false);
@@ -247,12 +269,14 @@ class WKTWriterTest extends WKTAbstractTest
     /**
      * @dataProvider providerMultiLineStringWKT
      *
-     * @param string  $wkt        The expected WKT.
-     * @param array   $coords     The MultiLineString coordinates.
-     * @param boolean $is3D       Whether the MultiLineString has Z coordinates.
-     * @param boolean $isMeasured Whether the MultiLineString has M coordinates.
+     * @param string $wkt        The expected WKT.
+     * @param array  $coords     The MultiLineString coordinates.
+     * @param bool   $is3D       Whether the MultiLineString has Z coordinates.
+     * @param bool   $isMeasured Whether the MultiLineString has M coordinates.
+     *
+     * @return void
      */
-    public function testWriteMultiLineString($wkt, array $coords, $is3D, $isMeasured)
+    public function testWriteMultiLineString(string $wkt, array $coords, bool $is3D, bool $isMeasured) : void
     {
         $writer = new WKTWriter();
         $writer->setPrettyPrint(false);
@@ -266,12 +290,14 @@ class WKTWriterTest extends WKTAbstractTest
     /**
      * @dataProvider providerMultiPolygonWKT
      *
-     * @param string  $wkt        The expected WKT.
-     * @param array   $coords     The MultiPolygon coordinates.
-     * @param boolean $is3D       Whether the MultiPolygon has Z coordinates.
-     * @param boolean $isMeasured Whether the MultiPolygon has M coordinates.
+     * @param string $wkt        The expected WKT.
+     * @param array  $coords     The MultiPolygon coordinates.
+     * @param bool   $is3D       Whether the MultiPolygon has Z coordinates.
+     * @param bool   $isMeasured Whether the MultiPolygon has M coordinates.
+     *
+     * @return void
      */
-    public function testWriteMultiPolygon($wkt, array $coords, $is3D, $isMeasured)
+    public function testWriteMultiPolygon(string $wkt, array $coords, bool $is3D, bool $isMeasured) : void
     {
         $writer = new WKTWriter();
         $writer->setPrettyPrint(false);
@@ -285,12 +311,14 @@ class WKTWriterTest extends WKTAbstractTest
     /**
      * @dataProvider providerGeometryCollectionWKT
      *
-     * @param string  $wkt        The expected WKT.
-     * @param array   $coords     The GeometryCollection coordinates.
-     * @param boolean $is3D       Whether the GeometryCollection has Z coordinates.
-     * @param boolean $isMeasured Whether the GeometryCollection has M coordinates.
+     * @param string $wkt        The expected WKT.
+     * @param array  $coords     The GeometryCollection coordinates.
+     * @param bool   $is3D       Whether the GeometryCollection has Z coordinates.
+     * @param bool   $isMeasured Whether the GeometryCollection has M coordinates.
+     *
+     * @return void
      */
-    public function testWriteGeometryCollection($wkt, array $coords, $is3D, $isMeasured)
+    public function testWriteGeometryCollection(string $wkt, array $coords, bool $is3D, bool $isMeasured) : void
     {
         $writer = new WKTWriter();
         $writer->setPrettyPrint(false);
@@ -313,8 +341,10 @@ class WKTWriterTest extends WKTAbstractTest
      * @dataProvider providerWriteEmptyGeometryCollection
      *
      * @param string $wkt The WKT to test.
+     *
+     * @return void
      */
-    public function testWriteEmptyGeometryCollection($wkt)
+    public function testWriteEmptyGeometryCollection(string $wkt) : void
     {
         $writer = new WKTWriter();
         $geometry = GeometryCollection::fromText($wkt);
@@ -325,7 +355,7 @@ class WKTWriterTest extends WKTAbstractTest
     /**
      * @return array
      */
-    public function providerWriteEmptyGeometryCollection()
+    public function providerWriteEmptyGeometryCollection() : array
     {
         return [
             ['GEOMETRYCOLLECTION EMPTY'],

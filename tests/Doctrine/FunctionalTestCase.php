@@ -106,7 +106,7 @@ abstract class FunctionalTestCase extends DbalFunctionalTestCase
     /**
      * @return EntityManager
      */
-    protected function getEntityManager()
+    protected function getEntityManager() : EntityManager
     {
         return $this->em;
     }
@@ -116,7 +116,7 @@ abstract class FunctionalTestCase extends DbalFunctionalTestCase
      *
      * @return void
      */
-    protected function addFixture(FixtureInterface $fixture)
+    protected function addFixture(FixtureInterface $fixture) : void
     {
         $this->fixtureLoader->addFixture($fixture);
     }
@@ -124,7 +124,7 @@ abstract class FunctionalTestCase extends DbalFunctionalTestCase
     /**
      * @return void
      */
-    protected function loadFixtures()
+    protected function loadFixtures() : void
     {
         $this->ormExecutor->execute($this->fixtureLoader->getFixtures());
     }
@@ -137,7 +137,7 @@ abstract class FunctionalTestCase extends DbalFunctionalTestCase
      *
      * @return void
      */
-    protected function assertPointEquals(Point $point, $x, $y, $z = null)
+    protected function assertPointEquals(Point $point, float $x, float $y, float $z = null) : void
     {
         $this->assertInstanceOf(Point::class, $point);
 

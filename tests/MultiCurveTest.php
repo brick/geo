@@ -15,8 +15,10 @@ class MultiCurveTest extends AbstractTestCase
      * @expectedException \Brick\Geo\Exception\UnexpectedGeometryException
      *
      * @param string $wkt A valid WKT, for a non-multicurve geometry.
+     *
+     * @return void
      */
-    public function testInvalidFromText($wkt)
+    public function testInvalidFromText(string $wkt) : void
     {
         MultiCurve::fromText($wkt);
     }
@@ -24,7 +26,7 @@ class MultiCurveTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerInvalidFromText()
+    public function providerInvalidFromText() : array
     {
         return [
             ['POINT EMPTY'],
@@ -39,8 +41,10 @@ class MultiCurveTest extends AbstractTestCase
      * @expectedException \Brick\Geo\Exception\UnexpectedGeometryException
      *
      * @param string $wkb A valid HEX WKB, for a non-multicurve geometry.
+     *
+     * @return void
      */
-    public function testInvalidFromBinary($wkb)
+    public function testInvalidFromBinary(string $wkb) : void
     {
         MultiCurve::fromBinary(hex2bin($wkb));
     }
@@ -48,7 +52,7 @@ class MultiCurveTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerInvalidFromBinary()
+    public function providerInvalidFromBinary() : array
     {
         return [
             ['000000000200000000'],
@@ -64,8 +68,10 @@ class MultiCurveTest extends AbstractTestCase
      *
      * @param string $curve  The WKT of the curve to test.
      * @param float  $length The expected length.
+     *
+     * @return void
      */
-    public function testLength($curve, $length)
+    public function testLength(string $curve, float $length) : void
     {
         $this->requiresGeometryEngine();
 
@@ -81,7 +87,7 @@ class MultiCurveTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerLength()
+    public function providerLength() : array
     {
         return [
             ['MULTILINESTRING ((1 1, 2 1))', 1],
@@ -96,10 +102,12 @@ class MultiCurveTest extends AbstractTestCase
     /**
      * @dataProvider providerIsClosed
      *
-     * @param string  $curve    The WKT of the MultiCurve to test.
-     * @param boolean $isClosed Whether the MultiCurve is closed.
+     * @param string $curve    The WKT of the MultiCurve to test.
+     * @param bool   $isClosed Whether the MultiCurve is closed.
+     *
+     * @return void
      */
-    public function testIsClosed($curve, $isClosed)
+    public function testIsClosed(string $curve, bool $isClosed) : void
     {
         $this->requiresGeometryEngine();
 
@@ -117,7 +125,7 @@ class MultiCurveTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerIsClosed()
+    public function providerIsClosed() : array
     {
         return [
             ['MULTILINESTRING ((1 1, 2 2))', false],

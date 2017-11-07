@@ -14,8 +14,10 @@ class WKBReaderTest extends WKBAbstractTest
      *
      * @param string $wkb The WKB to read, hex-encoded.
      * @param string $wkt The expected WKT output.
+     *
+     * @return void
      */
-    public function testRead($wkb, $wkt)
+    public function testRead(string $wkb, string $wkt) : void
     {
         $reader = new WKBReader();
         $geometry = $reader->read(hex2bin($wkb), 4326);
@@ -25,9 +27,9 @@ class WKBReaderTest extends WKBAbstractTest
     }
 
     /**
-     * @return array
+     * @return \Generator
      */
-    public function providerRead()
+    public function providerRead() : \Generator
     {
         foreach ($this->providerLittleEndianWKB() as list($wkt, $wkb)) {
             yield [$wkb, $wkt];

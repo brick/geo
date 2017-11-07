@@ -16,11 +16,13 @@ class PolyhedralSurfaceTest extends AbstractTestCase
      * @dataProvider providerCreate
      *
      * @param string[] $patchesWKT           The WKT of the patches (polygons) that compose the PolyhedralSurface.
-     * @param boolean  $is3D                 Whether the patches have Z coordinates.
-     * @param boolean  $isMeasured           Whether the patches have M coordinates.
+     * @param bool     $is3D                 Whether the patches have Z coordinates.
+     * @param bool     $isMeasured           Whether the patches have M coordinates.
      * @param string   $polyhedralSurfaceWKT The WKT of the expected PolyhedralSurface.
+     *
+     * @return void
      */
-    public function testCreate(array $patchesWKT, $is3D, $isMeasured, $polyhedralSurfaceWKT)
+    public function testCreate(array $patchesWKT, bool $is3D, bool $isMeasured, string $polyhedralSurfaceWKT) : void
     {
         foreach ([0, 1] as $srid) {
             $instantiatePolygon = function ($patch) use ($srid) {
@@ -36,7 +38,7 @@ class PolyhedralSurfaceTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerCreate()
+    public function providerCreate() : array
     {
         return [
             [['POLYGON ((0 0, 0 1, 1 1, 1 0, 0 0))', 'POLYGON ((1 0, 1 1, 2 1, 2 0, 1 0))'], false, false, 'POLYHEDRALSURFACE (((0 0, 0 1, 1 1, 1 0, 0 0)), ((1 0, 1 1, 2 1, 2 0, 1 0)))'],
@@ -49,10 +51,12 @@ class PolyhedralSurfaceTest extends AbstractTestCase
     /**
      * @dataProvider providerNumPatches
      *
-     * @param string  $polyhedralSurface The WKT of the PolyhedralSurface to test.
-     * @param integer $numPatches        The expected number of patchs.
+     * @param string $polyhedralSurface The WKT of the PolyhedralSurface to test.
+     * @param int    $numPatches        The expected number of patchs.
+     *
+     * @return void
      */
-    public function testNumPatches($polyhedralSurface, $numPatches)
+    public function testNumPatches(string $polyhedralSurface, int $numPatches) : void
     {
         $this->assertSame($numPatches, PolyhedralSurface::fromText($polyhedralSurface)->numPatches());
     }
@@ -60,7 +64,7 @@ class PolyhedralSurfaceTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerNumPatches()
+    public function providerNumPatches() : array
     {
         return [
             ['POLYHEDRALSURFACE EMPTY', 0],
@@ -78,11 +82,13 @@ class PolyhedralSurfaceTest extends AbstractTestCase
      * @dataProvider providerPatchN
      *
      * @param string      $polyhedralSurface The WKT of the PolyhedralSurface to test.
-     * @param integer     $n                 The patch number.
+     * @param int         $n                 The patch number.
      * @param string|null $patchN        The WKT of the expected patch, or NULL if an exception is expected.
-     * @param integer     $srid          The SRID of the geometries.
+     * @param int         $srid          The SRID of the geometries.
+     *
+     * @return void
      */
-    public function testPatchN($polyhedralSurface, $n, $patchN, $srid)
+    public function testPatchN(string $polyhedralSurface, int $n, ?string $patchN, int $srid) : void
     {
         if ($patchN === null) {
             $this->expectException(NoSuchGeometryException::class);
@@ -95,7 +101,7 @@ class PolyhedralSurfaceTest extends AbstractTestCase
     /**
      * @return \Generator
      */
-    public function providerPatchN()
+    public function providerPatchN() : \Generator
     {
         $tests = [
             ['POLYHEDRALSURFACE EMPTY', [
@@ -151,8 +157,10 @@ class PolyhedralSurfaceTest extends AbstractTestCase
 
     /**
      * Tests Countable and Traversable interfaces.
+     *
+     * @return void
      */
-    public function testInterfaces()
+    public function testInterfaces() : void
     {
         $polyhedralSurface = PolyhedralSurface::fromText('POLYHEDRALSURFACE(((0 0, 0 1, 1 1, 1 0, 0 0)), ((1 0, 1 1, 2 1, 2 0, 1 0)), ((2 0, 2 1, 3 1, 3 0, 2 0)))');
 

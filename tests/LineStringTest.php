@@ -13,10 +13,12 @@ class LineStringTest extends AbstractTestCase
     /**
      * @dataProvider providerNumPoints
      *
-     * @param string  $lineString
-     * @param integer $numPoints
+     * @param string $lineString
+     * @param int    $numPoints
+     *
+     * @return void
      */
-    public function testNumPoints($lineString, $numPoints)
+    public function testNumPoints(string $lineString, int $numPoints) : void
     {
         $lineString = LineString::fromText($lineString);
         $this->assertSame($numPoints, $lineString->numPoints());
@@ -25,7 +27,7 @@ class LineStringTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerNumPoints()
+    public function providerNumPoints() : array
     {
         return [
             ['LINESTRING EMPTY', 0],
@@ -42,11 +44,13 @@ class LineStringTest extends AbstractTestCase
     /**
      * @dataProvider providerPointN
      *
-     * @param string  $lineString
-     * @param integer $n
-     * @param string  $pointN
+     * @param string $lineString
+     * @param int    $n
+     * @param string $pointN
+     *
+     * @return void
      */
-    public function testPointN($lineString, $n, $pointN)
+    public function testPointN(string $lineString, int $n, string $pointN) : void
     {
         foreach ([0, 1] as $srid) {
             $ls = LineString::fromText($lineString, $srid);
@@ -57,7 +61,7 @@ class LineStringTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerPointN()
+    public function providerPointN() : array
     {
         return [
             ['LINESTRING (1 2, 3 4, 5 6)', 1, 'POINT (1 2)'],
@@ -77,10 +81,12 @@ class LineStringTest extends AbstractTestCase
      * @dataProvider providerInvalidPointNThrowsException
      * @expectedException \Brick\Geo\Exception\NoSuchGeometryException
      *
-     * @param string  $lineString
-     * @param integer $n
+     * @param string $lineString
+     * @param int    $n
+     *
+     * @return void
      */
-    public function testInvalidPointNThrowsException($lineString, $n)
+    public function testInvalidPointNThrowsException(string $lineString, int $n) : void
     {
         LineString::fromText($lineString)->pointN($n);
     }
@@ -88,7 +94,7 @@ class LineStringTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerInvalidPointNThrowsException()
+    public function providerInvalidPointNThrowsException() : array
     {
         return [
             ['LINESTRING (1 2, 3 4, 5 6)', 0],
@@ -104,8 +110,10 @@ class LineStringTest extends AbstractTestCase
 
     /**
      * Tests Countable and Traversable interfaces.
+     *
+     * @return void
      */
-    public function testInterfaces()
+    public function testInterfaces() : void
     {
         $lineString = LineString::fromText('LINESTRING (1 2, 3 4, 5 6)');
 
@@ -126,8 +134,10 @@ class LineStringTest extends AbstractTestCase
      * @param string $point1
      * @param string $point2
      * @param string $expected
+     *
+     * @return void
      */
-    public function testRectangle($point1, $point2, $expected)
+    public function testRectangle(string $point1, string $point2, string $expected) : void
     {
         $point1 = Point::fromText($point1);
         $point2 = Point::fromText($point2);
@@ -140,7 +150,7 @@ class LineStringTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerRectangle()
+    public function providerRectangle() : array
     {
         return [
             ['POINT (1 2)', 'POINT (3 4)', 'LINESTRING (1 2, 3 2, 3 4, 1 4, 1 2)'],
@@ -157,8 +167,10 @@ class LineStringTest extends AbstractTestCase
      * @param string $point2
      * @param int    $srid1
      * @param int    $srid2
+     *
+     * @return void
      */
-    public function testRectangleWithInvalidPoints($point1, $point2, $srid1 = 0, $srid2 = 0)
+    public function testRectangleWithInvalidPoints(string $point1, string $point2, int $srid1 = 0, int $srid2 = 0) : void
     {
         $point1 = Point::fromText($point1, $srid1);
         $point2 = Point::fromText($point2, $srid2);
@@ -169,7 +181,7 @@ class LineStringTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerRectangleWithInvalidPoints()
+    public function providerRectangleWithInvalidPoints() : array
     {
         return [
             ['POINT (1 1)', 'POINT Z (2 3 4)'],

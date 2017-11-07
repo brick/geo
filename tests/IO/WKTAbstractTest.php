@@ -12,7 +12,7 @@ abstract class WKTAbstractTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerWKT()
+    public function providerWKT() : array
     {
         return array_merge(
             $this->providerPointWKT(),
@@ -34,7 +34,7 @@ abstract class WKTAbstractTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerPointWKT()
+    public function providerPointWKT() : array
     {
         return [
             ['POINT EMPTY', [], false, false],
@@ -52,7 +52,7 @@ abstract class WKTAbstractTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerLineStringWKT()
+    public function providerLineStringWKT() : array
     {
         return [
             ['LINESTRING EMPTY', [], false, false],
@@ -70,7 +70,7 @@ abstract class WKTAbstractTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerCircularStringWKT()
+    public function providerCircularStringWKT() : array
     {
         return [
             ['CIRCULARSTRING EMPTY', [], false, false],
@@ -88,7 +88,7 @@ abstract class WKTAbstractTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerCompoundCurveWKT()
+    public function providerCompoundCurveWKT() : array
     {
         return [
             ['COMPOUNDCURVE EMPTY', [], false, false],
@@ -106,7 +106,7 @@ abstract class WKTAbstractTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerPolygonWKT()
+    public function providerPolygonWKT() : array
     {
         return [
             ['POLYGON EMPTY', [], false, false],
@@ -129,7 +129,7 @@ abstract class WKTAbstractTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerCurvePolygonWKT()
+    public function providerCurvePolygonWKT() : array
     {
         return [
             ['CURVEPOLYGON EMPTY', [], false, false],
@@ -147,7 +147,7 @@ abstract class WKTAbstractTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerMultiPointWKT()
+    public function providerMultiPointWKT() : array
     {
         return [
             ['MULTIPOINT EMPTY', [], false, false],
@@ -165,7 +165,7 @@ abstract class WKTAbstractTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerMultiLineStringWKT()
+    public function providerMultiLineStringWKT() : array
     {
         return [
             ['MULTILINESTRING EMPTY', [], false, false],
@@ -188,7 +188,7 @@ abstract class WKTAbstractTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerMultiPolygonWKT()
+    public function providerMultiPolygonWKT() : array
     {
         return [
             ['MULTIPOLYGON EMPTY', [], false, false],
@@ -211,7 +211,7 @@ abstract class WKTAbstractTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerGeometryCollectionWKT()
+    public function providerGeometryCollectionWKT() : array
     {
         return [
             ['GEOMETRYCOLLECTION EMPTY', [], false, false],
@@ -229,7 +229,7 @@ abstract class WKTAbstractTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerPolyhedralSurfaceWKT()
+    public function providerPolyhedralSurfaceWKT() : array
     {
         return [
             ['POLYHEDRALSURFACE EMPTY', [], false, false],
@@ -247,7 +247,7 @@ abstract class WKTAbstractTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerTriangleWKT()
+    public function providerTriangleWKT() : array
     {
         return [
             ['TRIANGLE EMPTY', [], false, false],
@@ -265,7 +265,7 @@ abstract class WKTAbstractTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerTINWKT()
+    public function providerTINWKT() : array
     {
         return [
             ['TIN EMPTY', [], false, false],

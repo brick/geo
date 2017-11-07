@@ -14,8 +14,10 @@ class CurveTest extends AbstractTestCase
      *
      * @param string $curve  The WKT of the curve to test.
      * @param float  $length The expected length.
+     *
+     * @return void
      */
-    public function testLength($curve, $length)
+    public function testLength(string $curve, float $length) : void
     {
         $this->requiresGeometryEngine();
 
@@ -31,7 +33,7 @@ class CurveTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerLength()
+    public function providerLength() : array
     {
         return [
             ['LINESTRING EMPTY', 0],
@@ -55,8 +57,10 @@ class CurveTest extends AbstractTestCase
      * @param string $lineString The WKT of the Curve to test.
      * @param string $startPoint The WKT of the expected start point.
      * @param string $endPoint   The WKT of the expected end point.
+     *
+     * @return void
      */
-    public function testStartPointEndPoint($lineString, $startPoint, $endPoint)
+    public function testStartPointEndPoint(string $lineString, string $startPoint, string $endPoint) : void
     {
         foreach ([0, 1] as $srid) {
             $ls = Curve::fromText($lineString, $srid);
@@ -69,7 +73,7 @@ class CurveTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerStartPointEndPoint()
+    public function providerStartPointEndPoint() : array
     {
         return [
             ['LINESTRING (1 2, 3 4, 5 6)', 'POINT (1 2)', 'POINT (5 6)'],
@@ -94,8 +98,10 @@ class CurveTest extends AbstractTestCase
      * @expectedException \Brick\Geo\Exception\EmptyGeometryException
      *
      * @param string $lineString
+     *
+     * @return void
      */
-    public function testStartPointOfEmptyCurveThrowsException($lineString)
+    public function testStartPointOfEmptyCurveThrowsException(string $lineString) : void
     {
         Curve::fromText($lineString)->startPoint();
     }
@@ -105,8 +111,10 @@ class CurveTest extends AbstractTestCase
      * @expectedException \Brick\Geo\Exception\EmptyGeometryException
      *
      * @param string $lineString
+     *
+     * @return void
      */
-    public function testEndPointOfEmptyCurveThrowsException($lineString)
+    public function testEndPointOfEmptyCurveThrowsException(string $lineString) : void
     {
         Curve::fromText($lineString)->endPoint();
     }
@@ -114,7 +122,7 @@ class CurveTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerEmptyCurve()
+    public function providerEmptyCurve() : array
     {
         return [
             ['LINESTRING EMPTY'],
@@ -137,10 +145,12 @@ class CurveTest extends AbstractTestCase
     /**
      * @dataProvider providerIsClosed
      *
-     * @param string  $curve    The WKT of the Curve to test.
-     * @param boolean $isClosed Whether the Curve is closed.
+     * @param string $curve    The WKT of the Curve to test.
+     * @param bool   $isClosed Whether the Curve is closed.
+     *
+     * @return void
      */
-    public function testIsClosed($curve, $isClosed)
+    public function testIsClosed(string $curve, bool $isClosed) : void
     {
         $this->requiresGeometryEngine();
 
@@ -153,7 +163,7 @@ class CurveTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerIsClosed()
+    public function providerIsClosed() : array
     {
         return [
             ['LINESTRING (1 1, 2 2)', false],
@@ -179,10 +189,12 @@ class CurveTest extends AbstractTestCase
     /**
      * @dataProvider providerIsRing
      *
-     * @param string  $curve  The WKT of the Curve to test.
-     * @param boolean $isRing Whether the Curve is a ring.
+     * @param string $curve  The WKT of the Curve to test.
+     * @param bool   $isRing Whether the Curve is a ring.
+     *
+     * @return void
      */
-    public function testIsRing($curve, $isRing)
+    public function testIsRing(string $curve, bool $isRing) : void
     {
         $this->requiresGeometryEngine();
 
@@ -200,7 +212,7 @@ class CurveTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerIsRing()
+    public function providerIsRing() : array
     {
         return [
             ['LINESTRING (1 1, 2 2)', false],

@@ -16,8 +16,10 @@ class MultiSurfaceTest extends AbstractTestCase
      * @expectedException \Brick\Geo\Exception\UnexpectedGeometryException
      *
      * @param string $wkt A valid WKT, for a non-multisurface geometry.
+     *
+     * @return void
      */
-    public function testInvalidFromText($wkt)
+    public function testInvalidFromText(string $wkt) : void
     {
         MultiSurface::fromText($wkt);
     }
@@ -25,7 +27,7 @@ class MultiSurfaceTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerInvalidFromText()
+    public function providerInvalidFromText() : array
     {
         return [
             ['POINT EMPTY'],
@@ -40,8 +42,10 @@ class MultiSurfaceTest extends AbstractTestCase
      * @expectedException \Brick\Geo\Exception\UnexpectedGeometryException
      *
      * @param string $wkb A valid HEX WKB, for a non-multisurface geometry.
+     *
+     * @return void
      */
-    public function testInvalidFromBinary($wkb)
+    public function testInvalidFromBinary(string $wkb) : void
     {
         MultiSurface::fromBinary(hex2bin($wkb));
     }
@@ -49,7 +53,7 @@ class MultiSurfaceTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerInvalidFromBinary()
+    public function providerInvalidFromBinary() : array
     {
         return [
             ['000000000200000000'],
@@ -65,8 +69,10 @@ class MultiSurfaceTest extends AbstractTestCase
      *
      * @param string $multiSurface The WKT of the MultiSurface to test.
      * @param float  $area         The expected area.
+     *
+     * @return void
      */
-    public function testArea($multiSurface, $area)
+    public function testArea(string $multiSurface, float $area) : void
     {
         $this->requiresGeometryEngine();
 
@@ -82,7 +88,7 @@ class MultiSurfaceTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerArea()
+    public function providerArea() : array
     {
         return [
             ['MULTIPOLYGON (((1 1, 1 9, 9 1, 1 1)))', 32],
@@ -98,8 +104,10 @@ class MultiSurfaceTest extends AbstractTestCase
      *
      * @param string $multiMultiSurface The WKT of the MultiSurface to test.
      * @param string $centroid          The WKT of the expected centroid.
+     *
+     * @return void
      */
-    public function testCentroid($multiMultiSurface, $centroid)
+    public function testCentroid(string $multiMultiSurface, string $centroid) : void
     {
         $this->requiresGeometryEngine();
 
@@ -111,7 +119,7 @@ class MultiSurfaceTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerCentroid()
+    public function providerCentroid() : array
     {
         return [
             ['MULTIPOLYGON (((0 0, 0 3, 3 3, 3 0, 0 0), (1 1, 1 2, 2 2, 2 1, 1 1)))', 'POINT (1.5 1.5)'],
@@ -124,8 +132,10 @@ class MultiSurfaceTest extends AbstractTestCase
      * @dataProvider providerPointOnSurface
      *
      * @param string $multiMultiSurface The WKT of the MultiSurface to test.
+     *
+     * @return void
      */
-    public function testPointOnSurface($multiMultiSurface)
+    public function testPointOnSurface(string $multiMultiSurface) : void
     {
         $this->requiresGeometryEngine();
 
@@ -146,7 +156,7 @@ class MultiSurfaceTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerPointOnSurface()
+    public function providerPointOnSurface() : array
     {
         return [
             ['MULTIPOLYGON (((1 1, 1 3, 4 3, 4 6, 6 6, 6 1, 1 1)))'],

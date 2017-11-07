@@ -16,8 +16,10 @@ class SurfaceTest extends AbstractTestCase
      *
      * @param string $surface The WKT of the Surface to test.
      * @param float  $area    The expected area.
+     *
+     * @return void
      */
-    public function testArea($surface, $area)
+    public function testArea(string $surface, float $area) : void
     {
         $this->requiresGeometryEngine();
 
@@ -33,7 +35,7 @@ class SurfaceTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerArea()
+    public function providerArea() : array
     {
         return [
             ['POLYGON ((1 1, 1 9, 9 1, 1 1))', 32],
@@ -51,8 +53,10 @@ class SurfaceTest extends AbstractTestCase
      *
      * @param string $surface  The WKT of the Surface to test.
      * @param string $centroid The WKT of the expected centroid.
+     *
+     * @return void
      */
-    public function testCentroid($surface, $centroid)
+    public function testCentroid(string $surface, string $centroid) : void
     {
         $this->requiresGeometryEngine();
 
@@ -64,7 +68,7 @@ class SurfaceTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerCentroid()
+    public function providerCentroid() : array
     {
         return [
             ['POLYGON ((1 2, 1 3, 2 3, 2 4, 3 4, 3 3, 4 3, 4 2, 3 2, 3 1, 2 1, 2 2, 1 2))', 'POINT (2.5 2.5)'],
@@ -78,8 +82,10 @@ class SurfaceTest extends AbstractTestCase
      * @dataProvider providerPointOnSurface
      *
      * @param string $surface The WKT of the Surface to test.
+     *
+     * @return void
      */
-    public function testPointOnSurface($surface)
+    public function testPointOnSurface(string $surface) : void
     {
         $this->requiresGeometryEngine();
 
@@ -100,7 +106,7 @@ class SurfaceTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerPointOnSurface()
+    public function providerPointOnSurface() : array
     {
         return [
             ['POLYGON ((1 1, 1 3, 4 3, 4 6, 6 6, 6 1, 1 1))'],

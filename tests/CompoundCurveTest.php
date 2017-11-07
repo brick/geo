@@ -16,11 +16,13 @@ class CompoundCurveTest extends AbstractTestCase
      * @dataProvider providerCreate
      *
      * @param string[] $curvesWKT        The WKT of the Curves that compose the CompoundCurve.
-     * @param boolean  $is3D             Whether the curves have Z coordinates.
-     * @param boolean  $isMeasured       Whether the curves have M coordinates.
+     * @param bool     $is3D             Whether the curves have Z coordinates.
+     * @param bool     $isMeasured       Whether the curves have M coordinates.
      * @param string   $compoundCurveWKT The WKT of the expected CompoundCurve.
+     *
+     * @return void
      */
-    public function testCreate(array $curvesWKT, $is3D, $isMeasured, $compoundCurveWKT)
+    public function testCreate(array $curvesWKT, bool $is3D, bool $isMeasured, string $compoundCurveWKT) : void
     {
         foreach ([0, 1] as $srid) {
             $instantiateCurve = function ($curve) use ($srid) {
@@ -36,7 +38,7 @@ class CompoundCurveTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerCreate()
+    public function providerCreate() : array
     {
         return [
             [['LINESTRING (1 1, 2 2)', 'CIRCULARSTRING (2 2, 3 3, 5 5)'], false, false, 'COMPOUNDCURVE ((1 1, 2 2), CIRCULARSTRING (2 2, 3 3, 5 5))'],
@@ -51,8 +53,10 @@ class CompoundCurveTest extends AbstractTestCase
      * @expectedException \Brick\Geo\Exception\InvalidGeometryException
      *
      * @param string $compoundCurve The WKT of an invalid CompoundCurve.
+     *
+     * @return void
      */
-    public function testCreateInvalidCompoundCurve($compoundCurve)
+    public function testCreateInvalidCompoundCurve(string $compoundCurve) : void
     {
         CompoundCurve::fromText($compoundCurve);
     }
@@ -60,7 +64,7 @@ class CompoundCurveTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerCreateInvalidCompoundCurve()
+    public function providerCreateInvalidCompoundCurve() : array
     {
         return [
             ['COMPOUNDCURVE ((1 1))'], // contains an invalid LineString
@@ -75,8 +79,10 @@ class CompoundCurveTest extends AbstractTestCase
      * @param string $compoundCurve
      * @param string $startPoint
      * @param string $endPoint
+     *
+     * @return void
      */
-    public function testStartPointEndPoint($compoundCurve, $startPoint, $endPoint)
+    public function testStartPointEndPoint(string $compoundCurve, string $startPoint, string $endPoint) : void
     {
         foreach ([0, 1] as $srid) {
             $cc = CompoundCurve::fromText($compoundCurve, $srid);
@@ -88,7 +94,7 @@ class CompoundCurveTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerStartPointEndPoint()
+    public function providerStartPointEndPoint() : array
     {
         return [
             ['COMPOUNDCURVE ((1 1, 2 2), CIRCULARSTRING (2 2, 3 3, 5 5))', 'POINT (1 1)', 'POINT (5 5)'],
@@ -103,8 +109,10 @@ class CompoundCurveTest extends AbstractTestCase
      * @expectedException \Brick\Geo\Exception\EmptyGeometryException
      *
      * @param string $compoundCurve The WKT of an empty CompoundCurve.
+     *
+     * @return void
      */
-    public function testStartPointOfEmptyCompoundCurve($compoundCurve)
+    public function testStartPointOfEmptyCompoundCurve(string $compoundCurve) : void
     {
         CompoundCurve::fromText($compoundCurve)->startPoint();
     }
@@ -114,8 +122,10 @@ class CompoundCurveTest extends AbstractTestCase
      * @expectedException \Brick\Geo\Exception\EmptyGeometryException
      *
      * @param string $compoundCurve The WKT of an empty CompoundCurve.
+     *
+     * @return void
      */
-    public function testEndPointOfEmptyCompoundCurve($compoundCurve)
+    public function testEndPointOfEmptyCompoundCurve(string $compoundCurve) : void
     {
         CompoundCurve::fromText($compoundCurve)->endPoint();
     }
@@ -123,7 +133,7 @@ class CompoundCurveTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerEmptyCompoundCurve()
+    public function providerEmptyCompoundCurve() : array
     {
         return [
             ['COMPOUNDCURVE EMPTY'],
@@ -136,10 +146,12 @@ class CompoundCurveTest extends AbstractTestCase
     /**
      * @dataProvider providerNumCurves
      *
-     * @param string  $compoundCurve The WKT of the CompoundCurve to test.
-     * @param integer $numCurves     The expected number of curves.
+     * @param string $compoundCurve The WKT of the CompoundCurve to test.
+     * @param int    $numCurves     The expected number of curves.
+     *
+     * @return void
      */
-    public function testNumCurves($compoundCurve, $numCurves)
+    public function testNumCurves(string $compoundCurve, int $numCurves) : void
     {
         $this->assertSame($numCurves, CompoundCurve::fromText($compoundCurve)->numCurves());
     }
@@ -147,7 +159,7 @@ class CompoundCurveTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerNumCurves()
+    public function providerNumCurves() : array
     {
         return [
             ['COMPOUNDCURVE EMPTY', 0],
@@ -165,11 +177,13 @@ class CompoundCurveTest extends AbstractTestCase
      * @dataProvider providerCurveN
      *
      * @param string      $compoundCurve The WKT of the CompoundCurve to test.
-     * @param integer     $n             The curve number.
+     * @param int         $n             The curve number.
      * @param string|null $curveN        The WKT of the expected curve, or NULL if an exception is expected.
-     * @param integer     $srid          The SRID of the geometries.
+     * @param int         $srid          The SRID of the geometries.
+     *
+     * @return void
      */
-    public function testCurveN($compoundCurve, $n, $curveN, $srid)
+    public function testCurveN(string $compoundCurve, int $n, ?string $curveN, int $srid) : void
     {
         if ($curveN === null) {
             $this->expectException(NoSuchGeometryException::class);
@@ -182,7 +196,7 @@ class CompoundCurveTest extends AbstractTestCase
     /**
      * @return \Generator
      */
-    public function providerCurveN()
+    public function providerCurveN() : \Generator
     {
         $tests = [
             ['COMPOUNDCURVE EMPTY', [
@@ -237,8 +251,10 @@ class CompoundCurveTest extends AbstractTestCase
 
     /**
      * Tests Countable and Traversable interfaces.
+     *
+     * @return void
      */
-    public function testInterfaces()
+    public function testInterfaces() : void
     {
         $compoundCurve = CompoundCurve::fromText('COMPOUNDCURVE (CIRCULARSTRING(1 2, 3 4, 5 6), (5 6, 7 8))');
 

@@ -36,7 +36,7 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    final protected function requiresGeometryEngine()
+    final protected function requiresGeometryEngine() : void
     {
         if (! GeometryEngineRegistry::has()) {
             $this->markTestSkipped('This test requires a geometry engine to be set.');
@@ -46,9 +46,9 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
     /**
      * @param string|null $operatorAndVersion
      *
-     * @return boolean
+     * @return bool
      */
-    final protected function isMySQL($operatorAndVersion = null)
+    final protected function isMySQL(string $operatorAndVersion = null) : bool
     {
         return $this->isMySQLorMariaDB(false, $operatorAndVersion);
     }
@@ -58,15 +58,15 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
      *
      * @return bool
      */
-    final protected function isMariaDB($operatorAndVersion = null)
+    final protected function isMariaDB(string $operatorAndVersion = null) : bool
     {
         return $this->isMySQLorMariaDB(true, $operatorAndVersion);
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
-    final protected function isPostGIS()
+    final protected function isPostGIS() : bool
     {
         return $this->isPDODriver('pgsql');
     }
@@ -74,9 +74,9 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
     /**
      * @param string|null $operatorAndVersion An optional version to satisfy.
      *
-     * @return boolean
+     * @return bool
      */
-    final protected function isSpatiaLite($operatorAndVersion = null)
+    final protected function isSpatiaLite(string $operatorAndVersion = null) : bool
     {
         $engine = GeometryEngineRegistry::get();
 
@@ -96,9 +96,9 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
     /**
      * @param string|null $operatorAndVersion An optional version to satisfy.
      *
-     * @return boolean
+     * @return bool
      */
-    final protected function isGEOS($operatorAndVersion = null)
+    final protected function isGEOS(string $operatorAndVersion = null) : bool
     {
         $engine = GeometryEngineRegistry::get();
 
@@ -122,8 +122,10 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
 
     /**
      * @param Geometry $geometry
+     *
+     * @return void
      */
-    final protected function skipIfUnsupportedGeometry(Geometry $geometry)
+    final protected function skipIfUnsupportedGeometry(Geometry $geometry) : void
     {
         if ($geometry->is3D() || $geometry->isMeasured()) {
             if ($this->isMySQL() || $this->isMariaDB()) {
@@ -162,8 +164,10 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
      * @param Geometry $geometry1
      * @param Geometry $geometry2
      * @param string   $methodName
+     *
+     * @return void
      */
-    final protected function skipIfUnsupportedByEngine(Geometry $geometry1, Geometry $geometry2, $methodName)
+    final protected function skipIfUnsupportedByEngine(Geometry $geometry1, Geometry $geometry2, string $methodName) : void
     {
         $this->skipIfUnsupportedGeometry($geometry1);
         $this->skipIfUnsupportedGeometry($geometry2);
@@ -178,9 +182,11 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
     /**
      * @param Geometry $geometry
      * @param string   $wkt
-     * @param integer  $srid
+     * @param int      $srid
+     *
+     * @return void
      */
-    final protected function assertWktEquals(Geometry $geometry, $wkt, $srid = 0)
+    final protected function assertWktEquals(Geometry $geometry, string $wkt, int $srid = 0) : void
     {
         $this->assertSame($wkt, $geometry->asText());
         $this->assertSame($srid, $geometry->SRID());
@@ -191,8 +197,10 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
      *
      * @param Geometry $expected
      * @param Geometry $actual
+     *
+     * @return void
      */
-    final protected function assertGeometryEquals(Geometry $expected, Geometry $actual)
+    final protected function assertGeometryEquals(Geometry $expected, Geometry $actual) : void
     {
         $expectedWKT = $expected->asText();
         $actualWKT = $actual->asText();
@@ -216,11 +224,13 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
     /**
      * @param Geometry $g      The Geometry to test.
      * @param array    $coords The expected raw coordinates of the geometry.
-     * @param boolean  $hasZ   Whether the geometry is expected to contain Z coordinates.
-     * @param boolean  $hasM   Whether the geometry is expected to contain M coordinates.
-     * @param integer  $srid   The expected SRID of the geometry.
+     * @param bool     $hasZ   Whether the geometry is expected to contain Z coordinates.
+     * @param bool     $hasM   Whether the geometry is expected to contain M coordinates.
+     * @param int      $srid   The expected SRID of the geometry.
+     *
+     * @return void
      */
-    final protected function assertGeometryContents(Geometry $g, array $coords, $hasZ = false, $hasM = false, $srid = 0)
+    final protected function assertGeometryContents(Geometry $g, array $coords, bool $hasZ = false, bool $hasM = false, int $srid = 0) : void
     {
         $this->castToFloat($coords);
 
@@ -232,12 +242,14 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
 
     /**
      * @param array   $coords     The expected coordinates of the Point as returned by toArray().
-     * @param boolean $is3D       Whether the Point is expected to contain a Z coordinate.
-     * @param boolean $isMeasured Whether the Point is expected to contain a M coordinate.
-     * @param integer $srid       The expected SRID.
+     * @param bool    $is3D       Whether the Point is expected to contain a Z coordinate.
+     * @param bool    $isMeasured Whether the Point is expected to contain a M coordinate.
+     * @param int     $srid       The expected SRID.
      * @param Point   $point      The Point to test.
+     *
+     * @return void
      */
-    final protected function assertPointEquals(array $coords, $is3D, $isMeasured, $srid, Point $point)
+    final protected function assertPointEquals(array $coords, bool $is3D, bool $isMeasured, int $srid, Point $point) : void
     {
         $this->castToFloat($coords);
 
@@ -249,11 +261,13 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
 
     /**
      * @param array      $coords     The expected coordinates of the LineString as returned by toArray().
-     * @param boolean    $is3D       Whether the LineString is expected to contain Z coordinates.
-     * @param boolean    $isMeasured Whether the LineString is expected to contain M coordinates.
+     * @param bool       $is3D       Whether the LineString is expected to contain Z coordinates.
+     * @param bool       $isMeasured Whether the LineString is expected to contain M coordinates.
      * @param LineString $lineString The LineString to test.
+     *
+     * @return void
      */
-    final protected function assertLineStringEquals(array $coords, $is3D, $isMeasured, LineString $lineString)
+    final protected function assertLineStringEquals(array $coords, bool $is3D, bool $isMeasured, LineString $lineString) : void
     {
         $this->castToFloat($coords);
 
@@ -264,11 +278,13 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
 
     /**
      * @param array   $coords     The expected coordinates of the Polygon as returned by toArray().
-     * @param boolean $is3D       Whether the Polygon is expected to contain Z coordinates.
-     * @param boolean $isMeasured Whether the Polygon is expected to contain M coordinates.
+     * @param bool    $is3D       Whether the Polygon is expected to contain Z coordinates.
+     * @param bool    $isMeasured Whether the Polygon is expected to contain M coordinates.
      * @param Polygon $polygon    The Polygon to test.
+     *
+     * @return void
      */
-    final protected function assertPolygonEquals(array $coords, $is3D, $isMeasured, Polygon $polygon)
+    final protected function assertPolygonEquals(array $coords, bool $is3D, bool $isMeasured, Polygon $polygon) : void
     {
         $this->castToFloat($coords);
 
@@ -279,11 +295,13 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
 
     /**
      * @param array      $coords     The expected coordinates of the MultiPoint as returned by toArray().
-     * @param boolean    $is3D       Whether the MultiPoint is expected to contain Z coordinates.
-     * @param boolean    $isMeasured Whether the MultiPoint is expected to contain M coordinates.
+     * @param bool       $is3D       Whether the MultiPoint is expected to contain Z coordinates.
+     * @param bool       $isMeasured Whether the MultiPoint is expected to contain M coordinates.
      * @param MultiPoint $multiPoint The MultiPoint to test.
+     *
+     * @return void
      */
-    final protected function assertMultiPointEquals(array $coords, $is3D, $isMeasured, MultiPoint $multiPoint)
+    final protected function assertMultiPointEquals(array $coords, bool $is3D, bool $isMeasured, MultiPoint $multiPoint) : void
     {
         $this->castToFloat($coords);
 
@@ -294,11 +312,13 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
 
     /**
      * @param array           $coords          The expected coordinates of the MultiLineString as returned by toArray().
-     * @param boolean         $is3D            Whether the MultiLineString is expected to contain Z coordinates.
-     * @param boolean         $isMeasured      Whether the MultiLineString is expected to contain M coordinates.
+     * @param bool            $is3D            Whether the MultiLineString is expected to contain Z coordinates.
+     * @param bool            $isMeasured      Whether the MultiLineString is expected to contain M coordinates.
      * @param MultiLineString $multiLineString The MultiLineString to test.
+     *
+     * @return void
      */
-    final protected function assertMultiLineStringEquals(array $coords, $is3D, $isMeasured, MultiLineString $multiLineString)
+    final protected function assertMultiLineStringEquals(array $coords, bool $is3D, bool $isMeasured, MultiLineString $multiLineString) : void
     {
         $this->castToFloat($coords);
 
@@ -309,11 +329,13 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
 
     /**
      * @param array        $coords       The expected coordinates of the MultiPolygon as returned by toArray().
-     * @param boolean      $is3D         Whether the MultiPolygon is expected to contain Z coordinates.
-     * @param boolean      $isMeasured   Whether the MultiPolygon is expected to contain M coordinates.
+     * @param bool         $is3D         Whether the MultiPolygon is expected to contain Z coordinates.
+     * @param bool         $isMeasured   Whether the MultiPolygon is expected to contain M coordinates.
      * @param MultiPolygon $multiPolygon The MultiPolygon to test.
+     *
+     * @return void
      */
-    final protected function assertMultiPolygonEquals(array $coords, $is3D, $isMeasured, MultiPolygon $multiPolygon)
+    final protected function assertMultiPolygonEquals(array $coords, bool $is3D, bool $isMeasured, MultiPolygon $multiPolygon) : void
     {
         $this->castToFloat($coords);
 
@@ -328,7 +350,7 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
      *
      * @return Point
      */
-    final protected function createPoint(array $coords, CoordinateSystem $cs)
+    final protected function createPoint(array $coords, CoordinateSystem $cs) : Point
     {
         return new Point($cs, ...$coords);
     }
@@ -339,7 +361,7 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
      *
      * @return LineString
      */
-    final protected function createLineString(array $coords, CoordinateSystem $cs)
+    final protected function createLineString(array $coords, CoordinateSystem $cs) : LineString
     {
         $points = [];
 
@@ -356,7 +378,7 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
      *
      * @return CircularString
      */
-    final protected function createCircularString(array $coords, CoordinateSystem $cs)
+    final protected function createCircularString(array $coords, CoordinateSystem $cs) : CircularString
     {
         $points = [];
 
@@ -378,13 +400,13 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
      *
      * @return Curve
      */
-    final protected function createLineStringOrCircularString(array $coords, CoordinateSystem $cs)
+    final protected function createLineStringOrCircularString(array $coords, CoordinateSystem $cs) : Curve
     {
-        if (count($coords) % 2 == 0) {
+        if (count($coords) % 2 === 0) {
             return $this->createLineString($coords, $cs);
-        } else {
-            return $this->createCircularString($coords, $cs);
         }
+
+        return $this->createCircularString($coords, $cs);
     }
 
     /**
@@ -393,7 +415,7 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
      *
      * @return CompoundCurve
      */
-    final protected function createCompoundCurve(array $coords, CoordinateSystem $cs)
+    final protected function createCompoundCurve(array $coords, CoordinateSystem $cs) : CompoundCurve
     {
         $curves = [];
 
@@ -410,7 +432,7 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
      *
      * @return Polygon
      */
-    final protected function createPolygon(array $coords, CoordinateSystem $cs)
+    final protected function createPolygon(array $coords, CoordinateSystem $cs) : Polygon
     {
         $rings = [];
 
@@ -427,7 +449,7 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
      *
      * @return Triangle
      */
-    final protected function createTriangle(array $coords, CoordinateSystem $cs)
+    final protected function createTriangle(array $coords, CoordinateSystem $cs) : Triangle
     {
         $rings = [];
 
@@ -444,7 +466,7 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
      *
      * @return CurvePolygon
      */
-    final protected function createCurvePolygon(array $coords, CoordinateSystem $cs)
+    final protected function createCurvePolygon(array $coords, CoordinateSystem $cs) : CurvePolygon
     {
         $rings = [];
 
@@ -467,7 +489,7 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
      *
      * @return MultiPoint
      */
-    final protected function createMultiPoint(array $coords, CoordinateSystem $cs)
+    final protected function createMultiPoint(array $coords, CoordinateSystem $cs) : MultiPoint
     {
         $points = [];
 
@@ -484,7 +506,7 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
      *
      * @return MultiLineString
      */
-    final protected function createMultiLineString(array $coords, CoordinateSystem $cs)
+    final protected function createMultiLineString(array $coords, CoordinateSystem $cs) : MultiLineString
     {
         $lineStrings = [];
 
@@ -501,7 +523,7 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
      *
      * @return MultiPolygon
      */
-    final protected function createMultiPolygon(array $coords, CoordinateSystem $cs)
+    final protected function createMultiPolygon(array $coords, CoordinateSystem $cs) : MultiPolygon
     {
         $polygons = [];
 
@@ -518,7 +540,7 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
      *
      * @return PolyhedralSurface
      */
-    final protected function createPolyhedralSurface(array $coords, CoordinateSystem $cs)
+    final protected function createPolyhedralSurface(array $coords, CoordinateSystem $cs) : PolyhedralSurface
     {
         $patches = [];
 
@@ -535,7 +557,7 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
      *
      * @return TIN
      */
-    final protected function createTIN(array $coords, CoordinateSystem $cs)
+    final protected function createTIN(array $coords, CoordinateSystem $cs) : TIN
     {
         $patches = [];
 
@@ -556,7 +578,7 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    final protected function castToFloat(array & $coords)
+    final protected function castToFloat(array & $coords) : void
     {
         array_walk_recursive($coords, function (& $value) {
             $value = (float) $value;
@@ -567,9 +589,9 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
      * @param string $version            The version of the software in use, such as "4.0.1".
      * @param string $operatorAndVersion The comparison operator and version to test against, such as ">= 4.0".
      *
-     * @return boolean
+     * @return bool
      */
-    private function isVersion($version, $operatorAndVersion)
+    private function isVersion(string $version, string $operatorAndVersion) : bool
     {
         preg_match('/^([\<\>]?\=?) ?(.*)/', $operatorAndVersion, $matches);
         list (, $operator, $testVersion) = $matches;
@@ -584,9 +606,9 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
     /**
      * @param string $name
      *
-     * @return boolean
+     * @return bool
      */
-    private function isPDODriver($name)
+    private function isPDODriver(string $name) : bool
     {
         $engine = GeometryEngineRegistry::get();
 
@@ -599,12 +621,12 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
         return false;
     }
     /**
-     * @param boolean     $testMariaDB        False to check for MYSQL, true to check for MariaDB.
+     * @param bool        $testMariaDB        False to check for MYSQL, true to check for MariaDB.
      * @param string|null $operatorAndVersion An optional comparison operator and version number to test against.
      *
-     * @return boolean
+     * @return bool
      */
-    private function isMySQLorMariaDB($testMariaDB, $operatorAndVersion = null)
+    private function isMySQLorMariaDB(bool $testMariaDB, string $operatorAndVersion = null) : bool
     {
         $engine = GeometryEngineRegistry::get();
 

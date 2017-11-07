@@ -31,15 +31,17 @@ class LineStringEntity {
     /**
      * @return LineString
      */
-    public function getLineString()
+    public function getLineString() : LineString
     {
         return $this->lineString;
     }
 
     /**
      * @param LineString $lineString
+     *
+     * @return void
      */
-    public function setLineString($lineString)
+    public function setLineString(LineString $lineString) : void
     {
         $this->lineString = $lineString;
     }

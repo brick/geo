@@ -17,8 +17,10 @@ class EarthDistanceFunctionTest extends FunctionalTestCase
      * @param string $pointA           The WKT of the first point, with Lon/Lat coordinates.
      * @param string $pointB           The WKT of the second point, with Lon/Lat coordinates.
      * @param float  $expectedDistance The expected distance in meters.
+     *
+     * @return void
      */
-    public function testEarthDistanceFunction($pointA, $pointB, $expectedDistance)
+    public function testEarthDistanceFunction(string $pointA, string $pointB, float $expectedDistance) : void
     {
         $pointA = Point::fromText($pointA, 4326);
         $pointB = Point::fromText($pointB, 4326);
@@ -53,7 +55,7 @@ class EarthDistanceFunctionTest extends FunctionalTestCase
     /**
      * @return array
      */
-    public function providerEarthDistanceFunction()
+    public function providerEarthDistanceFunction() : array
     {
         $paris      = 'POINT (2.35 48.85)';
         $london     = 'POINT (0.13 51.50)';
