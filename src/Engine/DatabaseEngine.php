@@ -31,20 +31,19 @@ abstract class DatabaseEngine implements GeometryEngine
      */
     private function buildQuery(string $function, array $parameters, bool $returnsGeometry) : string
     {
-        foreach ($parameters as & $parameter) {
+        foreach ($parameters as $key => $parameter) {
             if ($parameter instanceof Geometry) {
                 if ($parameter->isEmpty()) {
-                    $parameter = 'ST_GeomFromText(?, ?)';
+                    $parameters[$key] = 'ST_GeomFromText(?, ?)';
                 } else {
-                    $parameter = 'ST_GeomFromWKB(?, ?)';
+                    $parameters[$key] = 'ST_GeomFromWKB(?, ?)';
                 }
             } else {
-                $parameter = '?';
+                $parameters[$key] = '?';
             }
         }
 
-        $parameters = implode(', ', $parameters);
-        $query = sprintf('SELECT %s(%s)', $function, $parameters);
+        $query = sprintf('SELECT %s(%s)', $function, implode(', ', $parameters));
 
         if (! $returnsGeometry) {
             return $query;
