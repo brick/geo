@@ -85,7 +85,7 @@ class PDOEngine extends DatabaseEngine
 
             // 42XXX = syntax error or access rule violation; reported on undefined function.
             // 22XXX = data exception; reported by MySQL 5.7 on unsupported geometry.
-            if ($errorClass == '42' || $errorClass == '22') {
+            if ($errorClass === '42' || $errorClass === '22') {
                 throw GeometryEngineException::operationNotSupportedByEngine($e);
             }
 

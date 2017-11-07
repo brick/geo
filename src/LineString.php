@@ -93,7 +93,7 @@ class LineString extends Curve
             throw CoordinateSystemException::dimensionalityMix($a, $b);
         }
 
-        if ($cs->coordinateDimension() != 2) {
+        if ($cs->coordinateDimension() !== 2) {
             throw new CoordinateSystemException(__METHOD__ . ' expects 2D points.');
         }
 
