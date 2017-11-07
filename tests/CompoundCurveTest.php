@@ -259,7 +259,7 @@ class CompoundCurveTest extends AbstractTestCase
         $compoundCurve = CompoundCurve::fromText('COMPOUNDCURVE (CIRCULARSTRING(1 2, 3 4, 5 6), (5 6, 7 8))');
 
         $this->assertInstanceOf(\Countable::class, $compoundCurve);
-        $this->assertSame(2, count($compoundCurve));
+        $this->assertCount(2, $compoundCurve);
 
         $this->assertInstanceOf(\Traversable::class, $compoundCurve);
         $this->assertSame([

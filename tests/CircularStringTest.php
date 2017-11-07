@@ -251,7 +251,7 @@ class CircularStringTest extends AbstractTestCase
         $circularString = CircularString::fromText('CIRCULARSTRING (1 2, 3 4, 5 6)');
 
         $this->assertInstanceOf(\Countable::class, $circularString);
-        $this->assertSame(3, count($circularString));
+        $this->assertCount(3, $circularString);
 
         $this->assertInstanceOf(\Traversable::class, $circularString);
         $this->assertSame([

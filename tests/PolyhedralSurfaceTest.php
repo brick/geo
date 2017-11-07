@@ -165,7 +165,7 @@ class PolyhedralSurfaceTest extends AbstractTestCase
         $polyhedralSurface = PolyhedralSurface::fromText('POLYHEDRALSURFACE(((0 0, 0 1, 1 1, 1 0, 0 0)), ((1 0, 1 1, 2 1, 2 0, 1 0)), ((2 0, 2 1, 3 1, 3 0, 2 0)))');
 
         $this->assertInstanceOf(\Countable::class, $polyhedralSurface);
-        $this->assertSame(3, count($polyhedralSurface));
+        $this->assertCount(3, $polyhedralSurface);
 
         $this->assertInstanceOf(\Traversable::class, $polyhedralSurface);
         $this->assertSame([

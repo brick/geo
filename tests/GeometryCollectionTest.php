@@ -95,7 +95,7 @@ class GeometryCollectionTest extends AbstractTestCase
         $geometryCollection = GeometryCollection::of($point, $lineString);
 
         $this->assertInstanceOf(\Countable::class, $geometryCollection);
-        $this->assertSame(2, count($geometryCollection));
+        $this->assertCount(2, $geometryCollection);
 
         $this->assertInstanceOf(\Traversable::class, $geometryCollection);
         $this->assertSame([$point, $lineString], iterator_to_array($geometryCollection));
