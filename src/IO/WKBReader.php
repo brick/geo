@@ -39,12 +39,12 @@ class WKBReader extends AbstractWKBReader
     {
         $wkbType = $buffer->readUnsignedLong();
 
-        $geometryType = $wkbType % 1000;
-        $dimension = ($wkbType - $geometryType) / 1000;
-
-        if ($dimension < 0 || $dimension > 3) {
+        if ($wkbType < 0 || $wkbType >= 4000) {
             throw GeometryIOException::unsupportedWKBType($wkbType);
         }
+
+        $geometryType = $wkbType % 1000;
+        $dimension = ($wkbType - $geometryType) / 1000;
 
         $hasZ = ($dimension === 1 || $dimension === 3);
         $hasM = ($dimension === 2 || $dimension === 3);
