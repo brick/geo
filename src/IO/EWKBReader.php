@@ -42,10 +42,6 @@ class EWKBReader extends AbstractWKBReader
             $geometryType = $header % 1000;
             $dimension = ($header - $geometryType) / 1000;
 
-            if ($dimension < 0 || $dimension > 3) {
-                throw GeometryIOException::unsupportedWKBType($header);
-            }
-
             $hasZ = ($dimension === 1 || $dimension === 3);
             $hasM = ($dimension === 2 || $dimension === 3);
         } else {
