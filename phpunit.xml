@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit colors="true" bootstrap="phpunit-bootstrap.php">
     <testsuites>
-        <testsuite name="Brick\Geo test suite">
+        <testsuite>
             <directory>tests</directory>
         </testsuite>
     </testsuites>
