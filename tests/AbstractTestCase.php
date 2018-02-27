@@ -23,11 +23,12 @@ use Brick\Geo\CurvePolygon;
 use Brick\Geo\PolyhedralSurface;
 use Brick\Geo\TIN;
 use Brick\Geo\Triangle;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Base class for Geometry tests.
  */
-class AbstractTestCase extends \PHPUnit_Framework_TestCase
+class AbstractTestCase extends TestCase
 {
     /**
      * Marks the current test as requiring a geometry engine to be set.

@@ -17,7 +17,7 @@
         "brick/reflection": "0.2.*",
         "doctrine/orm": "2.*",
         "doctrine/data-fixtures": "1.*",
-        "phpunit/phpunit": "5.*",
+        "phpunit/phpunit": "7.*",
         "satooshi/php-coveralls": "1.*"
     },
     "autoload": {
