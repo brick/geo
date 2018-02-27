@@ -22,7 +22,11 @@
     },
     "autoload": {
         "psr-4": {
-            "Brick\\Geo\\": "src/",
+            "Brick\\Geo\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
             "Brick\\Geo\\Tests\\": "tests/"
         }
     },
