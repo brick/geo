@@ -55,6 +55,10 @@ abstract class FunctionalTestCase extends DbalFunctionalTestCase
     {
         parent::setUp();
 
+        if (version_compare(PHP_VERSION, '7.3') >= 0) {
+            $this->markTestSkipped('Doctrine 2.6.2 fails with PHP 7.3, waiting for 2.6.3 release.');
+        }
+
         if (! GeometryEngineRegistry::has()) {
             $this->markTestSkipped('This test requires a connection to a database.');
         }
