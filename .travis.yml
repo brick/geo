@@ -1,9 +1,11 @@
 language: php
+dist: trusty
+sudo: required
 
 php:
   - 7.1
   - 7.2
-  - hhvm
+  - 7.3
 
 env:
   - ENGINE=PDO_MYSQL56
@@ -26,7 +28,6 @@ before_script:
   - if [[ $ENGINE = GEOS35 ]]; then ENGINE=GEOS; VERSION=3.5.1 bash travis/install-geos.sh; fi;
   - if [[ $ENGINE = GEOS36 ]]; then ENGINE=GEOS; VERSION=3.6.0 bash travis/install-geos.sh; fi;
   - if [[ $ENGINE = SQLite3 ]]; then bash travis/install-spatialite.sh; fi;
-  - if [[ $TRAVIS_PHP_VERSION = hhv* ]]; then echo hhvm.php7.all=1 >> /etc/hhvm/php.ini; fi
   - composer install
 
 script:
@@ -35,25 +36,3 @@ script:
 
 after_script:
   - vendor/bin/php-coveralls -v
-
-matrix:
-  exclude:
-    - php: hhvm
-      env: ENGINE=PDO_PGSQL # driver currently unsupported by HHVM
-    - php: hhvm
-      env: ENGINE=GEOS34 # extension currently unsupported by HHVM
-    - php: hhvm
-      env: ENGINE=GEOS35 # extension currently unsupported by HHVM
-    - php: hhvm
-      env: ENGINE=GEOS36 # extension currently unsupported by HHVM
-    - php: hhvm
-      env: ENGINE=PDO_MYSQL57 # current installation script uninstalls HHVM
-    - php: hhvm
-      env: ENGINE=PDO_MYSQL_MARIADB55 # current installation script uninstalls HHVM
-    - php: hhvm
-      env: ENGINE=PDO_MYSQL_MARIADB10 # current installation script uninstalls HHVM
-  allow_failures:
-    - php: hhvm
-
-dist: trusty
-sudo: required
