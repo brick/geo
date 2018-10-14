@@ -2,7 +2,7 @@ sudo apt-get update
 sudo apt-get remove 'libgeos.*'
 sudo apt-get autoremove
 
-wget https://github.com/OSGeo/geos/archive/$VERSION.tar.gz
+wget https://github.com/libgeos/geos/archive/$VERSION.tar.gz
 tar zxf $VERSION.tar.gz
 cd geos-$VERSION
 ./autogen.sh
