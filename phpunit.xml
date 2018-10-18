@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit colors="true" bootstrap="phpunit-bootstrap.php">
     <testsuites>
-        <testsuite>
+        <testsuite name="Geo tests">
             <directory>tests</directory>
         </testsuite>
     </testsuites>
