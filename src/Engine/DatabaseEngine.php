@@ -21,45 +21,6 @@ abstract class DatabaseEngine implements GeometryEngine
     protected $useProxy;
 
     /**
-     * Builds a SQL query for a GIS function.
-     *
-     * @param string $function        The SQL GIS function to execute.
-     * @param array  $parameters      The Geometry objects or scalar values to pass as parameters.
-     * @param bool   $returnsGeometry Whether the GIS function returns a Geometry.
-     *
-     * @return string
-     */
-    private function buildQuery(string $function, array $parameters, bool $returnsGeometry) : string
-    {
-        foreach ($parameters as $key => $parameter) {
-            if ($parameter instanceof Geometry) {
-                if ($parameter->isEmpty()) {
-                    $parameters[$key] = 'ST_GeomFromText(?, ?)';
-                } else {
-                    $parameters[$key] = 'ST_GeomFromWKB(?, ?)';
-                }
-            } else {
-                $parameters[$key] = '?';
-            }
-        }
-
-        $query = sprintf('SELECT %s(%s)', $function, implode(', ', $parameters));
-
-        if (! $returnsGeometry) {
-            return $query;
-        }
-
-        return sprintf('
-            SELECT
-                CASE WHEN ST_IsEmpty(g) THEN ST_AsText(g) ELSE NULL END,
-                CASE WHEN ST_IsEmpty(g) THEN NULL ELSE ST_AsBinary(g) END,
-                ST_GeometryType(g),
-                ST_SRID(g)
-            FROM (%s AS g) AS q
-        ', $query);
-    }
-
-    /**
      * Executes a SQL query.
      *
      * @param string $query      The SQL query to execute.
@@ -84,7 +45,32 @@ abstract class DatabaseEngine implements GeometryEngine
      */
     private function query(string $function, array $parameters, bool $returnsGeometry) : array
     {
-        $query = $this->buildQuery($function, $parameters, $returnsGeometry);
+        $queryParameters = [];
+
+        foreach ($parameters as $parameter) {
+            if ($parameter instanceof Geometry) {
+                if ($parameter->isEmpty()) {
+                    $queryParameters[] = 'ST_GeomFromText(?, ?)';
+                } else {
+                    $queryParameters[] = 'ST_GeomFromWKB(?, ?)';
+                }
+            } else {
+                $queryParameters[] = '?';
+            }
+        }
+
+        $query = sprintf('SELECT %s(%s)', $function, implode(', ', $queryParameters));
+
+        if ($returnsGeometry) {
+            $query = sprintf('
+                SELECT
+                    CASE WHEN ST_IsEmpty(g) THEN ST_AsText(g) ELSE NULL END,
+                    CASE WHEN ST_IsEmpty(g) THEN NULL ELSE ST_AsBinary(g) END,
+                    ST_GeometryType(g),
+                    ST_SRID(g)
+                FROM (%s AS g) AS q
+            ', $query);
+        }
 
         return $this->executeQuery($query, $parameters);
     }
