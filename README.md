@@ -24,14 +24,11 @@ Requirements and installation
 
 This library requires 7.1 or later. for PHP 5.6 and PHP 7.0 support, use version `0.1`.
 
-We recommend installing it with [Composer](https://getcomposer.org/).
-Just define the following requirement in your `composer.json` file:
+Install the library with [Composer](https://getcomposer.org/):
 
-    {
-        "require": {
-            "brick/geo": "0.2.*"
-        }
-    }
+```bash
+composer require brick/geo
+```
 
 Then head on to the [Configuration](#configuration) section to configure a GIS geometry engine.
 
