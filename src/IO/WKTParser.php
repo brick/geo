@@ -77,13 +77,15 @@ class WKTParser
     }
 
     /**
-     * @return array|false The next token, or false if there are no more tokens.
+     * @return array|null The next token, or null if there are no more tokens.
      */
-    private function nextToken()
+    private function nextToken() : ?array
     {
         $token = current($this->tokens);
 
-        if ($token !== false) {
+        if ($token === false) {
+            return null;
+        } else {
             next($this->tokens);
         }
 
@@ -99,7 +101,7 @@ class WKTParser
     {
         $token = $this->nextToken();
 
-        if ($token === false) {
+        if ($token === null) {
             throw new GeometryIOException("Expected '(' but encountered end of stream");
         }
         if ($token[1] !== '(') {
@@ -116,7 +118,7 @@ class WKTParser
     {
         $token = $this->nextToken();
 
-        if ($token === false) {
+        if ($token === null) {
             throw new GeometryIOException("Expected ')' but encountered end of stream");
         }
         if ($token[1] !== ')') {
@@ -133,7 +135,7 @@ class WKTParser
     {
         $token = $this->nextToken();
 
-        if ($token === false) {
+        if ($token === null) {
             throw new GeometryIOException("Expected word but encountered end of stream");
         }
         if ($token[0] !== static::T_WORD) {
@@ -197,7 +199,7 @@ class WKTParser
     {
         $token = $this->nextToken();
 
-        if ($token === false) {
+        if ($token === null) {
             throw new GeometryIOException("Expected number but encountered end of stream");
         }
         if ($token[0] !== static::T_NUMBER) {
@@ -216,7 +218,7 @@ class WKTParser
     {
         $token = $this->nextToken();
 
-        if ($token === false) {
+        if ($token === null) {
             throw new GeometryIOException("Expected ')' or ',' but encountered end of stream");
         }
         if ($token[1] !== ')' && $token[1] !== ',') {
@@ -231,6 +233,6 @@ class WKTParser
      */
     public function isEndOfStream() : bool
     {
-        return $this->nextToken() === false;
+        return $this->nextToken() === null;
     }
 }
