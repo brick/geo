@@ -57,7 +57,7 @@ abstract class AbstractGeoJSONReader
                 return $this->readPolygonType($parser, $cs);
         }
 
-        throw new GeometryIOException('Unknown geometry type: ' . $geometryType);
+        throw GeometryIOException::unsupportedGeoJSONType($geometryType);
     }
 
     /**
