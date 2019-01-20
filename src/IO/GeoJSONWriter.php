@@ -9,7 +9,9 @@ use Brick\Geo\Geometry;
 use Brick\Geo\LineString;
 use Brick\Geo\MultiLineString;
 use Brick\Geo\MultiPoint;
+use Brick\Geo\MultiPolygon;
 use Brick\Geo\Point;
+use Brick\Geo\Polygon;
 
 /**
  * Converter class from Geometry to GeoJSON.
@@ -33,6 +35,10 @@ class GeoJSONWriter
             return $this->writeLineString($geometry);
         } elseif ($geometry instanceof MultiLineString) {
             return $this->writeMultiLineString($geometry);
+        } elseif ($geometry instanceof Polygon) {
+            return $this->writePolygon($geometry);
+        } elseif ($geometry instanceof MultiPolygon) {
+            return $this->writeMultiPolygon($geometry);
         }
 
         throw GeometryIOException::unsupportedGeometryType($geometry->geometryType());
@@ -47,7 +53,7 @@ class GeoJSONWriter
     {
         $geojsonArray = [
             'type' => 'Point',
-            'coordinates' => $this->genPointCoords($geometry)
+            'coordinates' => $geometry->toArray()
         ];
 
         return $this->genGeoJSONString($geojsonArray);
@@ -62,7 +68,7 @@ class GeoJSONWriter
     {
         $geojsonArray = [
             'type' => 'MultiPoint',
-            'coordinates' => $this->genMultiPointCoords($geometry)
+            'coordinates' => $geometry->toArray()
         ];
 
         return $this->genGeoJSONString($geojsonArray);
@@ -77,7 +83,7 @@ class GeoJSONWriter
     {
         $geojsonArray = [
             'type' => 'LineString',
-            'coordinates' => $this->genLineStringCoords($geometry)
+            'coordinates' => $geometry->toArray()
         ];
 
         return $this->genGeoJSONString($geojsonArray);
@@ -92,102 +98,40 @@ class GeoJSONWriter
     {
         $geojsonArray = [
             'type' => 'MultiLineString',
-            'coordinates' => $this->genMultiLineStringCoords($geometry)
+            'coordinates' => $geometry->toArray()
         ];
 
         return $this->genGeoJSONString($geojsonArray);
     }
 
     /**
-     * @param Point $geometry
+     * @param Polygon $geometry
      *
-     * @return array
+     * @return string
      */
-    private function genPointCoords(Point $geometry) : array
+    private function writePolygon(Polygon $geometry)
     {
-        if ($geometry->isEmpty()) {
-            return [];
-        } elseif ($geometry->is3D()) {
-            return [$geometry->x(), $geometry->y(), $geometry->z()];
-        } else {
-            return [$geometry->x(), $geometry->y()];
-        }
+        $geojsonArray = [
+            'type' => 'Polygon',
+            'coordinates' => $geometry->toArray()
+        ];
+
+        return $this->genGeoJSONString($geojsonArray);
     }
 
     /**
-     * @param MultiPoint $geometry
+     * @param MultiPolygon $geometry
      *
-     * @return array
+     * @return string
      */
-    private function genMultiPointCoords(MultiPoint $geometry) : array
+    private function writeMultiPolygon(MultiPolygon $geometry)
     {
-        $coords = [];
+        $geojsonArray = [
+            'type' => 'MultiPolygon',
+            'coordinates' => $geometry->toArray()
+        ];
 
-        if ($geometry->isEmpty()) {
-            return $coords;
-        }
-
-        /**
-         * @var Point $point
-         */
-        foreach ($geometry->geometries() as $point) {
-            $coords[] = $this->genPointCoords($point);
-        }
-
-        return $coords;
-    }
-
-    /**
-     * @param LineString $geometry
-     *
-     * @return array
-     */
-    private function genLineStringCoords(LineString $geometry) : array
-    {
-        $coords = [];
-
-        if ($geometry->isEmpty()) {
-            return $coords;
-        }
-
-        /**
-         * @var Point $point
-         */
-        foreach ($geometry->points() as $point) {
-            $coords[] = $this->genPointCoords($point);
-        }
-
-        return $coords;
-    }
-
-    /**
-     * @param MultiLineString $geometry
-     *
-     * @return array
-     */
-    private function genMultiLineStringCoords(MultiLineString $geometry) : array
-    {
-        $coords = [];
-
-        if ($geometry->isEmpty()) {
-            return $coords;
-        }
-
-        /**
-         * @var LineString $lineString
-         */
-        foreach ($geometry->geometries() as $lineString) {
-            $lineStringCoords = [];
-            /**
-             * @var Point $point
-             */
-            foreach ($lineString->points() as $point) {
-                $lineStringCoords[] = $this->genPointCoords($point);
-            }
-            $coords[] = $lineStringCoords;
-        }
-
-        return $coords;
+        return $this->genGeoJSONString($geojsonArray);
     }
 
     /**
