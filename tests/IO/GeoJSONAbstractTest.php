@@ -27,6 +27,18 @@ abstract class GeoJSONAbstractTest extends AbstractTestCase
     public function providerPointGeoJSON() : array
     {
         return [
+            [
+                '{"type":"Feature","properties":{},"geometry":{"type":"Point","coordinates":[]}}',
+                [],
+                false,
+                false
+            ],
+            [
+                '{"type":"Feature","properties":{},"geometry":{"type":"Point","coordinates":[1,2]}}',
+                [1, 2],
+                false,
+                false
+            ],
             ['{"type":"Point","coordinates":[]}', [], false, false],
             ['{"type":"Point","coordinates":[1,2]}', [1, 2], false, false]
         ];
@@ -38,6 +50,18 @@ abstract class GeoJSONAbstractTest extends AbstractTestCase
     public function providerLineStringGeoJSON() : array
     {
         return [
+            [
+                '{"type":"Feature","properties":{},"geometry":{"type":"LineString","coordinates":[]}}',
+                [],
+                false,
+                false
+            ],
+            [
+                '{"type":"Feature","properties":{},"geometry":{"type":"LineString","coordinates":[[1,2],[3,4]]}}',
+                [[1, 2], [3, 4]],
+                false,
+                false
+            ],
             ['{"type":"LineString","coordinates":[]}', [], false, false],
             ['{"type":"LineString","coordinates":[[1,2],[3,4]]}', [[1, 2], [3, 4]], false, false]
         ];
@@ -49,6 +73,24 @@ abstract class GeoJSONAbstractTest extends AbstractTestCase
     public function providerPolygonGeoJSON() : array
     {
         return [
+            [
+                '{"type":"Feature","properties":{},"geometry":{"type":"Polygon","coordinates":[]}}',
+                [],
+                false,
+                false
+            ],
+            [
+                '{"type":"Feature","properties":{},"geometry":{"type":"Polygon","coordinates":[[[0,0],[1,2],[3,4],[0,0]]]}}',
+                [[[0, 0], [1, 2], [3, 4], [0, 0]]],
+                false,
+                false
+            ],
+            [
+                '{"type":"Polygon","coordinates":[]}',
+                [],
+                false,
+                false
+            ],
             [
                 '{"type":"Polygon","coordinates":[[[0,0],[1,2],[3,4],[0,0]]]}',
                 [[[0, 0], [1, 2], [3, 4], [0, 0]]],

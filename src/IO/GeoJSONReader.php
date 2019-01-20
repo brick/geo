@@ -4,8 +4,8 @@ declare(strict_types = 1);
 
 namespace Brick\Geo\IO;
 
-use Brick\Geo\Exception\GeometryIOException;
 use Brick\Geo\Geometry;
+use Brick\Geo\GeometryCollection;
 
 /**
  * Builds geometries out of GeoJSON Text strings.
@@ -16,15 +16,15 @@ class GeoJSONReader extends AbstractGeoJSONReader
      * @param string $geojson The GeoJSON to read.
      * @param int    $srid    The optional SRID of the geometry.
      *
-     * @return Geometry
-     *
-     * @throws GeometryIOException
-     * @throws \Brick\Geo\Exception\InvalidGeometryException
+     * @return GeometryCollection|Geometry
+     * @throws \Brick\Geo\Exception\CoordinateSystemException
+     * @throws \Brick\Geo\Exception\UnexpectedGeometryException
      */
     public function read(string $geojson, int $srid = 0) : Geometry
     {
-        $parser = new GeoJSONParser(strtoupper($geojson));
-        $geometry = $this->readGeometry($parser, $srid);
+        $geojson_array = json_decode(strtoupper($geojson), true);
+
+        $geometry = $this->readGeoJSON($geojson_array, $srid);
 
         return $geometry;
     }

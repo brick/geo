@@ -7,6 +7,7 @@ namespace Brick\Geo\IO;
 use Brick\Geo\CoordinateSystem;
 use Brick\Geo\Exception\GeometryIOException;
 use Brick\Geo\Geometry;
+use Brick\Geo\GeometryCollection;
 use Brick\Geo\LineString;
 use Brick\Geo\Point;
 use Brick\Geo\Polygon;
@@ -14,8 +15,75 @@ use Brick\Geo\Polygon;
 abstract class AbstractGeoJSONReader
 {
     /**
-     * @param GeoJSONParser $parser
-     * @param int           $srid
+     * @param array $geojson
+     * @param int   $srid
+     *
+     * @return Geometry
+     *
+     * @throws \Brick\Geo\Exception\CoordinateSystemException
+     * @throws \Brick\Geo\Exception\UnexpectedGeometryException
+     * @throws GeometryIOException
+     * @throws \Brick\Geo\Exception\InvalidGeometryException
+     */
+    public function readGeoJSON(array $geojson, int $srid) : Geometry
+    {
+        switch ($geojson['TYPE']) {
+            case 'FEATURE':
+                return $this->readFeature($geojson, $srid);
+
+            case 'FEATURECOLLECTION':
+                // Verify 'FEATURES' exists
+                if (! array_key_exists('FEATURES', $geojson) || ! is_array($geojson['FEATURES'])) {
+                    throw GeometryIOException::invalidGeoJSON();
+                }
+
+                $geometries = [];
+
+                foreach ($geojson['FEATURES'] as $feature) {
+                    $geometries[] = $this->readFeature($feature, $srid);
+                }
+
+                return GeometryCollection::of(...$geometries);
+
+            case 'POINT':
+            case 'LINESTRING':
+            case 'POLYGON':
+
+                return $this->readGeometry($geojson, $srid);
+
+            default:
+                throw GeometryIOException::invalidGeoJSON();
+        }
+    }
+
+    /**
+     * @param array $feature
+     * @param int   $srid
+     *
+     * @return Geometry
+     *
+     * @throws GeometryIOException
+     * @throws \Brick\Geo\Exception\CoordinateSystemException
+     * @throws \Brick\Geo\Exception\InvalidGeometryException
+     */
+    protected function readFeature(array $feature, int $srid) : Geometry
+    {
+        // Verify Type 'FEATURE'
+        if (! array_key_exists('TYPE', $feature) || 'FEATURE' !== $feature['TYPE']) {
+            throw GeometryIOException::invalidGeoJSON();
+        }
+
+        // Verify Geometry exists and is array
+        if (! array_key_exists('GEOMETRY', $feature) || ! is_array($feature['GEOMETRY'])) {
+            throw GeometryIOException::invalidGeoJSON();
+        }
+
+        return $this->readGeometry($feature['GEOMETRY'], $srid);
+    }
+
+    /**
+     * @param array $geometry
+     * @param int   $srid
      *
      * @return Geometry
      *
@@ -23,75 +91,85 @@ abstract class AbstractGeoJSONReader
      * @throws \Brick\Geo\Exception\InvalidGeometryException
      * @throws \Brick\Geo\Exception\CoordinateSystemException
      */
-    protected function readGeometry(GeoJSONParser $parser, int $srid) : Geometry
+    protected function readGeometry(array $geometry, int $srid) : Geometry
     {
-        $geometryType = $parser->getGeometryType();
-        $geometryCoordinates = $parser->getGeometryCoordinates();
+        // Verify Geometry TYPE
+        if (! array_key_exists('TYPE', $geometry) || ! is_string($geometry['TYPE'])) {
+            throw GeometryIOException::invalidGeoJSON();
+        }
 
-        $hasZ = false;
+        $geoType = $geometry['TYPE'];
+
+        // Verify Geometry COORDINATES
+        if (! array_key_exists('COORDINATES', $geometry) || ! array($geometry['COORDINATES'])) {
+            throw GeometryIOException::invalidGeoJSON();
+        }
+
+        $geoCoords = $geometry['COORDINATES'];
+
+        $hasZ = false; // TODO: add Z functionality
         $hasM = false;
-        $isEmpty = empty($geometryCoordinates);
+        $isEmpty = empty($geoCoords);
 
         $cs = new CoordinateSystem($hasZ, $hasM, $srid);
 
-        switch ($geometryType) {
+        switch ($geoType) {
             case 'POINT':
                 if ($isEmpty) {
                     return new Point($cs);
                 }
 
-                return $this->readPointType($parser, $cs);
+                return $this->genPoint($cs, ...$geoCoords);
 
             case 'LINESTRING':
                 if ($isEmpty) {
                     return new LineString($cs);
                 }
 
-                return $this->readLineStringType($parser, $cs);
+                return $this->genLineString($cs, ...$geoCoords);
 
             case 'POLYGON':
                 if ($isEmpty) {
                     return new Polygon($cs);
                 }
 
-                return $this->readPolygonType($parser, $cs);
+                return $this->genPolygon($cs, ...$geoCoords);
         }
 
-        throw GeometryIOException::unsupportedGeoJSONType($geometryType);
+        throw GeometryIOException::unsupportedGeoJSONType($geoType);
     }
 
     /**
      * [x, y]
      *
-     * @param GeoJSONParser    $parser
      * @param CoordinateSystem $cs
+     * @param array            $coords
      *
      * @return Point
+     *
      * @throws \Brick\Geo\Exception\InvalidGeometryException
      */
-    private function readPointType(GeoJSONParser $parser, CoordinateSystem $cs) : Point
+    private function genPoint(CoordinateSystem $cs, ...$coords) : Point
     {
-        $coords = $parser->getGeometryCoordinates();
-
         return new Point($cs, ...$coords);
     }
 
     /**
      * [[x, y], ...]
      *
-     * @param GeoJSONParser    $parser
      * @param CoordinateSystem $cs
+     * @param array            $coords
      *
      * @return LineString
      * @throws \Brick\Geo\Exception\InvalidGeometryException
      * @throws \Brick\Geo\Exception\CoordinateSystemException
      */
-    private function readLineStringType(GeoJSONParser $parser, CoordinateSystem $cs) : LineString
+    private function genLineString(CoordinateSystem $cs, ...$coords) : LineString
     {
         $points = [];
 
-        foreach ($parser->getGeometryCoordinates() as $coords) {
-            $points[] = new Point($cs, ...$coords);
+        foreach ($coords as $pointCoords) {
+            $points[] = $this->genPoint($cs, ...$pointCoords);
         }
 
         return new LineString($cs, ...$points);
@@ -100,19 +178,19 @@ abstract class AbstractGeoJSONReader
     /**
      * [[[x, y], ...], ...]
      *
-     * @param GeoJSONParser    $parser
      * @param CoordinateSystem $cs
+     * @param array            $coords
      *
      * @return Polygon
      *
      * @throws \Brick\Geo\Exception\InvalidGeometryException
      * @throws \Brick\Geo\Exception\CoordinateSystemException
      */
-    private function readPolygonType(GeoJSONParser $parser, CoordinateSystem $cs) : Polygon
+    private function genPolygon(CoordinateSystem $cs, ...$coords) : Polygon
     {
         $lineStrings = [];
 
-        foreach ($parser->getGeometryCoordinates() as $polygonCoords) {
+        foreach ($coords as $polygonCoords) {
 
             $points = [];
             foreach ($polygonCoords as $coords) {
