@@ -9,6 +9,9 @@ use Brick\Geo\Exception\GeometryIOException;
 use Brick\Geo\Geometry;
 use Brick\Geo\GeometryCollection;
 use Brick\Geo\LineString;
+use Brick\Geo\MultiLineString;
+use Brick\Geo\MultiPoint;
+use Brick\Geo\MultiPolygon;
 use Brick\Geo\Point;
 use Brick\Geo\Polygon;
 
@@ -46,8 +49,11 @@ abstract class AbstractGeoJSONReader
                 return GeometryCollection::of(...$geometries);
 
             case 'POINT':
+            case 'MULTIPOINT':
             case 'LINESTRING':
+            case 'MULTILINESTRING':
             case 'POLYGON':
+            case 'MULTIPOLYGON':
 
                 return $this->readGeometry($geojson, $srid);
 
@@ -90,6 +96,7 @@ abstract class AbstractGeoJSONReader
      * @throws GeometryIOException
      * @throws \Brick\Geo\Exception\InvalidGeometryException
      * @throws \Brick\Geo\Exception\CoordinateSystemException
+     * @throws \Brick\Geo\Exception\UnexpectedGeometryException
      */
     protected function readGeometry(array $geometry, int $srid) : Geometry
     {
@@ -121,6 +128,13 @@ abstract class AbstractGeoJSONReader
 
                 return $this->genPoint($cs, ...$geoCoords);
 
+            case 'MULTIPOINT':
+                if ($isEmpty) {
+                    return new MultiPoint($cs);
+                }
+
+                return $this->genMultiPoint($cs, ...$geoCoords);
+
             case 'LINESTRING':
                 if ($isEmpty) {
                     return new LineString($cs);
@@ -128,12 +142,26 @@ abstract class AbstractGeoJSONReader
 
                 return $this->genLineString($cs, ...$geoCoords);
 
+            case 'MULTILINESTRING':
+                if ($isEmpty) {
+                    return new MultiLineString($cs);
+                }
+
+                return $this->genMultiLineString($cs, ...$geoCoords);
+
             case 'POLYGON':
                 if ($isEmpty) {
                     return new Polygon($cs);
                 }
 
                 return $this->genPolygon($cs, ...$geoCoords);
+
+            case 'MULTIPOLYGON':
+                if ($isEmpty) {
+                    return new MultiPolygon($cs);
+                }
+
+                return $this->genMultiPolygon($cs, ...$geoCoords);
         }
 
         throw GeometryIOException::unsupportedGeoJSONType($geoType);
@@ -152,6 +180,28 @@ abstract class AbstractGeoJSONReader
     private function genPoint(CoordinateSystem $cs, ...$coords) : Point
     {
         return new Point($cs, ...$coords);
+    }
+
+    /**
+     * [[x, y], ...]
+     *
+     * @param CoordinateSystem $cs
+     * @param array            $coords
+     *
+     * @return MultiPoint
+     * @throws \Brick\Geo\Exception\InvalidGeometryException
+     * @throws \Brick\Geo\Exception\CoordinateSystemException
+     * @throws \Brick\Geo\Exception\UnexpectedGeometryException
+     */
+    private function genMultiPoint(CoordinateSystem $cs, ...$coords) : MultiPoint
+    {
+        $points = [];
+
+        foreach ($coords as $pointCoords) {
+            $points[] = $this->genPoint($cs, ...$pointCoords);
+        }
+
+        return new MultiPoint($cs, ...$points);
     }
 
     /**
@@ -181,6 +231,30 @@ abstract class AbstractGeoJSONReader
      * @param CoordinateSystem $cs
      * @param array            $coords
      *
+     * @return MultiLineString
+     *
+     * @throws \Brick\Geo\Exception\InvalidGeometryException
+     * @throws \Brick\Geo\Exception\CoordinateSystemException
+     * @throws \Brick\Geo\Exception\UnexpectedGeometryException
+     */
+    private function genMultiLineString(CoordinateSystem $cs, ...$coords) : MultiLineString
+    {
+        $lineStrings = [];
+
+        foreach ($coords as $lineStringCoords) {
+
+            $lineStrings[] = $this->genLineString($cs, ...$lineStringCoords);
+        }
+
+        return new MultiLineString($cs, ...$lineStrings);
+    }
+
+    /**
+     * [[[x, y], ...], ...]
+     *
+     * @param CoordinateSystem $cs
+     * @param array            $coords
+     *
      * @return Polygon
      *
      * @throws \Brick\Geo\Exception\InvalidGeometryException
@@ -190,16 +264,35 @@ abstract class AbstractGeoJSONReader
     {
         $lineStrings = [];
 
-        foreach ($coords as $polygonCoords) {
+        foreach ($coords as $lineStringCoords) {
 
-            $points = [];
-            foreach ($polygonCoords as $coords) {
-                $points[] = new Point($cs, ...$coords);
-            }
-
-            $lineStrings[] = new LineString($cs, ...$points);
+            $lineStrings[] = $this->genLineString($cs, ...$lineStringCoords);
         }
 
         return new Polygon($cs, ...$lineStrings);
+    }
+
+    /**
+     * [[[x, y], ...], ...]
+     *
+     * @param CoordinateSystem $cs
+     * @param array            $coords
+     *
+     * @return MultiPolygon
+     *
+     * @throws \Brick\Geo\Exception\InvalidGeometryException
+     * @throws \Brick\Geo\Exception\CoordinateSystemException
+     * @throws \Brick\Geo\Exception\UnexpectedGeometryException
+     */
+    private function genMultiPolygon(CoordinateSystem $cs, ...$coords) : MultiPolygon
+    {
+        $polygons = [];
+
+        foreach ($coords as $polygonCoords) {
+
+            $polygons[] = $this->genPolygon($cs, ...$polygonCoords);
+        }
+
+        return new MultiPolygon($cs, ...$polygons);
     }
 }

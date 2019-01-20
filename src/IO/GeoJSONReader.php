@@ -18,6 +18,8 @@ class GeoJSONReader extends AbstractGeoJSONReader
      *
      * @return GeometryCollection|Geometry
      * @throws \Brick\Geo\Exception\CoordinateSystemException
+     * @throws \Brick\Geo\Exception\GeometryIOException
+     * @throws \Brick\Geo\Exception\InvalidGeometryException
      * @throws \Brick\Geo\Exception\UnexpectedGeometryException
      */
     public function read(string $geojson, int $srid = 0) : Geometry
