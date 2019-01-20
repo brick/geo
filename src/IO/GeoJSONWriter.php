@@ -6,6 +6,7 @@ namespace Brick\Geo\IO;
 
 use Brick\Geo\Exception\GeometryIOException;
 use Brick\Geo\Geometry;
+use Brick\Geo\GeometryCollection;
 use Brick\Geo\LineString;
 use Brick\Geo\MultiLineString;
 use Brick\Geo\MultiPoint;
@@ -39,6 +40,8 @@ class GeoJSONWriter
             return $this->writePolygon($geometry);
         } elseif ($geometry instanceof MultiPolygon) {
             return $this->writeMultiPolygon($geometry);
+        } elseif ($geometry instanceof GeometryCollection) {
+            return $this->writeFeatureCollection($geometry);
         }
 
         throw GeometryIOException::unsupportedGeometryType($geometry->geometryType());
@@ -130,6 +133,33 @@ class GeoJSONWriter
             'type' => 'MultiPolygon',
             'coordinates' => $geometry->toArray()
         ];
+
+        return $this->genGeoJSONString($geojsonArray);
+    }
+
+    /**
+     * @param GeometryCollection $geometryCollection
+     *
+     * @return string
+     * @throws GeometryIOException
+     */
+    private function writeFeatureCollection(GeometryCollection $geometryCollection)
+    {
+        $geojsonArray = [
+            'type' => 'FeatureCollection',
+            'features' => []
+        ];
+
+        if ($geometryCollection->isEmpty()) {
+            return $this->genGeoJSONString($geojsonArray);
+        }
+
+        foreach ($geometryCollection->geometries() as $geometry) {
+            $geojsonArray['features'][] = [
+                'type' => 'Feature',
+                'geometry' => json_decode($this->write($geometry))
+            ];
+        }
 
         return $this->genGeoJSONString($geojsonArray);
     }
