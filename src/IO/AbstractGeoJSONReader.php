@@ -36,7 +36,10 @@ abstract class AbstractGeoJSONReader
 
             case 'FEATURECOLLECTION':
                 // Verify 'FEATURES' exists
-                if (! array_key_exists('FEATURES', $geojson) || ! is_array($geojson['FEATURES'])) {
+                if (! array_key_exists('FEATURES', $geojson)
+                    || ! is_array($geojson['FEATURES'])
+                    || empty($geojson['FEATURES'])
+                ) {
                     throw GeometryIOException::invalidGeoJSON();
                 }
 
