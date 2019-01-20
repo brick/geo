@@ -6,6 +6,8 @@ namespace Brick\Geo\IO;
 
 use Brick\Geo\Exception\GeometryIOException;
 use Brick\Geo\Geometry;
+use Brick\Geo\LineString;
+use Brick\Geo\MultiLineString;
 use Brick\Geo\MultiPoint;
 use Brick\Geo\Point;
 
@@ -27,6 +29,10 @@ class GeoJSONWriter
             return $this->writePoint($geometry);
         } elseif ($geometry instanceof MultiPoint) {
             return $this->writeMultiPoint($geometry);
+        } elseif ($geometry instanceof LineString) {
+            return $this->writeLineString($geometry);
+        } elseif ($geometry instanceof MultiLineString) {
+            return $this->writeMultiLineString($geometry);
         }
 
         throw GeometryIOException::unsupportedGeometryType($geometry->geometryType());
@@ -57,6 +63,36 @@ class GeoJSONWriter
         $geojsonArray = [
             'type' => 'MultiPoint',
             'coordinates' => $this->genMultiPointCoords($geometry)
+        ];
+
+        return $this->genGeoJSONString($geojsonArray);
+    }
+
+    /**
+     * @param LineString $geometry
+     *
+     * @return string
+     */
+    private function writeLineString(LineString $geometry)
+    {
+        $geojsonArray = [
+            'type' => 'LineString',
+            'coordinates' => $this->genLineStringCoords($geometry)
+        ];
+
+        return $this->genGeoJSONString($geojsonArray);
+    }
+
+    /**
+     * @param MultiLineString $geometry
+     *
+     * @return string
+     */
+    private function writeMultiLineString(MultiLineString $geometry)
+    {
+        $geojsonArray = [
+            'type' => 'MultiLineString',
+            'coordinates' => $this->genMultiLineStringCoords($geometry)
         ];
 
         return $this->genGeoJSONString($geojsonArray);
@@ -96,6 +132,59 @@ class GeoJSONWriter
          */
         foreach ($geometry->geometries() as $point) {
             $coords[] = $this->genPointCoords($point);
+        }
+
+        return $coords;
+    }
+
+    /**
+     * @param LineString $geometry
+     *
+     * @return array
+     */
+    private function genLineStringCoords(LineString $geometry) : array
+    {
+        $coords = [];
+
+        if ($geometry->isEmpty()) {
+            return $coords;
+        }
+
+        /**
+         * @var Point $point
+         */
+        foreach ($geometry->points() as $point) {
+            $coords[] = $this->genPointCoords($point);
+        }
+
+        return $coords;
+    }
+
+    /**
+     * @param MultiLineString $geometry
+     *
+     * @return array
+     */
+    private function genMultiLineStringCoords(MultiLineString $geometry) : array
+    {
+        $coords = [];
+
+        if ($geometry->isEmpty()) {
+            return $coords;
+        }
+
+        /**
+         * @var LineString $lineString
+         */
+        foreach ($geometry->geometries() as $lineString) {
+            $lineStringCoords = [];
+            /**
+             * @var Point $point
+             */
+            foreach ($lineString->points() as $point) {
+                $lineStringCoords[] = $this->genPointCoords($point);
+            }
+            $coords[] = $lineStringCoords;
         }
 
         return $coords;
