@@ -16,7 +16,11 @@ class GeoJSONReaderTest extends GeoJSONAbstractTest
      * @param int    $srid       The SRID to use.
      *
      * @return void
+     *
+     * @throws \Brick\Geo\Exception\CoordinateSystemException
      * @throws \Brick\Geo\Exception\GeometryIOException
+     * @throws \Brick\Geo\Exception\InvalidGeometryException
+     * @throws \Brick\Geo\Exception\UnexpectedGeometryException
      */
     public function testRead(string $geojson, array $coords, bool $is3D, bool $isMeasured, int $srid) : void
     {

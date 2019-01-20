@@ -71,6 +71,7 @@ abstract class AbstractGeoJSONReader
      * @throws GeometryIOException
      * @throws \Brick\Geo\Exception\CoordinateSystemException
      * @throws \Brick\Geo\Exception\InvalidGeometryException
+     * @throws \Brick\Geo\Exception\UnexpectedGeometryException
      */
     protected function readFeature(array $feature, int $srid) : Geometry
     {
