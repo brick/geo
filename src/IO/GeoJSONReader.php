@@ -24,9 +24,9 @@ class GeoJSONReader extends AbstractGeoJSONReader
      */
     public function read(string $geojson, int $srid = 0) : Geometry
     {
-        $geojson_array = json_decode(strtoupper($geojson), true);
+        $geojsonArray = json_decode(strtoupper($geojson), true);
 
-        $geometry = $this->readGeoJSON($geojson_array, $srid);
+        $geometry = $this->readGeoJSON($geojsonArray, $srid);
 
         return $geometry;
     }
