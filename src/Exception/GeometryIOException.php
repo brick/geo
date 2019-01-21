@@ -36,11 +36,15 @@ class GeometryIOException extends GeometryException
     }
 
     /**
+     * @param string $context
+     *
      * @return GeometryIOException
      */
-    public static function invalidGeoJSON() : GeometryIOException
+    public static function invalidGeoJSON(string $context) : GeometryIOException
     {
-        return new self('Invalid GeoJson.');
+        $message = sprintf('Invalid GeoJson: %s.', $context);
+
+        return new static($message);
     }
 
     /**

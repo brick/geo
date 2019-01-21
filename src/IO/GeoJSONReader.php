@@ -39,7 +39,7 @@ class GeoJSONReader
         }
 
         if (! is_array($geojsonArray)) {
-            throw GeometryIOException::invalidGeoJSON();
+            throw GeometryIOException::invalidGeoJSON('Unable to parse GeoJSON String.');
         }
 
         $geometry = $this->readGeoJSON($geojsonArray, $srid);
@@ -60,6 +60,10 @@ class GeoJSONReader
      */
     protected function readGeoJSON(array $geojson, int $srid) : Geometry
     {
+        if (! isset($geojson['TYPE']) || ! is_string($geojson['TYPE'])) {
+            throw GeometryIOException::invalidGeoJSON('Missing or Malformed "Type" attribute.');
+        }
+
         switch ($geojson['TYPE']) {
             case 'FEATURE':
                 return $this->readFeature($geojson, $srid);
@@ -67,7 +71,7 @@ class GeoJSONReader
             case 'FEATURECOLLECTION':
                 // Verify 'FEATURES' exists
                 if (! isset($geojson['FEATURES']) || ! is_array($geojson['FEATURES'])) {
-                    throw GeometryIOException::invalidGeoJSON();
+                    throw GeometryIOException::invalidGeoJSON('Missing or Malformed "FeatureCollection.Features" attribute.');
                 }
 
                 $geometries = [];
@@ -88,7 +92,7 @@ class GeoJSONReader
                 return $this->readGeometry($geojson, $srid);
 
             default:
-                throw GeometryIOException::invalidGeoJSON();
+                throw GeometryIOException::unsupportedGeoJSONType($geojson['TYPE']);
         }
     }
 
@@ -107,12 +111,12 @@ class GeoJSONReader
     {
         // Verify Type 'FEATURE'
         if (! array_key_exists('TYPE', $feature) || 'FEATURE' !== $feature['TYPE']) {
-            throw GeometryIOException::invalidGeoJSON();
+            throw GeometryIOException::invalidGeoJSON('Missing or Malformed "Feature.Type" attribute.');
         }
 
         // Verify Geometry exists and is array
         if (! array_key_exists('GEOMETRY', $feature) || ! is_array($feature['GEOMETRY'])) {
-            throw GeometryIOException::invalidGeoJSON();
+            throw GeometryIOException::invalidGeoJSON('Missing "Feature.Geometry" attribute.');
         }
 
         return $this->readGeometry($feature['GEOMETRY'], $srid);
@@ -133,14 +137,14 @@ class GeoJSONReader
     {
         // Verify Geometry TYPE
         if (! array_key_exists('TYPE', $geometry) || ! is_string($geometry['TYPE'])) {
-            throw GeometryIOException::invalidGeoJSON();
+            throw GeometryIOException::invalidGeoJSON('Missing "Geometry.Type" attribute.');
         }
 
         $geoType = $geometry['TYPE'];
 
         // Verify Geometry COORDINATES
         if (! array_key_exists('COORDINATES', $geometry) || ! array($geometry['COORDINATES'])) {
-            throw GeometryIOException::invalidGeoJSON();
+            throw GeometryIOException::invalidGeoJSON('Missing "Geometry.Coordinates" attribute.');
         }
 
         $geoCoords = $geometry['COORDINATES'];
