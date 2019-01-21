@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace Brick\Geo\IO;
 
+use Brick\Geo\Exception\GeometryIOException;
 use Brick\Geo\Geometry;
 use Brick\Geo\GeometryCollection;
 
@@ -25,6 +26,14 @@ class GeoJSONReader extends AbstractGeoJSONReader
     public function read(string $geojson, int $srid = 0) : Geometry
     {
         $geojsonArray = json_decode(strtoupper($geojson), true);
+
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            throw new GeometryIOException(json_last_error_msg(), json_last_error());
+        }
+
+        if (! is_array($geojsonArray)) {
+            throw GeometryIOException::invalidGeoJSON();
+        }
 
         $geometry = $this->readGeoJSON($geojsonArray, $srid);
 
