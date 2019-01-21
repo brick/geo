@@ -28,7 +28,8 @@ class GeoJSONWriter
      */
     public function write(Geometry $geometry) : string
     {
-        if ($geometry instanceof GeometryCollection) {
+        if ($geometry instanceof GeometryCollection
+            && ! is_subclass_of($geometry, GeometryCollection::class)) {
             return $this->writeFeatureCollection($geometry);
         }
 
