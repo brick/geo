@@ -38,7 +38,6 @@ abstract class AbstractGeoJSONReader
                 // Verify 'FEATURES' exists
                 if (! array_key_exists('FEATURES', $geojson)
                     || ! is_array($geojson['FEATURES'])
-                    || empty($geojson['FEATURES'])
                 ) {
                     throw GeometryIOException::invalidGeoJSON();
                 }
@@ -118,7 +117,7 @@ abstract class AbstractGeoJSONReader
 
         $geoCoords = $geometry['COORDINATES'];
 
-        $hasZ = false; // TODO: add Z functionality
+        $hasZ = $this->hasZ($geoCoords);
         $hasM = false;
         $isEmpty = empty($geoCoords);
 
@@ -298,5 +297,32 @@ abstract class AbstractGeoJSONReader
         }
 
         return new MultiPolygon($cs, ...$polygons);
+    }
+
+    /**
+     * @param $coords
+     * @return bool
+     */
+    private function hasZ(array $coords)
+    {
+        if (empty($coords)) {
+            return false;
+        }
+
+        // At least one Geometry hasZ
+        if (! is_array($coords[0])) {
+            if (3 === count($coords)) {
+                return true;
+            }
+            return false;
+        }
+
+        foreach ($coords as $coord) {
+            if ($this->hasZ($coord)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
