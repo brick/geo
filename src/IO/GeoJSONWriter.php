@@ -52,7 +52,7 @@ class GeoJSONWriter
      *
      * @return string
      */
-    private function writePoint(Point $geometry)
+    private function writePoint(Point $geometry) : string
     {
         $geojsonArray = [
             'type' => 'Point',
@@ -67,7 +67,7 @@ class GeoJSONWriter
      *
      * @return string
      */
-    private function writeMultiPoint(MultiPoint $geometry)
+    private function writeMultiPoint(MultiPoint $geometry) : string
     {
         $geojsonArray = [
             'type' => 'MultiPoint',
@@ -82,7 +82,7 @@ class GeoJSONWriter
      *
      * @return string
      */
-    private function writeLineString(LineString $geometry)
+    private function writeLineString(LineString $geometry) : string
     {
         $geojsonArray = [
             'type' => 'LineString',
@@ -97,7 +97,7 @@ class GeoJSONWriter
      *
      * @return string
      */
-    private function writeMultiLineString(MultiLineString $geometry)
+    private function writeMultiLineString(MultiLineString $geometry) : string
     {
         $geojsonArray = [
             'type' => 'MultiLineString',
@@ -112,7 +112,7 @@ class GeoJSONWriter
      *
      * @return string
      */
-    private function writePolygon(Polygon $geometry)
+    private function writePolygon(Polygon $geometry) : string
     {
         $geojsonArray = [
             'type' => 'Polygon',
@@ -127,7 +127,7 @@ class GeoJSONWriter
      *
      * @return string
      */
-    private function writeMultiPolygon(MultiPolygon $geometry)
+    private function writeMultiPolygon(MultiPolygon $geometry) : string
     {
         $geojsonArray = [
             'type' => 'MultiPolygon',
@@ -143,7 +143,7 @@ class GeoJSONWriter
      * @return string
      * @throws GeometryIOException
      */
-    private function writeFeatureCollection(GeometryCollection $geometryCollection)
+    private function writeFeatureCollection(GeometryCollection $geometryCollection) : string
     {
         $geojsonArray = [
             'type' => 'FeatureCollection',
@@ -169,7 +169,7 @@ class GeoJSONWriter
      *
      * @return string
      */
-    private function genGeoJSONString(array $geojsonArray)
+    private function genGeoJSONString(array $geojsonArray) : string
     {
         return json_encode($geojsonArray);
     }
