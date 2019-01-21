@@ -28,113 +28,42 @@ class GeoJSONWriter
      */
     public function write(Geometry $geometry) : string
     {
-        if ($geometry instanceof Point) {
-            return $this->writePoint($geometry);
-        } elseif ($geometry instanceof MultiPoint) {
-            return $this->writeMultiPoint($geometry);
-        } elseif ($geometry instanceof LineString) {
-            return $this->writeLineString($geometry);
-        } elseif ($geometry instanceof MultiLineString) {
-            return $this->writeMultiLineString($geometry);
-        } elseif ($geometry instanceof Polygon) {
-            return $this->writePolygon($geometry);
-        } elseif ($geometry instanceof MultiPolygon) {
-            return $this->writeMultiPolygon($geometry);
-        } elseif ($geometry instanceof GeometryCollection) {
+        if ($geometry instanceof GeometryCollection) {
             return $this->writeFeatureCollection($geometry);
         }
 
-        throw GeometryIOException::unsupportedGeometryType($geometry->geometryType());
+        return $this->genGeoJSONString($this->formatGeoJSONGeometry($geometry));
     }
 
     /**
-     * @param Point $geometry
+     * @param Geometry $geometry
      *
-     * @return string
+     * @return array
+     *
+     * @throws GeometryIOException
      */
-    private function writePoint(Point $geometry) : string
+    private function formatGeoJSONGeometry(Geometry $geometry) : array
     {
-        $geojsonArray = [
-            'type' => 'Point',
+        if ($geometry instanceof Point) {
+            $type = 'Point';
+        } elseif ($geometry instanceof MultiPoint) {
+            $type = 'MultiPoint';
+        } elseif ($geometry instanceof LineString) {
+            $type = 'LineString';
+        } elseif ($geometry instanceof MultiLineString) {
+            $type = 'MultiLineString';
+        } elseif ($geometry instanceof Polygon) {
+            $type = 'Polygon';
+        } elseif ($geometry instanceof MultiPolygon) {
+            $type = 'MultiPolygon';
+        } else {
+            throw GeometryIOException::unsupportedGeometryType($geometry->geometryType());
+        }
+
+        return [
+            'type' => $type,
             'coordinates' => $geometry->toArray()
         ];
-
-        return $this->genGeoJSONString($geojsonArray);
-    }
-
-    /**
-     * @param MultiPoint $geometry
-     *
-     * @return string
-     */
-    private function writeMultiPoint(MultiPoint $geometry) : string
-    {
-        $geojsonArray = [
-            'type' => 'MultiPoint',
-            'coordinates' => $geometry->toArray()
-        ];
-
-        return $this->genGeoJSONString($geojsonArray);
-    }
-
-    /**
-     * @param LineString $geometry
-     *
-     * @return string
-     */
-    private function writeLineString(LineString $geometry) : string
-    {
-        $geojsonArray = [
-            'type' => 'LineString',
-            'coordinates' => $geometry->toArray()
-        ];
-
-        return $this->genGeoJSONString($geojsonArray);
-    }
-
-    /**
-     * @param MultiLineString $geometry
-     *
-     * @return string
-     */
-    private function writeMultiLineString(MultiLineString $geometry) : string
-    {
-        $geojsonArray = [
-            'type' => 'MultiLineString',
-            'coordinates' => $geometry->toArray()
-        ];
-
-        return $this->genGeoJSONString($geojsonArray);
-    }
-
-    /**
-     * @param Polygon $geometry
-     *
-     * @return string
-     */
-    private function writePolygon(Polygon $geometry) : string
-    {
-        $geojsonArray = [
-            'type' => 'Polygon',
-            'coordinates' => $geometry->toArray()
-        ];
-
-        return $this->genGeoJSONString($geojsonArray);
-    }
-
-    /**
-     * @param MultiPolygon $geometry
-     *
-     * @return string
-     */
-    private function writeMultiPolygon(MultiPolygon $geometry) : string
-    {
-        $geojsonArray = [
-            'type' => 'MultiPolygon',
-            'coordinates' => $geometry->toArray()
-        ];
-
-        return $this->genGeoJSONString($geojsonArray);
     }
 
     /**
@@ -157,7 +86,7 @@ class GeoJSONWriter
         foreach ($geometryCollection->geometries() as $geometry) {
             $geojsonArray['features'][] = [
                 'type' => 'Feature',
-                'geometry' => json_decode($this->write($geometry))
+                'geometry' => $this->formatGeoJSONGeometry($geometry)
             ];
         }
 
