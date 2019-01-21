@@ -170,15 +170,15 @@ abstract class AbstractGeoJSONReader
 
     /**
      * [x, y]
-     *
+     *s
      * @param CoordinateSystem $cs
-     * @param array            $coords
+     * @param float[]          ...$coords
      *
      * @return Point
      *
      * @throws \Brick\Geo\Exception\InvalidGeometryException
      */
-    private function genPoint(CoordinateSystem $cs, ...$coords) : Point
+    private function genPoint(CoordinateSystem $cs, float ...$coords) : Point
     {
         return new Point($cs, ...$coords);
     }
