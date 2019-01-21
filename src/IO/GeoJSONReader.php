@@ -22,7 +22,6 @@ class GeoJSONReader
 {
     /**
      * @param string $geojson The GeoJSON to read.
-     * @param int    $srid    The optional SRID of the geometry.
      *
      * @return GeometryCollection|Geometry
      * @throws \Brick\Geo\Exception\CoordinateSystemException
@@ -30,7 +29,7 @@ class GeoJSONReader
      * @throws \Brick\Geo\Exception\InvalidGeometryException
      * @throws \Brick\Geo\Exception\UnexpectedGeometryException
      */
-    public function read(string $geojson, int $srid = 0) : Geometry
+    public function read(string $geojson) : Geometry
     {
         $geojsonArray = json_decode(strtoupper($geojson), true);
 
@@ -42,14 +41,13 @@ class GeoJSONReader
             throw GeometryIOException::invalidGeoJSON('Unable to parse GeoJSON String.');
         }
 
-        $geometry = $this->readGeoJSON($geojsonArray, $srid);
+        $geometry = $this->readGeoJSON($geojsonArray);
 
         return $geometry;
     }
 
     /**
      * @param array $geojson
-     * @param int   $srid
      *
      * @return Geometry
      *
@@ -58,7 +56,7 @@ class GeoJSONReader
      * @throws GeometryIOException
      * @throws \Brick\Geo\Exception\InvalidGeometryException
      */
-    protected function readGeoJSON(array $geojson, int $srid) : Geometry
+    protected function readGeoJSON(array $geojson) : Geometry
     {
         if (! isset($geojson['TYPE']) || ! is_string($geojson['TYPE'])) {
             throw GeometryIOException::invalidGeoJSON('Missing or Malformed "Type" attribute.');
@@ -66,7 +64,7 @@ class GeoJSONReader
 
         switch ($geojson['TYPE']) {
             case 'FEATURE':
-                return $this->readFeature($geojson, $srid);
+                return $this->readFeature($geojson);
 
             case 'FEATURECOLLECTION':
                 // Verify 'FEATURES' exists
@@ -77,7 +75,7 @@ class GeoJSONReader
                 $geometries = [];
 
                 foreach ($geojson['FEATURES'] as $feature) {
-                    $geometries[] = $this->readFeature($feature, $srid);
+                    $geometries[] = $this->readFeature($feature);
                 }
 
                 return GeometryCollection::of(...$geometries);
@@ -89,7 +87,7 @@ class GeoJSONReader
             case 'POLYGON':
             case 'MULTIPOLYGON':
 
-                return $this->readGeometry($geojson, $srid);
+                return $this->readGeometry($geojson);
 
             default:
                 throw GeometryIOException::unsupportedGeoJSONType($geojson['TYPE']);
@@ -98,7 +96,6 @@ class GeoJSONReader
 
     /**
      * @param array $feature
-     * @param int   $srid
      *
      * @return Geometry
      *
@@ -107,7 +104,7 @@ class GeoJSONReader
      * @throws \Brick\Geo\Exception\InvalidGeometryException
      * @throws \Brick\Geo\Exception\UnexpectedGeometryException
      */
-    protected function readFeature(array $feature, int $srid) : Geometry
+    protected function readFeature(array $feature) : Geometry
     {
         // Verify Type 'FEATURE'
         if (! array_key_exists('TYPE', $feature) || 'FEATURE' !== $feature['TYPE']) {
@@ -119,12 +116,11 @@ class GeoJSONReader
             throw GeometryIOException::invalidGeoJSON('Missing "Feature.Geometry" attribute.');
         }
 
-        return $this->readGeometry($feature['GEOMETRY'], $srid);
+        return $this->readGeometry($feature['GEOMETRY']);
     }
 
     /**
      * @param array $geometry
-     * @param int   $srid
      *
      * @return Geometry
      *
@@ -133,7 +129,7 @@ class GeoJSONReader
      * @throws \Brick\Geo\Exception\CoordinateSystemException
      * @throws \Brick\Geo\Exception\UnexpectedGeometryException
      */
-    protected function readGeometry(array $geometry, int $srid) : Geometry
+    protected function readGeometry(array $geometry) : Geometry
     {
         // Verify Geometry TYPE
         if (! array_key_exists('TYPE', $geometry) || ! is_string($geometry['TYPE'])) {
@@ -151,6 +147,7 @@ class GeoJSONReader
 
         $hasZ = $this->hasZ($geoCoords);
         $hasM = false;
+        $srid = 0;
         $isEmpty = empty($geoCoords);
 
         $cs = new CoordinateSystem($hasZ, $hasM, $srid);
