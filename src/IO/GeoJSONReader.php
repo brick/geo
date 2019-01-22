@@ -193,15 +193,15 @@ class GeoJSONReader
      * [[x, y], ...]
      *
      * @param CoordinateSystem $cs
-     * @param array            $coords
+     * @param array[]          ...$coords
      *
      * @return MultiPoint
      *
-     * @throws \Brick\Geo\Exception\InvalidGeometryException
      * @throws \Brick\Geo\Exception\CoordinateSystemException
+     * @throws \Brick\Geo\Exception\InvalidGeometryException
      * @throws \Brick\Geo\Exception\UnexpectedGeometryException
      */
-    private function genMultiPoint(CoordinateSystem $cs, ...$coords) : MultiPoint
+    private function genMultiPoint(CoordinateSystem $cs, array ...$coords) : MultiPoint
     {
         $points = [];
 
@@ -216,14 +216,14 @@ class GeoJSONReader
      * [[x, y], ...]
      *
      * @param CoordinateSystem $cs
-     * @param array            $coords
+     * @param array[]          ...$coords
      *
      * @return LineString
      *
-     * @throws \Brick\Geo\Exception\InvalidGeometryException
      * @throws \Brick\Geo\Exception\CoordinateSystemException
+     * @throws \Brick\Geo\Exception\InvalidGeometryException
      */
-    private function genLineString(CoordinateSystem $cs, ...$coords) : LineString
+    private function genLineString(CoordinateSystem $cs, array ...$coords) : LineString
     {
         $points = [];
 
@@ -238,15 +238,15 @@ class GeoJSONReader
      * [[[x, y], ...], ...]
      *
      * @param CoordinateSystem $cs
-     * @param array            $coords
+     * @param array[]          ...$coords
      *
      * @return MultiLineString
      *
-     * @throws \Brick\Geo\Exception\InvalidGeometryException
      * @throws \Brick\Geo\Exception\CoordinateSystemException
+     * @throws \Brick\Geo\Exception\InvalidGeometryException
      * @throws \Brick\Geo\Exception\UnexpectedGeometryException
      */
-    private function genMultiLineString(CoordinateSystem $cs, ...$coords) : MultiLineString
+    private function genMultiLineString(CoordinateSystem $cs, array ...$coords) : MultiLineString
     {
         $lineStrings = [];
 
@@ -261,14 +261,14 @@ class GeoJSONReader
      * [[[x, y], ...], ...]
      *
      * @param CoordinateSystem $cs
-     * @param array            $coords
+     * @param array[]          ...$coords
      *
      * @return Polygon
      *
-     * @throws \Brick\Geo\Exception\InvalidGeometryException
      * @throws \Brick\Geo\Exception\CoordinateSystemException
+     * @throws \Brick\Geo\Exception\InvalidGeometryException
      */
-    private function genPolygon(CoordinateSystem $cs, ...$coords) : Polygon
+    private function genPolygon(CoordinateSystem $cs, array ...$coords) : Polygon
     {
         $lineStrings = [];
 
@@ -283,15 +283,15 @@ class GeoJSONReader
      * [[[x, y], ...], ...]
      *
      * @param CoordinateSystem $cs
-     * @param array            $coords
+     * @param array[]          ...$coords
      *
      * @return MultiPolygon
      *
-     * @throws \Brick\Geo\Exception\InvalidGeometryException
      * @throws \Brick\Geo\Exception\CoordinateSystemException
+     * @throws \Brick\Geo\Exception\InvalidGeometryException
      * @throws \Brick\Geo\Exception\UnexpectedGeometryException
      */
-    private function genMultiPolygon(CoordinateSystem $cs, ...$coords) : MultiPolygon
+    private function genMultiPolygon(CoordinateSystem $cs, array ...$coords) : MultiPolygon
     {
         $polygons = [];
 
