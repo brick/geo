@@ -45,24 +45,18 @@ class GeoJSONWriter
      */
     private function formatGeoJSONGeometry(Geometry $geometry) : array
     {
-        if ($geometry instanceof Point) {
-            $type = 'Point';
-        } elseif ($geometry instanceof MultiPoint) {
-            $type = 'MultiPoint';
-        } elseif ($geometry instanceof LineString) {
-            $type = 'LineString';
-        } elseif ($geometry instanceof MultiLineString) {
-            $type = 'MultiLineString';
-        } elseif ($geometry instanceof Polygon) {
-            $type = 'Polygon';
-        } elseif ($geometry instanceof MultiPolygon) {
-            $type = 'MultiPolygon';
-        } else {
+        if (! $geometry instanceof Point
+            && ! $geometry instanceof MultiPoint
+            && ! $geometry instanceof LineString
+            && ! $geometry instanceof MultiLineString
+            && ! $geometry instanceof Polygon
+            && ! $geometry instanceof MultiPolygon
+        ) {
             throw GeometryIOException::unsupportedGeometryType($geometry->geometryType());
         }
 
         return [
-            'type' => $type,
+            'type' => $geometry->geometryType(),
             'coordinates' => $geometry->toArray()
         ];
     }
