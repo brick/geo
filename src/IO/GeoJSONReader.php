@@ -277,7 +277,6 @@ class GeoJSONReader
         $lineStrings = [];
 
         foreach ($coords as $lineStringCoords) {
-
             $lineStrings[] = $this->genLineString($cs, ...$lineStringCoords);
         }
 
@@ -300,7 +299,6 @@ class GeoJSONReader
         $lineStrings = [];
 
         foreach ($coords as $lineStringCoords) {
-
             $lineStrings[] = $this->genLineString($cs, ...$lineStringCoords);
         }
 
@@ -324,7 +322,6 @@ class GeoJSONReader
         $polygons = [];
 
         foreach ($coords as $polygonCoords) {
-
             $polygons[] = $this->genPolygon($cs, ...$polygonCoords);
         }
 
