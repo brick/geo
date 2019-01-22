@@ -87,7 +87,6 @@ class GeoJSONReader
             case 'MULTILINESTRING':
             case 'POLYGON':
             case 'MULTIPOLYGON':
-
                 return $this->readGeometry($geojson);
 
             default:
