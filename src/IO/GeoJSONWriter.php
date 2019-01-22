@@ -75,10 +75,6 @@ class GeoJSONWriter
             'features' => []
         ];
 
-        if ($geometryCollection->isEmpty()) {
-            return $this->genGeoJSONString($geojsonArray);
-        }
-
         foreach ($geometryCollection->geometries() as $geometry) {
             $geojsonArray['features'][] = [
                 'type' => 'Feature',
