@@ -25,7 +25,7 @@ class GeoJSONReaderTest extends GeoJSONAbstractTest
     public function testReadGeometry(string $geojson, array $coords, bool $is3D, bool $isMeasured) : void
     {
         $geometry = (new GeoJSONReader())->read($geojson);
-        $this->assertGeometryContents($geometry, $coords, $is3D, $isMeasured, 0);
+        $this->assertGeometryContents($geometry, $coords, $is3D, $isMeasured, 4326);
     }
 
     /**
@@ -57,7 +57,7 @@ class GeoJSONReaderTest extends GeoJSONAbstractTest
     public function testReadFeature(string $geojson, array $coords, bool $is3D, bool $isMeasured) : void
     {
         $geometry = (new GeoJSONReader())->read($geojson);
-        $this->assertGeometryContents($geometry, $coords, $is3D, $isMeasured, 0);
+        $this->assertGeometryContents($geometry, $coords, $is3D, $isMeasured, 4326);
     }
 
     /**
@@ -98,7 +98,7 @@ class GeoJSONReaderTest extends GeoJSONAbstractTest
         $this->assertInstanceOf(GeometryCollection::class, $geometryCollection);
 
         foreach ($geometryCollection->geometries() as $key => $geometry) {
-            $this->assertGeometryContents($geometry, $coords[$key], $is3D[$key], $isMeasured[$key], 0);
+            $this->assertGeometryContents($geometry, $coords[$key], $is3D[$key], $isMeasured[$key], 4326);
         }
     }
 
