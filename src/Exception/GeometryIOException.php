@@ -42,7 +42,7 @@ class GeometryIOException extends GeometryException
      */
     public static function invalidGeoJSON(string $context) : GeometryIOException
     {
-        $message = sprintf('Invalid GeoJson: %s.', $context);
+        $message = sprintf('Invalid GeoJSON: %s.', $context);
 
         return new static($message);
     }
