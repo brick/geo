@@ -316,10 +316,7 @@ class GeoJSONReader
 
         // At least one Geometry hasZ
         if (! is_array($coords[0])) {
-            if (3 === count($coords)) {
-                return true;
-            }
-            return false;
+            return 3 === count($coords);
         }
 
         foreach ($coords as $coord) {
