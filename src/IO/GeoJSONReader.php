@@ -149,51 +149,26 @@ class GeoJSONReader
         $hasZ = $this->hasZ($geoCoords);
         $hasM = false;
         $srid = 4326;
-        $isEmpty = empty($geoCoords);
 
         $cs = new CoordinateSystem($hasZ, $hasM, $srid);
 
         switch ($geoType) {
             case 'POINT':
-                if ($isEmpty) {
-                    return new Point($cs);
-                }
-
                 return $this->genPoint($cs, ...$geoCoords);
 
             case 'MULTIPOINT':
-                if ($isEmpty) {
-                    return new MultiPoint($cs);
-                }
-
                 return $this->genMultiPoint($cs, ...$geoCoords);
 
             case 'LINESTRING':
-                if ($isEmpty) {
-                    return new LineString($cs);
-                }
-
                 return $this->genLineString($cs, ...$geoCoords);
 
             case 'MULTILINESTRING':
-                if ($isEmpty) {
-                    return new MultiLineString($cs);
-                }
-
                 return $this->genMultiLineString($cs, ...$geoCoords);
 
             case 'POLYGON':
-                if ($isEmpty) {
-                    return new Polygon($cs);
-                }
-
                 return $this->genPolygon($cs, ...$geoCoords);
 
             case 'MULTIPOLYGON':
-                if ($isEmpty) {
-                    return new MultiPolygon($cs);
-                }
-
                 return $this->genMultiPolygon($cs, ...$geoCoords);
         }
 
