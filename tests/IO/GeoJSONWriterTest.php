@@ -8,8 +8,8 @@ use Brick\Geo\IO\GeoJSONWriter;
 class GeoJSONWriterTest extends GeoJSONAbstractTest
 {
     /**
-     * @dataProvider providerReadGeometry
-     * @dataProvider providerReadFeatureCollection
+     * @dataProvider providerWriteGeometry
+     * @dataProvider providerWriteFeatureCollection
      *
      * @param string $geojson The GeoJSON to read.
      *
@@ -19,7 +19,7 @@ class GeoJSONWriterTest extends GeoJSONAbstractTest
      * @throws \Brick\Geo\Exception\InvalidGeometryException
      * @throws \Brick\Geo\Exception\UnexpectedGeometryException
      */
-    public function testReadGeometry(string $geojson) : void
+    public function testWritedGeometry(string $geojson) : void
     {
         $geometry = (new GeoJSONReader())->read($geojson);
         $geometryGeoJSON = (new GeoJSONWriter())->write($geometry);
@@ -30,7 +30,7 @@ class GeoJSONWriterTest extends GeoJSONAbstractTest
     /**
      * @return \Generator
      */
-    public function providerReadGeometry() : \Generator
+    public function providerWriteGeometry() : \Generator
     {
         foreach ($this->providerGeometryGeoJSON() as [$geojson, $coords, $is3D, $isMeasured]) {
             yield [$geojson];
@@ -40,7 +40,7 @@ class GeoJSONWriterTest extends GeoJSONAbstractTest
     /**
      * @return \Generator
      */
-    public function providerReadFeatureCollection() : \Generator
+    public function providerWriteFeatureCollection() : \Generator
     {
         foreach ($this->providerFeatureCollectionGeoJSON() as [$geojson, $coords, $is3D, $isMeasured]) {
             yield [$geojson];
