@@ -71,6 +71,7 @@ class GeoJSONWriter
      * @param GeometryCollection $geometryCollection
      *
      * @return string
+     *
      * @throws GeometryIOException
      */
     private function writeFeatureCollection(GeometryCollection $geometryCollection) : string

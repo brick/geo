@@ -24,6 +24,7 @@ class GeoJSONReader
      * @param string $geojson The GeoJSON to read.
      *
      * @return GeometryCollection|Geometry
+     *
      * @throws \Brick\Geo\Exception\CoordinateSystemException
      * @throws \Brick\Geo\Exception\GeometryIOException
      * @throws \Brick\Geo\Exception\InvalidGeometryException
@@ -201,7 +202,7 @@ class GeoJSONReader
 
     /**
      * [x, y]
-     *s
+     *
      * @param CoordinateSystem $cs
      * @param float[]          ...$coords
      *
@@ -221,6 +222,7 @@ class GeoJSONReader
      * @param array            $coords
      *
      * @return MultiPoint
+     *
      * @throws \Brick\Geo\Exception\InvalidGeometryException
      * @throws \Brick\Geo\Exception\CoordinateSystemException
      * @throws \Brick\Geo\Exception\UnexpectedGeometryException
@@ -243,6 +245,7 @@ class GeoJSONReader
      * @param array            $coords
      *
      * @return LineString
+     *
      * @throws \Brick\Geo\Exception\InvalidGeometryException
      * @throws \Brick\Geo\Exception\CoordinateSystemException
      */
@@ -330,6 +333,7 @@ class GeoJSONReader
 
     /**
      * @param $coords
+     *
      * @return bool
      */
     private function hasZ(array $coords)
