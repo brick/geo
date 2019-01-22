@@ -148,7 +148,7 @@ class GeoJSONReader
 
         $hasZ = $this->hasZ($geoCoords);
         $hasM = false;
-        $srid = 0;
+        $srid = 4326;
         $isEmpty = empty($geoCoords);
 
         $cs = new CoordinateSystem($hasZ, $hasM, $srid);
