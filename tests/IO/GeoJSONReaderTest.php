@@ -17,10 +17,7 @@ class GeoJSONReaderTest extends GeoJSONAbstractTest
      *
      * @return void
      *
-     * @throws \Brick\Geo\Exception\CoordinateSystemException
-     * @throws \Brick\Geo\Exception\GeometryIOException
-     * @throws \Brick\Geo\Exception\InvalidGeometryException
-     * @throws \Brick\Geo\Exception\UnexpectedGeometryException
+     * @throws \Brick\Geo\Exception\GeometryException
      */
     public function testReadGeometry(string $geojson, array $coords, bool $is3D, bool $isMeasured) : void
     {
@@ -49,10 +46,7 @@ class GeoJSONReaderTest extends GeoJSONAbstractTest
      *
      * @return void
      *
-     * @throws \Brick\Geo\Exception\CoordinateSystemException
-     * @throws \Brick\Geo\Exception\GeometryIOException
-     * @throws \Brick\Geo\Exception\InvalidGeometryException
-     * @throws \Brick\Geo\Exception\UnexpectedGeometryException
+     * @throws \Brick\Geo\Exception\GeometryException
      */
     public function testReadFeature(string $geojson, array $coords, bool $is3D, bool $isMeasured) : void
     {
@@ -81,10 +75,7 @@ class GeoJSONReaderTest extends GeoJSONAbstractTest
      *
      * @return void
      *
-     * @throws \Brick\Geo\Exception\CoordinateSystemException
-     * @throws \Brick\Geo\Exception\GeometryIOException
-     * @throws \Brick\Geo\Exception\InvalidGeometryException
-     * @throws \Brick\Geo\Exception\UnexpectedGeometryException
+     * @throws \Brick\Geo\Exception\GeometryException
      */
     public function testReadFeatureCollection(
         string $geojson,
@@ -134,6 +125,6 @@ class GeoJSONReaderTest extends GeoJSONAbstractTest
 
         $geojson = str_replace($search, $replace, $geojson);
 
-        return strtolower(" $geojson ");
+        return $geojson;
     }
 }
