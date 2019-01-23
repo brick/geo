@@ -151,22 +151,22 @@ class GeoJSONReader
 
         switch ($geoType) {
             case 'Point':
-                return $this->genPoint($cs, ...$geoCoords);
+                return $this->genPoint($cs, $geoCoords);
 
             case 'MultiPoint':
-                return $this->genMultiPoint($cs, ...$geoCoords);
+                return $this->genMultiPoint($cs, $geoCoords);
 
             case 'LineString':
-                return $this->genLineString($cs, ...$geoCoords);
+                return $this->genLineString($cs, $geoCoords);
 
             case 'MultiLineString':
-                return $this->genMultiLineString($cs, ...$geoCoords);
+                return $this->genMultiLineString($cs, $geoCoords);
 
             case 'Polygon':
-                return $this->genPolygon($cs, ...$geoCoords);
+                return $this->genPolygon($cs, $geoCoords);
 
             case 'MultiPolygon':
-                return $this->genMultiPolygon($cs, ...$geoCoords);
+                return $this->genMultiPolygon($cs, $geoCoords);
         }
 
         throw GeometryIOException::unsupportedGeoJSONType($geoType);
@@ -176,13 +176,13 @@ class GeoJSONReader
      * [x, y]
      *
      * @param CoordinateSystem $cs
-     * @param float[]          ...$coords
+     * @param array            $coords
      *
      * @return Point
      *
      * @throws \Brick\Geo\Exception\InvalidGeometryException
      */
-    private function genPoint(CoordinateSystem $cs, float ...$coords) : Point
+    private function genPoint(CoordinateSystem $cs, array $coords) : Point
     {
         return new Point($cs, ...$coords);
     }
@@ -191,7 +191,7 @@ class GeoJSONReader
      * [[x, y], ...]
      *
      * @param CoordinateSystem $cs
-     * @param array[]          ...$coords
+     * @param array            $coords
      *
      * @return MultiPoint
      *
@@ -199,12 +199,12 @@ class GeoJSONReader
      * @throws \Brick\Geo\Exception\InvalidGeometryException
      * @throws \Brick\Geo\Exception\UnexpectedGeometryException
      */
-    private function genMultiPoint(CoordinateSystem $cs, array ...$coords) : MultiPoint
+    private function genMultiPoint(CoordinateSystem $cs, array $coords) : MultiPoint
     {
         $points = [];
 
         foreach ($coords as $pointCoords) {
-            $points[] = $this->genPoint($cs, ...$pointCoords);
+            $points[] = $this->genPoint($cs, $pointCoords);
         }
 
         return new MultiPoint($cs, ...$points);
@@ -214,19 +214,19 @@ class GeoJSONReader
      * [[x, y], ...]
      *
      * @param CoordinateSystem $cs
-     * @param array[]          ...$coords
+     * @param array            $coords
      *
      * @return LineString
      *
      * @throws \Brick\Geo\Exception\CoordinateSystemException
      * @throws \Brick\Geo\Exception\InvalidGeometryException
      */
-    private function genLineString(CoordinateSystem $cs, array ...$coords) : LineString
+    private function genLineString(CoordinateSystem $cs, array $coords) : LineString
     {
         $points = [];
 
         foreach ($coords as $pointCoords) {
-            $points[] = $this->genPoint($cs, ...$pointCoords);
+            $points[] = $this->genPoint($cs, $pointCoords);
         }
 
         return new LineString($cs, ...$points);
@@ -236,7 +236,7 @@ class GeoJSONReader
      * [[[x, y], ...], ...]
      *
      * @param CoordinateSystem $cs
-     * @param array[]          ...$coords
+     * @param array            $coords
      *
      * @return MultiLineString
      *
@@ -244,12 +244,12 @@ class GeoJSONReader
      * @throws \Brick\Geo\Exception\InvalidGeometryException
      * @throws \Brick\Geo\Exception\UnexpectedGeometryException
      */
-    private function genMultiLineString(CoordinateSystem $cs, array ...$coords) : MultiLineString
+    private function genMultiLineString(CoordinateSystem $cs, array $coords) : MultiLineString
     {
         $lineStrings = [];
 
         foreach ($coords as $lineStringCoords) {
-            $lineStrings[] = $this->genLineString($cs, ...$lineStringCoords);
+            $lineStrings[] = $this->genLineString($cs, $lineStringCoords);
         }
 
         return new MultiLineString($cs, ...$lineStrings);
@@ -259,19 +259,19 @@ class GeoJSONReader
      * [[[x, y], ...], ...]
      *
      * @param CoordinateSystem $cs
-     * @param array[]          ...$coords
+     * @param array            $coords
      *
      * @return Polygon
      *
      * @throws \Brick\Geo\Exception\CoordinateSystemException
      * @throws \Brick\Geo\Exception\InvalidGeometryException
      */
-    private function genPolygon(CoordinateSystem $cs, array ...$coords) : Polygon
+    private function genPolygon(CoordinateSystem $cs, array $coords) : Polygon
     {
         $lineStrings = [];
 
         foreach ($coords as $lineStringCoords) {
-            $lineStrings[] = $this->genLineString($cs, ...$lineStringCoords);
+            $lineStrings[] = $this->genLineString($cs, $lineStringCoords);
         }
 
         return new Polygon($cs, ...$lineStrings);
@@ -281,7 +281,7 @@ class GeoJSONReader
      * [[[x, y], ...], ...]
      *
      * @param CoordinateSystem $cs
-     * @param array[]          ...$coords
+     * @param array            $coords
      *
      * @return MultiPolygon
      *
@@ -289,12 +289,12 @@ class GeoJSONReader
      * @throws \Brick\Geo\Exception\InvalidGeometryException
      * @throws \Brick\Geo\Exception\UnexpectedGeometryException
      */
-    private function genMultiPolygon(CoordinateSystem $cs, array ...$coords) : MultiPolygon
+    private function genMultiPolygon(CoordinateSystem $cs, array $coords) : MultiPolygon
     {
         $polygons = [];
 
         foreach ($coords as $polygonCoords) {
-            $polygons[] = $this->genPolygon($cs, ...$polygonCoords);
+            $polygons[] = $this->genPolygon($cs, $polygonCoords);
         }
 
         return new MultiPolygon($cs, ...$polygons);
