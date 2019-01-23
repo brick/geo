@@ -7,12 +7,6 @@ namespace Brick\Geo\IO;
 use Brick\Geo\Exception\GeometryIOException;
 use Brick\Geo\Geometry;
 use Brick\Geo\GeometryCollection;
-use Brick\Geo\LineString;
-use Brick\Geo\MultiLineString;
-use Brick\Geo\MultiPoint;
-use Brick\Geo\MultiPolygon;
-use Brick\Geo\Point;
-use Brick\Geo\Polygon;
 
 /**
  * Converter class from Geometry to GeoJSON.
@@ -45,18 +39,22 @@ class GeoJSONWriter
      */
     private function formatGeoJSONGeometry(Geometry $geometry) : array
     {
-        if (! $geometry instanceof Point
-            && ! $geometry instanceof MultiPoint
-            && ! $geometry instanceof LineString
-            && ! $geometry instanceof MultiLineString
-            && ! $geometry instanceof Polygon
-            && ! $geometry instanceof MultiPolygon
-        ) {
+        $geometryType = $geometry->geometryType();
+        $validGeometries = [
+            'Point',
+            'MultiPoint',
+            'LineString',
+            'MultiLineString',
+            'Polygon',
+            'MultiPolygon'
+        ];
+
+        if (! in_array($geometryType, $validGeometries)) {
             throw GeometryIOException::unsupportedGeometryType($geometry->geometryType());
         }
 
         return [
-            'type' => $geometry->geometryType(),
+            'type' => $geometryType,
             'coordinates' => $geometry->toArray()
         ];
     }
