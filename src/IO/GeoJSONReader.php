@@ -105,13 +105,13 @@ class GeoJSONReader
     protected function readFeature(array $feature) : Geometry
     {
         // Verify Type 'FEATURE'
-        if (! array_key_exists('type', $feature) || 'Feature' !== $feature['type']) {
+        if (! isset($feature['type']) || 'Feature' !== $feature['type']) {
             throw GeometryIOException::invalidGeoJSON('Missing or Malformed "Feature.type" attribute.');
         }
 
         // Verify Geometry exists and is array
-        if (! array_key_exists('geometry', $feature) || ! is_array($feature['geometry'])) {
-            throw GeometryIOException::invalidGeoJSON('Missing "Feature.geometry" attribute.');
+        if (! isset($feature['geometry']) || ! is_array($feature['geometry'])) {
+            throw GeometryIOException::invalidGeoJSON('Missing or Malformed "Feature.geometry" attribute.');
         }
 
         return $this->readGeometry($feature['geometry']);
@@ -130,15 +130,15 @@ class GeoJSONReader
     protected function readGeometry(array $geometry) : Geometry
     {
         // Verify Geometry TYPE
-        if (! array_key_exists('type', $geometry) || ! is_string($geometry['type'])) {
-            throw GeometryIOException::invalidGeoJSON('Missing "Geometry.type" attribute.');
+        if (! isset($geometry['type']) || ! is_string($geometry['type'])) {
+            throw GeometryIOException::invalidGeoJSON('Missing or Malformed "Geometry.type" attribute.');
         }
 
         $geoType = $geometry['type'];
 
         // Verify Geometry COORDINATES
-        if (! array_key_exists('coordinates', $geometry) || ! array($geometry['coordinates'])) {
-            throw GeometryIOException::invalidGeoJSON('Missing "Geometry.coordinates" attribute.');
+        if (! isset($geometry['coordinates']) || ! array($geometry['coordinates'])) {
+            throw GeometryIOException::invalidGeoJSON('Missing or Malformed "Geometry.coordinates" attribute.');
         }
 
         $geoCoords = $geometry['coordinates'];

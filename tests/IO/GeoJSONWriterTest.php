@@ -14,12 +14,10 @@ class GeoJSONWriterTest extends GeoJSONAbstractTest
      * @param string $geojson The GeoJSON to read.
      *
      * @return void
-     * @throws \Brick\Geo\Exception\CoordinateSystemException
+     * @throws \Brick\Geo\Exception\GeometryException
      * @throws \Brick\Geo\Exception\GeometryIOException
-     * @throws \Brick\Geo\Exception\InvalidGeometryException
-     * @throws \Brick\Geo\Exception\UnexpectedGeometryException
      */
-    public function testWritedGeometry(string $geojson) : void
+    public function testWriteGeometry(string $geojson) : void
     {
         $geometry = (new GeoJSONReader())->read($geojson);
         $geometryGeoJSON = (new GeoJSONWriter())->write($geometry);
