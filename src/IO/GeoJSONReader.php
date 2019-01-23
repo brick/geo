@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace Brick\Geo\IO;
 
 use Brick\Geo\CoordinateSystem;
+use Brick\Geo\Exception\GeometryException;
 use Brick\Geo\Exception\GeometryIOException;
 use Brick\Geo\Geometry;
 use Brick\Geo\GeometryCollection;
@@ -25,10 +26,7 @@ class GeoJSONReader
      *
      * @return GeometryCollection|Geometry
      *
-     * @throws \Brick\Geo\Exception\CoordinateSystemException
-     * @throws \Brick\Geo\Exception\GeometryIOException
-     * @throws \Brick\Geo\Exception\InvalidGeometryException
-     * @throws \Brick\Geo\Exception\UnexpectedGeometryException
+     * @throws GeometryException If the GeoJSON file is invalid.
      */
     public function read(string $geojson) : Geometry
     {
@@ -52,10 +50,10 @@ class GeoJSONReader
      *
      * @return Geometry
      *
-     * @throws \Brick\Geo\Exception\CoordinateSystemException
-     * @throws \Brick\Geo\Exception\UnexpectedGeometryException
      * @throws GeometryIOException
+     * @throws \Brick\Geo\Exception\CoordinateSystemException
      * @throws \Brick\Geo\Exception\InvalidGeometryException
+     * @throws \Brick\Geo\Exception\UnexpectedGeometryException
      */
     protected function readGeoJSON(array $geojson) : Geometry
     {
@@ -125,8 +123,8 @@ class GeoJSONReader
      * @return Geometry
      *
      * @throws GeometryIOException
-     * @throws \Brick\Geo\Exception\InvalidGeometryException
      * @throws \Brick\Geo\Exception\CoordinateSystemException
+     * @throws \Brick\Geo\Exception\InvalidGeometryException
      * @throws \Brick\Geo\Exception\UnexpectedGeometryException
      */
     protected function readGeometry(array $geometry) : Geometry
