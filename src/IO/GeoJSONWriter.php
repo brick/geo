@@ -22,8 +22,8 @@ class GeoJSONWriter
      */
     public function write(Geometry $geometry) : string
     {
-        // Filter out MultiPoint, MultiLineString and MultiPolygon
         if ($geometry instanceof GeometryCollection
+            // Filter out MultiPoint, MultiLineString and MultiPolygon
             && $geometry->geometryType() === 'GeometryCollection') {
             return $this->writeFeatureCollection($geometry);
         }
