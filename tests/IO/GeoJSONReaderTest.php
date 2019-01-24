@@ -79,7 +79,6 @@ class GeoJSONReaderTest extends GeoJSONAbstractTest
         array $coords,
         array $is3D
     ): void {
-
         $geometryCollection = (new GeoJSONReader())->read($geojson);
 
         $this->assertInstanceOf(GeometryCollection::class, $geometryCollection);
@@ -98,7 +97,6 @@ class GeoJSONReaderTest extends GeoJSONAbstractTest
             yield [$geojson, $coords, $is3D];
             yield [$this->alter($geojson), $coords, $is3D];
         }
-
     }
 
     /**
