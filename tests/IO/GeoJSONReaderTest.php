@@ -10,68 +10,65 @@ class GeoJSONReaderTest extends GeoJSONAbstractTest
     /**
      * @dataProvider providerReadGeometry
      *
-     * @param string $geojson    The GeoJSON to read.
-     * @param array  $coords     The expected Point coordinates.
-     * @param bool   $is3D       Whether the resulting Point has a Z coordinate.
-     * @param bool   $isMeasured Whether the resulting Point has a M coordinate.
+     * @param string $geojson The GeoJSON to read.
+     * @param array  $coords  The expected Geometry coordinates.
+     * @param bool   $is3D    Whether the resulting Geometry has a Z coordinate.
      *
      * @return void
      *
      * @throws \Brick\Geo\Exception\GeometryException
      */
-    public function testReadGeometry(string $geojson, array $coords, bool $is3D, bool $isMeasured) : void
+    public function testReadGeometry(string $geojson, array $coords, bool $is3D): void
     {
         $geometry = (new GeoJSONReader())->read($geojson);
-        $this->assertGeometryContents($geometry, $coords, $is3D, $isMeasured, 4326);
+        $this->assertGeometryContents($geometry, $coords, $is3D, false, 4326);
     }
 
     /**
      * @return \Generator
      */
-    public function providerReadGeometry() : \Generator
+    public function providerReadGeometry(): \Generator
     {
-        foreach ($this->providerGeometryGeoJSON() as [$geojson, $coords, $is3D, $isMeasured]) {
-            yield [$geojson, $coords, $is3D, $isMeasured];
-            yield [$this->alter($geojson), $coords, $is3D, $isMeasured];
+        foreach ($this->providerGeometryGeoJSON() as [$geojson, $coords, $is3D]) {
+            yield [$geojson, $coords, $is3D];
+            yield [$this->alter($geojson), $coords, $is3D];
         }
     }
 
     /**
      * @dataProvider providerReadFeature
      *
-     * @param string $geojson    The GeoJSON to read.
-     * @param array  $coords     The expected Point coordinates.
-     * @param bool   $is3D       Whether the resulting Point has a Z coordinate.
-     * @param bool   $isMeasured Whether the resulting Point has a M coordinate.
+     * @param string $geojson The GeoJSON to read.
+     * @param array  $coords  The expected Geometry coordinates.
+     * @param bool   $is3D    Whether the resulting Geometry has a Z coordinate.
      *
      * @return void
      *
      * @throws \Brick\Geo\Exception\GeometryException
      */
-    public function testReadFeature(string $geojson, array $coords, bool $is3D, bool $isMeasured) : void
+    public function testReadFeature(string $geojson, array $coords, bool $is3D): void
     {
         $geometry = (new GeoJSONReader())->read($geojson);
-        $this->assertGeometryContents($geometry, $coords, $is3D, $isMeasured, 4326);
+        $this->assertGeometryContents($geometry, $coords, $is3D, false, 4326);
     }
 
     /**
      * @return \Generator
      */
-    public function providerReadFeature() : \Generator
+    public function providerReadFeature(): \Generator
     {
-        foreach ($this->providerFeatureGeoJSON() as [$geojson, $coords, $is3D, $isMeasured]) {
-            yield [$geojson, $coords, $is3D, $isMeasured];
-            yield [$this->alter($geojson), $coords, $is3D, $isMeasured];
+        foreach ($this->providerFeatureGeoJSON() as [$geojson, $coords, $is3D]) {
+            yield [$geojson, $coords, $is3D];
+            yield [$this->alter($geojson), $coords, $is3D];
         }
     }
 
     /**
      * @dataProvider providerReadFeatureCollection
      *
-     * @param string  $geojson    The GeoJSON to read.
-     * @param array[] $coords     The expected Point coordinates.
-     * @param bool[]  $is3D       Whether the resulting Point has a Z coordinate.
-     * @param bool[]  $isMeasured Whether the resulting Point has a M coordinate.
+     * @param string  $geojson The GeoJSON to read.
+     * @param array[] $coords  The expected Point coordinates.
+     * @param bool[]  $is3D    Whether the resulting Point has a Z coordinate.
      *
      * @return void
      *
@@ -80,33 +77,32 @@ class GeoJSONReaderTest extends GeoJSONAbstractTest
     public function testReadFeatureCollection(
         string $geojson,
         array $coords,
-        array $is3D,
-        array $isMeasured
-    ) : void {
+        array $is3D
+    ): void {
 
         $geometryCollection = (new GeoJSONReader())->read($geojson);
 
         $this->assertInstanceOf(GeometryCollection::class, $geometryCollection);
 
         foreach ($geometryCollection->geometries() as $key => $geometry) {
-            $this->assertGeometryContents($geometry, $coords[$key], $is3D[$key], $isMeasured[$key], 4326);
+            $this->assertGeometryContents($geometry, $coords[$key], $is3D[$key], false, 4326);
         }
     }
 
     /**
      * @return \Generator
      */
-    public function providerReadFeatureCollection() : \Generator
+    public function providerReadFeatureCollection(): \Generator
     {
-        foreach ($this->providerFeatureCollectionGeoJSON() as [$geojson, $coords, $is3D, $isMeasured]) {
-            yield [$geojson, $coords, $is3D, $isMeasured];
-            yield [$this->alter($geojson), $coords, $is3D, $isMeasured];
+        foreach ($this->providerFeatureCollectionGeoJSON() as [$geojson, $coords, $is3D]) {
+            yield [$geojson, $coords, $is3D];
+            yield [$this->alter($geojson), $coords, $is3D];
         }
 
     }
 
     /**
-     * Adds extra spaces to a GeoJSON string, and changes its case.
+     * Adds extra spaces to a GeoJSON string.
      *
      * The result is still a valid GeoJSON string, that the reader should be able to handle.
      *
@@ -114,7 +110,7 @@ class GeoJSONReaderTest extends GeoJSONAbstractTest
      *
      * @return string
      */
-    private function alter(string $geojson) : string
+    private function alter(string $geojson): string
     {
         $search = [' ', '{', '}', ','];
         $replace = [];

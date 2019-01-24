@@ -48,14 +48,12 @@ abstract class GeoJSONAbstractTest extends AbstractTestCase
             [
                 '{"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"Point","coordinates":[1,1]}},{"type":"Feature","geometry":{"type":"Point","coordinates":[1,3]}}]}',
                 [[1, 1], [1, 3]],
-                [false, false],
                 [false, false]
             ],
             [
                 '{"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"Point","coordinates":[1,1,1]}},{"type":"Feature","geometry":{"type":"Point","coordinates":[1,3,2]}}]}',
                 [[1, 1, 1], [1, 3, 2]],
-                [true, true],
-                [false, false]
+                [true, true]
             ]
         ];
     }
@@ -69,20 +67,17 @@ abstract class GeoJSONAbstractTest extends AbstractTestCase
             [
                 '{"type":"Point","coordinates":[]}',
                 [],
-                false,
                 false
             ],
             [
                 '{"type":"Point","coordinates":[1,2]}',
                 [1, 2],
-                false,
                 false
             ],
             [
                 '{"type":"Point","coordinates":[1,2,0]}',
                 [1, 2, 0],
-                true,
-                false
+                true
             ]
         ];
     }
@@ -96,20 +91,17 @@ abstract class GeoJSONAbstractTest extends AbstractTestCase
             [
                 '{"type":"Feature","geometry":{"type":"Point","coordinates":[]}}',
                 [],
-                false,
                 false
             ],
             [
                 '{"type":"Feature","geometry":{"type":"Point","coordinates":[1,2]}}',
                 [1, 2],
-                false,
                 false
             ],
             [
                 '{"type":"Feature","geometry":{"type":"Point","coordinates":[1,2,0]}}',
                 [1, 2, 0],
-                true,
-                false
+                true
             ]
         ];
     }
@@ -123,20 +115,17 @@ abstract class GeoJSONAbstractTest extends AbstractTestCase
             [
                 '{"type":"MultiPoint","coordinates":[]}',
                 [],
-                false,
                 false
             ],
             [
                 '{"type":"MultiPoint","coordinates":[[1,0],[1,1]]}',
                 [[1, 0], [1, 1]],
-                false,
                 false
             ],
             [
                 '{"type":"MultiPoint","coordinates":[[1,0,1],[1,1,0]]}',
                 [[1, 0, 1], [1, 1, 0]],
-                true,
-                false
+                true
             ]
         ];
     }
@@ -150,20 +139,17 @@ abstract class GeoJSONAbstractTest extends AbstractTestCase
             [
                 '{"type":"Feature","geometry":{"type":"MultiPoint","coordinates":[]}}',
                 [],
-                false,
                 false
             ],
             [
                 '{"type":"Feature","geometry":{"type":"MultiPoint","coordinates":[[1,0],[1,1]]}}',
                 [[1, 0], [1, 1]],
-                false,
                 false
             ],
             [
                 '{"type":"Feature","geometry":{"type":"MultiPoint","coordinates":[[1,0,1],[1,1,0]]}}',
                 [[1, 0, 1], [1, 1, 0]],
-                true,
-                false
+                true
             ]
         ];
     }
@@ -177,20 +163,17 @@ abstract class GeoJSONAbstractTest extends AbstractTestCase
             [
                 '{"type":"LineString","coordinates":[]}',
                 [],
-                false,
                 false
             ],
             [
                 '{"type":"LineString","coordinates":[[1,2],[3,4]]}',
                 [[1, 2], [3, 4]],
-                false,
                 false
             ],
             [
                 '{"type":"LineString","coordinates":[[1,2,1],[3,4,1]]}',
                 [[1, 2, 1], [3, 4, 1]],
-                true,
-                false
+                true
             ]
         ];
     }
@@ -204,20 +187,17 @@ abstract class GeoJSONAbstractTest extends AbstractTestCase
             [
                 '{"type":"Feature","geometry":{"type":"LineString","coordinates":[]}}',
                 [],
-                false,
                 false
             ],
             [
                 '{"type":"Feature","geometry":{"type":"LineString","coordinates":[[1,2],[3,4]]}}',
                 [[1, 2], [3, 4]],
-                false,
                 false
             ],
             [
                 '{"type":"Feature","geometry":{"type":"LineString","coordinates":[[1,2,1],[3,4,1]]}}',
                 [[1, 2, 1], [3, 4, 1]],
-                true,
-                false
+                true
             ]
         ];
     }
@@ -231,20 +211,17 @@ abstract class GeoJSONAbstractTest extends AbstractTestCase
             [
                 '{"type":"MultiLineString","coordinates":[]}',
                 [],
-                false,
                 false
             ],
             [
                 '{"type":"MultiLineString","coordinates":[[[1,0],[1,1]],[[2,2],[1,3]]]}',
                 [[[1, 0], [1, 1]], [[2, 2], [1, 3]]],
-                false,
                 false
             ],
             [
                 '{"type":"MultiLineString","coordinates":[[[1,0,1],[1,1,1]],[[2,2,2],[1,3,3]]]}',
                 [[[1, 0, 1], [1, 1, 1]], [[2, 2, 2], [1, 3, 3]]],
-                true,
-                false
+                true
             ]
         ];
     }
@@ -258,14 +235,12 @@ abstract class GeoJSONAbstractTest extends AbstractTestCase
             [
                 '{"type":"Feature","geometry":{"type":"MultiLineString","coordinates":[]}}',
                 [],
-                false,
                 false
             ],
             [
                 '{"type":"Feature","geometry":{"type":"MultiLineString","coordinates":[[[1,0,1],[1,1,1]],[[2,2,2],[1,3,3]]]}}',
                 [[[1, 0, 1], [1, 1, 1]], [[2, 2, 2], [1, 3, 3]]],
-                true,
-                false
+                true
             ]
         ];
     }
@@ -279,13 +254,11 @@ abstract class GeoJSONAbstractTest extends AbstractTestCase
             [
                 '{"type":"Polygon","coordinates":[]}',
                 [],
-                false,
                 false
             ],
             [
                 '{"type":"Polygon","coordinates":[[[0,0],[1,2],[3,4],[0,0]]]}',
                 [[[0, 0], [1, 2], [3, 4], [0, 0]]],
-                false,
                 false
             ],
             [
@@ -294,14 +267,12 @@ abstract class GeoJSONAbstractTest extends AbstractTestCase
                     [[1000, 0], [1010, 0], [1010, 10], [1000, 10], [1000, 0]],
                     [[1002, 2], [1008, 2], [1008, 8], [1002, 8], [1002, 2]]
                 ],
-                false,
                 false
             ],
             [
                 '{"type":"Polygon","coordinates":[[[0,0,1],[1,2,1],[3,4,1],[0,0,1]]]}',
                 [[[0, 0, 1], [1, 2, 1], [3, 4, 1], [0, 0, 1]]],
-                true,
-                false
+                true
             ],
             [
                 '{"type":"Polygon","coordinates":[[[1000,0,1],[1010,0,1],[1010,10,1],[1000,10,1],[1000,0,1]],[[1002,2,2],[1008,2,2],[1008,8,2],[1002,8,2],[1002,2,2]]]}',
@@ -309,8 +280,7 @@ abstract class GeoJSONAbstractTest extends AbstractTestCase
                     [[1000, 0, 1], [1010, 0, 1], [1010, 10, 1], [1000, 10, 1], [1000, 0, 1]],
                     [[1002, 2, 2], [1008, 2, 2], [1008, 8, 2], [1002, 8, 2], [1002, 2, 2]]
                 ],
-                true,
-                false
+                true
             ],
         ];
     }
@@ -324,13 +294,11 @@ abstract class GeoJSONAbstractTest extends AbstractTestCase
             [
                 '{"type":"Feature","geometry":{"type":"Polygon","coordinates":[]}}',
                 [],
-                false,
                 false
             ],
             [
                 '{"type":"Feature","geometry":{"type":"Polygon","coordinates":[[[0,0],[1,2],[3,4],[0,0]]]}}',
                 [[[0, 0], [1, 2], [3, 4], [0, 0]]],
-                false,
                 false
             ],
             [
@@ -339,14 +307,12 @@ abstract class GeoJSONAbstractTest extends AbstractTestCase
                     [[1000, 0], [1010, 0], [1010, 10], [1000, 10], [1000, 0]],
                     [[1002, 2], [1008, 2], [1008, 8], [1002, 8], [1002, 2]]
                 ],
-                false,
                 false
             ],
             [
                 '{"type":"Feature","geometry":{"type":"Polygon","coordinates":[[[0,0,1],[1,2,1],[3,4,1],[0,0,1]]]}}',
                 [[[0, 0, 1], [1, 2, 1], [3, 4, 1], [0, 0, 1]]],
-                true,
-                false
+                true
             ],
             [
                 '{"type":"Feature","geometry":{"type":"Polygon","coordinates":[[[1000,0,1],[1010,0,1],[1010,10,1],[1000,10,1],[1000,0,1]],[[1002,2,2],[1008,2,2],[1008,8,2],[1002,8,2],[1002,2,2]]]}}',
@@ -354,8 +320,7 @@ abstract class GeoJSONAbstractTest extends AbstractTestCase
                     [[1000, 0, 1], [1010, 0, 1], [1010, 10, 1], [1000, 10, 1], [1000, 0, 1]],
                     [[1002, 2, 2], [1008, 2, 2], [1008, 8, 2], [1002, 8, 2], [1002, 2, 2]]
                 ],
-                true,
-                false
+                true
             ]
         ];
     }
@@ -369,7 +334,6 @@ abstract class GeoJSONAbstractTest extends AbstractTestCase
             [
                 '{"type":"MultiPolygon","coordinates":[]}',
                 [],
-                false,
                 false
             ],
             [
@@ -383,7 +347,6 @@ abstract class GeoJSONAbstractTest extends AbstractTestCase
                         [[1002, 2], [1008, 2], [1008, 8], [1002, 8], [1002, 2]]
                     ]
                 ],
-                false,
                 false
             ],
             [
@@ -397,8 +360,7 @@ abstract class GeoJSONAbstractTest extends AbstractTestCase
                         [[1002, 2, 3], [1008, 2, 3], [1008, 8, 3], [1002, 8, 3], [1002, 2, 3]]
                     ]
                 ],
-                true,
-                false
+                true
             ]
         ];
     }
@@ -412,7 +374,6 @@ abstract class GeoJSONAbstractTest extends AbstractTestCase
             [
                 '{"type":"Feature","geometry":{"type":"MultiPolygon","coordinates":[]}}',
                 [],
-                false,
                 false
             ],
             [
@@ -426,7 +387,6 @@ abstract class GeoJSONAbstractTest extends AbstractTestCase
                         [[1002, 2], [1008, 2], [1008, 8], [1002, 8], [1002, 2]]
                     ]
                 ],
-                false,
                 false
             ],
             [
@@ -440,8 +400,7 @@ abstract class GeoJSONAbstractTest extends AbstractTestCase
                         [[1002, 2, 3], [1008, 2, 3], [1008, 8, 3], [1002, 8, 3], [1002, 2, 3]]
                     ]
                 ],
-                true,
-                false
+                true
             ]
         ];
     }

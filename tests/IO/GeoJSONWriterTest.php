@@ -14,15 +14,15 @@ class GeoJSONWriterTest extends GeoJSONAbstractTest
      * @param string $geojson The GeoJSON to read.
      *
      * @return void
+     *
      * @throws \Brick\Geo\Exception\GeometryException
-     * @throws \Brick\Geo\Exception\GeometryIOException
      */
     public function testWriteGeometry(string $geojson) : void
     {
         $geometry = (new GeoJSONReader())->read($geojson);
         $geometryGeoJSON = (new GeoJSONWriter())->write($geometry);
 
-        $this->assertEquals(strtoupper($geojson), strtoupper($geometryGeoJSON));
+        $this->assertEquals($geojson, $geometryGeoJSON);
     }
 
     /**
@@ -30,7 +30,7 @@ class GeoJSONWriterTest extends GeoJSONAbstractTest
      */
     public function providerWriteGeometry() : \Generator
     {
-        foreach ($this->providerGeometryGeoJSON() as [$geojson, $coords, $is3D, $isMeasured]) {
+        foreach ($this->providerGeometryGeoJSON() as [$geojson, $coords, $is3D]) {
             yield [$geojson];
         }
     }
@@ -40,7 +40,7 @@ class GeoJSONWriterTest extends GeoJSONAbstractTest
      */
     public function providerWriteFeatureCollection() : \Generator
     {
-        foreach ($this->providerFeatureCollectionGeoJSON() as [$geojson, $coords, $is3D, $isMeasured]) {
+        foreach ($this->providerFeatureCollectionGeoJSON() as [$geojson, $coords, $is3D]) {
             yield [$geojson];
         }
     }
