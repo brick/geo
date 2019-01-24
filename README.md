@@ -236,3 +236,136 @@ This table also shows which functions are part of the OpenGIS standard.
 | `touches`        |  ✓   |    ✓    |   ✓    |   ✓    |     ✓      |        ✓         |
 | `union`          |  ✓   |    ✓    |   ✓    |   ✓    |     ✓      |        ✓         |
 | `within`         |  ✓   |    ✓    |   ✓    |   ✓    |     ✓      |        ✓         |
+
+Importing and exporting geometries
+----------------------------------
+
+This library supports importing from and exporting to the following formats:
+
+- WKT
+- WKB
+- EWKT
+- EWKB
+- GeoJSON
+
+### WKT
+
+Well-Known Text is the standard text format for geometries.
+
+Every Geometry class provides a convenience method `fromText()`, that accepts a WKT string and an optional SRID, and
+returns a Geometry object:
+
+```php
+use Brick\Geo\Point;
+
+$point = Point::fromText('POINT (1.5 2.5)', 4326);
+```
+
+Geometries can be converted to WKT using the convenience method `asText()`:
+
+```php
+echo $point->asText(); // POINT (1.5 2.5)
+```
+
+You can alternatively use the [WKTReader](https://github.com/brick/geo/blob/master/src/IO/WKTReader.php) and
+[WKTWriter](https://github.com/brick/geo/blob/master/src/IO/WKTWriter.php) classes directly; the latter allows you to
+pretty-print the output.
+
+### WKB
+
+Well-Known Binary is the standard binary format for geometries.
+
+Every Geometry class provides a convenience method `fromBinary()`, that accepts a WKB binary string and an optional
+SRID, and returns a Geometry object:
+
+```php
+use Brick\Geo\Point;
+
+$point = Point::fromBinary(hex2bin('0101000000000000000000f83f0000000000000440'), 4326);
+
+echo $point->asText(); // POINT (1.5 2.5)
+echo $point->SRID(); // 4326
+```
+
+Geometries can be converted to WKB using the convenience method `asBinary()`:
+
+```php
+echo bin2hex($point->asBinary()); // 0101000000000000000000f83f0000000000000440
+```
+
+You can alternatively use the [WKBReader](https://github.com/brick/geo/blob/master/src/IO/WKBReader.php) and
+[WKBWriter](https://github.com/brick/geo/blob/master/src/IO/WKBWriter.php) classes directly; the latter allows you to
+choose the endianness of the output (big endian or little endian).
+
+### EWKT
+
+Extended WKT is a PostGIS-specific text format that includes the SRID of the geometry object, which is missing from the
+standard WKT format. You can import from and export to this format using the
+[EWKTReader](https://github.com/brick/geo/blob/master/src/IO/EWKTReader.php) and
+[EWKTWriter](https://github.com/brick/geo/blob/master/src/IO/EWKTWriter.php) classes:
+
+```php
+use Brick\Geo\Point;
+use Brick\Geo\IO\EWKTReader;
+use Brick\Geo\IO\EWKTWriter;
+
+$reader = new EWKTReader();
+$point = $reader->read('SRID=4326; POINT (1.5 2.5)');
+
+echo $point->asText(); // POINT (1.5 2.5)
+echo $point->SRID(); // 4326
+
+$writer = new EWKTWriter();
+echo $writer->write($point); // SRID=4326; POINT (1.5 2.5)
+```
+
+### EWKB
+
+Extended WKB is a PostGIS-specific binary format that includes the SRID of the geometry object, which is missing from
+the standard WKB format. You can import from and export to this format using the
+[EWKBReader](https://github.com/brick/geo/blob/master/src/IO/EWKBReader.php) and
+[EWKBWriter](https://github.com/brick/geo/blob/master/src/IO/EWKBWriter.php) classes:
+
+```php
+use Brick\Geo\Point;
+use Brick\Geo\IO\EWKBReader;
+use Brick\Geo\IO\EWKBWriter;
+
+$reader = new EWKBReader();
+$point = $reader->read(hex2bin('0101000020e6100000000000000000f83f0000000000000440'));
+
+echo $point->asText(); // POINT (1.5 2.5)
+echo $point->SRID(); // 4326
+
+$writer = new EWKBWriter();
+echo bin2hex($writer->write($point)); // 0101000020e6100000000000000000f83f0000000000000440
+```
+
+### GeoJSON
+
+GeoJSON is an open standard format designed for representing simple geographical features, based on JSON, and
+standardized in [RFC 7946](https://tools.ietf.org/html/rfc7946).
+
+This library supports importing geometries from, and exporting them to GeoJSON documents using the
+[GeoJSONReader](https://github.com/brick/geo/blob/master/src/IO/GeoJSONReader.php) and
+[GeoJSONWriter](https://github.com/brick/geo/blob/master/src/IO/GeoJSONWriter.php) classes:
+
+```php
+use Brick\Geo\Point;
+use Brick\Geo\IO\GeoJSONReader;
+use Brick\Geo\IO\GeoJSONWriter;
+
+$reader = new GeoJSONReader();
+$point = $reader->read('{ "type": "Point", "coordinates": [1, 2] }');
+
+echo $point->asText(); // POINT (1 2)
+echo $point->SRID(); // 4326
+
+$writer = new GeoJSONWriter();
+echo $writer->write($point); // {"type":"Point","coordinates":[1,2]}
+```
+
+Note that `Feature`s are imported as `Geometry` objects, and `FeatureCollection`s are imported as `GeometryCollection`
+objects. Non-spatial attributes are ignored.
+
+GeoJSON aims to support WGS84 only, and as such all Geometries are imported using [SRID 4326](https://epsg.io/4326).
