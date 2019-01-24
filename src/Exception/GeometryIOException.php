@@ -36,6 +36,18 @@ class GeometryIOException extends GeometryException
     }
 
     /**
+     * @param string $context
+     *
+     * @return GeometryIOException
+     */
+    public static function invalidGeoJSON(string $context) : GeometryIOException
+    {
+        $message = sprintf('Invalid GeoJSON: %s.', $context);
+
+        return new static($message);
+    }
+
+    /**
      * @param int $wkbType
      *
      * @return GeometryIOException
@@ -45,6 +57,18 @@ class GeometryIOException extends GeometryException
         $message = sprintf('Unsupported WKB type: %d.', $wkbType);
 
         return new self($message);
+    }
+
+    /**
+     * @param string $geojsonType
+     *
+     * @return GeometryIOException
+     */
+    public static function unsupportedGeoJSONType(string $geojsonType) : GeometryIOException
+    {
+        $message = sprintf('Unsupported GeoJSON type: %s.', $geojsonType);
+
+        return new static($message);
     }
 
     /**
