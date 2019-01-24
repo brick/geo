@@ -170,7 +170,7 @@ class GeoJSONReader
      *
      * @return Point
      *
-     * @throws \Brick\Geo\Exception\InvalidGeometryException
+     * @throws GeometryException If the GeoJSON file is invalid.
      */
     private function genPoint(CoordinateSystem $cs, array $coords) : Point
     {
@@ -185,9 +185,7 @@ class GeoJSONReader
      *
      * @return MultiPoint
      *
-     * @throws \Brick\Geo\Exception\CoordinateSystemException
-     * @throws \Brick\Geo\Exception\InvalidGeometryException
-     * @throws \Brick\Geo\Exception\UnexpectedGeometryException
+     * @throws GeometryException If the GeoJSON file is invalid.
      */
     private function genMultiPoint(CoordinateSystem $cs, array $coords) : MultiPoint
     {
@@ -208,8 +206,7 @@ class GeoJSONReader
      *
      * @return LineString
      *
-     * @throws \Brick\Geo\Exception\CoordinateSystemException
-     * @throws \Brick\Geo\Exception\InvalidGeometryException
+     * @throws GeometryException If the GeoJSON file is invalid.
      */
     private function genLineString(CoordinateSystem $cs, array $coords) : LineString
     {
@@ -230,9 +227,7 @@ class GeoJSONReader
      *
      * @return MultiLineString
      *
-     * @throws \Brick\Geo\Exception\CoordinateSystemException
-     * @throws \Brick\Geo\Exception\InvalidGeometryException
-     * @throws \Brick\Geo\Exception\UnexpectedGeometryException
+     * @throws GeometryException If the GeoJSON file is invalid.
      */
     private function genMultiLineString(CoordinateSystem $cs, array $coords) : MultiLineString
     {
@@ -253,8 +248,7 @@ class GeoJSONReader
      *
      * @return Polygon
      *
-     * @throws \Brick\Geo\Exception\CoordinateSystemException
-     * @throws \Brick\Geo\Exception\InvalidGeometryException
+     * @throws GeometryException If the GeoJSON file is invalid.
      */
     private function genPolygon(CoordinateSystem $cs, array $coords) : Polygon
     {
@@ -275,9 +269,7 @@ class GeoJSONReader
      *
      * @return MultiPolygon
      *
-     * @throws \Brick\Geo\Exception\CoordinateSystemException
-     * @throws \Brick\Geo\Exception\InvalidGeometryException
-     * @throws \Brick\Geo\Exception\UnexpectedGeometryException
+     * @throws GeometryException If the GeoJSON file is invalid.
      */
     private function genMultiPolygon(CoordinateSystem $cs, array $coords) : MultiPolygon
     {
