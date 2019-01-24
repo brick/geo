@@ -24,7 +24,7 @@ class GeoJSONReader
     /**
      * @param string $geojson The GeoJSON to read.
      *
-     * @return GeometryCollection|Geometry
+     * @return Geometry
      *
      * @throws GeometryException If the GeoJSON file is invalid.
      */
@@ -50,12 +50,9 @@ class GeoJSONReader
      *
      * @return Geometry
      *
-     * @throws GeometryIOException
-     * @throws \Brick\Geo\Exception\CoordinateSystemException
-     * @throws \Brick\Geo\Exception\InvalidGeometryException
-     * @throws \Brick\Geo\Exception\UnexpectedGeometryException
+     * @throws GeometryException If the GeoJSON file is invalid.
      */
-    protected function readGeoJSON(array $geojson) : Geometry
+    private function readGeoJSON(array $geojson) : Geometry
     {
         if (! isset($geojson['type']) || ! is_string($geojson['type'])) {
             throw GeometryIOException::invalidGeoJSON('Missing or Malformed "type" attribute.');
@@ -66,7 +63,6 @@ class GeoJSONReader
                 return $this->readFeature($geojson);
 
             case 'FeatureCollection':
-                // Verify 'FEATURES' exists
                 if (! isset($geojson['features']) || ! is_array($geojson['features'])) {
                     throw GeometryIOException::invalidGeoJSON('Missing or Malformed "FeatureCollection.features" attribute.');
                 }
@@ -97,14 +93,11 @@ class GeoJSONReader
      *
      * @return Geometry
      *
-     * @throws GeometryIOException
-     * @throws \Brick\Geo\Exception\CoordinateSystemException
-     * @throws \Brick\Geo\Exception\InvalidGeometryException
-     * @throws \Brick\Geo\Exception\UnexpectedGeometryException
+     * @throws GeometryException If the GeoJSON file is invalid.
      */
-    protected function readFeature(array $feature) : Geometry
+    private function readFeature(array $feature) : Geometry
     {
-        // Verify Type 'FEATURE'
+        // Verify Type 'Feature'
         if (! isset($feature['type']) || 'Feature' !== $feature['type']) {
             throw GeometryIOException::invalidGeoJSON('Missing or Malformed "Feature.type" attribute.');
         }
@@ -122,21 +115,18 @@ class GeoJSONReader
      *
      * @return Geometry
      *
-     * @throws GeometryIOException
-     * @throws \Brick\Geo\Exception\CoordinateSystemException
-     * @throws \Brick\Geo\Exception\InvalidGeometryException
-     * @throws \Brick\Geo\Exception\UnexpectedGeometryException
+     * @throws GeometryException If the GeoJSON file is invalid.
      */
-    protected function readGeometry(array $geometry) : Geometry
+    private function readGeometry(array $geometry) : Geometry
     {
-        // Verify Geometry TYPE
+        // Verify Geometry `type`
         if (! isset($geometry['type']) || ! is_string($geometry['type'])) {
             throw GeometryIOException::invalidGeoJSON('Missing or Malformed "Geometry.type" attribute.');
         }
 
         $geoType = $geometry['type'];
 
-        // Verify Geometry COORDINATES
+        // Verify Geometry `coordinates`
         if (! isset($geometry['coordinates']) || ! array($geometry['coordinates'])) {
             throw GeometryIOException::invalidGeoJSON('Missing or Malformed "Geometry.coordinates" attribute.');
         }
