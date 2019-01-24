@@ -42,7 +42,7 @@ abstract class AbstractWKBWriter
     }
 
     /**
-     * @param int $byteOrder The byte order, one of the BIG_ENDIAN or LITTLE_ENDIAN constants.
+     * @param int $byteOrder The byte order, one of the WKBTools::BIG_ENDIAN or WKBTools::LITTLE_ENDIAN constants.
      *
      * @return void
      *
