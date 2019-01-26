@@ -74,7 +74,7 @@ abstract class AbstractWKBWriter
      *
      * @throws GeometryIOException If the given geometry cannot be exported as WKT.
      */
-    protected function doWrite(Geometry $geometry, bool $outer): string
+    protected function doWrite(Geometry $geometry, bool $outer) : string
     {
         if ($geometry instanceof Point) {
             return $this->writePoint($geometry, $outer);

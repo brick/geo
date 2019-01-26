@@ -20,7 +20,7 @@ class GeoJSONReaderTest extends GeoJSONAbstractTest
      *
      * @throws \Brick\Geo\Exception\GeometryException
      */
-    public function testReadGeometry(string $geojson, array $coords, bool $is3D, bool $lenient): void
+    public function testReadGeometry(string $geojson, array $coords, bool $is3D, bool $lenient) : void
     {
         $geometry = (new GeoJSONReader($lenient))->read($geojson);
         $this->assertGeometryContents($geometry, $coords, $is3D, false, 4326);
@@ -29,7 +29,7 @@ class GeoJSONReaderTest extends GeoJSONAbstractTest
     /**
      * @return \Generator
      */
-    public function providerReadGeometry(): \Generator
+    public function providerReadGeometry() : \Generator
     {
         foreach ($this->providerGeometryGeoJSON() as [$geojson, $coords, $is3D]) {
             yield [$geojson, $coords, $is3D, false];
@@ -49,7 +49,7 @@ class GeoJSONReaderTest extends GeoJSONAbstractTest
      *
      * @throws \Brick\Geo\Exception\GeometryException
      */
-    public function testReadFeature(string $geojson, array $coords, bool $is3D, bool $lenient): void
+    public function testReadFeature(string $geojson, array $coords, bool $is3D, bool $lenient) : void
     {
         $geometry = (new GeoJSONReader($lenient))->read($geojson);
         $this->assertGeometryContents($geometry, $coords, $is3D, false, 4326);
@@ -58,7 +58,7 @@ class GeoJSONReaderTest extends GeoJSONAbstractTest
     /**
      * @return \Generator
      */
-    public function providerReadFeature(): \Generator
+    public function providerReadFeature() : \Generator
     {
         foreach ($this->providerFeatureGeoJSON() as [$geojson, $coords, $is3D]) {
             yield [$geojson, $coords, $is3D, false];
@@ -78,12 +78,8 @@ class GeoJSONReaderTest extends GeoJSONAbstractTest
      *
      * @throws \Brick\Geo\Exception\GeometryException
      */
-    public function testReadFeatureCollection(
-        string $geojson,
-        array $coords,
-        array $is3D,
-        bool $lenient
-    ): void {
+    public function testReadFeatureCollection(string $geojson, array $coords, array $is3D, bool $lenient) : void
+    {
         $geometryCollection = (new GeoJSONReader($lenient))->read($geojson);
 
         $this->assertInstanceOf(GeometryCollection::class, $geometryCollection);
@@ -96,7 +92,7 @@ class GeoJSONReaderTest extends GeoJSONAbstractTest
     /**
      * @return \Generator
      */
-    public function providerReadFeatureCollection(): \Generator
+    public function providerReadFeatureCollection() : \Generator
     {
         foreach ($this->providerFeatureCollectionGeoJSON() as [$geojson, $coords, $is3D]) {
             yield [$geojson, $coords, $is3D, false];
@@ -149,7 +145,7 @@ class GeoJSONReaderTest extends GeoJSONAbstractTest
      *
      * @return string
      */
-    private function alterCase(string $geojson): string
+    private function alterCase(string $geojson) : string
     {
         $callback = function(array $matches) : string {
             return $matches[1] . strtoupper($matches[2]);
