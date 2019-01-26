@@ -22,6 +22,37 @@ use Brick\Geo\Polygon;
 class GeoJSONReader
 {
     /**
+     * The GeoJSON types, in their correct case according to the standard, indexed by their lowercase counterpart.
+     */
+    private const TYPES = [
+        'feature'           => 'Feature',
+        'featurecollection' => 'FeatureCollection',
+        'point'             => 'Point',
+        'multipoint'        => 'MultiPoint',
+        'linestring'        => 'LineString',
+        'multilinestring'   => 'MultiLineString',
+        'polygon'           => 'Polygon',
+        'multipolygon'      => 'MultiPolygon',
+    ];
+
+    /**
+     * @var bool
+     */
+    private $lenient;
+
+    /**
+     * GeoJSONReader constructor.
+     *
+     * @param bool $lenient Whether to allow different cases for GeoJSON types, such as POINT instead of Point.
+     *                      The standard enforces a case-sensitive comparison, so this reader is case-sensitive by
+     *                      default, but you can override this behaviour here.
+     */
+    public function __construct(bool $lenient = false)
+    {
+        $this->lenient = $lenient;
+    }
+
+    /**
      * @param string $geojson The GeoJSON to read.
      *
      * @return Geometry
@@ -58,7 +89,9 @@ class GeoJSONReader
             throw GeometryIOException::invalidGeoJSON('Missing or malformed "type" attribute.');
         }
 
-        switch ($geojson['type']) {
+        $geoType = $this->normalizeGeoJSONType($geojson['type']);
+
+        switch ($geoType) {
             case 'Feature':
                 return $this->readFeature($geojson);
 
@@ -98,7 +131,7 @@ class GeoJSONReader
     private function readFeature(array $feature) : Geometry
     {
         // Verify type 'Feature'
-        if (! isset($feature['type']) || 'Feature' !== $feature['type']) {
+        if (! isset($feature['type']) || 'Feature' !== $this->normalizeGeoJSONType($feature['type'])) {
             throw GeometryIOException::invalidGeoJSON('Missing or malformed "Feature.type" attribute.');
         }
 
@@ -124,7 +157,7 @@ class GeoJSONReader
             throw GeometryIOException::invalidGeoJSON('Missing or Malformed "Geometry.type" attribute.');
         }
 
-        $geoType = $geometry['type'];
+        $geoType = $this->normalizeGeoJSONType($geometry['type']);
 
         // Verify geometry `coordinates`
         if (! isset($geometry['coordinates']) || ! array($geometry['coordinates'])) {
@@ -305,5 +338,27 @@ class GeoJSONReader
         }
 
         return false;
+    }
+
+    /**
+     * Normalizes the given GeoJSON type.
+     *
+     * If the type is not recognized, it is returned as is.
+     *
+     * @param string $type
+     *
+     * @return string
+     */
+    private function normalizeGeoJSONType(string $type) : string
+    {
+        if ($this->lenient) {
+            $type = strtolower($type);
+
+            if (isset(self::TYPES[$type])) {
+                return self::TYPES[$type];
+            }
+        }
+
+        return $type;
     }
 }

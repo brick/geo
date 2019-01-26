@@ -2,6 +2,7 @@
 
 namespace Brick\Geo\Tests\IO;
 
+use Brick\Geo\Exception\GeometryIOException;
 use Brick\Geo\GeometryCollection;
 use Brick\Geo\IO\GeoJSONReader;
 
@@ -13,14 +14,15 @@ class GeoJSONReaderTest extends GeoJSONAbstractTest
      * @param string $geojson The GeoJSON to read.
      * @param array  $coords  The expected Geometry coordinates.
      * @param bool   $is3D    Whether the resulting Geometry has a Z coordinate.
+     * @param bool   $lenient Whether to be lenient about case-sensitivity.
      *
      * @return void
      *
      * @throws \Brick\Geo\Exception\GeometryException
      */
-    public function testReadGeometry(string $geojson, array $coords, bool $is3D): void
+    public function testReadGeometry(string $geojson, array $coords, bool $is3D, bool $lenient): void
     {
-        $geometry = (new GeoJSONReader())->read($geojson);
+        $geometry = (new GeoJSONReader($lenient))->read($geojson);
         $this->assertGeometryContents($geometry, $coords, $is3D, false, 4326);
     }
 
@@ -30,8 +32,8 @@ class GeoJSONReaderTest extends GeoJSONAbstractTest
     public function providerReadGeometry(): \Generator
     {
         foreach ($this->providerGeometryGeoJSON() as [$geojson, $coords, $is3D]) {
-            yield [$geojson, $coords, $is3D];
-            yield [$this->alter($geojson), $coords, $is3D];
+            yield [$geojson, $coords, $is3D, false];
+            yield [$this->alterCase($geojson), $coords, $is3D, true];
         }
     }
 
@@ -41,14 +43,15 @@ class GeoJSONReaderTest extends GeoJSONAbstractTest
      * @param string $geojson The GeoJSON to read.
      * @param array  $coords  The expected Geometry coordinates.
      * @param bool   $is3D    Whether the resulting Geometry has a Z coordinate.
+     * @param bool   $lenient Whether to be lenient about case-sensitivity.
      *
      * @return void
      *
      * @throws \Brick\Geo\Exception\GeometryException
      */
-    public function testReadFeature(string $geojson, array $coords, bool $is3D): void
+    public function testReadFeature(string $geojson, array $coords, bool $is3D, bool $lenient): void
     {
-        $geometry = (new GeoJSONReader())->read($geojson);
+        $geometry = (new GeoJSONReader($lenient))->read($geojson);
         $this->assertGeometryContents($geometry, $coords, $is3D, false, 4326);
     }
 
@@ -58,8 +61,8 @@ class GeoJSONReaderTest extends GeoJSONAbstractTest
     public function providerReadFeature(): \Generator
     {
         foreach ($this->providerFeatureGeoJSON() as [$geojson, $coords, $is3D]) {
-            yield [$geojson, $coords, $is3D];
-            yield [$this->alter($geojson), $coords, $is3D];
+            yield [$geojson, $coords, $is3D, false];
+            yield [$this->alterCase($geojson), $coords, $is3D, true];
         }
     }
 
@@ -69,6 +72,7 @@ class GeoJSONReaderTest extends GeoJSONAbstractTest
      * @param string  $geojson The GeoJSON to read.
      * @param array[] $coords  The expected Point coordinates.
      * @param bool[]  $is3D    Whether the resulting Point has a Z coordinate.
+     * @param bool    $lenient Whether to be lenient about case-sensitivity.
      *
      * @return void
      *
@@ -77,9 +81,10 @@ class GeoJSONReaderTest extends GeoJSONAbstractTest
     public function testReadFeatureCollection(
         string $geojson,
         array $coords,
-        array $is3D
+        array $is3D,
+        bool $lenient
     ): void {
-        $geometryCollection = (new GeoJSONReader())->read($geojson);
+        $geometryCollection = (new GeoJSONReader($lenient))->read($geojson);
 
         $this->assertInstanceOf(GeometryCollection::class, $geometryCollection);
 
@@ -94,31 +99,62 @@ class GeoJSONReaderTest extends GeoJSONAbstractTest
     public function providerReadFeatureCollection(): \Generator
     {
         foreach ($this->providerFeatureCollectionGeoJSON() as [$geojson, $coords, $is3D]) {
-            yield [$geojson, $coords, $is3D];
-            yield [$this->alter($geojson), $coords, $is3D];
+            yield [$geojson, $coords, $is3D, false];
+            yield [$this->alterCase($geojson), $coords, $is3D, true];
         }
     }
 
     /**
-     * Adds extra spaces to a GeoJSON string.
+     * @dataProvider providerNonLenientReadWrongCaseType
      *
-     * The result is still a valid GeoJSON string, that the reader should be able to handle.
+     * @param string $geojson
+     * @param string $expectedExceptionMessage
+     *
+     * @return void
+     *
+     * @throws \Brick\Geo\Exception\GeometryException
+     */
+    public function testNonLenientReadWrongCaseType(string $geojson, string $expectedExceptionMessage) : void
+    {
+        $reader = new GeoJSONReader();
+
+        $this->expectException(GeometryIOException::class);
+        $this->expectExceptionMessage($expectedExceptionMessage);
+
+        $reader->read($geojson);
+    }
+
+    /**
+     * @return \Generator
+     */
+    public function providerNonLenientReadWrongCaseType() : \Generator
+    {
+        foreach ($this->providerGeometryPointGeoJSON() as [$geojson]) {
+            yield [$this->alterCase($geojson), 'Unsupported GeoJSON type: POINT.'];
+        }
+
+        foreach ($this->providerFeaturePointGeoJSON() as [$geojson]) {
+            yield [$this->alterCase($geojson), 'Unsupported GeoJSON type: FEATURE.'];
+        }
+
+        foreach ($this->providerFeatureCollectionGeoJSON() as [$geojson]) {
+            yield [$this->alterCase($geojson), 'Unsupported GeoJSON type: FEATURECOLLECTION.'];
+        }
+    }
+
+    /**
+     * Changes the case of type attributes.
      *
      * @param string $geojson
      *
      * @return string
      */
-    private function alter(string $geojson): string
+    private function alterCase(string $geojson): string
     {
-        $search = [' ', '{', '}', ','];
-        $replace = [];
+        $callback = function(array $matches) : string {
+            return $matches[1] . strtoupper($matches[2]);
+        };
 
-        foreach ($search as $char) {
-            $replace[] = " $char ";
-        }
-
-        $geojson = str_replace($search, $replace, $geojson);
-
-        return $geojson;
+        return preg_replace_callback('/("type"\s*\:\s*)("[^"]+")/', $callback, $geojson);
     }
 }
