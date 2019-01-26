@@ -4,6 +4,7 @@ namespace Brick\Geo\Tests\IO;
 
 use Brick\Geo\IO\GeoJSONReader;
 use Brick\Geo\IO\GeoJSONWriter;
+use Brick\Geo\Point;
 
 class GeoJSONWriterTest extends GeoJSONAbstractTest
 {
@@ -43,5 +44,29 @@ class GeoJSONWriterTest extends GeoJSONAbstractTest
         foreach ($this->providerFeatureCollectionGeoJSON() as [$geojson, $coords, $is3D]) {
             yield [$geojson];
         }
+    }
+
+    /**
+     * @return void
+     *
+     * @throws \Brick\Geo\Exception\GeometryIOException
+     */
+    public function testPrettyPrint() : void
+    {
+        $writer = new GeoJSONWriter(true);
+        $geoJSONOutput = $writer->write(Point::xyz(1, 2, 3));
+
+        $expectedGeoJSON = <<<EOL
+{
+    "type": "Point",
+    "coordinates": [
+        1,
+        2,
+        3
+    ]
+}
+EOL;
+
+        $this->assertSame($expectedGeoJSON, $geoJSONOutput);
     }
 }

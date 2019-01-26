@@ -14,6 +14,21 @@ use Brick\Geo\GeometryCollection;
 class GeoJSONWriter
 {
     /**
+     * @var bool
+     */
+    private $prettyPrint;
+
+    /**
+     * GeoJSONWriter constructor.
+     *
+     * @param bool $prettyPrint Whether to pretty-print the JSON output.
+     */
+    public function __construct(bool $prettyPrint = false)
+    {
+        $this->prettyPrint = $prettyPrint;
+    }
+
+    /**
      * @param Geometry $geometry The geometry to export as GeoJSON.
      *
      * @return string The GeoJSON representation of the given geometry.
@@ -91,6 +106,6 @@ class GeoJSONWriter
      */
     private function genGeoJSONString(array $geojsonArray) : string
     {
-        return json_encode($geojsonArray);
+        return json_encode($geojsonArray, $this->prettyPrint ? JSON_PRETTY_PRINT : 0);
     }
 }
