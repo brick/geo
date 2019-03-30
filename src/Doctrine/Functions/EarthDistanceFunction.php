@@ -16,6 +16,11 @@ use Doctrine\ORM\Query\Parser;
  * It provides a fairly good precision (error < 0.5%) but is quite compute expensive.
  *
  * This function is designed to work with points in the WGS84 lon/lat (SRID 4326) coordinate system.
+ *
+ * @todo remove for version 0.3.0
+ *       - SRID 4326 is actually lat/lon: http://epsg-registry.org/export.htm?wkt=urn:ogc:def:crs:EPSG::4326
+ *       - this calculation should be delegated to the geometry engine, that should be able to handle geographic
+ *         computations (MySQL 8, for example, supports calculating distances in meters between two SRID 4326 points)
  */
 class EarthDistanceFunction extends FunctionNode
 {
