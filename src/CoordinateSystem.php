@@ -8,6 +8,8 @@ use Brick\Geo\Exception\CoordinateSystemException;
 
 /**
  * Represents the dimensionality and spatial reference system of a geometry.
+ *
+ * This class is immutable.
  */
 class CoordinateSystem
 {
@@ -81,7 +83,6 @@ class CoordinateSystem
     {
         return new self(false, true, $srid);
     }
-
 
     /**
      * Returns a CoordinateSystem with X, Y, Z and M coordinates, and an optional SRID.
@@ -177,6 +178,25 @@ class CoordinateSystem
     public function spatialDimension() : int
     {
         return $this->hasZ ? 3 : 2;
+    }
+
+    /**
+     * Returns a copy of this CoordinateSystem with the SRID altered.
+     *
+     * @param int $srid
+     *
+     * @return CoordinateSystem
+     */
+    public function withSRID(int $srid) : CoordinateSystem
+    {
+        if ($srid === $this->srid) {
+            return $this;
+        }
+
+        $that = clone $this;
+        $that->srid = $srid;
+
+        return $that;
     }
 
     /**

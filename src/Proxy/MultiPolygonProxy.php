@@ -319,4 +319,16 @@ class MultiPolygonProxy extends \Brick\Geo\MultiPolygon implements ProxyInterfac
         return $this->proxyGeometry->coordinateSystem();
     }
 
+    /**
+     * {@inheritdoc}
+     */
+    public function withSRID(int $srid) : \Brick\Geo\Geometry
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->withSRID($srid);
+    }
+
 }

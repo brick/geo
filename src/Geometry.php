@@ -725,6 +725,25 @@ abstract class Geometry implements \Countable, \IteratorAggregate
     }
 
     /**
+     * Returns a copy of this Geometry, with the SRID altered.
+     *
+     * @param int $srid
+     *
+     * @return static
+     */
+    public function withSRID(int $srid) : Geometry
+    {
+        if ($srid === $this->SRID()) {
+            return $this;
+        }
+
+        $that = clone $this;
+        $that->coordinateSystem = $that->coordinateSystem->withSRID($srid);
+
+        return $that;
+    }
+
+    /**
      * Returns the raw coordinates of this geometry as an array.
      *
      * @return array

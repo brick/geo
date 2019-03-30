@@ -250,6 +250,18 @@ class SurfaceProxy extends \Brick\Geo\Surface implements ProxyInterface
     /**
      * {@inheritdoc}
      */
+    public function withSRID(int $srid) : \Brick\Geo\Geometry
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->withSRID($srid);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function toArray() : array
     {
         if ($this->proxyGeometry === null) {
