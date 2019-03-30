@@ -180,6 +180,20 @@ class CompoundCurve extends Curve
     }
 
     /**
+     * @return CurvePolygon
+     */
+    public function swapXY() : Geometry
+    {
+        $that = clone $this;
+
+        foreach ($that->curves as & $curve) {
+            $curve = $curve->swapXY();
+        }
+
+        return $that;
+    }
+
+    /**
      * Returns the number of curves in this CompoundCurve.
      *
      * Required by interface Countable.

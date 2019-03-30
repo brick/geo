@@ -15,7 +15,7 @@ use Brick\Geo\Exception\NoSuchGeometryException;
  * For each pair of polygons that "touch", the common boundary shall be expressible as a finite collection
  * of LineStrings. Each such LineString shall be part of the boundary of at most 2 Polygon patches.
  *
- * For any two polygons that share a common boundary, the "top" of the polygon shall be consistent. This means 
+ * For any two polygons that share a common boundary, the "top" of the polygon shall be consistent. This means
  * that when two linear rings from these two Polygons traverse the common boundary segment, they do so in
  * opposite directions. Since the Polyhedral surface is contiguous, all polygons will be thus consistently oriented.
  * This means that a non-oriented surface (such as Möbius band) shall not have single surface representations.
@@ -174,6 +174,20 @@ class PolyhedralSurface extends Surface
         }
 
         return $result;
+    }
+
+    /**
+     * @return CurvePolygon
+     */
+    public function swapXY() : Geometry
+    {
+        $that = clone $this;
+
+        foreach ($that->patches as & $patch) {
+            $patch = $patch->swapXY();
+        }
+
+        return $that;
     }
 
     /**

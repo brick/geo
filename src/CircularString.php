@@ -169,6 +169,20 @@ class CircularString extends Curve
     }
 
     /**
+     * @return CurvePolygon
+     */
+    public function swapXY() : Geometry
+    {
+        $that = clone $this;
+
+        foreach ($that->points as & $point) {
+            $point = $point->swapXY();
+        }
+
+        return $that;
+    }
+
+    /**
      * Returns the number of points in this CircularString.
      *
      * Required by interface Countable.

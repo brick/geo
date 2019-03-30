@@ -159,6 +159,20 @@ class CurvePolygon extends Surface
     }
 
     /**
+     * @return CurvePolygon
+     */
+    public function swapXY() : Geometry
+    {
+        $that = clone $this;
+
+        foreach ($that->rings as & $ring) {
+            $ring = $ring->swapXY();
+        }
+
+        return $that;
+    }
+
+    /**
      * Returns the number of rings (exterior + interior) in this CurvePolygon.
      *
      * Required by interface Countable.

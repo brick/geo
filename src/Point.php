@@ -289,6 +289,19 @@ class Point extends Geometry
     }
 
     /**
+     * @return Point
+     */
+    public function swapXY() : Geometry
+    {
+        $that = clone $this;
+
+        $that->x = $this->y;
+        $that->y = $this->x;
+
+        return $that;
+    }
+
+    /**
      * Returns the number of coordinates in this Point.
      *
      * Required by interface Countable.

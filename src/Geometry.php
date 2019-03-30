@@ -732,6 +732,13 @@ abstract class Geometry implements \Countable, \IteratorAggregate
     abstract public function toArray() : array;
 
     /**
+     * Returns a copy of this Geometry, with the X and Y coordinates swapped.
+     *
+     * @return Geometry
+     */
+    abstract public function swapXY() : Geometry;
+
+    /**
      * Returns a text representation of this geometry.
      *
      * @noproxy

@@ -184,6 +184,20 @@ class GeometryCollection extends Geometry
     }
 
     /**
+     * @return Geometry
+     */
+    public function swapXY() : Geometry
+    {
+        $that = clone $this;
+
+        foreach ($that->geometries as & $geometry) {
+            $geometry = $geometry->swapXY();
+        }
+
+        return $that;
+    }
+
+    /**
      * Returns the number of geometries in this GeometryCollection.
      *
      * Required by interface Countable.
