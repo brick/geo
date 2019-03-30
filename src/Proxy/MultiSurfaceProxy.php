@@ -214,6 +214,18 @@ class MultiSurfaceProxy extends \Brick\Geo\MultiSurface implements ProxyInterfac
     /**
      * {@inheritdoc}
      */
+    public function swapXY() : \Brick\Geo\Geometry
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->swapXY();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function count() : int
     {
         if ($this->proxyGeometry === null) {
