@@ -1,3 +1,5 @@
+set -e
+
 OS_CODENAME=$(lsb_release --codename --short)
 
 apt-get purge mysql*
@@ -5,7 +7,7 @@ apt-get purge mysql*
 sudo rm -rf /etc/mysql
 sudo rm -rf /var/lib/mysql
 
-apt-get install python-software-properties
+apt-get install software-properties-common
 apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xcbcb082a1bb943db
 add-apt-repository "deb http://ftp.hosteurope.de/mirror/mariadb.org/repo/$VERSION/ubuntu $OS_CODENAME main"
 

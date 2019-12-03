@@ -1,3 +1,5 @@
+set -e
+
 sudo apt-get update
 sudo apt-get install libproj-dev libfreexl-dev libxml2-dev
 

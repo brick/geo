@@ -1,3 +1,5 @@
+set -e
+
 sudo apt-get update
 sudo apt-get autoremove postgis*
 sudo apt-get autoremove postgresql*

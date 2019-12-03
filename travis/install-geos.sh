@@ -1,3 +1,5 @@
+set -e
+
 sudo apt-get update
 sudo apt-get remove 'libgeos.*'
 sudo apt-get autoremove
