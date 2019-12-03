@@ -1,11 +1,10 @@
 language: php
-dist: trusty
-sudo: required
 
 php:
   - 7.1
   - 7.2
   - 7.3
+  - 7.4
 
 env:
   - ENGINE=PDO_MYSQL56
