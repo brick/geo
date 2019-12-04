@@ -16,6 +16,7 @@ env:
   - ENGINE=GEOS35
   - ENGINE=GEOS36
   - ENGINE=GEOS37
+  - ENGINE=GEOS38
 
 matrix:
   include:
@@ -71,9 +72,10 @@ before_script:
   - if [[ $ENGINE = PDO_MYSQL_MARIADB10 ]]; then ENGINE=PDO_MYSQL; sudo VERSION=10.0 bash travis/install-mariadb.sh; fi;
   - if [[ $ENGINE = PDO_PGSQL ]]; then bash travis/install-postgis.sh; fi;
   - if [[ $ENGINE = GEOS34 ]]; then ENGINE=GEOS; VERSION=3.4.3 bash travis/install-geos.sh; fi;
-  - if [[ $ENGINE = GEOS35 ]]; then ENGINE=GEOS; VERSION=3.5.1 bash travis/install-geos.sh; fi;
-  - if [[ $ENGINE = GEOS36 ]]; then ENGINE=GEOS; VERSION=3.6.3 bash travis/install-geos.sh; fi;
-  - if [[ $ENGINE = GEOS37 ]]; then ENGINE=GEOS; VERSION=3.7.0 bash travis/install-geos.sh; fi;
+  - if [[ $ENGINE = GEOS35 ]]; then ENGINE=GEOS; VERSION=3.5.2 bash travis/install-geos.sh; fi;
+  - if [[ $ENGINE = GEOS36 ]]; then ENGINE=GEOS; VERSION=3.6.4 bash travis/install-geos.sh; fi;
+  - if [[ $ENGINE = GEOS37 ]]; then ENGINE=GEOS; VERSION=3.7.3 bash travis/install-geos.sh; fi;
+  - if [[ $ENGINE = GEOS38 ]]; then ENGINE=GEOS; VERSION=3.8.0 bash travis/install-geos.sh; fi;
   - if [[ $ENGINE = SQLite3 ]]; then bash travis/install-spatialite.sh; fi;
   - composer install
 
