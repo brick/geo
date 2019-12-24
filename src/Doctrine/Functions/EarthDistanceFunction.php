@@ -17,6 +17,8 @@ use Doctrine\ORM\Query\Parser;
  *
  * This function is designed to work with points in the WGS84 lon/lat (SRID 4326) coordinate system.
  *
+ * @deprecated
+ *
  * @todo remove for version 0.3.0
  *       - SRID 4326 is actually lat/lon: http://epsg-registry.org/export.htm?wkt=urn:ogc:def:crs:EPSG::4326
  *       - this calculation should be delegated to the geometry engine, that should be able to handle geographic
