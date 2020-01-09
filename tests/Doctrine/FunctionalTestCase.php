@@ -141,7 +141,7 @@ abstract class FunctionalTestCase extends DbalFunctionalTestCase
      *
      * @return void
      */
-    protected function assertPointEquals(Point $point, float $x, float $y, float $z = null) : void
+    protected function assertPointEquals(Point $point, float $x, float $y, ?float $z = null) : void
     {
         $this->assertInstanceOf(Point::class, $point);
 

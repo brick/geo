@@ -49,7 +49,7 @@ class AbstractTestCase extends TestCase
      *
      * @return bool
      */
-    final protected function isMySQL(string $operatorAndVersion = null) : bool
+    final protected function isMySQL(?string $operatorAndVersion = null) : bool
     {
         return $this->isMySQLorMariaDB(false, $operatorAndVersion);
     }
@@ -59,7 +59,7 @@ class AbstractTestCase extends TestCase
      *
      * @return bool
      */
-    final protected function isMariaDB(string $operatorAndVersion = null) : bool
+    final protected function isMariaDB(?string $operatorAndVersion = null) : bool
     {
         return $this->isMySQLorMariaDB(true, $operatorAndVersion);
     }
@@ -77,7 +77,7 @@ class AbstractTestCase extends TestCase
      *
      * @return bool
      */
-    final protected function isSpatiaLite(string $operatorAndVersion = null) : bool
+    final protected function isSpatiaLite(?string $operatorAndVersion = null) : bool
     {
         $engine = GeometryEngineRegistry::get();
 
@@ -99,7 +99,7 @@ class AbstractTestCase extends TestCase
      *
      * @return bool
      */
-    final protected function isGEOS(string $operatorAndVersion = null) : bool
+    final protected function isGEOS(?string $operatorAndVersion = null) : bool
     {
         $engine = GeometryEngineRegistry::get();
 
@@ -627,7 +627,7 @@ class AbstractTestCase extends TestCase
      *
      * @return bool
      */
-    private function isMySQLorMariaDB(bool $testMariaDB, string $operatorAndVersion = null) : bool
+    private function isMySQLorMariaDB(bool $testMariaDB, ?string $operatorAndVersion = null) : bool
     {
         $engine = GeometryEngineRegistry::get();
 
