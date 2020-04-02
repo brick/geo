@@ -65,6 +65,9 @@ Following is a step-by-step guide for all the possible configurations:
 
 ### Using PDO and MySQL 5.6 or greater
 
+<details>
+<summary>Click to expand</summary>
+
 - Ensure that your MySQL version is at least `5.6`.  
   Earlier versions only have partial GIS support based on bounding boxes and are not supported.
 - Use this bootstrap code in your project:
@@ -76,13 +79,21 @@ Following is a step-by-step guide for all the possible configurations:
         GeometryEngineRegistry::set(new PDOEngine($pdo));
 
 Update the code with your own connection parameters, or use an existing `PDO` connection if you have one (recommended).
+</details>
 
 ### Using PDO and MariaDB 5.5 or greater
 
+<details>
+<summary>Click to expand</summary>
+
 MariaDB is a fork of MySQL, so you can follow the same procedure as for MySQL.
 Just ensure that your MariaDB version is `5.5` or greater.
+</details>
 
 ### Using PDO and PostgreSQL with PostGIS
+
+<details>
+<summary>Click to expand</summary>
 
 - Ensure that [PostGIS is installed](http://postgis.net/install/) on your server
 - Enable PostGIS on the database server if needed:
@@ -98,16 +109,24 @@ Just ensure that your MariaDB version is `5.5` or greater.
         GeometryEngineRegistry::set(new PDOEngine($pdo));
 
 Update the code with your own connection parameters, or use an existing `PDO` connection if you have one (recommended).
+</details>
 
 ### Using PDO and SQLite with SpatiaLite
+
+<details>
+<summary>Click to expand</summary>
 
 Due to [limitations in the PDO_SQLITE driver](https://bugs.php.net/bug.php?id=64810), it is currently not possible to load the SpatiaLite extension with a
 `SELECT LOAD_EXTENSION()` query, hence you cannot use SpatiaLite with the PDO driver.
 
 You need to use the SQLite3 driver instead. Note that you can keep using your existing PDO_SQLITE code,
 all you need to do is create an additional in-memory SQLite3 database just to power the geometry engine.
+</details>
 
 ### Using SQLite3 with SpatiaLite
+
+<details>
+<summary>Click to expand</summary>
 
 - Ensure that [SpatiaLite is installed](https://www.gaia-gis.it/fossil/libspatialite/index) on your system.
 - Ensure that the SQLite3 extension is enabled in your `php.ini`:
@@ -129,8 +148,12 @@ all you need to do is create an additional in-memory SQLite3 database just to po
         GeometryEngineRegistry::set(new SQLite3Engine($sqlite3));
 
 In this example we have created an in-memory database for our GIS calculations, but you can also use an existing `SQLite3` connection.
+</details>
 
 ### Using GEOS PHP bindings
+
+<details>
+<summary>Click to expand</summary>
 
 - Ensure that [the PHP bindings for GEOS](https://git.osgeo.org/gogs/geos/php-geos) are installed on your server (GEOS 3.6.0 onwards; previous versions require compiling GEOS with the `--enable-php` flag).
 - Ensure that the GEOS extension is enabled in your `php.ini`:
@@ -143,6 +166,7 @@ In this example we have created an in-memory database for our GIS calculations, 
         use Brick\Geo\Engine\GEOSEngine;
 
         GeometryEngineRegistry::set(new GEOSEngine());
+</details>
 
 Geometry hierarchy
 ------------------
