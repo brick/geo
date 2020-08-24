@@ -6,7 +6,7 @@ Brick\Geo
 A collection of classes to work with GIS geometries.
 
 [![Build Status](https://secure.travis-ci.org/brick/geo.svg?branch=master)](http://travis-ci.org/brick/geo)
-[![Coverage Status](https://coveralls.io/repos/brick/geo/badge.svg?branch=master)](https://coveralls.io/r/brick/geo?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/brick/geo/badge.svg?branch=master)](https://coveralls.io/github/brick/geo?branch=master)
 [![Latest Stable Version](https://poser.pugx.org/brick/geo/v/stable)](https://packagist.org/packages/brick/geo)
 [![Total Downloads](https://poser.pugx.org/brick/geo/downloads)](https://packagist.org/packages/brick/geo)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](http://opensource.org/licenses/MIT)
