@@ -3,6 +3,7 @@
 namespace Brick\Geo\Tests;
 
 use Brick\Geo\CoordinateSystem;
+use Brick\Geo\Exception\InvalidGeometryException;
 use Brick\Geo\Point;
 
 /**
@@ -11,7 +12,6 @@ use Brick\Geo\Point;
 class PointTest extends AbstractTestCase
 {
     /**
-     * @expectedException \Brick\Geo\Exception\InvalidGeometryException
      * @dataProvider providerConstructorWithInvalidCoordinates
      *
      * @param bool    $z
@@ -22,6 +22,7 @@ class PointTest extends AbstractTestCase
      */
     public function testConstructorWithInvalidCoordinates(bool $z, bool $m, float ...$coords) : void
     {
+        $this->expectException(InvalidGeometryException::class);
         new Point(new CoordinateSystem($z, $m), ...$coords);
     }
 

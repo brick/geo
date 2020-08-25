@@ -3,6 +3,7 @@
 namespace Brick\Geo\Tests;
 
 use Brick\Geo\Exception\GeometryEngineException;
+use Brick\Geo\Exception\UnexpectedGeometryException;
 use Brick\Geo\IO\WKBTools;
 use Brick\Geo\Geometry;
 use Brick\Geo\Point;
@@ -34,12 +35,11 @@ class GeometryTest extends AbstractTestCase
     }
 
     /**
-     * @expectedException \Brick\Geo\Exception\UnexpectedGeometryException
-     *
      * @return void
      */
     public function testFromTextOnWrongSubclassThrowsException() : void
     {
+        $this->expectException(UnexpectedGeometryException::class);
         Point::fromText('LINESTRING (1 2, 3 4)');
     }
 

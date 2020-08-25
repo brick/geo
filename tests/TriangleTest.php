@@ -2,6 +2,7 @@
 
 namespace Brick\Geo\Tests;
 
+use Brick\Geo\Exception\InvalidGeometryException;
 use Brick\Geo\LineString;
 use Brick\Geo\Triangle;
 
@@ -21,20 +22,17 @@ class TriangleTest extends AbstractTestCase
     }
 
     /**
-     * @expectedException \Brick\Geo\Exception\InvalidGeometryException
-     *
      * @return void
      */
     public function testCreateWithInvalidNumberOfPoints() : void
     {
         $ring = LineString::fromText('LINESTRING (1 1, 1 2, 2 2, 2 1, 1 1)');
 
+        $this->expectException(InvalidGeometryException::class);
         Triangle::of($ring);
     }
 
     /**
-     * @expectedException \Brick\Geo\Exception\InvalidGeometryException
-     *
      * @return void
      */
     public function testCreateWithInteriorRings() : void
@@ -42,6 +40,7 @@ class TriangleTest extends AbstractTestCase
         $exteriorRing = LineString::fromText('LINESTRING (0 0, 0 3, 3 3, 0 0)');
         $interiorRing = LineString::fromText('LINESTRING (1 1, 1 2, 2 2, 1 1)');
 
+        $this->expectException(InvalidGeometryException::class);
         Triangle::of($exteriorRing, $interiorRing);
     }
 }

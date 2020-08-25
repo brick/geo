@@ -5,6 +5,8 @@ namespace Brick\Geo\Tests;
 use Brick\Geo\CompoundCurve;
 use Brick\Geo\CoordinateSystem;
 use Brick\Geo\Curve;
+use Brick\Geo\Exception\EmptyGeometryException;
+use Brick\Geo\Exception\InvalidGeometryException;
 use Brick\Geo\Exception\NoSuchGeometryException;
 
 /**
@@ -50,7 +52,6 @@ class CompoundCurveTest extends AbstractTestCase
 
     /**
      * @dataProvider providerCreateInvalidCompoundCurve
-     * @expectedException \Brick\Geo\Exception\InvalidGeometryException
      *
      * @param string $compoundCurve The WKT of an invalid CompoundCurve.
      *
@@ -58,6 +59,7 @@ class CompoundCurveTest extends AbstractTestCase
      */
     public function testCreateInvalidCompoundCurve(string $compoundCurve) : void
     {
+        $this->expectException(InvalidGeometryException::class);
         CompoundCurve::fromText($compoundCurve);
     }
 
@@ -106,7 +108,6 @@ class CompoundCurveTest extends AbstractTestCase
 
     /**
      * @dataProvider providerEmptyCompoundCurve
-     * @expectedException \Brick\Geo\Exception\EmptyGeometryException
      *
      * @param string $compoundCurve The WKT of an empty CompoundCurve.
      *
@@ -114,12 +115,12 @@ class CompoundCurveTest extends AbstractTestCase
      */
     public function testStartPointOfEmptyCompoundCurve(string $compoundCurve) : void
     {
+        $this->expectException(EmptyGeometryException::class);
         CompoundCurve::fromText($compoundCurve)->startPoint();
     }
 
     /**
      * @dataProvider providerEmptyCompoundCurve
-     * @expectedException \Brick\Geo\Exception\EmptyGeometryException
      *
      * @param string $compoundCurve The WKT of an empty CompoundCurve.
      *
@@ -127,6 +128,7 @@ class CompoundCurveTest extends AbstractTestCase
      */
     public function testEndPointOfEmptyCompoundCurve(string $compoundCurve) : void
     {
+        $this->expectException(EmptyGeometryException::class);
         CompoundCurve::fromText($compoundCurve)->endPoint();
     }
 

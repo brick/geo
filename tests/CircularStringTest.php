@@ -4,6 +4,9 @@ namespace Brick\Geo\Tests;
 
 use Brick\Geo\CircularString;
 use Brick\Geo\CoordinateSystem;
+use Brick\Geo\Exception\EmptyGeometryException;
+use Brick\Geo\Exception\InvalidGeometryException;
+use Brick\Geo\Exception\NoSuchGeometryException;
 use Brick\Geo\Point;
 
 /**
@@ -49,7 +52,6 @@ class CircularStringTest extends AbstractTestCase
 
     /**
      * @dataProvider providerCreateInvalidCircularString
-     * @expectedException \Brick\Geo\Exception\InvalidGeometryException
      *
      * @param string $circularString The WKT of an invalid CircularString.
      *
@@ -57,6 +59,7 @@ class CircularStringTest extends AbstractTestCase
      */
     public function testCreateInvalidCircularString(string $circularString) : void
     {
+        $this->expectException(InvalidGeometryException::class);
         CircularString::fromText($circularString);
     }
 
@@ -106,7 +109,6 @@ class CircularStringTest extends AbstractTestCase
 
     /**
      * @dataProvider providerEmptyCircularString
-     * @expectedException \Brick\Geo\Exception\EmptyGeometryException
      *
      * @param string $circularString The WKT of an empty CircularString.
      *
@@ -114,12 +116,12 @@ class CircularStringTest extends AbstractTestCase
      */
     public function testStartPointOfEmptyCircularString(string $circularString) : void
     {
+        $this->expectException(EmptyGeometryException::class);
         CircularString::fromText($circularString)->startPoint();
     }
 
     /**
      * @dataProvider providerEmptyCircularString
-     * @expectedException \Brick\Geo\Exception\EmptyGeometryException
      *
      * @param string $circularString The WKT of an empty CircularString.
      *
@@ -127,6 +129,7 @@ class CircularStringTest extends AbstractTestCase
      */
     public function testEndPointOfEmptyCircularString(string $circularString) : void
     {
+        $this->expectException(EmptyGeometryException::class);
         CircularString::fromText($circularString)->endPoint();
     }
 
@@ -214,7 +217,6 @@ class CircularStringTest extends AbstractTestCase
 
     /**
      * @dataProvider providerInvalidPointNThrowsException
-     * @expectedException \Brick\Geo\Exception\NoSuchGeometryException
      *
      * @param string $lineString
      * @param int    $n
@@ -223,6 +225,7 @@ class CircularStringTest extends AbstractTestCase
      */
     public function testInvalidPointNThrowsException(string $lineString, int $n) : void
     {
+        $this->expectException(NoSuchGeometryException::class);
         CircularString::fromText($lineString)->pointN($n);
     }
 

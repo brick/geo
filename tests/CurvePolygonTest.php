@@ -4,6 +4,7 @@ namespace Brick\Geo\Tests;
 
 use Brick\Geo\CoordinateSystem;
 use Brick\Geo\CurvePolygon;
+use Brick\Geo\Exception\EmptyGeometryException;
 use Brick\Geo\Exception\NoSuchGeometryException;
 
 /**
@@ -79,7 +80,6 @@ class CurvePolygonTest extends AbstractTestCase
 
     /**
      * @dataProvider providerExteriorRingOfEmptyCurvePolygon
-     * @expectedException \Brick\Geo\Exception\EmptyGeometryException
      *
      * @param string $polygon The WKT of the CurvePolygon to test.
      *
@@ -87,6 +87,7 @@ class CurvePolygonTest extends AbstractTestCase
      */
     public function testExteriorRingOfEmptyCurvePolygon(string $polygon) : void
     {
+        $this->expectException(EmptyGeometryException::class);
         CurvePolygon::fromText($polygon)->exteriorRing();
     }
 

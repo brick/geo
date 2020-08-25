@@ -2,6 +2,8 @@
 
 namespace Brick\Geo\Tests;
 
+use Brick\Geo\Exception\CoordinateSystemException;
+use Brick\Geo\Exception\NoSuchGeometryException;
 use Brick\Geo\LineString;
 use Brick\Geo\Point;
 
@@ -79,7 +81,6 @@ class LineStringTest extends AbstractTestCase
 
     /**
      * @dataProvider providerInvalidPointNThrowsException
-     * @expectedException \Brick\Geo\Exception\NoSuchGeometryException
      *
      * @param string $lineString
      * @param int    $n
@@ -88,6 +89,7 @@ class LineStringTest extends AbstractTestCase
      */
     public function testInvalidPointNThrowsException(string $lineString, int $n) : void
     {
+        $this->expectException(NoSuchGeometryException::class);
         LineString::fromText($lineString)->pointN($n);
     }
 
@@ -161,7 +163,6 @@ class LineStringTest extends AbstractTestCase
 
     /**
      * @dataProvider providerRectangleWithInvalidPoints
-     * @expectedException \Brick\Geo\Exception\CoordinateSystemException
      *
      * @param string $point1
      * @param string $point2
@@ -175,6 +176,7 @@ class LineStringTest extends AbstractTestCase
         $point1 = Point::fromText($point1, $srid1);
         $point2 = Point::fromText($point2, $srid2);
 
+        $this->expectException(CoordinateSystemException::class);
         LineString::rectangle($point1, $point2);
     }
 

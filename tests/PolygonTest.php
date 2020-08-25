@@ -3,6 +3,7 @@
 namespace Brick\Geo\Tests;
 
 use Brick\Geo\Exception\CoordinateSystemException;
+use Brick\Geo\Exception\EmptyGeometryException;
 use Brick\Geo\Exception\NoSuchGeometryException;
 use Brick\Geo\CoordinateSystem;
 use Brick\Geo\LineString;
@@ -188,7 +189,6 @@ class PolygonTest extends AbstractTestCase
 
     /**
      * @dataProvider providerOfWithCoordinateSystemMix
-     * @expectedException \Brick\Geo\Exception\CoordinateSystemException
      *
      * @param string $outerRingWKT
      * @param string $innerRingWKT
@@ -202,6 +202,7 @@ class PolygonTest extends AbstractTestCase
         $outerRing = LineString::fromText($outerRingWKT, $outerRingSRID);
         $innerRing = LineString::fromText($innerRingWKT, $innerRingSRID);
 
+        $this->expectException(CoordinateSystemException::class);
         Polygon::of($outerRing, $innerRing);
     }
 
@@ -254,7 +255,6 @@ class PolygonTest extends AbstractTestCase
 
     /**
      * @dataProvider providerExteriorRingOfEmptyPolygon
-     * @expectedException \Brick\Geo\Exception\EmptyGeometryException
      *
      * @param string $polygon The WKT of the polygon to test.
      *
@@ -262,6 +262,7 @@ class PolygonTest extends AbstractTestCase
      */
     public function testExteriorRingOfEmptyPolygon(string $polygon) : void
     {
+        $this->expectException(EmptyGeometryException::class);
         Polygon::fromText($polygon)->exteriorRing();
     }
 

@@ -3,6 +3,7 @@
 namespace Brick\Geo\Tests;
 
 use Brick\Geo\Exception\GeometryEngineException;
+use Brick\Geo\Exception\UnexpectedGeometryException;
 use Brick\Geo\MultiCurve;
 
 /**
@@ -12,7 +13,6 @@ class MultiCurveTest extends AbstractTestCase
 {
     /**
      * @dataProvider providerInvalidFromText
-     * @expectedException \Brick\Geo\Exception\UnexpectedGeometryException
      *
      * @param string $wkt A valid WKT, for a non-multicurve geometry.
      *
@@ -20,6 +20,7 @@ class MultiCurveTest extends AbstractTestCase
      */
     public function testInvalidFromText(string $wkt) : void
     {
+        $this->expectException(UnexpectedGeometryException::class);
         MultiCurve::fromText($wkt);
     }
 
@@ -38,7 +39,6 @@ class MultiCurveTest extends AbstractTestCase
 
     /**
      * @dataProvider providerInvalidFromBinary
-     * @expectedException \Brick\Geo\Exception\UnexpectedGeometryException
      *
      * @param string $wkb A valid HEX WKB, for a non-multicurve geometry.
      *
@@ -46,6 +46,7 @@ class MultiCurveTest extends AbstractTestCase
      */
     public function testInvalidFromBinary(string $wkb) : void
     {
+        $this->expectException(UnexpectedGeometryException::class);
         MultiCurve::fromBinary(hex2bin($wkb));
     }
 

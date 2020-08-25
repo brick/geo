@@ -3,6 +3,7 @@
 namespace Brick\Geo\Tests;
 
 use Brick\Geo\Curve;
+use Brick\Geo\Exception\EmptyGeometryException;
 
 /**
  * Unit tests for class Curve.
@@ -95,7 +96,6 @@ class CurveTest extends AbstractTestCase
 
     /**
      * @dataProvider providerEmptyCurve
-     * @expectedException \Brick\Geo\Exception\EmptyGeometryException
      *
      * @param string $lineString
      *
@@ -103,12 +103,12 @@ class CurveTest extends AbstractTestCase
      */
     public function testStartPointOfEmptyCurveThrowsException(string $lineString) : void
     {
+        $this->expectException(EmptyGeometryException::class);
         Curve::fromText($lineString)->startPoint();
     }
 
     /**
      * @dataProvider providerEmptyCurve
-     * @expectedException \Brick\Geo\Exception\EmptyGeometryException
      *
      * @param string $lineString
      *
@@ -116,6 +116,7 @@ class CurveTest extends AbstractTestCase
      */
     public function testEndPointOfEmptyCurveThrowsException(string $lineString) : void
     {
+        $this->expectException(EmptyGeometryException::class);
         Curve::fromText($lineString)->endPoint();
     }
 

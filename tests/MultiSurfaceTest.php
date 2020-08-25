@@ -3,6 +3,7 @@
 namespace Brick\Geo\Tests;
 
 use Brick\Geo\Exception\GeometryEngineException;
+use Brick\Geo\Exception\UnexpectedGeometryException;
 use Brick\Geo\MultiSurface;
 use Brick\Geo\Point;
 
@@ -13,7 +14,6 @@ class MultiSurfaceTest extends AbstractTestCase
 {
     /**
      * @dataProvider providerInvalidFromText
-     * @expectedException \Brick\Geo\Exception\UnexpectedGeometryException
      *
      * @param string $wkt A valid WKT, for a non-multisurface geometry.
      *
@@ -21,6 +21,7 @@ class MultiSurfaceTest extends AbstractTestCase
      */
     public function testInvalidFromText(string $wkt) : void
     {
+        $this->expectException(UnexpectedGeometryException::class);
         MultiSurface::fromText($wkt);
     }
 
@@ -39,7 +40,6 @@ class MultiSurfaceTest extends AbstractTestCase
 
     /**
      * @dataProvider providerInvalidFromBinary
-     * @expectedException \Brick\Geo\Exception\UnexpectedGeometryException
      *
      * @param string $wkb A valid HEX WKB, for a non-multisurface geometry.
      *
@@ -47,6 +47,7 @@ class MultiSurfaceTest extends AbstractTestCase
      */
     public function testInvalidFromBinary(string $wkb) : void
     {
+        $this->expectException(UnexpectedGeometryException::class);
         MultiSurface::fromBinary(hex2bin($wkb));
     }
 

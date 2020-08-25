@@ -2,6 +2,7 @@
 
 namespace Brick\Geo\Tests\IO;
 
+use Brick\Geo\Exception\GeometryIOException;
 use Brick\Geo\IO\EWKBTools;
 use Brick\Geo\IO\EWKBWriter;
 use Brick\Geo\IO\EWKTReader;
@@ -58,7 +59,6 @@ class EWKBWriterTest extends EWKBAbstractTest
 
     /**
      * @dataProvider providerWriteEmptyPointThrowsException
-     * @expectedException \Brick\Geo\Exception\GeometryIOException
      *
      * @param Point $point
      *
@@ -67,6 +67,8 @@ class EWKBWriterTest extends EWKBAbstractTest
     public function testWriteEmptyPointThrowsException(Point $point) : void
     {
         $writer = new EWKBWriter();
+
+        $this->expectException(GeometryIOException::class);
         $writer->write($point);
     }
 
