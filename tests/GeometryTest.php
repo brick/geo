@@ -24,13 +24,13 @@ class GeometryTest extends AbstractTestCase
     {
         $geometry = Geometry::fromText($text);
 
-        $this->assertSame($text, $geometry->asText());
-        $this->assertSame(0, $geometry->SRID());
+        self::assertSame($text, $geometry->asText());
+        self::assertSame(0, $geometry->SRID());
 
         $geometry = Geometry::fromText($text, 4326);
 
-        $this->assertSame($text, $geometry->asText());
-        $this->assertSame(4326, $geometry->SRID());
+        self::assertSame($text, $geometry->asText());
+        self::assertSame(4326, $geometry->SRID());
     }
 
     /**
@@ -57,13 +57,13 @@ class GeometryTest extends AbstractTestCase
         foreach ([$bigEndianBinary, $littleEndianBinary] as $binary) {
             $geometry = Geometry::fromBinary(hex2bin($binary));
 
-            $this->assertSame($text, $geometry->asText());
-            $this->assertSame(0, $geometry->SRID());
+            self::assertSame($text, $geometry->asText());
+            self::assertSame(0, $geometry->SRID());
 
             $geometry = Geometry::fromBinary(hex2bin($binary), 4326);
 
-            $this->assertSame($text, $geometry->asText());
-            $this->assertSame(4326, $geometry->SRID());
+            self::assertSame($text, $geometry->asText());
+            self::assertSame(4326, $geometry->SRID());
         }
     }
 
@@ -86,7 +86,7 @@ class GeometryTest extends AbstractTestCase
             $binary = $littleEndianBinary;
         }
 
-        $this->assertSame($binary, bin2hex(Geometry::fromText($text)->asBinary()));
+        self::assertSame($binary, bin2hex(Geometry::fromText($text)->asBinary()));
     }
 
     /**
@@ -116,7 +116,7 @@ class GeometryTest extends AbstractTestCase
     public function testDimension(string $geometry, int $dimension) : void
     {
         $geometry = Geometry::fromText($geometry);
-        $this->assertSame($dimension, $geometry->dimension());
+        self::assertSame($dimension, $geometry->dimension());
     }
 
     /**
@@ -183,7 +183,7 @@ class GeometryTest extends AbstractTestCase
      */
     public function testCoordinateDimension(string $geometry, int $coordinateDimension) : void
     {
-        $this->assertSame($coordinateDimension, Geometry::fromText($geometry)->coordinateDimension());
+        self::assertSame($coordinateDimension, Geometry::fromText($geometry)->coordinateDimension());
     }
 
     /**
@@ -213,7 +213,7 @@ class GeometryTest extends AbstractTestCase
      */
     public function testSpatialDimension(string $geometry, int $spatialDimension) : void
     {
-        $this->assertSame($spatialDimension, Geometry::fromText($geometry)->spatialDimension());
+        self::assertSame($spatialDimension, Geometry::fromText($geometry)->spatialDimension());
     }
 
     /**
@@ -244,7 +244,7 @@ class GeometryTest extends AbstractTestCase
     public function testGeometryType(string $geometry, string $geometryType) : void
     {
         $geometry = Geometry::fromText($geometry);
-        $this->assertSame($geometryType, $geometry->geometryType());
+        self::assertSame($geometryType, $geometry->geometryType());
     }
 
     /**
@@ -317,7 +317,7 @@ class GeometryTest extends AbstractTestCase
      */
     public function testSRID(int $srid) : void
     {
-        $this->assertSame($srid, Geometry::fromText('POINT EMPTY', $srid)->SRID());
+        self::assertSame($srid, Geometry::fromText('POINT EMPTY', $srid)->SRID());
     }
 
     /**
@@ -371,7 +371,7 @@ class GeometryTest extends AbstractTestCase
      */
     public function testIsEmpty(string $geometry, bool $isEmpty) : void
     {
-        $this->assertSame($isEmpty, Geometry::fromText($geometry)->isEmpty());
+        self::assertSame($isEmpty, Geometry::fromText($geometry)->isEmpty());
     }
 
     /**
@@ -410,7 +410,7 @@ class GeometryTest extends AbstractTestCase
 
         $this->skipIfUnsupportedGeometry($geometry);
 
-        $this->assertSame($isValid, $geometry->isValid());
+        self::assertSame($isValid, $geometry->isValid());
     }
 
     /**
@@ -442,7 +442,7 @@ class GeometryTest extends AbstractTestCase
 
         $geometry = Geometry::fromText($geometry);
         $this->skipIfUnsupportedGeometry($geometry);
-        $this->assertSame($isSimple, $geometry->isSimple());
+        self::assertSame($isSimple, $geometry->isSimple());
     }
 
     /**
@@ -481,8 +481,8 @@ class GeometryTest extends AbstractTestCase
      */
     public function testDimensionality(string $geometry, bool $is3D, bool $isMeasured) : void
     {
-        $this->assertSame($is3D, Geometry::fromText($geometry)->is3D());
-        $this->assertSame($isMeasured, Geometry::fromText($geometry)->isMeasured());
+        self::assertSame($is3D, Geometry::fromText($geometry)->is3D());
+        self::assertSame($isMeasured, Geometry::fromText($geometry)->isMeasured());
     }
 
     /**
@@ -526,7 +526,7 @@ class GeometryTest extends AbstractTestCase
             $this->expectException(GeometryEngineException::class);
         }
 
-        $this->assertSame($boundary, $geometry->boundary()->asText());
+        self::assertSame($boundary, $geometry->boundary()->asText());
     }
 
     /**
@@ -563,7 +563,7 @@ class GeometryTest extends AbstractTestCase
         $this->skipIfUnsupportedGeometry($geometry1);
         $this->skipIfUnsupportedGeometry($geometry2);
 
-        $this->assertSame($equals, $geometry1->equals($geometry2));
+        self::assertSame($equals, $geometry1->equals($geometry2));
     }
 
     /**
@@ -606,7 +606,7 @@ class GeometryTest extends AbstractTestCase
 
         $this->skipIfUnsupportedByEngine($geometry1, $geometry2, 'disjoint');
 
-        $this->assertSame($disjoint, $geometry1->disjoint($geometry2));
+        self::assertSame($disjoint, $geometry1->disjoint($geometry2));
     }
 
     /**
@@ -642,7 +642,7 @@ class GeometryTest extends AbstractTestCase
 
         $this->skipIfUnsupportedByEngine($geometry1, $geometry2, 'intersects');
 
-        $this->assertSame($intersects, $geometry1->intersects($geometry2));
+        self::assertSame($intersects, $geometry1->intersects($geometry2));
     }
 
     /**
@@ -678,7 +678,7 @@ class GeometryTest extends AbstractTestCase
 
         $this->skipIfUnsupportedByEngine($geometry1, $geometry2, 'touches');
 
-        $this->assertSame($touches, $geometry1->touches($geometry2));
+        self::assertSame($touches, $geometry1->touches($geometry2));
     }
 
     /**
@@ -716,7 +716,7 @@ class GeometryTest extends AbstractTestCase
 
         $this->skipIfUnsupportedByEngine($geometry1, $geometry2, 'crosses');
 
-        $this->assertSame($crosses, $geometry1->crosses($geometry2));
+        self::assertSame($crosses, $geometry1->crosses($geometry2));
     }
 
     /**
@@ -752,7 +752,7 @@ class GeometryTest extends AbstractTestCase
         $geometry1 = Geometry::fromText($geometry1);
         $geometry2 = Geometry::fromText($geometry2);
 
-        $this->assertSame($within, $geometry1->within($geometry2));
+        self::assertSame($within, $geometry1->within($geometry2));
     }
 
     /**
@@ -785,7 +785,7 @@ class GeometryTest extends AbstractTestCase
         $geometry1 = Geometry::fromText($geometry1);
         $geometry2 = Geometry::fromText($geometry2);
 
-        $this->assertSame($contains, $geometry1->contains($geometry2));
+        self::assertSame($contains, $geometry1->contains($geometry2));
     }
 
     /**
@@ -818,7 +818,7 @@ class GeometryTest extends AbstractTestCase
         $geometry1 = Geometry::fromText($geometry1);
         $geometry2 = Geometry::fromText($geometry2);
 
-        $this->assertSame($overlaps, $geometry1->overlaps($geometry2));
+        self::assertSame($overlaps, $geometry1->overlaps($geometry2));
     }
 
     /**
@@ -853,7 +853,7 @@ class GeometryTest extends AbstractTestCase
         $geometry1 = Geometry::fromText($geometry1);
         $geometry2 = Geometry::fromText($geometry2);
 
-        $this->assertSame($relate, $geometry1->relate($geometry2, $matrix));
+        self::assertSame($relate, $geometry1->relate($geometry2, $matrix));
     }
 
     /**
@@ -886,7 +886,7 @@ class GeometryTest extends AbstractTestCase
             $this->expectException(GeometryEngineException::class);
         }
 
-        $this->assertSame($result, Geometry::fromText($geometry)->locateAlong($measure)->asText());
+        self::assertSame($result, Geometry::fromText($geometry)->locateAlong($measure)->asText());
     }
 
     /**
@@ -918,7 +918,7 @@ class GeometryTest extends AbstractTestCase
             $this->expectException(GeometryEngineException::class);
         }
 
-        $this->assertSame($result, Geometry::fromText($geometry)->locateBetween($mStart, $mEnd)->asText());
+        self::assertSame($result, Geometry::fromText($geometry)->locateBetween($mStart, $mEnd)->asText());
     }
 
     /**
@@ -948,7 +948,7 @@ class GeometryTest extends AbstractTestCase
         $geometry1 = Geometry::fromText($geometry1);
         $geometry2 = Geometry::fromText($geometry2);
 
-        $this->assertSame($distance, $geometry1->distance($geometry2));
+        self::assertSame($distance, $geometry1->distance($geometry2));
     }
 
     /**
@@ -977,14 +977,14 @@ class GeometryTest extends AbstractTestCase
         $geometry = Geometry::fromText($geometry);
         $buffer = $geometry->buffer($distance);
 
-        $this->assertInstanceOf(Polygon::class, $buffer);
-        $this->assertTrue($buffer->contains($geometry));
+        self::assertInstanceOf(Polygon::class, $buffer);
+        self::assertTrue($buffer->contains($geometry));
 
         /** @var Polygon $buffer */
         $ring = $buffer->exteriorRing();
 
         for ($n = 1; $n <= $ring->numPoints(); $n++) {
-            $this->assertEquals($distance, $ring->pointN($n)->distance($geometry), '', 0.001);
+            self::assertEquals($distance, $ring->pointN($n)->distance($geometry), '', 0.001);
         }
     }
 
@@ -1097,8 +1097,8 @@ class GeometryTest extends AbstractTestCase
             return;
         }
 
-        $this->assertSame($result->geometryType(), $union->geometryType());
-        $this->assertTrue($union->equals($result));
+        self::assertSame($result->geometryType(), $union->geometryType());
+        self::assertTrue($union->equals($result));
     }
 
     /**
@@ -1128,7 +1128,7 @@ class GeometryTest extends AbstractTestCase
         $this->requiresGeometryEngine();
 
         if ($this->isMySQL('< 5.7')) {
-            $this->markTestSkipped('MySQL 5.6 difference() implementation is very buggy and should not be used.');
+            self::markTestSkipped('MySQL 5.6 difference() implementation is very buggy and should not be used.');
         }
 
         $geometry1 = Geometry::fromText($geometry1);
@@ -1274,7 +1274,7 @@ class GeometryTest extends AbstractTestCase
         $geometry1 = Geometry::fromText($geometry1);
         $geometry2 = Geometry::fromText($geometry2);
 
-        $this->assertSame($maxDistance, $geometry1->maxDistance($geometry2));
+        self::assertSame($maxDistance, $geometry1->maxDistance($geometry2));
     }
 
     /**
@@ -1300,7 +1300,7 @@ class GeometryTest extends AbstractTestCase
     public function testToArray(string $geometry, array $array) : void
     {
         $this->castToFloat($array);
-        $this->assertSame($array, Geometry::fromText($geometry)->toArray());
+        self::assertSame($array, Geometry::fromText($geometry)->toArray());
     }
 
     /**

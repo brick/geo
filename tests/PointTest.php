@@ -58,12 +58,12 @@ class PointTest extends AbstractTestCase
      */
     private function assertPointFactoryMethodAndAccessors(Point $point, float $x, float $y, ?float $z, ?float $m, int $srid) : void
     {
-        $this->assertSame($x, $point->x());
-        $this->assertSame($y, $point->y());
-        $this->assertSame($z, $point->z());
-        $this->assertSame($m, $point->m());
-        $this->assertSame($srid, $point->SRID());
-        $this->assertFalse($point->isEmpty());
+        self::assertSame($x, $point->x());
+        self::assertSame($y, $point->y());
+        self::assertSame($z, $point->z());
+        self::assertSame($m, $point->m());
+        self::assertSame($srid, $point->SRID());
+        self::assertFalse($point->isEmpty());
     }
 
     /**
@@ -148,14 +148,14 @@ class PointTest extends AbstractTestCase
      */
     private function assertPointEmptyFactoryMethod(Point $point, bool $is3D, bool $isMeasured, int $srid) : void
     {
-        $this->assertTrue($point->isEmpty());
-        $this->assertNull($point->x());
-        $this->assertNull($point->y());
-        $this->assertNull($point->z());
-        $this->assertNull($point->m());
-        $this->assertSame($is3D, $point->is3D());
-        $this->assertSame($isMeasured, $point->isMeasured());
-        $this->assertSame($srid, $point->SRID());
+        self::assertTrue($point->isEmpty());
+        self::assertNull($point->x());
+        self::assertNull($point->y());
+        self::assertNull($point->z());
+        self::assertNull($point->m());
+        self::assertSame($is3D, $point->is3D());
+        self::assertSame($isMeasured, $point->isMeasured());
+        self::assertSame($srid, $point->SRID());
     }
 
     /**
@@ -233,9 +233,9 @@ class PointTest extends AbstractTestCase
     public function testToArrayAndInterfaces(string $point, array $coordinates) : void
     {
         $point = Point::fromText($point);
-        $this->assertSame($coordinates, $point->toArray());
-        $this->assertSame($coordinates, iterator_to_array($point));
-        $this->assertSame(count($coordinates), count($point));
+        self::assertSame($coordinates, $point->toArray());
+        self::assertSame($coordinates, iterator_to_array($point));
+        self::assertSame(count($coordinates), count($point));
     }
 
     /**

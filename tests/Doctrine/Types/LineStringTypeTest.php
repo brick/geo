@@ -31,11 +31,11 @@ class LineStringTypeTest extends FunctionalTestCase
 
         /** @var LineStringEntity $lineStringEntity */
         $lineStringEntity = $repository->findOneBy(['id' => 1]);
-        $this->assertNotNull($lineStringEntity);
+        self::assertNotNull($lineStringEntity);
 
         $lineString = $lineStringEntity->getLineString();
-        $this->assertInstanceOf(LineString::class, $lineString);
-        $this->assertSame(3, $lineString->numPoints());
+        self::assertInstanceOf(LineString::class, $lineString);
+        self::assertSame(3, $lineString->numPoints());
 
         $this->assertPointEquals($lineString->pointN(1), 0.0, 0.0);
         $this->assertPointEquals($lineString->pointN(2), 1.0, 0.0);

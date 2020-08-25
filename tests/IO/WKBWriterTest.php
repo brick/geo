@@ -31,7 +31,7 @@ class WKBWriterTest extends WKBAbstractTest
         $geometry = $reader->read($wkt);
         $output = $writer->write($geometry);
 
-        $this->assertSame($wkb, bin2hex($output));
+        self::assertSame($wkb, bin2hex($output));
     }
 
     /**

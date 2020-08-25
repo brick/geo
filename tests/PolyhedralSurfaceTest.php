@@ -58,7 +58,7 @@ class PolyhedralSurfaceTest extends AbstractTestCase
      */
     public function testNumPatches(string $polyhedralSurface, int $numPatches) : void
     {
-        $this->assertSame($numPatches, PolyhedralSurface::fromText($polyhedralSurface)->numPatches());
+        self::assertSame($numPatches, PolyhedralSurface::fromText($polyhedralSurface)->numPatches());
     }
 
     /**
@@ -164,11 +164,11 @@ class PolyhedralSurfaceTest extends AbstractTestCase
     {
         $polyhedralSurface = PolyhedralSurface::fromText('POLYHEDRALSURFACE(((0 0, 0 1, 1 1, 1 0, 0 0)), ((1 0, 1 1, 2 1, 2 0, 1 0)), ((2 0, 2 1, 3 1, 3 0, 2 0)))');
 
-        $this->assertInstanceOf(\Countable::class, $polyhedralSurface);
-        $this->assertCount(3, $polyhedralSurface);
+        self::assertInstanceOf(\Countable::class, $polyhedralSurface);
+        self::assertCount(3, $polyhedralSurface);
 
-        $this->assertInstanceOf(\Traversable::class, $polyhedralSurface);
-        $this->assertSame([
+        self::assertInstanceOf(\Traversable::class, $polyhedralSurface);
+        self::assertSame([
             $polyhedralSurface->patchN(1),
             $polyhedralSurface->patchN(2),
             $polyhedralSurface->patchN(3)

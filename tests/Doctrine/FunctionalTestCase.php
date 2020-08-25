@@ -56,17 +56,17 @@ abstract class FunctionalTestCase extends DbalFunctionalTestCase
         parent::setUp();
 
         if (version_compare(PHP_VERSION, '7.3') >= 0) {
-            $this->markTestSkipped('Doctrine 2.6.2 fails with PHP 7.3, waiting for 2.6.3 release.');
+            self::markTestSkipped('Doctrine 2.6.2 fails with PHP 7.3, waiting for 2.6.3 release.');
         }
 
         if (! GeometryEngineRegistry::has()) {
-            $this->markTestSkipped('This test requires a connection to a database.');
+            self::markTestSkipped('This test requires a connection to a database.');
         }
 
         $engine = GeometryEngineRegistry::get();
 
         if (! $engine instanceof PDOEngine) {
-            $this->markTestSkipped('This test currently only works with a PDO connection.');
+            self::markTestSkipped('This test currently only works with a PDO connection.');
         }
 
         $this->platform = $this->_conn->getDatabasePlatform();
@@ -143,10 +143,10 @@ abstract class FunctionalTestCase extends DbalFunctionalTestCase
      */
     protected function assertPointEquals(Point $point, float $x, float $y, ?float $z = null) : void
     {
-        $this->assertInstanceOf(Point::class, $point);
+        self::assertInstanceOf(Point::class, $point);
 
-        $this->assertSame($x, $point->x());
-        $this->assertSame($y, $point->y());
-        $this->assertSame($z, $point->z());
+        self::assertSame($x, $point->x());
+        self::assertSame($y, $point->y());
+        self::assertSame($z, $point->z());
     }
 }

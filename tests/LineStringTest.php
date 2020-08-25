@@ -21,7 +21,7 @@ class LineStringTest extends AbstractTestCase
     public function testNumPoints(string $lineString, int $numPoints) : void
     {
         $lineString = LineString::fromText($lineString);
-        $this->assertSame($numPoints, $lineString->numPoints());
+        self::assertSame($numPoints, $lineString->numPoints());
     }
 
     /**
@@ -117,11 +117,11 @@ class LineStringTest extends AbstractTestCase
     {
         $lineString = LineString::fromText('LINESTRING (1 2, 3 4, 5 6)');
 
-        $this->assertInstanceOf(\Countable::class, $lineString);
-        $this->assertCount(3, $lineString);
+        self::assertInstanceOf(\Countable::class, $lineString);
+        self::assertCount(3, $lineString);
 
-        $this->assertInstanceOf(\Traversable::class, $lineString);
-        $this->assertSame([
+        self::assertInstanceOf(\Traversable::class, $lineString);
+        self::assertSame([
             $lineString->pointN(1),
             $lineString->pointN(2),
             $lineString->pointN(3)
@@ -144,7 +144,7 @@ class LineStringTest extends AbstractTestCase
 
         $actual = LineString::rectangle($point1, $point2);
 
-        $this->assertSame($expected, $actual->asText());
+        self::assertSame($expected, $actual->asText());
     }
 
     /**

@@ -24,7 +24,7 @@ class EWKBReaderTest extends EWKBAbstractTest
         $writer = new EWKTWriter();
 
         $geometry = $reader->read(hex2bin($ewkb));
-        $this->assertSame($ewkt, $writer->write($geometry));
+        self::assertSame($ewkt, $writer->write($geometry));
     }
 
     /**

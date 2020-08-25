@@ -23,7 +23,7 @@ class GeoJSONWriterTest extends GeoJSONAbstractTest
         $geometry = (new GeoJSONReader())->read($geojson);
         $geometryGeoJSON = (new GeoJSONWriter())->write($geometry);
 
-        $this->assertSame($geojson, $geometryGeoJSON);
+        self::assertSame($geojson, $geometryGeoJSON);
     }
 
     /**
@@ -67,6 +67,6 @@ class GeoJSONWriterTest extends GeoJSONAbstractTest
 }
 EOL;
 
-        $this->assertSame($expectedGeoJSON, $geoJSONOutput);
+        self::assertSame($expectedGeoJSON, $geoJSONOutput);
     }
 }

@@ -41,33 +41,33 @@ class PointProxyTest extends AbstractTestCase
         foreach ([0, 1] as $srid) {
             $pointProxy = new PointProxy($data, $isBinary, $srid);
 
-            $this->assertInstanceOf(Point::class, $pointProxy);
+            self::assertInstanceOf(Point::class, $pointProxy);
 
-            $this->assertSame($is3D, $pointProxy->is3D());
-            $this->assertSame($isMeasured, $pointProxy->is3D());
-            $this->assertSame(! $coords, $pointProxy->isEmpty());
+            self::assertSame($is3D, $pointProxy->is3D());
+            self::assertSame($isMeasured, $pointProxy->is3D());
+            self::assertSame(! $coords, $pointProxy->isEmpty());
 
-            $this->assertSame($x, $pointProxy->x());
-            $this->assertSame($y, $pointProxy->y());
-            $this->assertSame($z, $pointProxy->z());
-            $this->assertSame($m, $pointProxy->m());
+            self::assertSame($x, $pointProxy->x());
+            self::assertSame($y, $pointProxy->y());
+            self::assertSame($z, $pointProxy->z());
+            self::assertSame($m, $pointProxy->m());
 
-            $this->assertSame('Point', $pointProxy->geometryType());
-            $this->assertSame($coords, $pointProxy->toArray());
-            $this->assertSame($srid, $pointProxy->SRID());
+            self::assertSame('Point', $pointProxy->geometryType());
+            self::assertSame($coords, $pointProxy->toArray());
+            self::assertSame($srid, $pointProxy->SRID());
 
-            $this->assertSame(0, $pointProxy->dimension());
-            $this->assertSame($spatialDimension, $pointProxy->spatialDimension());
-            $this->assertSame($coordinateDimension, $pointProxy->coordinateDimension());
+            self::assertSame(0, $pointProxy->dimension());
+            self::assertSame($spatialDimension, $pointProxy->spatialDimension());
+            self::assertSame($coordinateDimension, $pointProxy->coordinateDimension());
 
             $asText = $isBinary ? Point::fromBinary($data)->asText() : $data;
 
-            $this->assertSame($asText, (string) $pointProxy);
-            $this->assertSame($asText, $pointProxy->asText());
+            self::assertSame($asText, (string) $pointProxy);
+            self::assertSame($asText, $pointProxy->asText());
 
             if ($coords) {
                 $asBinary = $isBinary ? $data : Point::fromText($data)->asBinary();
-                $this->assertSame($asBinary, $pointProxy->asBinary());
+                self::assertSame($asBinary, $pointProxy->asBinary());
             }
         }
     }
@@ -92,12 +92,12 @@ class PointProxyTest extends AbstractTestCase
     {
         $pointProxy = new PointProxy('POINT(1 2)', false);
 
-        $this->assertInstanceOf(Point::class, $pointProxy);
-        $this->assertFalse($pointProxy->isLoaded());
+        self::assertInstanceOf(Point::class, $pointProxy);
+        self::assertFalse($pointProxy->isLoaded());
 
         $this->assertPointEquals([1, 2], false, false, 0, $pointProxy);
-        $this->assertTrue($pointProxy->isLoaded());
+        self::assertTrue($pointProxy->isLoaded());
 
-        $this->assertInstanceOf(Point::class, $pointProxy->getGeometry());
+        self::assertInstanceOf(Point::class, $pointProxy->getGeometry());
     }
 }

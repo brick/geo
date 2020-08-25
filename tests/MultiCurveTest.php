@@ -80,8 +80,8 @@ class MultiCurveTest extends AbstractTestCase
 
         $actualLength = $curve->length();
 
-        $this->assertInternalType('float', $actualLength);
-        $this->assertEquals($length, $actualLength, '', 0.001);
+        self::assertInternalType('float', $actualLength);
+        self::assertEquals($length, $actualLength, '', 0.001);
     }
 
     /**
@@ -119,7 +119,7 @@ class MultiCurveTest extends AbstractTestCase
             $this->expectException(GeometryEngineException::class);
         }
 
-        $this->assertSame($isClosed, $curve->isClosed());
+        self::assertSame($isClosed, $curve->isClosed());
     }
 
     /**

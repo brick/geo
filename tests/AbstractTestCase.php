@@ -40,7 +40,7 @@ class AbstractTestCase extends TestCase
     final protected function requiresGeometryEngine() : void
     {
         if (! GeometryEngineRegistry::has()) {
-            $this->markTestSkipped('This test requires a geometry engine to be set.');
+            self::markTestSkipped('This test requires a geometry engine to be set.');
         }
     }
 
@@ -137,7 +137,7 @@ class AbstractTestCase extends TestCase
 
         if ($geometry->isMeasured()) {
             if ($this->isGEOS()) {
-                $this->markTestSkipped('GEOS does not support M coordinates in WKB.');
+                self::markTestSkipped('GEOS does not support M coordinates in WKB.');
             }
         }
 
@@ -148,7 +148,7 @@ class AbstractTestCase extends TestCase
             }
 
             if ($this->isSpatiaLite()) {
-                $this->markTestSkipped('SpatiaLite does not correctly handle empty geometries.');
+                self::markTestSkipped('SpatiaLite does not correctly handle empty geometries.');
             }
         }
 
@@ -175,7 +175,7 @@ class AbstractTestCase extends TestCase
 
         if ($this->isMySQL('< 5.7')) {
             if ($geometry1->geometryType() !== $geometry2->geometryType()) {
-                $this->markTestSkipped(sprintf('MySQL 5.6 does not support %s() on different geometry types.', $methodName));
+                self::markTestSkipped(sprintf('MySQL 5.6 does not support %s() on different geometry types.', $methodName));
             }
         }
     }
@@ -189,8 +189,8 @@ class AbstractTestCase extends TestCase
      */
     final protected function assertWktEquals(Geometry $geometry, string $wkt, int $srid = 0) : void
     {
-        $this->assertSame($wkt, $geometry->asText());
-        $this->assertSame($srid, $geometry->SRID());
+        self::assertSame($wkt, $geometry->asText());
+        self::assertSame($srid, $geometry->SRID());
     }
 
     /**
@@ -213,7 +213,7 @@ class AbstractTestCase extends TestCase
             return;
         }
 
-        $this->assertTrue($actual->equals($expected), 'Failed asserting that two geometries are spatially equal.'
+        self::assertTrue($actual->equals($expected), 'Failed asserting that two geometries are spatially equal.'
             . "\n---Expected"
             . "\n+++Actual"
             . "\n@@ @@"
@@ -235,10 +235,10 @@ class AbstractTestCase extends TestCase
     {
         $this->castToFloat($coords);
 
-        $this->assertSame($coords, $g->toArray());
-        $this->assertSame($hasZ, $g->is3D());
-        $this->assertSame($hasM, $g->isMeasured());
-        $this->assertSame($srid, $g->SRID());
+        self::assertSame($coords, $g->toArray());
+        self::assertSame($hasZ, $g->is3D());
+        self::assertSame($hasM, $g->isMeasured());
+        self::assertSame($srid, $g->SRID());
     }
 
     /**
@@ -254,10 +254,10 @@ class AbstractTestCase extends TestCase
     {
         $this->castToFloat($coords);
 
-        $this->assertSame($coords, $point->toArray());
-        $this->assertSame($is3D, $point->is3D());
-        $this->assertSame($isMeasured, $point->isMeasured());
-        $this->assertSame($srid, $point->SRID());
+        self::assertSame($coords, $point->toArray());
+        self::assertSame($is3D, $point->is3D());
+        self::assertSame($isMeasured, $point->isMeasured());
+        self::assertSame($srid, $point->SRID());
     }
 
     /**
@@ -272,9 +272,9 @@ class AbstractTestCase extends TestCase
     {
         $this->castToFloat($coords);
 
-        $this->assertSame($coords, $lineString->toArray());
-        $this->assertSame($is3D, $lineString->is3D());
-        $this->assertSame($isMeasured, $lineString->isMeasured());
+        self::assertSame($coords, $lineString->toArray());
+        self::assertSame($is3D, $lineString->is3D());
+        self::assertSame($isMeasured, $lineString->isMeasured());
     }
 
     /**
@@ -289,9 +289,9 @@ class AbstractTestCase extends TestCase
     {
         $this->castToFloat($coords);
 
-        $this->assertSame($coords, $polygon->toArray());
-        $this->assertSame($is3D, $polygon->is3D());
-        $this->assertSame($isMeasured, $polygon->isMeasured());
+        self::assertSame($coords, $polygon->toArray());
+        self::assertSame($is3D, $polygon->is3D());
+        self::assertSame($isMeasured, $polygon->isMeasured());
     }
 
     /**
@@ -306,9 +306,9 @@ class AbstractTestCase extends TestCase
     {
         $this->castToFloat($coords);
 
-        $this->assertSame($coords, $multiPoint->toArray());
-        $this->assertSame($is3D, $multiPoint->is3D());
-        $this->assertSame($isMeasured, $multiPoint->isMeasured());
+        self::assertSame($coords, $multiPoint->toArray());
+        self::assertSame($is3D, $multiPoint->is3D());
+        self::assertSame($isMeasured, $multiPoint->isMeasured());
     }
 
     /**
@@ -323,9 +323,9 @@ class AbstractTestCase extends TestCase
     {
         $this->castToFloat($coords);
 
-        $this->assertSame($coords, $multiLineString->toArray());
-        $this->assertSame($is3D, $multiLineString->is3D());
-        $this->assertSame($isMeasured, $multiLineString->isMeasured());
+        self::assertSame($coords, $multiLineString->toArray());
+        self::assertSame($is3D, $multiLineString->is3D());
+        self::assertSame($isMeasured, $multiLineString->isMeasured());
     }
 
     /**
@@ -340,9 +340,9 @@ class AbstractTestCase extends TestCase
     {
         $this->castToFloat($coords);
 
-        $this->assertSame($coords, $multiPolygon->toArray());
-        $this->assertSame($is3D, $multiPolygon->is3D());
-        $this->assertSame($isMeasured, $multiPolygon->isMeasured());
+        self::assertSame($coords, $multiPolygon->toArray());
+        self::assertSame($is3D, $multiPolygon->is3D());
+        self::assertSame($isMeasured, $multiPolygon->isMeasured());
     }
 
     /**

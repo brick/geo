@@ -49,7 +49,7 @@ class EarthDistanceFunctionTest extends FunctionalTestCase
 
         $em->rollback();
 
-        $this->assertEquals($expectedDistance, $actualDistance, '', 100.0);
+        self::assertEquals($expectedDistance, $actualDistance, '', 100.0);
     }
 
     /**

@@ -32,7 +32,7 @@ class GeometryTypeTest extends FunctionalTestCase
 
         /** @var GeometryEntity $geometryEntity */
         $geometryEntity = $repository->findOneBy(['id' => 1]);
-        $this->assertNotNull($geometryEntity);
+        self::assertNotNull($geometryEntity);
 
         /** @var GeometryProxy $geometry */
         $geometry = $geometryEntity->getGeometry();

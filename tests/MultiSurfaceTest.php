@@ -81,8 +81,8 @@ class MultiSurfaceTest extends AbstractTestCase
 
         $actualArea = $multiSurface->area();
 
-        $this->assertInternalType('float', $actualArea);
-        $this->assertEquals($area, $actualArea, '', 0.001);
+        self::assertInternalType('float', $actualArea);
+        self::assertEquals($area, $actualArea, '', 0.001);
     }
 
     /**
@@ -149,8 +149,8 @@ class MultiSurfaceTest extends AbstractTestCase
 
         $pointOnSurface = $multiSurface->pointOnSurface();
 
-        $this->assertInstanceOf(Point::class, $pointOnSurface);
-        $this->assertTrue($multiSurface->contains($pointOnSurface));
+        self::assertInstanceOf(Point::class, $pointOnSurface);
+        self::assertTrue($multiSurface->contains($pointOnSurface));
     }
 
     /**

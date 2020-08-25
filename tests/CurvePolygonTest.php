@@ -25,10 +25,10 @@ class CurvePolygonTest extends AbstractTestCase
         $cs = new CoordinateSystem($is3D, $isMeasured, $srid);
         $polygon = new CurvePolygon($cs);
 
-        $this->assertTrue($polygon->isEmpty());
-        $this->assertSame($is3D, $polygon->is3D());
-        $this->assertSame($isMeasured, $polygon->isMeasured());
-        $this->assertSame($srid, $polygon->SRID());
+        self::assertTrue($polygon->isEmpty());
+        self::assertSame($is3D, $polygon->is3D());
+        self::assertSame($isMeasured, $polygon->isMeasured());
+        self::assertSame($srid, $polygon->SRID());
     }
 
     /**
@@ -113,7 +113,7 @@ class CurvePolygonTest extends AbstractTestCase
     public function testNumInteriorRings(string $polygon, int $numInteriorRings) : void
     {
         $polygon = CurvePolygon::fromText($polygon);
-        $this->assertSame($numInteriorRings, $polygon->numInteriorRings());
+        self::assertSame($numInteriorRings, $polygon->numInteriorRings());
     }
 
     /**

@@ -23,7 +23,7 @@ class GeometryCollectionTest extends AbstractTestCase
     public function testNumGeometries(string $geometry, int $numGeometries) : void
     {
         $geometry = GeometryCollection::fromText($geometry);
-        $this->assertSame($numGeometries, $geometry->numGeometries());
+        self::assertSame($numGeometries, $geometry->numGeometries());
     }
 
     /**
@@ -94,10 +94,10 @@ class GeometryCollectionTest extends AbstractTestCase
 
         $geometryCollection = GeometryCollection::of($point, $lineString);
 
-        $this->assertInstanceOf(\Countable::class, $geometryCollection);
-        $this->assertCount(2, $geometryCollection);
+        self::assertInstanceOf(\Countable::class, $geometryCollection);
+        self::assertCount(2, $geometryCollection);
 
-        $this->assertInstanceOf(\Traversable::class, $geometryCollection);
-        $this->assertSame([$point, $lineString], iterator_to_array($geometryCollection));
+        self::assertInstanceOf(\Traversable::class, $geometryCollection);
+        self::assertSame([$point, $lineString], iterator_to_array($geometryCollection));
     }
 }

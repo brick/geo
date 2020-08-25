@@ -153,7 +153,7 @@ class CompoundCurveTest extends AbstractTestCase
      */
     public function testNumCurves(string $compoundCurve, int $numCurves) : void
     {
-        $this->assertSame($numCurves, CompoundCurve::fromText($compoundCurve)->numCurves());
+        self::assertSame($numCurves, CompoundCurve::fromText($compoundCurve)->numCurves());
     }
 
     /**
@@ -258,11 +258,11 @@ class CompoundCurveTest extends AbstractTestCase
     {
         $compoundCurve = CompoundCurve::fromText('COMPOUNDCURVE (CIRCULARSTRING(1 2, 3 4, 5 6), (5 6, 7 8))');
 
-        $this->assertInstanceOf(\Countable::class, $compoundCurve);
-        $this->assertCount(2, $compoundCurve);
+        self::assertInstanceOf(\Countable::class, $compoundCurve);
+        self::assertCount(2, $compoundCurve);
 
-        $this->assertInstanceOf(\Traversable::class, $compoundCurve);
-        $this->assertSame([
+        self::assertInstanceOf(\Traversable::class, $compoundCurve);
+        self::assertSame([
             $compoundCurve->curveN(1),
             $compoundCurve->curveN(2)
         ], iterator_to_array($compoundCurve));

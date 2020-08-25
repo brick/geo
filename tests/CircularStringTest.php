@@ -154,7 +154,7 @@ class CircularStringTest extends AbstractTestCase
     public function testNumPoints(string $circularString, int $numPoints) : void
     {
         $circularString = CircularString::fromText($circularString);
-        $this->assertSame($numPoints, $circularString->numPoints());
+        self::assertSame($numPoints, $circularString->numPoints());
     }
 
     /**
@@ -250,11 +250,11 @@ class CircularStringTest extends AbstractTestCase
     {
         $circularString = CircularString::fromText('CIRCULARSTRING (1 2, 3 4, 5 6)');
 
-        $this->assertInstanceOf(\Countable::class, $circularString);
-        $this->assertCount(3, $circularString);
+        self::assertInstanceOf(\Countable::class, $circularString);
+        self::assertCount(3, $circularString);
 
-        $this->assertInstanceOf(\Traversable::class, $circularString);
-        $this->assertSame([
+        self::assertInstanceOf(\Traversable::class, $circularString);
+        self::assertSame([
             $circularString->pointN(1),
             $circularString->pointN(2),
             $circularString->pointN(3)

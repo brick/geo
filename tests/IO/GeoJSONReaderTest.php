@@ -82,7 +82,7 @@ class GeoJSONReaderTest extends GeoJSONAbstractTest
     {
         $geometryCollection = (new GeoJSONReader($lenient))->read($geojson);
 
-        $this->assertInstanceOf(GeometryCollection::class, $geometryCollection);
+        self::assertInstanceOf(GeometryCollection::class, $geometryCollection);
 
         foreach ($geometryCollection->geometries() as $key => $geometry) {
             $this->assertGeometryContents($geometry, $coords[$key], $is3D[$key], false, 4326);

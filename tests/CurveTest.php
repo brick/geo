@@ -26,8 +26,8 @@ class CurveTest extends AbstractTestCase
 
         $actualLength = $curve->length();
 
-        $this->assertInternalType('float', $actualLength);
-        $this->assertEquals($length, $actualLength, '', 0.002);
+        self::assertInternalType('float', $actualLength);
+        self::assertEquals($length, $actualLength, '', 0.002);
     }
 
     /**
@@ -157,7 +157,7 @@ class CurveTest extends AbstractTestCase
         $curve = Curve::fromText($curve);
         $this->skipIfUnsupportedGeometry($curve);
 
-        $this->assertSame($isClosed, $curve->isClosed());
+        self::assertSame($isClosed, $curve->isClosed());
     }
 
     /**
@@ -203,10 +203,10 @@ class CurveTest extends AbstractTestCase
 
         if ($curve->isClosed() && $this->isMariaDB('< 10.1.4')) {
             // @see https://mariadb.atlassian.net/browse/MDEV-7510
-            $this->markTestSkipped('A bug in MariaDB returns the wrong result.');
+            self::markTestSkipped('A bug in MariaDB returns the wrong result.');
         }
 
-        $this->assertSame($isRing, $curve->isRing());
+        self::assertSame($isRing, $curve->isRing());
     }
 
     /**

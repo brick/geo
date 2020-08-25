@@ -32,16 +32,16 @@ class MultiLineStringTypeTest extends FunctionalTestCase
 
         /** @var MultiLineStringEntity $multiLineStringEntity */
         $multiLineStringEntity = $repository->findOneBy(['id' => 1]);
-        $this->assertNotNull($multiLineStringEntity);
+        self::assertNotNull($multiLineStringEntity);
 
         $multiLineString = $multiLineStringEntity->getMultiLineString();
-        $this->assertInstanceOf(MultiLineString::class, $multiLineString);
-        $this->assertSame(2, $multiLineString->numGeometries());
+        self::assertInstanceOf(MultiLineString::class, $multiLineString);
+        self::assertSame(2, $multiLineString->numGeometries());
 
         /** @var LineString $lineString1 */
         $lineString1 = $multiLineString->geometryN(1);
-        $this->assertInstanceOf(LineString::class, $lineString1);
-        $this->assertSame(3, $lineString1->numPoints());
+        self::assertInstanceOf(LineString::class, $lineString1);
+        self::assertSame(3, $lineString1->numPoints());
 
         $this->assertPointEquals($lineString1->pointN(1), 0.0, 0.0);
         $this->assertPointEquals($lineString1->pointN(2), 1.0, 0.0);
@@ -49,8 +49,8 @@ class MultiLineStringTypeTest extends FunctionalTestCase
 
         /** @var LineString $lineString2 */
         $lineString2 = $multiLineString->geometryN(2);
-        $this->assertInstanceOf(LineString::class, $lineString2);
-        $this->assertSame(3, $lineString2->numPoints());
+        self::assertInstanceOf(LineString::class, $lineString2);
+        self::assertSame(3, $lineString2->numPoints());
 
         $this->assertPointEquals($lineString2->pointN(1), 2.0, 2.0);
         $this->assertPointEquals($lineString2->pointN(2), 3.0, 2.0);

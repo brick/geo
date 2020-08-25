@@ -28,8 +28,8 @@ class SurfaceTest extends AbstractTestCase
 
         $actualArea = $surface->area();
 
-        $this->assertInternalType('float', $actualArea);
-        $this->assertEquals($area, $actualArea, '', 0.001);
+        self::assertInternalType('float', $actualArea);
+        self::assertEquals($area, $actualArea, '', 0.001);
     }
 
     /**
@@ -99,8 +99,8 @@ class SurfaceTest extends AbstractTestCase
 
         $pointOnSurface = $surface->pointOnSurface();
 
-        $this->assertInstanceOf(Point::class, $pointOnSurface);
-        $this->assertTrue($surface->contains($pointOnSurface));
+        self::assertInstanceOf(Point::class, $pointOnSurface);
+        self::assertTrue($surface->contains($pointOnSurface));
     }
 
     /**
