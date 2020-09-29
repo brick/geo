@@ -7,7 +7,7 @@ use Brick\Geo\Point;
 use Brick\Geo\Tests\Doctrine\Fixtures\LineStringEntity;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 
 class LoadLineStringData implements FixtureInterface {
 
