@@ -984,7 +984,7 @@ class GeometryTest extends AbstractTestCase
         $ring = $buffer->exteriorRing();
 
         for ($n = 1; $n <= $ring->numPoints(); $n++) {
-            self::assertEquals($distance, $ring->pointN($n)->distance($geometry), '', 0.001);
+            self::assertEqualsWithDelta($distance, $ring->pointN($n)->distance($geometry), 0.001);
         }
     }
 

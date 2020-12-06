@@ -49,7 +49,7 @@ class EarthDistanceFunctionTest extends FunctionalTestCase
 
         $em->rollback();
 
-        self::assertEquals($expectedDistance, $actualDistance, '', 100.0);
+        self::assertEqualsWithDelta($expectedDistance, $actualDistance, 100.0);
     }
 
     /**

@@ -83,7 +83,7 @@ class MultiSurfaceTest extends AbstractTestCase
         $actualArea = $multiSurface->area();
 
         self::assertIsFloat($actualArea);
-        self::assertEquals($area, $actualArea, '', 0.001);
+        self::assertEqualsWithDelta($area, $actualArea, 0.001);
     }
 
     /**

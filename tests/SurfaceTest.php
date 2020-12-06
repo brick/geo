@@ -29,7 +29,7 @@ class SurfaceTest extends AbstractTestCase
         $actualArea = $surface->area();
 
         self::assertIsFloat($actualArea);
-        self::assertEquals($area, $actualArea, '', 0.001);
+        self::assertEqualsWithDelta($area, $actualArea, 0.001);
     }
 
     /**

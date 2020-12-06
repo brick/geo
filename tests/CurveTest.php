@@ -28,7 +28,7 @@ class CurveTest extends AbstractTestCase
         $actualLength = $curve->length();
 
         self::assertIsFloat($actualLength);
-        self::assertEquals($length, $actualLength, '', 0.002);
+        self::assertEqualsWithDelta($length, $actualLength, 0.002);
     }
 
     /**
