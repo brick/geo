@@ -10,10 +10,10 @@ matrix:
       dist: trusty
     - php: 7.2
       env: ENGINE=PDO_MYSQL57
-      dist: trusty
+      dist: xenial
     - php: 7.2
       env: ENGINE=PDO_MYSQL80
-      dist: trusty
+      dist: xenial
     - php: 7.2
       env: ENGINE=PDO_MYSQL_MARIADB55
       dist: trusty
@@ -46,10 +46,10 @@ matrix:
       dist: trusty
     - php: 7.3
       env: ENGINE=PDO_MYSQL57
-      dist: trusty
+      dist: xenial
     - php: 7.3
       env: ENGINE=PDO_MYSQL80
-      dist: trusty
+      dist: xenial
     - php: 7.3
       env: ENGINE=PDO_MYSQL_MARIADB55
       dist: trusty
@@ -82,10 +82,10 @@ matrix:
       dist: trusty
     - php: 7.4
       env: ENGINE=PDO_MYSQL57
-      dist: trusty
+      dist: xenial
     - php: 7.4
       env: ENGINE=PDO_MYSQL80
-      dist: trusty
+      dist: xenial
     - php: 7.4
       env: ENGINE=PDO_MYSQL_MARIADB55
       dist: trusty
@@ -130,21 +130,6 @@ matrix:
       dist: xenial
     - php: 8.0
       env: ENGINE=SQLite3
-      dist: xenial
-    - php: 8.0
-      env: ENGINE=GEOS34
-      dist: xenial
-    - php: 8.0
-      env: ENGINE=GEOS35
-      dist: xenial
-    - php: 8.0
-      env: ENGINE=GEOS36
-      dist: xenial
-    - php: 8.0
-      env: ENGINE=GEOS37
-      dist: xenial
-    - php: 8.0
-      env: ENGINE=GEOS38
       dist: xenial
 
 before_script:

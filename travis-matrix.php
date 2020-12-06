@@ -28,7 +28,9 @@ $defaultDist = 'trusty';
 
 $requires = [
     'PDO_MYSQL56' => 'trusty',
-    '8.0'         => 'xenial'
+    'PDO_MYSQL57' => 'xenial',
+    'PDO_MYSQL80' => 'xenial',
+    '8.0'         => 'xenial',
 ];
 
 /** @var Job[] $jobs */
@@ -65,6 +67,12 @@ function getDist(string $phpVersion, string $engine): ?string
 {
     global $defaultDist;
     global $requires;
+
+    if ($phpVersion === '8.0' && substr($engine, 0, 4) === 'GEOS') {
+        // GEOS PHP does not support PHP 8 yet
+        // See: https://git.osgeo.org/gitea/geos/php-geos/issues/26
+        return null;
+    }
 
     $requiredDists = [];
 
