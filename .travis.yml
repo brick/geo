@@ -1,73 +1,151 @@
 language: php
-dist: trusty
 sudo: required
 
-php:
-  - 7.2
-  - 7.3
-  - 7.4
-  - 8.0
-
-env:
-  - ENGINE=PDO_MYSQL_MARIADB55
-  - ENGINE=PDO_MYSQL_MARIADB10
-  - ENGINE=PDO_PGSQL
-  - ENGINE=SQLite3
-  - ENGINE=GEOS34
-  - ENGINE=GEOS35
-  - ENGINE=GEOS36
-  - ENGINE=GEOS37
-  - ENGINE=GEOS38
+# use travis-matrix.php to generate the matrix below
 
 matrix:
   include:
-    # MySQL 5.6 is the default on Trusty
-    - dist: trusty
+    - php: 7.2
       env: ENGINE=PDO_MYSQL56
-      php: 7.2
-    - dist: trusty
-      env: ENGINE=PDO_MYSQL56
-      php: 7.3
-    - dist: trusty
-      env: ENGINE=PDO_MYSQL56
-      php: 7.4
-    - dist: trusty
-      env: ENGINE=PDO_MYSQL56
-      php: 8.0
-
-    # MySQL 5.7 is the default on Xenial
-    - dist: xenial
+      dist: trusty
+    - php: 7.2
       env: ENGINE=PDO_MYSQL57
-      php: 7.2
-    - dist: xenial
-      env: ENGINE=PDO_MYSQL57
-      php: 7.3
-    - dist: xenial
-      env: ENGINE=PDO_MYSQL57
-      php: 7.4
-    - dist: xenial
-      env: ENGINE=PDO_MYSQL57
-      php: 8.0
-
-    - dist: xenial
+      dist: trusty
+    - php: 7.2
       env: ENGINE=PDO_MYSQL80
-      php: 7.2
-    - dist: xenial
-      env: ENGINE=PDO_MYSQL80
-      php: 7.3
-    - dist: xenial
-      env: ENGINE=PDO_MYSQL80
-      php: 7.4
-    - dist: xenial
-      env: ENGINE=PDO_MYSQL80
-      php: 8.0
-
-    - dist: xenial
+      dist: trusty
+    - php: 7.2
+      env: ENGINE=PDO_MYSQL_MARIADB55
+      dist: trusty
+    - php: 7.2
+      env: ENGINE=PDO_MYSQL_MARIADB10
+      dist: trusty
+    - php: 7.2
+      env: ENGINE=PDO_PGSQL
+      dist: trusty
+    - php: 7.2
       env: ENGINE=SQLite3
-      php: 7.4
-    - dist: xenial
+      dist: trusty
+    - php: 7.2
+      env: ENGINE=GEOS34
+      dist: trusty
+    - php: 7.2
+      env: ENGINE=GEOS35
+      dist: trusty
+    - php: 7.2
+      env: ENGINE=GEOS36
+      dist: trusty
+    - php: 7.2
+      env: ENGINE=GEOS37
+      dist: trusty
+    - php: 7.2
+      env: ENGINE=GEOS38
+      dist: trusty
+    - php: 7.3
+      env: ENGINE=PDO_MYSQL56
+      dist: trusty
+    - php: 7.3
+      env: ENGINE=PDO_MYSQL57
+      dist: trusty
+    - php: 7.3
+      env: ENGINE=PDO_MYSQL80
+      dist: trusty
+    - php: 7.3
+      env: ENGINE=PDO_MYSQL_MARIADB55
+      dist: trusty
+    - php: 7.3
+      env: ENGINE=PDO_MYSQL_MARIADB10
+      dist: trusty
+    - php: 7.3
+      env: ENGINE=PDO_PGSQL
+      dist: trusty
+    - php: 7.3
       env: ENGINE=SQLite3
-      php: 8.0
+      dist: trusty
+    - php: 7.3
+      env: ENGINE=GEOS34
+      dist: trusty
+    - php: 7.3
+      env: ENGINE=GEOS35
+      dist: trusty
+    - php: 7.3
+      env: ENGINE=GEOS36
+      dist: trusty
+    - php: 7.3
+      env: ENGINE=GEOS37
+      dist: trusty
+    - php: 7.3
+      env: ENGINE=GEOS38
+      dist: trusty
+    - php: 7.4
+      env: ENGINE=PDO_MYSQL56
+      dist: trusty
+    - php: 7.4
+      env: ENGINE=PDO_MYSQL57
+      dist: trusty
+    - php: 7.4
+      env: ENGINE=PDO_MYSQL80
+      dist: trusty
+    - php: 7.4
+      env: ENGINE=PDO_MYSQL_MARIADB55
+      dist: trusty
+    - php: 7.4
+      env: ENGINE=PDO_MYSQL_MARIADB10
+      dist: trusty
+    - php: 7.4
+      env: ENGINE=PDO_PGSQL
+      dist: trusty
+    - php: 7.4
+      env: ENGINE=SQLite3
+      dist: trusty
+    - php: 7.4
+      env: ENGINE=GEOS34
+      dist: trusty
+    - php: 7.4
+      env: ENGINE=GEOS35
+      dist: trusty
+    - php: 7.4
+      env: ENGINE=GEOS36
+      dist: trusty
+    - php: 7.4
+      env: ENGINE=GEOS37
+      dist: trusty
+    - php: 7.4
+      env: ENGINE=GEOS38
+      dist: trusty
+    - php: 8.0
+      env: ENGINE=PDO_MYSQL57
+      dist: xenial
+    - php: 8.0
+      env: ENGINE=PDO_MYSQL80
+      dist: xenial
+    - php: 8.0
+      env: ENGINE=PDO_MYSQL_MARIADB55
+      dist: xenial
+    - php: 8.0
+      env: ENGINE=PDO_MYSQL_MARIADB10
+      dist: xenial
+    - php: 8.0
+      env: ENGINE=PDO_PGSQL
+      dist: xenial
+    - php: 8.0
+      env: ENGINE=SQLite3
+      dist: xenial
+    - php: 8.0
+      env: ENGINE=GEOS34
+      dist: xenial
+    - php: 8.0
+      env: ENGINE=GEOS35
+      dist: xenial
+    - php: 8.0
+      env: ENGINE=GEOS36
+      dist: xenial
+    - php: 8.0
+      env: ENGINE=GEOS37
+      dist: xenial
+    - php: 8.0
+      env: ENGINE=GEOS38
+      dist: xenial
 
 before_script:
   - if [[ $ENGINE = PDO_MYSQL56 ]]; then ENGINE=PDO_MYSQL; fi;
