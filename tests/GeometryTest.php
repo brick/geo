@@ -327,7 +327,7 @@ class GeometryTest extends AbstractTestCase
     {
         return [
             [4326],
-            ['4327'],
+            [4327],
         ];
     }
 
@@ -910,7 +910,7 @@ class GeometryTest extends AbstractTestCase
      *
      * @return void
      */
-    public function testLocateBetween(string $geometry, string $mStart, string $mEnd, string $result) : void
+    public function testLocateBetween(string $geometry, float $mStart, float $mEnd, string $result) : void
     {
         $this->requiresGeometryEngine();
 

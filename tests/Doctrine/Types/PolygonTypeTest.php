@@ -16,7 +16,7 @@ class PolygonTypeTest extends FunctionalTestCase
     /**
      * {@inheritdoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->addFixture(new LoadPolygonData());
