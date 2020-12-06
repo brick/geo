@@ -24,20 +24,20 @@ matrix:
     # MySQL 5.6 is the default on Trusty
     - dist: trusty
       env: ENGINE=PDO_MYSQL56
-      php: 7.1
-    - dist: trusty
-      env: ENGINE=PDO_MYSQL56
       php: 7.2
     - dist: trusty
       env: ENGINE=PDO_MYSQL56
       php: 7.3
+    - dist: trusty
+      env: ENGINE=PDO_MYSQL56
+      php: 7.4
+    - dist: trusty
+      env: ENGINE=PDO_MYSQL56
+      php: 8.0
 
     # MySQL 5.7 is the default on Xenial
     - dist: xenial
       env: ENGINE=PDO_MYSQL57
-      php: 7.1
-    - dist: xenial
-      env: ENGINE=PDO_MYSQL57
       php: 7.2
     - dist: xenial
       env: ENGINE=PDO_MYSQL57
@@ -45,25 +45,29 @@ matrix:
     - dist: xenial
       env: ENGINE=PDO_MYSQL57
       php: 7.4
-
     - dist: xenial
-      env: ENGINE=PDO_MYSQL80
-      php: 7.1
+      env: ENGINE=PDO_MYSQL57
+      php: 8.0
+
     - dist: xenial
       env: ENGINE=PDO_MYSQL80
       php: 7.2
     - dist: xenial
       env: ENGINE=PDO_MYSQL80
       php: 7.3
-
-# @todo currently getting "Unexpected server response while doing caching_sha2 auth" on PHP 7.4
-#    - dist: xenial
-#      env: ENGINE=PDO_MYSQL80
-#      php: 7.4
+    - dist: xenial
+      env: ENGINE=PDO_MYSQL80
+      php: 7.4
+    - dist: xenial
+      env: ENGINE=PDO_MYSQL80
+      php: 8.0
 
     - dist: xenial
       env: ENGINE=SQLite3
       php: 7.4
+    - dist: xenial
+      env: ENGINE=SQLite3
+      php: 8.0
 
 before_script:
   - if [[ $ENGINE = PDO_MYSQL56 ]]; then ENGINE=PDO_MYSQL; fi;
