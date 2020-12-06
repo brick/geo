@@ -82,7 +82,7 @@ class MultiSurfaceTest extends AbstractTestCase
 
         $actualArea = $multiSurface->area();
 
-        self::assertInternalType('float', $actualArea);
+        self::assertIsFloat($actualArea);
         self::assertEquals($area, $actualArea, '', 0.001);
     }
 

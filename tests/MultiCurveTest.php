@@ -81,7 +81,7 @@ class MultiCurveTest extends AbstractTestCase
 
         $actualLength = $curve->length();
 
-        self::assertInternalType('float', $actualLength);
+        self::assertIsFloat($actualLength);
         self::assertEquals($length, $actualLength, '', 0.001);
     }
 

@@ -28,7 +28,7 @@ class SurfaceTest extends AbstractTestCase
 
         $actualArea = $surface->area();
 
-        self::assertInternalType('float', $actualArea);
+        self::assertIsFloat($actualArea);
         self::assertEquals($area, $actualArea, '', 0.001);
     }
 
