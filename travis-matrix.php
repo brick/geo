@@ -27,10 +27,11 @@ $engines = [
 $defaultDist = 'trusty';
 
 $requires = [
-    'PDO_MYSQL56' => 'trusty',
-    'PDO_MYSQL57' => 'xenial',
-    'PDO_MYSQL80' => 'xenial',
-    '8.0'         => 'xenial',
+    'PDO_MYSQL56'         => 'trusty',
+    'PDO_MYSQL57'         => 'xenial',
+    'PDO_MYSQL80'         => 'xenial',
+    'PDO_MYSQL_MARIADB55' => 'trusty',
+    '8.0'                 => 'xenial',
 ];
 
 /** @var Job[] $jobs */
