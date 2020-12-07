@@ -141,7 +141,7 @@ before_script:
   - if [[ $ENGINE = GEOS36 ]]; then ENGINE=GEOS; VERSION=3.6.4 bash travis/install-geos.sh; fi;
   - if [[ $ENGINE = GEOS37 ]]; then ENGINE=GEOS; VERSION=3.7.3 bash travis/install-geos.sh; fi;
   - if [[ $ENGINE = GEOS38 ]]; then ENGINE=GEOS; VERSION=3.8.0 bash travis/install-geos.sh; fi;
-  - if [[ $ENGINE = SQLite3 ]]; then sudo bash travis/install-spatialite.sh; fi;
+  - if [[ $ENGINE = SQLite3 ]]; then sudo PHP_VERSION=$(php -r "echo PHP_VERSION;") bash travis/install-spatialite.sh; fi;
   - composer install
 
 script:
