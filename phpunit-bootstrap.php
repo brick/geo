@@ -7,12 +7,11 @@ use Brick\Geo\Engine\SQLite3Engine;
 use Brick\Geo\Engine\GEOSEngine;
 use Doctrine\DBAL\Types\Type;
 
-function bootstrap()
-{
+(function() {
     /** @var \Composer\Autoload\ClassLoader $classLoader */
     $classLoader = require 'vendor/autoload.php';
 
-    //Add namespace for doctrine base tests
+    // Add namespace for doctrine base tests
     $classLoader->addPsr4('Doctrine\\Tests\\', [
         __DIR__ . '/vendor/doctrine/orm/tests/Doctrine/Tests',
         __DIR__ . '/vendor/doctrine/dbal/tests/Doctrine/Tests'
@@ -53,7 +52,7 @@ function bootstrap()
 
                 echo 'MySQL version: ' . $version . PHP_EOL;
 
-                //Connect data for doctrine integration tests
+                // Connect data for doctrine integration tests
                 $GLOBALS['db_type'] = 'pdo_mysql';
                 $GLOBALS['db_host'] = 'localhost';
                 $GLOBALS['db_port'] = 3306;
@@ -87,7 +86,7 @@ function bootstrap()
 
                 echo 'PostgreSQL version: ' . $version . PHP_EOL;
 
-                //Connect data for doctrine integration tests
+                // Connect data for doctrine integration tests
                 $GLOBALS['db_type'] = 'pdo_pgsql';
                 $GLOBALS['db_host'] = 'localhost';
                 $GLOBALS['db_port'] = 5432;
@@ -140,6 +139,4 @@ function bootstrap()
 
         GeometryEngineRegistry::set($engine);
     }
-}
-
-bootstrap();
+})();
