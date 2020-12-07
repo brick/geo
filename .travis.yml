@@ -22,7 +22,7 @@ matrix:
       dist: trusty
     - php: 7.2
       env: ENGINE=PDO_PGSQL
-      dist: trusty
+      dist: xenial
     - php: 7.2
       env: ENGINE=SQLite3
       dist: trusty
@@ -58,7 +58,7 @@ matrix:
       dist: trusty
     - php: 7.3
       env: ENGINE=PDO_PGSQL
-      dist: trusty
+      dist: xenial
     - php: 7.3
       env: ENGINE=SQLite3
       dist: trusty
@@ -94,7 +94,7 @@ matrix:
       dist: trusty
     - php: 7.4
       env: ENGINE=PDO_PGSQL
-      dist: trusty
+      dist: xenial
     - php: 7.4
       env: ENGINE=SQLite3
       dist: trusty

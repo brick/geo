@@ -31,6 +31,7 @@ $requires = [
     'PDO_MYSQL57'         => 'xenial',
     'PDO_MYSQL80'         => 'xenial',
     'PDO_MYSQL_MARIADB55' => 'trusty',
+    'PDO_PGSQL'           => 'xenial',
     '8.0'                 => 'xenial',
 ];
 
