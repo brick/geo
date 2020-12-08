@@ -24,10 +24,10 @@ $defaultDist = 'trusty';
 $requires = [
     'PDO_MYSQL56'         => 'trusty',
     'PDO_MYSQL57'         => 'xenial',
-    'PDO_MYSQL80'         => 'xenial',
+    'PDO_MYSQL80'         => 'focal',
     'PDO_PGSQL'           => 'xenial',
     'SQLite3'             => 'xenial',
-    '8.0'                 => 'xenial',
+    '8.0'                 => ['xenial', 'bionic', 'focal'],
 ];
 
 /** @var Job[] $jobs */
@@ -75,23 +75,26 @@ function getDist(string $phpVersion, string $engine): ?string
 
     foreach ([$phpVersion, $engine] as $key) {
         if (isset($requires[$key])) {
-            $requiredDists[] = $requires[$key];
+            $requiredDists[] = (array) $requires[$key];
         }
     }
-
-    $requiredDists = array_values(array_unique($requiredDists));
 
     switch (count($requiredDists)) {
         case 0:
             return $defaultDist;
 
         case 1:
-            return $requiredDists[0];
+            return $requiredDists[0][0];
 
         default:
-            // conflicting requirements, for example PDO_MYSQL56 requires trusty, but PHP 8.0 requires xenial;
-            // can't run!
-            return null;
+            $dists = array_values(array_intersect($requiredDists[0], $requiredDists[1]));
+
+            if (! $dists) {
+                // conflicting requirements; can't run!
+                return null;
+            }
+
+            return $dists[0];
     }
 }
 
