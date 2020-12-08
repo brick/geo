@@ -10,24 +10,24 @@ $phpVersions = [
 ];
 
 $engines = [
-    'PDO_MYSQL56',
-    'PDO_MYSQL57',
-    'PDO_MYSQL80',
+    'PDO_MYSQL',
     'PDO_MYSQL_MARIADB',
     'PDO_PGSQL',
     'SQLite3',
     'GEOS',
 ];
 
-$defaultDist = 'trusty';
+$latestDist = 'focal';
 
+/**
+ * The dists required to run a given PHP version or engine.
+ * In chronological order. The latest compatible dist will be chosen.
+ */
 $requires = [
-    'PDO_MYSQL56'         => 'trusty',
-    'PDO_MYSQL57'         => 'xenial',
-    'PDO_MYSQL80'         => 'focal',
-    'PDO_PGSQL'           => 'xenial',
-    'SQLite3'             => 'xenial',
-    '8.0'                 => ['xenial', 'bionic', 'focal'],
+    '7.2' => ['trusty', 'xenial', 'bionic'],
+    '7.3' => ['trusty', 'xenial', 'bionic'],
+    '7.4' => ['trusty', 'xenial', 'bionic'],
+    '8.0' => ['xenial', 'bionic', 'focal'],
 ];
 
 /** @var Job[] $jobs */
@@ -62,10 +62,10 @@ foreach ($jobs as $job) {
 
 function getDist(string $phpVersion, string $engine): ?string
 {
-    global $defaultDist;
+    global $latestDist;
     global $requires;
 
-    if ($phpVersion === '8.0' && substr($engine, 0, 4) === 'GEOS') {
+    if ($phpVersion === '8.0' && $engine === 'GEOS') {
         // GEOS PHP does not support PHP 8 yet
         // See: https://git.osgeo.org/gitea/geos/php-geos/issues/26
         return null;
@@ -81,10 +81,10 @@ function getDist(string $phpVersion, string $engine): ?string
 
     switch (count($requiredDists)) {
         case 0:
-            return $defaultDist;
+            return $latestDist;
 
         case 1:
-            return $requiredDists[0][0];
+            return $requiredDists[0][count($requiredDists[0]) - 1];
 
         default:
             $dists = array_values(array_intersect($requiredDists[0], $requiredDists[1]));
@@ -94,7 +94,7 @@ function getDist(string $phpVersion, string $engine): ?string
                 return null;
             }
 
-            return $dists[0];
+            return $dists[count($dists) - 1];
     }
 }
 
