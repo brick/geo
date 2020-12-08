@@ -15,10 +15,7 @@ matrix:
       env: ENGINE=PDO_MYSQL80
       dist: xenial
     - php: 7.2
-      env: ENGINE=PDO_MYSQL_MARIADB55
-      dist: trusty
-    - php: 7.2
-      env: ENGINE=PDO_MYSQL_MARIADB10
+      env: ENGINE=PDO_MYSQL_MARIADB
       dist: trusty
     - php: 7.2
       env: ENGINE=PDO_PGSQL
@@ -39,10 +36,7 @@ matrix:
       env: ENGINE=PDO_MYSQL80
       dist: xenial
     - php: 7.3
-      env: ENGINE=PDO_MYSQL_MARIADB55
-      dist: trusty
-    - php: 7.3
-      env: ENGINE=PDO_MYSQL_MARIADB10
+      env: ENGINE=PDO_MYSQL_MARIADB
       dist: trusty
     - php: 7.3
       env: ENGINE=PDO_PGSQL
@@ -63,10 +57,7 @@ matrix:
       env: ENGINE=PDO_MYSQL80
       dist: xenial
     - php: 7.4
-      env: ENGINE=PDO_MYSQL_MARIADB55
-      dist: trusty
-    - php: 7.4
-      env: ENGINE=PDO_MYSQL_MARIADB10
+      env: ENGINE=PDO_MYSQL_MARIADB
       dist: trusty
     - php: 7.4
       env: ENGINE=PDO_PGSQL
@@ -84,7 +75,7 @@ matrix:
       env: ENGINE=PDO_MYSQL80
       dist: xenial
     - php: 8.0
-      env: ENGINE=PDO_MYSQL_MARIADB10
+      env: ENGINE=PDO_MYSQL_MARIADB
       dist: xenial
     - php: 8.0
       env: ENGINE=PDO_PGSQL
@@ -97,8 +88,7 @@ before_script:
   - if [[ $ENGINE = PDO_MYSQL56 ]]; then ENGINE=PDO_MYSQL; fi;
   - if [[ $ENGINE = PDO_MYSQL57 ]]; then ENGINE=PDO_MYSQL; sudo apt-get install mysql-server; sudo systemctl start mysql; fi;
   - if [[ $ENGINE = PDO_MYSQL80 ]]; then ENGINE=PDO_MYSQL; sudo bash travis/install-mysql-8.0.sh; fi;
-  - if [[ $ENGINE = PDO_MYSQL_MARIADB55 ]]; then ENGINE=PDO_MYSQL; sudo VERSION=5.5 bash travis/install-mariadb-trusty.sh; fi;
-  - if [[ $ENGINE = PDO_MYSQL_MARIADB10 ]]; then ENGINE=PDO_MYSQL; sudo VERSION=10.0 bash travis/install-mariadb-$TRAVIS_DIST.sh; fi;
+  - if [[ $ENGINE = PDO_MYSQL_MARIADB ]]; then ENGINE=PDO_MYSQL; bash travis/install-mariadb.sh; fi;
   - if [[ $ENGINE = PDO_PGSQL ]]; then bash travis/install-postgis.sh; fi;
   - if [[ $ENGINE = GEOS ]]; then bash travis/install-geos.sh; fi;
   - if [[ $ENGINE = SQLite3 ]]; then sudo PHP_VERSION=$(php -r "echo PHP_VERSION;") bash travis/install-spatialite.sh; fi;
