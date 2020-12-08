@@ -27,19 +27,7 @@ matrix:
       env: ENGINE=SQLite3
       dist: xenial
     - php: 7.2
-      env: ENGINE=GEOS34
-      dist: trusty
-    - php: 7.2
-      env: ENGINE=GEOS35
-      dist: trusty
-    - php: 7.2
-      env: ENGINE=GEOS36
-      dist: trusty
-    - php: 7.2
-      env: ENGINE=GEOS37
-      dist: trusty
-    - php: 7.2
-      env: ENGINE=GEOS38
+      env: ENGINE=GEOS
       dist: trusty
     - php: 7.3
       env: ENGINE=PDO_MYSQL56
@@ -63,19 +51,7 @@ matrix:
       env: ENGINE=SQLite3
       dist: xenial
     - php: 7.3
-      env: ENGINE=GEOS34
-      dist: trusty
-    - php: 7.3
-      env: ENGINE=GEOS35
-      dist: trusty
-    - php: 7.3
-      env: ENGINE=GEOS36
-      dist: trusty
-    - php: 7.3
-      env: ENGINE=GEOS37
-      dist: trusty
-    - php: 7.3
-      env: ENGINE=GEOS38
+      env: ENGINE=GEOS
       dist: trusty
     - php: 7.4
       env: ENGINE=PDO_MYSQL56
@@ -99,19 +75,7 @@ matrix:
       env: ENGINE=SQLite3
       dist: xenial
     - php: 7.4
-      env: ENGINE=GEOS34
-      dist: trusty
-    - php: 7.4
-      env: ENGINE=GEOS35
-      dist: trusty
-    - php: 7.4
-      env: ENGINE=GEOS36
-      dist: trusty
-    - php: 7.4
-      env: ENGINE=GEOS37
-      dist: trusty
-    - php: 7.4
-      env: ENGINE=GEOS38
+      env: ENGINE=GEOS
       dist: trusty
     - php: 8.0
       env: ENGINE=PDO_MYSQL57
@@ -136,11 +100,7 @@ before_script:
   - if [[ $ENGINE = PDO_MYSQL_MARIADB55 ]]; then ENGINE=PDO_MYSQL; sudo VERSION=5.5 bash travis/install-mariadb-trusty.sh; fi;
   - if [[ $ENGINE = PDO_MYSQL_MARIADB10 ]]; then ENGINE=PDO_MYSQL; sudo VERSION=10.0 bash travis/install-mariadb-$TRAVIS_DIST.sh; fi;
   - if [[ $ENGINE = PDO_PGSQL ]]; then bash travis/install-postgis.sh; fi;
-  - if [[ $ENGINE = GEOS34 ]]; then ENGINE=GEOS; VERSION=3.4.3 bash travis/install-geos.sh; fi;
-  - if [[ $ENGINE = GEOS35 ]]; then ENGINE=GEOS; VERSION=3.5.2 bash travis/install-geos.sh; fi;
-  - if [[ $ENGINE = GEOS36 ]]; then ENGINE=GEOS; VERSION=3.6.4 bash travis/install-geos.sh; fi;
-  - if [[ $ENGINE = GEOS37 ]]; then ENGINE=GEOS; VERSION=3.7.3 bash travis/install-geos.sh; fi;
-  - if [[ $ENGINE = GEOS38 ]]; then ENGINE=GEOS; VERSION=3.8.0 bash travis/install-geos.sh; fi;
+  - if [[ $ENGINE = GEOS ]]; then bash travis/install-geos.sh; fi;
   - if [[ $ENGINE = SQLite3 ]]; then sudo PHP_VERSION=$(php -r "echo PHP_VERSION;") bash travis/install-spatialite.sh; fi;
   - composer install
 

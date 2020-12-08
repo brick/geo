@@ -17,11 +17,7 @@ $engines = [
     'PDO_MYSQL_MARIADB10',
     'PDO_PGSQL',
     'SQLite3',
-    'GEOS34',
-    'GEOS35',
-    'GEOS36',
-    'GEOS37',
-    'GEOS38',
+    'GEOS',
 ];
 
 $defaultDist = 'trusty';
