@@ -3,9 +3,9 @@ set -e
 GEOS_VERSION=3.8.0
 PHP_GEOS_VERSION=1.0.0
 
-sudo apt-get update
-sudo apt-get remove 'libgeos.*'
-sudo apt-get autoremove
+sudo apt update
+sudo apt remove 'libgeos.*'
+sudo apt autoremove
 
 wget https://github.com/libgeos/geos/archive/$GEOS_VERSION.tar.gz
 tar zxf $GEOS_VERSION.tar.gz
