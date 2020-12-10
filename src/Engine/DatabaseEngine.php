@@ -91,7 +91,7 @@ abstract class DatabaseEngine implements GeometryEngine
 
         // SQLite3 returns -1 when calling a boolean GIS function on a NULL result,
         // MariaDB returns -1 when an unsupported operation is performed on a Z/M geometry.
-        if ($result === null || $result == -1) {
+        if ($result === null || $result === -1 || $result === '-1') {
             throw GeometryEngineException::operationYieldedNoResult();
         }
 
