@@ -516,8 +516,10 @@ class GeometryTest extends AbstractTestCase
 
         $geometry = Geometry::fromText($geometry);
 
-        if ($this->isMySQL() || $this->isMariaDB()) {
-            // MySQL and MariaDB do not support boundary.
+        $this->skipIfUnsupportedGeometry($geometry);
+
+        if ($this->isMySQL() || $this->isMariaDB('< 10.1.2')) {
+            // MySQL and older MariaDB do not support boundary.
             $this->expectException(GeometryEngineException::class);
         }
 
@@ -846,7 +848,7 @@ class GeometryTest extends AbstractTestCase
     {
         $this->requiresGeometryEngine();
 
-        if ($this->isMySQL() || $this->isMariaDB()) {
+        if ($this->isMySQL() || $this->isMariaDB('< 10.1.2')) {
             $this->expectException(GeometryEngineException::class);
         }
 
@@ -1012,7 +1014,7 @@ class GeometryTest extends AbstractTestCase
     {
         $this->requiresGeometryEngine();
 
-        if ($this->isMySQL('< 5.7.6-m16') || $this->isMariaDB('>= 10.0')) {
+        if ($this->isMySQL('< 5.7.6-m16') || $this->isMariaDB('< 10.1.2')) {
             $this->expectException(GeometryEngineException::class);
         }
 

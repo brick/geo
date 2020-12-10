@@ -89,8 +89,8 @@ class SurfaceTest extends AbstractTestCase
     {
         $this->requiresGeometryEngine();
 
-        if ($this->isMySQL() || $this->isMariaDB()) {
-            // MySQL and MariaDB do not support ST_PointOnSurface()
+        if ($this->isMySQL() || $this->isMariaDB('< 10.1.2')) {
+            // MySQL and older MariaDB do not support ST_PointOnSurface()
             $this->expectException(GeometryEngineException::class);
         }
 

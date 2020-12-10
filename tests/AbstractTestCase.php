@@ -638,14 +638,19 @@ class AbstractTestCase extends TestCase
                 $statement = $pdo->query('SELECT VERSION()');
                 $version = $statement->fetchColumn();
 
-                $isMariaDB = (substr($version, -8) === '-MariaDB');
+                $pos = strpos($version, '-MariaDB');
+                $isMariaDB = ($pos !== false);
 
                 if ($isMariaDB) {
-                    $version = substr($version, 0, -8);
+                    $version = substr($version, 0, $pos);
+                }
+
+                if ($testMariaDB !== $isMariaDB) {
+                    return false;
                 }
 
                 if ($operatorAndVersion === null) {
-                    return $testMariaDB === $isMariaDB;
+                    return true;
                 }
 
                 return $this->isVersion($version, $operatorAndVersion);

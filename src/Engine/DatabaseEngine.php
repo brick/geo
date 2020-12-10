@@ -89,7 +89,9 @@ abstract class DatabaseEngine implements GeometryEngine
     {
         [$result] = $this->query($function, $parameters, false);
 
-        if ($result === null || $result === -1) { // SQLite3 returns -1 when calling a boolean GIS function on a NULL result.
+        // SQLite3 returns -1 when calling a boolean GIS function on a NULL result,
+        // MariaDB returns -1 when an unsupported operation is performed on a Z/M geometry.
+        if ($result === null || $result == -1) {
             throw GeometryEngineException::operationYieldedNoResult();
         }
 
