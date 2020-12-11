@@ -1,7 +1,7 @@
 language: php
 sudo: required
 
-# use travis-matrix.php to generate the matrix below
+# use ci-matrix.php to generate the matrix below
 
 matrix:
   include:
@@ -65,10 +65,10 @@ matrix:
 
 before_script:
   - if [[ $ENGINE = PDO_MYSQL ]]; then ENGINE=PDO_MYSQL; sudo apt-get install mysql-server; sudo systemctl start mysql; fi;
-  - if [[ $ENGINE = PDO_MYSQL_MARIADB ]]; then ENGINE=PDO_MYSQL; bash travis/install-mariadb.sh; fi;
-  - if [[ $ENGINE = PDO_PGSQL ]]; then bash travis/install-postgis.sh; fi;
-  - if [[ $ENGINE = GEOS ]]; then bash travis/install-geos.sh; fi;
-  - if [[ $ENGINE = SQLite3 ]]; then sudo PHP_VERSION=$(php -r "echo PHP_VERSION;") bash travis/install-spatialite.sh; fi;
+  - if [[ $ENGINE = PDO_MYSQL_MARIADB ]]; then ENGINE=PDO_MYSQL; bash ci/install-mariadb.sh; fi;
+  - if [[ $ENGINE = PDO_PGSQL ]]; then bash ci/install-postgis.sh; fi;
+  - if [[ $ENGINE = GEOS ]]; then bash ci/install-geos.sh; fi;
+  - if [[ $ENGINE = SQLite3 ]]; then sudo PHP_VERSION=$(php -r "echo PHP_VERSION;") bash ci/install-spatialite.sh; fi;
   - composer install
 
 script:

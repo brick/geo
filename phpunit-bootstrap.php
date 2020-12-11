@@ -39,7 +39,8 @@ use Doctrine\DBAL\Types\Type;
             case 'PDO_MYSQL':
                 echo 'Using PDOEngine for MySQL' . PHP_EOL;
 
-                $pdo = new PDO('mysql:host=localhost', 'root', '');
+                $pdo = new PDO('mysql:host=127.0.0.1;port=3306', 'root', '');
+                $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
                 $pdo->exec('DROP DATABASE IF EXISTS geo_tests');
                 $pdo->exec('DROP DATABASE IF EXISTS geo_tests_tmp');
@@ -54,14 +55,14 @@ use Doctrine\DBAL\Types\Type;
 
                 // Connect data for doctrine integration tests
                 $GLOBALS['db_type'] = 'pdo_mysql';
-                $GLOBALS['db_host'] = 'localhost';
+                $GLOBALS['db_host'] = '127.0.0.1';
                 $GLOBALS['db_port'] = 3306;
                 $GLOBALS['db_username'] = 'root';
                 $GLOBALS['db_password'] = '';
                 $GLOBALS['db_name'] = 'geo_tests';
 
                 $GLOBALS['tmpdb_type'] = 'pdo_mysql';
-                $GLOBALS['tmpdb_host'] = 'localhost';
+                $GLOBALS['tmpdb_host'] = '127.0.0.1';
                 $GLOBALS['tmpdb_port'] = 3306;
                 $GLOBALS['tmpdb_username'] = 'root';
                 $GLOBALS['tmpdb_password'] = '';
@@ -73,7 +74,8 @@ use Doctrine\DBAL\Types\Type;
             case 'PDO_PGSQL':
                 echo 'Using PDOEngine for PostgreSQL' . PHP_EOL;
 
-                $pdo = new PDO('pgsql:host=localhost', 'postgres', '');
+                $pdo = new PDO('pgsql:host=localhost', 'postgres', 'postgres');
+                $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
                 $pdo->exec('CREATE EXTENSION IF NOT EXISTS postgis;');
                 $pdo->exec('DROP DATABASE IF EXISTS geo_tests');
@@ -85,6 +87,11 @@ use Doctrine\DBAL\Types\Type;
                 $version = $statement->fetchColumn(0);
 
                 echo 'PostgreSQL version: ' . $version . PHP_EOL;
+
+                $statement = $pdo->query('SELECT PostGIS_Version()');
+                $version = $statement->fetchColumn(0);
+
+                echo 'PostGIS version: ' . $version . PHP_EOL;
 
                 // Connect data for doctrine integration tests
                 $GLOBALS['db_type'] = 'pdo_pgsql';
@@ -108,16 +115,12 @@ use Doctrine\DBAL\Types\Type;
                 echo 'Using SQLite3Engine' . PHP_EOL;
 
                 $sqlite3 = new SQLite3(':memory:');
+                $sqlite3->enableExceptions(true);
 
                 $sqliteVersion = $sqlite3->querySingle('SELECT sqlite_version()');
                 echo 'SQLite version: ' . $sqliteVersion . PHP_EOL;
 
-                $prefix = '';
-                if (getenv('TRAVIS_PHP_VERSION') === 'hhvm') {
-                    $prefix = '/usr/local/lib/';
-                }
-
-                $sqlite3->loadExtension($prefix . 'mod_spatialite.so');
+                $sqlite3->loadExtension('mod_spatialite.so');
 
                 $spatialiteVersion = $sqlite3->querySingle('SELECT spatialite_version()');
                 echo 'SpatiaLite version: ' . $spatialiteVersion . PHP_EOL;

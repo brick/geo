@@ -1,0 +1,182 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - master
+      - github-ci
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  phpunit-mysql:
+    name: PHPUnit MySQL
+    runs-on: ubuntu-20.04
+
+    strategy:
+      matrix:
+        php-version:
+          - "8.0"
+
+    services:
+      mysql:
+        image: "mysql:8.0"
+        ports:
+          - "3306:3306"
+        options: >-
+          --health-cmd "mysqladmin ping --silent"
+          -e MYSQL_ALLOW_EMPTY_PASSWORD=true
+          --entrypoint sh mysql:8 -c "exec docker-entrypoint.sh mysqld --default-authentication-plugin=mysql_native_password"
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          coverage: xdebug
+
+      - name: Install composer dependencies
+        run: composer install --no-interaction --no-progress --no-suggest
+
+      - name: Run PHPUnit
+        run: vendor/bin/phpunit
+        env:
+          ENGINE: PDO_MYSQL
+        if: ${{ matrix.php-version != '8.0' }}
+
+      - name: Run PHPUnit with coverage
+        run: |
+          mkdir -p mkdir -p build/logs
+          vendor/bin/phpunit --coverage-clover build/logs/clover.xml
+        env:
+          ENGINE: PDO_MYSQL
+        if: ${{ matrix.php-version == '8.0' }}
+
+      - name: Upload coverage report to Coveralls
+        run: vendor/bin/php-coveralls --coverage_clover=build/logs/clover.xml -v
+        env:
+          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        if: ${{ matrix.php-version == '8.0' }}
+
+  phpunit-postgres:
+    name: PHPUnit PostgreSQL
+    runs-on: ubuntu-20.04
+
+    strategy:
+      matrix:
+        php-version:
+          - "8.0"
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup PostgreSQL with PostGIS
+        uses: huaxk/postgis-action@v1
+        with:
+          postgresql version: 'latest'
+          postgresql password: 'postgres'
+          postgresql user: 'postgres'
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          coverage: xdebug
+
+      - name: Install composer dependencies
+        run: composer install --no-interaction --no-progress --no-suggest
+
+      - name: Run PHPUnit with coverage
+        run: |
+          mkdir -p mkdir -p build/logs
+          vendor/bin/phpunit --coverage-clover build/logs/clover.xml
+        env:
+          ENGINE: PDO_PGSQL
+
+      - name: Upload coverage report to Coveralls
+        run: vendor/bin/php-coveralls --coverage_clover=build/logs/clover.xml -v
+        env:
+          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  phpunit-sqlite:
+    name: PHPUnit SQLite
+    runs-on: ubuntu-20.04
+
+    strategy:
+      matrix:
+        php-version:
+          - "8.0"
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          extensions: sqlite3
+          ini-values: sqlite3.extension_dir=/usr/lib/x86_64-linux-gnu
+          coverage: xdebug
+
+      - name: Install SpatiaLite
+        run: sudo apt install libsqlite3-mod-spatialite
+
+      - name: Install composer dependencies
+        run: composer install --no-interaction --no-progress --no-suggest
+
+      - name: Run PHPUnit with coverage
+        run: |
+          mkdir -p mkdir -p build/logs
+          vendor/bin/phpunit --coverage-clover build/logs/clover.xml
+        env:
+          ENGINE: SQLite3
+
+      - name: Upload coverage report to Coveralls
+        run: vendor/bin/php-coveralls --coverage_clover=build/logs/clover.xml -v
+        env:
+          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  phpunit-geos:
+    name: PHPUnit GEOS
+    runs-on: ubuntu-20.04
+
+    strategy:
+      matrix:
+        php-version:
+          - "7.4"
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          coverage: xdebug
+
+      - name: Install GEOS
+        run: bash ci/install-geos.sh
+
+      - name: Setup Debug Session
+        uses: csexton/debugger-action@master
+
+      - name: Install composer dependencies
+        run: composer install --no-interaction --no-progress --no-suggest
+
+      - name: Run PHPUnit with coverage
+        run: |
+          mkdir -p mkdir -p build/logs
+          vendor/bin/phpunit --coverage-clover build/logs/clover.xml
+        env:
+          ENGINE: SQLite3
+
+      - name: Upload coverage report to Coveralls
+        run: vendor/bin/php-coveralls --coverage_clover=build/logs/clover.xml -v
+        env:
+          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
