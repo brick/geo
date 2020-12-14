@@ -20,7 +20,7 @@ This library is a PHP implementation of the [OpenGIS specification](http://www.o
 It is essentially a wrapper around a third-party GIS engine, to which it delegates most of the complexity of the
 geometry calculations. Several engines are supported, from native PHP extensions such as GEOS to GIS-compatible databases such as MySQL or PostgreSQL.
 
-Already using a MySQL 5.6+ or MariaDB 5.5+ database? Just provide the library with a `PDO` instance and unlock the full power of GIS calculations.
+Already using a MySQL 5.6+ or MariaDB 5.5+ database? Just provide the library with a `PDO` instance and unlock the full power of GIS calculations!
 
 Not using MySQL/MariaDB? You still have a few options to choose from!
 
