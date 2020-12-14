@@ -59,9 +59,13 @@ class SQLite3Engine extends DatabaseEngine
             // Temporary set the error reporting level to 0 to avoid any warning.
             $errorReportingLevel = error_reporting(0);
 
+            // Don't use exceptions, they're just \Exception instances that don't even contain the SQLite error code!
+            $enableExceptions = $this->sqlite3->enableExceptions(false);
+
             $statement = $this->sqlite3->prepare($query);
 
-            // Restore the original error reporting level.
+            // Restore the original settings.
+            $this->sqlite3->enableExceptions($enableExceptions);
             error_reporting($errorReportingLevel);
 
             $errorCode = $this->sqlite3->lastErrorCode();
