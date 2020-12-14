@@ -3,7 +3,7 @@ Brick\Geo
 
 <img src="https://raw.githubusercontent.com/brick/brick/master/logo.png" alt="" align="left" height="64">
 
-A collection of classes to work with GIS geometries.
+A GIS geometry library for PHP.
 
 [![Build Status](https://secure.travis-ci.org/brick/geo.svg?branch=master)](http://travis-ci.org/brick/geo)
 [![Coverage Status](https://coveralls.io/repos/github/brick/geo/badge.svg?branch=master)](https://coveralls.io/github/brick/geo?branch=master)
@@ -19,10 +19,14 @@ This library is a PHP implementation of the [OpenGIS specification](http://www.o
 It is essentially a wrapper around a third-party GIS engine, to which it delegates most of the complexity of the
 geometry calculations. Several engines are supported, from native PHP extensions such as GEOS to GIS-compatible databases such as MySQL or PostgreSQL.
 
+Already using a MySQL 5.6+ or MariaDB 5.5+ database? Just provide the library with a `PDO` instance and unlock the full power of GIS calculations.
+
+Not using MySQL/MariaDB? You still have a few options to choose from!
+
 Requirements and installation
 -----------------------------
 
-This library requires 7.1 or later. for PHP 5.6 and PHP 7.0 support, use version `0.1`.
+This library requires 7.2 or later.
 
 Install the library with [Composer](https://getcomposer.org/):
 
