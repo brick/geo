@@ -4,7 +4,6 @@ GEOS_VERSION=3.8.0
 PHP_GEOS_VERSION=1.0.0
 
 sudo apt update
-sudo apt remove 'libgeos.*'
 sudo apt autoremove
 
 wget https://github.com/libgeos/geos/archive/$GEOS_VERSION.tar.gz
@@ -22,8 +21,7 @@ cd php-geos-$PHP_GEOS_VERSION
 ./autogen.sh
 ./configure
 make
-mv modules/geos.so $(php-config --extension-dir)
+sudo mv modules/geos.so $(php-config --extension-dir)
 cd ..
 
 echo "extension=geos.so" > geos.ini
-phpenv config-add geos.ini
