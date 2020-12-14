@@ -5,7 +5,8 @@ Brick\Geo
 
 A GIS geometry library for PHP.
 
-[![Build Status](https://secure.travis-ci.org/brick/geo.svg?branch=master)](http://travis-ci.org/brick/geo)
+
+[![Build Status](https://github.com/brick/geo/workflows/CI/badge.svg)](https://github.com/brick/geo/actions)
 [![Coverage Status](https://coveralls.io/repos/github/brick/geo/badge.svg?branch=master)](https://coveralls.io/github/brick/geo?branch=master)
 [![Latest Stable Version](https://poser.pugx.org/brick/geo/v/stable)](https://packagist.org/packages/brick/geo)
 [![Total Downloads](https://poser.pugx.org/brick/geo/downloads)](https://packagist.org/packages/brick/geo)
