@@ -2,7 +2,6 @@
 
 namespace Brick\Geo\Tests\Doctrine;
 
-use Brick\Geo\Doctrine\Functions\EarthDistanceFunction;
 use Brick\Geo\Point;
 use Brick\Geo\Tests\Doctrine\Fixtures;
 use Brick\Geo\Engine\GeometryEngineRegistry;
@@ -87,8 +86,6 @@ abstract class FunctionalTestCase extends DbalFunctionalTestCase
         $this->fixtureLoader = new Loader();
 
         $config = Setup::createAnnotationMetadataConfiguration([ __DIR__ . '/Fixtures' ], false);
-
-        $config->addCustomNumericFunction('EarthDistance', EarthDistanceFunction::class);
 
         $this->em = EntityManager::create($this->_conn, $config, $this->platform->getEventManager());
         $this->schemaTool = new SchemaTool($this->em);
