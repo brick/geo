@@ -16,44 +16,17 @@ class GEOSWKTWriter
     public function __construct() {}
 
     /**
-     * @param GEOSGeometry $geom
-     *
-     * @return string
-     *
      * @throws \Exception
      */
-    public function write(GEOSGeometry $geom) {}
+    public function write(GEOSGeometry $geom): string {}
 
-    /**
-     * @param bool $trim
-     *
-     * @return void
-     */
-    public function setTrim($trim) {}
+    public function setTrim(bool $trim): void {}
 
-    /**
-     * @param int $prec
-     *
-     * @return void
-     */
-    public function setRoundingPrecision($prec) {}
+    public function setRoundingPrecision(int $prec): void {}
 
-    /**
-     * @param int $dim
-     *
-     * @return void
-     */
-    public function setOutputDimension($dim) {}
+    public function setOutputDimension(int $dim): void {}
 
-    /**
-     * @return int
-     */
-    public function getOutputDimension() {}
+    public function getOutputDimension(): int {}
 
-    /**
-     * @param bool $val
-     *
-     * @return void
-     */
-    public function setOld3D($val) {}
+    public function setOld3D(bool $val): void {}
 }

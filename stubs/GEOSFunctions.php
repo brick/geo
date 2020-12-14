@@ -9,10 +9,7 @@
  * @see https://github.com/libgeos/libgeos/blob/svn-trunk/php/geos.c
  */
 
-/**
- * @return string
- */
-function GEOSVersion() {}
+function GEOSVersion(): string {}
 
 /**
  * The returned array contains the following elements:
@@ -33,32 +30,11 @@ function GEOSVersion() {}
  *      Type: array of GEOSGeometry
  *      Edges which form rings which are invalid
  *      (e.g. the component lines contain a self-intersection)
- *
- * @param GEOSGeometry $geom
- *
- * @return array
  */
-function GEOSPolygonize(GEOSGeometry $geom) {}
+function GEOSPolygonize(GEOSGeometry $geom): array {}
 
-/**
- * @param GEOSGeometry $geom
- *
- * @return array
- */
-function GEOSLineMerge(GEOSGeometry $geom) {}
+function GEOSLineMerge(GEOSGeometry $geom): array {}
 
-/**
- * @param GEOSGeometry $geom1
- * @param GEOSGeometry $geom2
- *
- * @return GEOSGeometry
- */
-function GEOSSharedPaths(GEOSGeometry $geom1, GEOSGeometry $geom2) {}
+function GEOSSharedPaths(GEOSGeometry $geom1, GEOSGeometry $geom2): GEOSGeometry {}
 
-/**
- * @param string $matrix
- * @param string $pattern
- *
- * @return bool
- */
-function GEOSRelateMatch($matrix, $pattern) {}
+function GEOSRelateMatch(string $matrix, string $pattern): bool {}

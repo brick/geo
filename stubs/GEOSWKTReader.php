@@ -16,11 +16,7 @@ class GEOSWKTReader
     public function __construct() {}
 
     /**
-     * @param string $wkt
-     *
-     * @return GEOSGeometry
-     *
      * @throws \Exception If the WKT is not valid.
      */
-    public function read($wkt) {}
+    public function read(string $wkt): GEOSGeometry {}
 }

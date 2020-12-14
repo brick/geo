@@ -20,70 +20,52 @@ class GEOSWKBWriter
      *
      * @return int 2 or 2D, 3 for 3D.
      */
-    public function getOutputDimension() {}
+    public function getOutputDimension(): int {}
 
     /**
      * Sets the output dimension.
      *
      * @param int $dim 2 or 2D, 3 for 3D.
-     *
-     * @return void
      */
-    public function setOutputDimension($dim) {}
+    public function setOutputDimension(int $dim): void {}
 
     /**
      * Returns the output WKB byte order.
      *
      * @return int 0 for BIG endian, 1 for LITTLE endian.
      */
-    public function getByteOrder() {}
+    public function getByteOrder(): int {}
 
     /**
      * Sets the output WKB byte order.
      *
      * @param int $byteOrder 0 for BIG endian, 1 for LITTLE endian.
-     *
-     * @return void
      */
-    public function setByteOrder($byteOrder) {}
+    public function setByteOrder(int $byteOrder): void {}
 
     /**
      * Returns whether the output includes SRID.
-     *
-     * @return bool
      */
-    public function getIncludeSRID() {}
+    public function getIncludeSRID(): bool {}
 
     /**
      * Sets whether the output includes SRID.
-     *
-     * @param bool $inc
-     *
-     * @return void
      */
-    public function setIncludeSRID($inc) {}
+    public function setIncludeSRID(bool $inc): void {}
 
     /**
      * Writes the given geometry as WKB.
      *
      * @since 3.5.0
      *
-     * @param GEOSGeometry $geom
-     *
-     * @return string
-     *
      * @throws \Exception If the geometry does not have a WKB representation, notably POINT EMPTY.
      */
-    public function write(GEOSGeometry $geom) {}
+    public function write(GEOSGeometry $geom): string {}
 
     /**
      * Writes the given geometry as hex-encoded WKB.
      *
-     * @param GEOSGeometry $geom
-     *
-     * @return string
-     *
      * @throws \Exception If the geometry does not have a WKB representation, notably POINT EMPTY.
      */
-    public function writeHEX(GEOSGeometry $geom) {}
+    public function writeHEX(GEOSGeometry $geom): string {}
 }

@@ -17,272 +17,161 @@ class GEOSGeometry
      */
     private function __construct() {}
 
-    /**
-     * @return string
-     */
-    public function __toString() {}
+    public function __toString(): string {}
 
     /**
-     * @param GEOSGeometry $other
-     * @param bool         $normalized
-     *
-     * @return float
-     *
      * @throws \Exception
      */
-    public function project(GEOSGeometry $other, $normalized = false) {}
+    public function project(GEOSGeometry $other, bool $normalized = false): float {}
 
     /**
-     * @param float $dist
-     * @param bool  $normalized
-     *
-     * @return GEOSGeometry
-     *
      * @throws \Exception
      */
-    public function interpolate($dist, $normalized = false) {}
+    public function interpolate(float $dist, bool $normalized = false): GEOSGeometry {}
 
     /**
-     * @param float $dist
-     * @param array $styleArray
-     *
-     * @return GEOSGeometry
-     *
      * @throws \Exception
      */
-    public function buffer($dist, array $styleArray = []) {}
+    public function buffer(float $dist, array $styleArray = []): GEOSGeometry {}
 
     /**
-     * @param float $dist
-     * @param array $styleArray
-     *
-     * @return GEOSGeometry
-     *
      * @throws \Exception
      */
-    public function offsetCurve($dist, array $styleArray = []) {}
+    public function offsetCurve(float $dist, array $styleArray = []): GEOSGeometry {}
 
     /**
-     * @return GEOSGeometry
-     *
      * @throws \Exception
      */
-    public function envelope() {}
+    public function envelope(): GEOSGeometry {}
 
     /**
-     * @param GEOSGeometry $geom
-     *
-     * @return GEOSGeometry
-     *
      * @throws \Exception
      */
-    public function intersection(GEOSGeometry $geom) {}
+    public function intersection(GEOSGeometry $geom): GEOSGeometry {}
 
     /**
-     * @return GEOSGeometry
-     *
      * @throws \Exception
      */
-    public function convexHull() {}
+    public function convexHull(): GEOSGeometry {}
 
     /**
-     * @param GEOSGeometry $geom
-     *
-     * @return GEOSGeometry
-     *
      * @throws \Exception
      */
-    public function difference(GEOSGeometry $geom) {}
+    public function difference(GEOSGeometry $geom): GEOSGeometry {}
 
     /**
-     * @param GEOSGeometry $geom
-     *
-     * @return GEOSGeometry
-     *
      * @throws \Exception
      */
-    public function symDifference(GEOSGeometry $geom) {}
+    public function symDifference(GEOSGeometry $geom): GEOSGeometry {}
 
     /**
-     * @return GEOSGeometry
-     *
      * @throws \Exception
      */
-    public function boundary() {}
+    public function boundary(): GEOSGeometry {}
 
     /**
      * @param GEOSGeometry $otherGeom Optional, but explicit NULL is not allowed.
      *
-     * @return GEOSGeometry
-     *
      * @throws \Exception
      */
-    public function union(GEOSGeometry $otherGeom = null) {}
+    public function union(GEOSGeometry $otherGeom = null): GEOSGeometry {}
 
     /**
-     * @return GEOSGeometry
-     *
      * @throws \Exception
      */
-    public function pointOnSurface() {}
+    public function pointOnSurface(): GEOSGeometry {}
 
     /**
-     * @return GEOSGeometry
-     *
      * @throws \Exception
      */
-    public function centroid() {}
+    public function centroid(): GEOSGeometry {}
 
     /**
-     * @param GEOSGeometry $otherGeom
-     * @param string       $pattern
-     *
      * @return string|bool String if pattern is omitted, boolean if pattern is set.
      *
      * @throws \Exception
      */
-    public function relate(GEOSGeometry $otherGeom, $pattern = '') {}
+    public function relate(GEOSGeometry $otherGeom, string $pattern = '') {}
 
     /**
-     * @param GEOSGeometry $otherGeom
-     * @param int          $rule
-     *
-     * @return string
-     *
      * @throws \Exception
      */
-    public function relateBoundaryNodeRule(GEOSGeometry $otherGeom, $rule) {}
+    public function relateBoundaryNodeRule(GEOSGeometry $otherGeom, int $rule): string {}
 
     /**
-     * @param float $tolerance
-     * @param bool  $preserveTopology
-     *
-     * @return GEOSGeometry
-     *
      * @throws \Exception
      */
-    public function simplify($tolerance, $preserveTopology = false) {}
+    public function simplify(float $tolerance, bool $preserveTopology = false): GEOSGeometry {}
 
     /**
-     * @return GEOSGeometry
-     *
      * @throws \Exception
      */
-    public function normalize() {}
+    public function normalize(): GEOSGeometry {}
 
     /**
-     * @return GEOSGeometry
-     *
      * @throws \Exception
      */
-    public function extractUniquePoints() {}
+    public function extractUniquePoints(): GEOSGeometry {}
 
     /**
-     * @param GEOSGeometry $geom
-     *
-     * @return bool
-     *
      * @throws \Exception
      */
-    public function disjoint(GEOSGeometry $geom) {}
+    public function disjoint(GEOSGeometry $geom): bool {}
 
     /**
-     * @param GEOSGeometry $geom
-     *
-     * @return bool
-     *
      * @throws \Exception
      */
-    public function touches(GEOSGeometry $geom) {}
+    public function touches(GEOSGeometry $geom): bool {}
 
     /**
-     * @param GEOSGeometry $geom
-     *
-     * @return bool
-     *
      * @throws \Exception
      */
-    public function intersects(GEOSGeometry $geom) {}
+    public function intersects(GEOSGeometry $geom): bool {}
 
     /**
-     * @param GEOSGeometry $geom
-     *
-     * @return bool
-     *
      * @throws \Exception
      */
-    public function crosses(GEOSGeometry $geom) {}
+    public function crosses(GEOSGeometry $geom): bool {}
 
     /**
-     * @param GEOSGeometry $geom
-     *
-     * @return bool
-     *
      * @throws \Exception
      */
-    public function within(GEOSGeometry $geom) {}
+    public function within(GEOSGeometry $geom): bool {}
 
     /**
-     * @param GEOSGeometry $geom
-     *
-     * @return bool
-     *
      * @throws \Exception
      */
-    public function contains(GEOSGeometry $geom) {}
+    public function contains(GEOSGeometry $geom): bool {}
 
     /**
-     * @param GEOSGeometry $geom
-     *
-     * @return bool
-     *
      * @throws \Exception
      */
-    public function overlaps(GEOSGeometry $geom) {}
+    public function overlaps(GEOSGeometry $geom): bool {}
 
     /**
-     * @param GEOSGeometry $geom
-     *
-     * @return bool
-     *
      * @throws \Exception
      */
-    public function covers(GEOSGeometry $geom) {}
+    public function covers(GEOSGeometry $geom): bool {}
 
     /**
-     * @param GEOSGeometry $geom
-     *
-     * @return bool
-     *
      * @throws \Exception
      */
-    public function coveredBy(GEOSGeometry $geom) {}
+    public function coveredBy(GEOSGeometry $geom): bool {}
 
     /**
-     * @param GEOSGeometry $geom
-     *
-     * @return bool
-     *
      * @throws \Exception
      */
-    public function equals(GEOSGeometry $geom) {}
+    public function equals(GEOSGeometry $geom): bool {}
 
     /**
-     * @param GEOSGeometry $geom
-     * @param float        $tolerance
-     *
-     * @return bool
-     *
      * @throws \Exception
      */
-    public function equalsExact(GEOSGeometry $geom, $tolerance = 0.0) {}
+    public function equalsExact(GEOSGeometry $geom, float $tolerance = 0.0): bool {}
 
     /**
-     * @return bool
-     *
      * @throws \Exception
      */
-    public function isEmpty() {}
+    public function isEmpty(): bool {}
 
     /**
      * Returns information about the validity of this geometry.
@@ -295,233 +184,158 @@ class GEOSGeometry
      * | 'reason'   | string       | Optional | A reason for invalidity.                        |
      * | 'location' | GEOSGeometry | Optional | The failing geometry.                           |
      *
-     * @return array
-     *
      * @throws \Exception
      */
-    public function checkValidity() {}
+    public function checkValidity(): array {}
 
     /**
-     * @return bool
-     *
      * @throws \Exception
      */
-    public function isSimple() {}
+    public function isSimple(): bool {}
 
     /**
-     * @return bool
-     *
      * @throws \Exception
      */
-    public function isRing() {}
+    public function isRing(): bool {}
 
     /**
-     * @return bool
-     *
      * @throws \Exception
      */
-    public function hasZ() {}
+    public function hasZ(): bool {}
 
     /**
-     * @return bool
-     *
      * @throws \Exception On error, e.g. if this geometry is not a LineString.
      */
-    public function isClosed() {}
+    public function isClosed(): bool {}
 
     /**
-     * @return string
-     *
      * @throws \Exception
      */
-    public function typeName() {}
+    public function typeName(): string {}
 
     /**
-     * @return int
-     *
      * @throws \Exception
      */
-    public function typeId() {}
+    public function typeId(): int {}
 
     /**
-     * @return int
-     *
      * @throws \Exception
      */
-    public function getSRID() {}
+    public function getSRID(): int {}
 
     /**
-     * @param int $srid
-     *
-     * @return void
-     *
      * @throws \Exception
      */
-    public function setSRID($srid) {}
+    public function setSRID(int $srid): void {}
 
     /**
-     * @return int
-     *
      * @throws \Exception
      */
-    public function numGeometries() {}
+    public function numGeometries(): int {}
 
     /**
-     * @param int $num
-     *
-     * @return GEOSGeometry
-     *
      * @throws \Exception
      */
-    public function geometryN($num) {}
+    public function geometryN(int $num): GEOSGeometry {}
 
     /**
-     * @return int
-     *
      * @throws \Exception
      */
-    public function numInteriorRings() {}
+    public function numInteriorRings(): int {}
 
     /**
-     * @return int
-     *
      * @throws \Exception
      */
-    public function numPoints() {}
+    public function numPoints(): int {}
 
     /**
-     * @return float
-     *
      * @throws \Exception
      */
-    public function getX() {}
+    public function getX(): float {}
 
     /**
-     * @return float
-     *
      * @throws \Exception
      */
-    public function getY() {}
+    public function getY(): float {}
 
     /**
-     * @param int $num
-     *
-     * @return GEOSGeometry
-     *
      * @throws \Exception
      */
-    public function interiorRingN($num) {}
+    public function interiorRingN(int $num): GEOSGeometry {}
 
     /**
-     * @return GEOSGeometry
-     *
      * @throws \Exception
      */
-    public function exteriorRing() {}
+    public function exteriorRing(): GEOSGeometry {}
 
     /**
-     * @return int
-     *
      * @throws \Exception
      */
-    public function numCoordinates() {}
+    public function numCoordinates(): int {}
 
     /**
-     * @return int
-     *
      * @throws \Exception
      */
-    public function dimension() {}
+    public function dimension(): int {}
 
     /**
-     * @return int
-     *
      * @throws \Exception
      */
-    public function coordinateDimension() {}
+    public function coordinateDimension(): int {}
 
     /**
-     * @param int $num
-     *
-     * @return GEOSGeometry
-     *
      * @throws \Exception
      */
-    public function pointN($num) {}
+    public function pointN(int $num): GEOSGeometry {}
 
     /**
-     * @return GEOSGeometry
-     *
      * @throws \Exception
      */
-    public function startPoint() {}
+    public function startPoint(): GEOSGeometry {}
 
     /**
-     * @return GEOSGeometry
-     *
      * @throws \Exception
      */
-    public function endPoint() {}
+    public function endPoint(): GEOSGeometry {}
 
     /**
-     * @return float
-     *
      * @throws \Exception
      */
-    public function area() {}
+    public function area(): float {}
 
     /**
-     * @return float
-     *
      * @throws \Exception
      */
-    public function length() {}
+    public function length(): float {}
 
     /**
-     * @param GEOSGeometry $geom
-     *
-     * @return float
-     *
      * @throws \Exception
      */
-    public function distance(GEOSGeometry $geom) {}
+    public function distance(GEOSGeometry $geom): float {}
 
     /**
-     * @param GEOSGeometry $geom
-     *
-     * @return float
-     *
      * @throws \Exception
      */
-    public function hausdorffDistance(GEOSGeometry $geom) {}
+    public function hausdorffDistance(GEOSGeometry $geom): float {}
 
     /**
-     * @param GEOSGeometry $geom
-     * @param float        $tolerance
-     *
-     * @return GEOSGeometry
-     *
      * @throws \Exception
      */
-    public function snapTo(GEOSGeometry $geom, $tolerance) {}
+    public function snapTo(GEOSGeometry $geom, float $tolerance): GEOSGeometry {}
 
     /**
-     * @return GEOSGeometry
-     *
      * @throws \Exception
      */
-    public function node() {}
+    public function node(): GEOSGeometry {}
 
     /**
      * @param float $tolerance Snapping tolerance to use for improved robustness.
      * @param bool  $onlyEdges If true will return a MULTILINESTRING, otherwise (the default)
-     *                           it will return a GEOMETRYCOLLECTION containing triangular POLYGONs.
-     *
-     * @return GEOSGeometry
+     *                         it will return a GEOMETRYCOLLECTION containing triangular POLYGONs.
      *
      * @throws \Exception
      */
-    public function delaunayTriangulation($tolerance = 0.0, $onlyEdges = false) {}
+    public function delaunayTriangulation(float $tolerance = 0.0, bool $onlyEdges = false): GEOSGeometry {}
 
     /**
      * @param float        $tolerance Snapping tolerance to use for improved robustness.
@@ -530,9 +344,7 @@ class GEOSGeometry
      * @param GEOSGeometry $extent    Clip returned diagram by the extent of the given geometry.
      *                                Optional, but explicit NULL value is not allowed.
      *
-     * @return GEOSGeometry
-     *
      * @throws \Exception
      */
-    public function voronoiDiagram($tolerance = 0.0, $onlyEdges = false, GEOSGeometry $extent = null) {}
+    public function voronoiDiagram(float $tolerance = 0.0, bool $onlyEdges = false, GEOSGeometry $extent = null): GEOSGeometry {}
 }

@@ -20,22 +20,14 @@ class GEOSWKBReader
      *
      * @since 3.5.0
      *
-     * @param string $wkb
-     *
-     * @return GEOSGeometry
-     *
      * @throws \Exception If the WKB is not valid.
      */
-    public function read($wkb) {}
+    public function read(string $wkb): GEOSGeometry {}
 
     /**
      * Reads a geometry out of the given hex-encoded WKB.
      *
-     * @param string $wkb
-     *
-     * @return GEOSGeometry
-     *
      * @throws \Exception If the WKB is not valid.
      */
-    public function readHEX($wkb) {}
+    public function readHEX(string $wkb): GEOSGeometry {}
 }
