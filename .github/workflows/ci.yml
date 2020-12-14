@@ -16,6 +16,9 @@ jobs:
     strategy:
       matrix:
         php-version:
+          - "7.2"
+          - "7.3"
+          - "7.4"
           - "8.0"
 
     services:
@@ -36,10 +39,11 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-version }}
+          extensions: pdo_mysql
           coverage: xdebug
 
       - name: Install composer dependencies
-        run: composer install --no-interaction --no-progress --no-suggest
+        uses: "ramsey/composer-install@v1"
 
       - name: Run PHPUnit
         run: vendor/bin/phpunit
@@ -60,6 +64,51 @@ jobs:
         env:
           COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         if: ${{ matrix.php-version == '8.0' }}
+
+  phpunit-mariadb:
+    name: PHPUnit MariaDB
+    runs-on: ubuntu-20.04
+
+    strategy:
+      matrix:
+        php-version:
+          - "8.0"
+
+    services:
+      mariadb:
+        image: "mariadb:10.1"
+        env:
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+        options: >-
+          --health-cmd "mysqladmin ping --silent"
+        ports:
+          - "3306:3306"
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          extensions: pdo_mysql
+          coverage: xdebug
+
+      - name: Install composer dependencies
+        uses: "ramsey/composer-install@v1"
+
+      - name: Run PHPUnit with coverage
+        run: |
+          mkdir -p mkdir -p build/logs
+          vendor/bin/phpunit --coverage-clover build/logs/clover.xml
+        env:
+          ENGINE: PDO_MYSQL
+
+      - name: Upload coverage report to Coveralls
+        run: vendor/bin/php-coveralls --coverage_clover=build/logs/clover.xml -v
+        env:
+          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   phpunit-postgres:
     name: PHPUnit PostgreSQL
@@ -85,10 +134,11 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-version }}
+          extensions: pdo_pgsql
           coverage: xdebug
 
       - name: Install composer dependencies
-        run: composer install --no-interaction --no-progress --no-suggest
+        uses: "ramsey/composer-install@v1"
 
       - name: Run PHPUnit with coverage
         run: |
@@ -127,7 +177,7 @@ jobs:
         run: sudo apt install libsqlite3-mod-spatialite
 
       - name: Install composer dependencies
-        run: composer install --no-interaction --no-progress --no-suggest
+        uses: "ramsey/composer-install@v1"
 
       - name: Run PHPUnit with coverage
         run: |
@@ -158,23 +208,18 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-version }}
+          extensions: geos
           coverage: xdebug
 
-      - name: Install GEOS
-        run: bash ci/install-geos.sh
-
-      - name: Setup Debug Session
-        uses: csexton/debugger-action@master
-
       - name: Install composer dependencies
-        run: composer install --no-interaction --no-progress --no-suggest
+        uses: "ramsey/composer-install@v1"
 
       - name: Run PHPUnit with coverage
         run: |
           mkdir -p mkdir -p build/logs
           vendor/bin/phpunit --coverage-clover build/logs/clover.xml
         env:
-          ENGINE: SQLite3
+          ENGINE: GEOS
 
       - name: Upload coverage report to Coveralls
         run: vendor/bin/php-coveralls --coverage_clover=build/logs/clover.xml -v
