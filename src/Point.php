@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Brick\Geo;
 
+use Brick\Geo\Engine\GeometryEngineRegistry;
 use Brick\Geo\Exception\InvalidGeometryException;
 
 /**
@@ -327,5 +328,20 @@ class Point extends Geometry
     public function getIterator()
     {
         return new \ArrayIterator($this->toArray());
+    }
+
+    /**
+     * Calculates the azimuth of the subject relative to the observer (this point).
+     *
+     * @param Point $subject Subject's location.
+     *
+     * @return float
+     *
+     * @throws GeometryEngineException If the operation is not supported by the engine.
+     * @throws GeometryEngineException If observer and subject locations are coincident.
+     */
+    public function azimuth(Point $subject) : float
+    {
+        return GeometryEngineRegistry::get()->azimuth($this, $subject);
     }
 }
