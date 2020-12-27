@@ -331,9 +331,11 @@ class Point extends Geometry
     }
 
     /**
-     * Calculates the azimuth of the subject relative to the observer (this point).
+     * Returns the azimuth in radians of the segment defined by the given point geometries.
+     * The azimuth is an angle measured from the north, and is positive clockwise:
+     * North = 0; East = π/2; South = π; West = 3π/2.
      *
-     * @param Point $subject Subject's location.
+     * @param Point $subject Point representing subject of observation.
      *
      * @return float
      *

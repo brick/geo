@@ -237,7 +237,7 @@ This table also shows which functions are part of the OpenGIS standard.
 | Function Name    | GEOS | PostGIS | MySQL  | MariaDB | SpatiaLite | OpenGIS standard |
 |------------------|------|---------|--------|---------|------------|------------------|
 | `area`           |  ✓   |    ✓    |   ✓    |   ✓    |     ✓      |        ✓         |
-| `azimuth`        |      |    ✓    |        |        |            |                  |
+| `azimuth`        |      |    ✓    |        |        |            |        ✓         |
 | `boundary`       |  ✓   |    ✓    |        |        |     ✓      |        ✓         |
 | `buffer`         |  ✓   |    ✓    |   ✓    |   ✓    |     ✓      |        ✓         |
 | `centroid`       |  ✓   |    ✓    |   ✓    |   ✓    |     ✓      |        ✓         |

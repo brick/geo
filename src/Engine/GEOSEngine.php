@@ -174,7 +174,7 @@ class GEOSEngine implements GeometryEngine
     /**
      * {@inheritdoc}
      */
-    public function azimuth(Geometry $a, Geometry $b) : float
+    public function azimuth(Geometry $observer, Geometry $subject) : float
     {
         throw GeometryEngineException::unimplementedMethod(__METHOD__);
     }

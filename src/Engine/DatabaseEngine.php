@@ -286,9 +286,9 @@ abstract class DatabaseEngine implements GeometryEngine
     /**
      * {@inheritdoc}
      */
-    public function azimuth(Geometry $a, Geometry $b) : float
+    public function azimuth(Geometry $observer, Geometry $subject) : float
     {
-        return $this->queryFloat('ST_Azimuth', $a, $b);
+        return $this->queryFloat('ST_Azimuth', $observer, $subject);
     }
 
     /**

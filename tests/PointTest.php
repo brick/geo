@@ -260,17 +260,17 @@ class PointTest extends AbstractTestCase
     /**
      * @dataProvider providerAzimuth
      *
-     * @param string $observerWkt     The WKT of the point, representing the observer location.
-     * @param string $subjectWkt      The WKT of the point, representing the subject location.
-     * @param array  $azimuthExpected The expected azimuth.
+     * @param string $observerWkt         The WKT of the point, representing the observer location.
+     * @param string $subjectWkt          The WKT of the point, representing the subject location.
+     * @param float|null $azimuthExpected The expected azimuth.
      *
      * @return void
      */
-    public function testAzimuth(string $observerWkt, string $subjectWkt, $azimuthExpected): void
+    public function testAzimuth(string $observerWkt, string $subjectWkt, ?float $azimuthExpected): void
     {
         $this->requiresGeometryEngine();
 
-        if ($this->isGEOS() || $this->isMySQL() || $this->isMariaDB() || $this->isSpatiaLite()) {
+        if (! $this->isPostGIS()) {
             $this->expectException(GeometryEngineException::class);
         }
 
