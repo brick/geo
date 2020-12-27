@@ -191,18 +191,19 @@ class GeometryCollection extends Geometry
     public function toSet() : GeometryCollection
     {
         $uniqueGeometries = [];
-        $uniqueGeometruesIndex = [];
 
         foreach ($this->geometries as $geometry) {
             $geometryData = $geometry->asBinary();
-            $geometryHash = md5($geometryData, true);
-            if (in_array($geometryHash, $uniqueGeometruesIndex)) {
+            $geometryIsDuplicated = array_key_exists($geometryData, $uniqueGeometries);
+            if ($geometryIsDuplicated) {
                 continue;
             }
 
-            $uniqueGeometries[] = $geometry;
-            $uniqueGeometruesIndex[] = $geometryHash;
+            $uniqueGeometries[$geometryData] = $geometry;
         }
+
+        // The splat operator does not work with string keys (yet).
+        $uniqueGeometries = array_values($uniqueGeometries);
 
         $set = GeometryCollection::of(...$uniqueGeometries);
 
