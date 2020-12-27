@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Brick\Geo;
 
+use Brick\Geo\Engine\GeometryEngineRegistry;
 use Brick\Geo\Exception\InvalidGeometryException;
 
 /**
@@ -327,5 +328,22 @@ class Point extends Geometry
     public function getIterator()
     {
         return new \ArrayIterator($this->toArray());
+    }
+
+    /**
+     * Returns the azimuth in radians of the segment defined by the given point geometries.
+     * The azimuth is an angle measured from the north, and is positive clockwise:
+     * North = 0; East = π/2; South = π; West = 3π/2.
+     *
+     * @param Point $subject Point representing subject of observation.
+     *
+     * @return float
+     *
+     * @throws GeometryEngineException If the operation is not supported by the engine.
+     * @throws GeometryEngineException If observer and subject locations are coincident.
+     */
+    public function azimuth(Point $subject) : float
+    {
+        return GeometryEngineRegistry::get()->azimuth($this, $subject);
     }
 }

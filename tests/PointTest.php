@@ -3,6 +3,7 @@
 namespace Brick\Geo\Tests;
 
 use Brick\Geo\CoordinateSystem;
+use Brick\Geo\Exception\GeometryEngineException;
 use Brick\Geo\Exception\InvalidGeometryException;
 use Brick\Geo\Point;
 
@@ -253,6 +254,50 @@ class PointTest extends AbstractTestCase
             ['POINT Z (2.3 3.4 4.5)', [2.3, 3.4, 4.5]],
             ['POINT M (3.4 4.5 5.6)', [3.4, 4.5, 5.6]],
             ['POINT ZM (4.5 5.6 6.7 7.8)', [4.5, 5.6, 6.7, 7.8]],
+        ];
+    }
+
+    /**
+     * @dataProvider providerAzimuth
+     *
+     * @param string $observerWkt         The WKT of the point, representing the observer location.
+     * @param string $subjectWkt          The WKT of the point, representing the subject location.
+     * @param float|null $azimuthExpected The expected azimuth.
+     *
+     * @return void
+     */
+    public function testAzimuth(string $observerWkt, string $subjectWkt, ?float $azimuthExpected): void
+    {
+        $this->requiresGeometryEngine();
+
+        if (! $this->isPostGIS()) {
+            $this->expectException(GeometryEngineException::class);
+        }
+
+        $observer = Point::fromText($observerWkt);
+        $subject = Point::fromText($subjectWkt);
+
+        if ($azimuthExpected === null) {
+            $this->expectException(GeometryEngineException::class);
+        }
+
+        $azimuthActual = $observer->azimuth($subject);
+
+        self::assertEqualsWithDelta($azimuthExpected, $azimuthActual, 0.001);
+    }
+
+    /**
+     * @return array
+     */
+    public function providerAzimuth(): array
+    {
+        return [
+            ['POINT (0 0)', 'POINT (0 0)', null],
+            ['POINT (0 0)', 'POINT (0 1)', 0],
+            ['POINT (0 0)', 'POINT (1 0)', pi() / 2],
+            ['POINT (0 0)', 'POINT (0 -1)', pi()],
+            ['POINT (0 0)', 'POINT (-1 0)', pi() * 3 / 2],
+            ['POINT (0 0)', 'POINT (-0.000001 1)', pi() * 2],
         ];
     }
 }
