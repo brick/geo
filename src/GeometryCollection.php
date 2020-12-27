@@ -184,6 +184,32 @@ class GeometryCollection extends Geometry
     }
 
     /**
+     * Returns a new geometry collection containing only unique geometries from the current collection.
+     *
+     * @retrun GeometryCollection
+     */
+    public function toSet() : GeometryCollection
+    {
+        $uniqueGeometries = [];
+        $uniqueGeometruesIndex = [];
+
+        foreach ($this->geometries as $geometry) {
+            $geometryData = $geometry->asBinary();
+            $geometryHash = md5($geometryData, true);
+            if (in_array($geometryHash, $uniqueGeometruesIndex)) {
+                continue;
+            }
+
+            $uniqueGeometries[] = $geometry;
+            $uniqueGeometruesIndex[] = $geometryHash;
+        }
+
+        $set = GeometryCollection::of(...$uniqueGeometries);
+
+        return $set;
+    }
+
+    /**
      * @return Geometry
      */
     public function swapXY() : Geometry

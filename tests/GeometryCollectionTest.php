@@ -3,6 +3,7 @@
 namespace Brick\Geo\Tests;
 
 use Brick\Geo\Exception\NoSuchGeometryException;
+use Brick\Geo\Geometry;
 use Brick\Geo\GeometryCollection;
 use Brick\Geo\LineString;
 use Brick\Geo\Point;
@@ -99,5 +100,95 @@ class GeometryCollectionTest extends AbstractTestCase
 
         self::assertInstanceOf(\Traversable::class, $geometryCollection);
         self::assertSame([$point, $lineString], iterator_to_array($geometryCollection));
+    }
+
+    /**
+     * @dataProvider providerToSet
+     *
+     * @param Geometry[] $geometries Geometries to initialize the collection with.
+     *
+     * @return void
+     */
+    public function testToSet(array $geometries, int $uniqueGeometriesExpected) : void
+    {
+        $collection = GeometryCollection::of(...$geometries);
+
+        $set = $collection->toSet();
+
+        $uniqueGeometriesActual = $set->numGeometries();
+        $this->assertEquals($uniqueGeometriesExpected, $uniqueGeometriesActual);
+
+        $collectionGeometries = $collection->geometries();
+        $setGeometries = $set->geometries();
+        foreach ($setGeometries as $setGeometry) {
+            $isPresentInOriginalCollection = false;
+
+            foreach ($collectionGeometries as $collectionGeometry) {
+                if ($setGeometry === $collectionGeometry) {
+                    $isPresentInOriginalCollection = true;
+                    break;
+                }
+            }
+
+            $this->assertTrue($isPresentInOriginalCollection);
+        }
+    }
+
+    /**
+     * @return array
+     */
+    public function providerToSet() : array
+    {
+        return [
+            [
+                [
+                    Point::xy(0, 1),
+                ],
+                1,
+            ],
+            [
+                [
+                    Point::xy(0, 1),
+                    Point::xy(1, 2),
+                ],
+                2,
+            ],
+            [
+                [
+                    Point::xy(0, 1),
+                    Point::xy(0, 1),
+                ],
+                1,
+            ],
+            [
+                [
+                    Point::xy(1, 2),
+                    Point::xy(0, 1),
+                    Point::xy(1, 2),
+                ],
+                2,
+            ],
+            [
+                [
+                    Point::xy(0, 1),
+                    Point::xy(1, 2),
+                    Point::xy(1, 2),
+                    Point::xy(2, 3),
+                ],
+                3,
+            ],
+            [
+                [
+                    Point::xy(1, 2),
+                    Point::xy(0, 1),
+                    Point::xy(1, 2),
+                    Point::xy(1, 2),
+                    Point::xy(1, 2),
+                    Point::xy(2, 3),
+                    Point::xy(1, 2),
+                ],
+                3,
+            ],
+        ];
     }
 }
