@@ -41,6 +41,8 @@ abstract class AbstractWKBReader
     abstract protected function readGeometryHeader(WKBBuffer $buffer, & $geometryType, & $hasZ, & $hasM, & $srid) : void;
 
     /**
+     * @psalm-suppress NullReference
+     *
      * @param WKBBuffer $buffer
      * @param int       $srid
      *

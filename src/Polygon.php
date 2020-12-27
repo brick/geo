@@ -179,7 +179,7 @@ class Polygon extends Surface
     }
 
     /**
-     * @return CurvePolygon
+     * @return Polygon
      */
     public function swapXY() : Geometry
     {

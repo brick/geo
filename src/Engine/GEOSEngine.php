@@ -67,6 +67,7 @@ class GEOSEngine implements GeometryEngine
         $this->ewkbReader = new EWKBReader();
         $this->ewkbWriter = new EWKBWriter();
 
+        /** @psalm-suppress RedundantCondition These methods are not available before GEOS 3.5.0 */
         $this->hasBinaryReadWrite =
             method_exists($this->wkbReader, 'read') &&
             method_exists($this->wkbWriter, 'write');
@@ -353,7 +354,12 @@ class GEOSEngine implements GeometryEngine
     public function relate(Geometry $a, Geometry $b, string $matrix) : bool
     {
         try {
-            return $this->toGEOS($a)->relate($this->toGEOS($b), $matrix);
+            $result = $this->toGEOS($a)->relate($this->toGEOS($b), $matrix);
+
+            // giving a matrix should always return a boolean
+            assert(is_bool($result));
+
+            return $result;
         } catch (\Exception $e) {
             throw GeometryEngineException::operationNotSupportedByEngine($e);
         }

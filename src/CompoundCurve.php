@@ -180,7 +180,7 @@ class CompoundCurve extends Curve
     }
 
     /**
-     * @return CurvePolygon
+     * @return CompoundCurve
      */
     public function swapXY() : Geometry
     {

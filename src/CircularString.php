@@ -169,7 +169,7 @@ class CircularString extends Curve
     }
 
     /**
-     * @return CurvePolygon
+     * @return CircularString
      */
     public function swapXY() : Geometry
     {

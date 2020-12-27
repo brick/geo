@@ -177,7 +177,7 @@ class PolyhedralSurface extends Surface
     }
 
     /**
-     * @return CurvePolygon
+     * @return PolyhedralSurface
      */
     public function swapXY() : Geometry
     {
