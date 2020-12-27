@@ -48,7 +48,7 @@ The current releases are numbered `0.x.y`. When a non-breaking change is introdu
 
 **When a breaking change is introduced, a new `0.x` version cycle is always started.**
 
-It is therefore safe to lock your project to a given release cycle, such as `0.2.*`.
+It is therefore safe to lock your project to a given release cycle, such as `0.4.*`.
 
 If you need to upgrade to a newer release cycle, check the [release history](https://github.com/brick/geo/releases) for a list of changes introduced by each further `0.x.0` version.
 
@@ -66,7 +66,7 @@ Configuring the library consists in choosing the most convenient `GeometryEngine
 - `SQLite3Engine`: communicates with a [SQLite3](http://php.net/manual/en/book.sqlite3.php) database with the [SpatiaLite](https://www.gaia-gis.it/fossil/libspatialite/index) extension.
 - `GEOSEngine`: uses the [GEOS](https://github.com/libgeos/libgeos) PHP bindings.
 
-Following is a step-by-step guide for all the possible configurations:
+Following is a step-by-step guide for all possible configurations:
 
 ### Using PDO and MySQL 5.6 or greater
 
@@ -77,11 +77,13 @@ Following is a step-by-step guide for all the possible configurations:
   Earlier versions only have partial GIS support based on bounding boxes and are not supported.
 - Use this bootstrap code in your project:
 
-        use Brick\Geo\Engine\GeometryEngineRegistry;
-        use Brick\Geo\Engine\PDOEngine;
-
-        $pdo = new PDO('mysql:host=localhost', 'root', '');
-        GeometryEngineRegistry::set(new PDOEngine($pdo));
+    ```php
+    use Brick\Geo\Engine\GeometryEngineRegistry;
+    use Brick\Geo\Engine\PDOEngine;
+    
+    $pdo = new PDO('mysql:host=localhost', 'root', '');
+    GeometryEngineRegistry::set(new PDOEngine($pdo));
+    ```
 
 Update the code with your own connection parameters, or use an existing `PDO` connection if you have one (recommended).
 </details>
@@ -107,11 +109,13 @@ Just ensure that your MariaDB version is `5.5` or greater.
 
 - Use this bootstrap code in your project:
 
-        use Brick\Geo\Engine\GeometryEngineRegistry;
-        use Brick\Geo\Engine\PDOEngine;
-
-        $pdo = new PDO('pgsql:host=localhost', 'postgres', '');
-        GeometryEngineRegistry::set(new PDOEngine($pdo));
+    ```php
+    use Brick\Geo\Engine\GeometryEngineRegistry;
+    use Brick\Geo\Engine\PDOEngine;
+    
+    $pdo = new PDO('pgsql:host=localhost', 'postgres', '');
+    GeometryEngineRegistry::set(new PDOEngine($pdo));
+    ```
 
 Update the code with your own connection parameters, or use an existing `PDO` connection if you have one (recommended).
 </details>
@@ -145,12 +149,14 @@ all you need to do is create an additional in-memory SQLite3 database just to po
 
 - Use this bootstrap code in your project:
 
-        use Brick\Geo\Engine\GeometryEngineRegistry;
-        use Brick\Geo\Engine\SQLite3Engine;
-
-        $sqlite3 = new SQLite3(':memory:');
-        $sqlite3->loadExtension('mod_spatialite.so');
-        GeometryEngineRegistry::set(new SQLite3Engine($sqlite3));
+    ```php
+    use Brick\Geo\Engine\GeometryEngineRegistry;
+    use Brick\Geo\Engine\SQLite3Engine;
+    
+    $sqlite3 = new SQLite3(':memory:');
+    $sqlite3->loadExtension('mod_spatialite.so');
+    GeometryEngineRegistry::set(new SQLite3Engine($sqlite3));
+    ```
 
 In this example we have created an in-memory database for our GIS calculations, but you can also use an existing `SQLite3` connection.
 </details>
@@ -167,10 +173,12 @@ In this example we have created an in-memory database for our GIS calculations, 
 
 - Use this bootstrap code in your project:
 
-        use Brick\Geo\Engine\GeometryEngineRegistry;
-        use Brick\Geo\Engine\GEOSEngine;
-
-        GeometryEngineRegistry::set(new GEOSEngine());
+    ```php
+    use Brick\Geo\Engine\GeometryEngineRegistry;
+    use Brick\Geo\Engine\GEOSEngine;
+    
+    GeometryEngineRegistry::set(new GEOSEngine());
+    ```
 </details>
 
 Geometry hierarchy
@@ -219,13 +227,15 @@ calling `Point::fromText()` with a `LineString` WKT.
 Example
 -------
 
-    use Brick\Geo\Polygon;
+```php
+use Brick\Geo\Polygon;
 
-    $polygon = Polygon::fromText('POLYGON ((0 0, 0 3, 3 3, 0 0))');
-    echo $polygon->area(); // 4.5
+$polygon = Polygon::fromText('POLYGON ((0 0, 0 3, 3 3, 0 0))');
+echo $polygon->area(); // 4.5
 
-    $centroid = $polygon->centroid();
-    echo $centroid->asText(); // POINT (1 2)
+$centroid = $polygon->centroid();
+echo $centroid->asText(); // POINT (1 2)
+```
 
 Spatial Function Reference
 --------------------------
