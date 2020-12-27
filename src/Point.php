@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Brick\Geo;
 
 use Brick\Geo\Engine\GeometryEngineRegistry;
+use Brick\Geo\Exception\GeometryEngineException;
 use Brick\Geo\Exception\InvalidGeometryException;
 
 /**
@@ -337,7 +338,7 @@ class Point extends Geometry
      *
      * @param Point $subject Point representing subject of observation.
      *
-     * @return float
+     * @return float Azimuth of the subject relative to the observer.
      *
      * @throws GeometryEngineException If the operation is not supported by the engine.
      * @throws GeometryEngineException If observer and subject locations are coincident.
