@@ -340,11 +340,11 @@ class GEOSGeometry
     public function delaunayTriangulation(float $tolerance = 0.0, bool $onlyEdges = false): GEOSGeometry {}
 
     /**
-     * @param float        $tolerance Snapping tolerance to use for improved robustness.
-     * @param bool         $onlyEdges If true will return a MULTILINESTRING, otherwise (the default)
-     *                                it will return a GEOMETRYCOLLECTION containing POLYGONs.
-     * @param GEOSGeometry $extent    Clip returned diagram by the extent of the given geometry.
-     *                                Optional, but explicit NULL value is not allowed.
+     * @param float             $tolerance Snapping tolerance to use for improved robustness.
+     * @param bool              $onlyEdges If true will return a MULTILINESTRING, otherwise (the default)
+     *                                     it will return a GEOMETRYCOLLECTION containing POLYGONs.
+     * @param GEOSGeometry|null $extent    Clip returned diagram by the extent of the given geometry.
+     *                                     Optional, but explicit NULL value is not allowed.
      *
      * @throws \Exception
      */

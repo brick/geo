@@ -16,7 +16,7 @@ function GEOSVersion(): string {}
  *
  *  - 'rings'
  *      Type: array of GEOSGeometry
- *      Rings that can be formed by the costituent
+ *      Rings that can be formed by the constituent
  *      linework of geometry.
  *  - 'cut_edges' (optional)
  *      Type: array of GEOSGeometry
@@ -30,6 +30,8 @@ function GEOSVersion(): string {}
  *      Type: array of GEOSGeometry
  *      Edges which form rings which are invalid
  *      (e.g. the component lines contain a self-intersection)
+ *
+ * @psalm-return array{rings: GEOSGeometry[], cut_edges?: GEOSGeometry[], dangles: GEOSGeometry[], invalid_rings: GEOSGeometry[]}
  */
 function GEOSPolygonize(GEOSGeometry $geom): array {}
 
