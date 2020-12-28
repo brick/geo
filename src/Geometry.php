@@ -71,9 +71,6 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      * If the resulting geometry is valid but is not an instance of the class this method is called on,
      * for example passing a Polygon WKT to Point::fromText(), an exception is thrown.
      *
-     * @psalm-suppress LessSpecificReturnStatement https://github.com/vimeo/psalm/issues/4900
-     * @psalm-suppress MoreSpecificReturnType      https://github.com/vimeo/psalm/issues/4900
-     *
      * @param string $wkt  The Well-Known Text representation.
      * @param int    $srid The optional SRID to use.
      *
@@ -95,11 +92,11 @@ abstract class Geometry implements \Countable, \IteratorAggregate
 
         $geometry = $wktReader->read($wkt, $srid);
 
-        if (! $geometry instanceof static) {
-            throw UnexpectedGeometryException::unexpectedGeometryType(static::class, $geometry);
+        if ($geometry instanceof static) {
+            return $geometry;
         }
 
-        return $geometry;
+        throw UnexpectedGeometryException::unexpectedGeometryType(static::class, $geometry);
     }
 
     /**
@@ -107,9 +104,6 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      *
      * If the resulting geometry is valid but is not an instance of the class this method is called on,
      * for example passing a Polygon WKB to Point::fromBinary(), an exception is thrown.
-     *
-     * @psalm-suppress LessSpecificReturnStatement https://github.com/vimeo/psalm/issues/4900
-     * @psalm-suppress MoreSpecificReturnType      https://github.com/vimeo/psalm/issues/4900
      *
      * @param string $wkb  The Well-Known Binary representation.
      * @param int    $srid The optional SRID to use.
@@ -132,11 +126,11 @@ abstract class Geometry implements \Countable, \IteratorAggregate
 
         $geometry = $wkbReader->read($wkb, $srid);
 
-        if (! $geometry instanceof static) {
-            throw UnexpectedGeometryException::unexpectedGeometryType(static::class, $geometry);
+        if ($geometry instanceof static) {
+            return $geometry;
         }
 
-        return $geometry;
+        throw UnexpectedGeometryException::unexpectedGeometryType(static::class, $geometry);
     }
 
     /**
