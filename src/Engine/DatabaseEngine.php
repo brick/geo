@@ -6,6 +6,7 @@ namespace Brick\Geo\Engine;
 
 use Brick\Geo\Exception\GeometryEngineException;
 use Brick\Geo\Geometry;
+use Brick\Geo\Point;
 use Brick\Geo\Proxy;
 
 /**
@@ -286,7 +287,7 @@ abstract class DatabaseEngine implements GeometryEngine
     /**
      * {@inheritdoc}
      */
-    public function azimuth(Geometry $observer, Geometry $subject) : float
+    public function azimuth(Point $observer, Point $subject) : float
     {
         return $this->queryFloat('ST_Azimuth', $observer, $subject);
     }

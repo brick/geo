@@ -6,6 +6,7 @@ namespace Brick\Geo\Engine;
 
 use Brick\Geo\Geometry;
 use Brick\Geo\Exception\GeometryEngineException;
+use Brick\Geo\Point;
 
 /**
  * Interface for geometry engines.
@@ -74,15 +75,15 @@ interface GeometryEngine
      * The azimuth is an angle measured from the north, and is positive clockwise:
      * North = 0; East = π/2; South = π; West = 3π/2.
      *
-     * @param Geometry $observer Point representing observer.
-     * @param Geometry $subject  Point representing subject of observation.
+     * @param Point $observer Point representing observer.
+     * @param Point $subject  Point representing subject of observation.
      *
      * @return float Azimuth of the subject relative to the observer.
      *
      * @throws GeometryEngineException If the operation is not supported by the engine.
      * @throws GeometryEngineException If observer and subject locations are coincident.
      */
-    public function azimuth(Geometry $observer, Geometry $subject) : float;
+    public function azimuth(Point $observer, Point $subject) : float;
 
     /**
      * Returns the geometric center of a Surface or MultiSurface.

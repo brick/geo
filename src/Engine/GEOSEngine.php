@@ -8,6 +8,7 @@ use Brick\Geo\Exception\GeometryEngineException;
 use Brick\Geo\IO\EWKBReader;
 use Brick\Geo\IO\EWKBWriter;
 use Brick\Geo\Geometry;
+use Brick\Geo\Point;
 
 /**
  * GeometryEngine implementation based on the GEOS PHP bindings.
@@ -175,7 +176,7 @@ class GEOSEngine implements GeometryEngine
     /**
      * {@inheritdoc}
      */
-    public function azimuth(Geometry $observer, Geometry $subject) : float
+    public function azimuth(Point $observer, Point $subject) : float
     {
         throw GeometryEngineException::unimplementedMethod(__METHOD__);
     }
