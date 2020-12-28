@@ -73,6 +73,8 @@ class Polygon extends Surface
     /**
      * Creates a non-empty Polygon composed of the given rings.
      *
+     * @psalm-suppress UnsafeInstantiation
+     *
      * @param LineString    $exteriorRing  The exterior ring.
      * @param LineString ...$interiorRings The interior rings, if any.
      *

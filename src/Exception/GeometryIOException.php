@@ -44,7 +44,7 @@ class GeometryIOException extends GeometryException
     {
         $message = sprintf('Invalid GeoJSON: %s.', $context);
 
-        return new static($message);
+        return new self($message);
     }
 
     /**
@@ -68,7 +68,7 @@ class GeometryIOException extends GeometryException
     {
         $message = sprintf('Unsupported GeoJSON type: %s.', $geojsonType);
 
-        return new static($message);
+        return new self($message);
     }
 
     /**
@@ -80,7 +80,7 @@ class GeometryIOException extends GeometryException
     {
         $message = sprintf('Unsupported geometry type: %s.', $geometryType);
 
-        return new static($message);
+        return new self($message);
     }
 
     /**

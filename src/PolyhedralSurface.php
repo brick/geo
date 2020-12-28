@@ -66,6 +66,8 @@ class PolyhedralSurface extends Surface
     /**
      * Creates a non-empty PolyhedralSurface composed of the given patches.
      *
+     * @psalm-suppress UnsafeInstantiation
+     *
      * @param Polygon    $patch1 The first patch.
      * @param Polygon ...$patchN The subsequent patches, if any.
      *

@@ -54,6 +54,8 @@ class CurvePolygon extends Surface
     /**
      * Creates a non-empty CurvePolygon composed of the given rings.
      *
+     * @psalm-suppress UnsafeInstantiation
+     *
      * @param Curve    $exteriorRing  The exterior ring.
      * @param Curve ...$interiorRings The interior rings, if any.
      *

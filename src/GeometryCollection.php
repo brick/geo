@@ -80,6 +80,8 @@ class GeometryCollection extends Geometry
     /**
      * Creates a non-empty GeometryCollection composed of the given geometries.
      *
+     * @psalm-suppress UnsafeInstantiation
+     *
      * @param Geometry    $geometry1 The first geometry.
      * @param Geometry ...$geometryN The subsequent geometries, if any.
      *

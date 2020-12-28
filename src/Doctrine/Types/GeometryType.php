@@ -7,6 +7,7 @@ namespace Brick\Geo\Doctrine\Types;
 use Brick\Geo\Geometry;
 use Brick\Geo\Proxy\GeometryProxy;
 
+use Brick\Geo\Proxy\ProxyInterface;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Platforms\PostgreSqlPlatform;
@@ -32,7 +33,7 @@ class GeometryType extends Type
     public static $srid = 0;
 
     /**
-     * @return string
+     * @psalm-return class-string<ProxyInterface&Geometry>
      */
     protected function getProxyClassName() : string
     {

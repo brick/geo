@@ -164,7 +164,7 @@ abstract class DatabaseEngine implements GeometryEngine
     }
 
     /**
-     * @psalm-return class-string<Geometry>
+     * @psalm-return class-string<Proxy\ProxyInterface&Geometry>
      *
      * @throws GeometryEngineException
      */
