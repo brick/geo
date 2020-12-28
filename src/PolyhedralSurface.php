@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Brick\Geo;
 
+use ArrayIterator;
 use Brick\Geo\Engine\GeometryEngineRegistry;
 use Brick\Geo\Exception\GeometryEngineException;
 use Brick\Geo\Exception\CoordinateSystemException;
@@ -35,6 +36,8 @@ class PolyhedralSurface extends Surface
      * The polygons that compose this PolyhedralSurface.
      *
      * An empty PolyhedralSurface contains no polygons.
+     *
+     * @psalm-var list<Polygon>
      *
      * @var Polygon[]
      */
@@ -212,10 +215,10 @@ class PolyhedralSurface extends Surface
      *
      * Required by interface IteratorAggregate.
      *
-     * {@inheritdoc}
+     * @psalm-return ArrayIterator<int, Polygon>
      */
     public function getIterator()
     {
-        return new \ArrayIterator($this->patches);
+        return new ArrayIterator($this->patches);
     }
 }

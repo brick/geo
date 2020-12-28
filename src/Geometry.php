@@ -71,6 +71,9 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      * If the resulting geometry is valid but is not an instance of the class this method is called on,
      * for example passing a Polygon WKT to Point::fromText(), an exception is thrown.
      *
+     * @psalm-suppress LessSpecificReturnStatement https://github.com/vimeo/psalm/issues/4900
+     * @psalm-suppress MoreSpecificReturnType      https://github.com/vimeo/psalm/issues/4900
+     *
      * @param string $wkt  The Well-Known Text representation.
      * @param int    $srid The optional SRID to use.
      *
@@ -83,6 +86,7 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      */
     public static function fromText(string $wkt, int $srid = 0) : Geometry
     {
+        /** @var WKTReader|null $wktReader */
         static $wktReader;
 
         if ($wktReader === null) {
@@ -104,6 +108,9 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      * If the resulting geometry is valid but is not an instance of the class this method is called on,
      * for example passing a Polygon WKB to Point::fromBinary(), an exception is thrown.
      *
+     * @psalm-suppress LessSpecificReturnStatement https://github.com/vimeo/psalm/issues/4900
+     * @psalm-suppress MoreSpecificReturnType      https://github.com/vimeo/psalm/issues/4900
+     *
      * @param string $wkb  The Well-Known Binary representation.
      * @param int    $srid The optional SRID to use.
      *
@@ -116,6 +123,7 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      */
     public static function fromBinary(string $wkb, int $srid = 0) : Geometry
     {
+        /** @var WKBReader|null $wkbReader */
         static $wkbReader;
 
         if ($wkbReader === null) {
@@ -225,6 +233,7 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      */
     public function asText() : string
     {
+        /** @var WKTWriter|null $wktWriter */
         static $wktWriter;
 
         if ($wktWriter === null) {
@@ -243,6 +252,7 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      */
     public function asBinary() : string
     {
+        /** @var WKBWriter|null $wkbWriter */
         static $wkbWriter;
 
         if ($wkbWriter === null) {

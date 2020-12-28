@@ -103,6 +103,10 @@ class GeoJSONReader
                 $geometries = [];
 
                 foreach ($geojson['features'] as $feature) {
+                    if (! is_array($feature)) {
+                        throw GeometryIOException::invalidGeoJSON('Missing or malformed "FeatureCollection.features" attribute.');
+                    }
+
                     $geometries[] = $this->readFeature($feature);
                 }
 
@@ -131,7 +135,7 @@ class GeoJSONReader
     private function readFeature(array $feature) : Geometry
     {
         // Verify type 'Feature'
-        if (! isset($feature['type']) || 'Feature' !== $this->normalizeGeoJSONType($feature['type'])) {
+        if (! isset($feature['type']) || ! is_string($feature['type']) || 'Feature' !== $this->normalizeGeoJSONType($feature['type'])) {
             throw GeometryIOException::invalidGeoJSON('Missing or malformed "Feature.type" attribute.');
         }
 
@@ -164,6 +168,12 @@ class GeoJSONReader
             throw GeometryIOException::invalidGeoJSON('Missing or malformed "Geometry.coordinates" attribute.');
         }
 
+        /*
+         * Note: we should actually check the contents of the coords array here!
+         * Type-hints make static analysis happy, but errors will appear at runtime if the GeoJSON is invalid.
+         */
+
+        /** @var array $geoCoords */
         $geoCoords = $geometry['coordinates'];
 
         $hasZ = $this->hasZ($geoCoords);
@@ -174,21 +184,27 @@ class GeoJSONReader
 
         switch ($geoType) {
             case 'Point':
+                /** @var list<float> $geoCoords */
                 return $this->genPoint($cs, $geoCoords);
 
             case 'MultiPoint':
+                /** @var list<list<float>> $geoCoords */
                 return $this->genMultiPoint($cs, $geoCoords);
 
             case 'LineString':
+                /** @var list<list<float>> $geoCoords */
                 return $this->genLineString($cs, $geoCoords);
 
             case 'MultiLineString':
+                /** @var list<list<list<float>>> $geoCoords */
                 return $this->genMultiLineString($cs, $geoCoords);
 
             case 'Polygon':
+                /** @var list<list<list<float>>> $geoCoords */
                 return $this->genPolygon($cs, $geoCoords);
 
             case 'MultiPolygon':
+                /** @var list<list<list<list<float>>>> $geoCoords */
                 return $this->genMultiPolygon($cs, $geoCoords);
         }
 
@@ -198,8 +214,10 @@ class GeoJSONReader
     /**
      * [x, y]
      *
+     * @psalm-param list<float> $coords
+     *
      * @param CoordinateSystem $cs
-     * @param array            $coords
+     * @param float[]          $coords
      *
      * @return Point
      *
@@ -213,8 +231,10 @@ class GeoJSONReader
     /**
      * [[x, y], ...]
      *
+     * @psalm-param list<list<float>> $coords
+     *
      * @param CoordinateSystem $cs
-     * @param array            $coords
+     * @param float[][]        $coords
      *
      * @return MultiPoint
      *
@@ -234,8 +254,10 @@ class GeoJSONReader
     /**
      * [[x, y], ...]
      *
+     * @psalm-param list<list<float>> $coords
+     *
      * @param CoordinateSystem $cs
-     * @param array            $coords
+     * @param float[][]        $coords
      *
      * @return LineString
      *
@@ -255,8 +277,10 @@ class GeoJSONReader
     /**
      * [[[x, y], ...], ...]
      *
+     * @psalm-param list<list<list<float>>> $coords
+     *
      * @param CoordinateSystem $cs
-     * @param array            $coords
+     * @param float[][][]      $coords
      *
      * @return MultiLineString
      *
@@ -276,8 +300,10 @@ class GeoJSONReader
     /**
      * [[[x, y], ...], ...]
      *
+     * @psalm-param list<list<list<float>>> $coords
+     *
      * @param CoordinateSystem $cs
-     * @param array            $coords
+     * @param float[][][]      $coords
      *
      * @return Polygon
      *
@@ -295,10 +321,12 @@ class GeoJSONReader
     }
 
     /**
-     * [[[x, y], ...], ...]
+     * [[[[x, y], ...], ...], ...]
+     *
+     * @psalm-param list<list<list<list<float>>>> $coords
      *
      * @param CoordinateSystem $cs
-     * @param array            $coords
+     * @param float[][][][]    $coords
      *
      * @return MultiPolygon
      *
@@ -316,7 +344,10 @@ class GeoJSONReader
     }
 
     /**
-     * @param $coords
+     * @psalm-suppress MixedAssignment
+     * @psalm-suppress MixedArgument
+     *
+     * @param array $coords A potentially nested list of floats.
      *
      * @return bool
      */

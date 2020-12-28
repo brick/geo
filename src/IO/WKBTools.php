@@ -49,6 +49,7 @@ abstract class WKBTools
      */
     public static function getMachineByteOrder() : int
     {
+        /** @psalm-var self::BIG_ENDIAN|self::LITTLE_ENDIAN|null $byteOrder */
         static $byteOrder;
 
         if ($byteOrder === null) {

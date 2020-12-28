@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Brick\Geo;
 
+use ArrayIterator;
 use Brick\Geo\Exception\CoordinateSystemException;
 use Brick\Geo\Exception\EmptyGeometryException;
 use Brick\Geo\Exception\NoSuchGeometryException;
@@ -23,6 +24,8 @@ class CurvePolygon extends Surface
      * (optional) other ones represent the interior rings of the CurvePolygon.
      *
      * An empty CurvePolygon contains no rings.
+     *
+     * @psalm-var list<Curve>
      *
      * @var Curve[]
      */
@@ -191,10 +194,10 @@ class CurvePolygon extends Surface
      *
      * Required by interface IteratorAggregate.
      *
-     * {@inheritdoc}
+     * @psalm-return ArrayIterator<int, Curve>
      */
     public function getIterator()
     {
-        return new \ArrayIterator($this->rings);
+        return new ArrayIterator($this->rings);
     }
 }

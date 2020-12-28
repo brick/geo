@@ -22,6 +22,9 @@ use Brick\Geo\Exception\GeometryEngineException;
  * A MultiCurve is closed if all of its elements are closed. The boundary of a closed MultiCurve is always empty.
  *
  * A MultiCurve is defined as topologically closed.
+ *
+ * @template T of Curve
+ * @extends GeometryCollection<T>
  */
 abstract class MultiCurve extends GeometryCollection
 {

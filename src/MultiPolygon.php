@@ -18,8 +18,10 @@ namespace Brick\Geo;
  * components of the interior of a MultiPolygon is equal to the number of Polygons in the MultiPolygon.
  *
  * The boundary of a MultiPolygon is a set of closed Curves (LineStrings) corresponding to the boundaries of its
- * element Polygons. Each Curve in the boundary of the MultiPolygon is in the boundary of exactly 1 element 
+ * element Polygons. Each Curve in the boundary of the MultiPolygon is in the boundary of exactly 1 element
  * Polygon, and every Curve in the boundary of an element Polygon is in the boundary of the MultiPolygon.
+ *
+ * @extends MultiSurface<Polygon>
  */
 class MultiPolygon extends MultiSurface
 {

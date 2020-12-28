@@ -175,9 +175,17 @@ abstract class AbstractWKBWriter
      * @param Curve $curve
      *
      * @return string
+     *
+     * @throws GeometryIOException
      */
     private function packCurve(Curve $curve) : string
     {
+        if (! $curve instanceof LineString && ! $curve instanceof CircularString) {
+            // CompoundCurve is not a list of Points, not sure if WKB supports it!
+            // For now, let's just not support it ourselves.
+            throw new GeometryIOException(sprintf('Writing a %s as WKB is not supported.', $curve->geometryType()));
+        }
+
         $wkb = $this->packUnsignedInteger($curve->count());
 
         foreach ($curve as $point) {
@@ -237,8 +245,8 @@ abstract class AbstractWKBWriter
     }
 
     /**
-     * @param Geometry $collection
-     * @param bool     $outer
+     * @param CompoundCurve|CurvePolygon|GeometryCollection|PolyhedralSurface $collection
+     * @param bool                                                            $outer
      *
      * @return string
      */

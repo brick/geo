@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Brick\Geo;
 
+use ArrayIterator;
 use Brick\Geo\Exception\CoordinateSystemException;
 use Brick\Geo\Exception\EmptyGeometryException;
 use Brick\Geo\Exception\InvalidGeometryException;
@@ -18,6 +19,8 @@ class CompoundCurve extends Curve
      * The Curves that compose this CompoundCurve.
      *
      * This array can be empty.
+     *
+     * @psalm-var list<Curve>
      *
      * @var Curve[]
      */
@@ -210,10 +213,10 @@ class CompoundCurve extends Curve
      *
      * Required by interface IteratorAggregate.
      *
-     * {@inheritdoc}
+     * @psalm-return ArrayIterator<int, Curve>
      */
     public function getIterator()
     {
-        return new \ArrayIterator($this->curves);
+        return new ArrayIterator($this->curves);
     }
 }

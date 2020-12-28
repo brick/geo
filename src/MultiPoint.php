@@ -12,6 +12,8 @@ namespace Brick\Geo;
  * (have identical coordinate values in X and Y).
  *
  * The boundary of a MultiPoint is the empty set.
+ *
+ * @extends GeometryCollection<Point>
  */
 class MultiPoint extends GeometryCollection
 {

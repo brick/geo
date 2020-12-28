@@ -184,6 +184,8 @@ class GEOSGeometry
      * | 'reason'   | string       | Optional | A reason for invalidity.                        |
      * | 'location' | GEOSGeometry | Optional | The failing geometry.                           |
      *
+     * @psalm-return array{valid: bool, reason?: string, location?: GEOSGeometry}
+     *
      * @throws \Exception
      */
     public function checkValidity(): array {}

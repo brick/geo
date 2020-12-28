@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Brick\Geo;
 
+use ArrayIterator;
 use Brick\Geo\Exception\CoordinateSystemException;
 use Brick\Geo\Exception\EmptyGeometryException;
 use Brick\Geo\Exception\InvalidGeometryException;
@@ -21,6 +22,8 @@ class LineString extends Curve
      *
      * An empty LineString contains no points.
      * A non-empty LineString contains a minimum of 2 points.
+     *
+     * @psalm-var list<Point>
      *
      * @var Point[]
      */
@@ -245,10 +248,10 @@ class LineString extends Curve
      *
      * Required by interface IteratorAggregate.
      *
-     * {@inheritdoc}
+     * @psalm-return ArrayIterator<int, Point>
      */
     public function getIterator()
     {
-        return new \ArrayIterator($this->points);
+        return new ArrayIterator($this->points);
     }
 }

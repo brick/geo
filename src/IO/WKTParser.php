@@ -71,6 +71,8 @@ class WKTParser
 
         foreach ($matches as $index => $match) {
             foreach ($match as $key => $value) {
+                /** @var int $key */
+
                 if ($key === 0) {
                     continue;
                 }

@@ -51,6 +51,7 @@ class PDOEngine extends DatabaseEngine
      */
     protected function executeQuery(string $query, array $parameters) : array
     {
+        /** @var int $errMode */
         $errMode = $this->pdo->getAttribute(\PDO::ATTR_ERRMODE);
         $this->pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 

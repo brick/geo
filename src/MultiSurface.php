@@ -19,6 +19,9 @@ use Brick\Geo\Exception\GeometryEngineException;
  * collections of polygons and polyhedral surfaces. It defines a set of methods for its subclasses. The subclass of
  * MultiSurface is MultiPolygon corresponding to a collection of Polygons only. Other collections shall use
  * MultiSurface.
+ *
+ * @template T of Surface
+ * @extends GeometryCollection<T>
  */
 abstract class MultiSurface extends GeometryCollection
 {

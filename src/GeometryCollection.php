@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Brick\Geo;
 
+use ArrayIterator;
 use Brick\Geo\Exception\CoordinateSystemException;
 use Brick\Geo\Exception\NoSuchGeometryException;
 use Brick\Geo\Exception\UnexpectedGeometryException;
@@ -21,6 +22,8 @@ use Brick\Geo\Exception\UnexpectedGeometryException;
  * By the nature of digital representations, collections are inherently ordered by the underlying storage mechanism.
  * Two collections whose difference is only this order are spatially equal and will return equivalent results in any
  * geometric-defined operations.
+ *
+ * @template T of Geometry
  */
 class GeometryCollection extends Geometry
 {
@@ -29,12 +32,16 @@ class GeometryCollection extends Geometry
      *
      * This array can be empty.
      *
+     * @psalm-var list<T>
+     *
      * @var Geometry[]
      */
     protected $geometries = [];
 
     /**
      * Class constructor.
+     *
+     * @psalm-param T ...$geometries
      *
      * @param CoordinateSystem $cs
      * @param Geometry         ...$geometries
@@ -216,11 +223,11 @@ class GeometryCollection extends Geometry
      *
      * Required by interface IteratorAggregate.
      *
-     * {@inheritdoc}
+     * @psalm-return ArrayIterator<int, T>
      */
     public function getIterator()
     {
-        return new \ArrayIterator($this->geometries);
+        return new ArrayIterator($this->geometries);
     }
 
     /**

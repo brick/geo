@@ -92,7 +92,10 @@ class WKBBuffer
      */
     private function readUnsignedChar() : int
     {
-        return unpack('C', $this->read(1, 1))[1];
+        /** @psalm-var array{1: int} $unpack */
+        $unpack = unpack('C', $this->read(1, 1));
+
+        return $unpack[1];
     }
 
     /**
@@ -102,7 +105,10 @@ class WKBBuffer
      */
     public function readUnsignedLong() : int
     {
-        return unpack('L', $this->read(1, 4))[1];
+        /** @psalm-var array{1: int} $unpack */
+        $unpack = unpack('L', $this->read(1, 4));
+
+        return $unpack[1];
     }
 
     /**
@@ -110,11 +116,14 @@ class WKBBuffer
      *
      * @param int $count The number of doubles to read.
      *
-     * @return float[] A 1-based array containing the numbers.
+     * @return float[] A list of floating point numbers.
      */
-    public function readDoubles($count) : array
+    public function readDoubles(int $count) : array
     {
-        return unpack('d' . $count, $this->read($count, 8));
+        /** @var float[] $doubles */
+        $doubles = unpack('d' . $count, $this->read($count, 8));
+
+        return array_values($doubles);
     }
 
     /**

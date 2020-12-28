@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Brick\Geo;
 
+use ArrayIterator;
 use Brick\Geo\Exception\CoordinateSystemException;
 use Brick\Geo\Exception\EmptyGeometryException;
 use Brick\Geo\Exception\InvalidGeometryException;
@@ -41,6 +42,8 @@ class Polygon extends Surface
      * (optional) other ones represent the interior rings of the Polygon.
      *
      * An empty Polygon contains no rings.
+     *
+     * @psalm-var list<LineString>
      *
      * @var LineString[]
      */
@@ -211,10 +214,10 @@ class Polygon extends Surface
      *
      * Required by interface IteratorAggregate.
      *
-     * {@inheritdoc}
+     * @psalm-return ArrayIterator<int, LineString>
      */
     public function getIterator()
     {
-        return new \ArrayIterator($this->rings);
+        return new ArrayIterator($this->rings);
     }
 }

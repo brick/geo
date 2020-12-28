@@ -24,6 +24,8 @@ abstract class DatabaseEngine implements GeometryEngine
     /**
      * Executes a SQL query.
      *
+     * @psalm-param list<Geometry|scalar|null> $parameters
+     *
      * @param string $query      The SQL query to execute.
      * @param array  $parameters The Geometry objects or scalar values to pass as parameters.
      *
@@ -35,6 +37,8 @@ abstract class DatabaseEngine implements GeometryEngine
 
     /**
      * Builds and executes a SQL query for a GIS function.
+     *
+     * @psalm-param list<Geometry|scalar|null> $parameters
      *
      * @param string $function        The SQL GIS function to execute.
      * @param array  $parameters      The Geometry objects or scalar values to pass as parameters.
@@ -79,6 +83,8 @@ abstract class DatabaseEngine implements GeometryEngine
     /**
      * Queries a GIS function returning a boolean value.
      *
+     * @psalm-param Geometry|scalar|null ...$parameters
+     *
      * @param string   $function   The SQL GIS function to execute.
      * @param mixed ...$parameters The Geometry objects or scalar values to pass as parameters.
      *
@@ -102,6 +108,8 @@ abstract class DatabaseEngine implements GeometryEngine
     /**
      * Queries a GIS function returning a floating point value.
      *
+     * @psalm-param Geometry|scalar|null ...$parameters
+     *
      * @param string   $function   The SQL GIS function to execute.
      * @param mixed ...$parameters The Geometry objects or scalar values to pass as parameters.
      *
@@ -123,6 +131,8 @@ abstract class DatabaseEngine implements GeometryEngine
     /**
      * Queries a GIS function returning a Geometry object.
      *
+     * @psalm-param Geometry|scalar|null ...$parameters
+     *
      * @param string   $function   The SQL GIS function to execute.
      * @param mixed ...$parameters The Geometry objects or scalar values to pass as parameters.
      *
@@ -132,7 +142,10 @@ abstract class DatabaseEngine implements GeometryEngine
      */
     private function queryGeometry(string $function, ...$parameters) : Geometry
     {
-        [$wkt, $wkb, $geometryType, $srid] = $this->query($function, $parameters, true);
+        /** @var array{string|null, string|resource|null, string, int|numeric-string} $result */
+        $result = $this->query($function, $parameters, true);
+
+        [$wkt, $wkb, $geometryType, $srid] = $result;
 
         $srid = (int) $srid;
 

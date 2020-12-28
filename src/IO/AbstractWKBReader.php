@@ -231,6 +231,8 @@ abstract class AbstractWKBReader
      * @param CoordinateSystem $cs
      *
      * @return MultiPoint
+     *
+     * @throws GeometryIOException
      */
     private function readMultiPoint(WKBBuffer $buffer, CoordinateSystem $cs) : MultiPoint
     {
@@ -238,7 +240,13 @@ abstract class AbstractWKBReader
         $points = [];
 
         for ($i = 0; $i < $numPoints; $i++) {
-            $points[] = $this->readGeometry($buffer, $cs->SRID());
+            $point = $this->readGeometry($buffer, $cs->SRID());
+
+            if (! $point instanceof Point) {
+                throw new GeometryIOException('Expected Point, got ' . $point->geometryType());
+            }
+
+            $points[] = $point;
         }
 
         return new MultiPoint($cs, ...$points);
@@ -249,6 +257,8 @@ abstract class AbstractWKBReader
      * @param CoordinateSystem $cs
      *
      * @return MultiLineString
+     *
+     * @throws GeometryIOException
      */
     private function readMultiLineString(WKBBuffer $buffer, CoordinateSystem $cs) : MultiLineString
     {
@@ -256,7 +266,13 @@ abstract class AbstractWKBReader
         $lineStrings = [];
 
         for ($i = 0; $i < $numLineStrings; $i++) {
-            $lineStrings[] = $this->readGeometry($buffer, $cs->SRID());
+            $lineString = $this->readGeometry($buffer, $cs->SRID());
+
+            if (! $lineString instanceof LineString) {
+                throw new GeometryIOException('Expected LineString, got ' . $lineString->geometryType());
+            }
+
+            $lineStrings[] = $lineString;
         }
 
         return new MultiLineString($cs, ...$lineStrings);
@@ -267,6 +283,8 @@ abstract class AbstractWKBReader
      * @param CoordinateSystem $cs
      *
      * @return MultiPolygon
+     *
+     * @throws GeometryIOException
      */
     private function readMultiPolygon(WKBBuffer $buffer, CoordinateSystem $cs) : MultiPolygon
     {
@@ -274,7 +292,13 @@ abstract class AbstractWKBReader
         $polygons = [];
 
         for ($i = 0; $i < $numPolygons; $i++) {
-            $polygons[] = $this->readGeometry($buffer, $cs->SRID());
+            $polygon = $this->readGeometry($buffer, $cs->SRID());
+
+            if (! $polygon instanceof Polygon) {
+                throw new GeometryIOException('Expected Polygon, got ' . $polygon->geometryType());
+            }
+
+            $polygons[] = $polygon;
         }
 
         return new MultiPolygon($cs, ...$polygons);

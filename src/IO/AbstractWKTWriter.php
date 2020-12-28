@@ -124,12 +124,13 @@ abstract class AbstractWKTWriter
     }
 
     /**
-     * @param Point $point
+     * @param Point $point The point. Must not be empty.
      *
      * @return string
      */
     private function writePoint(Point $point) : string
     {
+        /** @psalm-suppress PossiblyNullOperand */
         $result = $point->x() . ' ' . $point->y();
 
         if (null !== $z = $point->z()) {

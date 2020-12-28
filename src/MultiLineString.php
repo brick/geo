@@ -6,6 +6,8 @@ namespace Brick\Geo;
 
 /**
  * A MultiLineString is a MultiCurve whose elements are LineStrings.
+ *
+ * @extends MultiCurve<LineString>
  */
 class MultiLineString extends MultiCurve
 {
