@@ -9,7 +9,7 @@ namespace Brick\Geo\IO;
  */
 class EWKBTools extends WKBTools
 {
-    const Z = 0x80000000;
-    const M = 0x40000000;
-    const S = 0x20000000;
+    public const Z = 0x80000000;
+    public const M = 0x40000000;
+    public const S = 0x20000000;
 }

@@ -9,11 +9,11 @@ namespace Brick\Geo\IO;
  */
 class EWKTParser extends WKTParser
 {
-    const T_SRID = 1;
-    const T_WORD = 2;
-    const T_NUMBER = 3;
+    protected const T_SRID = 1;
+    protected const T_WORD = 2;
+    protected const T_NUMBER = 3;
 
-    const REGEX_SRID = 'SRID\=([0-9]+)\s*;';
+    protected const REGEX_SRID = 'SRID\=([0-9]+)\s*;';
 
     /**
      * {@inheritdoc}

@@ -20,24 +20,24 @@ use Brick\Geo\IO\WKBWriter;
  */
 abstract class Geometry implements \Countable, \IteratorAggregate
 {
-    const GEOMETRY           = 0;
-    const POINT              = 1;
-    const LINESTRING         = 2;
-    const POLYGON            = 3;
-    const MULTIPOINT         = 4;
-    const MULTILINESTRING    = 5;
-    const MULTIPOLYGON       = 6;
-    const GEOMETRYCOLLECTION = 7;
-    const CIRCULARSTRING     = 8;
-    const COMPOUNDCURVE      = 9;
-    const CURVEPOLYGON       = 10;
-    const MULTICURVE         = 11;
-    const MULTISURFACE       = 12;
-    const CURVE              = 13;
-    const SURFACE            = 14;
-    const POLYHEDRALSURFACE  = 15;
-    const TIN                = 16;
-    const TRIANGLE           = 17;
+    public const GEOMETRY           = 0;
+    public const POINT              = 1;
+    public const LINESTRING         = 2;
+    public const POLYGON            = 3;
+    public const MULTIPOINT         = 4;
+    public const MULTILINESTRING    = 5;
+    public const MULTIPOLYGON       = 6;
+    public const GEOMETRYCOLLECTION = 7;
+    public const CIRCULARSTRING     = 8;
+    public const COMPOUNDCURVE      = 9;
+    public const CURVEPOLYGON       = 10;
+    public const MULTICURVE         = 11;
+    public const MULTISURFACE       = 12;
+    public const CURVE              = 13;
+    public const SURFACE            = 14;
+    public const POLYHEDRALSURFACE  = 15;
+    public const TIN                = 16;
+    public const TRIANGLE           = 17;
 
     /**
      * The coordinate system of this geometry.
