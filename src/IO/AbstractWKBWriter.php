@@ -158,6 +158,7 @@ abstract class AbstractWKBWriter
             throw new GeometryIOException('Empty points have no WKB representation.');
         }
 
+        /** @psalm-suppress PossiblyNullArgument */
         $binary = $this->packDouble($point->x()) . $this->packDouble($point->y());
 
         if (null !== $z = $point->z()) {

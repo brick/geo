@@ -43,6 +43,9 @@ abstract class MultiSurface extends GeometryCollection
      *
      * @noproxy
      *
+     * @psalm-suppress LessSpecificReturnStatement
+     * @psalm-suppress MoreSpecificReturnType
+     *
      * @return Point
      *
      * @throws GeometryEngineException If the operation is not supported by the geometry engine.
@@ -56,6 +59,9 @@ abstract class MultiSurface extends GeometryCollection
      * Returns a Point guaranteed to be on this MultiSurface.
      *
      * @noproxy
+     *
+     * @psalm-suppress LessSpecificReturnStatement
+     * @psalm-suppress MoreSpecificReturnType
      *
      * @return Point
      *

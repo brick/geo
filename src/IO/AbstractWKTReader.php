@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Brick\Geo\IO;
 
+use Brick\Geo\Curve;
 use Brick\Geo\Geometry;
 use Brick\Geo\Point;
 use Brick\Geo\LineString;
@@ -259,6 +260,8 @@ abstract class AbstractWKTReader
      * @param CoordinateSystem $cs
      *
      * @return CompoundCurve
+     *
+     * @throws GeometryIOException
      */
     private function readCompoundCurveText(WKTParser $parser, CoordinateSystem $cs) : CompoundCurve
     {
@@ -269,7 +272,13 @@ abstract class AbstractWKTReader
             if ($parser->isNextOpenerOrWord()) {
                 $curves[] = $this->readLineStringText($parser, $cs);
             } else {
-                $curves[] = $this->readGeometry($parser, $cs->SRID());
+                $curve = $this->readGeometry($parser, $cs->SRID());
+
+                if (! $curve instanceof Curve) {
+                    throw new GeometryIOException('Expected Curve, got ' . $curve->geometryType());
+                }
+
+                $curves[] = $curve;
             }
 
             $nextToken = $parser->getNextCloserOrComma();
@@ -334,6 +343,8 @@ abstract class AbstractWKTReader
      * @param CoordinateSystem $cs
      *
      * @return CurvePolygon
+     *
+     * @throws GeometryIOException
      */
     private function readCurvePolygonText(WKTParser $parser, CoordinateSystem $cs) : CurvePolygon
     {
@@ -344,7 +355,13 @@ abstract class AbstractWKTReader
             if ($parser->isNextOpenerOrWord()) {
                 $curves[] = $this->readLineStringText($parser, $cs);
             } else {
-                $curves[] = $this->readGeometry($parser, $cs->SRID());
+                $curve = $this->readGeometry($parser, $cs->SRID());
+
+                if (! $curve instanceof Curve) {
+                    throw new GeometryIOException('Expected Curve, got ' . $curve->geometryType());
+                }
+
+                $curves[] = $curve;
             }
 
             $nextToken = $parser->getNextCloserOrComma();

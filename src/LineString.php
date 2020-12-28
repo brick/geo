@@ -78,11 +78,14 @@ class LineString extends Curve
      *
      * The result is a linear ring (closed and simple).
      *
+     * @psalm-suppress PossiblyNullArgument
+     *
      * @param Point $a
      * @param Point $b
      *
      * @return LineString
      *
+     * @throws EmptyGeometryException    If any of the points is empty.
      * @throws CoordinateSystemException If the points use different coordinate systems, or are not 2D.
      */
     public static function rectangle(Point $a, Point $b) : LineString
@@ -95,6 +98,10 @@ class LineString extends Curve
 
         if ($cs->coordinateDimension() !== 2) {
             throw new CoordinateSystemException(__METHOD__ . ' expects 2D points.');
+        }
+
+        if ($a->isEmpty() || $b->isEmpty()) {
+            throw new EmptyGeometryException('Points cannot be empty.');
         }
 
         $x1 = min($a->x(), $b->x());

@@ -119,6 +119,9 @@ class PolyhedralSurface extends Surface
      *
      * @noproxy
      *
+     * @psalm-suppress LessSpecificReturnStatement
+     * @psalm-suppress MoreSpecificReturnType
+     *
      * @param Polygon $p
      *
      * @return MultiPolygon

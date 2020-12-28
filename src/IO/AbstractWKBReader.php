@@ -7,6 +7,7 @@ namespace Brick\Geo\IO;
 use Brick\Geo\CircularString;
 use Brick\Geo\CompoundCurve;
 use Brick\Geo\CoordinateSystem;
+use Brick\Geo\Curve;
 use Brick\Geo\CurvePolygon;
 use Brick\Geo\Geometry;
 use Brick\Geo\GeometryCollection;
@@ -158,6 +159,8 @@ abstract class AbstractWKBReader
      * @param CoordinateSystem $cs
      *
      * @return CompoundCurve
+     *
+     * @throws GeometryIOException
      */
     private function readCompoundCurve(WKBBuffer $buffer, CoordinateSystem $cs) : CompoundCurve
     {
@@ -165,7 +168,13 @@ abstract class AbstractWKBReader
         $curves = [];
 
         for ($i = 0; $i < $numCurves; $i++) {
-            $curves[] = $this->readGeometry($buffer, $cs->SRID());
+            $curve = $this->readGeometry($buffer, $cs->SRID());
+
+            if (! $curve instanceof Curve) {
+                throw new GeometryIOException('Expected Curve, got ' . $curve->geometryType());
+            }
+
+            $curves[] = $curve;
         }
 
         return new CompoundCurve($cs, ...$curves);
@@ -195,6 +204,8 @@ abstract class AbstractWKBReader
      * @param CoordinateSystem $cs
      *
      * @return CurvePolygon
+     *
+     * @throws GeometryIOException
      */
     private function readCurvePolygon(WKBBuffer $buffer, CoordinateSystem $cs) : CurvePolygon
     {
@@ -203,7 +214,13 @@ abstract class AbstractWKBReader
         $rings = [];
 
         for ($i = 0; $i < $numRings; $i++) {
-            $rings[] = $this->readGeometry($buffer, $cs->SRID());
+            $ring = $this->readGeometry($buffer, $cs->SRID());
+
+            if (! $ring instanceof Curve) {
+                throw new GeometryIOException('Expected Curve, got ' . $ring->geometryType());
+            }
+
+            $rings[] = $ring;
         }
 
         return new CurvePolygon($cs, ...$rings);
@@ -286,6 +303,8 @@ abstract class AbstractWKBReader
      * @param CoordinateSystem $cs
      *
      * @return PolyhedralSurface
+     *
+     * @throws GeometryIOException
      */
     private function readPolyhedralSurface(WKBBuffer $buffer, CoordinateSystem $cs) : PolyhedralSurface
     {
@@ -293,7 +312,13 @@ abstract class AbstractWKBReader
         $patches = [];
 
         for ($i = 0; $i < $numPatches; $i++) {
-            $patches[] = $this->readGeometry($buffer, $cs->SRID());
+            $patch = $this->readGeometry($buffer, $cs->SRID());
+
+            if (! $patch instanceof Polygon) {
+                throw new GeometryIOException('Expected Polygon, got ' . $patch->geometryType());
+            }
+
+            $patches[] = $patch;
         }
 
         return new PolyhedralSurface($cs, ...$patches);
@@ -304,6 +329,8 @@ abstract class AbstractWKBReader
      * @param CoordinateSystem $cs
      *
      * @return TIN
+     *
+     * @throws GeometryIOException
      */
     private function readTIN(WKBBuffer $buffer, CoordinateSystem $cs) : TIN
     {
@@ -311,7 +338,13 @@ abstract class AbstractWKBReader
         $patches = [];
 
         for ($i = 0; $i < $numPatches; $i++) {
-            $patches[] = $this->readGeometry($buffer, $cs->SRID());
+            $patch = $this->readGeometry($buffer, $cs->SRID());
+
+            if (! $patch instanceof Polygon) {
+                throw new GeometryIOException('Expected Polygon, got ' . $patch->geometryType());
+            }
+
+            $patches[] = $patch;
         }
 
         return new TIN($cs, ...$patches);

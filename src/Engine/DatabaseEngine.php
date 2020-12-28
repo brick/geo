@@ -164,9 +164,7 @@ abstract class DatabaseEngine implements GeometryEngine
     }
 
     /**
-     * @param string $geometryType
-     *
-     * @return string
+     * @psalm-return class-string<Geometry>
      *
      * @throws GeometryEngineException
      */

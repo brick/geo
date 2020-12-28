@@ -59,6 +59,9 @@ abstract class Surface extends Geometry
      *
      * @noproxy
      *
+     * @psalm-suppress LessSpecificReturnStatement
+     * @psalm-suppress MoreSpecificReturnType
+     *
      * @return Point
      *
      * @throws GeometryEngineException If the operation is not supported by the geometry engine.
@@ -72,6 +75,9 @@ abstract class Surface extends Geometry
      * Returns a Point guaranteed to be on this Surface.
      *
      * @noproxy
+     *
+     * @psalm-suppress LessSpecificReturnStatement
+     * @psalm-suppress MoreSpecificReturnType
      *
      * @return Point
      *
