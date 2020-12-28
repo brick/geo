@@ -18,11 +18,20 @@ class WKTParser
     const REGEX_NUMBER = '(\-?[0-9]+(?:\.[0-9]+)?(?:e[\+\-]?[0-9]+)?)';
 
     /**
-     * An array of all tokens.
+     * The list of tokens.
+     *
+     * @psalm-var list<array{int, string}>
      *
      * @var array
      */
     protected $tokens = [];
+
+    /**
+     * The current token pointer.
+     *
+     * @var int
+     */
+    protected $current = 0;
 
     /**
      * Class constructor.
@@ -67,27 +76,26 @@ class WKTParser
                 }
 
                 if ($value !== '') {
-                    $this->tokens[$index] = [$key, $value];
+                    $this->tokens[] = [$key, $value];
                 }
             }
         }
-
-        ksort($this->tokens);
-        reset($this->tokens);
     }
 
     /**
+     * @psalm-return array{int, string}|null
+     *
      * @return array|null The next token, or null if there are no more tokens.
      */
     private function nextToken() : ?array
     {
-        $token = current($this->tokens);
+        $token = $this->tokens[$this->current] ?? null;
 
-        if ($token === false) {
+        if ($token === null) {
             return null;
-        } else {
-            next($this->tokens);
         }
+
+        $this->current++;
 
         return $token;
     }
@@ -150,16 +158,17 @@ class WKTParser
      */
     public function getOptionalNextWord() : ?string
     {
-        $token = current($this->tokens);
+        $token = $this->tokens[$this->current] ?? null;
 
-        if ($token === false) {
+        if ($token === null) {
             return null;
         }
+
         if ($token[0] !== static::T_WORD) {
             return null;
         }
 
-        next($this->tokens);
+        $this->current++;
 
         return $token[1];
     }
@@ -173,9 +182,9 @@ class WKTParser
      */
     public function isNextOpenerOrWord() : bool
     {
-        $token = current($this->tokens);
+        $token = $this->tokens[$this->current] ?? null;
 
-        if ($token === false) {
+        if ($token === null) {
             throw new GeometryIOException("Expected '(' or word but encountered end of stream");
         }
 
@@ -202,6 +211,7 @@ class WKTParser
         if ($token === null) {
             throw new GeometryIOException("Expected number but encountered end of stream");
         }
+
         if ($token[0] !== static::T_NUMBER) {
             throw new GeometryIOException("Expected number but encountered '" . $token[1] . "'");
         }

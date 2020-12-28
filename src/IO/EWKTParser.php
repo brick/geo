@@ -32,16 +32,17 @@ class EWKTParser extends WKTParser
      */
     public function getOptionalSRID() : int
     {
-        $token = current($this->tokens);
+        $token = $this->tokens[$this->current] ?? null;
 
-        if ($token === false) {
+        if ($token === null) {
             return 0;
         }
+
         if ($token[0] !== self::T_SRID) {
             return 0;
         }
 
-        next($this->tokens);
+        $this->current++;
 
         return (int) $token[1];
     }
