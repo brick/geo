@@ -340,12 +340,8 @@ abstract class Geometry implements \Countable, \IteratorAggregate
 
     /**
      * Returns the geometric center of a geometry, or equivalently, the center of mass of the geometry as a Point.
-     * For (Multi)Points, this is computed as the arithmetic mean of the input coordinates.
-     * For (Multi)Linestrings, this is computed as the weighted length of each line segment.
-     * For (Multi)Polygons, "weight" is thought in terms of area.
-     * If an empty geometry is supplied, an empty GeometryCollection is returned.
-     * If CircularString or CompoundCurve are supplied, they are converted to LineString wtih CurveToLine first,
-     * then same than for LineString.
+     *
+     * Some geometry engines only support this method on surfaces.
      *
      * @noproxy
      *
