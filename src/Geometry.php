@@ -349,9 +349,6 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      *
      * @noproxy
      *
-     * @psalm-suppress LessSpecificReturnStatement
-     * @psalm-suppress MoreSpecificReturnType
-     *
      * @return Point
      *
      * @throws GeometryEngineException If the operation is not supported by the geometry engine.

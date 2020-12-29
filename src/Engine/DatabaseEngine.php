@@ -264,9 +264,12 @@ abstract class DatabaseEngine implements GeometryEngine
     }
 
     /**
+     * @psalm-suppress LessSpecificReturnStatement
+     * @psalm-suppress MoreSpecificReturnType
+     *
      * {@inheritdoc}
      */
-    public function centroid(Geometry $g) : Geometry
+    public function centroid(Geometry $g) : Point
     {
         return $this->queryGeometry('ST_Centroid', $g);
     }

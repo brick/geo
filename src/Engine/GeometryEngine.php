@@ -86,15 +86,15 @@ interface GeometryEngine
     public function azimuth(Point $observer, Point $subject) : float;
 
     /**
-     * Returns the geometric center of a Surface or MultiSurface.
+     * Returns the geometric center of a Geometry.
      *
      * @param Geometry $g The geometry.
      *
-     * @return Geometry The centroid of the geometry.
+     * @return Point The centroid of the geometry.
      *
      * @throws GeometryEngineException If the operation is not supported by the engine.
      */
-    public function centroid(Geometry $g) : Geometry;
+    public function centroid(Geometry $g) : Point;
 
     /**
      * Returns a Point guaranteed to be on a Surface or MultiSurface.

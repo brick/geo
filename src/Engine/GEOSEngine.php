@@ -182,9 +182,12 @@ class GEOSEngine implements GeometryEngine
     }
 
     /**
+     * @psalm-suppress LessSpecificReturnStatement
+     * @psalm-suppress MoreSpecificReturnType
+     *
      * {@inheritdoc}
      */
-    public function centroid(Geometry $g) : Geometry
+    public function centroid(Geometry $g) : Point
     {
         try {
             return $this->fromGEOS($this->toGEOS($g)->centroid());
