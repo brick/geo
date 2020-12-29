@@ -547,6 +547,44 @@ class GeometryTest extends AbstractTestCase
     }
 
     /**
+     * @dataProvider providerCentroid
+     *
+     * @param string $geometry    The WKT of the geometry to calculate centroid for.
+     * @param float  $centroidX   Expected `x` coordinate of the geometry centroid.
+     * @param float  $centroidY   Expected `y` coordinate of the geometry centroid.
+     * @param bool   $postgisOnly Whether the test case is supported on `PostGIS` only.
+     *
+     * @return void
+     */
+    public function testCentroid(string $geometry, float $centroidX, float $centroidY, bool $postgisOnly) : void
+    {
+        if ($postgisOnly && !$this->isPostGIS()) {
+            $this->expectNotToPerformAssertions();
+            return;
+        }
+
+        $geometry = Geometry::fromText($geometry);
+
+        $centroid = $geometry->centroid();
+
+        $this->assertEqualsWithDelta($centroidX, $centroid->x(), 0.001);
+        $this->assertEqualsWithDelta($centroidY, $centroid->y(), 0.001);
+    }
+
+    /**
+     * @return array
+     */
+    public function providerCentroid() : array
+    {
+        return [
+            ['POINT (42 42)', 42.0, 42.0, true],
+            ['MULTIPOINT (0 0, 1 1)', 0.5, 0.5, true],
+            ['CIRCULARSTRING (1 1, 2 0, -1 1)', 0.0, -1.373, true],
+            ['POLYGON ((0 1, 1 0, 0 -1, -1 0, 0 1))', 0.0, 0.0, false],
+        ];
+    }
+
+    /**
      * @dataProvider providerEquals
      *
      * @param string $geometry1 The WKT of the first geometry.
