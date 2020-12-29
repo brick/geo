@@ -23,6 +23,7 @@ use Brick\Geo\CurvePolygon;
 use Brick\Geo\PolyhedralSurface;
 use Brick\Geo\TIN;
 use Brick\Geo\Triangle;
+use LogicException;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -86,7 +87,7 @@ class AbstractTestCase extends TestCase
                 return true;
             }
 
-            $version =  $engine->getSQLite3()->querySingle('SELECT spatialite_version()');
+            $version = $engine->getSQLite3()->querySingle('SELECT spatialite_version()');
 
             return $this->isVersion($version, $operatorAndVersion);
         }
@@ -119,6 +120,54 @@ class AbstractTestCase extends TestCase
         }
 
         return false;
+    }
+
+    /**
+     * Skips the test if the current geometry engine does not match the requirements.
+     *
+     * Example: ['MySQL', 'MariaDB', 'PostGIS']
+     *
+     * Supported engines:
+     *
+     * - MySQL
+     * - MariaDB
+     * - SpatiaLite
+     * - PostGIS
+     * - GEOS
+     *
+     * @param string[] $supportedEngines
+     *
+     * @return void
+     */
+    final protected function requireEngine(array $supportedEngines): void
+    {
+        $diff = array_values(array_diff($supportedEngines, ['MySQL', 'MariaDB', 'SpatiaLite', 'PostGIS', 'GEOS']));
+
+        if ($diff) {
+            throw new LogicException("Unsupported engine: {$diff[0]}");
+        }
+
+        if (in_array('MySQL', $supportedEngines) && $this->isMySQL()) {
+            return;
+        }
+
+        if (in_array('MariaDB', $supportedEngines) && $this->isMariaDB()) {
+            return;
+        }
+
+        if (in_array('SpatiaLite', $supportedEngines) && $this->isSpatiaLite()) {
+            return;
+        }
+
+        if (in_array('PostGIS', $supportedEngines) && $this->isPostGIS()) {
+            return;
+        }
+
+        if (in_array('GEOS', $supportedEngines) && $this->isGEOS()) {
+            return;
+        }
+
+        self::markTestSkipped('Not supported on this geometry engine.');
     }
 
     /**
@@ -594,7 +643,10 @@ class AbstractTestCase extends TestCase
      */
     private function isVersion(string $version, string $operatorAndVersion) : bool
     {
-        preg_match('/^([\<\>]?\=?) ?(.*)/', $operatorAndVersion, $matches);
+        if (preg_match('/^([\<\>]?\=?) ?(.*)/', $operatorAndVersion, $matches) !== 1) {
+            throw new LogicException("Invalid operator and version: $operatorAndVersion");
+        }
+
         [, $operator, $testVersion] = $matches;
 
         if ($operator === '') {

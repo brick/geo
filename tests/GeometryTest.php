@@ -556,12 +556,9 @@ class GeometryTest extends AbstractTestCase
      *
      * @return void
      */
-    public function testCentroid(string $geometry, float $centroidX, float $centroidY, bool $postgisOnly) : void
+    public function testCentroid(string $geometry, float $centroidX, float $centroidY, array $supportedEngines) : void
     {
-        if ($postgisOnly && !$this->isPostGIS()) {
-            $this->expectNotToPerformAssertions();
-            return;
-        }
+        $this->requireEngine($supportedEngines);
 
         $geometry = Geometry::fromText($geometry);
 
@@ -577,10 +574,10 @@ class GeometryTest extends AbstractTestCase
     public function providerCentroid() : array
     {
         return [
-            ['POINT (42 42)', 42.0, 42.0, true],
-            ['MULTIPOINT (0 0, 1 1)', 0.5, 0.5, true],
-            ['CIRCULARSTRING (1 1, 2 0, -1 1)', 0.0, -1.373, true],
-            ['POLYGON ((0 1, 1 0, 0 -1, -1 0, 0 1))', 0.0, 0.0, false],
+            ['POINT (42 42)', 42.0, 42.0, ['MySQL', 'SpatiaLite', 'PostGIS', 'GEOS']],
+            ['MULTIPOINT (0 0, 1 1)', 0.5, 0.5, ['MySQL', 'SpatiaLite', 'PostGIS', 'GEOS']],
+            ['CIRCULARSTRING (1 1, 2 0, -1 1)', 0.0, -1.373, ['PostGIS']],
+            ['POLYGON ((0 1, 1 0, 0 -1, -1 0, 0 1))', 0.0, 0.0, ['MySQL', 'MariaDB', 'SpatiaLite', 'PostGIS', 'GEOS']],
         ];
     }
 
