@@ -40,25 +40,6 @@ abstract class MultiSurface extends GeometryCollection
     }
 
     /**
-     * Returns the mathematical centroid for this MultiSurface.
-     *
-     * The result is not guaranteed to be on this MultiSurface.
-     *
-     * @noproxy
-     *
-     * @psalm-suppress LessSpecificReturnStatement
-     * @psalm-suppress MoreSpecificReturnType
-     *
-     * @return Point
-     *
-     * @throws GeometryEngineException If the operation is not supported by the geometry engine.
-     */
-    public function centroid() : Point
-    {
-        return GeometryEngineRegistry::get()->centroid($this);
-    }
-
-    /**
      * Returns a Point guaranteed to be on this MultiSurface.
      *
      * @noproxy
