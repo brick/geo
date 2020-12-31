@@ -271,6 +271,10 @@ class Point extends Geometry
 
     /**
      * {@inheritdoc}
+     *
+     * @psalm-return list<float>
+     *
+     * @return float[]
      */
     public function toArray() : array
     {
@@ -278,6 +282,7 @@ class Point extends Geometry
             return [];
         }
 
+        /** @var list<float> $result */
         $result = [$this->x, $this->y];
 
         if ($this->z !== null) {
