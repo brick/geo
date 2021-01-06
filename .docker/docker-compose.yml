@@ -1,0 +1,37 @@
+version: '3.0'
+services:
+    php:
+        container_name: ${COMPOSE_PROJECT_NAME}-php
+        build:
+            context: php
+            args:
+                - PHP_VERSION
+        networks:
+            - network
+        volumes:
+            - ..:${SOURCES_PATH}
+        environment:
+            - DATABASE_USERNAME
+            - DATABASE_PASSWORD
+            - POSTGRES_HOST
+            - POSTGRES_PORT
+        working_dir: ${SOURCES_PATH}
+    postgres:
+        container_name: ${COMPOSE_PROJECT_NAME}-postgres
+        build:
+            context: postgres
+            args:
+                - POSTGRES_VERSION
+                - POSTGIS_VERSION
+        networks:
+            - network
+        environment:
+            - POSTGRES_USER=${DATABASE_USERNAME}
+            - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
+        working_dir: /var/lib/postgresql/data
+volumes:
+    postgres:
+        name: ${COMPOSE_PROJECT_NAME}-postgres
+networks:
+    network:
+        name: ${COMPOSE_PROJECT_NAME}-network

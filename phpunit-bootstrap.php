@@ -43,7 +43,21 @@ use Brick\Geo\Engine\GEOSEngine;
             case 'PDO_PGSQL':
                 echo 'Using PDOEngine for PostgreSQL' . PHP_EOL;
 
-                $pdo = new PDO('pgsql:host=localhost', 'postgres', 'postgres');
+                $credentials = [
+                    'host' => $_ENV['POSTGRES_HOST'] ?? 'localhost',
+                    'port' => $_ENV['POSTGRES_PORT'] ?? '5432',
+                    'username' => $_ENV['DATABASE_USERNAME'] ?? 'postgres',
+                    'password' => $_ENV['DATABASE_PASSWORD'] ?? 'postgres',
+                ];
+
+                $pdo = new PDO(
+                    vsprintf('pgsql:host=%s;port=%d', [
+                        $credentials['host'],
+                        $credentials['port'],
+                    ]),
+                    $credentials['username'],
+                    $credentials['password']
+                );
                 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
                 $pdo->exec('CREATE EXTENSION IF NOT EXISTS postgis;');
