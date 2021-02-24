@@ -562,7 +562,7 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      * this geometry. Because the geometries are closed, it is
      * possible to find a point on each geometry involved, such
      * that the distance between these 2 points is the returned distance
-     * between their geometrys.
+     * between their geometries.
      *
      * @noproxy
      *
