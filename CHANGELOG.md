@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased (0.5.0)
+
+💥 **BC breaks**
+
+Note: these breaks will likely not affect you, unless you're writing your own geometry engine.
+
+- `DatabaseEngine::executeQuery()`, when provided with geometry data, now takes `GeometryParameter` objects instead of `Geometry` objects directly.
+
 ## [0.4.0](https://github.com/brick/geo/releases/tag/0.4.0) - 2020-12-29
 
 ✨ **New features**

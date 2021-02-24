@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Brick\Geo\Engine;
 
 use Brick\Geo\Exception\GeometryEngineException;
-use Brick\Geo\Geometry;
 
 /**
  * Database engine based on a PDO driver.
@@ -65,14 +64,9 @@ class PDOEngine extends DatabaseEngine
             $index = 1;
 
             foreach ($parameters as $parameter) {
-                if ($parameter instanceof Geometry) {
-                    if ($parameter->isEmpty()) {
-                        $statement->bindValue($index++, $parameter->asText(), \PDO::PARAM_STR);
-                        $statement->bindValue($index++, $parameter->SRID(), \PDO::PARAM_INT);
-                    } else {
-                        $statement->bindValue($index++, $parameter->asBinary(), \PDO::PARAM_LOB);
-                        $statement->bindValue($index++, $parameter->SRID(), \PDO::PARAM_INT);
-                    }
+                if ($parameter instanceof GeometryParameter) {
+                    $statement->bindValue($index++, $parameter->data, $parameter->isBinary ? \PDO::PARAM_LOB : \PDO::PARAM_STR);
+                    $statement->bindValue($index++, $parameter->srid, \PDO::PARAM_INT);
                 } else {
                     $statement->bindValue($index++, $parameter);
                 }

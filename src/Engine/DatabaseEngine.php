@@ -24,10 +24,10 @@ abstract class DatabaseEngine implements GeometryEngine
     /**
      * Executes a SQL query.
      *
-     * @psalm-param list<Geometry|scalar|null> $parameters
+     * @psalm-param list<GeometryParameter|scalar|null> $parameters
      *
      * @param string $query      The SQL query to execute.
-     * @param array  $parameters The Geometry objects or scalar values to pass as parameters.
+     * @param array  $parameters The geometry data or scalar values to pass as parameters.
      *
      * @return array A numeric result array.
      *
@@ -51,16 +51,20 @@ abstract class DatabaseEngine implements GeometryEngine
     private function query(string $function, array $parameters, bool $returnsGeometry) : array
     {
         $queryParameters = [];
+        $queryValues = [];
 
         foreach ($parameters as $parameter) {
             if ($parameter instanceof Geometry) {
                 if ($parameter->isEmpty()) {
                     $queryParameters[] = 'ST_GeomFromText(?, ?)';
+                    $queryValues[] = new GeometryParameter($parameter, false);
                 } else {
                     $queryParameters[] = 'ST_GeomFromWKB(?, ?)';
+                    $queryValues[] = new GeometryParameter($parameter, true);
                 }
             } else {
                 $queryParameters[] = '?';
+                $queryValues[] = $parameter;
             }
         }
 
@@ -77,7 +81,7 @@ abstract class DatabaseEngine implements GeometryEngine
             ', $query);
         }
 
-        return $this->executeQuery($query, $parameters);
+        return $this->executeQuery($query, $queryValues);
     }
 
     /**
