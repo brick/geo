@@ -19,7 +19,12 @@ abstract class DatabaseEngine implements GeometryEngine
     /**
      * @var bool
      */
-    protected $useProxy;
+    private $useProxy;
+
+    public function __construct(bool $useProxy)
+    {
+        $this->useProxy = $useProxy;
+    }
 
     /**
      * Executes a SQL query.

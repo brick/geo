@@ -34,8 +34,9 @@ class SQLite3Engine extends DatabaseEngine
      */
     public function __construct(\SQLite3 $sqlite3, bool $useProxy = true)
     {
-        $this->sqlite3  = $sqlite3;
-        $this->useProxy = $useProxy;
+        parent::__construct($useProxy);
+
+        $this->sqlite3 = $sqlite3;
     }
 
     /**

@@ -33,8 +33,9 @@ class PDOEngine extends DatabaseEngine
      */
     public function __construct(\PDO $pdo, bool $useProxy = true)
     {
-        $this->pdo      = $pdo;
-        $this->useProxy = $useProxy;
+        parent::__construct($useProxy);
+
+        $this->pdo = $pdo;
     }
 
     /**
