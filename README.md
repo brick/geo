@@ -158,6 +158,14 @@ all you need to do is create an additional in-memory SQLite3 database just to po
     GeometryEngineRegistry::set(new SQLite3Engine($sqlite3));
     ```
 
+- Depending on the functions you use, you will probably need to initialize the spatial metadata by running this query:
+
+    ```sql
+    SELECT InitSpatialMetaData();
+    ```
+  
+  You only need to run this query once if your database is persisted, but **if your database is in-memory, you'll need to run it on every connection**. Be aware that this may hurt performance.
+
 In this example we have created an in-memory database for our GIS calculations, but you can also use an existing `SQLite3` connection.
 </details>
 
