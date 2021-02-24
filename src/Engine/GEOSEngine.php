@@ -79,7 +79,7 @@ class GEOSEngine implements GeometryEngine
      *
      * @return \GEOSGeometry
      */
-    private function toGEOS(Geometry $geometry) : \GEOSGeometry
+    protected function toGEOS(Geometry $geometry) : \GEOSGeometry
     {
         if ($geometry->isEmpty()) {
             $geosGeometry = $this->wktReader->read($geometry->asText());
@@ -100,7 +100,7 @@ class GEOSEngine implements GeometryEngine
      *
      * @return Geometry
      */
-    private function fromGEOS(\GEOSGeometry $geometry) : Geometry
+    protected function fromGEOS(\GEOSGeometry $geometry) : Geometry
     {
         if ($geometry->isEmpty()) {
             return Geometry::fromText($this->wktWriter->write($geometry), $geometry->getSRID());

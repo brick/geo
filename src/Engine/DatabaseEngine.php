@@ -53,7 +53,7 @@ abstract class DatabaseEngine implements GeometryEngine
      *
      * @throws GeometryEngineException
      */
-    private function query(string $function, array $parameters, bool $returnsGeometry) : array
+    protected function query(string $function, array $parameters, bool $returnsGeometry) : array
     {
         $queryParameters = [];
         $queryValues = [];
@@ -101,7 +101,7 @@ abstract class DatabaseEngine implements GeometryEngine
      *
      * @throws GeometryEngineException
      */
-    private function queryBoolean(string $function, ...$parameters) : bool
+    protected function queryBoolean(string $function, ...$parameters) : bool
     {
         [$result] = $this->query($function, $parameters, false);
 
@@ -126,7 +126,7 @@ abstract class DatabaseEngine implements GeometryEngine
      *
      * @throws GeometryEngineException
      */
-    private function queryFloat(string $function, ...$parameters) : float
+    protected function queryFloat(string $function, ...$parameters) : float
     {
         [$result] = $this->query($function, $parameters, false);
 
@@ -149,7 +149,7 @@ abstract class DatabaseEngine implements GeometryEngine
      *
      * @throws GeometryEngineException
      */
-    private function queryGeometry(string $function, ...$parameters) : Geometry
+    protected function queryGeometry(string $function, ...$parameters) : Geometry
     {
         /** @var array{string|null, string|resource|null, string, int|numeric-string} $result */
         $result = $this->query($function, $parameters, true);
@@ -190,7 +190,7 @@ abstract class DatabaseEngine implements GeometryEngine
      *
      * @throws GeometryEngineException
      */
-    private function getProxyClassName(string $geometryType) : string
+    protected function getProxyClassName(string $geometryType) : string
     {
         $proxyClasses = [
             'CIRCULARSTRING'     => Proxy\CircularStringProxy::class,
