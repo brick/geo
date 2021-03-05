@@ -1,6 +1,10 @@
 # Changelog
 
-## Unreleased (0.5.0)
+## [0.5.0](https://github.com/brick/geo/releases/tag/0.5.0) - 2021-03-05
+
+🐛 **Fixes**
+
+- Fixed illegal parameter data type issue on MariaDB
 
 💥 **BC breaks**
 
