@@ -1,5 +1,17 @@
 # Changelog
 
+## Unreleased (0.6.0)
+
+✨ **Improvements**
+
+- Proxy data is now always sent as is to the `DatabaseEngine`
+
+💥 **BC breaks**
+
+Note: these breaks will likely not affect you.
+
+- `ProxyInterface` has a new `isProxyBinary()` method
+
 ## [0.5.0](https://github.com/brick/geo/releases/tag/0.5.0) - 2021-03-05
 
 🐛 **Fixes**

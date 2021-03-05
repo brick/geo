@@ -27,7 +27,7 @@ class PolygonProxy extends \Brick\Geo\Polygon implements ProxyInterface
      *
      * @var bool
      */
-    private $proxyIsBinary;
+    private $isProxyBinary;
 
     /**
      * The SRID of the underlying geometry.
@@ -53,7 +53,7 @@ class PolygonProxy extends \Brick\Geo\Polygon implements ProxyInterface
     public function __construct(string $data, bool $isBinary, int $srid = 0)
     {
         $this->proxyData     = $data;
-        $this->proxyIsBinary = $isBinary;
+        $this->isProxyBinary = $isBinary;
         $this->proxySRID     = $srid;
     }
 
@@ -69,7 +69,7 @@ class PolygonProxy extends \Brick\Geo\Polygon implements ProxyInterface
      */
     private function load() : void
     {
-        $this->proxyGeometry = $this->proxyIsBinary
+        $this->proxyGeometry = $this->isProxyBinary
             ? \Brick\Geo\Polygon::fromBinary($this->proxyData, $this->proxySRID)
             : \Brick\Geo\Polygon::fromText($this->proxyData, $this->proxySRID);
     }
@@ -92,6 +92,11 @@ class PolygonProxy extends \Brick\Geo\Polygon implements ProxyInterface
         }
 
         return $this->proxyGeometry;
+    }
+
+    public function isProxyBinary() : bool
+    {
+        return $this->isProxyBinary;
     }
 
     /**
@@ -123,7 +128,7 @@ class PolygonProxy extends \Brick\Geo\Polygon implements ProxyInterface
      */
     public function asText() : string
     {
-        if (! $this->proxyIsBinary) {
+        if (! $this->isProxyBinary) {
             return $this->proxyData;
         }
 
@@ -139,7 +144,7 @@ class PolygonProxy extends \Brick\Geo\Polygon implements ProxyInterface
      */
     public function asBinary() : string
     {
-        if ($this->proxyIsBinary) {
+        if ($this->isProxyBinary) {
             return $this->proxyData;
         }
 

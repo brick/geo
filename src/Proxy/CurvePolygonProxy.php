@@ -27,7 +27,7 @@ class CurvePolygonProxy extends \Brick\Geo\CurvePolygon implements ProxyInterfac
      *
      * @var bool
      */
-    private $proxyIsBinary;
+    private $isProxyBinary;
 
     /**
      * The SRID of the underlying geometry.
@@ -53,7 +53,7 @@ class CurvePolygonProxy extends \Brick\Geo\CurvePolygon implements ProxyInterfac
     public function __construct(string $data, bool $isBinary, int $srid = 0)
     {
         $this->proxyData     = $data;
-        $this->proxyIsBinary = $isBinary;
+        $this->isProxyBinary = $isBinary;
         $this->proxySRID     = $srid;
     }
 
@@ -69,7 +69,7 @@ class CurvePolygonProxy extends \Brick\Geo\CurvePolygon implements ProxyInterfac
      */
     private function load() : void
     {
-        $this->proxyGeometry = $this->proxyIsBinary
+        $this->proxyGeometry = $this->isProxyBinary
             ? \Brick\Geo\CurvePolygon::fromBinary($this->proxyData, $this->proxySRID)
             : \Brick\Geo\CurvePolygon::fromText($this->proxyData, $this->proxySRID);
     }
@@ -92,6 +92,11 @@ class CurvePolygonProxy extends \Brick\Geo\CurvePolygon implements ProxyInterfac
         }
 
         return $this->proxyGeometry;
+    }
+
+    public function isProxyBinary() : bool
+    {
+        return $this->isProxyBinary;
     }
 
     /**
@@ -123,7 +128,7 @@ class CurvePolygonProxy extends \Brick\Geo\CurvePolygon implements ProxyInterfac
      */
     public function asText() : string
     {
-        if (! $this->proxyIsBinary) {
+        if (! $this->isProxyBinary) {
             return $this->proxyData;
         }
 
@@ -139,7 +144,7 @@ class CurvePolygonProxy extends \Brick\Geo\CurvePolygon implements ProxyInterfac
      */
     public function asBinary() : string
     {
-        if ($this->proxyIsBinary) {
+        if ($this->isProxyBinary) {
             return $this->proxyData;
         }
 

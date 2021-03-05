@@ -11,15 +11,16 @@ interface ProxyInterface
 {
     /**
      * Returns whether the underlying Geometry is loaded.
-     *
-     * @return bool
      */
     public function isLoaded() : bool;
 
     /**
      * Loads and returns the underlying Geometry.
-     *
-     * @return Geometry
      */
     public function getGeometry() : Geometry;
+
+    /**
+     * Returns whether the underlying data is WKB (true) or WKT (false).
+     */
+    public function isProxyBinary() : bool;
 }

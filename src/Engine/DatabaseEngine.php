@@ -79,7 +79,15 @@ abstract class DatabaseEngine implements GeometryEngine
         $queryValues = [];
 
         foreach ($parameters as $parameter) {
-            if ($parameter instanceof Geometry) {
+            if ($parameter instanceof Proxy\ProxyInterface) {
+                if ($parameter->isProxyBinary()) {
+                    $queryParameters[] = $this->getGeomFromWKBSyntax();
+                    $queryValues[] = new GeometryParameter($parameter, true);
+                } else {
+                    $queryParameters[] = $this->getGeomFromTextSyntax();
+                    $queryValues[] = new GeometryParameter($parameter, false);
+                }
+            } elseif ($parameter instanceof Geometry) {
                 if ($parameter->isEmpty()) {
                     $queryParameters[] = $this->getGeomFromTextSyntax();
                     $queryValues[] = new GeometryParameter($parameter, false);
