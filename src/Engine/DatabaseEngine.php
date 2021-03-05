@@ -79,22 +79,18 @@ abstract class DatabaseEngine implements GeometryEngine
         $queryValues = [];
 
         foreach ($parameters as $parameter) {
-            if ($parameter instanceof Proxy\ProxyInterface) {
-                if ($parameter->isProxyBinary()) {
-                    $queryParameters[] = $this->getGeomFromWKBSyntax();
-                    $queryValues[] = new GeometryParameter($parameter, true);
+            if ($parameter instanceof Geometry) {
+                if ($parameter instanceof Proxy\ProxyInterface) {
+                    $sendAsBinary = $parameter->isProxyBinary();
                 } else {
-                    $queryParameters[] = $this->getGeomFromTextSyntax();
-                    $queryValues[] = new GeometryParameter($parameter, false);
+                    $sendAsBinary = ! $parameter->isEmpty();
                 }
-            } elseif ($parameter instanceof Geometry) {
-                if ($parameter->isEmpty()) {
-                    $queryParameters[] = $this->getGeomFromTextSyntax();
-                    $queryValues[] = new GeometryParameter($parameter, false);
-                } else {
-                    $queryParameters[] = $this->getGeomFromWKBSyntax();
-                    $queryValues[] = new GeometryParameter($parameter, true);
-                }
+
+                $queryParameters[] = $sendAsBinary
+                    ? $this->getGeomFromWKBSyntax()
+                    : $this->getGeomFromTextSyntax();
+
+                $queryValues[] = new GeometryParameter($parameter, $sendAsBinary);
             } else {
                 $queryParameters[] = '?';
                 $queryValues[] = $parameter;
