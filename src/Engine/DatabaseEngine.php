@@ -41,6 +41,26 @@ abstract class DatabaseEngine implements GeometryEngine
     abstract protected function executeQuery(string $query, array $parameters) : array;
 
     /**
+     * Returns the syntax required to perform a ST_GeomFromText(), together with placeholders.
+     *
+     * This method may be overridden if necessary.
+     */
+    protected function getGeomFromTextSyntax(): string
+    {
+        return 'ST_GeomFromText(?, ?)';
+    }
+
+    /**
+     * Returns the syntax required to perform a ST_GeomFromWKB(), together with placeholders.
+     *
+     * This method may be overridden if necessary.
+     */
+    protected function getGeomFromWKBSyntax(): string
+    {
+        return 'ST_GeomFromWKB(?, ?)';
+    }
+
+    /**
      * Builds and executes a SQL query for a GIS function.
      *
      * @psalm-param list<Geometry|scalar|null> $parameters
@@ -61,10 +81,10 @@ abstract class DatabaseEngine implements GeometryEngine
         foreach ($parameters as $parameter) {
             if ($parameter instanceof Geometry) {
                 if ($parameter->isEmpty()) {
-                    $queryParameters[] = 'ST_GeomFromText(?, ?)';
+                    $queryParameters[] = $this->getGeomFromTextSyntax();
                     $queryValues[] = new GeometryParameter($parameter, false);
                 } else {
-                    $queryParameters[] = 'ST_GeomFromWKB(?, ?)';
+                    $queryParameters[] = $this->getGeomFromWKBSyntax();
                     $queryValues[] = new GeometryParameter($parameter, true);
                 }
             } else {

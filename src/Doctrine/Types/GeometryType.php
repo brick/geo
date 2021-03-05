@@ -6,11 +6,11 @@ namespace Brick\Geo\Doctrine\Types;
 
 use Brick\Geo\Geometry;
 use Brick\Geo\Proxy\GeometryProxy;
-
 use Brick\Geo\Proxy\ProxyInterface;
-use Doctrine\DBAL\Types\Type;
+use Doctrine\DBAL\Platforms\MySqlPlatform;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Platforms\PostgreSqlPlatform;
+use Doctrine\DBAL\Types\Type;
 
 /**
  * Doctrine type for Geometry.
@@ -101,6 +101,10 @@ class GeometryType extends Type
      */
     public function convertToDatabaseValueSQL($sqlExpr, AbstractPlatform $platform)
     {
+        if ($platform instanceof MySqlPlatform) {
+            $sqlExpr = sprintf('CAST(%s AS BINARY)', $sqlExpr);
+        }
+
         return sprintf('ST_GeomFromWKB(%s, %d)', $sqlExpr, self::$srid);
     }
 
