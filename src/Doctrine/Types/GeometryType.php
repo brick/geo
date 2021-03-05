@@ -26,7 +26,7 @@ class GeometryType extends Type
      * Due to current limitations in Doctrine, this will also be used when sending geometries to the database,
      * in place of the actual SRID of the geometry.
      *
-     * @see http://www.doctrine-project.org/jira/browse/DDC-3319
+     * @see https://github.com/doctrine/orm/issues/4114
      *
      * @var int
      */
