@@ -27,7 +27,7 @@ Not using MySQL/MariaDB? You still have a few options to choose from!
 Requirements and installation
 -----------------------------
 
-This library requires 7.2 or later.
+This library requires PHP 7.4 or PHP 8. For PHP 7.2 & 7.3, you can use version 0.5.
 
 Install the library with [Composer](https://getcomposer.org/):
 

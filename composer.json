@@ -11,7 +11,7 @@
     ],
     "license": "MIT",
     "require": {
-        "php": "^7.2 || ^8.0"
+        "php": "^7.4 || ^8.0"
     },
     "require-dev": {
         "brick/reflection": "~0.2.0 || ~0.3.0 || ~0.4.0",
