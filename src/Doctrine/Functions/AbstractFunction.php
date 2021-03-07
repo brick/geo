@@ -23,7 +23,7 @@ abstract class AbstractFunction extends FunctionNode
 
     abstract protected function getParameterCount() : int;
 
-    public function getSql(SqlWalker $sqlWalker)
+    public function getSql(SqlWalker $sqlWalker) : string
     {
         $sql = $this->getSqlFunctionName() . '(';
 
@@ -40,7 +40,7 @@ abstract class AbstractFunction extends FunctionNode
         return $sql;
     }
 
-    public function parse(Parser $parser)
+    public function parse(Parser $parser) : void
     {
         $this->args = [];
 
