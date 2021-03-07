@@ -35,8 +35,6 @@ abstract class MultiCurve extends GeometryCollection
      *
      * @noproxy
      *
-     * @return bool
-     *
      * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
     public function isClosed() : bool
@@ -50,8 +48,6 @@ abstract class MultiCurve extends GeometryCollection
      * The length is equal to the sum of the lengths of the element Curves.
      *
      * @noproxy
-     *
-     * @return float
      *
      * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */

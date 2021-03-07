@@ -62,8 +62,6 @@ class CurvePolygon extends Surface
      * @param Curve    $exteriorRing  The exterior ring.
      * @param Curve ...$interiorRings The interior rings, if any.
      *
-     * @return CurvePolygon
-     *
      * @throws CoordinateSystemException If the rings use different coordinate systems.
      */
     public static function of(Curve $exteriorRing, Curve ...$interiorRings) :  CurvePolygon
@@ -73,8 +71,6 @@ class CurvePolygon extends Surface
 
     /**
      * Returns the exterior ring of this CurvePolygon.
-     *
-     * @return Curve
      *
      * @throws EmptyGeometryException
      */
@@ -89,8 +85,6 @@ class CurvePolygon extends Surface
 
     /**
      * Returns the number of interior rings in this CurvePolygon.
-     *
-     * @return int
      */
     public function numInteriorRings() : int
     {
@@ -105,8 +99,6 @@ class CurvePolygon extends Surface
      * Returns the specified interior ring N in this CurvePolygon.
      *
      * @param int $n The ring number, 1-based.
-     *
-     * @return Curve
      *
      * @throws NoSuchGeometryException If there is no interior ring at this index.
      */
@@ -131,8 +123,6 @@ class CurvePolygon extends Surface
 
     /**
      * @noproxy
-     *
-     * {@inheritdoc}
      */
     public function geometryType() : string
     {
@@ -141,17 +131,12 @@ class CurvePolygon extends Surface
 
     /**
      * @noproxy
-     *
-     * {@inheritdoc}
      */
     public function geometryTypeBinary() : int
     {
         return Geometry::CURVEPOLYGON;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function toArray() : array
     {
         $result = [];
@@ -181,8 +166,6 @@ class CurvePolygon extends Surface
      * Returns the number of rings (exterior + interior) in this CurvePolygon.
      *
      * Required by interface Countable.
-     *
-     * {@inheritdoc}
      */
     public function count() : int
     {

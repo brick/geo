@@ -35,8 +35,6 @@ class CoordinateSystem
     private $srid;
 
     /**
-     * Class constructor.
-     *
      * @param bool $hasZ Whether the coordinate system has Z-coordinates.
      * @param bool $hasM Whether the coordinate system has M-coordinates.
      * @param int  $srid The optional Spatial Reference ID of the coordinate system.
@@ -50,10 +48,6 @@ class CoordinateSystem
 
     /**
      * Returns a CoordinateSystem with X and Y coordinates, and an optional SRID.
-     *
-     * @param int $srid The optional Spatial Reference ID.
-     *
-     * @return CoordinateSystem
      */
     public static function xy(int $srid = 0) : CoordinateSystem
     {
@@ -62,10 +56,6 @@ class CoordinateSystem
 
     /**
      * Returns a CoordinateSystem with X, Y and Z coordinates, and an optional SRID.
-     *
-     * @param int $srid The optional Spatial Reference ID.
-     *
-     * @return CoordinateSystem
      */
     public static function xyz(int $srid = 0) : CoordinateSystem
     {
@@ -74,10 +64,6 @@ class CoordinateSystem
 
     /**
      * Returns a CoordinateSystem with X, Y and M coordinates, and an optional SRID.
-     *
-     * @param int $srid The optional Spatial Reference ID.
-     *
-     * @return CoordinateSystem
      */
     public static function xym(int $srid = 0) : CoordinateSystem
     {
@@ -86,10 +72,6 @@ class CoordinateSystem
 
     /**
      * Returns a CoordinateSystem with X, Y, Z and M coordinates, and an optional SRID.
-     *
-     * @param int $srid The optional Spatial Reference ID.
-     *
-     * @return CoordinateSystem
      */
     public static function xyzm(int $srid = 0) : CoordinateSystem
     {
@@ -98,8 +80,6 @@ class CoordinateSystem
 
     /**
      * Returns whether this coordinate system has Z-coordinates.
-     *
-     * @return bool
      */
     public function hasZ() : bool
     {
@@ -108,8 +88,6 @@ class CoordinateSystem
 
     /**
      * Returns whether this coordinate system has M-coordinates.
-     *
-     * @return bool
      */
     public function hasM() : bool
     {
@@ -118,8 +96,6 @@ class CoordinateSystem
 
     /**
      * Returns the Spatial Reference System Identifier of this coordinate system.
-     *
-     * @return int
      */
     public function SRID() : int
     {
@@ -128,8 +104,6 @@ class CoordinateSystem
 
     /**
      * Returns a name for the coordinates in this system, such as XY or XYZ.
-     *
-     * @return string
      */
     public function coordinateName() : string
     {
@@ -182,10 +156,6 @@ class CoordinateSystem
 
     /**
      * Returns a copy of this CoordinateSystem with the SRID altered.
-     *
-     * @param int $srid
-     *
-     * @return CoordinateSystem
      */
     public function withSRID(int $srid) : CoordinateSystem
     {
@@ -202,8 +172,6 @@ class CoordinateSystem
     /**
      * @param Geometry    $reference  The geometry holding the reference coordinate system.
      * @param Geometry ...$geometries The geometries to check against this coordinate system.
-     *
-     * @return void
      *
      * @throws CoordinateSystemException If the coordinate systems differ.
      */

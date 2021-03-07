@@ -50,8 +50,6 @@ class Polygon extends Surface
     protected $rings = [];
 
     /**
-     * Class constructor.
-     *
      * The coordinate system of each of the rings must match the one of the Polygon.
      *
      * @param CoordinateSystem $cs       The coordinate system of the Polygon.
@@ -81,8 +79,6 @@ class Polygon extends Surface
      * @param LineString    $exteriorRing  The exterior ring.
      * @param LineString ...$interiorRings The interior rings, if any.
      *
-     * @return Polygon
-     *
      * @throws InvalidGeometryException  If the resulting geometry is not valid for a sub-type of Polygon.
      * @throws CoordinateSystemException If the rings use different coordinate systems.
      */
@@ -93,8 +89,6 @@ class Polygon extends Surface
 
     /**
      * Returns the exterior ring of this Polygon.
-     *
-     * @return LineString
      *
      * @throws EmptyGeometryException
      */
@@ -109,8 +103,6 @@ class Polygon extends Surface
 
     /**
      * Returns the number of interior rings in this Polygon.
-     *
-     * @return int
      */
     public function numInteriorRings() : int
     {
@@ -125,8 +117,6 @@ class Polygon extends Surface
      * Returns the specified interior ring N in this Polygon.
      *
      * @param int $n The ring number, 1-based.
-     *
-     * @return LineString
      *
      * @throws NoSuchGeometryException If there is no interior ring at this index.
      */
@@ -151,8 +141,6 @@ class Polygon extends Surface
 
     /**
      * @noproxy
-     *
-     * {@inheritdoc}
      */
     public function geometryType() : string
     {
@@ -161,17 +149,12 @@ class Polygon extends Surface
 
     /**
      * @noproxy
-     *
-     * {@inheritdoc}
      */
     public function geometryTypeBinary() : int
     {
         return Geometry::POLYGON;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function toArray() : array
     {
         $result = [];
@@ -201,8 +184,6 @@ class Polygon extends Surface
      * Returns the number of rings (exterior + interior) in this Polygon.
      *
      * Required by interface Countable.
-     *
-     * {@inheritdoc}
      */
     public function count() : int
     {

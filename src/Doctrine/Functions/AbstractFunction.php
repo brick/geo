@@ -19,19 +19,10 @@ abstract class AbstractFunction extends FunctionNode
      */
     private $args = [];
 
-    /**
-     * @return string
-     */
     abstract protected function getSqlFunctionName() : string;
 
-    /**
-     * @return int
-     */
     abstract protected function getParameterCount() : int;
 
-    /**
-     * {@inheritdoc}
-     */
     public function getSql(SqlWalker $sqlWalker)
     {
         $sql = $this->getSqlFunctionName() . '(';
@@ -49,9 +40,6 @@ abstract class AbstractFunction extends FunctionNode
         return $sql;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function parse(Parser $parser)
     {
         $this->args = [];

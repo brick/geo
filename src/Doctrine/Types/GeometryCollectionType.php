@@ -11,17 +11,11 @@ use Brick\Geo\Proxy\GeometryCollectionProxy;
  */
 class GeometryCollectionType extends GeometryType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function getName()
     {
         return 'GeometryCollection';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getProxyClassName() : string
     {
         return GeometryCollectionProxy::class;

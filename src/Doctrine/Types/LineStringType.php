@@ -11,17 +11,11 @@ use Brick\Geo\Proxy\LineStringProxy;
  */
 class LineStringType extends GeometryType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function getName()
     {
         return 'LineString';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getProxyClassName() : string
     {
         return LineStringProxy::class;

@@ -19,8 +19,6 @@ class GeoJSONWriter
     private $prettyPrint;
 
     /**
-     * GeoJSONWriter constructor.
-     *
      * @param bool $prettyPrint Whether to pretty-print the JSON output.
      */
     public function __construct(bool $prettyPrint = false)
@@ -47,10 +45,6 @@ class GeoJSONWriter
     }
 
     /**
-     * @param Geometry $geometry
-     *
-     * @return array
-     *
      * @throws GeometryIOException
      */
     private function formatGeoJSONGeometry(Geometry $geometry) : array
@@ -76,10 +70,6 @@ class GeoJSONWriter
     }
 
     /**
-     * @param GeometryCollection $geometryCollection
-     *
-     * @return string
-     *
      * @throws GeometryIOException
      */
     private function writeFeatureCollection(GeometryCollection $geometryCollection) : string
@@ -99,11 +89,6 @@ class GeoJSONWriter
         return $this->genGeoJSONString($geojsonArray);
     }
 
-    /**
-     * @param array $geojsonArray
-     *
-     * @return string
-     */
     private function genGeoJSONString(array $geojsonArray) : string
     {
         return json_encode($geojsonArray, $this->prettyPrint ? JSON_PRETTY_PRINT : 0);

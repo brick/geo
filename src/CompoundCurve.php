@@ -73,8 +73,6 @@ class CompoundCurve extends Curve
      * @param Curve    $curve1 The first curve.
      * @param Curve ...$curveN The subsequent curves, if any.
      *
-     * @return CompoundCurve
-     *
      * @throws EmptyGeometryException    If any of the input curves is empty.
      * @throws InvalidGeometryException  If the compound curve is not continuous.
      * @throws CoordinateSystemException If the curves use different coordinate systems.
@@ -84,9 +82,6 @@ class CompoundCurve extends Curve
         return new CompoundCurve($curve1->coordinateSystem(), $curve1, ...$curveN);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function startPoint() : Point
     {
         if ($this->isEmpty) {
@@ -96,9 +91,6 @@ class CompoundCurve extends Curve
         return $this->curves[0]->startPoint();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function endPoint() : Point
     {
         if ($this->isEmpty) {
@@ -112,8 +104,6 @@ class CompoundCurve extends Curve
 
     /**
      * Returns the number of Curves in this CompoundCurve.
-     *
-     * @return int
      */
     public function numCurves() : int
     {
@@ -124,8 +114,6 @@ class CompoundCurve extends Curve
      * Returns the specified Curve N in this CompoundCurve.
      *
      * @param int $n The curve number, 1-based.
-     *
-     * @return Curve
      *
      * @throws NoSuchGeometryException If there is no Curve at this index.
      */
@@ -150,8 +138,6 @@ class CompoundCurve extends Curve
 
     /**
      * @noproxy
-     *
-     * {@inheritdoc}
      */
     public function geometryType() : string
     {
@@ -160,17 +146,12 @@ class CompoundCurve extends Curve
 
     /**
      * @noproxy
-     *
-     * {@inheritdoc}
      */
     public function geometryTypeBinary() : int
     {
         return Geometry::COMPOUNDCURVE;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function toArray() : array
     {
         $result = [];
@@ -200,8 +181,6 @@ class CompoundCurve extends Curve
      * Returns the number of curves in this CompoundCurve.
      *
      * Required by interface Countable.
-     *
-     * {@inheritdoc}
      */
     public function count() : int
     {

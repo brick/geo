@@ -11,17 +11,11 @@ use Brick\Geo\Proxy\PointProxy;
  */
 class PointType extends GeometryType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function getName()
     {
         return 'Point';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getProxyClassName() : string
     {
         return PointProxy::class;

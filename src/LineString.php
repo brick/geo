@@ -66,8 +66,6 @@ class LineString extends Curve
      * @param Point    $point1 The first point.
      * @param Point ...$pointN The subsequent points.
      *
-     * @return LineString
-     *
      * @throws InvalidGeometryException  If only one point was given.
      * @throws CoordinateSystemException If the points use different coordinate systems.
      */
@@ -82,11 +80,6 @@ class LineString extends Curve
      * The result is a linear ring (closed and simple).
      *
      * @psalm-suppress PossiblyNullArgument
-     *
-     * @param Point $a
-     * @param Point $b
-     *
-     * @return LineString
      *
      * @throws EmptyGeometryException    If any of the points is empty.
      * @throws CoordinateSystemException If the points use different coordinate systems, or are not 2D.
@@ -121,9 +114,6 @@ class LineString extends Curve
         return new LineString($cs, $p1, $p2, $p3, $p4, $p1);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function startPoint() : Point
     {
         if ($this->isEmpty) {
@@ -133,9 +123,6 @@ class LineString extends Curve
         return $this->points[0];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function endPoint() : Point
     {
         if ($this->isEmpty) {
@@ -147,8 +134,6 @@ class LineString extends Curve
 
     /**
      * Returns the number of Points in this LineString.
-     *
-     * @return int
      */
     public function numPoints() : int
     {
@@ -159,8 +144,6 @@ class LineString extends Curve
      * Returns the specified Point N in this LineString.
      *
      * @param int $n The point number, 1-based.
-     *
-     * @return Point
      *
      * @throws NoSuchGeometryException If there is no Point at this index.
      */
@@ -185,8 +168,6 @@ class LineString extends Curve
 
     /**
      * @noproxy
-     *
-     * {@inheritdoc}
      */
     public function geometryType() : string
     {
@@ -195,17 +176,12 @@ class LineString extends Curve
 
     /**
      * @noproxy
-     *
-     * {@inheritdoc}
      */
     public function geometryTypeBinary() : int
     {
         return Geometry::LINESTRING;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function toArray() : array
     {
         $result = [];
@@ -235,8 +211,6 @@ class LineString extends Curve
      * Returns the number of points in this LineString.
      *
      * Required by interface Countable.
-     *
-     * {@inheritdoc}
      */
     public function count() : int
     {

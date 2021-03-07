@@ -11,17 +11,11 @@ use Brick\Geo\Proxy\MultiPolygonProxy;
  */
 class MultiPolygonType extends GeometryType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function getName()
     {
         return 'MultiPolygon';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getProxyClassName() : string
     {
         return MultiPolygonProxy::class;

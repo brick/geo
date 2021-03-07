@@ -30,8 +30,6 @@ abstract class MultiSurface extends GeometryCollection
      *
      * @noproxy
      *
-     * @return float
-     *
      * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
     public function area() : float
@@ -46,8 +44,6 @@ abstract class MultiSurface extends GeometryCollection
      *
      * @psalm-suppress LessSpecificReturnStatement
      * @psalm-suppress MoreSpecificReturnType
-     *
-     * @return Point
      *
      * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */

@@ -39,12 +39,7 @@ class GeometryCollection extends Geometry
     protected $geometries = [];
 
     /**
-     * Class constructor.
-     *
      * @psalm-param T ...$geometries
-     *
-     * @param CoordinateSystem $cs
-     * @param Geometry         ...$geometries
      *
      * @throws CoordinateSystemException   If different coordinate systems are used.
      * @throws UnexpectedGeometryException If a geometry is not a valid type for a sub-class of GeometryCollection.
@@ -104,8 +99,6 @@ class GeometryCollection extends Geometry
 
     /**
      * Returns the number of geometries in this GeometryCollection.
-     *
-     * @return int
      */
     public function numGeometries() : int
     {
@@ -116,8 +109,6 @@ class GeometryCollection extends Geometry
      * Returns the specified geometry N in this GeometryCollection.
      *
      * @param int $n The geometry number, 1-based.
-     *
-     * @return Geometry
      *
      * @throws NoSuchGeometryException If there is no Geometry at this index.
      */
@@ -142,8 +133,6 @@ class GeometryCollection extends Geometry
 
     /**
      * @noproxy
-     *
-     * {@inheritdoc}
      */
     public function geometryType() : string
     {
@@ -152,17 +141,12 @@ class GeometryCollection extends Geometry
 
     /**
      * @noproxy
-     *
-     * {@inheritdoc}
      */
     public function geometryTypeBinary() : int
     {
         return Geometry::GEOMETRYCOLLECTION;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function dimension() : int
     {
         $dimension = 0;
@@ -178,9 +162,6 @@ class GeometryCollection extends Geometry
         return $dimension;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function toArray() : array
     {
         $result = [];
@@ -192,9 +173,6 @@ class GeometryCollection extends Geometry
         return $result;
     }
 
-    /**
-     * @return Geometry
-     */
     public function swapXY() : Geometry
     {
         $that = clone $this;
@@ -210,8 +188,6 @@ class GeometryCollection extends Geometry
      * Returns the number of geometries in this GeometryCollection.
      *
      * Required by interface Countable.
-     *
-     * {@inheritdoc}
      */
     public function count() : int
     {
@@ -232,8 +208,6 @@ class GeometryCollection extends Geometry
 
     /**
      * Returns the FQCN of the contained Geometry type.
-     *
-     * @return string
      */
     protected function containedGeometryType() : string
     {

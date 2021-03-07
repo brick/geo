@@ -85,12 +85,6 @@ class Point extends Geometry
 
     /**
      * Creates a point with X and Y coordinates.
-     *
-     * @param float $x    The X coordinate.
-     * @param float $y    The Y coordinate.
-     * @param int   $srid An optional SRID.
-     *
-     * @return Point
      */
     public static function xy(float $x, float $y, int $srid = 0) : Point
     {
@@ -99,13 +93,6 @@ class Point extends Geometry
 
     /**
      * Creates a point with X, Y and Z coordinates.
-     *
-     * @param float $x    The X coordinate.
-     * @param float $y    The Y coordinate.
-     * @param float $z    The Z coordinate.
-     * @param int   $srid An optional SRID.
-     *
-     * @return Point
      */
     public static function xyz(float $x, float $y, float $z, int $srid = 0) : Point
     {
@@ -114,13 +101,6 @@ class Point extends Geometry
 
     /**
      * Creates a point with X, Y and M coordinates.
-     *
-     * @param float $x    The X coordinate.
-     * @param float $y    The Y coordinate.
-     * @param float $m    The M coordinate.
-     * @param int   $srid An optional SRID.
-     *
-     * @return Point
      */
     public static function xym(float $x, float $y, float $m, int $srid = 0) : Point
     {
@@ -129,14 +109,6 @@ class Point extends Geometry
 
     /**
      * Creates a point with X, Y, Z and M coordinates.
-     *
-     * @param float $x    The X coordinate.
-     * @param float $y    The Y coordinate.
-     * @param float $z    The Z coordinate.
-     * @param float $m    The M coordinate.
-     * @param int   $srid An optional SRID.
-     *
-     * @return Point
      */
     public static function xyzm(float $x, float $y, float $z, float $m, int $srid = 0) : Point
     {
@@ -145,10 +117,6 @@ class Point extends Geometry
 
     /**
      * Creates an empty Point with XY dimensionality.
-     *
-     * @param int $srid An optional SRID.
-     *
-     * @return Point
      */
     public static function xyEmpty(int $srid = 0) : Point
     {
@@ -157,10 +125,6 @@ class Point extends Geometry
 
     /**
      * Creates an empty Point with XYZ dimensionality.
-     *
-     * @param int $srid An optional SRID.
-     *
-     * @return Point
      */
     public static function xyzEmpty(int $srid = 0) : Point
     {
@@ -169,10 +133,6 @@ class Point extends Geometry
 
     /**
      * Creates an empty Point with XYM dimensionality.
-     *
-     * @param int $srid An optional SRID.
-     *
-     * @return Point
      */
     public static function xymEmpty(int $srid = 0) : Point
     {
@@ -181,10 +141,6 @@ class Point extends Geometry
 
     /**
      * Creates an empty Point with XYZM dimensionality.
-     *
-     * @param int $srid An optional SRID.
-     *
-     * @return Point
      */
     public static function xyzmEmpty(int $srid = 0) : Point
     {
@@ -195,8 +151,6 @@ class Point extends Geometry
      * Returns the x-coordinate value for this Point.
      *
      * Returns NULL if the Point is empty.
-     *
-     * @return float|null
      */
     public function x() : ?float
     {
@@ -207,8 +161,6 @@ class Point extends Geometry
      * Returns the y-coordinate value for this Point.
      *
      * Returns NULL if the Point is empty.
-     *
-     * @return float|null
      */
     public function y() : ?float
     {
@@ -219,8 +171,6 @@ class Point extends Geometry
      * Returns the z-coordinate value for this Point.
      *
      * Returns NULL if the Point is empty, or does not have a Z coordinate.
-     *
-     * @return float|null
      */
     public function z() : ?float
     {
@@ -231,8 +181,6 @@ class Point extends Geometry
      * Returns the m-coordinate value for this Point.
      *
      * Returns NULL if the Point is empty, or does not have a M coordinate.
-     *
-     * @return float|null
      */
     public function m() : ?float
     {
@@ -241,8 +189,6 @@ class Point extends Geometry
 
     /**
      * @noproxy
-     *
-     * {@inheritdoc}
      */
     public function geometryType() : string
     {
@@ -251,8 +197,6 @@ class Point extends Geometry
 
     /**
      * @noproxy
-     *
-     * {@inheritdoc}
      */
     public function geometryTypeBinary() : int
     {
@@ -261,8 +205,6 @@ class Point extends Geometry
 
     /**
      * @noproxy
-     *
-     * {@inheritdoc}
      */
     public function dimension() : int
     {
@@ -270,8 +212,6 @@ class Point extends Geometry
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @psalm-return list<float>
      *
      * @return float[]
@@ -313,8 +253,6 @@ class Point extends Geometry
      * Returns the number of coordinates in this Point.
      *
      * Required by interface Countable.
-     *
-     * {@inheritdoc}
      */
     public function count() : int
     {

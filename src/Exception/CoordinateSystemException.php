@@ -11,12 +11,6 @@ use Brick\Geo\Geometry;
  */
 class CoordinateSystemException extends GeometryException
 {
-    /**
-     * @param Geometry $reference
-     * @param Geometry $culprit
-     *
-     * @return CoordinateSystemException
-     */
     public static function sridMix(Geometry $reference, Geometry $culprit) : CoordinateSystemException
     {
         return new CoordinateSystemException(sprintf(
@@ -28,12 +22,6 @@ class CoordinateSystemException extends GeometryException
         ));
     }
 
-    /**
-     * @param Geometry $reference
-     * @param Geometry $culprit
-     *
-     * @return CoordinateSystemException
-     */
     public static function dimensionalityMix(Geometry $reference, Geometry $culprit) : CoordinateSystemException
     {
         return new CoordinateSystemException(sprintf(

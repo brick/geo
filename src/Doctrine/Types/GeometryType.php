@@ -40,17 +40,11 @@ class GeometryType extends Type
         return GeometryProxy::class;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getName()
     {
         return 'Geometry';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getSQLDeclaration(array $column, AbstractPlatform $platform)
     {
         if ($platform instanceof PostgreSqlPlatform) {
@@ -60,9 +54,6 @@ class GeometryType extends Type
         return strtoupper($this->getName());
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function convertToPHPValue($value, AbstractPlatform $platform)
     {
         if ($value === null) {
@@ -78,9 +69,6 @@ class GeometryType extends Type
         return new $proxyClassName($value, true, self::$srid);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function convertToDatabaseValue($value, AbstractPlatform $platform)
     {
         if ($value === null) {
@@ -96,9 +84,6 @@ class GeometryType extends Type
         throw new \UnexpectedValueException(sprintf('Expected %s, got %s.', Geometry::class, $type));
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function convertToDatabaseValueSQL($sqlExpr, AbstractPlatform $platform)
     {
         if ($platform instanceof MySqlPlatform) {
@@ -108,33 +93,21 @@ class GeometryType extends Type
         return sprintf('ST_GeomFromWKB(%s, %d)', $sqlExpr, self::$srid);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function convertToPHPValueSQL($sqlExpr, $platform)
     {
         return sprintf('ST_AsBinary(%s)', $sqlExpr);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function canRequireSQLConversion()
     {
         return true;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function requiresSQLCommentHint(AbstractPlatform $platform)
     {
         return true;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getBindingType()
     {
         return \PDO::PARAM_LOB;

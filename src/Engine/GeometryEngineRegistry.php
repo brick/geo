@@ -18,8 +18,6 @@ final class GeometryEngineRegistry
 
     /**
      * Returns whether a geometry engine is set.
-     *
-     * @return bool
      */
     public static function has() : bool
     {
@@ -28,10 +26,6 @@ final class GeometryEngineRegistry
 
     /**
      * Sets the GeometryEngine to use for calculations.
-     *
-     * @param GeometryEngine $engine
-     *
-     * @return void
      */
     public static function set(GeometryEngine $engine) : void
     {
@@ -40,8 +34,6 @@ final class GeometryEngineRegistry
 
     /**
      * Returns the GeometryEngine to use for calculations.
-     *
-     * @return GeometryEngine
      *
      * @throws GeometryEngineException
      */

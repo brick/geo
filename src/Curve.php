@@ -18,8 +18,6 @@ abstract class Curve extends Geometry
     /**
      * @noproxy
      *
-     * {@inheritdoc}
-     *
      * A Curve is a 1-dimensional geometric object.
      */
     public function dimension() : int
@@ -32,8 +30,6 @@ abstract class Curve extends Geometry
      *
      * @noproxy
      *
-     * @return float
-     *
      * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
     public function length() : float
@@ -44,16 +40,12 @@ abstract class Curve extends Geometry
     /**
      * Returns the start Point of this Curve.
      *
-     * @return Point
-     *
      * @throws EmptyGeometryException If the curve is empty.
      */
     abstract public function startPoint() : Point;
 
     /**
      * Returns the end Point of this Curve.
-     *
-     * @return Point
      *
      * @throws EmptyGeometryException If the curve is empty.
      */
@@ -65,8 +57,6 @@ abstract class Curve extends Geometry
      * The curve is closed if `startPoint()` == `endPoint()`.
      *
      * @noproxy
-     *
-     * @return bool
      *
      * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
@@ -84,8 +74,6 @@ abstract class Curve extends Geometry
      * The curve is simple if it does not pass through the same point more than once.
      *
      * @noproxy
-     *
-     * @return bool
      *
      * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */

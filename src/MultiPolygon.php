@@ -27,8 +27,6 @@ class MultiPolygon extends MultiSurface
 {
     /**
      * @noproxy
-     *
-     * {@inheritdoc}
      */
     public function geometryType() : string
     {
@@ -37,25 +35,17 @@ class MultiPolygon extends MultiSurface
 
     /**
      * @noproxy
-     *
-     * {@inheritdoc}
      */
     public function geometryTypeBinary() : int
     {
         return Geometry::MULTIPOLYGON;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function dimension() : int
     {
         return 2;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function containedGeometryType() : string
     {
         return Polygon::class;

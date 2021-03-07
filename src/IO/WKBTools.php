@@ -15,8 +15,6 @@ abstract class WKBTools
     public const LITTLE_ENDIAN = 1;
 
     /**
-     * @return void
-     *
      * @throws GeometryIOException
      */
     private static function checkDoubleIs64Bit() : void
@@ -27,10 +25,6 @@ abstract class WKBTools
     }
 
     /**
-     * @param int $byteOrder
-     *
-     * @return void
-     *
      * @throws \InvalidArgumentException
      */
     public static function checkByteOrder(int $byteOrder) : void
@@ -42,8 +36,6 @@ abstract class WKBTools
 
     /**
      * Detects the machine byte order (big endian or little endian).
-     *
-     * @return int
      *
      * @throws GeometryIOException
      */

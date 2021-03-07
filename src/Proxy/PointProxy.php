@@ -44,8 +44,6 @@ class PointProxy extends \Brick\Geo\Point implements ProxyInterface
     private $proxyGeometry;
 
     /**
-     * Class constructor.
-     *
      * @param string $data     The WKT or WKB data.
      * @param bool   $isBinary Whether the data is binary (true) or text (false).
      * @param int    $srid     The SRID of the geometry.
@@ -60,8 +58,6 @@ class PointProxy extends \Brick\Geo\Point implements ProxyInterface
     /**
      * Loads the underlying geometry.
      *
-     * @return void
-     *
      * @throws GeometryIOException         If the proxy data is not valid.
      * @throws CoordinateSystemException   If the resulting geometry contains mixed coordinate systems.
      * @throws InvalidGeometryException    If the resulting geometry is not valid.
@@ -74,17 +70,11 @@ class PointProxy extends \Brick\Geo\Point implements ProxyInterface
             : \Brick\Geo\Point::fromText($this->proxyData, $this->proxySRID);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function isLoaded() : bool
     {
         return $this->proxyGeometry !== null;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getGeometry() : Geometry
     {
         if ($this->proxyGeometry === null) {
@@ -99,33 +89,21 @@ class PointProxy extends \Brick\Geo\Point implements ProxyInterface
         return $this->isProxyBinary;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public static function fromText(string $wkt, int $srid = 0) : Geometry
     {
         return new self($wkt, false, $srid);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public static function fromBinary(string $wkb, int $srid = 0) : Geometry
     {
         return new self($wkb, true, $srid);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function SRID() : int
     {
         return $this->proxySRID;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function asText() : string
     {
         if (! $this->isProxyBinary) {
@@ -139,9 +117,6 @@ class PointProxy extends \Brick\Geo\Point implements ProxyInterface
         return $this->proxyGeometry->asText();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function asBinary() : string
     {
         if ($this->isProxyBinary) {
@@ -156,9 +131,6 @@ class PointProxy extends \Brick\Geo\Point implements ProxyInterface
     }
 
 
-    /**
-     * {@inheritdoc}
-     */
     public function x() : ?float
     {
         if ($this->proxyGeometry === null) {
@@ -168,9 +140,6 @@ class PointProxy extends \Brick\Geo\Point implements ProxyInterface
         return $this->proxyGeometry->x();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function y() : ?float
     {
         if ($this->proxyGeometry === null) {
@@ -180,9 +149,6 @@ class PointProxy extends \Brick\Geo\Point implements ProxyInterface
         return $this->proxyGeometry->y();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function z() : ?float
     {
         if ($this->proxyGeometry === null) {
@@ -192,9 +158,6 @@ class PointProxy extends \Brick\Geo\Point implements ProxyInterface
         return $this->proxyGeometry->z();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function m() : ?float
     {
         if ($this->proxyGeometry === null) {
@@ -204,9 +167,6 @@ class PointProxy extends \Brick\Geo\Point implements ProxyInterface
         return $this->proxyGeometry->m();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function toArray() : array
     {
         if ($this->proxyGeometry === null) {
@@ -216,9 +176,6 @@ class PointProxy extends \Brick\Geo\Point implements ProxyInterface
         return $this->proxyGeometry->toArray();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function swapXY() : \Brick\Geo\Geometry
     {
         if ($this->proxyGeometry === null) {
@@ -228,9 +185,6 @@ class PointProxy extends \Brick\Geo\Point implements ProxyInterface
         return $this->proxyGeometry->swapXY();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function count() : int
     {
         if ($this->proxyGeometry === null) {
@@ -240,9 +194,6 @@ class PointProxy extends \Brick\Geo\Point implements ProxyInterface
         return $this->proxyGeometry->count();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getIterator()
     {
         if ($this->proxyGeometry === null) {
@@ -252,9 +203,6 @@ class PointProxy extends \Brick\Geo\Point implements ProxyInterface
         return $this->proxyGeometry->getIterator();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function azimuth(\Brick\Geo\Point $subject) : float
     {
         if ($this->proxyGeometry === null) {
@@ -264,9 +212,6 @@ class PointProxy extends \Brick\Geo\Point implements ProxyInterface
         return $this->proxyGeometry->azimuth($subject);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function coordinateDimension() : int
     {
         if ($this->proxyGeometry === null) {
@@ -276,9 +221,6 @@ class PointProxy extends \Brick\Geo\Point implements ProxyInterface
         return $this->proxyGeometry->coordinateDimension();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function spatialDimension() : int
     {
         if ($this->proxyGeometry === null) {
@@ -288,9 +230,6 @@ class PointProxy extends \Brick\Geo\Point implements ProxyInterface
         return $this->proxyGeometry->spatialDimension();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function isEmpty() : bool
     {
         if ($this->proxyGeometry === null) {
@@ -300,9 +239,6 @@ class PointProxy extends \Brick\Geo\Point implements ProxyInterface
         return $this->proxyGeometry->isEmpty();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function is3D() : bool
     {
         if ($this->proxyGeometry === null) {
@@ -312,9 +248,6 @@ class PointProxy extends \Brick\Geo\Point implements ProxyInterface
         return $this->proxyGeometry->is3D();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function isMeasured() : bool
     {
         if ($this->proxyGeometry === null) {
@@ -324,9 +257,6 @@ class PointProxy extends \Brick\Geo\Point implements ProxyInterface
         return $this->proxyGeometry->isMeasured();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function coordinateSystem() : \Brick\Geo\CoordinateSystem
     {
         if ($this->proxyGeometry === null) {
@@ -336,9 +266,6 @@ class PointProxy extends \Brick\Geo\Point implements ProxyInterface
         return $this->proxyGeometry->coordinateSystem();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function withSRID(int $srid) : \Brick\Geo\Geometry
     {
         if ($this->proxyGeometry === null) {

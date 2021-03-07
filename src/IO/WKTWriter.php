@@ -11,9 +11,6 @@ use Brick\Geo\Geometry;
  */
 class WKTWriter extends AbstractWKTWriter
 {
-    /**
-     * {@inheritdoc}
-     */
     public function write(Geometry $geometry) : string
     {
         return $this->doWrite($geometry);

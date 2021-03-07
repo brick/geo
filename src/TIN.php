@@ -12,8 +12,6 @@ use Brick\Geo\Exception\UnexpectedGeometryException;
 class TIN extends PolyhedralSurface
 {
     /**
-     * {@inheritdoc}
-     *
      * @throws UnexpectedGeometryException If the patches are not triangles.
      */
     public function __construct(CoordinateSystem $cs, Polygon ...$patches)
@@ -29,8 +27,6 @@ class TIN extends PolyhedralSurface
 
     /**
      * @noproxy
-     *
-     * {@inheritdoc}
      */
     public function geometryType() : string
     {
@@ -39,8 +35,6 @@ class TIN extends PolyhedralSurface
 
     /**
      * @noproxy
-     *
-     * {@inheritdoc}
      */
     public function geometryTypeBinary() : int
     {

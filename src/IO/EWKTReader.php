@@ -13,10 +13,6 @@ use Brick\Geo\Exception\GeometryIOException;
 class EWKTReader extends AbstractWKTReader
 {
     /**
-     * @param string $ewkt The EWKT to read.
-     *
-     * @return Geometry
-     *
      * @throws GeometryIOException
      */
     public function read(string $ewkt) : Geometry

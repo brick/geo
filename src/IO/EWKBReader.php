@@ -13,10 +13,6 @@ use Brick\Geo\Exception\GeometryIOException;
 class EWKBReader extends AbstractWKBReader
 {
     /**
-     * @param string $ewkb The EWKB to read.
-     *
-     * @return Geometry
-     *
      * @throws GeometryIOException
      */
     public function read(string $ewkb) : Geometry
@@ -31,9 +27,6 @@ class EWKBReader extends AbstractWKBReader
         return $geometry;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function readGeometryHeader(WKBBuffer $buffer) : WKBGeometryHeader
     {
         $header = $buffer->readUnsignedLong();

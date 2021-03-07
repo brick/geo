@@ -33,19 +33,11 @@ class WKTParser
      */
     protected $current = 0;
 
-    /**
-     * Class constructor.
-     *
-     * @param string $wkt
-     */
     public function __construct(string $wkt)
     {
         $this->scan($wkt);
     }
 
-    /**
-     * @return array
-     */
     protected function getRegex() : array
     {
         return [
@@ -54,11 +46,6 @@ class WKTParser
         ];
     }
 
-    /**
-     * @param string $wkt
-     *
-     * @return void
-     */
     private function scan(string $wkt) : void
     {
         $regex = $this->getRegex();
@@ -103,8 +90,6 @@ class WKTParser
     }
 
     /**
-     * @return void
-     *
      * @throws GeometryIOException
      */
     public function matchOpener() : void
@@ -120,8 +105,6 @@ class WKTParser
     }
 
     /**
-     * @return void
-     *
      * @throws GeometryIOException
      */
     public function matchCloser() : void
@@ -137,8 +120,6 @@ class WKTParser
     }
 
     /**
-     * @return string
-     *
      * @throws GeometryIOException
      */
     public function getNextWord() : string
@@ -202,8 +183,6 @@ class WKTParser
     }
 
     /**
-     * @return float
-     *
      * @throws GeometryIOException
      */
     public function getNextNumber() : float
@@ -222,8 +201,6 @@ class WKTParser
     }
 
     /**
-     * @return string
-     *
      * @throws GeometryIOException
      */
     public function getNextCloserOrComma() : string
@@ -240,9 +217,6 @@ class WKTParser
         return $token[1];
     }
 
-    /**
-     * @return bool
-     */
     public function isEndOfStream() : bool
     {
         return $this->nextToken() === null;

@@ -44,8 +44,6 @@ class PolyhedralSurface extends Surface
     protected $patches = [];
 
     /**
-     * Class constructor.
-     *
      * The coordinate system of each of the patches must match the one of the PolyhedralSurface.
      *
      * @param CoordinateSystem $cs         The coordinate system of the PolyhedralSurface.
@@ -74,8 +72,6 @@ class PolyhedralSurface extends Surface
      * @param Polygon    $patch1 The first patch.
      * @param Polygon ...$patchN The subsequent patches, if any.
      *
-     * @return PolyhedralSurface
-     *
      * @throws CoordinateSystemException If the patches use different coordinate systems.
      */
     public static function of(Polygon $patch1, Polygon ...$patchN) : PolyhedralSurface
@@ -83,9 +79,6 @@ class PolyhedralSurface extends Surface
         return new static($patch1->coordinateSystem(), $patch1, ...$patchN);
     }
 
-    /**
-     * @return int
-     */
     public function numPatches() : int
     {
         return count($this->patches);
@@ -95,8 +88,6 @@ class PolyhedralSurface extends Surface
      * Returns the specified patch N in this PolyhedralSurface.
      *
      * @param int $n The patch number, 1-based.
-     *
-     * @return Polygon
      *
      * @throws NoSuchGeometryException If there is no patch at this index.
      */
@@ -127,10 +118,6 @@ class PolyhedralSurface extends Surface
      * @psalm-suppress LessSpecificReturnStatement
      * @psalm-suppress MoreSpecificReturnType
      *
-     * @param Polygon $p
-     *
-     * @return MultiPolygon
-     *
      * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
     public function boundingPolygons(Polygon $p) : MultiPolygon
@@ -141,8 +128,6 @@ class PolyhedralSurface extends Surface
     /**
      * @noproxy
      *
-     * @return bool
-     *
      * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
     public function isClosed() : bool
@@ -152,8 +137,6 @@ class PolyhedralSurface extends Surface
 
     /**
      * @noproxy
-     *
-     * {@inheritdoc}
      */
     public function geometryType() : string
     {
@@ -162,17 +145,12 @@ class PolyhedralSurface extends Surface
 
     /**
      * @noproxy
-     *
-     * {@inheritdoc}
      */
     public function geometryTypeBinary() : int
     {
         return Geometry::POLYHEDRALSURFACE;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function toArray() : array
     {
         $result = [];
@@ -202,8 +180,6 @@ class PolyhedralSurface extends Surface
      * Returns the number of patches in this PolyhedralSurface.
      *
      * Required by interface Countable.
-     *
-     * {@inheritdoc}
      */
     public function count() : int
     {

@@ -53,10 +53,6 @@ class GeoJSONReader
     }
 
     /**
-     * @param string $geojson The GeoJSON to read.
-     *
-     * @return Geometry
-     *
      * @throws GeometryException If the GeoJSON file is invalid.
      */
     public function read(string $geojson) : Geometry
@@ -77,10 +73,6 @@ class GeoJSONReader
     }
 
     /**
-     * @param array $geojson
-     *
-     * @return Geometry
-     *
      * @throws GeometryException If the GeoJSON file is invalid.
      */
     private function readGeoJSON(array $geojson) : Geometry
@@ -126,10 +118,6 @@ class GeoJSONReader
     }
 
     /**
-     * @param array $feature
-     *
-     * @return Geometry
-     *
      * @throws GeometryException If the GeoJSON file is invalid.
      */
     private function readFeature(array $feature) : Geometry
@@ -148,10 +136,6 @@ class GeoJSONReader
     }
 
     /**
-     * @param array $geometry
-     *
-     * @return Geometry
-     *
      * @throws GeometryException If the GeoJSON file is invalid.
      */
     private function readGeometry(array $geometry) : Geometry
@@ -216,10 +200,7 @@ class GeoJSONReader
      *
      * @psalm-param list<float> $coords
      *
-     * @param CoordinateSystem $cs
-     * @param float[]          $coords
-     *
-     * @return Point
+     * @param float[] $coords
      *
      * @throws GeometryException If the GeoJSON file is invalid.
      */
@@ -233,10 +214,7 @@ class GeoJSONReader
      *
      * @psalm-param list<list<float>> $coords
      *
-     * @param CoordinateSystem $cs
-     * @param float[][]        $coords
-     *
-     * @return MultiPoint
+     * @param float[][] $coords
      *
      * @throws GeometryException If the GeoJSON file is invalid.
      */
@@ -256,10 +234,7 @@ class GeoJSONReader
      *
      * @psalm-param list<list<float>> $coords
      *
-     * @param CoordinateSystem $cs
-     * @param float[][]        $coords
-     *
-     * @return LineString
+     * @param float[][] $coords
      *
      * @throws GeometryException If the GeoJSON file is invalid.
      */
@@ -279,10 +254,7 @@ class GeoJSONReader
      *
      * @psalm-param list<list<list<float>>> $coords
      *
-     * @param CoordinateSystem $cs
-     * @param float[][][]      $coords
-     *
-     * @return MultiLineString
+     * @param float[][][] $coords
      *
      * @throws GeometryException If the GeoJSON file is invalid.
      */
@@ -302,10 +274,7 @@ class GeoJSONReader
      *
      * @psalm-param list<list<list<float>>> $coords
      *
-     * @param CoordinateSystem $cs
-     * @param float[][][]      $coords
-     *
-     * @return Polygon
+     * @param float[][][] $coords
      *
      * @throws GeometryException If the GeoJSON file is invalid.
      */
@@ -325,10 +294,7 @@ class GeoJSONReader
      *
      * @psalm-param list<list<list<list<float>>>> $coords
      *
-     * @param CoordinateSystem $cs
-     * @param float[][][][]    $coords
-     *
-     * @return MultiPolygon
+     * @param float[][][][] $coords
      *
      * @throws GeometryException If the GeoJSON file is invalid.
      */
@@ -348,10 +314,8 @@ class GeoJSONReader
      * @psalm-suppress MixedArgument
      *
      * @param array $coords A potentially nested list of floats.
-     *
-     * @return bool
      */
-    private function hasZ(array $coords)
+    private function hasZ(array $coords) : bool
     {
         if (empty($coords)) {
             return false;
@@ -375,10 +339,6 @@ class GeoJSONReader
      * Normalizes the given GeoJSON type.
      *
      * If the type is not recognized, it is returned as is.
-     *
-     * @param string $type
-     *
-     * @return string
      */
     private function normalizeGeoJSONType(string $type) : string
     {

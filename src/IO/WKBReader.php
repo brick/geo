@@ -16,8 +16,6 @@ class WKBReader extends AbstractWKBReader
      * @param string $wkb  The WKB to read.
      * @param int    $srid The optional SRID of the geometry.
      *
-     * @return Geometry
-     *
      * @throws GeometryIOException
      */
     public function read(string $wkb, $srid = 0) : Geometry
@@ -32,9 +30,6 @@ class WKBReader extends AbstractWKBReader
         return $geometry;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function readGeometryHeader(WKBBuffer $buffer) : WKBGeometryHeader
     {
         $wkbType = $buffer->readUnsignedLong();

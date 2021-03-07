@@ -19,8 +19,6 @@ class MultiPoint extends GeometryCollection
 {
     /**
      * @noproxy
-     *
-     * {@inheritdoc}
      */
     public function geometryType() : string
     {
@@ -29,25 +27,17 @@ class MultiPoint extends GeometryCollection
 
     /**
      * @noproxy
-     *
-     * {@inheritdoc}
      */
     public function geometryTypeBinary() : int
     {
         return Geometry::MULTIPOINT;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function dimension() : int
     {
         return 0;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function containedGeometryType() : string
     {
         return Point::class;

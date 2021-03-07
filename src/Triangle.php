@@ -11,9 +11,6 @@ use Brick\Geo\Exception\InvalidGeometryException;
  */
 class Triangle extends Polygon
 {
-    /**
-     * {@inheritdoc}
-     */
     public function __construct(CoordinateSystem $cs, LineString ...$rings)
     {
         parent::__construct($cs, ...$rings);
@@ -33,8 +30,6 @@ class Triangle extends Polygon
 
     /**
      * @noproxy
-     *
-     * {@inheritdoc}
      */
     public function geometryType() : string
     {
@@ -43,8 +38,6 @@ class Triangle extends Polygon
 
     /**
      * @noproxy
-     *
-     * {@inheritdoc}
      */
     public function geometryTypeBinary() : int
     {

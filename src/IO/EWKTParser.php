@@ -15,9 +15,6 @@ class EWKTParser extends WKTParser
 
     protected const REGEX_SRID = 'SRID\=([0-9]+)\s*;';
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getRegex() : array
     {
         return [
@@ -27,9 +24,6 @@ class EWKTParser extends WKTParser
         ];
     }
 
-    /**
-     * @return int
-     */
     public function getOptionalSRID() : int
     {
         $token = $this->tokens[$this->current] ?? null;

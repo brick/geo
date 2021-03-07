@@ -25,12 +25,6 @@ class PDOEngine extends DatabaseEngine
      */
     private $statements = [];
 
-    /**
-     * Class constructor.
-     *
-     * @param \PDO $pdo
-     * @param bool $useProxy
-     */
     public function __construct(\PDO $pdo, bool $useProxy = true)
     {
         parent::__construct($useProxy);
@@ -38,17 +32,11 @@ class PDOEngine extends DatabaseEngine
         $this->pdo = $pdo;
     }
 
-    /**
-     * @return \PDO
-     */
     public function getPDO() : \PDO
     {
         return $this->pdo;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function executeQuery(string $query, array $parameters) : array
     {
         /** @var int $errMode */

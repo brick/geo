@@ -74,11 +74,6 @@ class GEOSEngine implements GeometryEngine
             method_exists($this->wkbWriter, 'write');
     }
 
-    /**
-     * @param Geometry $geometry
-     *
-     * @return \GEOSGeometry
-     */
     private function toGEOS(Geometry $geometry) : \GEOSGeometry
     {
         if ($geometry->isEmpty()) {
@@ -95,11 +90,6 @@ class GEOSEngine implements GeometryEngine
         return $this->wkbReader->readHEX(bin2hex($this->ewkbWriter->write($geometry)));
     }
 
-    /**
-     * @param \GEOSGeometry $geometry
-     *
-     * @return Geometry
-     */
     private function fromGEOS(\GEOSGeometry $geometry) : Geometry
     {
         if ($geometry->isEmpty()) {
@@ -113,9 +103,6 @@ class GEOSEngine implements GeometryEngine
         return $this->ewkbReader->read(hex2bin($this->wkbWriter->writeHEX($geometry)));
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function union(Geometry $a, Geometry $b) : Geometry
     {
         try {
@@ -125,9 +112,6 @@ class GEOSEngine implements GeometryEngine
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function difference(Geometry $a, Geometry $b) : Geometry
     {
         try {
@@ -137,9 +121,6 @@ class GEOSEngine implements GeometryEngine
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function envelope(Geometry $g) : Geometry
     {
         try {
@@ -149,9 +130,6 @@ class GEOSEngine implements GeometryEngine
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function length(Geometry $g) : float
     {
         try {
@@ -161,9 +139,6 @@ class GEOSEngine implements GeometryEngine
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function area(Geometry $g) : float
     {
         try {
@@ -173,9 +148,6 @@ class GEOSEngine implements GeometryEngine
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function azimuth(Point $observer, Point $subject) : float
     {
         throw GeometryEngineException::unimplementedMethod(__METHOD__);
@@ -184,8 +156,6 @@ class GEOSEngine implements GeometryEngine
     /**
      * @psalm-suppress LessSpecificReturnStatement
      * @psalm-suppress MoreSpecificReturnType
-     *
-     * {@inheritdoc}
      */
     public function centroid(Geometry $g) : Point
     {
@@ -196,9 +166,6 @@ class GEOSEngine implements GeometryEngine
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function pointOnSurface(Geometry $g) : Geometry
     {
         try {
@@ -208,9 +175,6 @@ class GEOSEngine implements GeometryEngine
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function boundary(Geometry $g) : Geometry
     {
         try {
@@ -220,9 +184,6 @@ class GEOSEngine implements GeometryEngine
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function isValid(Geometry $g) : bool
     {
         try {
@@ -232,9 +193,6 @@ class GEOSEngine implements GeometryEngine
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function isClosed(Geometry $g) : bool
     {
         try {
@@ -244,9 +202,6 @@ class GEOSEngine implements GeometryEngine
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function isSimple(Geometry $g) : bool
     {
         try {
@@ -256,9 +211,6 @@ class GEOSEngine implements GeometryEngine
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function equals(Geometry $a, Geometry $b) : bool
     {
         try {
@@ -268,9 +220,6 @@ class GEOSEngine implements GeometryEngine
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function disjoint(Geometry $a, Geometry $b) : bool
     {
         try {
@@ -280,9 +229,6 @@ class GEOSEngine implements GeometryEngine
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function intersects(Geometry $a, Geometry $b) : bool
     {
         try {
@@ -292,9 +238,6 @@ class GEOSEngine implements GeometryEngine
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function touches(Geometry $a, Geometry $b) : bool
     {
         try {
@@ -304,9 +247,6 @@ class GEOSEngine implements GeometryEngine
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function crosses(Geometry $a, Geometry $b) : bool
     {
         try {
@@ -316,9 +256,6 @@ class GEOSEngine implements GeometryEngine
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function within(Geometry $a, Geometry $b) : bool
     {
         try {
@@ -328,9 +265,6 @@ class GEOSEngine implements GeometryEngine
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function contains(Geometry $a, Geometry $b) : bool
     {
         try {
@@ -340,9 +274,6 @@ class GEOSEngine implements GeometryEngine
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function overlaps(Geometry $a, Geometry $b) : bool
     {
         try {
@@ -352,9 +283,6 @@ class GEOSEngine implements GeometryEngine
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function relate(Geometry $a, Geometry $b, string $matrix) : bool
     {
         try {
@@ -369,25 +297,16 @@ class GEOSEngine implements GeometryEngine
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function locateAlong(Geometry $g, float $mValue) : Geometry
     {
         throw GeometryEngineException::unimplementedMethod(__METHOD__);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function locateBetween(Geometry $g, float $mStart, float $mEnd) : Geometry
     {
         throw GeometryEngineException::unimplementedMethod(__METHOD__);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function distance(Geometry $a, Geometry $b) : float
     {
         try {
@@ -397,9 +316,6 @@ class GEOSEngine implements GeometryEngine
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function buffer(Geometry $g, float $distance) : Geometry
     {
         try {
@@ -409,9 +325,6 @@ class GEOSEngine implements GeometryEngine
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function convexHull(Geometry $g) : Geometry
     {
         try {
@@ -421,9 +334,6 @@ class GEOSEngine implements GeometryEngine
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function intersection(Geometry $a, Geometry $b) : Geometry
     {
         try {
@@ -433,9 +343,6 @@ class GEOSEngine implements GeometryEngine
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function symDifference(Geometry $a, Geometry $b) : Geometry
     {
         try {
@@ -445,17 +352,11 @@ class GEOSEngine implements GeometryEngine
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function snapToGrid(Geometry $g, float $size) : Geometry
     {
         throw GeometryEngineException::unimplementedMethod(__METHOD__);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function simplify(Geometry $g, float $tolerance) : Geometry
     {
         try {
@@ -465,17 +366,11 @@ class GEOSEngine implements GeometryEngine
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function maxDistance(Geometry $a, Geometry $b) : float
     {
         throw GeometryEngineException::unimplementedMethod(__METHOD__);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function boundingPolygons(Geometry $g) : Geometry
     {
         throw GeometryEngineException::unimplementedMethod(__METHOD__);

@@ -29,8 +29,6 @@ abstract class Surface extends Geometry
     /**
      * @noproxy
      *
-     * {@inheritdoc}
-     *
      * A Surface is a 2-dimensional geometric object.
      */
     public function dimension() : int
@@ -42,8 +40,6 @@ abstract class Surface extends Geometry
      * Returns the area of this Surface, as measured in the spatial reference system of this Surface.
      *
      * @noproxy
-     *
-     * @return float
      *
      * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
@@ -59,8 +55,6 @@ abstract class Surface extends Geometry
      *
      * @psalm-suppress LessSpecificReturnStatement
      * @psalm-suppress MoreSpecificReturnType
-     *
-     * @return Point
      *
      * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */

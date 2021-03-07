@@ -11,9 +11,6 @@ use Brick\Geo\Geometry;
  */
 class EWKTWriter extends AbstractWKTWriter
 {
-    /**
-     * {@inheritdoc}
-     */
     public function write(Geometry $geometry) : string
     {
         $srid = $geometry->SRID();

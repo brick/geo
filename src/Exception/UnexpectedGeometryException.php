@@ -10,10 +10,7 @@ namespace Brick\Geo\Exception;
 class UnexpectedGeometryException extends GeometryException
 {
     /**
-     * @param string $expectedClass
-     * @param mixed  $value
-     *
-     * @return UnexpectedGeometryException
+     * @param mixed $value
      */
     public static function unexpectedGeometryType(string $expectedClass, $value) : UnexpectedGeometryException
     {

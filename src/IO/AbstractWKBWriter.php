@@ -44,8 +44,6 @@ abstract class AbstractWKBWriter
     /**
      * @param int $byteOrder The byte order, one of the WKBTools::BIG_ENDIAN or WKBTools::LITTLE_ENDIAN constants.
      *
-     * @return void
-     *
      * @throws \InvalidArgumentException If the byte order is invalid.
      */
     public function setByteOrder(int $byteOrder) : void
@@ -111,29 +109,16 @@ abstract class AbstractWKBWriter
         throw GeometryIOException::unsupportedGeometryType($geometry->geometryType());
     }
 
-    /**
-     * @return string
-     */
     private function packByteOrder() : string
     {
         return pack('C', $this->byteOrder);
     }
 
-    /**
-     * @param int $uint
-     *
-     * @return string
-     */
     protected function packUnsignedInteger(int $uint) : string
     {
         return pack($this->byteOrder === WKBTools::BIG_ENDIAN ? 'N' : 'V', $uint);
     }
 
-    /**
-     * @param float $double
-     *
-     * @return string
-     */
     private function packDouble(float $double) : string
     {
         $binary = pack('d', $double);
@@ -146,10 +131,6 @@ abstract class AbstractWKBWriter
     }
 
     /**
-     * @param Point $point
-     *
-     * @return string
-     *
      * @throws GeometryIOException
      */
     private function packPoint(Point $point) : string
@@ -172,10 +153,6 @@ abstract class AbstractWKBWriter
     }
 
     /**
-     * @param Curve $curve
-     *
-     * @return string
-     *
      * @throws GeometryIOException
      */
     private function packCurve(Curve $curve) : string
@@ -195,12 +172,6 @@ abstract class AbstractWKBWriter
         return $wkb;
     }
 
-    /**
-     * @param Point $point
-     * @param bool  $outer
-     *
-     * @return string
-     */
     private function writePoint(Point $point, bool $outer) : string
     {
         $wkb = $this->packByteOrder();
@@ -210,12 +181,6 @@ abstract class AbstractWKBWriter
         return $wkb;
     }
 
-    /**
-     * @param Curve $curve
-     * @param bool  $outer
-     *
-     * @return string
-     */
     private function writeCurve(Curve $curve, bool $outer) : string
     {
         $wkb = $this->packByteOrder();
@@ -225,12 +190,6 @@ abstract class AbstractWKBWriter
         return $wkb;
     }
 
-    /**
-     * @param Polygon $polygon
-     * @param bool    $outer
-     *
-     * @return string
-     */
     private function writePolygon(Polygon $polygon, bool $outer) : string
     {
         $wkb = $this->packByteOrder();
@@ -246,9 +205,6 @@ abstract class AbstractWKBWriter
 
     /**
      * @param CompoundCurve|CurvePolygon|GeometryCollection|PolyhedralSurface $collection
-     * @param bool                                                            $outer
-     *
-     * @return string
      */
     private function writeComposedGeometry(Geometry $collection, bool $outer) : string
     {
@@ -263,11 +219,5 @@ abstract class AbstractWKBWriter
         return $wkb;
     }
 
-    /**
-     * @param Geometry $geometry
-     * @param bool     $outer
-     *
-     * @return string
-     */
     abstract protected function packHeader(Geometry $geometry, bool $outer) : string;
 }

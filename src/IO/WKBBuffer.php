@@ -36,11 +36,6 @@ class WKBBuffer
      */
     private $invert = false;
 
-    /**
-     * Class constructor.
-     *
-     * @param string $wkb
-     */
     public function __construct(string $wkb)
     {
         $this->wkb = $wkb;
@@ -53,8 +48,6 @@ class WKBBuffer
      *
      * @param int $words      The number of words to read.
      * @param int $wordLength The word length in bytes.
-     *
-     * @return string
      *
      * @throws GeometryIOException
      */
@@ -87,8 +80,6 @@ class WKBBuffer
 
     /**
      * Reads an unsigned char (8 bit) integer from the buffer.
-     *
-     * @return int
      */
     private function readUnsignedChar() : int
     {
@@ -100,8 +91,6 @@ class WKBBuffer
 
     /**
      * Reads an unsigned long (32 bit) integer from the buffer.
-     *
-     * @return int
      */
     public function readUnsignedLong() : int
     {
@@ -129,8 +118,6 @@ class WKBBuffer
     /**
      * Reads the machine byte order from the buffer and stores the result to act accordingly.
      *
-     * @return void
-     *
      * @throws GeometryIOException
      */
     public function readByteOrder() : void
@@ -144,11 +131,6 @@ class WKBBuffer
         $this->invert = ($byteOrder !== $this->machineByteOrder);
     }
 
-    /**
-     * @param int $bytes
-     *
-     * @return void
-     */
     public function rewind(int $bytes) : void
     {
         $this->position -= $bytes;
@@ -156,8 +138,6 @@ class WKBBuffer
 
     /**
      * Checks whether the pointer is at the end of the buffer.
-     *
-     * @return bool
      */
     public function isEndOfStream() : bool
     {

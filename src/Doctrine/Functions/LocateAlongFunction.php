@@ -9,17 +9,11 @@ namespace Brick\Geo\Doctrine\Functions;
  */
 class LocateAlongFunction extends AbstractFunction
 {
-    /**
-     * {@inheritdoc}
-     */
     protected function getSqlFunctionName() : string
     {
         return 'ST_LocateAlong';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getParameterCount() : int
     {
         return 2;

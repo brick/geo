@@ -30,9 +30,6 @@ class CircularString extends Curve
     protected $points = [];
 
     /**
-     * @param CoordinateSystem $cs
-     * @param Point            ...$points
-     *
      * @throws InvalidGeometryException  If the number of points is invalid.
      * @throws CoordinateSystemException If different coordinate systems are used.
      */
@@ -65,8 +62,6 @@ class CircularString extends Curve
      * @param Point    $point1 The first point.
      * @param Point ...$pointN The subsequent points.
      *
-     * @return CircularString
-     *
      * @throws InvalidGeometryException  If the number of points is invalid.
      * @throws CoordinateSystemException If the points use different coordinate systems.
      */
@@ -75,9 +70,6 @@ class CircularString extends Curve
         return new CircularString($point1->coordinateSystem(), $point1, ...$pointN);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function startPoint() : Point
     {
         if ($this->isEmpty) {
@@ -87,9 +79,6 @@ class CircularString extends Curve
         return $this->points[0];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function endPoint() : Point
     {
         if ($this->isEmpty) {
@@ -101,8 +90,6 @@ class CircularString extends Curve
 
     /**
      * Returns the number of Points in this CircularString.
-     *
-     * @return int
      */
     public function numPoints() : int
     {
@@ -113,8 +100,6 @@ class CircularString extends Curve
      * Returns the specified Point N in this CircularString.
      *
      * @param int $n The point number, 1-based.
-     *
-     * @return Point
      *
      * @throws NoSuchGeometryException If there is no Point at this index.
      */
@@ -139,8 +124,6 @@ class CircularString extends Curve
 
     /**
      * @noproxy
-     *
-     * {@inheritdoc}
      */
     public function geometryType() : string
     {
@@ -149,17 +132,12 @@ class CircularString extends Curve
 
     /**
      * @noproxy
-     *
-     * {@inheritdoc}
      */
     public function geometryTypeBinary() : int
     {
         return Geometry::CIRCULARSTRING;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function toArray() : array
     {
         $result = [];
@@ -171,9 +149,6 @@ class CircularString extends Curve
         return $result;
     }
 
-    /**
-     * @return CircularString
-     */
     public function swapXY() : Geometry
     {
         $that = clone $this;
@@ -189,8 +164,6 @@ class CircularString extends Curve
      * Returns the number of points in this CircularString.
      *
      * Required by interface Countable.
-     *
-     * {@inheritdoc}
      */
     public function count() : int
     {

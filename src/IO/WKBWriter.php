@@ -11,9 +11,6 @@ use Brick\Geo\Geometry;
  */
 class WKBWriter extends AbstractWKBWriter
 {
-    /**
-     * {@inheritdoc}
-     */
     protected function packHeader(Geometry $geometry, bool $outer) : string
     {
         $geometryType = $geometry->geometryTypeBinary();
