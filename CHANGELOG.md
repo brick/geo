@@ -11,6 +11,7 @@
 Note: these breaks will likely not affect you.
 
 - `ProxyInterface` has a new `isProxyBinary()` method
+- `WKBReader::read()` now has a type-hinted `$srid` parameter 
 
 ## [0.5.0](https://github.com/brick/geo/releases/tag/0.5.0) - 2021-03-05
 

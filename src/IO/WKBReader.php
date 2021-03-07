@@ -18,7 +18,7 @@ class WKBReader extends AbstractWKBReader
      *
      * @throws GeometryIOException
      */
-    public function read(string $wkb, $srid = 0) : Geometry
+    public function read(string $wkb, int $srid = 0) : Geometry
     {
         $buffer = new WKBBuffer($wkb);
         $geometry = $this->readGeometry($buffer, $srid);
