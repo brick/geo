@@ -1327,6 +1327,37 @@ class GeometryTest extends AbstractTestCase
     }
 
     /**
+     * @dataProvider providerTransform
+     */
+    public function testTransform(string $originalWKT, int $originalSRID, int $targetSRID, string $expectedWKT) : void
+    {
+        if ($this->isGEOS()) {
+            $this->expectException(GeometryEngineException::class);
+        } elseif (! $this->isPostGIS()) {
+            self::markTestSkipped('This test currently runs on PostGIS only.');
+        }
+
+        $originalGeometry = Geometry::fromText($originalWKT, $originalSRID);
+        $expectedGeometry = Geometry::fromText($expectedWKT, $targetSRID);
+
+        $transformedGeometry = $originalGeometry->transform($targetSRID);
+
+        $this->assertGeometryEquals($expectedGeometry, $transformedGeometry);
+
+        self::assertSame($expectedWKT, $transformedGeometry->asText());
+    }
+
+    public function providerTransform() : array
+    {
+        return [
+            ['POINT (743238 2967416)', 2249, 4326, 'POINT (-71.1776848522251 42.3902896512902)'],
+            ['POINT (743238 2967450)', 2249, 4326, 'POINT (-71.1776843766326 42.3903829478009)'],
+            ['POINT (743265 2967450)', 2249, 4326, 'POINT (-71.1775844305465 42.3903826677917)'],
+            ['POINT (743265.625 2967416)', 2249, 4326, 'POINT (-71.1775825927231 42.3902893647987)'],
+        ];
+    }
+
+    /**
      * @dataProvider providerToArray
      *
      * @param string $geometry The WKT of the geometry to test.

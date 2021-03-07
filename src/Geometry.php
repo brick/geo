@@ -614,6 +614,18 @@ abstract class Geometry implements \Countable, \IteratorAggregate
     }
 
     /**
+     * Returns a new geometry with its coordinates transformed to a different spatial reference system.
+     *
+     * @noproxy
+     *
+     * @throws GeometryEngineException If the operation is not supported by the geometry engine.
+     */
+    public function transform(int $srid) : Geometry
+    {
+        return GeometryEngineRegistry::get()->transform($this, $srid);
+    }
+
+    /**
      * Returns the coordinate system of this geometry.
      */
     public function coordinateSystem() : CoordinateSystem

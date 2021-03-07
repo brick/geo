@@ -2,6 +2,10 @@
 
 ## Unreleased (0.6.0)
 
+✨ **New features**
+
+- New method: `Geometry::transform()` transforms `Geometry` coordinates to a new SRID
+
 🐛 **Fixes**
 
 - Doctrine types could hydrate a parent Geometry proxy class, but now hydrate the correct Geometry proxy sub-class by introspecting the WKB without fully loading it
@@ -12,10 +16,11 @@
 
 💥 **BC breaks**
 
-Note: these breaks will likely not affect you.
+Note: these breaks will likely not affect you, unless you're writing your own geometry engine or your own WKB reader.
 
-- `AbstractWKBReader::readGeometryHeader()` signature changed
-- `WKBReader::read()` signature changed
+- `AbstractWKBReader::readGeometryHeader()` signature was changed
+- `WKBReader::read()` signature was changed
+- `GeometryEngine` has a new `transform()` method
 - `ProxyInterface` has a new `isProxyBinary()` method
 
 ## [0.5.0](https://github.com/brick/geo/releases/tag/0.5.0) - 2021-03-05

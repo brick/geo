@@ -407,4 +407,9 @@ interface GeometryEngine
      * @throws GeometryEngineException If the operation is not supported by the engine.
      */
     public function boundingPolygons(Geometry $g) : Geometry;
+
+    /**
+     * Returns a new geometry with its coordinates transformed to a different spatial reference system.
+     */
+    public function transform(Geometry $g, int $srid) : Geometry;
 }
