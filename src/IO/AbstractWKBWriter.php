@@ -22,10 +22,13 @@ use Brick\Geo\PolyhedralSurface;
 abstract class AbstractWKBWriter
 {
     /**
-     * The output byte order, BIG_ENDIAN or LITTLE_ENDIAN.
+     * @psalm-var WKBTools::BIG_ENDIAN|WKBTools::LITTLE_ENDIAN
      */
     private int $byteOrder;
 
+    /**
+     * @psalm-var WKBTools::BIG_ENDIAN|WKBTools::LITTLE_ENDIAN
+     */
     private int $machineByteOrder;
 
     /**
@@ -44,6 +47,7 @@ abstract class AbstractWKBWriter
     public function setByteOrder(int $byteOrder) : void
     {
         WKBTools::checkByteOrder($byteOrder);
+        /** @var WKBTools::BIG_ENDIAN|WKBTools::LITTLE_ENDIAN byteOrder */
         $this->byteOrder = $byteOrder;
     }
 

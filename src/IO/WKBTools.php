@@ -37,6 +37,8 @@ abstract class WKBTools
     /**
      * Detects the machine byte order (big endian or little endian).
      *
+     * @psalm-return self::BIG_ENDIAN|self::LITTLE_ENDIAN
+     *
      * @throws GeometryIOException
      */
     public static function getMachineByteOrder() : int

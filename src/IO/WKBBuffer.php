@@ -14,6 +14,7 @@ class WKBBuffer
     private string $wkb;
     private int $length;
     private int $position = 0;
+    /** @psalm-var WKBTools::BIG_ENDIAN|WKBTools::LITTLE_ENDIAN */
     private int $machineByteOrder;
     private bool $invert = false;
 
