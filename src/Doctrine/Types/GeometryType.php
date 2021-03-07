@@ -66,6 +66,7 @@ class GeometryType extends Type
 
     public function convertToPHPValue($value, AbstractPlatform $platform)
     {
+        /** @var string|resource|null $value */
         if ($value === null) {
             return null;
         }
