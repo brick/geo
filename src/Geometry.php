@@ -650,7 +650,7 @@ abstract class Geometry implements \Countable, \IteratorAggregate
     /**
      * Returns a copy of this Geometry, with the X and Y coordinates swapped.
      *
-     * @return Geometry
+     * @return static
      */
     abstract public function swapXY() : Geometry;
 

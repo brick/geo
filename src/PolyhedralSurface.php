@@ -162,9 +162,6 @@ class PolyhedralSurface extends Surface
         return $result;
     }
 
-    /**
-     * @return PolyhedralSurface
-     */
     public function swapXY() : Geometry
     {
         $that = clone $this;

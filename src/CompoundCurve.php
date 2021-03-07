@@ -163,9 +163,6 @@ class CompoundCurve extends Curve
         return $result;
     }
 
-    /**
-     * @return CompoundCurve
-     */
     public function swapXY() : Geometry
     {
         $that = clone $this;

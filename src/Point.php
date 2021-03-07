@@ -236,9 +236,6 @@ class Point extends Geometry
         return $result;
     }
 
-    /**
-     * @return Point
-     */
     public function swapXY() : Geometry
     {
         $that = clone $this;

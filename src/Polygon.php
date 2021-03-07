@@ -166,9 +166,6 @@ class Polygon extends Surface
         return $result;
     }
 
-    /**
-     * @return Polygon
-     */
     public function swapXY() : Geometry
     {
         $that = clone $this;

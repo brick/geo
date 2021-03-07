@@ -193,9 +193,6 @@ class LineString extends Curve
         return $result;
     }
 
-    /**
-     * @return LineString
-     */
     public function swapXY() : Geometry
     {
         $that = clone $this;

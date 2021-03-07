@@ -148,9 +148,6 @@ class CurvePolygon extends Surface
         return $result;
     }
 
-    /**
-     * @return CurvePolygon
-     */
     public function swapXY() : Geometry
     {
         $that = clone $this;
