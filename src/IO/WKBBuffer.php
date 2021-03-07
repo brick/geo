@@ -11,30 +11,11 @@ use Brick\Geo\Exception\GeometryIOException;
  */
 class WKBBuffer
 {
-    /**
-     * @var string
-     */
-    private $wkb;
-
-    /**
-     * @var int
-     */
-    private $length;
-
-    /**
-     * @var int
-     */
-    private $position = 0;
-
-    /**
-     * @var int
-     */
-    private $machineByteOrder;
-
-    /**
-     * @var bool
-     */
-    private $invert = false;
+    private string $wkb;
+    private int $length;
+    private int $position = 0;
+    private int $machineByteOrder;
+    private bool $invert = false;
 
     public function __construct(string $wkb)
     {

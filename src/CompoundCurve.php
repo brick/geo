@@ -24,7 +24,7 @@ class CompoundCurve extends Curve
      *
      * @var Curve[]
      */
-    protected $curves = [];
+    protected array $curves = [];
 
     /**
      * Class constructor.

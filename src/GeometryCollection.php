@@ -36,7 +36,7 @@ class GeometryCollection extends Geometry
      *
      * @var Geometry[]
      */
-    protected $geometries = [];
+    protected array $geometries = [];
 
     /**
      * @psalm-param T ...$geometries

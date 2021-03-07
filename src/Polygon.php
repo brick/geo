@@ -47,7 +47,7 @@ class Polygon extends Surface
      *
      * @var LineString[]
      */
-    protected $rings = [];
+    protected array $rings = [];
 
     /**
      * The coordinate system of each of the rings must match the one of the Polygon.

@@ -21,31 +21,23 @@ class Point extends Geometry
 {
     /**
      * The x-coordinate value for this Point, or NULL if the point is empty.
-     *
-     * @var float|null
      */
-    private $x;
+    private ?float $x = null;
 
     /**
      * The y-coordinate value for this Point, or NULL if the point is empty.
-     *
-     * @var float|null
      */
-    private $y;
+    private ?float $y = null;
 
     /**
      * The z-coordinate value for this Point, or NULL if it does not have one.
-     *
-     * @var float|null
      */
-    private $z;
+    private ?float $z = null;
 
     /**
      * The m-coordinate value for this Point, or NULL if it does not have one.
-     *
-     * @var float|null
      */
-    private $m;
+    private ?float $m = null;
 
     /**
      * @param CoordinateSystem $cs        The coordinate system.

@@ -9,50 +9,30 @@ use Brick\Geo\IO\EWKBReader;
 use Brick\Geo\IO\EWKBWriter;
 use Brick\Geo\Geometry;
 use Brick\Geo\Point;
+use GEOSWKBReader;
+use GEOSWKBWriter;
+use GEOSWKTReader;
+use GEOSWKTWriter;
 
 /**
  * GeometryEngine implementation based on the GEOS PHP bindings.
  */
 class GEOSEngine implements GeometryEngine
 {
-    /**
-     * @var \GEOSWKBReader
-     */
-    private $wkbReader;
+    private GEOSWKBReader $wkbReader;
+    private GEOSWKBWriter $wkbWriter;
+    private GEOSWKTReader $wktReader;
+    private GEOSWKTWriter $wktWriter;
 
-    /**
-     * @var \GEOSWKBWriter
-     */
-    private $wkbWriter;
-
-    /**
-     * @var \GEOSWKTReader
-     */
-    private $wktReader;
-
-    /**
-     * @var \GEOSWKTWriter
-     */
-    private $wktWriter;
-
-    /**
-     * @var \Brick\Geo\IO\EWKBReader
-     */
-    private $ewkbReader;
-
-    /**
-     * @var \Brick\Geo\IO\EWKBWriter
-     */
-    private $ewkbWriter;
+    private EWKBReader $ewkbReader;
+    private EWKBWriter $ewkbWriter;
 
     /**
      * Whether the GEOS version in use has support for binary read() and write() methods.
      *
      * These methods are available since GEOS 3.5.0.
-     *
-     * @var bool
      */
-    private $hasBinaryReadWrite;
+    private bool $hasBinaryReadWrite;
 
     /**
      * Class constructor.

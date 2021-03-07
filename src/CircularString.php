@@ -27,7 +27,7 @@ class CircularString extends Curve
      *
      * @var Point[]
      */
-    protected $points = [];
+    protected array $points = [];
 
     /**
      * @throws InvalidGeometryException  If the number of points is invalid.

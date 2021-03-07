@@ -27,7 +27,7 @@ class LineString extends Curve
      *
      * @var Point[]
      */
-    protected $points = [];
+    protected array $points = [];
 
     /**
      * Class constructor.

@@ -11,10 +11,7 @@ use Brick\Geo\Exception\GeometryEngineException;
  */
 final class GeometryEngineRegistry
 {
-    /**
-     * @var GeometryEngine|null
-     */
-    private static $engine;
+    private static ?GeometryEngine $engine = null;
 
     /**
      * Returns whether a geometry engine is set.

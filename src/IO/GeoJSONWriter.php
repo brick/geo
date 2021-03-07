@@ -13,10 +13,7 @@ use Brick\Geo\GeometryCollection;
  */
 class GeoJSONWriter
 {
-    /**
-     * @var bool
-     */
-    private $prettyPrint;
+    private bool $prettyPrint;
 
     /**
      * @param bool $prettyPrint Whether to pretty-print the JSON output.

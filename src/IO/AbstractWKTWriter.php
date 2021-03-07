@@ -27,10 +27,8 @@ abstract class AbstractWKTWriter
 {
     /**
      * A space if prettyPrint is true, an empty string otherwise.
-     *
-     * @var string
      */
-    protected $prettyPrintSpace = ' ';
+    protected string $prettyPrintSpace = ' ';
 
     public function setPrettyPrint(bool $prettyPrint) : void
     {

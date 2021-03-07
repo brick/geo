@@ -15,24 +15,18 @@ class CoordinateSystem
 {
     /**
      * Whether this coordinate system has Z-coordinates.
-     *
-     * @var bool
      */
-    private $hasZ;
+    private bool $hasZ;
 
     /**
      * Whether this coordinate system has M-coordinates.
-     *
-     * @var bool
      */
-    private $hasM;
+    private bool $hasM;
 
     /**
      * The Spatial Reference System Identifier of this coordinate system.
-     *
-     * @var int
      */
-    private $srid;
+    private int $srid;
 
     /**
      * @param bool $hasZ Whether the coordinate system has Z-coordinates.

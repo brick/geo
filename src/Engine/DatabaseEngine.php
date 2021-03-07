@@ -16,10 +16,7 @@ use Brick\Geo\Proxy;
  */
 abstract class DatabaseEngine implements GeometryEngine
 {
-    /**
-     * @var bool
-     */
-    private $useProxy;
+    private bool $useProxy;
 
     public function __construct(bool $useProxy)
     {

@@ -27,10 +27,8 @@ class GeometryType extends Type
      * in place of the actual SRID of the geometry.
      *
      * @see https://github.com/doctrine/orm/issues/4114
-     *
-     * @var int
      */
-    public static $srid = 0;
+    public static int $srid = 0;
 
     /**
      * @psalm-return class-string<ProxyInterface&Geometry>

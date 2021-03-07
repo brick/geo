@@ -35,10 +35,7 @@ class GeoJSONReader
         'multipolygon'      => 'MultiPolygon',
     ];
 
-    /**
-     * @var bool
-     */
-    private $lenient;
+    private bool $lenient;
 
     /**
      * GeoJSONReader constructor.

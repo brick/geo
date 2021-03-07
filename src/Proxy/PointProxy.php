@@ -17,31 +17,23 @@ class PointProxy extends \Brick\Geo\Point implements ProxyInterface
 {
     /**
      * The WKT or WKB data.
-     *
-     * @var string
      */
-    private $proxyData;
+    private string $proxyData;
 
     /**
      * `true` if WKB, `false` if WKT.
-     *
-     * @var bool
      */
-    private $isProxyBinary;
+    private bool $isProxyBinary;
 
     /**
      * The SRID of the underlying geometry.
-     *
-     * @var int
      */
-    private $proxySRID;
+    private int $proxySRID;
 
     /**
      * The underlying geometry, or NULL if not yet loaded.
-     *
-     * @var \Brick\Geo\Point|null
      */
-    private $proxyGeometry;
+    private ?\Brick\Geo\Point $proxyGeometry = null;
 
     /**
      * @param string $data     The WKT or WKB data.

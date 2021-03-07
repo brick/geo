@@ -41,17 +41,13 @@ abstract class Geometry implements \Countable, \IteratorAggregate
 
     /**
      * The coordinate system of this geometry.
-     *
-     * @var CoordinateSystem
      */
-    protected $coordinateSystem;
+    protected CoordinateSystem $coordinateSystem;
 
     /**
      * Whether this geometry is empty.
-     *
-     * @var bool
      */
-    protected $isEmpty;
+    protected bool $isEmpty;
 
     /**
      * @param CoordinateSystem $coordinateSystem The coordinate system of this geometry.

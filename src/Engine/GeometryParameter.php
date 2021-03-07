@@ -18,26 +18,20 @@ class GeometryParameter
      * The WKT or WKB data.
      *
      * @readonly
-     *
-     * @var string
      */
-    public $data;
+    public string $data;
 
     /**
      * True for WKB, false for WKT.
      *
      * @readonly
-     *
-     * @var bool
      */
-    public $isBinary;
+    public bool $isBinary;
 
     /**
      * @readonly
-     *
-     * @var int
      */
-    public $srid;
+    public int $srid;
 
     public function __construct(Geometry $geometry, bool $isBinary)
     {

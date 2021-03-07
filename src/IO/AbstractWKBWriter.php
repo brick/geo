@@ -23,15 +23,10 @@ abstract class AbstractWKBWriter
 {
     /**
      * The output byte order, BIG_ENDIAN or LITTLE_ENDIAN.
-     *
-     * @var int
      */
-    private $byteOrder;
+    private int $byteOrder;
 
-    /**
-     * @var int
-     */
-    private $machineByteOrder;
+    private int $machineByteOrder;
 
     /**
      * @throws GeometryIOException

@@ -17,7 +17,7 @@ abstract class AbstractFunction extends FunctionNode
     /**
      * @var \Doctrine\ORM\Query\AST\Node[]
      */
-    private $args = [];
+    private array $args = [];
 
     abstract protected function getSqlFunctionName() : string;
 

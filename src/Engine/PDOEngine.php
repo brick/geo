@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace Brick\Geo\Engine;
 
 use Brick\Geo\Exception\GeometryEngineException;
+use PDO;
+use PDOException;
+use PDOStatement;
 
 /**
  * Database engine based on a PDO driver.
@@ -13,26 +16,24 @@ class PDOEngine extends DatabaseEngine
 {
     /**
      * The database connection.
-     *
-     * @var \PDO
      */
-    private $pdo;
+    private PDO $pdo;
 
     /**
      * A cache of the prepared statements, indexed by query.
      *
-     * @var \PDOStatement[]
+     * @var PDOStatement[]
      */
-    private $statements = [];
+    private array $statements = [];
 
-    public function __construct(\PDO $pdo, bool $useProxy = true)
+    public function __construct(PDO $pdo, bool $useProxy = true)
     {
         parent::__construct($useProxy);
 
         $this->pdo = $pdo;
     }
 
-    public function getPDO() : \PDO
+    public function getPDO() : PDO
     {
         return $this->pdo;
     }
@@ -40,8 +41,8 @@ class PDOEngine extends DatabaseEngine
     protected function executeQuery(string $query, array $parameters) : array
     {
         /** @var int $errMode */
-        $errMode = $this->pdo->getAttribute(\PDO::ATTR_ERRMODE);
-        $this->pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+        $errMode = $this->pdo->getAttribute(PDO::ATTR_ERRMODE);
+        $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
         try {
             if (! isset($this->statements[$query])) {
@@ -54,8 +55,8 @@ class PDOEngine extends DatabaseEngine
 
             foreach ($parameters as $parameter) {
                 if ($parameter instanceof GeometryParameter) {
-                    $statement->bindValue($index++, $parameter->data, $parameter->isBinary ? \PDO::PARAM_LOB : \PDO::PARAM_STR);
-                    $statement->bindValue($index++, $parameter->srid, \PDO::PARAM_INT);
+                    $statement->bindValue($index++, $parameter->data, $parameter->isBinary ? PDO::PARAM_LOB : PDO::PARAM_STR);
+                    $statement->bindValue($index++, $parameter->srid, PDO::PARAM_INT);
                 } else {
                     $statement->bindValue($index++, $parameter);
                 }
@@ -63,8 +64,8 @@ class PDOEngine extends DatabaseEngine
 
             $statement->execute();
 
-            $result = $statement->fetch(\PDO::FETCH_NUM);
-        } catch (\PDOException $e) {
+            $result = $statement->fetch(PDO::FETCH_NUM);
+        } catch (PDOException $e) {
             $errorClass = substr((string) $e->getCode(), 0, 2);
 
             // 42XXX = syntax error or access rule violation; reported on undefined function.
@@ -76,7 +77,7 @@ class PDOEngine extends DatabaseEngine
             throw $e;
         }
 
-        $this->pdo->setAttribute(\PDO::ATTR_ERRMODE, $errMode);
+        $this->pdo->setAttribute(PDO::ATTR_ERRMODE, $errMode);
 
         assert($result !== false);
 
@@ -85,7 +86,7 @@ class PDOEngine extends DatabaseEngine
 
     protected function getGeomFromWKBSyntax(): string
     {
-        if ($this->pdo->getAttribute(\PDO::ATTR_DRIVER_NAME) === 'mysql') {
+        if ($this->pdo->getAttribute(PDO::ATTR_DRIVER_NAME) === 'mysql') {
             return 'ST_GeomFromWKB(_binary ?, ?)';
         }
 

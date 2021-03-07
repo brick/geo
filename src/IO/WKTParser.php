@@ -21,17 +21,13 @@ class WKTParser
      * The list of tokens.
      *
      * @psalm-var list<array{int, string}>
-     *
-     * @var array
      */
-    protected $tokens = [];
+    protected array $tokens = [];
 
     /**
      * The current token pointer.
-     *
-     * @var int
      */
-    protected $current = 0;
+    protected int $current = 0;
 
     public function __construct(string $wkt)
     {

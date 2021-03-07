@@ -17,31 +17,23 @@ class SurfaceProxy extends \Brick\Geo\Surface implements ProxyInterface
 {
     /**
      * The WKT or WKB data.
-     *
-     * @var string
      */
-    private $proxyData;
+    private string $proxyData;
 
     /**
      * `true` if WKB, `false` if WKT.
-     *
-     * @var bool
      */
-    private $isProxyBinary;
+    private bool $isProxyBinary;
 
     /**
      * The SRID of the underlying geometry.
-     *
-     * @var int
      */
-    private $proxySRID;
+    private int $proxySRID;
 
     /**
      * The underlying geometry, or NULL if not yet loaded.
-     *
-     * @var \Brick\Geo\Surface|null
      */
-    private $proxyGeometry;
+    private ?\Brick\Geo\Surface $proxyGeometry = null;
 
     /**
      * @param string $data     The WKT or WKB data.

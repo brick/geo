@@ -41,7 +41,7 @@ class PolyhedralSurface extends Surface
      *
      * @var Polygon[]
      */
-    protected $patches = [];
+    protected array $patches = [];
 
     /**
      * The coordinate system of each of the patches must match the one of the PolyhedralSurface.

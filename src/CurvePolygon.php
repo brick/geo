@@ -29,11 +29,9 @@ class CurvePolygon extends Surface
      *
      * @var Curve[]
      */
-    protected $rings = [];
+    protected array $rings = [];
 
     /**
-     * Class constructor.
-     *
      * The coordinate system of each of the rings must match the one of the CurvePolygon.
      *
      * @param CoordinateSystem $cs       The coordinate system of the CurvePolygon.

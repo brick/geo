@@ -10,11 +10,8 @@ namespace Brick\Geo\IO;
 class WKBGeometryHeader
 {
     public int $geometryType;
-
     public bool $hasZ;
-
     public bool $hasM;
-
     public ?int $srid;
 
     public function __construct(int $geometryType, bool $hasZ, bool $hasM, ?int $srid = null)

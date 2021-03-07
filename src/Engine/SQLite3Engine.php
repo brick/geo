@@ -6,6 +6,8 @@ namespace Brick\Geo\Engine;
 
 use Brick\Geo\Exception\GeometryEngineException;
 use Brick\Geo\Exception\SQLite3Exception;
+use SQLite3;
+use SQLite3Stmt;
 
 /**
  * Database engine based on a SQLite3 driver.
@@ -16,26 +18,24 @@ class SQLite3Engine extends DatabaseEngine
 {
     /**
      * The database connection.
-     *
-     * @var \SQLite3
      */
-    private $sqlite3;
+    private SQLite3 $sqlite3;
 
     /**
      * A cache of the prepared statements, indexed by query.
      *
-     * @var \SQLite3Stmt[]
+     * @var SQLite3Stmt[]
      */
-    private $statements = [];
+    private array $statements = [];
 
-    public function __construct(\SQLite3 $sqlite3, bool $useProxy = true)
+    public function __construct(SQLite3 $sqlite3, bool $useProxy = true)
     {
         parent::__construct($useProxy);
 
         $this->sqlite3 = $sqlite3;
     }
 
-    public function getSQLite3() : \SQLite3
+    public function getSQLite3() : SQLite3
     {
         return $this->sqlite3;
     }
