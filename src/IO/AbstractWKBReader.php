@@ -29,17 +29,13 @@ use Brick\Geo\Exception\GeometryIOException;
 abstract class AbstractWKBReader
 {
     /**
-     * @param WKBBuffer $buffer       The WKB buffer.
-     * @param int       $geometryType A variable to store the geometry type.
-     * @param bool      $hasZ         A variable to store whether the geometry has Z coordinates.
-     * @param bool      $hasM         A variable to store whether the geometry has M coordinates.
-     * @param int       $srid         A variable to store the SRID.
+     * @param WKBBuffer $buffer The WKB buffer.
      *
      * @return void
      *
      * @throws GeometryIOException
      */
-    abstract protected function readGeometryHeader(WKBBuffer $buffer, & $geometryType, & $hasZ, & $hasM, & $srid) : void;
+    abstract protected function readGeometryHeader(WKBBuffer $buffer) : WKBGeometryHeader;
 
     /**
      * @psalm-suppress NullReference
@@ -55,11 +51,15 @@ abstract class AbstractWKBReader
     {
         $buffer->readByteOrder();
 
-        $this->readGeometryHeader($buffer, $geometryType, $hasZ, $hasM, $srid);
+        $geometryHeader = $this->readGeometryHeader($buffer);
 
-        $cs = new CoordinateSystem($hasZ, $hasM, $srid);
+        $cs = new CoordinateSystem(
+            $geometryHeader->hasZ,
+            $geometryHeader->hasM,
+            $geometryHeader->srid ?? $srid
+        );
 
-        switch ($geometryType) {
+        switch ($geometryHeader->geometryType) {
             case Geometry::POINT:
                 return $this->readPoint($buffer, $cs);
 
@@ -100,7 +100,7 @@ abstract class AbstractWKBReader
                 return $this->readTriangle($buffer, $cs);
         }
 
-        throw GeometryIOException::unsupportedWKBType($geometryType);
+        throw GeometryIOException::unsupportedWKBType($geometryHeader->geometryType);
     }
 
     /**

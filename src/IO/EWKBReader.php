@@ -34,9 +34,11 @@ class EWKBReader extends AbstractWKBReader
     /**
      * {@inheritdoc}
      */
-    protected function readGeometryHeader(WKBBuffer $buffer, & $geometryType, & $hasZ, & $hasM, & $srid) : void
+    protected function readGeometryHeader(WKBBuffer $buffer) : WKBGeometryHeader
     {
         $header = $buffer->readUnsignedLong();
+
+        $srid = null;
 
         if ($header >= 0 && $header < 4000) {
             $geometryType = $header % 1000;
@@ -55,5 +57,7 @@ class EWKBReader extends AbstractWKBReader
                 $srid = $buffer->readUnsignedLong();
             }
         }
+
+        return new WKBGeometryHeader($geometryType, $hasZ, $hasM, $srid);
     }
 }
