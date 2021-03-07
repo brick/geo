@@ -27,8 +27,6 @@ class CompoundCurve extends Curve
     protected array $curves = [];
 
     /**
-     * Class constructor.
-     *
      * The coordinate system of each of the curves must match the one of the CompoundCurve.
      *
      * @param CoordinateSystem $cs        The coordinate system of the CompoundCurve.

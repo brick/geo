@@ -38,8 +38,6 @@ class GeoJSONReader
     private bool $lenient;
 
     /**
-     * GeoJSONReader constructor.
-     *
      * @param bool $lenient Whether to allow different cases for GeoJSON types, such as POINT instead of Point.
      *                      The standard enforces a case-sensitive comparison, so this reader is case-sensitive by
      *                      default, but you can override this behaviour here.

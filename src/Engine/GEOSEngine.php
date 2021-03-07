@@ -34,9 +34,6 @@ class GEOSEngine implements GeometryEngine
      */
     private bool $hasBinaryReadWrite;
 
-    /**
-     * Class constructor.
-     */
     public function __construct()
     {
         $this->wkbReader = new \GEOSWKBReader();

@@ -30,8 +30,6 @@ class LineString extends Curve
     protected array $points = [];
 
     /**
-     * Class constructor.
-     *
      * A LineString must be composed of 2 points or more, or 0 points for an empty LineString.
      * A LineString with exactly 1 point is not allowed.
      *
