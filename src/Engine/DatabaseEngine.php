@@ -405,6 +405,6 @@ abstract class DatabaseEngine implements GeometryEngine
 
     public function transform(Geometry $g, int $srid) : Geometry
     {
-        return $this->queryGeometry('ST_Transform', $g);
+        return $this->queryGeometry('ST_Transform', $g, $srid);
     }
 }
