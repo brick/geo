@@ -20,4 +20,9 @@ class MultiLineStringType extends GeometryType
     {
         return MultiLineStringProxy::class;
     }
+
+    protected function hasKnownSubclasses() : bool
+    {
+        return false;
+    }
 }

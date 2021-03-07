@@ -20,4 +20,9 @@ class MultiPointType extends GeometryType
     {
         return MultiPointProxy::class;
     }
+
+    protected function hasKnownSubclasses() : bool
+    {
+        return false;
+    }
 }

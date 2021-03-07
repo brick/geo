@@ -16,7 +16,7 @@ class LoadGeometryData implements FixtureInterface {
     public function load(ObjectManager $manager)
     {
         $point1 = new GeometryEntity();
-        $point1->setGeometry(Point::xy(0, 0));
+        $point1->setGeometry(Point::xy(1, 2));
 
         $manager->persist($point1);
         $manager->flush();

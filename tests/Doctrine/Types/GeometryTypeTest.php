@@ -3,7 +3,7 @@
 namespace Brick\Geo\Tests\Doctrine\Types;
 
 use Brick\Geo\Point;
-use Brick\Geo\Proxy\GeometryProxy;
+use Brick\Geo\Proxy\ProxyInterface;
 use Brick\Geo\Tests\Doctrine\DataFixtures\LoadGeometryData;
 use Brick\Geo\Tests\Doctrine\FunctionalTestCase;
 use Brick\Geo\Tests\Doctrine\Fixtures\GeometryEntity;
@@ -34,12 +34,12 @@ class GeometryTypeTest extends FunctionalTestCase
         $geometryEntity = $repository->findOneBy(['id' => 1]);
         self::assertNotNull($geometryEntity);
 
-        /** @var GeometryProxy $geometry */
         $geometry = $geometryEntity->getGeometry();
 
-        /** @var Point $point */
-        $point = $geometry->getGeometry();
+        self::assertInstanceOf(Point::class, $geometry);
+        self::assertInstanceOf(ProxyInterface::class, $geometry);
 
-        $this->assertPointEquals($point, 0.0, 0.0);
+        /** @var Point $geometry */
+        $this->assertPointEquals($geometry, 1.0, 2.0);
     }
 }

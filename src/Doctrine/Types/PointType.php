@@ -20,4 +20,9 @@ class PointType extends GeometryType
     {
         return PointProxy::class;
     }
+
+    protected function hasKnownSubclasses() : bool
+    {
+        return false;
+    }
 }

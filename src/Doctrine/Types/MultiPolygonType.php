@@ -20,4 +20,9 @@ class MultiPolygonType extends GeometryType
     {
         return MultiPolygonProxy::class;
     }
+
+    protected function hasKnownSubclasses() : bool
+    {
+        return false;
+    }
 }

@@ -2,6 +2,10 @@
 
 ## Unreleased (0.6.0)
 
+🐛 **Fixes**
+
+- Doctrine types could hydrate a parent Geometry proxy class, but now hydrate the correct Geometry proxy sub-class by introspecting the WKB without fully loading it
+
 ✨ **Improvements**
 
 - Proxy data is now always sent as is to the `DatabaseEngine`

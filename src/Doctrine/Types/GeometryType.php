@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Brick\Geo\Doctrine\Types;
 
 use Brick\Geo\Geometry;
+use Brick\Geo\IO\WKBReader;
 use Brick\Geo\Proxy\GeometryProxy;
 use Brick\Geo\Proxy\ProxyInterface;
 use Doctrine\DBAL\Platforms\MySqlPlatform;
@@ -30,12 +31,23 @@ class GeometryType extends Type
      */
     public static int $srid = 0;
 
+    private ?WKBReader $wkbReader = null;
+
     /**
      * @psalm-return class-string<ProxyInterface&Geometry>
      */
     protected function getProxyClassName() : string
     {
         return GeometryProxy::class;
+    }
+
+    /**
+     * Returns whether the associated geometry class has known (non-proxy) subclasses.
+     * If true, the WKB has to be introspected before the correct proxy class can be instantiated.
+     */
+    protected function hasKnownSubclasses() : bool
+    {
+        return true;
     }
 
     public function getName()
@@ -60,6 +72,15 @@ class GeometryType extends Type
 
         if (is_resource($value)) {
             $value = stream_get_contents($value);
+        }
+
+        if ($this->hasKnownSubclasses()) {
+            // Introspect the WKB to get the correct proxy class
+            if ($this->wkbReader === null) {
+                $this->wkbReader = new WKBReader();
+            }
+
+            return $this->wkbReader->readAsProxy($value, self::$srid);
         }
 
         $proxyClassName = $this->getProxyClassName();

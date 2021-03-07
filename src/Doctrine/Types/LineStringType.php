@@ -20,4 +20,9 @@ class LineStringType extends GeometryType
     {
         return LineStringProxy::class;
     }
+
+    protected function hasKnownSubclasses() : bool
+    {
+        return false;
+    }
 }
