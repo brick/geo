@@ -558,6 +558,8 @@ class GeometryTest extends AbstractTestCase
      */
     public function testCentroid(string $geometry, float $centroidX, float $centroidY, array $supportedEngines) : void
     {
+        $this->requiresGeometryEngine();
+
         $this->requireEngine($supportedEngines);
 
         $geometry = Geometry::fromText($geometry);
@@ -1331,6 +1333,8 @@ class GeometryTest extends AbstractTestCase
      */
     public function testTransform(string $originalWKT, int $originalSRID, int $targetSRID, string $expectedWKT) : void
     {
+        $this->requiresGeometryEngine();
+
         if ($this->isGEOS()) {
             $this->expectException(GeometryEngineException::class);
         } elseif (! $this->isPostGIS()) {
