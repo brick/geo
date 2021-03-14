@@ -102,4 +102,20 @@ class PDOEngine extends DatabaseEngine
 
         return parent::getGeomFromWKBSyntax();
     }
+
+    /**
+     * @param scalar|null $parameter
+     */
+    protected function getParameterPlaceholder($parameter): string
+    {
+        if ($this->pdo->getAttribute(PDO::ATTR_DRIVER_NAME) === 'pgsql') {
+            if (is_int($parameter)) {
+                // https://stackoverflow.com/q/66625661/759866
+                // https://externals.io/message/113521
+                return 'CAST (? AS INTEGER)';
+            }
+        }
+
+        return parent::getParameterPlaceholder($parameter);
+    }
 }

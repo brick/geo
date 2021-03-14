@@ -244,11 +244,6 @@ class AbstractTestCase extends TestCase
 
     /**
      * Asserts that two geometries are spatially equal.
-     *
-     * @param Geometry $expected
-     * @param Geometry $actual
-     *
-     * @return void
      */
     final protected function assertGeometryEquals(Geometry $expected, Geometry $actual) : void
     {
@@ -262,7 +257,29 @@ class AbstractTestCase extends TestCase
             return;
         }
 
+        self::assertSame($expected->geometryType(), $actual->geometryType());
+
         self::assertTrue($actual->equals($expected), 'Failed asserting that two geometries are spatially equal.'
+            . "\n---Expected"
+            . "\n+++Actual"
+            . "\n@@ @@"
+            . "\n-" . $expectedWKT
+            . "\n+" . $actualWKT
+        );
+    }
+
+    /**
+     * Asserts that two geometries' coordinates are equal with a given delta.
+     */
+    final protected function assertGeometryEqualsWithDelta(Geometry $expected, Geometry $actual, float $delta = 0.0) : void
+    {
+        $expectedWKT = $expected->asText();
+        $actualWKT = $actual->asText();
+
+        self::assertSame($expected->geometryType(), $actual->geometryType());
+
+        self::assertEqualsWithDelta($expected->toArray(), $actual->toArray(), $delta,
+            'Failed asserting that two geometries are equal with delta.'
             . "\n---Expected"
             . "\n+++Actual"
             . "\n@@ @@"

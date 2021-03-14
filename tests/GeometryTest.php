@@ -1346,9 +1346,7 @@ class GeometryTest extends AbstractTestCase
 
         $transformedGeometry = $originalGeometry->transform($targetSRID);
 
-        $this->assertGeometryEquals($expectedGeometry, $transformedGeometry);
-
-        self::assertSame($expectedWKT, $transformedGeometry->asText());
+        $this->assertGeometryEqualsWithDelta($expectedGeometry, $transformedGeometry, 0.0000001);
     }
 
     public function providerTransform() : array

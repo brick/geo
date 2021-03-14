@@ -58,6 +58,18 @@ abstract class DatabaseEngine implements GeometryEngine
     }
 
     /**
+     * Returns the placeholder syntax for the given parameter.
+     *
+     * This method may be overridden to perform explicit type casts if necessary.
+     *
+     * @param scalar|null $parameter
+     */
+    protected function getParameterPlaceholder($parameter): string
+    {
+        return '?';
+    }
+
+    /**
      * Builds and executes a SQL query for a GIS function.
      *
      * @psalm-param list<Geometry|scalar|null> $parameters
@@ -89,7 +101,7 @@ abstract class DatabaseEngine implements GeometryEngine
 
                 $queryValues[] = new GeometryParameter($parameter, $sendAsBinary);
             } else {
-                $queryParameters[] = '?';
+                $queryParameters[] = $this->getParameterPlaceholder($parameter);
                 $queryValues[] = $parameter;
             }
         }
