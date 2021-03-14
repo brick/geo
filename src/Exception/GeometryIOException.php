@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Brick\Geo\Exception;
 
+use JsonException;
+
 /**
  * Exception thrown when an error occurs reading or writing WKT/WKB representations.
  */
@@ -24,9 +26,9 @@ class GeometryIOException extends GeometryException
         return new self('Invalid EWKT.');
     }
 
-    public static function invalidGeoJSON(string $context) : GeometryIOException
+    public static function invalidGeoJSON(string $context, ?JsonException $e = null) : GeometryIOException
     {
-        $message = sprintf('Invalid GeoJSON: %s.', $context);
+        $message = sprintf('Invalid GeoJSON: %s', $context);
 
         return new self($message);
     }

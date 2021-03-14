@@ -5,6 +5,7 @@
 ✨ **New features**
 
 - New method: `Geometry::transform()` transforms `Geometry` coordinates to a new SRID
+- Proper support for `Feature` and `FeatureCollection` in `GeoJSONReader` and `GeoJSONWriter`
 
 🐛 **Fixes**
 
@@ -16,7 +17,12 @@
 
 💥 **BC breaks**
 
-Note: these breaks will likely not affect you, unless you're writing your own geometry engine or your own WKB reader.
+The following breaks only affect you if you use the GeoJSON reader/writer:
+
+- `GeoJSONReader` now instantiates Features and FeatureCollections as `Feature` and `FeatureCollection` objects, instead of `Geometry` and `GeometryCollection` objects
+- `GeoJSONWriter` will now write GeometryCollections as `GeometryCollection` type, instead of `FeatureCollection`
+
+The following breaks will only affect you if you're writing your own geometry engine, or your own WKB reader:
 
 - `AbstractWKBReader::readGeometryHeader()` signature was changed
 - `WKBReader::read()` signature was changed

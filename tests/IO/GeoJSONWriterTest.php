@@ -9,12 +9,11 @@ use Brick\Geo\Point;
 class GeoJSONWriterTest extends GeoJSONAbstractTest
 {
     /**
-     * @dataProvider providerWriteGeometry
-     * @dataProvider providerWriteFeatureCollection
+     * @dataProvider providerGeometryGeoJSON
+     * @dataProvider providerFeatureGeoJSON
+     * @dataProvider providerFeatureCollectionGeoJSON
      *
      * @param string $geojson The GeoJSON to read.
-     *
-     * @return void
      *
      * @throws \Brick\Geo\Exception\GeometryException
      */
@@ -27,28 +26,6 @@ class GeoJSONWriterTest extends GeoJSONAbstractTest
     }
 
     /**
-     * @return \Generator
-     */
-    public function providerWriteGeometry() : \Generator
-    {
-        foreach ($this->providerGeometryGeoJSON() as [$geojson, $coords, $is3D]) {
-            yield [$geojson];
-        }
-    }
-
-    /**
-     * @return \Generator
-     */
-    public function providerWriteFeatureCollection() : \Generator
-    {
-        foreach ($this->providerFeatureCollectionGeoJSON() as [$geojson, $coords, $is3D]) {
-            yield [$geojson];
-        }
-    }
-
-    /**
-     * @return void
-     *
      * @throws \Brick\Geo\Exception\GeometryIOException
      */
     public function testPrettyPrint() : void
@@ -57,15 +34,15 @@ class GeoJSONWriterTest extends GeoJSONAbstractTest
         $geoJSONOutput = $writer->write(Point::xyz(1, 2, 3));
 
         $expectedGeoJSON = <<<EOL
-{
-    "type": "Point",
-    "coordinates": [
-        1,
-        2,
-        3
-    ]
-}
-EOL;
+        {
+            "type": "Point",
+            "coordinates": [
+                1,
+                2,
+                3
+            ]
+        }
+        EOL;
 
         self::assertSame($expectedGeoJSON, $geoJSONOutput);
     }

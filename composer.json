@@ -40,6 +40,6 @@
         "preferred-install": "source"
     },
     "suggest": {
-        "ext-json": "To read and write GeoJSON files"
+        "ext-json": "To read and write GeoJSON"
     }
 }

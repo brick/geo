@@ -9,9 +9,6 @@ use Brick\Geo\Tests\AbstractTestCase;
  */
 abstract class GeoJSONAbstractTest extends AbstractTestCase
 {
-    /**
-     * @return array
-     */
     public function providerGeometryGeoJSON() : array
     {
         return array_merge(
@@ -20,47 +17,61 @@ abstract class GeoJSONAbstractTest extends AbstractTestCase
             $this->providerGeometryLineStringGeoJSON(),
             $this->providerGeometryMultiLineStringGeoJSON(),
             $this->providerGeometryPolygonGeoJSON(),
-            $this->providerGeometryMultiPolygonGeoJSON()
+            $this->providerGeometryMultiPolygonGeoJSON(),
+            $this->providerGeometryCollectionGeoJSON()
         );
     }
 
-    /**
-     * @return array
-     */
     public function providerFeatureGeoJSON() : array
     {
         return array_merge(
+            $this->providerFeatureNoGeometry(),
             $this->providerFeaturePointGeoJSON(),
             $this->providerFeatureMultiPointGeoJSON(),
             $this->providerFeatureLineStringGeoJSON(),
             $this->providerFeatureMultiLineStringGeoJSON(),
             $this->providerFeaturePolygonGeoJSON(),
-            $this->providerFeatureMultiPolygonGeoJSON()
+            $this->providerFeatureMultiPolygonGeoJSON(),
+            $this->providerFeatureGeometryCollectionGeoJSON(),
         );
     }
 
-    /**
-     * @return array
-     */
+    public function providerFeatureNoGeometry() : array
+    {
+        return [
+            [
+                '{"type":"Feature","properties":null,"geometry":null}',
+                null,
+                null,
+                false
+            ],
+            [
+                '{"type":"Feature","properties":{"foo":"bar","bar":"baz"},"geometry":null}',
+                (object) ['foo' => 'bar', 'bar' => 'baz'],
+                null,
+                false
+            ],
+        ];
+    }
+
     public function providerFeatureCollectionGeoJSON() : array
     {
         return [
             [
-                '{"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"Point","coordinates":[1,1]}},{"type":"Feature","geometry":{"type":"Point","coordinates":[1,3]}}]}',
+                '{"type":"FeatureCollection","features":[{"type":"Feature","properties":{"foo":"bar"},"geometry":{"type":"Point","coordinates":[1,1]}},{"type":"Feature","properties":null,"geometry":{"type":"Point","coordinates":[1,3]}}]}',
+                [(object) ['foo' => 'bar'], null],
                 [[1, 1], [1, 3]],
                 [false, false]
             ],
             [
-                '{"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"Point","coordinates":[1,1,1]}},{"type":"Feature","geometry":{"type":"Point","coordinates":[1,3,2]}}]}',
+                '{"type":"FeatureCollection","features":[{"type":"Feature","properties":null,"geometry":{"type":"Point","coordinates":[1,1,1]}},{"type":"Feature","properties":{"foo":"bar"},"geometry":{"type":"Point","coordinates":[1,3,2]}}]}',
+                [null, (object) ['foo' => 'bar']],
                 [[1, 1, 1], [1, 3, 2]],
                 [true, true]
             ]
         ];
     }
 
-    /**
-     * @return array
-     */
     public function providerGeometryPointGeoJSON() : array
     {
         return [
@@ -82,33 +93,30 @@ abstract class GeoJSONAbstractTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @return array
-     */
     public function providerFeaturePointGeoJSON() : array
     {
         return [
             [
-                '{"type":"Feature","geometry":{"type":"Point","coordinates":[]}}',
+                '{"type":"Feature","properties":{"foo":"bar"},"geometry":{"type":"Point","coordinates":[]}}',
+                (object) ['foo' => 'bar'],
                 [],
                 false
             ],
             [
-                '{"type":"Feature","geometry":{"type":"Point","coordinates":[1,2]}}',
+                '{"type":"Feature","properties":{"foo":"bar","bar":"baz"},"geometry":{"type":"Point","coordinates":[1,2]}}',
+                (object) ['foo' => 'bar', 'bar' => 'baz'],
                 [1, 2],
                 false
             ],
             [
-                '{"type":"Feature","geometry":{"type":"Point","coordinates":[1,2,0]}}',
+                '{"type":"Feature","properties":null,"geometry":{"type":"Point","coordinates":[1,2,0]}}',
+                null,
                 [1, 2, 0],
                 true
             ]
         ];
     }
 
-    /**
-     * @return array
-     */
     public function providerGeometryMultiPointGeoJSON() : array
     {
         return [
@@ -130,33 +138,30 @@ abstract class GeoJSONAbstractTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @return array
-     */
     public function providerFeatureMultiPointGeoJSON() : array
     {
         return [
             [
-                '{"type":"Feature","geometry":{"type":"MultiPoint","coordinates":[]}}',
+                '{"type":"Feature","properties":{"foo":"bar"},"geometry":{"type":"MultiPoint","coordinates":[]}}',
+                (object) ['foo' => 'bar'],
                 [],
                 false
             ],
             [
-                '{"type":"Feature","geometry":{"type":"MultiPoint","coordinates":[[1,0],[1,1]]}}',
+                '{"type":"Feature","properties":{"foo":"bar"},"geometry":{"type":"MultiPoint","coordinates":[[1,0],[1,1]]}}',
+                (object) ['foo' => 'bar'],
                 [[1, 0], [1, 1]],
                 false
             ],
             [
-                '{"type":"Feature","geometry":{"type":"MultiPoint","coordinates":[[1,0,1],[1,1,0]]}}',
+                '{"type":"Feature","properties":{"foo":"bar"},"geometry":{"type":"MultiPoint","coordinates":[[1,0,1],[1,1,0]]}}',
+                (object) ['foo' => 'bar'],
                 [[1, 0, 1], [1, 1, 0]],
                 true
             ]
         ];
     }
 
-    /**
-     * @return array
-     */
     public function providerGeometryLineStringGeoJSON() : array
     {
         return [
@@ -178,33 +183,30 @@ abstract class GeoJSONAbstractTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @return array
-     */
     public function providerFeatureLineStringGeoJSON() : array
     {
         return [
             [
-                '{"type":"Feature","geometry":{"type":"LineString","coordinates":[]}}',
+                '{"type":"Feature","properties":{"foo":"bar"},"geometry":{"type":"LineString","coordinates":[]}}',
+                (object) ['foo' => 'bar'],
                 [],
                 false
             ],
             [
-                '{"type":"Feature","geometry":{"type":"LineString","coordinates":[[1,2],[3,4]]}}',
+                '{"type":"Feature","properties":{"foo":"bar"},"geometry":{"type":"LineString","coordinates":[[1,2],[3,4]]}}',
+                (object) ['foo' => 'bar'],
                 [[1, 2], [3, 4]],
                 false
             ],
             [
-                '{"type":"Feature","geometry":{"type":"LineString","coordinates":[[1,2,1],[3,4,1]]}}',
+                '{"type":"Feature","properties":{"foo":"bar"},"geometry":{"type":"LineString","coordinates":[[1,2,1],[3,4,1]]}}',
+                (object) ['foo' => 'bar'],
                 [[1, 2, 1], [3, 4, 1]],
                 true
             ]
         ];
     }
 
-    /**
-     * @return array
-     */
     public function providerGeometryMultiLineStringGeoJSON() : array
     {
         return [
@@ -226,28 +228,24 @@ abstract class GeoJSONAbstractTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @return array
-     */
     public function providerFeatureMultiLineStringGeoJSON() : array
     {
         return [
             [
-                '{"type":"Feature","geometry":{"type":"MultiLineString","coordinates":[]}}',
+                '{"type":"Feature","properties":{"foo":"bar"},"geometry":{"type":"MultiLineString","coordinates":[]}}',
+                (object) ['foo' => 'bar'],
                 [],
                 false
             ],
             [
-                '{"type":"Feature","geometry":{"type":"MultiLineString","coordinates":[[[1,0,1],[1,1,1]],[[2,2,2],[1,3,3]]]}}',
+                '{"type":"Feature","properties":{"foo":"bar"},"geometry":{"type":"MultiLineString","coordinates":[[[1,0,1],[1,1,1]],[[2,2,2],[1,3,3]]]}}',
+                (object) ['foo' => 'bar'],
                 [[[1, 0, 1], [1, 1, 1]], [[2, 2, 2], [1, 3, 3]]],
                 true
             ]
         ];
     }
 
-    /**
-     * @return array
-     */
     public function providerGeometryPolygonGeoJSON() : array
     {
         return [
@@ -285,24 +283,24 @@ abstract class GeoJSONAbstractTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @return array
-     */
     public function providerFeaturePolygonGeoJSON() : array
     {
         return [
             [
-                '{"type":"Feature","geometry":{"type":"Polygon","coordinates":[]}}',
+                '{"type":"Feature","properties":{"foo":"bar"},"geometry":{"type":"Polygon","coordinates":[]}}',
+                (object) ['foo' => 'bar'],
                 [],
                 false
             ],
             [
-                '{"type":"Feature","geometry":{"type":"Polygon","coordinates":[[[0,0],[1,2],[3,4],[0,0]]]}}',
+                '{"type":"Feature","properties":{"foo":"bar"},"geometry":{"type":"Polygon","coordinates":[[[0,0],[1,2],[3,4],[0,0]]]}}',
+                (object) ['foo' => 'bar'],
                 [[[0, 0], [1, 2], [3, 4], [0, 0]]],
                 false
             ],
             [
-                '{"type":"Feature","geometry":{"type":"Polygon","coordinates":[[[1000,0],[1010,0],[1010,10],[1000,10],[1000,0]],[[1002,2],[1008,2],[1008,8],[1002,8],[1002,2]]]}}',
+                '{"type":"Feature","properties":{"foo":"bar"},"geometry":{"type":"Polygon","coordinates":[[[1000,0],[1010,0],[1010,10],[1000,10],[1000,0]],[[1002,2],[1008,2],[1008,8],[1002,8],[1002,2]]]}}',
+                (object) ['foo' => 'bar'],
                 [
                     [[1000, 0], [1010, 0], [1010, 10], [1000, 10], [1000, 0]],
                     [[1002, 2], [1008, 2], [1008, 8], [1002, 8], [1002, 2]]
@@ -310,12 +308,14 @@ abstract class GeoJSONAbstractTest extends AbstractTestCase
                 false
             ],
             [
-                '{"type":"Feature","geometry":{"type":"Polygon","coordinates":[[[0,0,1],[1,2,1],[3,4,1],[0,0,1]]]}}',
+                '{"type":"Feature","properties":{"foo":"bar"},"geometry":{"type":"Polygon","coordinates":[[[0,0,1],[1,2,1],[3,4,1],[0,0,1]]]}}',
+                (object) ['foo' => 'bar'],
                 [[[0, 0, 1], [1, 2, 1], [3, 4, 1], [0, 0, 1]]],
                 true
             ],
             [
-                '{"type":"Feature","geometry":{"type":"Polygon","coordinates":[[[1000,0,1],[1010,0,1],[1010,10,1],[1000,10,1],[1000,0,1]],[[1002,2,2],[1008,2,2],[1008,8,2],[1002,8,2],[1002,2,2]]]}}',
+                '{"type":"Feature","properties":{"foo":"bar"},"geometry":{"type":"Polygon","coordinates":[[[1000,0,1],[1010,0,1],[1010,10,1],[1000,10,1],[1000,0,1]],[[1002,2,2],[1008,2,2],[1008,8,2],[1002,8,2],[1002,2,2]]]}}',
+                (object) ['foo' => 'bar'],
                 [
                     [[1000, 0, 1], [1010, 0, 1], [1010, 10, 1], [1000, 10, 1], [1000, 0, 1]],
                     [[1002, 2, 2], [1008, 2, 2], [1008, 8, 2], [1002, 8, 2], [1002, 2, 2]]
@@ -325,9 +325,6 @@ abstract class GeoJSONAbstractTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @return array
-     */
     public function providerGeometryMultiPolygonGeoJSON() : array
     {
         return [
@@ -365,19 +362,18 @@ abstract class GeoJSONAbstractTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @return array
-     */
     public function providerFeatureMultiPolygonGeoJSON() : array
     {
         return [
             [
-                '{"type":"Feature","geometry":{"type":"MultiPolygon","coordinates":[]}}',
+                '{"type":"Feature","properties":{"foo":"bar"},"geometry":{"type":"MultiPolygon","coordinates":[]}}',
+                (object) ['foo' => 'bar'],
                 [],
                 false
             ],
             [
-                '{"type":"Feature","geometry":{"type":"MultiPolygon","coordinates":[[[[1,2],[1,2],[1,3],[1,2]]],[[[1000,0],[1010,0],[1010,10],[1000,10],[1000,0]],[[1002,2],[1008,2],[1008,8],[1002,8],[1002,2]]]]}}',
+                '{"type":"Feature","properties":{"foo":"bar"},"geometry":{"type":"MultiPolygon","coordinates":[[[[1,2],[1,2],[1,3],[1,2]]],[[[1000,0],[1010,0],[1010,10],[1000,10],[1000,0]],[[1002,2],[1008,2],[1008,8],[1002,8],[1002,2]]]]}}',
+                (object) ['foo' => 'bar'],
                 [
                     [
                         [[1, 2], [1, 2], [1, 3], [1, 2]]
@@ -390,7 +386,8 @@ abstract class GeoJSONAbstractTest extends AbstractTestCase
                 false
             ],
             [
-                '{"type":"Feature","geometry":{"type":"MultiPolygon","coordinates":[[[[1,2,1],[1,2,1],[1,3,1],[1,2,1]]],[[[1000,0,2],[1010,0,2],[1010,10,2],[1000,10,2],[1000,0,2]],[[1002,2,3],[1008,2,3],[1008,8,3],[1002,8,3],[1002,2,3]]]]}}',
+                '{"type":"Feature","properties":{"foo":"bar"},"geometry":{"type":"MultiPolygon","coordinates":[[[[1,2,1],[1,2,1],[1,3,1],[1,2,1]]],[[[1000,0,2],[1010,0,2],[1010,10,2],[1000,10,2],[1000,0,2]],[[1002,2,3],[1008,2,3],[1008,8,3],[1002,8,3],[1002,2,3]]]]}}',
+                (object) ['foo' => 'bar'],
                 [
                     [
                         [[1, 2, 1], [1, 2, 1], [1, 3, 1], [1, 2, 1]]
@@ -399,6 +396,63 @@ abstract class GeoJSONAbstractTest extends AbstractTestCase
                         [[1000, 0, 2], [1010, 0, 2], [1010, 10, 2], [1000, 10, 2], [1000, 0, 2]],
                         [[1002, 2, 3], [1008, 2, 3], [1008, 8, 3], [1002, 8, 3], [1002, 2, 3]]
                     ]
+                ],
+                true
+            ]
+        ];
+    }
+
+    public function providerGeometryCollectionGeoJSON() : array
+    {
+        return [
+            [
+                '{"type":"GeometryCollection","geometries":[]}',
+                [],
+                false
+            ],
+            [
+                '{"type":"GeometryCollection","geometries":[{"type":"Point","coordinates":[0,1]},{"type":"LineString","coordinates":[[0,1],[1,1]]}]}',
+                [
+                    [0,1],
+                    [[0,1],[1,1]]
+                ],
+                false
+            ],
+            [
+                '{"type":"GeometryCollection","geometries":[{"type":"Point","coordinates":[0,1,2]},{"type":"LineString","coordinates":[[0,1,2],[1,1,3]]}]}',
+                [
+                    [0,1,2],
+                    [[0,1,2],[1,1,3]]
+                ],
+                true
+            ],
+        ];
+    }
+
+    public function providerFeatureGeometryCollectionGeoJSON() : array
+    {
+        return [
+            [
+                '{"type":"Feature","properties":{"foo":"bar"},"geometry":{"type":"GeometryCollection","geometries":[]}}',
+                (object) ['foo' => 'bar'],
+                [],
+                false
+            ],
+            [
+                '{"type":"Feature","properties":{"foo":"bar"},"geometry":{"type":"GeometryCollection","geometries":[{"type":"Point","coordinates":[0,1]},{"type":"LineString","coordinates":[[0,1],[1,1]]}]}}',
+                (object) ['foo' => 'bar'],
+                [
+                    [0,1],
+                    [[0,1],[1,1]]
+                ],
+                false
+            ],
+            [
+                '{"type":"Feature","properties":null,"geometry":{"type":"GeometryCollection","geometries":[{"type":"Point","coordinates":[0,1,2]},{"type":"LineString","coordinates":[[0,1,2],[1,1,3]]}]}}',
+                null,
+                [
+                    [0,1,2],
+                    [[0,1,2],[1,1,3]]
                 ],
                 true
             ]

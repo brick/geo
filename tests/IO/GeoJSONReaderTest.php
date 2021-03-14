@@ -3,8 +3,10 @@
 namespace Brick\Geo\Tests\IO;
 
 use Brick\Geo\Exception\GeometryIOException;
-use Brick\Geo\GeometryCollection;
+use Brick\Geo\IO\GeoJSON\Feature;
+use Brick\Geo\IO\GeoJSON\FeatureCollection;
 use Brick\Geo\IO\GeoJSONReader;
+use stdClass;
 
 class GeoJSONReaderTest extends GeoJSONAbstractTest
 {
@@ -40,19 +42,30 @@ class GeoJSONReaderTest extends GeoJSONAbstractTest
     /**
      * @dataProvider providerReadFeature
      *
-     * @param string $geojson The GeoJSON to read.
-     * @param array  $coords  The expected Geometry coordinates.
-     * @param bool   $is3D    Whether the resulting Geometry has a Z coordinate.
-     * @param bool   $lenient Whether to be lenient about case-sensitivity.
+     * @param string        $geojson    The GeoJSON to read.
+     * @param stdClass|null $properties The contained properties.
+     * @param array|null    $coords     The expected Geometry coordinates, or null if the Feature has no geometry.
+     * @param bool          $is3D       Whether the resulting Geometry has a Z coordinate.
+     * @param bool          $lenient    Whether to be lenient about case-sensitivity.
      *
      * @return void
      *
      * @throws \Brick\Geo\Exception\GeometryException
      */
-    public function testReadFeature(string $geojson, array $coords, bool $is3D, bool $lenient) : void
+    public function testReadFeature(string $geojson, ?stdClass $properties, ?array $coords, bool $is3D, bool $lenient) : void
     {
-        $geometry = (new GeoJSONReader($lenient))->read($geojson);
-        $this->assertGeometryContents($geometry, $coords, $is3D, false, 4326);
+        $feature = (new GeoJSONReader($lenient))->read($geojson);
+
+        self::assertInstanceOf(Feature::class, $feature);
+        self::assertEquals($properties, $feature->getProperties());
+
+        $geometry = $feature->getGeometry();
+
+        if ($coords === null) {
+            self::assertNull($geometry);
+        } else {
+            $this->assertGeometryContents($geometry, $coords, $is3D, false, 4326);
+        }
     }
 
     /**
@@ -60,9 +73,9 @@ class GeoJSONReaderTest extends GeoJSONAbstractTest
      */
     public function providerReadFeature() : \Generator
     {
-        foreach ($this->providerFeatureGeoJSON() as [$geojson, $coords, $is3D]) {
-            yield [$geojson, $coords, $is3D, false];
-            yield [$this->alterCase($geojson), $coords, $is3D, true];
+        foreach ($this->providerFeatureGeoJSON() as [$geojson, $properties, $coords, $is3D]) {
+            yield [$geojson, $properties, $coords, $is3D, false];
+            yield [$this->alterCase($geojson), $properties, $coords, $is3D, true];
         }
     }
 
@@ -78,13 +91,15 @@ class GeoJSONReaderTest extends GeoJSONAbstractTest
      *
      * @throws \Brick\Geo\Exception\GeometryException
      */
-    public function testReadFeatureCollection(string $geojson, array $coords, array $is3D, bool $lenient) : void
+    public function testReadFeatureCollection(string $geojson, array $properties, array $coords, array $is3D, bool $lenient) : void
     {
-        $geometryCollection = (new GeoJSONReader($lenient))->read($geojson);
+        $featureCollection = (new GeoJSONReader($lenient))->read($geojson);
 
-        self::assertInstanceOf(GeometryCollection::class, $geometryCollection);
+        self::assertInstanceOf(FeatureCollection::class, $featureCollection);
 
-        foreach ($geometryCollection->geometries() as $key => $geometry) {
+        foreach ($featureCollection->getFeatures() as $key => $feature) {
+            self::assertEquals($properties[$key], $feature->getProperties());
+            $geometry = $feature->getGeometry();
             $this->assertGeometryContents($geometry, $coords[$key], $is3D[$key], false, 4326);
         }
     }
@@ -94,9 +109,9 @@ class GeoJSONReaderTest extends GeoJSONAbstractTest
      */
     public function providerReadFeatureCollection() : \Generator
     {
-        foreach ($this->providerFeatureCollectionGeoJSON() as [$geojson, $coords, $is3D]) {
-            yield [$geojson, $coords, $is3D, false];
-            yield [$this->alterCase($geojson), $coords, $is3D, true];
+        foreach ($this->providerFeatureCollectionGeoJSON() as [$geojson, $properties, $coords, $is3D]) {
+            yield [$geojson, $properties, $coords, $is3D, false];
+            yield [$this->alterCase($geojson), $properties, $coords, $is3D, true];
         }
     }
 

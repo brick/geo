@@ -413,7 +413,6 @@ $writer = new GeoJSONWriter();
 echo $writer->write($point); // {"type":"Point","coordinates":[1,2]}
 ```
 
-Note that `Feature`s are imported as `Geometry` objects, and `FeatureCollection`s are imported as `GeometryCollection`
-objects. Non-spatial attributes are ignored.
+The library supports reading and writing `Feature` and `FeatureCollection` objects, together with custom properties.
 
 GeoJSON aims to support WGS84 only, and as such all Geometries are imported using [SRID 4326](https://epsg.io/4326).
