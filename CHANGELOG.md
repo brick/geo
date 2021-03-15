@@ -22,6 +22,7 @@
 💥 **BC breaks**
 
 - new signature for `CoordinateSystemException::sridMix()`
+- new signature for `CoordinateSystemException::dimensionalityMix()`
 
 The following breaks only affect you if you use the GeoJSON reader/writer:
 

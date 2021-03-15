@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Brick\Geo\Exception;
 
+use Brick\Geo\CoordinateSystem;
 use Brick\Geo\Geometry;
 
 /**
@@ -31,7 +32,16 @@ class CoordinateSystemException extends GeometryException
         ));
     }
 
-    public static function dimensionalityMix(Geometry $reference, Geometry $culprit) : CoordinateSystemException
+    public static function dimensionalityMix(CoordinateSystem $a, CoordinateSystem $b) : CoordinateSystemException
+    {
+        return new CoordinateSystemException(sprintf(
+            'Dimensionality mix: cannot mix %s with %s.',
+            $a->coordinateName(),
+            $b->coordinateName()
+        ));
+    }
+
+    public static function dimensionalityCompositionMix(Geometry $reference, Geometry $culprit) : CoordinateSystemException
     {
         return new CoordinateSystemException(sprintf(
             'Dimensionality mix: %s %s cannot contain %s %s.',

@@ -214,7 +214,7 @@ class CoordinateSystem
                 throw CoordinateSystemException::sridCompositionMix($reference, $geometry);
             }
 
-            throw CoordinateSystemException::dimensionalityMix($reference, $geometry);
+            throw CoordinateSystemException::dimensionalityCompositionMix($reference, $geometry);
         }
     }
 }
