@@ -177,6 +177,32 @@ class GeometryCollection extends Geometry
         return new GeometryCollection($cs, ...$geometries);
     }
 
+    public function withoutZ(): GeometryCollection
+    {
+        if (! $this->coordinateSystem->hasZ()) {
+            return $this;
+        }
+
+        $cs = $this->coordinateSystem->withZ(false);
+
+        $geometries = array_map(fn(Geometry $geometry) => $geometry->withoutZ(), $this->geometries);
+
+        return new GeometryCollection($cs, ...$geometries);
+    }
+
+    public function withoutM(): GeometryCollection
+    {
+        if (! $this->coordinateSystem->hasM()) {
+            return $this;
+        }
+
+        $cs = $this->coordinateSystem->withM(false);
+
+        $geometries = array_map(fn(Geometry $geometry) => $geometry->withoutM(), $this->geometries);
+
+        return new GeometryCollection($cs, ...$geometries);
+    }
+
     public function getBoundingBox() : BoundingBox
     {
         $boundingBox = new BoundingBox();

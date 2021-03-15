@@ -5,7 +5,9 @@
 ✨ **New features**
 
 - New method: `Geometry::transform()` transforms `Geometry` coordinates to a new SRID
-- New method: `Geometry::toXY()` retuns a new `Geometry` with no `Z` and `M` coordinates
+- New method: `Geometry::toXY()` returns a new `Geometry` with no `Z` and `M` coordinates
+- New method: `Geometry::withoutZ()` returns a new `Geometry` with the `Z` coordinate removed
+- New method: `Geometry::withoutM()` returns a new `Geometry` with the `M` coordinate removed
 - New method: `Geometry::getBoundingBox()` returns the south-west and north-east bounds of a Geometry
 - Proper support for `Feature` and `FeatureCollection` in `GeoJSONReader` and `GeoJSONWriter`
 

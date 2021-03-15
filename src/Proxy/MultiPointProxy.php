@@ -168,6 +168,24 @@ class MultiPointProxy extends \Brick\Geo\MultiPoint implements ProxyInterface
         return $this->proxyGeometry->toXY();
     }
 
+    public function withoutZ() : \Brick\Geo\GeometryCollection
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->withoutZ();
+    }
+
+    public function withoutM() : \Brick\Geo\GeometryCollection
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->withoutM();
+    }
+
     public function getBoundingBox() : \Brick\Geo\BoundingBox
     {
         if ($this->proxyGeometry === null) {

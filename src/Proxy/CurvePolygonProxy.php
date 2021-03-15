@@ -168,6 +168,24 @@ class CurvePolygonProxy extends \Brick\Geo\CurvePolygon implements ProxyInterfac
         return $this->proxyGeometry->toXY();
     }
 
+    public function withoutZ() : \Brick\Geo\CurvePolygon
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->withoutZ();
+    }
+
+    public function withoutM() : \Brick\Geo\CurvePolygon
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->withoutM();
+    }
+
     public function getBoundingBox() : \Brick\Geo\BoundingBox
     {
         if ($this->proxyGeometry === null) {

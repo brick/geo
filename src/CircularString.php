@@ -153,6 +153,32 @@ class CircularString extends Curve
         return new CircularString($cs, ...$points);
     }
 
+    public function withoutZ(): CircularString
+    {
+        if (! $this->coordinateSystem->hasZ()) {
+            return $this;
+        }
+
+        $cs = $this->coordinateSystem->withZ(false);
+
+        $points = array_map(fn(Point $point) => $point->withoutZ(), $this->points);
+
+        return new CircularString($cs, ...$points);
+    }
+
+    public function withoutM(): CircularString
+    {
+        if (! $this->coordinateSystem->hasM()) {
+            return $this;
+        }
+
+        $cs = $this->coordinateSystem->withM(false);
+
+        $geometries = array_map(fn(Point $point) => $point->withoutM(), $this->points);
+
+        return new CircularString($cs, ...$geometries);
+    }
+
     public function getBoundingBox() : BoundingBox
     {
         $boundingBox = new BoundingBox();

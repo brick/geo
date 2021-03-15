@@ -661,6 +661,20 @@ abstract class Geometry implements \Countable, \IteratorAggregate
     abstract public function toXY() : Geometry;
 
     /**
+     * Returns a copy of this Geometry, with the Z coordinate removed.
+     *
+     * @return static
+     */
+    abstract public function withoutZ() : Geometry;
+
+    /**
+     * Returns a copy of this Geometry, with the M coordinate removed.
+     *
+     * @return static
+     */
+    abstract public function withoutM() : Geometry;
+
+    /**
      * Returns the bounding box of the Geometry.
      */
     abstract public function getBoundingBox() : BoundingBox;

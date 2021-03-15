@@ -177,6 +177,24 @@ class CompoundCurveProxy extends \Brick\Geo\CompoundCurve implements ProxyInterf
         return $this->proxyGeometry->toXY();
     }
 
+    public function withoutZ() : \Brick\Geo\CompoundCurve
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->withoutZ();
+    }
+
+    public function withoutM() : \Brick\Geo\CompoundCurve
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->withoutM();
+    }
+
     public function getBoundingBox() : \Brick\Geo\BoundingBox
     {
         if ($this->proxyGeometry === null) {

@@ -195,6 +195,32 @@ class LineString extends Curve
         return new LineString($cs, ...$points);
     }
 
+    public function withoutZ(): LineString
+    {
+        if (! $this->coordinateSystem->hasZ()) {
+            return $this;
+        }
+
+        $cs = $this->coordinateSystem->withZ(false);
+
+        $points = array_map(fn(Point $point) => $point->withoutZ(), $this->points);
+
+        return new LineString($cs, ...$points);
+    }
+
+    public function withoutM(): LineString
+    {
+        if (! $this->coordinateSystem->hasM()) {
+            return $this;
+        }
+
+        $cs = $this->coordinateSystem->withM(false);
+
+        $points = array_map(fn(Point $point) => $point->withoutM(), $this->points);
+
+        return new LineString($cs, ...$points);
+    }
+
     public function getBoundingBox() : BoundingBox
     {
         $boundingBox = new BoundingBox();

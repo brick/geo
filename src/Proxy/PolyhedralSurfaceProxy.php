@@ -159,6 +159,24 @@ class PolyhedralSurfaceProxy extends \Brick\Geo\PolyhedralSurface implements Pro
         return $this->proxyGeometry->toXY();
     }
 
+    public function withoutZ() : \Brick\Geo\PolyhedralSurface
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->withoutZ();
+    }
+
+    public function withoutM() : \Brick\Geo\PolyhedralSurface
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->withoutM();
+    }
+
     public function getBoundingBox() : \Brick\Geo\BoundingBox
     {
         if ($this->proxyGeometry === null) {
