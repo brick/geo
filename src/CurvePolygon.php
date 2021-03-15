@@ -135,6 +135,21 @@ class CurvePolygon extends Surface
         return Geometry::CURVEPOLYGON;
     }
 
+    public function toXY(): CurvePolygon
+    {
+        if ($this->coordinateDimension() === 2) {
+            return $this;
+        }
+
+        $cs = $this->coordinateSystem
+            ->withZ(false)
+            ->withM(false);
+
+        $rings = array_map(fn(Curve $ring) => $ring->toXY(), $this->rings);
+
+        return new CurvePolygon($cs, ...$rings);
+    }
+
     public function toArray() : array
     {
         $result = [];

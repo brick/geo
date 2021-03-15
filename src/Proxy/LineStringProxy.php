@@ -168,6 +168,15 @@ class LineStringProxy extends \Brick\Geo\LineString implements ProxyInterface
         return $this->proxyGeometry->points();
     }
 
+    public function toXY() : \Brick\Geo\LineString
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->toXY();
+    }
+
     public function toArray() : array
     {
         if ($this->proxyGeometry === null) {

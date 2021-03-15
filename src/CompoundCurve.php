@@ -150,6 +150,21 @@ class CompoundCurve extends Curve
         return Geometry::COMPOUNDCURVE;
     }
 
+    public function toXY(): CompoundCurve
+    {
+        if ($this->coordinateDimension() === 2) {
+            return $this;
+        }
+
+        $cs = $this->coordinateSystem
+            ->withZ(false)
+            ->withM(false);
+
+        $curves = array_map(fn(Curve $curve) => $curve->toXY(), $this->curves);
+
+        return new CompoundCurve($cs, ...$curves);
+    }
+
     public function toArray() : array
     {
         $result = [];

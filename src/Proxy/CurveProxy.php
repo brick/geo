@@ -222,6 +222,15 @@ class CurveProxy extends \Brick\Geo\Curve implements ProxyInterface
         return $this->proxyGeometry->withSRID($srid);
     }
 
+    public function toXY() : \Brick\Geo\Geometry
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->toXY();
+    }
+
     public function toArray() : array
     {
         if ($this->proxyGeometry === null) {

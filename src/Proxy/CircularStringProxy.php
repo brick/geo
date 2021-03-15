@@ -168,6 +168,15 @@ class CircularStringProxy extends \Brick\Geo\CircularString implements ProxyInte
         return $this->proxyGeometry->points();
     }
 
+    public function toXY() : \Brick\Geo\CircularString
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->toXY();
+    }
+
     public function toArray() : array
     {
         if ($this->proxyGeometry === null) {

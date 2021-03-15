@@ -149,6 +149,36 @@ class CoordinateSystem
     }
 
     /**
+     * Returns a copy of this CoordinateSystem with the $hasZ altered.
+     */
+    public function withZ(bool $hasZ) : CoordinateSystem
+    {
+        if ($hasZ === $this->hasZ) {
+            return $this;
+        }
+
+        $that = clone $this;
+        $that->hasZ = $hasZ;
+
+        return $that;
+    }
+
+    /**
+     * Returns a copy of this CoordinateSystem with the $hasM altered.
+     */
+    public function withM(bool $hasM) : CoordinateSystem
+    {
+        if ($hasM === $this->hasM) {
+            return $this;
+        }
+
+        $that = clone $this;
+        $that->hasM = $hasM;
+
+        return $that;
+    }
+
+    /**
      * Returns a copy of this CoordinateSystem with the SRID altered.
      */
     public function withSRID(int $srid) : CoordinateSystem

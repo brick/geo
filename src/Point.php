@@ -203,6 +203,25 @@ class Point extends Geometry
         return 0;
     }
 
+    public function toXY(): Point
+    {
+        if ($this->coordinateDimension() === 2) {
+            return $this;
+        }
+
+        $cs = $this->coordinateSystem
+            ->withZ(false)
+            ->withM(false);
+
+        $coords = $this->toArray();
+
+        if ($coords) {
+            $coords = array_slice($coords, 0, 2);
+        }
+
+        return new Point($cs, ...$coords);
+    }
+
     /**
      * @psalm-return list<float>
      *

@@ -159,6 +159,15 @@ class PointProxy extends \Brick\Geo\Point implements ProxyInterface
         return $this->proxyGeometry->m();
     }
 
+    public function toXY() : \Brick\Geo\Point
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->toXY();
+    }
+
     public function toArray() : array
     {
         if ($this->proxyGeometry === null) {

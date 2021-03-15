@@ -180,6 +180,21 @@ class LineString extends Curve
         return Geometry::LINESTRING;
     }
 
+    public function toXY(): LineString
+    {
+        if ($this->coordinateDimension() === 2) {
+            return $this;
+        }
+
+        $cs = $this->coordinateSystem
+            ->withZ(false)
+            ->withM(false);
+
+        $points = array_map(fn(Point $point) => $point->toXY(), $this->points);
+
+        return new LineString($cs, ...$points);
+    }
+
     public function toArray() : array
     {
         $result = [];

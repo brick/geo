@@ -159,6 +159,15 @@ class GeometryCollectionProxy extends \Brick\Geo\GeometryCollection implements P
         return $this->proxyGeometry->dimension();
     }
 
+    public function toXY() : \Brick\Geo\GeometryCollection
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->toXY();
+    }
+
     public function toArray() : array
     {
         if ($this->proxyGeometry === null) {

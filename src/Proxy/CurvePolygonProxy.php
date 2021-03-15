@@ -159,6 +159,15 @@ class CurvePolygonProxy extends \Brick\Geo\CurvePolygon implements ProxyInterfac
         return $this->proxyGeometry->interiorRings();
     }
 
+    public function toXY() : \Brick\Geo\CurvePolygon
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->toXY();
+    }
+
     public function toArray() : array
     {
         if ($this->proxyGeometry === null) {

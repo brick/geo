@@ -155,6 +155,21 @@ class Polygon extends Surface
         return Geometry::POLYGON;
     }
 
+    public function toXY(): Polygon
+    {
+        if ($this->coordinateDimension() === 2) {
+            return $this;
+        }
+
+        $cs = $this->coordinateSystem
+            ->withZ(false)
+            ->withM(false);
+
+        $rings = array_map(fn(LineString $ring) => $ring->toXY(), $this->rings);
+
+        return new Polygon($cs, ...$rings);
+    }
+
     public function toArray() : array
     {
         $result = [];

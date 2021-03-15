@@ -159,6 +159,15 @@ class MultiPointProxy extends \Brick\Geo\MultiPoint implements ProxyInterface
         return $this->proxyGeometry->geometries();
     }
 
+    public function toXY() : \Brick\Geo\GeometryCollection
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->toXY();
+    }
+
     public function toArray() : array
     {
         if ($this->proxyGeometry === null) {

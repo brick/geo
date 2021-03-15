@@ -151,6 +151,21 @@ class PolyhedralSurface extends Surface
         return Geometry::POLYHEDRALSURFACE;
     }
 
+    public function toXY(): PolyhedralSurface
+    {
+        if ($this->coordinateDimension() === 2) {
+            return $this;
+        }
+
+        $cs = $this->coordinateSystem
+            ->withZ(false)
+            ->withM(false);
+
+        $patches = array_map(fn(Polygon $patch) => $patch->toXY(), $this->patches);
+
+        return new PolyhedralSurface($cs, ...$patches);
+    }
+
     public function toArray() : array
     {
         $result = [];

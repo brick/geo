@@ -150,6 +150,15 @@ class PolyhedralSurfaceProxy extends \Brick\Geo\PolyhedralSurface implements Pro
         return $this->proxyGeometry->patches();
     }
 
+    public function toXY() : \Brick\Geo\PolyhedralSurface
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->toXY();
+    }
+
     public function toArray() : array
     {
         if ($this->proxyGeometry === null) {

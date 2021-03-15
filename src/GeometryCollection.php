@@ -162,6 +162,21 @@ class GeometryCollection extends Geometry
         return $dimension;
     }
 
+    public function toXY(): GeometryCollection
+    {
+        if ($this->coordinateDimension() === 2) {
+            return $this;
+        }
+
+        $cs = $this->coordinateSystem
+            ->withZ(false)
+            ->withM(false);
+
+        $geometries = array_map(fn(Geometry $geometry) => $geometry->toXY(), $this->geometries);
+
+        return new GeometryCollection($cs, ...$geometries);
+    }
+
     public function toArray() : array
     {
         $result = [];

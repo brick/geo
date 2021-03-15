@@ -168,6 +168,15 @@ class CompoundCurveProxy extends \Brick\Geo\CompoundCurve implements ProxyInterf
         return $this->proxyGeometry->curves();
     }
 
+    public function toXY() : \Brick\Geo\CompoundCurve
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->toXY();
+    }
+
     public function toArray() : array
     {
         if ($this->proxyGeometry === null) {

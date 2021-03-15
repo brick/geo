@@ -636,6 +636,9 @@ abstract class Geometry implements \Countable, \IteratorAggregate
     /**
      * Returns a copy of this Geometry, with the SRID altered.
      *
+     * Note that only the SRID value is changed, the coordinates are not reprojected.
+     * Use transform() to reproject the Geometry to another SRID.
+     *
      * @return static
      */
     public function withSRID(int $srid) : Geometry
@@ -649,6 +652,13 @@ abstract class Geometry implements \Countable, \IteratorAggregate
 
         return $that;
     }
+
+    /**
+     * Returns a copy of this Geometry, with Z and M coordinates removed.
+     *
+     * @return static
+     */
+    abstract public function toXY(): Geometry;
 
     /**
      * Returns the raw coordinates of this geometry as an array.
