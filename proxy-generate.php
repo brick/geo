@@ -49,7 +49,9 @@ foreach ($classes as $class) {
             continue;
         }
 
-        if (strpos($method->getDocComment(), '@noproxy') !== false) {
+        $docComment = $method->getDocComment();
+
+        if ($docComment !== false && strpos($docComment, '@noproxy') !== false) {
             continue;
         }
 
