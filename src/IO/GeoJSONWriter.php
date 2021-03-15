@@ -28,6 +28,8 @@ class GeoJSONWriter
     }
 
     /**
+     * Writes the given object as GeoJSON.
+     *
      * @param Geometry|Feature|FeatureCollection $object The object to export as GeoJSON.
      *
      * @return string The GeoJSON representation of the given object.
@@ -36,10 +38,12 @@ class GeoJSONWriter
      */
     public function write(object $object) : string
     {
-        return json_encode($this->writeObject($object), $this->prettyPrint ? JSON_PRETTY_PRINT : 0);
+        return json_encode($this->writeRaw($object), $this->prettyPrint ? JSON_PRETTY_PRINT : 0);
     }
 
     /**
+     * Writes the given object as a raw stdClass object that can be JSON-encoded.
+     *
      * @psalm-suppress RedundantConditionGivenDocblockType
      * @psalm-suppress MixedArgument
      *
@@ -49,7 +53,7 @@ class GeoJSONWriter
      *
      * @throws GeometryIOException
      */
-    private function writeObject(object $object): stdClass
+    public function writeRaw(object $object): stdClass
     {
         if ($object instanceof Feature) {
             return $this->writeFeature($object);
