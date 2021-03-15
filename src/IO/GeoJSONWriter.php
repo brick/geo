@@ -107,6 +107,9 @@ class GeoJSONWriter
      */
     private function writeGeometry(Geometry $geometry): stdClass
     {
+        // GeoJSON supports XY & XYZ only
+        $geometry = $geometry->withoutM();
+
         // filter out MultiPoint, MultiLineString and MultiPolygon
         if ($geometry instanceof GeometryCollection && $geometry->geometryType() === 'GeometryCollection') {
             return $this->writeGeometryCollection($geometry);

@@ -48,4 +48,24 @@ class GeoJSONWriterTest extends GeoJSONAbstractTest
 
         self::assertSame($expectedGeoJSON, $geoJSONOutput);
     }
+
+    public function testWriteGeometryWithM() : void
+    {
+        $writer = new GeoJSONWriter(true);
+
+        // the M coordinate must be ignored
+        $geoJSONOutput = $writer->write(Point::xym(1, 2, 3));
+
+        $expectedGeoJSON = <<<EOL
+        {
+            "type": "Point",
+            "coordinates": [
+                1,
+                2
+            ]
+        }
+        EOL;
+
+        self::assertSame($expectedGeoJSON, $geoJSONOutput);
+    }
 }
