@@ -11,6 +11,7 @@
 - New method: `Geometry::getBoundingBox()` returns the south-west and north-east bounds of a Geometry
 - New method: `CoordinateSystem::isEqualTo()` compares against another `CoordinateSystem`
 - Proper support for `Feature` and `FeatureCollection` in `GeoJSONReader` and `GeoJSONWriter`
+- Support for auto-calculating the `bbox` attribute in `GeoJSONWriter`
 
 🐛 **Fixes**
 

@@ -7,6 +7,7 @@ namespace Brick\Geo\Tests\IO;
 use Brick\Geo\IO\GeoJSONReader;
 use Brick\Geo\IO\GeoJSONWriter;
 use Brick\Geo\Point;
+use Brick\Geo\Polygon;
 
 class GeoJSONWriterTest extends GeoJSONAbstractTest
 {
@@ -62,6 +63,52 @@ class GeoJSONWriterTest extends GeoJSONAbstractTest
             "coordinates": [
                 1,
                 2
+            ]
+        }
+        EOL;
+
+        self::assertSame($expectedGeoJSON, $geoJSONOutput);
+    }
+
+    public function testWriteGeometryWithBbox() : void
+    {
+        $writer = new GeoJSONWriter(true, true);
+
+        $polygon = Polygon::fromText('POLYGON((2 2, 1 5, 2 8, 3 5, 2 2))');
+        $geoJSONOutput = $writer->write($polygon);
+
+        $expectedGeoJSON = <<<EOL
+        {
+            "type": "Polygon",
+            "coordinates": [
+                [
+                    [
+                        2,
+                        2
+                    ],
+                    [
+                        1,
+                        5
+                    ],
+                    [
+                        2,
+                        8
+                    ],
+                    [
+                        3,
+                        5
+                    ],
+                    [
+                        2,
+                        2
+                    ]
+                ]
+            ],
+            "bbox": [
+                1,
+                2,
+                3,
+                8
             ]
         }
         EOL;

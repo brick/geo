@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace Brick\Geo\IO;
 
+use Brick\Geo\BoundingBox;
 use Brick\Geo\Exception\GeometryIOException;
 use Brick\Geo\Geometry;
 use Brick\Geo\GeometryCollection;
@@ -19,12 +20,16 @@ class GeoJSONWriter
 {
     private bool $prettyPrint;
 
+    private bool $setBbox;
+
     /**
      * @param bool $prettyPrint Whether to pretty-print the JSON output.
+     * @param bool $setBbox     Whether to set the bbox attribute of each non-empty GeoJSON object.
      */
-    public function __construct(bool $prettyPrint = false)
+    public function __construct(bool $prettyPrint = false, bool $setBbox = false)
     {
         $this->prettyPrint = $prettyPrint;
+        $this->setBbox = $setBbox;
     }
 
     /**
@@ -75,17 +80,28 @@ class GeoJSONWriter
      */
     private function writeFeature(Feature $feature): stdClass
     {
+        $boundingBox = null;
         $geometry = $feature->getGeometry();
 
         if ($geometry !== null) {
+            if ($this->setBbox) {
+                $boundingBox = $geometry->getBoundingBox();
+            }
+
             $geometry = $this->writeGeometry($geometry);
         }
 
-        return (object) [
+        $result = [
             'type' => 'Feature',
             'properties' => $feature->getProperties(),
             'geometry' => $geometry
         ];
+
+        if ($boundingBox !== null && ! $boundingBox->isEmpty()) {
+            $result['bbox'] = $this->bboxToCoordinateArray($boundingBox);
+        }
+
+        return (object) $result;
     }
 
     /**
@@ -96,10 +112,28 @@ class GeoJSONWriter
         $features = $featureCollection->getFeatures();
         $features = array_map(fn(Feature $feature) => $this->writeFeature($feature), $features);
 
-        return (object) [
+        $result = [
             'type' => 'FeatureCollection',
             'features' => $features
         ];
+
+        if ($this->setBbox) {
+            $boundingBox = new BoundingBox();
+
+            foreach ($featureCollection->getFeatures() as $feature) {
+                $featureGeometry = $feature->getGeometry();
+
+                if ($featureGeometry !== null) {
+                    $boundingBox = $boundingBox->extendedWithBoundingBox($featureGeometry->getBoundingBox());
+                }
+            }
+
+            if (! $boundingBox->isEmpty()) {
+                $result['bbox'] = $this->bboxToCoordinateArray($boundingBox);
+            }
+        }
+
+        return (object) $result;
     }
 
     /**
@@ -130,10 +164,18 @@ class GeoJSONWriter
             throw GeometryIOException::unsupportedGeometryType($geometry->geometryType());
         }
 
-        return (object) [
+        $result = [
             'type' => $geometryType,
             'coordinates' => $geometry->toArray()
         ];
+
+        $boundingBox = $geometry->getBoundingBox();
+
+        if ($this->setBbox && ! $boundingBox->isEmpty()) {
+            $result['bbox'] = $this->bboxToCoordinateArray($boundingBox);
+        }
+
+        return (object) $result;
     }
 
     /**
@@ -151,9 +193,25 @@ class GeoJSONWriter
             return $this->writeGeometry($geometry);
         }, $geometries);
 
-        return (object) [
+        $result = [
             'type' => 'GeometryCollection',
             'geometries' => $geometries
         ];
+
+        $boundingBox = $geometryCollection->getBoundingBox();
+
+        if ($this->setBbox && ! $boundingBox->isEmpty()) {
+            $result['bbox'] = $this->bboxToCoordinateArray($boundingBox);
+        }
+
+        return (object) $result;
+    }
+
+    private function bboxToCoordinateArray(BoundingBox $boundingBox): array
+    {
+        return array_merge(
+            $boundingBox->getSouthWest()->toArray(),
+            $boundingBox->getNorthEast()->toArray()
+        );
     }
 }
