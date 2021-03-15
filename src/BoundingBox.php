@@ -91,11 +91,11 @@ class BoundingBox
      */
     public function getSouthWest() : Point
     {
-        if ($this->srid === null || $this->swX === null || $this->swY === null) {
+        if ($this->swX === null || $this->swY === null || $this->srid === null) {
             throw new EmptyGeometryException('The bounding box is empty.');
         }
 
-        return new Point(CoordinateSystem::xy($this->srid), $this->swX, $this->swY);
+        return Point::xy($this->swX, $this->swY, $this->srid);
     }
 
     /**
@@ -105,10 +105,10 @@ class BoundingBox
      */
     public function getNorthEast() : Point
     {
-        if ($this->srid === null || $this->neX === null || $this->neY === null) {
+        if ($this->neX === null || $this->neY === null || $this->srid === null) {
             throw new EmptyGeometryException('The bounding box is empty.');
         }
 
-        return new Point(CoordinateSystem::xy($this->srid), $this->neX, $this->neY);
+        return Point::xy($this->neX, $this->neY, $this->srid);
     }
 }
