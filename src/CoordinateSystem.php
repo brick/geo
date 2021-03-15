@@ -211,7 +211,7 @@ class CoordinateSystem
             }
 
             if ($geometryCS->srid !== $referenceCS->srid) {
-                throw CoordinateSystemException::sridMix($reference, $geometry);
+                throw CoordinateSystemException::sridCompositionMix($reference, $geometry);
             }
 
             throw CoordinateSystemException::dimensionalityMix($reference, $geometry);

@@ -18,6 +18,8 @@
 
 💥 **BC breaks**
 
+- new signature for `CoordinateSystemException::sridMix()`
+
 The following breaks only affect you if you use the GeoJSON reader/writer:
 
 - `GeoJSONReader` now instantiates Features and FeatureCollections as `Feature` and `FeatureCollection` objects, instead of `Geometry` and `GeometryCollection` objects
