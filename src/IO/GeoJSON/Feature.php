@@ -63,7 +63,7 @@ final class Feature
     public function withProperties(?stdClass $properties): Feature
     {
         $that = clone $this;
-        $this->properties = $properties;
+        $that->properties = $properties;
 
         return $that;
     }
