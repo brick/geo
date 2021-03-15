@@ -333,6 +333,11 @@ class AbstractTestCase extends TestCase
         $this->assertPointEquals([$x, $y], false, false, $srid, $point);
     }
 
+    final protected function assertPointXYZEquals(float $x, float $y, float $z, int $srid, Point $point) : void
+    {
+        $this->assertPointEquals([$x, $y, $z], true, false, $srid, $point);
+    }
+
     /**
      * @param array      $coords     The expected coordinates of the LineString as returned by toArray().
      * @param bool       $is3D       Whether the LineString is expected to contain Z coordinates.

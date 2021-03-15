@@ -8,7 +8,7 @@ use Brick\Geo\Exception\CoordinateSystemException;
 use Brick\Geo\Exception\EmptyGeometryException;
 
 /**
- * Represents a 2D bounding box calculated from a set of points.
+ * Represents a 2D or 3D bounding box calculated from a set of points. M coordinates are ignored.
  * This class is immutable.
  */
 class BoundingBox
@@ -17,11 +17,15 @@ class BoundingBox
 
     private ?float $swY = null;
 
+    private ?float $swZ = null;
+
     private ?float $neX = null;
 
     private ?float $neY = null;
 
-    private ?int $srid = null;
+    private ?float $neZ = null;
+
+    private ?CoordinateSystem $cs = null;
 
     /**
      * Returns a copy of this BoundingBox extended with the given Point.
@@ -34,14 +38,17 @@ class BoundingBox
             return $this;
         }
 
-        if ($this->srid === null) {
-            $this->srid = $point->SRID();
-        } elseif ($this->srid !== $point->SRID()) {
-            throw CoordinateSystemException::sridMix($this->srid, $point->SRID());
+        $point = $point->withoutM();
+
+        if ($this->cs === null) {
+            $this->cs = $point->coordinateSystem();
+        } elseif (! $this->cs->isEqualTo($point->coordinateSystem())) { // by-value comparison
+            throw CoordinateSystemException::dimensionalityMix($this->cs, $point->coordinateSystem());
         }
 
         $x = $point->x();
         $y = $point->y();
+        $z = $point->z();
 
         $swX = ($this->swX === null) ? $x : min($this->swX, $x);
         $swY = ($this->swY === null) ? $y : min($this->swY, $y);
@@ -49,7 +56,17 @@ class BoundingBox
         $neX = ($this->neX === null) ? $x : max($this->neX, $x);
         $neY = ($this->neY === null) ? $y : max($this->neY, $y);
 
-        if ($swX === $this->swX && $swY === $this->swY && $neX === $this->neX && $neY === $this->neY) {
+        if ($z !== null) {
+            $swZ = ($this->swZ === null) ? $z : min($this->swZ, $z);
+            $neZ = ($this->neZ === null) ? $z : max($this->neZ, $z);
+        } else {
+            $swZ = null;
+            $neZ = null;
+        }
+
+        if (
+            $swX === $this->swX && $swY === $this->swY && $swZ === $this->swZ &&
+            $neX === $this->neX && $neY === $this->neY && $neZ === $this->neZ) {
             return $this;
         }
 
@@ -57,8 +74,10 @@ class BoundingBox
 
         $that->swX = $swX;
         $that->swY = $swY;
+        $that->swZ = $swZ;
         $that->neX = $neX;
         $that->neY = $neY;
+        $that->neZ = $neZ;
 
         return $that;
     }
@@ -81,34 +100,48 @@ class BoundingBox
 
     public function isEmpty() : bool
     {
-        return $this->srid === null;
+        return $this->cs === null;
     }
 
     /**
-     * Returns the south-west XY point.
+     * Returns the south-west XY or XYZ point.
      *
      * @throws EmptyGeometryException
      */
     public function getSouthWest() : Point
     {
-        if ($this->swX === null || $this->swY === null || $this->srid === null) {
+        if ($this->cs === null) {
             throw new EmptyGeometryException('The bounding box is empty.');
         }
 
-        return Point::xy($this->swX, $this->swY, $this->srid);
+        if ($this->cs->hasZ()) {
+            $coords = [$this->swX, $this->swY, $this->swZ];
+        } else {
+            $coords = [$this->swX, $this->swY];
+        }
+
+        /** @var list<float> $coords */
+        return new Point($this->cs, ...$coords);
     }
 
     /**
-     * Returns the north-east XY point.
+     * Returns the north-east XY or XYZ point.
      *
      * @throws EmptyGeometryException
      */
     public function getNorthEast() : Point
     {
-        if ($this->neX === null || $this->neY === null || $this->srid === null) {
+        if ($this->cs === null) {
             throw new EmptyGeometryException('The bounding box is empty.');
         }
 
-        return Point::xy($this->neX, $this->neY, $this->srid);
+        if ($this->cs->hasZ()) {
+            $coords = [$this->neX, $this->neY, $this->neZ];
+        } else {
+            $coords = [$this->neX, $this->neY];
+        }
+
+        /** @var list<float> $coords */
+        return new Point($this->cs, ...$coords);
     }
 }
