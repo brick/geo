@@ -1,19 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
+use Brick\Geo\BoundingBox;
+use Brick\Geo\CoordinateSystem;
+use Brick\Reflection\ReflectionTools;
+
 $proxyDir       = __DIR__ . '/src/Proxy/';
 $proxyTemplate  = __DIR__ . '/proxy-template.php';
 $classFiles     = __DIR__ . '/src/*.php';
 $classNamespace = 'Brick\Geo';
-
-use Brick\Geo\CoordinateSystem;
-use Brick\Reflection\ReflectionTools;
 
 require __DIR__ . '/vendor/autoload.php';
 
 $classes = [];
 
 foreach (glob($proxyDir . '*.php') as $file) {
-    if (basename($file) != 'ProxyInterface.php') {
+    if (basename($file) !== 'ProxyInterface.php') {
         unlink($file);
     }
 }
@@ -35,7 +38,7 @@ $reflectionTools = new ReflectionTools();
 foreach ($classes as $class) {
     $class = new ReflectionClass($classNamespace . '\\' .  $class);
 
-    if ($class->getName() == CoordinateSystem::class) {
+    if ($class->getName() === CoordinateSystem::class || $class->getName() === BoundingBox::class) {
         continue;
     }
 

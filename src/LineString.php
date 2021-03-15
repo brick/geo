@@ -195,6 +195,17 @@ class LineString extends Curve
         return new LineString($cs, ...$points);
     }
 
+    public function getBoundingBox() : BoundingBox
+    {
+        $boundingBox = new BoundingBox();
+
+        foreach ($this->points as $point) {
+            $boundingBox = $boundingBox->extendedWithPoint($point);
+        }
+
+        return $boundingBox;
+    }
+
     public function toArray() : array
     {
         $result = [];

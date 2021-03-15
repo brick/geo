@@ -168,6 +168,15 @@ class TriangleProxy extends \Brick\Geo\Triangle implements ProxyInterface
         return $this->proxyGeometry->toXY();
     }
 
+    public function getBoundingBox() : \Brick\Geo\BoundingBox
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->getBoundingBox();
+    }
+
     public function toArray() : array
     {
         if ($this->proxyGeometry === null) {

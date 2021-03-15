@@ -170,6 +170,17 @@ class Polygon extends Surface
         return new Polygon($cs, ...$rings);
     }
 
+    public function getBoundingBox() : BoundingBox
+    {
+        $boundingBox = new BoundingBox();
+
+        foreach ($this->rings as $ring) {
+            $boundingBox = $boundingBox->extendedWithBoundingBox($ring->getBoundingBox());
+        }
+
+        return $boundingBox;
+    }
+
     public function toArray() : array
     {
         $result = [];

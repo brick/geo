@@ -177,6 +177,17 @@ class GeometryCollection extends Geometry
         return new GeometryCollection($cs, ...$geometries);
     }
 
+    public function getBoundingBox() : BoundingBox
+    {
+        $boundingBox = new BoundingBox();
+
+        foreach ($this->geometries as $geometry) {
+            $boundingBox = $boundingBox->extendedWithBoundingBox($geometry->getBoundingBox());
+        }
+
+        return $boundingBox;
+    }
+
     public function toArray() : array
     {
         $result = [];

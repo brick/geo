@@ -166,6 +166,17 @@ class PolyhedralSurface extends Surface
         return new PolyhedralSurface($cs, ...$patches);
     }
 
+    public function getBoundingBox() : BoundingBox
+    {
+        $boundingBox = new BoundingBox();
+
+        foreach ($this->patches as $patch) {
+            $boundingBox = $boundingBox->extendedWithBoundingBox($patch->getBoundingBox());
+        }
+
+        return $boundingBox;
+    }
+
     public function toArray() : array
     {
         $result = [];

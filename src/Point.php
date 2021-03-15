@@ -222,6 +222,11 @@ class Point extends Geometry
         return new Point($cs, ...$coords);
     }
 
+    public function getBoundingBox() : BoundingBox
+    {
+        return (new BoundingBox())->extendedWithPoint($this);
+    }
+
     /**
      * @psalm-return list<float>
      *

@@ -165,6 +165,17 @@ class CompoundCurve extends Curve
         return new CompoundCurve($cs, ...$curves);
     }
 
+    public function getBoundingBox() : BoundingBox
+    {
+        $boundingBox = new BoundingBox();
+
+        foreach ($this->curves as $curve) {
+            $boundingBox = $boundingBox->extendedWithBoundingBox($curve->getBoundingBox());
+        }
+
+        return $boundingBox;
+    }
+
     public function toArray() : array
     {
         $result = [];
