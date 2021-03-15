@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Brick\Geo\Tests;
 
 use Brick\Geo\CoordinateSystem;
@@ -73,7 +75,7 @@ class PointTest extends AbstractTestCase
      */
     public function testXy() : void
     {
-        $point = Point::xy('1.2', '3.4');
+        $point = Point::xy(1.2, 3.4);
         $this->assertPointFactoryMethodAndAccessors($point, 1.2, 3.4, null, null, 0);
     }
 
@@ -82,7 +84,7 @@ class PointTest extends AbstractTestCase
      */
     public function testXyWithSRID() : void
     {
-        $point = Point::xy('1.2', '3.4', 123);
+        $point = Point::xy(1.2, 3.4, 123);
         $this->assertPointFactoryMethodAndAccessors($point, 1.2, 3.4, null, null, 123);
     }
 
@@ -91,7 +93,7 @@ class PointTest extends AbstractTestCase
      */
     public function testXyz() : void
     {
-        $point = Point::xyz('2.3', '3.4', '4.5');
+        $point = Point::xyz(2.3, 3.4, 4.5);
         $this->assertPointFactoryMethodAndAccessors($point, 2.3, 3.4, 4.5, null, 0);
     }
 
@@ -100,7 +102,7 @@ class PointTest extends AbstractTestCase
      */
     public function testXyzWithSRID() : void
     {
-        $point = Point::xyz('2.3', '3.4', '4.5', 123);
+        $point = Point::xyz(2.3, 3.4, 4.5, 123);
         $this->assertPointFactoryMethodAndAccessors($point, 2.3, 3.4, 4.5, null, 123);
     }
 
@@ -109,7 +111,7 @@ class PointTest extends AbstractTestCase
      */
     public function testXym() : void
     {
-        $point = Point::xym('3.4', '4.5', '5.6');
+        $point = Point::xym(3.4, 4.5, 5.6);
         $this->assertPointFactoryMethodAndAccessors($point, 3.4, 4.5, null, 5.6, 0);
     }
 
@@ -118,7 +120,7 @@ class PointTest extends AbstractTestCase
      */
     public function testXymWithSRID() : void
     {
-        $point = Point::xym('3.4', '4.5', '5.6', 123);
+        $point = Point::xym(3.4, 4.5, 5.6, 123);
         $this->assertPointFactoryMethodAndAccessors($point, 3.4, 4.5, null, 5.6, 123);
     }
 
@@ -127,7 +129,7 @@ class PointTest extends AbstractTestCase
      */
     public function testXyzm() : void
     {
-        $point = Point::xyzm('4.5', '5.6', '6.7', '7.8');
+        $point = Point::xyzm(4.5, 5.6, 6.7, 7.8);
         $this->assertPointFactoryMethodAndAccessors($point, 4.5, 5.6, 6.7, 7.8, 0);
     }
 
@@ -136,7 +138,7 @@ class PointTest extends AbstractTestCase
      */
     public function testXyzmWithSRID() : void
     {
-        $point = Point::xyzm('4.5', '5.6', '6.7', '7.8', 123);
+        $point = Point::xyzm(4.5, 5.6, 6.7, 7.8, 123);
         $this->assertPointFactoryMethodAndAccessors($point, 4.5, 5.6, 6.7, 7.8, 123);
     }
 
