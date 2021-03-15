@@ -178,7 +178,7 @@ class GeoJSONReader
             $features[] = $this->readFeature($feature);
         }
 
-        return new FeatureCollection($features);
+        return new FeatureCollection(...$features);
     }
 
     /**

@@ -16,26 +16,11 @@ final class FeatureCollection
      *
      * @var Feature[]
      */
-    private array $features = [];
+    private array $features;
 
-    /**
-     * @psalm-suppress DocblockTypeContradiction
-     *
-     * @param Feature[] $features The GeoJSON Features.
-     */
-    public function __construct(array $features)
+    public function __construct(Feature ...$features)
     {
-        foreach ($features as $feature) {
-            if (! $feature instanceof Feature) {
-                throw new InvalidArgumentException(sprintf(
-                    'Expected instance of %s, got %s.',
-                    Feature::class,
-                    is_object($feature) ? get_class($feature) : gettype($feature)
-                ));
-            }
-        }
-
-        $this->features = array_values($features);
+        $this->features = $features;
     }
 
     /**
