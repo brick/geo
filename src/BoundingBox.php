@@ -42,7 +42,7 @@ class BoundingBox
 
         if ($this->cs === null) {
             $this->cs = $point->coordinateSystem();
-        } elseif (! $this->cs->isEqualTo($point->coordinateSystem())) { // by-value comparison
+        } elseif (! $this->cs->isEqualTo($point->coordinateSystem())) {
             throw CoordinateSystemException::dimensionalityMix($this->cs, $point->coordinateSystem());
         }
 
