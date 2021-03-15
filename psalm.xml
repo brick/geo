@@ -29,5 +29,11 @@
                 <directory name="src/Proxy" />
             </errorLevel>
         </PropertyNotSetInConstructor>
+        <LessSpecificImplementedReturnType>
+            <!-- @return static and toXY(): sub-type -->
+            <errorLevel type="suppress">
+                <directory name="src" />
+            </errorLevel>
+        </LessSpecificImplementedReturnType>
     </issueHandlers>
 </psalm>
