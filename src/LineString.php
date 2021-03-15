@@ -86,8 +86,8 @@ class LineString extends Curve
     {
         $cs = $a->coordinateSystem();
 
-        if ($cs != $b->coordinateSystem()) { // by-value comparison.
-            throw CoordinateSystemException::dimensionalityMix($a, $b);
+        if (! $cs->isEqualTo($b->coordinateSystem())) {
+            throw CoordinateSystemException::dimensionalityMix($cs, $b->coordinateSystem());
         }
 
         if ($cs->coordinateDimension() !== 2) {

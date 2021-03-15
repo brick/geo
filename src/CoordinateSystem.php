@@ -193,6 +193,13 @@ class CoordinateSystem
         return $that;
     }
 
+    public function isEqualTo(CoordinateSystem $that) : bool
+    {
+        return $this->hasZ === $that->hasZ
+            && $this->hasM === $that->hasM
+            && $this->srid === $that->srid;
+    }
+
     /**
      * @param Geometry    $reference  The geometry holding the reference coordinate system.
      * @param Geometry ...$geometries The geometries to check against this coordinate system.
@@ -206,7 +213,7 @@ class CoordinateSystem
         foreach ($geometries as $geometry) {
             $geometryCS = $geometry->coordinateSystem();
 
-            if ($geometryCS == $referenceCS) { // by-value comparison.
+            if ($geometryCS->isEqualTo($referenceCS)) {
                 continue;
             }
 
