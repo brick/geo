@@ -64,6 +64,8 @@ final class Feature
     }
 
     /**
+     * @psalm-suppress MixedArgument
+     *
      * @param string $name    The property name.
      * @param mixed  $default The default value if the property is not found.
      *
