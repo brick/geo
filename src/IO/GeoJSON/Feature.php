@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Brick\Geo\IO\GeoJSON;
 
 use Brick\Geo\Geometry;
+use Brick\Geo\Internal\Cloner;
 use stdClass;
 
 /**
@@ -31,7 +32,7 @@ final class Feature
     public function __construct(?Geometry $geometry = null, ?stdClass $properties = null)
     {
         $this->geometry = $geometry;
-        $this->properties = $properties;
+        $this->properties = Cloner::clone($properties);
     }
 
     public function getGeometry(): ?Geometry
@@ -44,15 +45,12 @@ final class Feature
      */
     public function withGeometry(?Geometry $geometry): Feature
     {
-        $that = clone $this;
-        $that->geometry = $geometry;
-
-        return $that;
+        return new Feature($geometry, $this->properties);
     }
 
     public function getProperties(): ?stdClass
     {
-        return $this->properties;
+        return Cloner::clone($this->properties);
     }
 
     /**
@@ -62,10 +60,7 @@ final class Feature
      */
     public function withProperties(?stdClass $properties): Feature
     {
-        $that = clone $this;
-        $that->properties = $properties;
-
-        return $that;
+        return new Feature($this->geometry, Cloner::clone($properties));
     }
 
     /**
@@ -80,7 +75,7 @@ final class Feature
             return $default;
         }
 
-        return $this->properties->{$name};
+        return Cloner::clone($this->properties->{$name});
     }
 
     /**
@@ -91,14 +86,14 @@ final class Feature
      */
     public function withProperty(string $name, $value): Feature
     {
-        $that = clone $this;
+        $properties = Cloner::clone($this->properties);
 
-        if ($that->properties === null) {
-            $that->properties = new stdClass();
+        if ($properties === null) {
+            $properties = new stdClass();
         }
 
-        $that->properties->{$name} = $value;
+        $properties->{$name} = $value;
 
-        return $that;
+        return new Feature($this->geometry, $properties);
     }
 }
