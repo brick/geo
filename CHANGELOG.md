@@ -1,17 +1,17 @@
 # Changelog
 
-## Unreleased (0.6.0)
+## [0.6.0](https://github.com/brick/geo/releases/tag/0.6.0) - 2021-03-16
 
 ✨ **New features**
 
+- **Proper support for `Feature` and `FeatureCollection` in `GeoJSONReader` and `GeoJSONWriter`**
+- **Support for auto-calculating the `bbox` attribute in `GeoJSONWriter`**
 - New method: `Geometry::transform()` transforms `Geometry` coordinates to a new SRID
 - New method: `Geometry::toXY()` returns a new `Geometry` with no `Z` and `M` coordinates
 - New method: `Geometry::withoutZ()` returns a new `Geometry` with the `Z` coordinate removed
 - New method: `Geometry::withoutM()` returns a new `Geometry` with the `M` coordinate removed
 - New method: `Geometry::getBoundingBox()` returns the south-west and north-east bounds of a Geometry
 - New method: `CoordinateSystem::isEqualTo()` compares against another `CoordinateSystem`
-- Proper support for `Feature` and `FeatureCollection` in `GeoJSONReader` and `GeoJSONWriter`
-- Support for auto-calculating the `bbox` attribute in `GeoJSONWriter`
 
 🐛 **Fixes**
 
@@ -23,8 +23,8 @@
 
 💥 **BC breaks**
 
-- new signature for `CoordinateSystemException::sridMix()`
-- new signature for `CoordinateSystemException::dimensionalityMix()`
+- New signature for `CoordinateSystemException::sridMix()`
+- New signature for `CoordinateSystemException::dimensionalityMix()`
 
 The following breaks only affect you if you use the GeoJSON reader/writer:
 
