@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Brick\Geo\IO\GeoJSON;
 
-use InvalidArgumentException;
-
 /**
  * A GeoJSON FeatureCollection. This class is immutable.
  */
