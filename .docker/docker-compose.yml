@@ -29,9 +29,5 @@ services:
             - POSTGRES_USER=${DATABASE_USERNAME}
             - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
         working_dir: /var/lib/postgresql/data
-volumes:
-    postgres:
-        name: ${COMPOSE_PROJECT_NAME}-postgres
 networks:
-    network:
-        name: ${COMPOSE_PROJECT_NAME}-network
+    network: ~
