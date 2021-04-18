@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.6.1](https://github.com/brick/geo/releases/tag/0.6.1) - 2021-04-20
+
+🐛 **Fixes**
+
+- Fixed bug with PDO MySQL when using non-emulated prepared statements
+
 ## [0.6.0](https://github.com/brick/geo/releases/tag/0.6.0) - 2021-03-16
 
 ✨ **New features**

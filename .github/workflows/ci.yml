@@ -35,6 +35,9 @@ jobs:
         php-version:
           - "7.4"
           - "8.0"
+        emulate-prepares:
+          - "ON"
+          - "OFF"
 
     services:
       mysql:
@@ -64,6 +67,7 @@ jobs:
         run: vendor/bin/phpunit
         env:
           ENGINE: PDO_MYSQL
+          EMULATE_PREPARES: ${{ matrix.emulate-prepares }}
         if: ${{ matrix.php-version != '8.0' }}
 
       - name: Run PHPUnit with coverage
@@ -72,6 +76,7 @@ jobs:
           vendor/bin/phpunit --coverage-clover build/logs/clover.xml
         env:
           ENGINE: PDO_MYSQL
+          EMULATE_PREPARES: ${{ matrix.emulate-prepares }}
         if: ${{ matrix.php-version == '8.0' }}
 
       - name: Upload coverage report to Coveralls
@@ -88,6 +93,9 @@ jobs:
       matrix:
         php-version:
           - "8.0"
+        emulate-prepares:
+          - "ON"
+          - "OFF"
 
     services:
       mariadb:
@@ -119,6 +127,7 @@ jobs:
           vendor/bin/phpunit --coverage-clover build/logs/clover.xml
         env:
           ENGINE: PDO_MYSQL
+          EMULATE_PREPARES: ${{ matrix.emulate-prepares }}
 
       - name: Upload coverage report to Coveralls
         run: vendor/bin/php-coveralls --coverage_clover=build/logs/clover.xml -v
