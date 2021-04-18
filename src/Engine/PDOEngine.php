@@ -98,7 +98,7 @@ class PDOEngine extends DatabaseEngine
     protected function getGeomFromWKBSyntax(): string
     {
         if ($this->pdo->getAttribute(\PDO::ATTR_DRIVER_NAME) === 'mysql') {
-            return 'ST_GeomFromWKB(_binary ?, ?)';
+            return 'ST_GeomFromWKB(BINARY ?, ?)';
         }
 
         return parent::getGeomFromWKBSyntax();

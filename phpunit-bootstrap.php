@@ -37,10 +37,14 @@ use Doctrine\DBAL\Types\Type;
     } else {
         switch ($engine) {
             case 'PDO_MYSQL':
+                $emulatePrepares = getenv('EMULATE_PREPARES') === 'ON';
+
                 echo 'Using PDOEngine for MySQL' . PHP_EOL;
+                echo 'with emulated prepares ' . ($emulatePrepares ? 'ON' : 'OFF') . PHP_EOL;
 
                 $pdo = new PDO('mysql:host=127.0.0.1;port=3306', 'root', '');
                 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, $emulatePrepares);
 
                 $pdo->exec('DROP DATABASE IF EXISTS geo_tests');
                 $pdo->exec('DROP DATABASE IF EXISTS geo_tests_tmp');
