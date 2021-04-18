@@ -13,10 +13,10 @@ use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\Loader;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
+use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\SchemaTool;
 use Doctrine\ORM\Tools\Setup;
-use Doctrine\Tests\DBAL\Mocks\MockPlatform;
 use Doctrine\Tests\DbalFunctionalTestCase;
 
 /**
@@ -25,7 +25,7 @@ use Doctrine\Tests\DbalFunctionalTestCase;
 abstract class FunctionalTestCase extends DbalFunctionalTestCase
 {
     /**
-     * @var MockPlatform
+     * @var AbstractPlatform
      */
     private $platform;
 
@@ -54,8 +54,6 @@ abstract class FunctionalTestCase extends DbalFunctionalTestCase
      */
     protected function setUp(): void
     {
-        parent::setUp();
-
         if (! GeometryEngineRegistry::has()) {
             self::markTestSkipped('This test requires a connection to a database.');
         }
@@ -65,6 +63,8 @@ abstract class FunctionalTestCase extends DbalFunctionalTestCase
         if (! $engine instanceof PDOEngine) {
             self::markTestSkipped('This test currently only works with a PDO connection.');
         }
+
+        parent::setUp();
 
         $this->platform = $this->_conn->getDatabasePlatform();
 

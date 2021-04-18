@@ -68,6 +68,15 @@ use Doctrine\DBAL\Types\Type;
                 $GLOBALS['tmpdb_password'] = '';
                 $GLOBALS['tmpdb_name'] = 'geo_tests_tmp';
 
+                // doctrine/dbal >= 2.13.0
+                $GLOBALS['db_driver'] = 'pdo_mysql';
+                $GLOBALS['db_user'] = 'root';
+                $GLOBALS['db_dbname'] = 'geo_tests';
+
+                $GLOBALS['tmpdb_driver'] = 'pdo_mysql';
+                $GLOBALS['tmpdb_user'] = 'root';
+                $GLOBALS['tmpdb_dbname'] = 'geo_tests_tmp';
+
                 $engine = new PDOEngine($pdo);
                 break;
 
@@ -107,6 +116,15 @@ use Doctrine\DBAL\Types\Type;
                 $GLOBALS['tmpdb_username'] = 'postgres';
                 $GLOBALS['tmpdb_password'] = 'postgres';
                 $GLOBALS['tmpdb_name'] = 'geo_tests_tmp';
+
+                // doctrine/dbal >= 2.13.0
+                $GLOBALS['db_driver'] = 'pdo_pgsql';
+                $GLOBALS['db_user'] = 'postgres';
+                $GLOBALS['db_dbname'] = 'geo_tests';
+
+                $GLOBALS['tmpdb_driver'] = 'pdo_pgsql';
+                $GLOBALS['tmpdb_user'] = 'postgres';
+                $GLOBALS['tmpdb_dbname'] = 'geo_tests_tmp';
 
                 $engine = new PDOEngine($pdo);
                 break;
