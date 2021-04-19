@@ -54,7 +54,7 @@ abstract class AbstractFunction extends FunctionNode
                 $parser->match(Lexer::T_COMMA);
             }
 
-            /** @psalm-suppress MixedPropertyTypeCoercion */
+            /** @psalm-suppress InvalidPropertyAssignmentValue */
             $this->args[] = $parser->ArithmeticPrimary();
         }
 
