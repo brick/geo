@@ -90,7 +90,11 @@ class PDOEngine extends DatabaseEngine
 
         $this->pdo->setAttribute(\PDO::ATTR_ERRMODE, $errMode);
 
-        assert($result !== false);
+        if ($result === false) {
+            // not sure why, but on PHP 7.2 & 7.3, running a query for a non-supported operation
+            // yields no exception, no error (SQLSTATE 00000), but returns false; works fine in PHP 7.4+
+            throw GeometryEngineException::operationNotSupportedByEngine();
+        }
 
         return $result;
     }

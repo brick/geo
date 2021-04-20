@@ -32,11 +32,11 @@ class GeometryEngineException extends GeometryException
     }
 
     /**
-     * @param \Exception $e
+     * @param \Exception|null $e
      *
      * @return GeometryEngineException
      */
-    public static function operationNotSupportedByEngine(\Exception $e) : GeometryEngineException
+    public static function operationNotSupportedByEngine(?\Exception $e = null) : GeometryEngineException
     {
         return new self('This operation is not supported by the geometry engine.', 0, $e);
     }
