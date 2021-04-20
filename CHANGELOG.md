@@ -44,6 +44,12 @@ The following breaks will only affect you if you're writing your own geometry en
 - `GeometryEngine` has a new `transform()` method
 - `ProxyInterface` has a new `isProxyBinary()` method
 
+## [0.5.1](https://github.com/brick/geo/releases/tag/0.5.1) - 2021-04-20
+
+🐛 **Fixes**
+
+- Fixed bug with PDO MySQL when using non-emulated prepared statements
+
 ## [0.5.0](https://github.com/brick/geo/releases/tag/0.5.0) - 2021-03-05
 
 🐛 **Fixes**
