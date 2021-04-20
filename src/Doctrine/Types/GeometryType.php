@@ -107,7 +107,7 @@ class GeometryType extends Type
     public function convertToDatabaseValueSQL($sqlExpr, AbstractPlatform $platform)
     {
         if ($platform instanceof MySqlPlatform) {
-            $sqlExpr = sprintf('CAST(%s AS BINARY)', $sqlExpr);
+            $sqlExpr = sprintf('BINARY %s', $sqlExpr);
         }
 
         return sprintf('ST_GeomFromWKB(%s, %d)', $sqlExpr, self::$srid);
