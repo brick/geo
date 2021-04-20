@@ -23,8 +23,6 @@ class CompoundCurveTest extends AbstractTestCase
      * @param bool     $is3D             Whether the curves have Z coordinates.
      * @param bool     $isMeasured       Whether the curves have M coordinates.
      * @param string   $compoundCurveWKT The WKT of the expected CompoundCurve.
-     *
-     * @return void
      */
     public function testCreate(array $curvesWKT, bool $is3D, bool $isMeasured, string $compoundCurveWKT) : void
     {
@@ -39,9 +37,6 @@ class CompoundCurveTest extends AbstractTestCase
         }
     }
 
-    /**
-     * @return array
-     */
     public function providerCreate() : array
     {
         return [
@@ -56,8 +51,6 @@ class CompoundCurveTest extends AbstractTestCase
      * @dataProvider providerCreateInvalidCompoundCurve
      *
      * @param string $compoundCurve The WKT of an invalid CompoundCurve.
-     *
-     * @return void
      */
     public function testCreateInvalidCompoundCurve(string $compoundCurve) : void
     {
@@ -65,9 +58,6 @@ class CompoundCurveTest extends AbstractTestCase
         CompoundCurve::fromText($compoundCurve);
     }
 
-    /**
-     * @return array
-     */
     public function providerCreateInvalidCompoundCurve() : array
     {
         return [
@@ -79,12 +69,6 @@ class CompoundCurveTest extends AbstractTestCase
 
     /**
      * @dataProvider providerStartPointEndPoint
-     *
-     * @param string $compoundCurve
-     * @param string $startPoint
-     * @param string $endPoint
-     *
-     * @return void
      */
     public function testStartPointEndPoint(string $compoundCurve, string $startPoint, string $endPoint) : void
     {
@@ -95,9 +79,6 @@ class CompoundCurveTest extends AbstractTestCase
         }
     }
 
-    /**
-     * @return array
-     */
     public function providerStartPointEndPoint() : array
     {
         return [
@@ -112,8 +93,6 @@ class CompoundCurveTest extends AbstractTestCase
      * @dataProvider providerEmptyCompoundCurve
      *
      * @param string $compoundCurve The WKT of an empty CompoundCurve.
-     *
-     * @return void
      */
     public function testStartPointOfEmptyCompoundCurve(string $compoundCurve) : void
     {
@@ -125,8 +104,6 @@ class CompoundCurveTest extends AbstractTestCase
      * @dataProvider providerEmptyCompoundCurve
      *
      * @param string $compoundCurve The WKT of an empty CompoundCurve.
-     *
-     * @return void
      */
     public function testEndPointOfEmptyCompoundCurve(string $compoundCurve) : void
     {
@@ -134,9 +111,6 @@ class CompoundCurveTest extends AbstractTestCase
         CompoundCurve::fromText($compoundCurve)->endPoint();
     }
 
-    /**
-     * @return array
-     */
     public function providerEmptyCompoundCurve() : array
     {
         return [
@@ -152,17 +126,12 @@ class CompoundCurveTest extends AbstractTestCase
      *
      * @param string $compoundCurve The WKT of the CompoundCurve to test.
      * @param int    $numCurves     The expected number of curves.
-     *
-     * @return void
      */
     public function testNumCurves(string $compoundCurve, int $numCurves) : void
     {
         self::assertSame($numCurves, CompoundCurve::fromText($compoundCurve)->numCurves());
     }
 
-    /**
-     * @return array
-     */
     public function providerNumCurves() : array
     {
         return [
@@ -184,8 +153,6 @@ class CompoundCurveTest extends AbstractTestCase
      * @param int         $n             The curve number.
      * @param string|null $curveN        The WKT of the expected curve, or NULL if an exception is expected.
      * @param int         $srid          The SRID of the geometries.
-     *
-     * @return void
      */
     public function testCurveN(string $compoundCurve, int $n, ?string $curveN, int $srid) : void
     {
@@ -197,9 +164,6 @@ class CompoundCurveTest extends AbstractTestCase
         $this->assertWktEquals($curve, $curveN, $srid);
     }
 
-    /**
-     * @return \Generator
-     */
     public function providerCurveN() : \Generator
     {
         $tests = [
@@ -255,8 +219,6 @@ class CompoundCurveTest extends AbstractTestCase
 
     /**
      * Tests Countable and Traversable interfaces.
-     *
-     * @return void
      */
     public function testInterfaces() : void
     {

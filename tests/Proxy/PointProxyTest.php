@@ -15,14 +15,6 @@ class PointProxyTest extends AbstractTestCase
 {
     /**
      * @dataProvider providerProxy
-     *
-     * @param string $data
-     * @param bool   $isBinary
-     * @param bool   $is3D
-     * @param bool   $isMeasured
-     * @param array  $coords
-     *
-     * @return void
      */
     public function testProxy(string $data, bool $isBinary, bool $is3D, bool $isMeasured, array $coords) : void
     {
@@ -74,9 +66,6 @@ class PointProxyTest extends AbstractTestCase
         }
     }
 
-    /**
-     * @return array
-     */
     public function providerProxy() : array
     {
         return [
@@ -87,9 +76,6 @@ class PointProxyTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @return void
-     */
     public function testLoading() : void
     {
         $pointProxy = new PointProxy('POINT(1 2)', false);

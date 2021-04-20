@@ -37,8 +37,6 @@ class AbstractTestCase extends TestCase
      * Marks the current test as requiring a geometry engine to be set.
      *
      * If no engine is set, the test will be skipped.
-     *
-     * @return void
      */
     final protected function requiresGeometryEngine() : void
     {
@@ -47,29 +45,16 @@ class AbstractTestCase extends TestCase
         }
     }
 
-    /**
-     * @param string|null $operatorAndVersion
-     *
-     * @return bool
-     */
     final protected function isMySQL(?string $operatorAndVersion = null) : bool
     {
         return $this->isMySQLorMariaDB(false, $operatorAndVersion);
     }
 
-    /**
-     * @param string|null $operatorAndVersion
-     *
-     * @return bool
-     */
     final protected function isMariaDB(?string $operatorAndVersion = null) : bool
     {
         return $this->isMySQLorMariaDB(true, $operatorAndVersion);
     }
 
-    /**
-     * @return bool
-     */
     final protected function isPostGIS() : bool
     {
         return $this->isPDODriver('pgsql');
@@ -77,8 +62,6 @@ class AbstractTestCase extends TestCase
 
     /**
      * @param string|null $operatorAndVersion An optional version to satisfy.
-     *
-     * @return bool
      */
     final protected function isSpatiaLite(?string $operatorAndVersion = null) : bool
     {
@@ -99,8 +82,6 @@ class AbstractTestCase extends TestCase
 
     /**
      * @param string|null $operatorAndVersion An optional version to satisfy.
-     *
-     * @return bool
      */
     final protected function isGEOS(?string $operatorAndVersion = null) : bool
     {
@@ -138,8 +119,6 @@ class AbstractTestCase extends TestCase
      * - GEOS
      *
      * @param string[] $supportedEngines
-     *
-     * @return void
      */
     final protected function requireEngine(array $supportedEngines): void
     {
@@ -172,11 +151,6 @@ class AbstractTestCase extends TestCase
         self::markTestSkipped('Not supported on this geometry engine.');
     }
 
-    /**
-     * @param Geometry $geometry
-     *
-     * @return void
-     */
     final protected function skipIfUnsupportedGeometry(Geometry $geometry) : void
     {
         if ($geometry->is3D() || $geometry->isMeasured()) {
@@ -212,13 +186,6 @@ class AbstractTestCase extends TestCase
         }
     }
 
-    /**
-     * @param Geometry $geometry1
-     * @param Geometry $geometry2
-     * @param string   $methodName
-     *
-     * @return void
-     */
     final protected function skipIfUnsupportedByEngine(Geometry $geometry1, Geometry $geometry2, string $methodName) : void
     {
         $this->skipIfUnsupportedGeometry($geometry1);
@@ -231,13 +198,6 @@ class AbstractTestCase extends TestCase
         }
     }
 
-    /**
-     * @param Geometry $geometry
-     * @param string   $wkt
-     * @param int      $srid
-     *
-     * @return void
-     */
     final protected function assertWktEquals(Geometry $geometry, string $wkt, int $srid = 0) : void
     {
         self::assertSame($wkt, $geometry->asText());
@@ -296,8 +256,6 @@ class AbstractTestCase extends TestCase
      * @param bool     $hasZ   Whether the geometry is expected to contain Z coordinates.
      * @param bool     $hasM   Whether the geometry is expected to contain M coordinates.
      * @param int      $srid   The expected SRID of the geometry.
-     *
-     * @return void
      */
     final protected function assertGeometryContents(Geometry $g, array $coords, bool $hasZ = false, bool $hasM = false, int $srid = 0) : void
     {
@@ -315,8 +273,6 @@ class AbstractTestCase extends TestCase
      * @param bool    $isMeasured Whether the Point is expected to contain a M coordinate.
      * @param int     $srid       The expected SRID.
      * @param Point   $point      The Point to test.
-     *
-     * @return void
      */
     final protected function assertPointEquals(array $coords, bool $is3D, bool $isMeasured, int $srid, Point $point) : void
     {
@@ -343,8 +299,6 @@ class AbstractTestCase extends TestCase
      * @param bool       $is3D       Whether the LineString is expected to contain Z coordinates.
      * @param bool       $isMeasured Whether the LineString is expected to contain M coordinates.
      * @param LineString $lineString The LineString to test.
-     *
-     * @return void
      */
     final protected function assertLineStringEquals(array $coords, bool $is3D, bool $isMeasured, LineString $lineString) : void
     {
@@ -360,8 +314,6 @@ class AbstractTestCase extends TestCase
      * @param bool    $is3D       Whether the Polygon is expected to contain Z coordinates.
      * @param bool    $isMeasured Whether the Polygon is expected to contain M coordinates.
      * @param Polygon $polygon    The Polygon to test.
-     *
-     * @return void
      */
     final protected function assertPolygonEquals(array $coords, bool $is3D, bool $isMeasured, Polygon $polygon) : void
     {
@@ -377,8 +329,6 @@ class AbstractTestCase extends TestCase
      * @param bool       $is3D       Whether the MultiPoint is expected to contain Z coordinates.
      * @param bool       $isMeasured Whether the MultiPoint is expected to contain M coordinates.
      * @param MultiPoint $multiPoint The MultiPoint to test.
-     *
-     * @return void
      */
     final protected function assertMultiPointEquals(array $coords, bool $is3D, bool $isMeasured, MultiPoint $multiPoint) : void
     {
@@ -394,8 +344,6 @@ class AbstractTestCase extends TestCase
      * @param bool            $is3D            Whether the MultiLineString is expected to contain Z coordinates.
      * @param bool            $isMeasured      Whether the MultiLineString is expected to contain M coordinates.
      * @param MultiLineString $multiLineString The MultiLineString to test.
-     *
-     * @return void
      */
     final protected function assertMultiLineStringEquals(array $coords, bool $is3D, bool $isMeasured, MultiLineString $multiLineString) : void
     {
@@ -411,8 +359,6 @@ class AbstractTestCase extends TestCase
      * @param bool         $is3D         Whether the MultiPolygon is expected to contain Z coordinates.
      * @param bool         $isMeasured   Whether the MultiPolygon is expected to contain M coordinates.
      * @param MultiPolygon $multiPolygon The MultiPolygon to test.
-     *
-     * @return void
      */
     final protected function assertMultiPolygonEquals(array $coords, bool $is3D, bool $isMeasured, MultiPolygon $multiPolygon) : void
     {
@@ -423,23 +369,11 @@ class AbstractTestCase extends TestCase
         self::assertSame($isMeasured, $multiPolygon->isMeasured());
     }
 
-    /**
-     * @param array            $coords
-     * @param CoordinateSystem $cs
-     *
-     * @return Point
-     */
     final protected function createPoint(array $coords, CoordinateSystem $cs) : Point
     {
         return new Point($cs, ...$coords);
     }
 
-    /**
-     * @param array            $coords
-     * @param CoordinateSystem $cs
-     *
-     * @return LineString
-     */
     final protected function createLineString(array $coords, CoordinateSystem $cs) : LineString
     {
         $points = [];
@@ -451,12 +385,6 @@ class AbstractTestCase extends TestCase
         return new LineString($cs, ...$points);
     }
 
-    /**
-     * @param array            $coords
-     * @param CoordinateSystem $cs
-     *
-     * @return CircularString
-     */
     final protected function createCircularString(array $coords, CoordinateSystem $cs) : CircularString
     {
         $points = [];
@@ -473,11 +401,6 @@ class AbstractTestCase extends TestCase
      *
      * For the purpose of these tests, it is assumed that a curve with an even number of points is
      * a LineString, and a curve with an odd number of points is a CircularString.
-     *
-     * @param array            $coords
-     * @param CoordinateSystem $cs
-     *
-     * @return Curve
      */
     final protected function createLineStringOrCircularString(array $coords, CoordinateSystem $cs) : Curve
     {
@@ -488,12 +411,6 @@ class AbstractTestCase extends TestCase
         return $this->createCircularString($coords, $cs);
     }
 
-    /**
-     * @param array            $coords
-     * @param CoordinateSystem $cs
-     *
-     * @return CompoundCurve
-     */
     final protected function createCompoundCurve(array $coords, CoordinateSystem $cs) : CompoundCurve
     {
         $curves = [];
@@ -505,12 +422,6 @@ class AbstractTestCase extends TestCase
         return new CompoundCurve($cs, ...$curves);
     }
 
-    /**
-     * @param array            $coords
-     * @param CoordinateSystem $cs
-     *
-     * @return Polygon
-     */
     final protected function createPolygon(array $coords, CoordinateSystem $cs) : Polygon
     {
         $rings = [];
@@ -522,12 +433,6 @@ class AbstractTestCase extends TestCase
         return new Polygon($cs, ...$rings);
     }
 
-    /**
-     * @param array            $coords
-     * @param CoordinateSystem $cs
-     *
-     * @return Triangle
-     */
     final protected function createTriangle(array $coords, CoordinateSystem $cs) : Triangle
     {
         $rings = [];
@@ -539,12 +444,6 @@ class AbstractTestCase extends TestCase
         return new Triangle($cs, ...$rings);
     }
 
-    /**
-     * @param array            $coords
-     * @param CoordinateSystem $cs
-     *
-     * @return CurvePolygon
-     */
     final protected function createCurvePolygon(array $coords, CoordinateSystem $cs) : CurvePolygon
     {
         $rings = [];
@@ -562,12 +461,6 @@ class AbstractTestCase extends TestCase
         return new CurvePolygon($cs, ...$rings);
     }
 
-    /**
-     * @param array            $coords
-     * @param CoordinateSystem $cs
-     *
-     * @return MultiPoint
-     */
     final protected function createMultiPoint(array $coords, CoordinateSystem $cs) : MultiPoint
     {
         $points = [];
@@ -579,12 +472,6 @@ class AbstractTestCase extends TestCase
         return new MultiPoint($cs, ...$points);
     }
 
-    /**
-     * @param array            $coords
-     * @param CoordinateSystem $cs
-     *
-     * @return MultiLineString
-     */
     final protected function createMultiLineString(array $coords, CoordinateSystem $cs) : MultiLineString
     {
         $lineStrings = [];
@@ -596,12 +483,6 @@ class AbstractTestCase extends TestCase
         return new MultiLineString($cs, ...$lineStrings);
     }
 
-    /**
-     * @param array            $coords
-     * @param CoordinateSystem $cs
-     *
-     * @return MultiPolygon
-     */
     final protected function createMultiPolygon(array $coords, CoordinateSystem $cs) : MultiPolygon
     {
         $polygons = [];
@@ -613,12 +494,6 @@ class AbstractTestCase extends TestCase
         return new MultiPolygon($cs, ...$polygons);
     }
 
-    /**
-     * @param array            $coords
-     * @param CoordinateSystem $cs
-     *
-     * @return PolyhedralSurface
-     */
     final protected function createPolyhedralSurface(array $coords, CoordinateSystem $cs) : PolyhedralSurface
     {
         $patches = [];
@@ -630,12 +505,6 @@ class AbstractTestCase extends TestCase
         return new PolyhedralSurface($cs, ...$patches);
     }
 
-    /**
-     * @param array            $coords
-     * @param CoordinateSystem $cs
-     *
-     * @return TIN
-     */
     final protected function createTIN(array $coords, CoordinateSystem $cs) : TIN
     {
         $patches = [];
@@ -652,10 +521,6 @@ class AbstractTestCase extends TestCase
      *
      * This allows to write more concise data providers such as [1 2] instead of [1.0, 2.0]
      * while still strictly enforcing that the toArray() methods of the geometries return float values.
-     *
-     * @param array $coords
-     *
-     * @return void
      */
     final protected function castToFloat(array & $coords) : void
     {
@@ -667,8 +532,6 @@ class AbstractTestCase extends TestCase
     /**
      * @param string $version            The version of the software in use, such as "4.0.1".
      * @param string $operatorAndVersion The comparison operator and version to test against, such as ">= 4.0".
-     *
-     * @return bool
      */
     private function isVersion(string $version, string $operatorAndVersion) : bool
     {
@@ -685,11 +548,6 @@ class AbstractTestCase extends TestCase
         return version_compare($version, $testVersion, $operator);
     }
 
-    /**
-     * @param string $name
-     *
-     * @return bool
-     */
     private function isPDODriver(string $name) : bool
     {
         $engine = GeometryEngineRegistry::get();
@@ -705,8 +563,6 @@ class AbstractTestCase extends TestCase
     /**
      * @param bool        $testMariaDB        False to check for MYSQL, true to check for MariaDB.
      * @param string|null $operatorAndVersion An optional comparison operator and version number to test against.
-     *
-     * @return bool
      */
     private function isMySQLorMariaDB(bool $testMariaDB, ?string $operatorAndVersion = null) : bool
     {

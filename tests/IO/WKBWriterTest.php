@@ -21,8 +21,6 @@ class WKBWriterTest extends WKBAbstractTest
      * @param string $wkt       The WKT to read.
      * @param string $wkb       The expected WKB output, hex-encoded.
      * @param int    $byteOrder The byte order to use.
-     *
-     * @return void
      */
     public function testWrite(string $wkt, string $wkb, int $byteOrder) : void
     {
@@ -37,9 +35,6 @@ class WKBWriterTest extends WKBAbstractTest
         self::assertSame($wkb, bin2hex($output));
     }
 
-    /**
-     * @return \Generator
-     */
     public function providerWrite() : \Generator
     {
         foreach ($this->providerLittleEndianWKB() as [$wkt, $wkb]) {
@@ -53,10 +48,6 @@ class WKBWriterTest extends WKBAbstractTest
 
     /**
      * @dataProvider providerWriteEmptyPointThrowsException
-     *
-     * @param Point $point
-     *
-     * @return void
      */
     public function testWriteEmptyPointThrowsException(Point $point) : void
     {
@@ -66,9 +57,6 @@ class WKBWriterTest extends WKBAbstractTest
         $writer->write($point);
     }
 
-    /**
-     * @return array
-     */
     public function providerWriteEmptyPointThrowsException() : array
     {
         return [

@@ -21,8 +21,6 @@ class PolyhedralSurfaceTest extends AbstractTestCase
      * @param bool     $is3D                 Whether the patches have Z coordinates.
      * @param bool     $isMeasured           Whether the patches have M coordinates.
      * @param string   $polyhedralSurfaceWKT The WKT of the expected PolyhedralSurface.
-     *
-     * @return void
      */
     public function testCreate(array $patchesWKT, bool $is3D, bool $isMeasured, string $polyhedralSurfaceWKT) : void
     {
@@ -37,9 +35,6 @@ class PolyhedralSurfaceTest extends AbstractTestCase
         }
     }
 
-    /**
-     * @return array
-     */
     public function providerCreate() : array
     {
         return [
@@ -54,18 +49,13 @@ class PolyhedralSurfaceTest extends AbstractTestCase
      * @dataProvider providerNumPatches
      *
      * @param string $polyhedralSurface The WKT of the PolyhedralSurface to test.
-     * @param int    $numPatches        The expected number of patchs.
-     *
-     * @return void
+     * @param int    $numPatches        The expected number of patches.
      */
     public function testNumPatches(string $polyhedralSurface, int $numPatches) : void
     {
         self::assertSame($numPatches, PolyhedralSurface::fromText($polyhedralSurface)->numPatches());
     }
 
-    /**
-     * @return array
-     */
     public function providerNumPatches() : array
     {
         return [
@@ -85,10 +75,8 @@ class PolyhedralSurfaceTest extends AbstractTestCase
      *
      * @param string      $polyhedralSurface The WKT of the PolyhedralSurface to test.
      * @param int         $n                 The patch number.
-     * @param string|null $patchN        The WKT of the expected patch, or NULL if an exception is expected.
-     * @param int         $srid          The SRID of the geometries.
-     *
-     * @return void
+     * @param string|null $patchN            The WKT of the expected patch, or NULL if an exception is expected.
+     * @param int         $srid              The SRID of the geometries.
      */
     public function testPatchN(string $polyhedralSurface, int $n, ?string $patchN, int $srid) : void
     {
@@ -100,9 +88,6 @@ class PolyhedralSurfaceTest extends AbstractTestCase
         $this->assertWktEquals($patch, $patchN, $srid);
     }
 
-    /**
-     * @return \Generator
-     */
     public function providerPatchN() : \Generator
     {
         $tests = [
@@ -148,8 +133,8 @@ class PolyhedralSurfaceTest extends AbstractTestCase
             ]],
         ];
 
-        foreach ($tests as [$polyhedralSurface, $patchs]) {
-            foreach ($patchs as $n => $patchN) {
+        foreach ($tests as [$polyhedralSurface, $patches]) {
+            foreach ($patches as $n => $patchN) {
                 foreach ([0, 1] as $srid) {
                     yield [$polyhedralSurface, $n, $patchN, $srid];
                 }
@@ -159,8 +144,6 @@ class PolyhedralSurfaceTest extends AbstractTestCase
 
     /**
      * Tests Countable and Traversable interfaces.
-     *
-     * @return void
      */
     public function testInterfaces() : void
     {

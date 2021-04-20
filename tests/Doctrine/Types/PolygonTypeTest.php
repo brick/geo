@@ -15,9 +15,6 @@ use Brick\Geo\Tests\Doctrine\Fixtures\PolygonEntity;
  */
 class PolygonTypeTest extends FunctionalTestCase
 {
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp(): void
     {
         parent::setUp();
@@ -25,9 +22,6 @@ class PolygonTypeTest extends FunctionalTestCase
         $this->loadFixtures();
     }
 
-    /**
-     * @return void
-     */
     public function testReadFromDbAndConvertToPHPValue() : void
     {
         $repository = $this->getEntityManager()->getRepository(PolygonEntity::class);

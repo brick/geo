@@ -15,9 +15,6 @@ use Brick\Geo\Tests\Doctrine\Fixtures\MultiLineStringEntity;
  */
 class MultiLineStringTypeTest extends FunctionalTestCase
 {
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp(): void
     {
         parent::setUp();
@@ -25,9 +22,6 @@ class MultiLineStringTypeTest extends FunctionalTestCase
         $this->loadFixtures();
     }
 
-    /**
-     * @return void
-     */
     public function testReadFromDbAndConvertToPHPValue() : void
     {
         $repository = $this->getEntityManager()->getRepository(MultiLineStringEntity::class);

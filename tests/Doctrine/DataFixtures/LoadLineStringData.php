@@ -11,12 +11,9 @@ use Brick\Geo\Tests\Doctrine\Fixtures\LineStringEntity;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
-class LoadLineStringData implements FixtureInterface {
-
-    /**
-     * {@inheritdoc}
-     */
-    public function load(ObjectManager $manager)
+class LoadLineStringData implements FixtureInterface
+{
+    public function load(ObjectManager $manager): void
     {
         $point1 = Point::xy(0,0);
         $point2 = Point::xy(1,0);

@@ -15,9 +15,6 @@ use Brick\Geo\Tests\Doctrine\Fixtures\GeometryEntity;
  */
 class GeometryTypeTest extends FunctionalTestCase
 {
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp(): void
     {
         parent::setUp();
@@ -25,9 +22,6 @@ class GeometryTypeTest extends FunctionalTestCase
         $this->loadFixtures();
     }
 
-    /**
-     * @return void
-     */
     public function testReadFromDbAndConvertToPHPValue() : void
     {
         $repository = $this->getEntityManager()->getRepository(GeometryEntity::class);

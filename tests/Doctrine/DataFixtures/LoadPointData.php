@@ -10,12 +10,9 @@ use Brick\Geo\Tests\Doctrine\Fixtures\PointEntity;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
-class LoadPointData implements FixtureInterface {
-
-    /**
-     * {@inheritdoc}
-     */
-    public function load(ObjectManager $manager)
+class LoadPointData implements FixtureInterface
+{
+    public function load(ObjectManager $manager): void
     {
         $point1 = new PointEntity();
         $point1->setPoint(Point::xy(0, 0));

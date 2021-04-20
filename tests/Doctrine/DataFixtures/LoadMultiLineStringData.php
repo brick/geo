@@ -12,12 +12,9 @@ use Brick\Geo\Tests\Doctrine\Fixtures\MultiLineStringEntity;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
-class LoadMultiLineStringData implements FixtureInterface {
-
-    /**
-     * {@inheritdoc}
-     */
-    public function load(ObjectManager $manager)
+class LoadMultiLineStringData implements FixtureInterface
+{
+    public function load(ObjectManager $manager): void
     {
         $point1 = Point::xy(0,0);
         $point2 = Point::xy(1,0);

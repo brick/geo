@@ -14,9 +14,6 @@ use Brick\Geo\Tests\Doctrine\Fixtures\LineStringEntity;
  */
 class LineStringTypeTest extends FunctionalTestCase
 {
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp(): void
     {
         parent::setUp();
@@ -24,9 +21,6 @@ class LineStringTypeTest extends FunctionalTestCase
         $this->loadFixtures();
     }
 
-    /**
-     * @return void
-     */
     public function testReadFromDbAndConvertToPHPValue() : void
     {
         $repository = $this->getEntityManager()->getRepository(LineStringEntity::class);

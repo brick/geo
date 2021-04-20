@@ -18,12 +18,6 @@ class PolygonTest extends AbstractTestCase
 {
     /**
      * @dataProvider providerConstructorEmpty
-     *
-     * @param bool $is3D
-     * @param bool $isMeasured
-     * @param int  $srid
-     *
-     * @return void
      */
     public function testConstructorEmpty(bool $is3D, bool $isMeasured, int $srid) : void
     {
@@ -36,9 +30,6 @@ class PolygonTest extends AbstractTestCase
         self::assertSame($srid, $polygon->SRID());
     }
 
-    /**
-     * @return array
-     */
     public function providerConstructorEmpty() : array
     {
         return [
@@ -57,12 +48,6 @@ class PolygonTest extends AbstractTestCase
      * @dataProvider providerConstructor
      *
      * @param string[] $ringsWKT
-     * @param string   $polygonWKT
-     * @param bool     $hasZ
-     * @param bool     $hasM
-     * @param int      $srid
-     *
-     * @return void
      */
     public function testConstructor(array $ringsWKT, string $polygonWKT, bool $hasZ, bool $hasM, int $srid) : void
     {
@@ -77,9 +62,6 @@ class PolygonTest extends AbstractTestCase
         $this->assertWktEquals($polygon, $polygonWKT, $srid);
     }
 
-    /**
-     * @return \Generator
-     */
     public function providerConstructor() : \Generator
     {
         $tests = [
@@ -105,8 +87,6 @@ class PolygonTest extends AbstractTestCase
      * @param bool    $hasM     Whether the coordinate system has M coordinates.
      * @param int     $srid     The SRID of the coordinate system.
      * @param string  $message  The expected exception message, optional.
-     *
-     * @return void
      */
     public function testConstructorWithCoordinateSystemMix(string $ringWKT, int $ringSRID, bool $hasZ, bool $hasM, int $srid, string $message = '') : void
     {
@@ -121,9 +101,6 @@ class PolygonTest extends AbstractTestCase
         new Polygon($cs, $ring);
     }
 
-    /**
-     * @return array
-     */
     public function providerConstructorWithCoordinateSystemMix() : array
     {
         return [
@@ -153,10 +130,6 @@ class PolygonTest extends AbstractTestCase
      * @dataProvider providerOf
      *
      * @param string[] $ringsWKT
-     * @param string   $polygonWKT
-     * @param int      $srid
-     *
-     * @return void
      */
     public function testOf(array $ringsWKT, string $polygonWKT, int $srid) : void
     {
@@ -170,9 +143,6 @@ class PolygonTest extends AbstractTestCase
         $this->assertWktEquals($polygon, $polygonWKT, $srid);
     }
 
-    /**
-     * @return \Generator
-     */
     public function providerOf() : \Generator
     {
         $tests = [
@@ -191,13 +161,6 @@ class PolygonTest extends AbstractTestCase
 
     /**
      * @dataProvider providerOfWithCoordinateSystemMix
-     *
-     * @param string $outerRingWKT
-     * @param string $innerRingWKT
-     * @param int    $outerRingSRID
-     * @param int    $innerRingSRID
-     *
-     * @return void
      */
     public function testOfWithCoordinateSystemMix(string $outerRingWKT, string $innerRingWKT, int $outerRingSRID, int $innerRingSRID) : void
     {
@@ -208,9 +171,6 @@ class PolygonTest extends AbstractTestCase
         Polygon::of($outerRing, $innerRing);
     }
 
-    /**
-     * @return array
-     */
     public function providerOfWithCoordinateSystemMix() : array
     {
         return [
@@ -230,8 +190,6 @@ class PolygonTest extends AbstractTestCase
      *
      * @param string $polygon      The WKT of the Polygon to test.
      * @param string $exteriorRing The WKT of the expected exterior ring.
-     *
-     * @return void
      */
     public function testExteriorRing(string $polygon, string $exteriorRing) : void
     {
@@ -241,9 +199,6 @@ class PolygonTest extends AbstractTestCase
         }
     }
 
-    /**
-     * @return array
-     */
     public function providerExteriorRing() : array
     {
         return [
@@ -259,8 +214,6 @@ class PolygonTest extends AbstractTestCase
      * @dataProvider providerExteriorRingOfEmptyPolygon
      *
      * @param string $polygon The WKT of the polygon to test.
-     *
-     * @return void
      */
     public function testExteriorRingOfEmptyPolygon(string $polygon) : void
     {
@@ -268,9 +221,6 @@ class PolygonTest extends AbstractTestCase
         Polygon::fromText($polygon)->exteriorRing();
     }
 
-    /**
-     * @return array
-     */
     public function providerExteriorRingOfEmptyPolygon() : array
     {
         return [
@@ -286,8 +236,6 @@ class PolygonTest extends AbstractTestCase
      *
      * @param string $polygon          The WKT of the Polygon to test.
      * @param int    $numInteriorRings The expected number of interior rings.
-     *
-     * @return void
      */
     public function testNumInteriorRings(string $polygon, int $numInteriorRings) : void
     {
@@ -295,9 +243,6 @@ class PolygonTest extends AbstractTestCase
         self::assertSame($numInteriorRings, $polygon->numInteriorRings());
     }
 
-    /**
-     * @return array
-     */
     public function providerNumInteriorRings() : array
     {
         return [
@@ -320,8 +265,6 @@ class PolygonTest extends AbstractTestCase
      * @param int         $n             The ring number.
      * @param string|null $interiorRingN The WKT of the expected interior ring, or NULL if an exception is expected.
      * @param int         $srid          The SRID of the geometries.
-     *
-     * @return void
      */
     public function testInteriorRingN(string $polygon, int $n, ?string $interiorRingN, int $srid) : void
     {
@@ -333,9 +276,6 @@ class PolygonTest extends AbstractTestCase
         $this->assertWktEquals($ring, $interiorRingN, $srid);
     }
 
-    /**
-     * @return \Generator
-     */
     public function providerInteriorRingN() : \Generator
     {
         $tests = [

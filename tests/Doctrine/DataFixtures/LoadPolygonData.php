@@ -12,12 +12,9 @@ use Brick\Geo\Tests\Doctrine\Fixtures\PolygonEntity;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
-class LoadPolygonData implements FixtureInterface {
-
-    /**
-     * {@inheritdoc}
-     */
-    public function load(ObjectManager $manager)
+class LoadPolygonData implements FixtureInterface
+{
+    public function load(ObjectManager $manager): void
     {
         $point1 = Point::xy(0,0);
         $point2 = Point::xy(1,0);

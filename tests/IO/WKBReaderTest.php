@@ -16,8 +16,6 @@ class WKBReaderTest extends WKBAbstractTest
      *
      * @param string $wkb The WKB to read, hex-encoded.
      * @param string $wkt The expected WKT output.
-     *
-     * @return void
      */
     public function testRead(string $wkb, string $wkt) : void
     {
@@ -28,9 +26,6 @@ class WKBReaderTest extends WKBAbstractTest
         self::assertSame(4326, $geometry->SRID());
     }
 
-    /**
-     * @return \Generator
-     */
     public function providerRead() : \Generator
     {
         foreach ($this->providerLittleEndianWKB() as [$wkt, $wkb]) {
@@ -42,3 +37,7 @@ class WKBReaderTest extends WKBAbstractTest
         }
     }
 }
+
+    /**
+     * @return \Generator
+     */

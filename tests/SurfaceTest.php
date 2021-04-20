@@ -18,8 +18,6 @@ class SurfaceTest extends AbstractTestCase
      *
      * @param string $surface The WKT of the Surface to test.
      * @param float  $area    The expected area.
-     *
-     * @return void
      */
     public function testArea(string $surface, float $area) : void
     {
@@ -34,9 +32,6 @@ class SurfaceTest extends AbstractTestCase
         self::assertEqualsWithDelta($area, $actualArea, 0.001);
     }
 
-    /**
-     * @return array
-     */
     public function providerArea() : array
     {
         return [
@@ -55,8 +50,6 @@ class SurfaceTest extends AbstractTestCase
      *
      * @param string $surface  The WKT of the Surface to test.
      * @param string $centroid The WKT of the expected centroid.
-     *
-     * @return void
      */
     public function testCentroid(string $surface, string $centroid) : void
     {
@@ -67,9 +60,6 @@ class SurfaceTest extends AbstractTestCase
         $this->assertWktEquals($surface->centroid(), $centroid);
     }
 
-    /**
-     * @return array
-     */
     public function providerCentroid() : array
     {
         return [
@@ -84,8 +74,6 @@ class SurfaceTest extends AbstractTestCase
      * @dataProvider providerPointOnSurface
      *
      * @param string $surface The WKT of the Surface to test.
-     *
-     * @return void
      */
     public function testPointOnSurface(string $surface) : void
     {
@@ -105,9 +93,6 @@ class SurfaceTest extends AbstractTestCase
         self::assertTrue($surface->contains($pointOnSurface));
     }
 
-    /**
-     * @return array
-     */
     public function providerPointOnSurface() : array
     {
         return [

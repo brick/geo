@@ -16,12 +16,6 @@ class PointTest extends AbstractTestCase
 {
     /**
      * @dataProvider providerConstructorWithInvalidCoordinates
-     *
-     * @param bool    $z
-     * @param bool    $m
-     * @param float[] $coords
-     *
-     * @return void
      */
     public function testConstructorWithInvalidCoordinates(bool $z, bool $m, float ...$coords) : void
     {
@@ -29,9 +23,6 @@ class PointTest extends AbstractTestCase
         new Point(new CoordinateSystem($z, $m), ...$coords);
     }
 
-    /**
-     * @return array
-     */
     public function providerConstructorWithInvalidCoordinates() : array
     {
         return [
@@ -50,16 +41,6 @@ class PointTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @param Point      $point
-     * @param float      $x
-     * @param float      $y
-     * @param float|null $z
-     * @param float|null $m
-     * @param int        $srid
-     *
-     * @return void
-     */
     private function assertPointFactoryMethodAndAccessors(Point $point, float $x, float $y, ?float $z, ?float $m, int $srid) : void
     {
         self::assertSame($x, $point->x());
@@ -70,86 +51,54 @@ class PointTest extends AbstractTestCase
         self::assertFalse($point->isEmpty());
     }
 
-    /**
-     * @return void
-     */
     public function testXy() : void
     {
         $point = Point::xy(1.2, 3.4);
         $this->assertPointFactoryMethodAndAccessors($point, 1.2, 3.4, null, null, 0);
     }
 
-    /**
-     * @return void
-     */
     public function testXyWithSRID() : void
     {
         $point = Point::xy(1.2, 3.4, 123);
         $this->assertPointFactoryMethodAndAccessors($point, 1.2, 3.4, null, null, 123);
     }
 
-    /**
-     * @return void
-     */
     public function testXyz() : void
     {
         $point = Point::xyz(2.3, 3.4, 4.5);
         $this->assertPointFactoryMethodAndAccessors($point, 2.3, 3.4, 4.5, null, 0);
     }
 
-    /**
-     * @return void
-     */
     public function testXyzWithSRID() : void
     {
         $point = Point::xyz(2.3, 3.4, 4.5, 123);
         $this->assertPointFactoryMethodAndAccessors($point, 2.3, 3.4, 4.5, null, 123);
     }
 
-    /**
-     * @return void
-     */
     public function testXym() : void
     {
         $point = Point::xym(3.4, 4.5, 5.6);
         $this->assertPointFactoryMethodAndAccessors($point, 3.4, 4.5, null, 5.6, 0);
     }
 
-    /**
-     * @return void
-     */
     public function testXymWithSRID() : void
     {
         $point = Point::xym(3.4, 4.5, 5.6, 123);
         $this->assertPointFactoryMethodAndAccessors($point, 3.4, 4.5, null, 5.6, 123);
     }
 
-    /**
-     * @return void
-     */
     public function testXyzm() : void
     {
         $point = Point::xyzm(4.5, 5.6, 6.7, 7.8);
         $this->assertPointFactoryMethodAndAccessors($point, 4.5, 5.6, 6.7, 7.8, 0);
     }
 
-    /**
-     * @return void
-     */
     public function testXyzmWithSRID() : void
     {
         $point = Point::xyzm(4.5, 5.6, 6.7, 7.8, 123);
         $this->assertPointFactoryMethodAndAccessors($point, 4.5, 5.6, 6.7, 7.8, 123);
     }
 
-    /**
-     * @param Point $point
-     * @param bool  $is3D
-     * @param bool  $isMeasured
-     * @param int   $srid
-     *
-     * @return void
-     */
     private function assertPointEmptyFactoryMethod(Point $point, bool $is3D, bool $isMeasured, int $srid) : void
     {
         self::assertTrue($point->isEmpty());
@@ -162,65 +111,41 @@ class PointTest extends AbstractTestCase
         self::assertSame($srid, $point->SRID());
     }
 
-    /**
-     * @return void
-     */
     public function testXyEmpty() : void
     {
         $this->assertPointEmptyFactoryMethod(Point::xyEmpty(), false, false, 0);
     }
 
-    /**
-     * @return void
-     */
     public function testXyEmptyWithSRID() : void
     {
         $this->assertPointEmptyFactoryMethod(Point::xyEmpty(123), false, false, 123);
     }
 
-    /**
-     * @return void
-     */
     public function testXyzEmpty() : void
     {
         $this->assertPointEmptyFactoryMethod(Point::xyzEmpty(), true, false, 0);
     }
 
-    /**
-     * @return void
-     */
     public function testXyzEmptyWithSRID() : void
     {
         $this->assertPointEmptyFactoryMethod(Point::xyzEmpty(123), true, false, 123);
     }
 
-    /**
-     * @return void
-     */
     public function testXymEmpty() : void
     {
         $this->assertPointEmptyFactoryMethod(Point::xymEmpty(), false, true, 0);
     }
 
-    /**
-     * @return void
-     */
     public function testXymEmptyWithSRID() : void
     {
         $this->assertPointEmptyFactoryMethod(Point::xymEmpty(123), false, true, 123);
     }
 
-    /**
-     * @return void
-     */
     public function testXyzmEmpty() : void
     {
         $this->assertPointEmptyFactoryMethod(Point::xyzmEmpty(), true, true, 0);
     }
 
-    /**
-     * @return void
-     */
     public function testXyzmEmptyWithSRID() : void
     {
         $this->assertPointEmptyFactoryMethod(Point::xyzmEmpty(123), true, true, 123);
@@ -231,8 +156,6 @@ class PointTest extends AbstractTestCase
      *
      * @param string $point       The WKT of the point to test.
      * @param array  $coordinates The expected coordinates.
-     *
-     * @return void
      */
     public function testToArrayAndInterfaces(string $point, array $coordinates) : void
     {
@@ -242,9 +165,6 @@ class PointTest extends AbstractTestCase
         self::assertSame(count($coordinates), count($point));
     }
 
-    /**
-     * @return array
-     */
     public function providerToArrayAndInterfaces() : array
     {
         return [
@@ -262,11 +182,9 @@ class PointTest extends AbstractTestCase
     /**
      * @dataProvider providerAzimuth
      *
-     * @param string $observerWkt         The WKT of the point, representing the observer location.
-     * @param string $subjectWkt          The WKT of the point, representing the subject location.
-     * @param float|null $azimuthExpected The expected azimuth.
-     *
-     * @return void
+     * @param string     $observerWkt     The WKT of the point, representing the observer location.
+     * @param string     $subjectWkt      The WKT of the point, representing the subject location.
+     * @param float|null $azimuthExpected The expected azimuth, or null if an exception is expected.
      */
     public function testAzimuth(string $observerWkt, string $subjectWkt, ?float $azimuthExpected): void
     {
@@ -288,9 +206,6 @@ class PointTest extends AbstractTestCase
         self::assertEqualsWithDelta($azimuthExpected, $azimuthActual, 0.001);
     }
 
-    /**
-     * @return array
-     */
     public function providerAzimuth(): array
     {
         return [

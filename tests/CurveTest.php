@@ -17,8 +17,6 @@ class CurveTest extends AbstractTestCase
      *
      * @param string $curve  The WKT of the curve to test.
      * @param float  $length The expected length.
-     *
-     * @return void
      */
     public function testLength(string $curve, float $length) : void
     {
@@ -33,9 +31,6 @@ class CurveTest extends AbstractTestCase
         self::assertEqualsWithDelta($length, $actualLength, 0.002);
     }
 
-    /**
-     * @return array
-     */
     public function providerLength() : array
     {
         return [
@@ -60,8 +55,6 @@ class CurveTest extends AbstractTestCase
      * @param string $lineString The WKT of the Curve to test.
      * @param string $startPoint The WKT of the expected start point.
      * @param string $endPoint   The WKT of the expected end point.
-     *
-     * @return void
      */
     public function testStartPointEndPoint(string $lineString, string $startPoint, string $endPoint) : void
     {
@@ -73,9 +66,6 @@ class CurveTest extends AbstractTestCase
         }
     }
 
-    /**
-     * @return array
-     */
     public function providerStartPointEndPoint() : array
     {
         return [
@@ -98,10 +88,6 @@ class CurveTest extends AbstractTestCase
 
     /**
      * @dataProvider providerEmptyCurve
-     *
-     * @param string $lineString
-     *
-     * @return void
      */
     public function testStartPointOfEmptyCurveThrowsException(string $lineString) : void
     {
@@ -111,10 +97,6 @@ class CurveTest extends AbstractTestCase
 
     /**
      * @dataProvider providerEmptyCurve
-     *
-     * @param string $lineString
-     *
-     * @return void
      */
     public function testEndPointOfEmptyCurveThrowsException(string $lineString) : void
     {
@@ -122,9 +104,6 @@ class CurveTest extends AbstractTestCase
         Curve::fromText($lineString)->endPoint();
     }
 
-    /**
-     * @return array
-     */
     public function providerEmptyCurve() : array
     {
         return [
@@ -150,8 +129,6 @@ class CurveTest extends AbstractTestCase
      *
      * @param string $curve    The WKT of the Curve to test.
      * @param bool   $isClosed Whether the Curve is closed.
-     *
-     * @return void
      */
     public function testIsClosed(string $curve, bool $isClosed) : void
     {
@@ -163,9 +140,6 @@ class CurveTest extends AbstractTestCase
         self::assertSame($isClosed, $curve->isClosed());
     }
 
-    /**
-     * @return array
-     */
     public function providerIsClosed() : array
     {
         return [
@@ -194,8 +168,6 @@ class CurveTest extends AbstractTestCase
      *
      * @param string $curve  The WKT of the Curve to test.
      * @param bool   $isRing Whether the Curve is a ring.
-     *
-     * @return void
      */
     public function testIsRing(string $curve, bool $isRing) : void
     {
@@ -212,9 +184,6 @@ class CurveTest extends AbstractTestCase
         self::assertSame($isRing, $curve->isRing());
     }
 
-    /**
-     * @return array
-     */
     public function providerIsRing() : array
     {
         return [

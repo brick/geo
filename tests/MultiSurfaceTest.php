@@ -18,8 +18,6 @@ class MultiSurfaceTest extends AbstractTestCase
      * @dataProvider providerInvalidFromText
      *
      * @param string $wkt A valid WKT, for a non-multisurface geometry.
-     *
-     * @return void
      */
     public function testInvalidFromText(string $wkt) : void
     {
@@ -27,9 +25,6 @@ class MultiSurfaceTest extends AbstractTestCase
         MultiSurface::fromText($wkt);
     }
 
-    /**
-     * @return array
-     */
     public function providerInvalidFromText() : array
     {
         return [
@@ -44,8 +39,6 @@ class MultiSurfaceTest extends AbstractTestCase
      * @dataProvider providerInvalidFromBinary
      *
      * @param string $wkb A valid HEX WKB, for a non-multisurface geometry.
-     *
-     * @return void
      */
     public function testInvalidFromBinary(string $wkb) : void
     {
@@ -53,9 +46,6 @@ class MultiSurfaceTest extends AbstractTestCase
         MultiSurface::fromBinary(hex2bin($wkb));
     }
 
-    /**
-     * @return array
-     */
     public function providerInvalidFromBinary() : array
     {
         return [
@@ -72,8 +62,6 @@ class MultiSurfaceTest extends AbstractTestCase
      *
      * @param string $multiSurface The WKT of the MultiSurface to test.
      * @param float  $area         The expected area.
-     *
-     * @return void
      */
     public function testArea(string $multiSurface, float $area) : void
     {
@@ -84,13 +72,9 @@ class MultiSurfaceTest extends AbstractTestCase
 
         $actualArea = $multiSurface->area();
 
-        self::assertIsFloat($actualArea);
         self::assertEqualsWithDelta($area, $actualArea, 0.001);
     }
 
-    /**
-     * @return array
-     */
     public function providerArea() : array
     {
         return [
@@ -107,8 +91,6 @@ class MultiSurfaceTest extends AbstractTestCase
      *
      * @param string $multiMultiSurface The WKT of the MultiSurface to test.
      * @param string $centroid          The WKT of the expected centroid.
-     *
-     * @return void
      */
     public function testCentroid(string $multiMultiSurface, string $centroid) : void
     {
@@ -119,9 +101,6 @@ class MultiSurfaceTest extends AbstractTestCase
         $this->assertWktEquals($multiSurface->centroid(), $centroid);
     }
 
-    /**
-     * @return array
-     */
     public function providerCentroid() : array
     {
         return [
@@ -135,8 +114,6 @@ class MultiSurfaceTest extends AbstractTestCase
      * @dataProvider providerPointOnSurface
      *
      * @param string $multiMultiSurface The WKT of the MultiSurface to test.
-     *
-     * @return void
      */
     public function testPointOnSurface(string $multiMultiSurface) : void
     {
@@ -156,9 +133,6 @@ class MultiSurfaceTest extends AbstractTestCase
         self::assertTrue($multiSurface->contains($pointOnSurface));
     }
 
-    /**
-     * @return array
-     */
     public function providerPointOnSurface() : array
     {
         return [

@@ -15,10 +15,6 @@ class GeoJSONWriterTest extends GeoJSONAbstractTest
      * @dataProvider providerGeometryGeoJSON
      * @dataProvider providerFeatureGeoJSON
      * @dataProvider providerFeatureCollectionGeoJSON
-     *
-     * @param string $geojson The GeoJSON to read.
-     *
-     * @throws \Brick\Geo\Exception\GeometryException
      */
     public function testWriteGeometry(string $geojson) : void
     {
@@ -28,9 +24,6 @@ class GeoJSONWriterTest extends GeoJSONAbstractTest
         self::assertSame($geojson, $geometryGeoJSON);
     }
 
-    /**
-     * @throws \Brick\Geo\Exception\GeometryIOException
-     */
     public function testPrettyPrint() : void
     {
         $writer = new GeoJSONWriter(true);

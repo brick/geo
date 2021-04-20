@@ -16,11 +16,6 @@ class LineStringTest extends AbstractTestCase
 {
     /**
      * @dataProvider providerNumPoints
-     *
-     * @param string $lineString
-     * @param int    $numPoints
-     *
-     * @return void
      */
     public function testNumPoints(string $lineString, int $numPoints) : void
     {
@@ -28,9 +23,6 @@ class LineStringTest extends AbstractTestCase
         self::assertSame($numPoints, $lineString->numPoints());
     }
 
-    /**
-     * @return array
-     */
     public function providerNumPoints() : array
     {
         return [
@@ -47,12 +39,6 @@ class LineStringTest extends AbstractTestCase
 
     /**
      * @dataProvider providerPointN
-     *
-     * @param string $lineString
-     * @param int    $n
-     * @param string $pointN
-     *
-     * @return void
      */
     public function testPointN(string $lineString, int $n, string $pointN) : void
     {
@@ -62,9 +48,6 @@ class LineStringTest extends AbstractTestCase
         }
     }
 
-    /**
-     * @return array
-     */
     public function providerPointN() : array
     {
         return [
@@ -83,11 +66,6 @@ class LineStringTest extends AbstractTestCase
 
     /**
      * @dataProvider providerInvalidPointNThrowsException
-     *
-     * @param string $lineString
-     * @param int    $n
-     *
-     * @return void
      */
     public function testInvalidPointNThrowsException(string $lineString, int $n) : void
     {
@@ -95,9 +73,6 @@ class LineStringTest extends AbstractTestCase
         LineString::fromText($lineString)->pointN($n);
     }
 
-    /**
-     * @return array
-     */
     public function providerInvalidPointNThrowsException() : array
     {
         return [
@@ -114,8 +89,6 @@ class LineStringTest extends AbstractTestCase
 
     /**
      * Tests Countable and Traversable interfaces.
-     *
-     * @return void
      */
     public function testInterfaces() : void
     {
@@ -134,12 +107,6 @@ class LineStringTest extends AbstractTestCase
 
     /**
      * @dataProvider providerRectangle
-     *
-     * @param string $point1
-     * @param string $point2
-     * @param string $expected
-     *
-     * @return void
      */
     public function testRectangle(string $point1, string $point2, string $expected) : void
     {
@@ -151,9 +118,6 @@ class LineStringTest extends AbstractTestCase
         self::assertSame($expected, $actual->asText());
     }
 
-    /**
-     * @return array
-     */
     public function providerRectangle() : array
     {
         return [
@@ -165,13 +129,6 @@ class LineStringTest extends AbstractTestCase
 
     /**
      * @dataProvider providerRectangleWithInvalidPoints
-     *
-     * @param string $point1
-     * @param string $point2
-     * @param int    $srid1
-     * @param int    $srid2
-     *
-     * @return void
      */
     public function testRectangleWithInvalidPoints(string $point1, string $point2, int $srid1 = 0, int $srid2 = 0) : void
     {
@@ -182,9 +139,6 @@ class LineStringTest extends AbstractTestCase
         LineString::rectangle($point1, $point2);
     }
 
-    /**
-     * @return array
-     */
     public function providerRectangleWithInvalidPoints() : array
     {
         return [

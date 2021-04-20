@@ -9,9 +9,6 @@ namespace Brick\Geo\Tests\IO;
  */
 abstract class EWKBAbstractTest extends WKBAbstractTest
 {
-    /**
-     * @return array
-     */
     public function providerBigEndianEWKB() : array
     {
         return [
@@ -179,9 +176,6 @@ abstract class EWKBAbstractTest extends WKBAbstractTest
         ];
     }
 
-    /**
-     * @return array
-     */
     public function providerBigEndianEWKB_SRID() : array
     {
         return [
@@ -349,9 +343,6 @@ abstract class EWKBAbstractTest extends WKBAbstractTest
         ];
     }
 
-    /**
-     * @return array
-     */
     public function providerLittleEndianEWKB() : array
     {
         return [
@@ -519,9 +510,6 @@ abstract class EWKBAbstractTest extends WKBAbstractTest
         ];
     }
 
-    /**
-     * @return array
-     */
     public function providerLittleEndianEWKB_SRID() : array
     {
         return [

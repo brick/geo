@@ -19,10 +19,6 @@ class GeoJSONReaderTest extends GeoJSONAbstractTest
      * @param array  $coords  The expected Geometry coordinates.
      * @param bool   $is3D    Whether the resulting Geometry has a Z coordinate.
      * @param bool   $lenient Whether to be lenient about case-sensitivity.
-     *
-     * @return void
-     *
-     * @throws \Brick\Geo\Exception\GeometryException
      */
     public function testReadGeometry(string $geojson, array $coords, bool $is3D, bool $lenient) : void
     {
@@ -30,9 +26,6 @@ class GeoJSONReaderTest extends GeoJSONAbstractTest
         $this->assertGeometryContents($geometry, $coords, $is3D, false, 4326);
     }
 
-    /**
-     * @return \Generator
-     */
     public function providerReadGeometry() : \Generator
     {
         foreach ($this->providerGeometryGeoJSON() as [$geojson, $coords, $is3D]) {
@@ -49,10 +42,6 @@ class GeoJSONReaderTest extends GeoJSONAbstractTest
      * @param array|null    $coords     The expected Geometry coordinates, or null if the Feature has no geometry.
      * @param bool          $is3D       Whether the resulting Geometry has a Z coordinate.
      * @param bool          $lenient    Whether to be lenient about case-sensitivity.
-     *
-     * @return void
-     *
-     * @throws \Brick\Geo\Exception\GeometryException
      */
     public function testReadFeature(string $geojson, ?stdClass $properties, ?array $coords, bool $is3D, bool $lenient) : void
     {
@@ -70,9 +59,6 @@ class GeoJSONReaderTest extends GeoJSONAbstractTest
         }
     }
 
-    /**
-     * @return \Generator
-     */
     public function providerReadFeature() : \Generator
     {
         foreach ($this->providerFeatureGeoJSON() as [$geojson, $properties, $coords, $is3D]) {
@@ -88,10 +74,6 @@ class GeoJSONReaderTest extends GeoJSONAbstractTest
      * @param array[] $coords  The expected Point coordinates.
      * @param bool[]  $is3D    Whether the resulting Point has a Z coordinate.
      * @param bool    $lenient Whether to be lenient about case-sensitivity.
-     *
-     * @return void
-     *
-     * @throws \Brick\Geo\Exception\GeometryException
      */
     public function testReadFeatureCollection(string $geojson, array $properties, array $coords, array $is3D, bool $lenient) : void
     {
@@ -106,9 +88,6 @@ class GeoJSONReaderTest extends GeoJSONAbstractTest
         }
     }
 
-    /**
-     * @return \Generator
-     */
     public function providerReadFeatureCollection() : \Generator
     {
         foreach ($this->providerFeatureCollectionGeoJSON() as [$geojson, $properties, $coords, $is3D]) {
@@ -119,13 +98,6 @@ class GeoJSONReaderTest extends GeoJSONAbstractTest
 
     /**
      * @dataProvider providerNonLenientReadWrongCaseType
-     *
-     * @param string $geojson
-     * @param string $expectedExceptionMessage
-     *
-     * @return void
-     *
-     * @throws \Brick\Geo\Exception\GeometryException
      */
     public function testNonLenientReadWrongCaseType(string $geojson, string $expectedExceptionMessage) : void
     {
@@ -137,9 +109,6 @@ class GeoJSONReaderTest extends GeoJSONAbstractTest
         $reader->read($geojson);
     }
 
-    /**
-     * @return \Generator
-     */
     public function providerNonLenientReadWrongCaseType() : \Generator
     {
         foreach ($this->providerGeometryPointGeoJSON() as [$geojson]) {
@@ -157,10 +126,6 @@ class GeoJSONReaderTest extends GeoJSONAbstractTest
 
     /**
      * Changes the case of type attributes.
-     *
-     * @param string $geojson
-     *
-     * @return string
      */
     private function alterCase(string $geojson) : string
     {

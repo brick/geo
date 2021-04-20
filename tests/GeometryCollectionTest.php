@@ -19,8 +19,6 @@ class GeometryCollectionTest extends AbstractTestCase
      *
      * @param string $geometry      The WKT of the GeometryCollection to test.
      * @param int    $numGeometries The expected number of geometries.
-     *
-     * @return void
      */
     public function testNumGeometries(string $geometry, int $numGeometries) : void
     {
@@ -28,9 +26,6 @@ class GeometryCollectionTest extends AbstractTestCase
         self::assertSame($numGeometries, $geometry->numGeometries());
     }
 
-    /**
-     * @return array
-     */
     public function providerNumGeometries() : array
     {
         return [
@@ -47,8 +42,6 @@ class GeometryCollectionTest extends AbstractTestCase
      * @param int         $n         The number of the geometry to return.
      * @param string|null $geometryN The WKT of the expected result, or NULL if an exception is expected.
      * @param int         $srid      The SRID of the geometries.
-     *
-     * @return void
      */
     public function testGeometryN(string $geometry, int $n, ?string $geometryN, int $srid) : void
     {
@@ -60,9 +53,6 @@ class GeometryCollectionTest extends AbstractTestCase
         $this->assertWktEquals($g->geometryN($n), $geometryN, $srid);
     }
 
-    /**
-     * @return \Generator
-     */
     public function providerGeometryN() : \Generator
     {
         $tests = [
@@ -86,8 +76,6 @@ class GeometryCollectionTest extends AbstractTestCase
 
     /**
      * Tests Countable and Traversable interfaces.
-     *
-     * @return void
      */
     public function testInterfaces() : void
     {

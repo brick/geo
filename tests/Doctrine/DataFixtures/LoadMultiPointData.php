@@ -11,12 +11,9 @@ use Brick\Geo\Tests\Doctrine\Fixtures\MultiPointEntity;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
-class LoadMultiPointData implements FixtureInterface {
-
-    /**
-     * {@inheritdoc}
-     */
-    public function load(ObjectManager $manager)
+class LoadMultiPointData implements FixtureInterface
+{
+    public function load(ObjectManager $manager): void
     {
         $point1 = Point::xy(0,0);
         $point2 = Point::xy(1,0);

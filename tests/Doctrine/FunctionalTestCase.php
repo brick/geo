@@ -24,34 +24,14 @@ use Doctrine\Tests\DbalFunctionalTestCase;
  */
 abstract class FunctionalTestCase extends DbalFunctionalTestCase
 {
-    /**
-     * @var AbstractPlatform
-     */
-    private $platform;
+    private AbstractPlatform $platform;
 
-    /**
-     * @var Loader
-     */
-    private $fixtureLoader;
+    private Loader $fixtureLoader;
 
-    /**
-     * @var SchemaTool
-     */
-    private $schemaTool;
+    private EntityManager $em;
 
-    /**
-     * @var EntityManager
-     */
-    private $em;
+    private ORMExecutor $ormExecutor;
 
-    /**
-     * @var ORMExecutor
-     */
-    private $ormExecutor;
-
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp(): void
     {
         if (! GeometryEngineRegistry::has()) {
@@ -86,9 +66,9 @@ abstract class FunctionalTestCase extends DbalFunctionalTestCase
         $config = Setup::createAnnotationMetadataConfiguration([ __DIR__ . '/Fixtures' ], false);
 
         $this->em = EntityManager::create($this->_conn, $config, $this->platform->getEventManager());
-        $this->schemaTool = new SchemaTool($this->em);
+        $schemaTool = new SchemaTool($this->em);
 
-        $this->schemaTool->updateSchema([
+        $schemaTool->updateSchema([
             $this->em->getClassMetadata(Fixtures\GeometryEntity::class),
             $this->em->getClassMetadata(Fixtures\LineStringEntity::class),
             $this->em->getClassMetadata(Fixtures\MultiLineStringEntity::class),
@@ -102,40 +82,21 @@ abstract class FunctionalTestCase extends DbalFunctionalTestCase
         $this->ormExecutor = new ORMExecutor($this->em, $purger);
     }
 
-    /**
-     * @return EntityManager
-     */
     protected function getEntityManager() : EntityManager
     {
         return $this->em;
     }
 
-    /**
-     * @param FixtureInterface $fixture
-     *
-     * @return void
-     */
     protected function addFixture(FixtureInterface $fixture) : void
     {
         $this->fixtureLoader->addFixture($fixture);
     }
 
-    /**
-     * @return void
-     */
     protected function loadFixtures() : void
     {
         $this->ormExecutor->execute($this->fixtureLoader->getFixtures());
     }
 
-    /**
-     * @param Point      $point
-     * @param float      $x
-     * @param float      $y
-     * @param float|null $z
-     *
-     * @return void
-     */
     protected function assertPointEquals(Point $point, float $x, float $y, ?float $z = null) : void
     {
         self::assertInstanceOf(Point::class, $point);

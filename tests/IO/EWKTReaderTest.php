@@ -19,8 +19,6 @@ class EWKTReaderTest extends EWKTAbstractTest
      * @param bool   $is3D       Whether the resulting Point has a Z coordinate.
      * @param bool   $isMeasured Whether the resulting Point has a M coordinate.
      * @param int    $srid       The expected SRID.
-     *
-     * @return void
      */
     public function testRead(string $ewkt, array $coords, bool $is3D, bool $isMeasured, int $srid) : void
     {
@@ -28,9 +26,6 @@ class EWKTReaderTest extends EWKTAbstractTest
         $this->assertGeometryContents($geometry, $coords, $is3D, $isMeasured, $srid);
     }
 
-    /**
-     * @return \Generator
-     */
     public function providerRead() : \Generator
     {
         foreach ($this->providerWKT() as [$wkt, $coords, $is3D, $isMeasured]) {

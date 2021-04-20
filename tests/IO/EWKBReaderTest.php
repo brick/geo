@@ -17,8 +17,6 @@ class EWKBReaderTest extends EWKBAbstractTest
      *
      * @param string $ewkb The EWKB to read, hex-encoded.
      * @param string $ewkt The expected EWKT output.
-     *
-     * @return void
      */
     public function testRead(string $ewkb, string $ewkt) : void
     {
@@ -29,9 +27,6 @@ class EWKBReaderTest extends EWKBAbstractTest
         self::assertSame($ewkt, $writer->write($geometry));
     }
 
-    /**
-     * @return \Generator
-     */
     public function providerRead() : \Generator
     {
         foreach ($this->providerBigEndianEWKB() as [$ewkt, $ewkb]) {

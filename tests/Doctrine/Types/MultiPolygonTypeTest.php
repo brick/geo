@@ -16,9 +16,6 @@ use Brick\Geo\Tests\Doctrine\Fixtures\MultiPolygonEntity;
  */
 class MultiPolygonTypeTest extends FunctionalTestCase
 {
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp(): void
     {
         parent::setUp();
@@ -26,9 +23,6 @@ class MultiPolygonTypeTest extends FunctionalTestCase
         $this->loadFixtures();
     }
 
-    /**
-     * @return void
-     */
     public function testReadFromDbAndConvertToPHPValue() : void
     {
         $repository = $this->getEntityManager()->getRepository(MultiPolygonEntity::class);

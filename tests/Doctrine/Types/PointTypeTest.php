@@ -13,9 +13,6 @@ use Brick\Geo\Tests\Doctrine\Fixtures\PointEntity;
  */
 class PointTypeTest extends FunctionalTestCase
 {
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp(): void
     {
         parent::setUp();
@@ -23,9 +20,6 @@ class PointTypeTest extends FunctionalTestCase
         $this->loadFixtures();
     }
 
-    /**
-     * @return void
-     */
     public function testReadFromDbAndConvertToPHPValue() : void
     {
         $repository = $this->getEntityManager()->getRepository(PointEntity::class);

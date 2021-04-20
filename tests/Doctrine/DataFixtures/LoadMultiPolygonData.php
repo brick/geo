@@ -13,12 +13,9 @@ use Brick\Geo\Tests\Doctrine\Fixtures\MultiPolygonEntity;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
-class LoadMultiPolygonData implements FixtureInterface {
-
-    /**
-     * {@inheritdoc}
-     */
-    public function load(ObjectManager $manager)
+class LoadMultiPolygonData implements FixtureInterface
+{
+    public function load(ObjectManager $manager): void
     {
         $point1 = Point::xy(0,0);
         $point2 = Point::xy(1,0);

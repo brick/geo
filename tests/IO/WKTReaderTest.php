@@ -19,8 +19,6 @@ class WKTReaderTest extends WKTAbstractTest
      * @param bool   $is3D       Whether the resulting Point has a Z coordinate.
      * @param bool   $isMeasured Whether the resulting Point has a M coordinate.
      * @param int    $srid       The SRID to use.
-     *
-     * @return void
      */
     public function testRead(string $wkt, array $coords, bool $is3D, bool $isMeasured, int $srid) : void
     {
@@ -28,9 +26,6 @@ class WKTReaderTest extends WKTAbstractTest
         $this->assertGeometryContents($geometry, $coords, $is3D, $isMeasured, $srid);
     }
 
-    /**
-     * @return \Generator
-     */
     public function providerRead() : \Generator
     {
         foreach ($this->providerWKT() as [$wkt, $coords, $is3D, $isMeasured]) {
@@ -43,10 +38,6 @@ class WKTReaderTest extends WKTAbstractTest
      * Adds extra spaces to a WKT string, and changes its case.
      *
      * The result is still a valid WKT string, that the reader should be able to handle.
-     *
-     * @param string $wkt
-     *
-     * @return string
      */
     private function alter(string $wkt) : string
     {

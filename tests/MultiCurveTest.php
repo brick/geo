@@ -17,8 +17,6 @@ class MultiCurveTest extends AbstractTestCase
      * @dataProvider providerInvalidFromText
      *
      * @param string $wkt A valid WKT, for a non-multicurve geometry.
-     *
-     * @return void
      */
     public function testInvalidFromText(string $wkt) : void
     {
@@ -26,9 +24,6 @@ class MultiCurveTest extends AbstractTestCase
         MultiCurve::fromText($wkt);
     }
 
-    /**
-     * @return array
-     */
     public function providerInvalidFromText() : array
     {
         return [
@@ -43,8 +38,6 @@ class MultiCurveTest extends AbstractTestCase
      * @dataProvider providerInvalidFromBinary
      *
      * @param string $wkb A valid HEX WKB, for a non-multicurve geometry.
-     *
-     * @return void
      */
     public function testInvalidFromBinary(string $wkb) : void
     {
@@ -52,9 +45,6 @@ class MultiCurveTest extends AbstractTestCase
         MultiCurve::fromBinary(hex2bin($wkb));
     }
 
-    /**
-     * @return array
-     */
     public function providerInvalidFromBinary() : array
     {
         return [
@@ -71,8 +61,6 @@ class MultiCurveTest extends AbstractTestCase
      *
      * @param string $curve  The WKT of the curve to test.
      * @param float  $length The expected length.
-     *
-     * @return void
      */
     public function testLength(string $curve, float $length) : void
     {
@@ -87,9 +75,6 @@ class MultiCurveTest extends AbstractTestCase
         self::assertEqualsWithDelta($length, $actualLength, 0.001);
     }
 
-    /**
-     * @return array
-     */
     public function providerLength() : array
     {
         return [
@@ -107,8 +92,6 @@ class MultiCurveTest extends AbstractTestCase
      *
      * @param string $curve    The WKT of the MultiCurve to test.
      * @param bool   $isClosed Whether the MultiCurve is closed.
-     *
-     * @return void
      */
     public function testIsClosed(string $curve, bool $isClosed) : void
     {
@@ -125,9 +108,6 @@ class MultiCurveTest extends AbstractTestCase
         self::assertSame($isClosed, $curve->isClosed());
     }
 
-    /**
-     * @return array
-     */
     public function providerIsClosed() : array
     {
         return [

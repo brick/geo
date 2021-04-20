@@ -7,42 +7,28 @@ namespace Brick\Geo\Tests\Doctrine\Fixtures;
 use Brick\Geo\MultiPolygon;
 
 /**
- * Class MultiPolygonEntity
- *
  * @Entity
- * @Table(name = "multipolygons")
+ * @Table(name="multipolygons")
  */
-class MultiPolygonEntity {
-
+class MultiPolygonEntity
+{
     /**
      * @Id
      * @Column(type="integer")
      * @GeneratedValue
-     *
-     * @var int
      */
-    private $id;
+    private int $id;
 
     /**
      * @Column(type="multipolygon")
-     *
-     * @var MultiPolygon
      */
-    private $multiPolygon;
+    private MultiPolygon $multiPolygon;
 
-    /**
-     * @return MultiPolygon
-     */
     public function getMultiPolygon() : MultiPolygon
     {
         return $this->multiPolygon;
     }
 
-    /**
-     * @param MultiPolygon $multiPolygon
-     *
-     * @return void
-     */
     public function setMultiPolygon(MultiPolygon $multiPolygon) : void
     {
         $this->multiPolygon = $multiPolygon;

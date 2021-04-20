@@ -16,12 +16,6 @@ class CurvePolygonTest extends AbstractTestCase
 {
     /**
      * @dataProvider providerEmptyFactoryMethod
-     *
-     * @param bool $is3D
-     * @param bool $isMeasured
-     * @param int  $srid
-     *
-     * @return void
      */
     public function testEmptyFactoryMethod(bool $is3D, bool $isMeasured, int $srid) : void
     {
@@ -34,9 +28,6 @@ class CurvePolygonTest extends AbstractTestCase
         self::assertSame($srid, $polygon->SRID());
     }
 
-    /**
-     * @return array
-     */
     public function providerEmptyFactoryMethod() : array
     {
         return [
@@ -56,8 +47,6 @@ class CurvePolygonTest extends AbstractTestCase
      *
      * @param string $curvePolygon The WKT of the CurvePolygon to test.
      * @param string $exteriorRing The WKT of the expected exterior ring.
-     *
-     * @return void
      */
     public function testExteriorRing(string $curvePolygon, string $exteriorRing) : void
     {
@@ -67,9 +56,6 @@ class CurvePolygonTest extends AbstractTestCase
         }
     }
 
-    /**
-     * @return array
-     */
     public function providerExteriorRing() : array
     {
         return [
@@ -84,8 +70,6 @@ class CurvePolygonTest extends AbstractTestCase
      * @dataProvider providerExteriorRingOfEmptyCurvePolygon
      *
      * @param string $polygon The WKT of the CurvePolygon to test.
-     *
-     * @return void
      */
     public function testExteriorRingOfEmptyCurvePolygon(string $polygon) : void
     {
@@ -93,9 +77,6 @@ class CurvePolygonTest extends AbstractTestCase
         CurvePolygon::fromText($polygon)->exteriorRing();
     }
 
-    /**
-     * @return array
-     */
     public function providerExteriorRingOfEmptyCurvePolygon() : array
     {
         return [
@@ -110,8 +91,6 @@ class CurvePolygonTest extends AbstractTestCase
      *
      * @param string $polygon          The WKT of the Polygon to test.
      * @param int    $numInteriorRings The expected number of interior rings.
-     *
-     * @return void
      */
     public function testNumInteriorRings(string $polygon, int $numInteriorRings) : void
     {
@@ -119,9 +98,6 @@ class CurvePolygonTest extends AbstractTestCase
         self::assertSame($numInteriorRings, $polygon->numInteriorRings());
     }
 
-    /**
-     * @return array
-     */
     public function providerNumInteriorRings() : array
     {
         return [
@@ -144,8 +120,6 @@ class CurvePolygonTest extends AbstractTestCase
      * @param int         $n             The ring number.
      * @param string|null $interiorRingN The WKT of the expected interior ring, or NULL if an exception is expected.
      * @param int         $srid          The SRID of the geometries.
-     *
-     * @return void
      */
     public function testInteriorRingN(string $curvePolygon, int $n, ?string $interiorRingN, int $srid) : void
     {
@@ -157,9 +131,6 @@ class CurvePolygonTest extends AbstractTestCase
         $this->assertWktEquals($ring, $interiorRingN, $srid);
     }
 
-    /**
-     * @return \Generator
-     */
     public function providerInteriorRingN() : \Generator
     {
         $tests = [

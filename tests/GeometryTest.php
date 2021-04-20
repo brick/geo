@@ -20,8 +20,6 @@ class GeometryTest extends AbstractTestCase
      * @dataProvider providerTextBinary
      *
      * @param string $text The WKT of the geometry to test.
-     *
-     * @return void
      */
     public function testFromAsText(string $text) : void
     {
@@ -36,9 +34,6 @@ class GeometryTest extends AbstractTestCase
         self::assertSame(4326, $geometry->SRID());
     }
 
-    /**
-     * @return void
-     */
     public function testFromTextOnWrongSubclassThrowsException() : void
     {
         $this->expectException(UnexpectedGeometryException::class);
@@ -51,8 +46,6 @@ class GeometryTest extends AbstractTestCase
      * @param string $text               The WKT of the geometry under test.
      * @param string $bigEndianBinary    The big endian WKB of the geometry under test.
      * @param string $littleEndianBinary The little endian WKB of the geometry under test.
-     *
-     * @return void
      */
     public function testFromBinary(string $text, string $bigEndianBinary, string $littleEndianBinary) : void
     {
@@ -75,8 +68,6 @@ class GeometryTest extends AbstractTestCase
      * @param string $text               The WKT of the geometry under test.
      * @param string $bigEndianBinary    The big endian WKB of the geometry under test.
      * @param string $littleEndianBinary The little endian WKB of the geometry under test.
-     *
-     * @return void
      */
     public function testAsBinary(string $text, string $bigEndianBinary, string $littleEndianBinary) : void
     {
@@ -94,8 +85,6 @@ class GeometryTest extends AbstractTestCase
     /**
      * This is a very succinct series of tests for text/binary import/export methods.
      * Exhaustive tests for WKT and WKB are in the IO directory.
-     *
-     * @return array
      */
     public function providerTextBinary() : array
     {
@@ -109,11 +98,6 @@ class GeometryTest extends AbstractTestCase
 
     /**
      * @dataProvider providerDimension
-     *
-     * @param string $geometry
-     * @param int    $dimension
-     *
-     * @return void
      */
     public function testDimension(string $geometry, int $dimension) : void
     {
@@ -121,9 +105,6 @@ class GeometryTest extends AbstractTestCase
         self::assertSame($dimension, $geometry->dimension());
     }
 
-    /**
-     * @return array
-     */
     public function providerDimension() : array
     {
         return [
@@ -180,17 +161,12 @@ class GeometryTest extends AbstractTestCase
      *
      * @param string $geometry            The WKT of the geometry to test.
      * @param int    $coordinateDimension The expected coordinate dimension.
-     *
-     * @return void
      */
     public function testCoordinateDimension(string $geometry, int $coordinateDimension) : void
     {
         self::assertSame($coordinateDimension, Geometry::fromText($geometry)->coordinateDimension());
     }
 
-    /**
-     * @return array
-     */
     public function providerCoordinateDimension() : array
     {
         return [
@@ -210,17 +186,12 @@ class GeometryTest extends AbstractTestCase
      *
      * @param string $geometry         The WKT of the geometry to test.
      * @param int    $spatialDimension The expected spatial dimension.
-     *
-     * @return void
      */
     public function testSpatialDimension(string $geometry, int $spatialDimension) : void
     {
         self::assertSame($spatialDimension, Geometry::fromText($geometry)->spatialDimension());
     }
 
-    /**
-     * @return array
-     */
     public function providerSpatialDimension() : array
     {
         return [
@@ -240,8 +211,6 @@ class GeometryTest extends AbstractTestCase
      *
      * @param string $geometry     The WKT of the geometry to test.
      * @param string $geometryType The expected geometry type.
-     *
-     * @return void
      */
     public function testGeometryType(string $geometry, string $geometryType) : void
     {
@@ -249,9 +218,6 @@ class GeometryTest extends AbstractTestCase
         self::assertSame($geometryType, $geometry->geometryType());
     }
 
-    /**
-     * @return array
-     */
     public function providerGeometryType() : array
     {
         return [
@@ -312,19 +278,12 @@ class GeometryTest extends AbstractTestCase
 
     /**
      * @dataProvider providerSRID
-     *
-     * @param int $srid
-     *
-     * @return void
      */
     public function testSRID(int $srid) : void
     {
         self::assertSame($srid, Geometry::fromText('POINT EMPTY', $srid)->SRID());
     }
 
-    /**
-     * @return array
-     */
     public function providerSRID() : array
     {
         return [
@@ -338,8 +297,6 @@ class GeometryTest extends AbstractTestCase
      *
      * @param string $geometry The WKT of the geometry to test.
      * @param string $envelope The WKT of the expected envelope.
-     *
-     * @return void
      */
     public function testEnvelope(string $geometry, string $envelope) : void
     {
@@ -351,9 +308,6 @@ class GeometryTest extends AbstractTestCase
         $this->assertGeometryEquals($envelope, $geometry->envelope());
     }
 
-    /**
-     * @return array
-     */
     public function providerEnvelope() : array
     {
         return [
@@ -368,17 +322,12 @@ class GeometryTest extends AbstractTestCase
      *
      * @param string $geometry The WKT of the geometry to test.
      * @param bool   $isEmpty  Whether the geometry is empty.
-     *
-     * @return void
      */
     public function testIsEmpty(string $geometry, bool $isEmpty) : void
     {
         self::assertSame($isEmpty, Geometry::fromText($geometry)->isEmpty());
     }
 
-    /**
-     * @return array
-     */
     public function providerIsEmpty() : array
     {
         return [
@@ -397,8 +346,6 @@ class GeometryTest extends AbstractTestCase
      *
      * @param string $geometry The WKT of the geometry to test.
      * @param bool   $isValid  Whether the geometry is valid.
-     *
-     * @return void
      */
     public function testIsValid(string $geometry, bool $isValid) : void
     {
@@ -415,9 +362,6 @@ class GeometryTest extends AbstractTestCase
         self::assertSame($isValid, $geometry->isValid());
     }
 
-    /**
-     * @return array
-     */
     public function providerIsValid() : array
     {
         return [
@@ -435,8 +379,6 @@ class GeometryTest extends AbstractTestCase
      *
      * @param string $geometry The WKT of the geometry to test.
      * @param bool   $isSimple Whether the geometry is simple.
-     *
-     * @return void
      */
     public function testIsSimple(string $geometry, bool $isSimple) : void
     {
@@ -447,9 +389,6 @@ class GeometryTest extends AbstractTestCase
         self::assertSame($isSimple, $geometry->isSimple());
     }
 
-    /**
-     * @return array
-     */
     public function providerIsSimple() : array
     {
         return [
@@ -478,8 +417,6 @@ class GeometryTest extends AbstractTestCase
      * @param string $geometry   The geometry to test.
      * @param bool   $is3D       Whether the geometry has a Z coordinate.
      * @param bool   $isMeasured Whether the geometry has a M coordinate.
-     *
-     * @return void
      */
     public function testDimensionality(string $geometry, bool $is3D, bool $isMeasured) : void
     {
@@ -487,9 +424,6 @@ class GeometryTest extends AbstractTestCase
         self::assertSame($isMeasured, Geometry::fromText($geometry)->isMeasured());
     }
 
-    /**
-     * @return array
-     */
     public function providerDimensionality() : array
     {
         return [
@@ -509,8 +443,6 @@ class GeometryTest extends AbstractTestCase
      *
      * @param string $geometry The WKT of the geometry to test.
      * @param string $boundary The WKT of the expected boundary.
-     *
-     * @return void
      */
     public function testBoundary(string $geometry, string $boundary) : void
     {
@@ -533,9 +465,6 @@ class GeometryTest extends AbstractTestCase
         self::assertSame($boundary, $geometry->boundary()->asText());
     }
 
-    /**
-     * @return array
-     */
     public function providerBoundary() : array
     {
         return [
@@ -551,12 +480,10 @@ class GeometryTest extends AbstractTestCase
     /**
      * @dataProvider providerCentroid
      *
-     * @param string $geometry    The WKT of the geometry to calculate centroid for.
-     * @param float  $centroidX   Expected `x` coordinate of the geometry centroid.
-     * @param float  $centroidY   Expected `y` coordinate of the geometry centroid.
-     * @param bool   $postgisOnly Whether the test case is supported on `PostGIS` only.
-     *
-     * @return void
+     * @param string   $geometry         The WKT of the geometry to calculate centroid for.
+     * @param float    $centroidX        Expected `x` coordinate of the geometry centroid.
+     * @param float    $centroidY        Expected `y` coordinate of the geometry centroid.
+     * @param string[] $supportedEngines The engines that support this test.
      */
     public function testCentroid(string $geometry, float $centroidX, float $centroidY, array $supportedEngines) : void
     {
@@ -572,9 +499,6 @@ class GeometryTest extends AbstractTestCase
         $this->assertEqualsWithDelta($centroidY, $centroid->y(), 0.001);
     }
 
-    /**
-     * @return array
-     */
     public function providerCentroid() : array
     {
         return [
@@ -591,8 +515,6 @@ class GeometryTest extends AbstractTestCase
      * @param string $geometry1 The WKT of the first geometry.
      * @param string $geometry2 The WKT of the second geometry.
      * @param bool   $equals    Whether the geometries are spatially equal.
-     *
-     * @return void
      */
     public function testEquals(string $geometry1, string $geometry2, bool $equals) : void
     {
@@ -607,9 +529,6 @@ class GeometryTest extends AbstractTestCase
         self::assertSame($equals, $geometry1->equals($geometry2));
     }
 
-    /**
-     * @return array
-     */
     public function providerEquals() : array
     {
         return [
@@ -635,8 +554,6 @@ class GeometryTest extends AbstractTestCase
      * @param string $geometry1 The WKT of the first geometry.
      * @param string $geometry2 The WKT of the second geometry.
      * @param bool   $disjoint  Whether the geometries are spatially disjoint.
-     *
-     * @return void
      */
     public function testDisjoint(string $geometry1, string $geometry2, bool $disjoint) : void
     {
@@ -650,9 +567,6 @@ class GeometryTest extends AbstractTestCase
         self::assertSame($disjoint, $geometry1->disjoint($geometry2));
     }
 
-    /**
-     * @return array
-     */
     public function providerDisjoint() : array
     {
         return [
@@ -671,8 +585,6 @@ class GeometryTest extends AbstractTestCase
      * @param string $geometry1  The WKT of the first geometry.
      * @param string $geometry2  The WKT of the second geometry.
      * @param bool   $intersects Whether the geometries spatially intersect.
-     *
-     * @return void
      */
     public function testIntersects(string $geometry1, string $geometry2, bool $intersects) : void
     {
@@ -686,9 +598,6 @@ class GeometryTest extends AbstractTestCase
         self::assertSame($intersects, $geometry1->intersects($geometry2));
     }
 
-    /**
-     * @return array
-     */
     public function providerIntersects() : array
     {
         return [
@@ -707,8 +616,6 @@ class GeometryTest extends AbstractTestCase
      * @param string $geometry1 The WKT of the first geometry.
      * @param string $geometry2 The WKT of the second geometry.
      * @param bool   $touches   Whether the geometries spatially touch.
-     *
-     * @return void
      */
     public function testTouches(string $geometry1, string $geometry2, bool $touches) : void
     {
@@ -722,9 +629,6 @@ class GeometryTest extends AbstractTestCase
         self::assertSame($touches, $geometry1->touches($geometry2));
     }
 
-    /**
-     * @return array
-     */
     public function providerTouches() : array
     {
         return [
@@ -745,8 +649,6 @@ class GeometryTest extends AbstractTestCase
      * @param string $geometry1 The WKT of the first geometry.
      * @param string $geometry2 The WKT of the second geometry.
      * @param bool   $crosses   Whether the geometries spatially cross.
-     *
-     * @return void
      */
     public function testCrosses(string $geometry1, string $geometry2, bool $crosses) : void
     {
@@ -760,9 +662,6 @@ class GeometryTest extends AbstractTestCase
         self::assertSame($crosses, $geometry1->crosses($geometry2));
     }
 
-    /**
-     * @return array
-     */
     public function providerCrosses() : array
     {
         return [
@@ -783,8 +682,6 @@ class GeometryTest extends AbstractTestCase
      * @param string $geometry1 The WKT of the first geometry.
      * @param string $geometry2 The WKT of the second geometry.
      * @param bool   $within    Whether the first geometry is within the second one.
-     *
-     * @return void
      */
     public function testWithin(string $geometry1, string $geometry2, bool $within) : void
     {
@@ -796,9 +693,6 @@ class GeometryTest extends AbstractTestCase
         self::assertSame($within, $geometry1->within($geometry2));
     }
 
-    /**
-     * @return array
-     */
     public function providerWithin() : array
     {
         return [
@@ -816,8 +710,6 @@ class GeometryTest extends AbstractTestCase
      * @param string $geometry1 The WKT of the first geometry.
      * @param string $geometry2 The WKT of the second geometry.
      * @param bool   $contains  Whether the first geometry contains the second one.
-     *
-     * @return void
      */
     public function testContains(string $geometry1, string $geometry2, bool $contains) : void
     {
@@ -829,9 +721,6 @@ class GeometryTest extends AbstractTestCase
         self::assertSame($contains, $geometry1->contains($geometry2));
     }
 
-    /**
-     * @return array
-     */
     public function providerContains() : array
     {
         return [
@@ -849,8 +738,6 @@ class GeometryTest extends AbstractTestCase
      * @param string $geometry1 The WKT of the first geometry.
      * @param string $geometry2 The WKT of the second geometry.
      * @param bool   $overlaps  Whether the first geometry overlaps the second one.
-     *
-     * @return void
      */
     public function testOverlaps(string $geometry1, string $geometry2, bool $overlaps) : void
     {
@@ -862,9 +749,6 @@ class GeometryTest extends AbstractTestCase
         self::assertSame($overlaps, $geometry1->overlaps($geometry2));
     }
 
-    /**
-     * @return array
-     */
     public function providerOverlaps() : array
     {
         return [
@@ -880,8 +764,6 @@ class GeometryTest extends AbstractTestCase
      * @param string $geometry2 The WKT of the second geometry.
      * @param string $matrix    The intersection matrix pattern.
      * @param bool   $relate    Whether the first geometry is spatially related to the second one.
-     *
-     * @return void
      */
     public function testRelate(string $geometry1, string $geometry2, string $matrix, bool $relate) : void
     {
@@ -897,9 +779,6 @@ class GeometryTest extends AbstractTestCase
         self::assertSame($relate, $geometry1->relate($geometry2, $matrix));
     }
 
-    /**
-     * @return array
-     */
     public function providerRelate() : array
     {
         return [
@@ -916,8 +795,6 @@ class GeometryTest extends AbstractTestCase
      * @param string $geometry The WKT of the base geometry.
      * @param float  $measure  The test measure.
      * @param string $result   The WKT of the result geometry.
-     *
-     * @return void
      */
     public function testLocateAlong(string $geometry, float $measure, string $result) : void
     {
@@ -930,9 +807,6 @@ class GeometryTest extends AbstractTestCase
         self::assertSame($result, Geometry::fromText($geometry)->locateAlong($measure)->asText());
     }
 
-    /**
-     * @return array
-     */
     public function providerLocateAlong() : array
     {
         return [
@@ -945,11 +819,9 @@ class GeometryTest extends AbstractTestCase
      * @dataProvider providerLocateBetween
      *
      * @param string $geometry The WKT of the geometry to test.
-     * @param string $mStart   The start measure.
-     * @param string $mEnd     The end measure.
+     * @param float  $mStart   The start measure.
+     * @param float  $mEnd     The end measure.
      * @param string $result   The WKT of the second geometry.
-     *
-     * @return void
      */
     public function testLocateBetween(string $geometry, float $mStart, float $mEnd, string $result) : void
     {
@@ -962,9 +834,6 @@ class GeometryTest extends AbstractTestCase
         self::assertSame($result, Geometry::fromText($geometry)->locateBetween($mStart, $mEnd)->asText());
     }
 
-    /**
-     * @return array
-     */
     public function providerLocateBetween() : array
     {
         return [
@@ -979,8 +848,6 @@ class GeometryTest extends AbstractTestCase
      * @param string $geometry1 The WKT of the first geometry.
      * @param string $geometry2 The WKT of the second geometry.
      * @param float  $distance  The distance between the geometries.
-     *
-     * @return void
      */
     public function testDistance(string $geometry1, string $geometry2, float $distance) : void
     {
@@ -992,9 +859,6 @@ class GeometryTest extends AbstractTestCase
         self::assertSame($distance, $geometry1->distance($geometry2));
     }
 
-    /**
-     * @return array
-     */
     public function providerDistance() : array
     {
         return [
@@ -1008,8 +872,6 @@ class GeometryTest extends AbstractTestCase
      *
      * @param string $geometry The WKT of the base geometry.
      * @param float  $distance The distance of the buffer.
-     *
-     * @return void
      */
     public function testBuffer(string $geometry, float $distance) : void
     {
@@ -1029,9 +891,6 @@ class GeometryTest extends AbstractTestCase
         }
     }
 
-    /**
-     * @return array
-     */
     public function providerBuffer() : array
     {
         return [
@@ -1046,8 +905,6 @@ class GeometryTest extends AbstractTestCase
      *
      * @param string $geometry The WKT of the base geometry.
      * @param string $result   The WKT of the result geometry.
-     *
-     * @return void
      */
     public function testConvexHull(string $geometry, string $result) : void
     {
@@ -1063,9 +920,6 @@ class GeometryTest extends AbstractTestCase
         $this->assertGeometryEquals($result, $geometry->convexHull());
     }
 
-    /**
-     * @return array
-     */
     public function providerConvexHull() : array
     {
         return [
@@ -1081,8 +935,6 @@ class GeometryTest extends AbstractTestCase
      * @param string $geometry1 The WKT of the first geometry.
      * @param string $geometry2 The WKT of the second geometry.
      * @param string $result    The WKT of the result geometry.
-     *
-     * @return void
      */
     public function testIntersection(string $geometry1, string $geometry2, string $result) : void
     {
@@ -1097,9 +949,6 @@ class GeometryTest extends AbstractTestCase
         $this->assertGeometryEquals($result, $geometry1->intersection($geometry2));
     }
 
-    /**
-     * @return array
-     */
     public function providerIntersection() : array
     {
         return [
@@ -1114,8 +963,6 @@ class GeometryTest extends AbstractTestCase
      * @param string $geometry1 The WKT of the first geometry.
      * @param string $geometry2 The WKT of the second geometry.
      * @param string $result    The WKT of the result geometry.
-     *
-     * @return void
      */
     public function testUnion(string $geometry1, string $geometry2, string $result) : void
     {
@@ -1142,9 +989,6 @@ class GeometryTest extends AbstractTestCase
         self::assertTrue($union->equals($result));
     }
 
-    /**
-     * @return array
-     */
     public function providerUnion() : array
     {
         return [
@@ -1161,8 +1005,6 @@ class GeometryTest extends AbstractTestCase
      * @param string $geometry1 The WKT of the first geometry.
      * @param string $geometry2 The WKT of the second geometry.
      * @param string $result    The WKT of the result geometry.
-     *
-     * @return void
      */
     public function testDifference(string $geometry1, string $geometry2, string $result) : void
     {
@@ -1180,9 +1022,6 @@ class GeometryTest extends AbstractTestCase
         $this->assertGeometryEquals($result, $difference);
     }
 
-    /**
-     * @return array
-     */
     public function providerDifference() : array
     {
         return [
@@ -1197,8 +1036,6 @@ class GeometryTest extends AbstractTestCase
      * @param string $geometry1 The WKT of the first geometry.
      * @param string $geometry2 The WKT of the second geometry.
      * @param string $result    The WKT of the result geometry.
-     *
-     * @return void
      */
     public function testSymDifference(string $geometry1, string $geometry2, string $result) : void
     {
@@ -1213,9 +1050,6 @@ class GeometryTest extends AbstractTestCase
         $this->assertGeometryEquals($result, $difference);
     }
 
-    /**
-     * @return array
-     */
     public function providerSymDifference() : array
     {
         return [
@@ -1229,8 +1063,6 @@ class GeometryTest extends AbstractTestCase
      * @param string $geometry The WKT of the geometry to test.
      * @param float  $size     The grid size.
      * @param string $result   The WKT of the result geometry.
-     *
-     * @return void
      */
     public function testSnapToGrid(string $geometry, float $size, string $result) : void
     {
@@ -1248,9 +1080,6 @@ class GeometryTest extends AbstractTestCase
         $this->assertGeometryEquals($result, $snapToGrid);
     }
 
-    /**
-     * @return array
-     */
     public function providerSnapToGrid() : array
     {
         return [
@@ -1267,8 +1096,6 @@ class GeometryTest extends AbstractTestCase
      * @param string $geometry  The WKT of the geometry to test.
      * @param float  $tolerance The tolerance.
      * @param string $result    The WKT of the result geometry.
-     *
-     * @return void
      */
     public function testSimplify(string$geometry, float $tolerance, string $result) : void
     {
@@ -1284,9 +1111,6 @@ class GeometryTest extends AbstractTestCase
         $this->assertGeometryEquals($result, $geometry->simplify($tolerance));
     }
 
-    /**
-     * @return array
-     */
     public function providerSimplify() : array
     {
         return [
@@ -1298,11 +1122,9 @@ class GeometryTest extends AbstractTestCase
     /**
      * @dataProvider providerMaxDistance
      *
-     * @param string $geometry1    The WKT of the first geometry.
-     * @param string $geometry2    The WKT of the second geometry.
-     * @param float  $maxDistance  The expected value.
-     *
-     * @return void
+     * @param string $geometry1   The WKT of the first geometry.
+     * @param string $geometry2   The WKT of the second geometry.
+     * @param float  $maxDistance The expected value.
      */
     public function testMaxDistance(string $geometry1, string $geometry2, float $maxDistance) : void
     {
@@ -1318,9 +1140,6 @@ class GeometryTest extends AbstractTestCase
         self::assertSame($maxDistance, $geometry1->maxDistance($geometry2));
     }
 
-    /**
-     * @return array
-     */
     public function providerMaxDistance() : array
     {
         return [
@@ -1366,8 +1185,6 @@ class GeometryTest extends AbstractTestCase
      *
      * @param string $geometry The WKT of the geometry to test.
      * @param array  $array    The expected result array.
-     *
-     * @return void
      */
     public function testToArray(string $geometry, array $array) : void
     {
@@ -1375,9 +1192,6 @@ class GeometryTest extends AbstractTestCase
         self::assertSame($array, Geometry::fromText($geometry)->toArray());
     }
 
-    /**
-     * @return array
-     */
     public function providerToArray() : array
     {
         return [

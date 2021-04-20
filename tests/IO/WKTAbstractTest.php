@@ -11,9 +11,6 @@ use Brick\Geo\Tests\AbstractTestCase;
  */
 abstract class WKTAbstractTest extends AbstractTestCase
 {
-    /**
-     * @return array
-     */
     public function providerWKT() : array
     {
         return array_merge(
@@ -33,9 +30,6 @@ abstract class WKTAbstractTest extends AbstractTestCase
         );
     }
 
-    /**
-     * @return array
-     */
     public function providerPointWKT() : array
     {
         return [
@@ -51,9 +45,6 @@ abstract class WKTAbstractTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @return array
-     */
     public function providerLineStringWKT() : array
     {
         return [
@@ -69,9 +60,6 @@ abstract class WKTAbstractTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @return array
-     */
     public function providerCircularStringWKT() : array
     {
         return [
@@ -87,9 +75,6 @@ abstract class WKTAbstractTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @return array
-     */
     public function providerCompoundCurveWKT() : array
     {
         return [
@@ -105,9 +90,6 @@ abstract class WKTAbstractTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @return array
-     */
     public function providerPolygonWKT() : array
     {
         return [
@@ -128,9 +110,6 @@ abstract class WKTAbstractTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @return array
-     */
     public function providerCurvePolygonWKT() : array
     {
         return [
@@ -146,9 +125,6 @@ abstract class WKTAbstractTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @return array
-     */
     public function providerMultiPointWKT() : array
     {
         return [
@@ -164,9 +140,6 @@ abstract class WKTAbstractTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @return array
-     */
     public function providerMultiLineStringWKT() : array
     {
         return [
@@ -187,9 +160,6 @@ abstract class WKTAbstractTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @return array
-     */
     public function providerMultiPolygonWKT() : array
     {
         return [
@@ -210,9 +180,6 @@ abstract class WKTAbstractTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @return array
-     */
     public function providerGeometryCollectionWKT() : array
     {
         return [
@@ -228,9 +195,6 @@ abstract class WKTAbstractTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @return array
-     */
     public function providerPolyhedralSurfaceWKT() : array
     {
         return [
@@ -246,9 +210,6 @@ abstract class WKTAbstractTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @return array
-     */
     public function providerTriangleWKT() : array
     {
         return [
@@ -264,9 +225,6 @@ abstract class WKTAbstractTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @return array
-     */
     public function providerTINWKT() : array
     {
         return [

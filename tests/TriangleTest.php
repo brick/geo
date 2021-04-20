@@ -13,9 +13,6 @@ use Brick\Geo\Triangle;
  */
 class TriangleTest extends AbstractTestCase
 {
-    /**
-     * @return void
-     */
     public function testCreate() : void
     {
         $ring = LineString::fromText('LINESTRING (1 1, 1 2, 2 2, 1 1)');
@@ -23,9 +20,6 @@ class TriangleTest extends AbstractTestCase
         $this->assertWktEquals($triangle, 'TRIANGLE ((1 1, 1 2, 2 2, 1 1))');
     }
 
-    /**
-     * @return void
-     */
     public function testCreateWithInvalidNumberOfPoints() : void
     {
         $ring = LineString::fromText('LINESTRING (1 1, 1 2, 2 2, 2 1, 1 1)');
@@ -34,9 +28,6 @@ class TriangleTest extends AbstractTestCase
         Triangle::of($ring);
     }
 
-    /**
-     * @return void
-     */
     public function testCreateWithInteriorRings() : void
     {
         $exteriorRing = LineString::fromText('LINESTRING (0 0, 0 3, 3 3, 0 0)');

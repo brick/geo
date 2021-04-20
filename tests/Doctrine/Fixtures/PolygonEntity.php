@@ -7,42 +7,28 @@ namespace Brick\Geo\Tests\Doctrine\Fixtures;
 use Brick\Geo\Polygon;
 
 /**
- * Class PolygonEntity
- *
  * @Entity
- * @Table(name = "polygons")
+ * @Table(name="polygons")
  */
-class PolygonEntity {
-
+class PolygonEntity
+{
     /**
      * @Id
      * @Column(type="integer")
      * @GeneratedValue
-     *
-     * @var int
      */
-    private $id;
+    private int $id;
 
     /**
      * @Column(type="polygon")
-     *
-     * @var Polygon
      */
-    private $polygon;
+    private Polygon $polygon;
 
-    /**
-     * @return Polygon
-     */
     public function getPolygon() : Polygon
     {
         return $this->polygon;
     }
 
-    /**
-     * @param Polygon $polygon
-     *
-     * @return void
-     */
     public function setPolygon(Polygon $polygon) : void
     {
         $this->polygon = $polygon;
