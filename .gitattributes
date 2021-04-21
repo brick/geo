@@ -1,9 +1,11 @@
 .gitattributes        export-ignore
 .gitignore            export-ignore
+.github/              export-ignore
 phpunit.xml           export-ignore
-phpunit-bootstrap     export-ignore
+phpunit-bootstrap.php export-ignore
 proxy-generate.php    export-ignore
 proxy-template.php    export-ignore
+psalm.xml             export-ignore
 README.md             export-ignore
 stubs/                export-ignore
 tests/                export-ignore
