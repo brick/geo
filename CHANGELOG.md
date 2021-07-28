@@ -29,6 +29,7 @@
 
 💥 **BC breaks**
 
+- **Minimum PHP version is now 7.4**
 - New signature for `CoordinateSystemException::sridMix()`
 - New signature for `CoordinateSystemException::dimensionalityMix()`
 
