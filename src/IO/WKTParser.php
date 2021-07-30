@@ -52,7 +52,7 @@ class WKTParser
 
         preg_match_all($regex, $wkt, $matches, PREG_SET_ORDER);
 
-        foreach ($matches as $index => $match) {
+        foreach ($matches as $match) {
             foreach ($match as $key => $value) {
                 /** @var int $key */
 
