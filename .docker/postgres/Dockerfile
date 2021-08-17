@@ -1,0 +1,6 @@
+ARG POSTGRES_VERSION
+FROM postgres:${POSTGRES_VERSION}
+
+ARG POSTGRES_VERSION
+ARG POSTGIS_VERSION
+RUN apt-get update && apt-get install --yes postgresql-${POSTGRES_VERSION}-postgis-${POSTGIS_VERSION}

@@ -87,7 +87,21 @@ use Doctrine\DBAL\Types\Type;
             case 'PDO_PGSQL':
                 echo 'Using PDOEngine for PostgreSQL' . PHP_EOL;
 
-                $pdo = new PDO('pgsql:host=localhost', 'postgres', 'postgres');
+                $credentials = [
+                    'host' => $_ENV['POSTGRES_HOST'] ?? 'localhost',
+                    'port' => $_ENV['POSTGRES_PORT'] ?? '5432',
+                    'username' => $_ENV['DATABASE_USERNAME'] ?? 'postgres',
+                    'password' => $_ENV['DATABASE_PASSWORD'] ?? 'postgres',
+                ];
+
+                $pdo = new PDO(
+                    vsprintf('pgsql:host=%s;port=%d', [
+                        $credentials['host'],
+                        $credentials['port'],
+                    ]),
+                    $credentials['username'],
+                    $credentials['password']
+                );
                 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
                 $pdo->exec('CREATE EXTENSION IF NOT EXISTS postgis;');
@@ -108,17 +122,17 @@ use Doctrine\DBAL\Types\Type;
 
                 // Connect data for doctrine integration tests
                 $GLOBALS['db_type'] = 'pdo_pgsql';
-                $GLOBALS['db_host'] = 'localhost';
-                $GLOBALS['db_port'] = 5432;
-                $GLOBALS['db_username'] = 'postgres';
-                $GLOBALS['db_password'] = 'postgres';
+                $GLOBALS['db_host'] = $credentials['host'];
+                $GLOBALS['db_port'] = $credentials['port'];
+                $GLOBALS['db_username'] = $credentials['username'];
+                $GLOBALS['db_password'] = $credentials['password'];
                 $GLOBALS['db_name'] = 'geo_tests';
 
                 $GLOBALS['tmpdb_type'] = 'pdo_pgsql';
-                $GLOBALS['tmpdb_host'] = 'localhost';
-                $GLOBALS['tmpdb_port'] = 5432;
-                $GLOBALS['tmpdb_username'] = 'postgres';
-                $GLOBALS['tmpdb_password'] = 'postgres';
+                $GLOBALS['tmpdb_host'] = $credentials['host'];
+                $GLOBALS['tmpdb_port'] = $credentials['port'];
+                $GLOBALS['tmpdb_username'] = $credentials['username'];
+                $GLOBALS['tmpdb_password'] = $credentials['password'];
                 $GLOBALS['tmpdb_name'] = 'geo_tests_tmp';
 
                 // doctrine/dbal >= 2.13.0
