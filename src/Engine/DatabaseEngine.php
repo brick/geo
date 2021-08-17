@@ -224,7 +224,7 @@ abstract class DatabaseEngine implements GeometryEngine
             'COMPOUNDCURVE'      => Proxy\CompoundCurveProxy::class,
             'CURVE'              => Proxy\CurveProxy::class,
             'CURVEPOLYGON'       => Proxy\CurvePolygonProxy::class,
-            'GEOMCOLLECTION'     => Proxy\GeometryCollectionProxy::class,
+            'GEOMCOLLECTION'     => Proxy\GeometryCollectionProxy::class, /* MySQL 8 - https://github.com/brick/geo/pull/33 */
             'GEOMETRY'           => Proxy\GeometryProxy::class,
             'GEOMETRYCOLLECTION' => Proxy\GeometryCollectionProxy::class,
             'LINESTRING'         => Proxy\LineStringProxy::class,
