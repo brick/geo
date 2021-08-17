@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.6.2](https://github.com/brick/geo/releases/tag/0.6.2) - 2021-08-17
+
+🐛 **Fixes**
+
+- Fixed bug when retrieving `GeometryCollection` on MySQL 8 using `DatabaseEngine` (#33)
+
 ## [0.6.1](https://github.com/brick/geo/releases/tag/0.6.1) - 2021-04-20
 
 🐛 **Fixes**
