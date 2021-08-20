@@ -66,7 +66,8 @@ class BoundingBox
 
         if (
             $swX === $this->swX && $swY === $this->swY && $swZ === $this->swZ &&
-            $neX === $this->neX && $neY === $this->neY && $neZ === $this->neZ) {
+            $neX === $this->neX && $neY === $this->neY && $neZ === $this->neZ
+        ) {
             return $this;
         }
 
