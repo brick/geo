@@ -53,7 +53,7 @@ class GeoJSONReader
     }
 
     /**
-     * @returns Geometry|Feature|FeatureCollection
+     * @return Geometry|Feature|FeatureCollection
      *
      * @throws GeometryException If the GeoJSON file is invalid.
      */
@@ -74,7 +74,7 @@ class GeoJSONReader
     }
 
     /**
-     * @returns Geometry|Feature|FeatureCollection
+     * @return Geometry|Feature|FeatureCollection
      *
      * @throws GeometryException
      */
