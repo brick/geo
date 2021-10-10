@@ -4,9 +4,13 @@ declare(strict_types=1);
 
 namespace Brick\Geo\Engine;
 
+use Brick\Geo\Curve;
 use Brick\Geo\Geometry;
 use Brick\Geo\Exception\GeometryEngineException;
+use Brick\Geo\MultiCurve;
+use Brick\Geo\MultiSurface;
 use Brick\Geo\Point;
+use Brick\Geo\Surface;
 
 /**
  * Interface for geometry engines.
@@ -51,7 +55,7 @@ interface GeometryEngine
     /**
      * Returns the length of a Curve or MultiCurve in its associated spatial reference.
      *
-     * @param Geometry $g The geometry.
+     * @param Curve|MultiCurve $g The geometry.
      *
      * @return float The length of the geometry.
      *
@@ -62,7 +66,7 @@ interface GeometryEngine
     /**
      * Returns the area of a Surface or MultiSurface in its SRID units.
      *
-     * @param Geometry $g The geometry.
+     * @param Surface|MultiSurface $g The geometry.
      *
      * @return float The area of the geometry.
      *
@@ -99,7 +103,7 @@ interface GeometryEngine
     /**
      * Returns a Point guaranteed to be on a Surface or MultiSurface.
      *
-     * @param Geometry $g The geometry.
+     * @param Surface|MultiSurface $g The geometry.
      *
      * @return Geometry A point of the surface of the geometry.
      *
