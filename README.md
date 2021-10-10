@@ -47,7 +47,7 @@ The current releases are numbered `0.x.y`. When a non-breaking change is introdu
 
 **When a breaking change is introduced, a new `0.x` version cycle is always started.**
 
-It is therefore safe to lock your project to a given release cycle, such as `0.6.*`.
+It is therefore safe to lock your project to a given release cycle, such as `0.7.*`.
 
 If you need to upgrade to a newer release cycle, check the [release history](https://github.com/brick/geo/releases) for a list of changes introduced by each further `0.x.0` version.
 
@@ -415,3 +415,7 @@ echo $writer->write($point); // {"type":"Point","coordinates":[1,2]}
 The library supports reading and writing `Feature` and `FeatureCollection` objects, together with custom properties.
 
 GeoJSON aims to support WGS84 only, and as such all Geometries are imported using [SRID 4326](https://epsg.io/4326).
+
+## Doctrine mappings
+
+You can use `brick/geo` types in your Doctrine entities using the [brick/geo-doctrine](https://github.com/brick/geo-doctrine) package.
