@@ -54,12 +54,12 @@ use Brick\Geo\Engine\GEOSEngine;
                 $pdo->exec('CREATE DATABASE geo_tests_tmp');
 
                 $statement = $pdo->query('SELECT version()');
-                $version = $statement->fetchColumn(0);
+                $version = $statement->fetchColumn();
 
                 echo 'PostgreSQL version: ' . $version . PHP_EOL;
 
                 $statement = $pdo->query('SELECT PostGIS_Version()');
-                $version = $statement->fetchColumn(0);
+                $version = $statement->fetchColumn();
 
                 echo 'PostGIS version: ' . $version . PHP_EOL;
 
