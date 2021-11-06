@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Brick\Geo\Engine;
 
+use Brick\Geo\Curve;
 use Brick\Geo\Exception\GeometryEngineException;
 use Brick\Geo\Geometry;
 use Brick\Geo\Point;
@@ -329,6 +330,16 @@ abstract class DatabaseEngine implements GeometryEngine
     public function isSimple(Geometry $g) : bool
     {
         return $this->queryBoolean('ST_IsSimple', $g);
+    }
+
+    public function isRing(Curve $curve) : bool
+    {
+        try {
+            return $this->queryBoolean('ST_IsRing', $curve);
+        } catch (GeometryEngineException $e) {
+            // Not all RDBMS (hello, MySQL) support ST_IsRing(), but we have an easy fallback
+            return $this->isClosed($curve) && $this->isSimple($curve);
+        }
     }
 
     public function equals(Geometry $a, Geometry $b) : bool

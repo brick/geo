@@ -158,6 +158,20 @@ interface GeometryEngine
     public function isSimple(Geometry $g) : bool;
 
     /**
+     * Returns true if the curve is a ring, i.e. if it is both closed and simple.
+     *
+     * The curve is closed if its start point is equal to its end point.
+     * The curve is simple if it does not pass through the same point more than once.
+     *
+     * @param Curve $curve The curve.
+     *
+     * @return bool Whether the curve is a ring.
+     *
+     * @throws GeometryEngineException If the operation is not supported by the engine.
+     */
+    public function isRing(Curve $curve) : bool;
+
+    /**
      * Returns true if the given geometries represent the same geometry.
      *
      * @param Geometry $a The first geometry.
