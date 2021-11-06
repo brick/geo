@@ -28,6 +28,8 @@ abstract class Curve extends Geometry
     /**
      * Returns the length of this Curve in its associated spatial reference.
      *
+     * @deprecated Please use `$geometryEngine->length()`.
+     *
      * @noproxy
      *
      * @throws GeometryEngineException If the operation is not supported by the geometry engine.
@@ -56,6 +58,8 @@ abstract class Curve extends Geometry
      *
      * The curve is closed if `startPoint()` == `endPoint()`.
      *
+     * @deprecated Please use `$geometryEngine->isClosed()`.
+     *
      * @noproxy
      *
      * @throws GeometryEngineException If the operation is not supported by the geometry engine.
@@ -72,6 +76,9 @@ abstract class Curve extends Geometry
      *
      * The curve is closed if its start point is equal to its end point.
      * The curve is simple if it does not pass through the same point more than once.
+     *
+     * @deprecated Please use `$geometryEngine->isClosed() && $geometryEngine->isSimple()`.
+     *             Note that the next version (v0.8) will have a `$geometryEngine->isRing()` method.
      *
      * @noproxy
      *

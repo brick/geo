@@ -1,5 +1,56 @@
 # Changelog
 
+## [0.7.2](https://github.com/brick/geo/releases/tag/0.7.2) - 2022-10-10
+
+🗑️ **Deprecations**
+
+**The `GeometryEngineRegistry` class has been deprecated.** All convenience methods on Geometry classes that rely on the
+`GeometryEngineRegistry` are deprecated, and **will be removed in version `0.8`**.
+
+You should now explicitly call the `GeometryEngine`, that you can get injected with your dependency injection container.
+
+Deprecated methods:
+
+- `Curve::isClosed()`
+- `Curve::isRing()`
+- `Curve::length()`
+- `Geometry::boundary()`
+- `Geometry::buffer()`
+- `Geometry::centroid()`
+- `Geometry::contains()`
+- `Geometry::convexHull()`
+- `Geometry::crosses()`
+- `Geometry::difference()`
+- `Geometry::disjoint()`
+- `Geometry::distance()`
+- `Geometry::equals()`
+- `Geometry::envelope()`
+- `Geometry::intersection()`
+- `Geometry::intersects()`
+- `Geometry::isSimple()`
+- `Geometry::isValid()`
+- `Geometry::locateAlong()`
+- `Geometry::locateBetween()`
+- `Geometry::maxDistance()`
+- `Geometry::overlaps()`
+- `Geometry::relate()`
+- `Geometry::simplify()`
+- `Geometry::snapToGrid()`
+- `Geometry::symDifference()`
+- `Geometry::touches()`
+- `Geometry::transform()`
+- `Geometry::union()`
+- `Geometry::within()`
+- `MultiCurve::isClosed()`
+- `MultiCurve::length()`
+- `MultiSurface::area()`
+- `MultiSurface::pointOnSurface()`
+- `Point::azimuth()`
+- `PolyhedralSurface::boundingPolygons()`
+- `PolyhedralSurface::isClosed()`
+- `Surface::area()`
+- `Surface::pointOnSurface()`
+
 ## [0.7.1](https://github.com/brick/geo/releases/tag/0.7.1) - 2021-11-06
 
 🐛 **Fixes**

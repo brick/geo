@@ -33,6 +33,8 @@ abstract class MultiCurve extends GeometryCollection
      *
      * The MultiCurve is considered closed if each element curve is closed.
      *
+     * @deprecated Please use `$geometryEngine->isClosed()`.
+     *
      * @noproxy
      *
      * @throws GeometryEngineException If the operation is not supported by the geometry engine.
@@ -46,6 +48,8 @@ abstract class MultiCurve extends GeometryCollection
      * Returns the length of this MultiCurve.
      *
      * The length is equal to the sum of the lengths of the element Curves.
+     *
+     * @deprecated Please use `$geometryEngine->length()`.
      *
      * @noproxy
      *

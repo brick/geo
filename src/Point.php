@@ -338,6 +338,8 @@ class Point extends Geometry
      * The azimuth is an angle measured from the north, and is positive clockwise:
      * North = 0; East = π/2; South = π; West = 3π/2.
      *
+     * @deprecated Please use `$geometryEngine->azimuth()`.
+     *
      * @param Point $subject Point representing subject of observation.
      *
      * @return float Azimuth of the subject relative to the observer.

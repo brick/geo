@@ -28,6 +28,8 @@ abstract class MultiSurface extends GeometryCollection
     /**
      * Returns the area of this MultiSurface, as measured in the spatial reference system of this MultiSurface.
      *
+     * @deprecated Please use `$geometryEngine->area()`.
+     *
      * @noproxy
      *
      * @throws GeometryEngineException If the operation is not supported by the geometry engine.
@@ -39,6 +41,8 @@ abstract class MultiSurface extends GeometryCollection
 
     /**
      * Returns a Point guaranteed to be on this MultiSurface.
+     *
+     * @deprecated Please use `$geometryEngine->pointOnSurface()`.
      *
      * @noproxy
      *

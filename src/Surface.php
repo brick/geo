@@ -39,6 +39,8 @@ abstract class Surface extends Geometry
     /**
      * Returns the area of this Surface, as measured in the spatial reference system of this Surface.
      *
+     * @deprecated Please use `$geometryEngine->area()`.
+     *
      * @noproxy
      *
      * @throws GeometryEngineException If the operation is not supported by the geometry engine.
@@ -50,6 +52,8 @@ abstract class Surface extends Geometry
 
     /**
      * Returns a Point guaranteed to be on this Surface.
+     *
+     * @deprecated Please use `$geometryEngine->pointOnSurface()`.
      *
      * @noproxy
      *

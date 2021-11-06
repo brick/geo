@@ -190,6 +190,8 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      * the maximums. In some cases, this coordinate will be outside the range of
      * validity for the Spatial Reference System.
      *
+     * @deprecated Please use `$geometryEngine->envelope()`.
+     *
      * @noproxy
      *
      * @throws GeometryEngineException If the operation is not supported by the geometry engine.
@@ -248,6 +250,8 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      *
      * For example, a polygon with self-intersecting rings is invalid.
      *
+     * @deprecated Please use `$geometryEngine->isValid()`.
+     *
      * @noproxy
      *
      * @throws GeometryEngineException If the operation is not supported by the geometry engine.
@@ -262,6 +266,8 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      *
      * A geometry is simple if it has no anomalous geometric points,
      * such as self intersection or self tangency.
+     *
+     * @deprecated Please use `$geometryEngine->isSimple()`.
      *
      * @noproxy
      *
@@ -294,6 +300,8 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      * Because the result of this function is a closure, and hence topologically closed,
      * the resulting boundary can be represented using representational Geometry primitives.
      *
+     * @deprecated Please use `$geometryEngine->boundary()`.
+     *
      * @noproxy
      *
      * @throws GeometryEngineException If the operation is not supported by the geometry engine.
@@ -308,6 +316,8 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      *
      * Some geometry engines only support this method on surfaces.
      *
+     * @deprecated Please use `$geometryEngine->centroid()`.
+     *
      * @noproxy
      *
      * @throws GeometryEngineException If the operation is not supported by the geometry engine.
@@ -319,6 +329,8 @@ abstract class Geometry implements \Countable, \IteratorAggregate
 
     /**
      * Returns whether this geometry is spatially equal to another geometry.
+     *
+     * @deprecated Please use `$geometryEngine->equals()`.
      *
      * @noproxy
      *
@@ -335,6 +347,8 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      * The geometries are disjoint if they do not share any space together.
      * This is the opposite of `intersects()`.
      *
+     * @deprecated Please use `$geometryEngine->disjoint()`.
+     *
      * @noproxy
      *
      * @throws GeometryEngineException If the operation is not supported by the geometry engine.
@@ -350,6 +364,8 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      * The geometries intersect if they share any portion of space.
      * This is the opposite of `disjoint()`.
      *
+     * @deprecated Please use `$geometryEngine->intersects()`.
+     *
      * @noproxy
      *
      * @throws GeometryEngineException If the operation is not supported by the geometry engine.
@@ -363,6 +379,8 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      * Returns whether this geometry spatially touches another geometry.
      *
      * The geometries touch if they have at least one point in common, but their interiors do not intersect.
+     *
+     * @deprecated Please use `$geometryEngine->touches()`.
      *
      * @noproxy
      *
@@ -378,6 +396,8 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      *
      * The geometries cross if they have some, but not all, interior points in common.
      *
+     * @deprecated Please use `$geometryEngine->crosses()`.
+     *
      * @noproxy
      *
      * @throws GeometryEngineException If the operation is not supported by the geometry engine.
@@ -391,6 +411,8 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      * Returns whether this geometry is spatially within another geometry.
      *
      * This is the inverse of `contains()`: `$a->within($b) == $b->contains($a)`.
+     *
+     * @deprecated Please use `$geometryEngine->within()`.
      *
      * @noproxy
      *
@@ -406,6 +428,8 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      *
      * This is the inverse of `within()`: `$a->contains($b) == $b->within($a)`.
      *
+     * @deprecated Please use `$geometryEngine->contains()`.
+     *
      * @noproxy
      *
      * @throws GeometryEngineException If the operation is not supported by the geometry engine.
@@ -419,6 +443,8 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      * Returns whether this geometry spatially overlaps another geometry.
      *
      * The geometries overlap if they share space, but are not completely contained by each other.
+     *
+     * @deprecated Please use `$geometryEngine->overlaps()`.
      *
      * @noproxy
      *
@@ -439,6 +465,8 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      *
      * @see http://en.wikipedia.org/wiki/DE-9IM
      *
+     * @deprecated Please use `$geometryEngine->relate()`.
+     *
      * @noproxy
      *
      * @throws GeometryEngineException If the operation is not supported by the geometry engine.
@@ -451,6 +479,8 @@ abstract class Geometry implements \Countable, \IteratorAggregate
     /**
      * Returns a derived geometry collection value that matches the specified m coordinate value.
      *
+     * @deprecated Please use `$geometryEngine->locateAlong()`.
+     *
      * @noproxy
      *
      * @throws GeometryEngineException If the operation is not supported by the geometry engine.
@@ -462,6 +492,8 @@ abstract class Geometry implements \Countable, \IteratorAggregate
 
     /**
      * Returns a derived geometry collection value that matches the specified range of m coordinate values inclusively.
+     *
+     * @deprecated Please use `$geometryEngine->locateBetween()`.
      *
      * @noproxy
      *
@@ -481,6 +513,8 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      * that the distance between these 2 points is the returned distance
      * between their geometries.
      *
+     * @deprecated Please use `$geometryEngine->distance()`.
+     *
      * @noproxy
      *
      * @throws GeometryEngineException If the operation is not supported by the geometry engine.
@@ -499,6 +533,8 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      * some relatively small error in this distance, but it should be near the
      * resolution of the coordinates used.
      *
+     * @deprecated Please use `$geometryEngine->buffer()`.
+     *
      * @noproxy
      *
      * @throws GeometryEngineException If the operation is not supported by the geometry engine.
@@ -515,6 +551,8 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      * One can think of the convex hull as the geometry you get by wrapping an elastic band around a set of geometries.
      * This is different from a concave hull which is analogous to shrink-wrapping your geometries.
      *
+     * @deprecated Please use `$geometryEngine->convexHull()`.
+     *
      * @noproxy
      *
      * @throws GeometryEngineException If the operation is not supported by the geometry engine.
@@ -529,6 +567,8 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      *
      * The intersection is the shared portion of the two geometries.
      *
+     * @deprecated Please use `$geometryEngine->intersection()`.
+     *
      * @noproxy
      *
      * @throws GeometryEngineException If the operation is not supported by the geometry engine.
@@ -541,6 +581,8 @@ abstract class Geometry implements \Countable, \IteratorAggregate
     /**
      * Returns a geometry that represents the union of this geometry and another geometry.
      *
+     * @deprecated Please use `$geometryEngine->union()`.
+     *
      * @noproxy
      *
      * @throws GeometryEngineException If the operation is not supported by the geometry engine.
@@ -552,6 +594,8 @@ abstract class Geometry implements \Countable, \IteratorAggregate
 
     /**
      * Returns a geometry that represents the difference of this geometry and another geometry.
+     *
+     * @deprecated Please use `$geometryEngine->difference()`.
      *
      * @noproxy
      *
@@ -568,6 +612,8 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      * The result is a geometry that represents the portions of the two geometries that do not intersect.
      * It is called a symmetric difference because `$a->symDifference($b) == $b->symDifference($a)`.
      *
+     * @deprecated Please use `$geometryEngine->symDifference()`.
+     *
      * @noproxy
      *
      * @throws GeometryEngineException If the operation is not supported by the geometry engine.
@@ -579,6 +625,8 @@ abstract class Geometry implements \Countable, \IteratorAggregate
 
     /**
      * Snap all points of this geometry to a regular grid.
+     *
+     * @deprecated Please use `$geometryEngine->snapToGrid()`.
      *
      * @noproxy
      *
@@ -592,6 +640,8 @@ abstract class Geometry implements \Countable, \IteratorAggregate
     /**
      * Returns a simplified version of this geometry using the Douglas-Peucker algorithm.
      *
+     * @deprecated Please use `$geometryEngine->simplify()`.
+     *
      * @noproxy
      *
      * @throws GeometryEngineException If the operation is not supported by the geometry engine.
@@ -604,6 +654,8 @@ abstract class Geometry implements \Countable, \IteratorAggregate
     /**
      * Returns the 2-dimensional largest distance between two geometries in projected units.
      *
+     * @deprecated Please use `$geometryEngine->maxDistance()`.
+     *
      * @noproxy
      *
      * @throws GeometryEngineException If the operation is not supported by the geometry engine.
@@ -615,6 +667,8 @@ abstract class Geometry implements \Countable, \IteratorAggregate
 
     /**
      * Returns a new geometry with its coordinates transformed to a different spatial reference system.
+     *
+     * @deprecated Please use `$geometryEngine->transform()`.
      *
      * @noproxy
      *
