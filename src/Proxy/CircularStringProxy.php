@@ -231,7 +231,7 @@ class CircularStringProxy extends \Brick\Geo\CircularString implements ProxyInte
         return $this->proxyGeometry->count();
     }
 
-    public function getIterator()
+    public function getIterator() : \ArrayIterator
     {
         if ($this->proxyGeometry === null) {
             $this->load();

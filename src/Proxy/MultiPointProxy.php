@@ -222,7 +222,7 @@ class MultiPointProxy extends \Brick\Geo\MultiPoint implements ProxyInterface
         return $this->proxyGeometry->count();
     }
 
-    public function getIterator()
+    public function getIterator() : \ArrayIterator
     {
         if ($this->proxyGeometry === null) {
             $this->load();

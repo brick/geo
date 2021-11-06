@@ -267,7 +267,7 @@ class SurfaceProxy extends \Brick\Geo\Surface implements ProxyInterface
         return $this->proxyGeometry->count();
     }
 
-    public function getIterator()
+    public function getIterator() : \Traversable
     {
         if ($this->proxyGeometry === null) {
             $this->load();

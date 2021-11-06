@@ -271,7 +271,7 @@ class LineString extends Curve
      *
      * @psalm-return ArrayIterator<int, Point>
      */
-    public function getIterator()
+    public function getIterator() : ArrayIterator
     {
         return new ArrayIterator($this->points);
     }

@@ -213,7 +213,7 @@ class TINProxy extends \Brick\Geo\TIN implements ProxyInterface
         return $this->proxyGeometry->count();
     }
 
-    public function getIterator()
+    public function getIterator() : \ArrayIterator
     {
         if ($this->proxyGeometry === null) {
             $this->load();

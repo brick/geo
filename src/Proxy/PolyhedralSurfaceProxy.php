@@ -213,7 +213,7 @@ class PolyhedralSurfaceProxy extends \Brick\Geo\PolyhedralSurface implements Pro
         return $this->proxyGeometry->count();
     }
 
-    public function getIterator()
+    public function getIterator() : \ArrayIterator
     {
         if ($this->proxyGeometry === null) {
             $this->load();

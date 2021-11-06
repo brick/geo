@@ -253,7 +253,7 @@ class GeometryCollection extends Geometry
      *
      * @psalm-return ArrayIterator<int, T>
      */
-    public function getIterator()
+    public function getIterator() : ArrayIterator
     {
         return new ArrayIterator($this->geometries);
     }

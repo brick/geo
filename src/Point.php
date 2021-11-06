@@ -328,7 +328,7 @@ class Point extends Geometry
      *
      * @psalm-return ArrayIterator<int, float>
      */
-    public function getIterator()
+    public function getIterator() : ArrayIterator
     {
         return new ArrayIterator($this->toArray());
     }

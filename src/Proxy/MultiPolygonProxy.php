@@ -222,7 +222,7 @@ class MultiPolygonProxy extends \Brick\Geo\MultiPolygon implements ProxyInterfac
         return $this->proxyGeometry->count();
     }
 
-    public function getIterator()
+    public function getIterator() : \ArrayIterator
     {
         if ($this->proxyGeometry === null) {
             $this->load();

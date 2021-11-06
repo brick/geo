@@ -222,7 +222,7 @@ class TriangleProxy extends \Brick\Geo\Triangle implements ProxyInterface
         return $this->proxyGeometry->count();
     }
 
-    public function getIterator()
+    public function getIterator() : \ArrayIterator
     {
         if ($this->proxyGeometry === null) {
             $this->load();

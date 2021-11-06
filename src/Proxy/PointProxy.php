@@ -222,7 +222,7 @@ class PointProxy extends \Brick\Geo\Point implements ProxyInterface
         return $this->proxyGeometry->count();
     }
 
-    public function getIterator()
+    public function getIterator() : \ArrayIterator
     {
         if ($this->proxyGeometry === null) {
             $this->load();

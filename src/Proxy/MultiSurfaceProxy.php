@@ -222,7 +222,7 @@ class MultiSurfaceProxy extends \Brick\Geo\MultiSurface implements ProxyInterfac
         return $this->proxyGeometry->count();
     }
 
-    public function getIterator()
+    public function getIterator() : \ArrayIterator
     {
         if ($this->proxyGeometry === null) {
             $this->load();

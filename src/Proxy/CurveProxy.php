@@ -285,7 +285,7 @@ class CurveProxy extends \Brick\Geo\Curve implements ProxyInterface
         return $this->proxyGeometry->count();
     }
 
-    public function getIterator()
+    public function getIterator() : \Traversable
     {
         if ($this->proxyGeometry === null) {
             $this->load();

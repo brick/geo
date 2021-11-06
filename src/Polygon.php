@@ -246,7 +246,7 @@ class Polygon extends Surface
      *
      * @psalm-return ArrayIterator<int, LineString>
      */
-    public function getIterator()
+    public function getIterator() : ArrayIterator
     {
         return new ArrayIterator($this->rings);
     }
