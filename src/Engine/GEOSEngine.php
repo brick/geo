@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Brick\Geo\Engine;
 
+use Brick\Geo\Curve;
 use Brick\Geo\Exception\GeometryEngineException;
 use Brick\Geo\IO\EWKBReader;
 use Brick\Geo\IO\EWKBWriter;
@@ -183,6 +184,15 @@ class GEOSEngine implements GeometryEngine
     {
         try {
             return $this->toGEOS($g)->isSimple();
+        } catch (\Exception $e) {
+            throw GeometryEngineException::operationNotSupportedByEngine($e);
+        }
+    }
+
+    public function isRing(Curve $curve) : bool
+    {
+        try {
+            return $this->toGEOS($curve)->isRing();
         } catch (\Exception $e) {
             throw GeometryEngineException::operationNotSupportedByEngine($e);
         }
