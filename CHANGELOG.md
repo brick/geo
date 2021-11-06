@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.7.0](https://github.com/brick/geo/releases/tag/0.7.0) - 2021-10-10
+
+💥 **Breaking change**
+
+The Doctrine mapping types & functions have been moved to a separate package.
+
+If you don't use these, you don't need to do anything to upgrade.
+If you use them, just require the [brick/geo-doctrine](https://github.com/brick/geo-doctrine) package in addition to `brick/geo`.
+
 ## [0.6.2](https://github.com/brick/geo/releases/tag/0.6.2) - 2021-08-17
 
 🐛 **Fixes**
