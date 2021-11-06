@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Brick\Geo;
 
-use Brick\Geo\Engine\GeometryEngineRegistry;
+use Brick\Geo\Engine\GeometryEngine;
 use Brick\Geo\Exception\EmptyGeometryException;
 use Brick\Geo\Exception\GeometryEngineException;
 
@@ -28,13 +28,15 @@ abstract class Curve extends Geometry
     /**
      * Returns the length of this Curve in its associated spatial reference.
      *
+     * @deprecated Please use `$geometryEngine->length()`.
+     *
      * @noproxy
      *
      * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
-    public function length() : float
+    public function length(GeometryEngine $geometryEngine) : float
     {
-        return GeometryEngineRegistry::get()->length($this);
+        return $geometryEngine->length($this);
     }
 
     /**
@@ -56,13 +58,15 @@ abstract class Curve extends Geometry
      *
      * The curve is closed if `startPoint()` == `endPoint()`.
      *
+     * @deprecated Please use `$geometryEngine->isClosed()`.
+     *
      * @noproxy
      *
      * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
-    public function isClosed() : bool
+    public function isClosed(GeometryEngine $geometryEngine) : bool
     {
-        return GeometryEngineRegistry::get()->isClosed($this);
+        return $geometryEngine->isClosed($this);
     }
 
     /**
@@ -73,12 +77,14 @@ abstract class Curve extends Geometry
      * The curve is closed if its start point is equal to its end point.
      * The curve is simple if it does not pass through the same point more than once.
      *
+     * @deprecated Please use `$geometryEngine->isRing()`.
+     *
      * @noproxy
      *
      * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
-    public function isRing() : bool
+    public function isRing(GeometryEngine $geometryEngine) : bool
     {
-        return $this->isClosed() && $this->isSimple();
+        return $geometryEngine->isRing($this);
     }
 }

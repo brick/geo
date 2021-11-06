@@ -64,14 +64,13 @@ class MultiCurveTest extends AbstractTestCase
      */
     public function testLength(string $curve, float $length) : void
     {
-        $this->requiresGeometryEngine();
+        $geometryEngine = $this->getGeometryEngine();
 
         $curve = MultiCurve::fromText($curve);
         $this->skipIfUnsupportedGeometry($curve);
 
-        $actualLength = $curve->length();
+        $actualLength = $curve->length($geometryEngine);
 
-        self::assertIsFloat($actualLength);
         self::assertEqualsWithDelta($length, $actualLength, 0.001);
     }
 
@@ -95,7 +94,7 @@ class MultiCurveTest extends AbstractTestCase
      */
     public function testIsClosed(string $curve, bool $isClosed) : void
     {
-        $this->requiresGeometryEngine();
+        $geometryEngine = $this->getGeometryEngine();
 
         $curve = MultiCurve::fromText($curve);
         $this->skipIfUnsupportedGeometry($curve);
@@ -105,7 +104,7 @@ class MultiCurveTest extends AbstractTestCase
             $this->expectException(GeometryEngineException::class);
         }
 
-        self::assertSame($isClosed, $curve->isClosed());
+        self::assertSame($isClosed, $curve->isClosed($geometryEngine));
     }
 
     public function providerIsClosed() : array

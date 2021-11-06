@@ -1,6 +1,5 @@
 <?php
 
-use Brick\Geo\Engine\GeometryEngineRegistry;
 use Brick\Geo\Engine\PDOEngine;
 use Brick\Geo\Engine\SQLite3Engine;
 use Brick\Geo\Engine\GEOSEngine;
@@ -95,6 +94,6 @@ use Brick\Geo\Engine\GEOSEngine;
                 exit(1);
         }
 
-        GeometryEngineRegistry::set($engine);
+        $GLOBALS['GEOMETRY_ENGINE'] = $engine;
     }
 })();

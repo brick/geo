@@ -20,14 +20,13 @@ class CurveTest extends AbstractTestCase
      */
     public function testLength(string $curve, float $length) : void
     {
-        $this->requiresGeometryEngine();
+        $geometryEngine = $this->getGeometryEngine();
 
         $curve = Curve::fromText($curve);
         $this->skipIfUnsupportedGeometry($curve);
 
-        $actualLength = $curve->length();
+        $actualLength = $curve->length($geometryEngine);
 
-        self::assertIsFloat($actualLength);
         self::assertEqualsWithDelta($length, $actualLength, 0.002);
     }
 
@@ -132,12 +131,12 @@ class CurveTest extends AbstractTestCase
      */
     public function testIsClosed(string $curve, bool $isClosed) : void
     {
-        $this->requiresGeometryEngine();
+        $geometryEngine = $this->getGeometryEngine();
 
         $curve = Curve::fromText($curve);
         $this->skipIfUnsupportedGeometry($curve);
 
-        self::assertSame($isClosed, $curve->isClosed());
+        self::assertSame($isClosed, $curve->isClosed($geometryEngine));
     }
 
     public function providerIsClosed() : array
@@ -171,17 +170,17 @@ class CurveTest extends AbstractTestCase
      */
     public function testIsRing(string $curve, bool $isRing) : void
     {
-        $this->requiresGeometryEngine();
+        $geometryEngine = $this->getGeometryEngine();
 
         $curve = Curve::fromText($curve);
         $this->skipIfUnsupportedGeometry($curve);
 
-        if ($curve->isClosed() && $this->isMariaDB('< 10.1.4')) {
+        if ($curve->isClosed($geometryEngine) && $this->isMariaDB('< 10.1.4')) {
             // @see https://mariadb.atlassian.net/browse/MDEV-7510
             self::markTestSkipped('A bug in MariaDB returns the wrong result.');
         }
 
-        self::assertSame($isRing, $curve->isRing());
+        self::assertSame($isRing, $curve->isRing($geometryEngine));
     }
 
     public function providerIsRing() : array

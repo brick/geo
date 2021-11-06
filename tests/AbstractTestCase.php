@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Brick\Geo\Tests;
 
+use Brick\Geo\Engine\GeometryEngine;
 use Brick\Geo\Exception\GeometryEngineException;
-use Brick\Geo\Engine\GeometryEngineRegistry;
 use Brick\Geo\Engine\GEOSEngine;
 use Brick\Geo\Engine\PDOEngine;
 use Brick\Geo\Engine\SQLite3Engine;
@@ -33,16 +33,13 @@ use PHPUnit\Framework\TestCase;
  */
 class AbstractTestCase extends TestCase
 {
-    /**
-     * Marks the current test as requiring a geometry engine to be set.
-     *
-     * If no engine is set, the test will be skipped.
-     */
-    final protected function requiresGeometryEngine() : void
+    final protected function getGeometryEngine(): GeometryEngine
     {
-        if (! GeometryEngineRegistry::has()) {
+        if (! isset($GLOBALS['GEOMETRY_ENGINE'])) {
             self::markTestSkipped('This test requires a geometry engine to be set.');
         }
+
+        return $GLOBALS['GEOMETRY_ENGINE'];
     }
 
     final protected function isMySQL(?string $operatorAndVersion = null) : bool
@@ -65,7 +62,7 @@ class AbstractTestCase extends TestCase
      */
     final protected function isSpatiaLite(?string $operatorAndVersion = null) : bool
     {
-        $engine = GeometryEngineRegistry::get();
+        $engine = $this->getGeometryEngine();
 
         if ($engine instanceof SQLite3Engine) {
             if ($operatorAndVersion === null) {
@@ -85,7 +82,7 @@ class AbstractTestCase extends TestCase
      */
     final protected function isGEOS(?string $operatorAndVersion = null) : bool
     {
-        $engine = GeometryEngineRegistry::get();
+        $engine = $this->getGeometryEngine();
 
         if ($engine instanceof GEOSEngine) {
             if ($operatorAndVersion === null) {
@@ -221,7 +218,9 @@ class AbstractTestCase extends TestCase
 
         self::assertSame($expected->geometryType(), $actual->geometryType());
 
-        self::assertTrue($actual->equals($expected), 'Failed asserting that two geometries are spatially equal.'
+        $geometryEngine = $this->getGeometryEngine();
+
+        self::assertTrue($geometryEngine->equals($actual, $expected), 'Failed asserting that two geometries are spatially equal.'
             . "\n---Expected"
             . "\n+++Actual"
             . "\n@@ @@"
@@ -550,7 +549,7 @@ class AbstractTestCase extends TestCase
 
     private function isPDODriver(string $name) : bool
     {
-        $engine = GeometryEngineRegistry::get();
+        $engine = $this->getGeometryEngine();
 
         if ($engine instanceof PDOEngine) {
             if ($engine->getPDO()->getAttribute(\PDO::ATTR_DRIVER_NAME) === $name) {
@@ -566,7 +565,7 @@ class AbstractTestCase extends TestCase
      */
     private function isMySQLorMariaDB(bool $testMariaDB, ?string $operatorAndVersion = null) : bool
     {
-        $engine = GeometryEngineRegistry::get();
+        $engine = $this->getGeometryEngine();
 
         if ($engine instanceof PDOEngine) {
             $pdo = $engine->getPDO();

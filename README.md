@@ -77,11 +77,10 @@ Following is a step-by-step guide for all possible configurations:
 - Use this bootstrap code in your project:
 
     ```php
-    use Brick\Geo\Engine\GeometryEngineRegistry;
     use Brick\Geo\Engine\PDOEngine;
     
     $pdo = new PDO('mysql:host=localhost', 'root', '');
-    GeometryEngineRegistry::set(new PDOEngine($pdo));
+    $geometryEngine = new PDOEngine($pdo);
     ```
 
 Update the code with your own connection parameters, or use an existing `PDO` connection if you have one (recommended).
@@ -109,11 +108,10 @@ Just ensure that your MariaDB version is `5.5` or greater.
 - Use this bootstrap code in your project:
 
     ```php
-    use Brick\Geo\Engine\GeometryEngineRegistry;
     use Brick\Geo\Engine\PDOEngine;
     
     $pdo = new PDO('pgsql:host=localhost', 'postgres', '');
-    GeometryEngineRegistry::set(new PDOEngine($pdo));
+    $geometryEngine = new PDOEngine($pdo);
     ```
 
 Update the code with your own connection parameters, or use an existing `PDO` connection if you have one (recommended).
@@ -149,12 +147,11 @@ all you need to do is create an additional in-memory SQLite3 database just to po
 - Use this bootstrap code in your project:
 
     ```php
-    use Brick\Geo\Engine\GeometryEngineRegistry;
     use Brick\Geo\Engine\SQLite3Engine;
     
     $sqlite3 = new SQLite3(':memory:');
     $sqlite3->loadExtension('mod_spatialite.so');
-    GeometryEngineRegistry::set(new SQLite3Engine($sqlite3));
+    $geometryEngine = new SQLite3Engine($sqlite3);
     ```
 
 - Depending on the functions you use, you will probably need to initialize the spatial metadata by running this query:
@@ -181,10 +178,9 @@ In this example we have created an in-memory database for our GIS calculations, 
 - Use this bootstrap code in your project:
 
     ```php
-    use Brick\Geo\Engine\GeometryEngineRegistry;
     use Brick\Geo\Engine\GEOSEngine;
     
-    GeometryEngineRegistry::set(new GEOSEngine());
+    $geometryEngine = new GEOSEngine();
     ```
 </details>
 
@@ -238,9 +234,9 @@ Example
 use Brick\Geo\Polygon;
 
 $polygon = Polygon::fromText('POLYGON ((0 0, 0 3, 3 3, 0 0))');
-echo $polygon->area(); // 4.5
+echo $geometryEngine->area($polygon); // 4.5
 
-$centroid = $polygon->centroid();
+$centroid = $geometryEngine->centroid($polygon);
 echo $centroid->asText(); // POINT (1 2)
 ```
 

@@ -9,7 +9,9 @@ use Brick\Geo\Exception\GeometryEngineException;
 use Brick\Geo\IO\EWKBReader;
 use Brick\Geo\IO\EWKBWriter;
 use Brick\Geo\Geometry;
+use Brick\Geo\MultiPolygon;
 use Brick\Geo\Point;
+use Brick\Geo\Polygon;
 use GEOSWKBReader;
 use GEOSWKBWriter;
 use GEOSWKTReader;
@@ -358,7 +360,7 @@ class GEOSEngine implements GeometryEngine
         throw GeometryEngineException::unimplementedMethod(__METHOD__);
     }
 
-    public function boundingPolygons(Geometry $g) : Geometry
+    public function boundingPolygons(Polygon $p) : MultiPolygon
     {
         throw GeometryEngineException::unimplementedMethod(__METHOD__);
     }

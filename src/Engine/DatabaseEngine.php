@@ -7,7 +7,9 @@ namespace Brick\Geo\Engine;
 use Brick\Geo\Curve;
 use Brick\Geo\Exception\GeometryEngineException;
 use Brick\Geo\Geometry;
+use Brick\Geo\MultiPolygon;
 use Brick\Geo\Point;
+use Brick\Geo\Polygon;
 use Brick\Geo\Proxy;
 
 /**
@@ -422,7 +424,7 @@ abstract class DatabaseEngine implements GeometryEngine
         return $this->queryFloat('ST_MaxDistance', $a, $b);
     }
 
-    public function boundingPolygons(Geometry $g) : Geometry
+    public function boundingPolygons(Polygon $p) : MultiPolygon
     {
         throw GeometryEngineException::unimplementedMethod(__METHOD__);
     }
