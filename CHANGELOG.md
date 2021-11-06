@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.7.1](https://github.com/brick/geo/releases/tag/0.7.1) - 2021-11-06
+
+🐛 **Fixes**
+
+- Fix a deprecation warning on PHP 8.1 (#35)
+
 ## [0.7.0](https://github.com/brick/geo/releases/tag/0.7.0) - 2021-10-10
 
 💥 **Breaking change**
