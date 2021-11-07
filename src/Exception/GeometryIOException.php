@@ -30,7 +30,7 @@ class GeometryIOException extends GeometryException
     {
         $message = sprintf('Invalid GeoJSON: %s', $context);
 
-        return new self($message);
+        return new self($message, 0, $e);
     }
 
     public static function unsupportedWKBType(int $wkbType) : GeometryIOException
