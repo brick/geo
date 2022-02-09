@@ -235,6 +235,27 @@ class GeometryCollection extends Geometry
 
         return $that;
     }
+    
+    /**
+     * Calculates the aggregate area of all Surface geometries in the collection, 
+     * as measured in the spatial reference system of their respective Surfaces.
+     * Will return 0 for all non-surface geometries.
+     * @noproxy
+     *
+     * @return float
+     *
+     * @throws Brick\Geo\Exception\GeometryEngineException If the operation is not supported by the geometry engine.
+     */
+    public function area() : float
+    {
+        $area_working = 0;
+        foreach($this as $geom){
+            if(method_exists($geom, 'area')){
+                $area_working += $geom->area();   
+            }
+        }
+        return $area_working;
+    }
 
     /**
      * Returns the number of geometries in this GeometryCollection.
