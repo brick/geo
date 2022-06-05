@@ -4,11 +4,15 @@ declare(strict_types=1);
 
 namespace Brick\Geo\Engine;
 
+use Brick\Geo\Curve;
 use Brick\Geo\Exception\GeometryEngineException;
 use Brick\Geo\IO\EWKBReader;
 use Brick\Geo\IO\EWKBWriter;
 use Brick\Geo\Geometry;
+use Brick\Geo\MultiCurve;
+use Brick\Geo\MultiSurface;
 use Brick\Geo\Point;
+use Brick\Geo\Surface;
 use GEOSWKBReader;
 use GEOSWKBWriter;
 use GEOSWKTReader;
@@ -107,7 +111,7 @@ class GEOSEngine implements GeometryEngine
         }
     }
 
-    public function length(Geometry $g) : float
+    public function length(Curve|MultiCurve $g) : float
     {
         try {
             return $this->toGEOS($g)->length();
@@ -116,7 +120,7 @@ class GEOSEngine implements GeometryEngine
         }
     }
 
-    public function area(Geometry $g) : float
+    public function area(Surface|MultiSurface $g) : float
     {
         try {
             return $this->toGEOS($g)->area();
@@ -143,7 +147,7 @@ class GEOSEngine implements GeometryEngine
         }
     }
 
-    public function pointOnSurface(Geometry $g) : Geometry
+    public function pointOnSurface(Surface|MultiSurface $g) : Geometry
     {
         try {
             return $this->fromGEOS($this->toGEOS($g)->pointOnSurface());

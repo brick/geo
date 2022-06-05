@@ -4,10 +4,14 @@ declare(strict_types=1);
 
 namespace Brick\Geo\Engine;
 
+use Brick\Geo\Curve;
 use Brick\Geo\Exception\GeometryEngineException;
 use Brick\Geo\Geometry;
+use Brick\Geo\MultiCurve;
+use Brick\Geo\MultiSurface;
 use Brick\Geo\Point;
 use Brick\Geo\Proxy;
+use Brick\Geo\Surface;
 
 /**
  * Database implementation of the GeometryEngine.
@@ -64,7 +68,7 @@ abstract class DatabaseEngine implements GeometryEngine
      *
      * @param scalar|null $parameter
      */
-    protected function getParameterPlaceholder($parameter): string
+    protected function getParameterPlaceholder(mixed $parameter): string
     {
         return '?';
     }
@@ -291,17 +295,17 @@ abstract class DatabaseEngine implements GeometryEngine
         return $this->queryGeometry('ST_Centroid', $g);
     }
 
-    public function pointOnSurface(Geometry $g) : Geometry
+    public function pointOnSurface(Surface|MultiSurface $g) : Geometry
     {
         return $this->queryGeometry('ST_PointOnSurface', $g);
     }
 
-    public function length(Geometry $g) : float
+    public function length(Curve|MultiCurve $g) : float
     {
         return $this->queryFloat('ST_Length', $g);
     }
 
-    public function area(Geometry $g) : float
+    public function area(Surface|MultiSurface $g) : float
     {
         return $this->queryFloat('ST_Area', $g);
     }

@@ -61,7 +61,7 @@ interface GeometryEngine
      *
      * @throws GeometryEngineException If the operation is not supported by the engine.
      */
-    public function length(Geometry $g) : float;
+    public function length(Curve|MultiCurve $g) : float;
 
     /**
      * Returns the area of a Surface or MultiSurface in its SRID units.
@@ -72,7 +72,7 @@ interface GeometryEngine
      *
      * @throws GeometryEngineException If the operation is not supported by the engine.
      */
-    public function area(Geometry $g) : float;
+    public function area(Surface|MultiSurface $g) : float;
 
     /**
      * Returns the azimuth in radians of the segment defined by the given point geometries.
@@ -109,7 +109,7 @@ interface GeometryEngine
      *
      * @throws GeometryEngineException If the operation is not supported by the engine.
      */
-    public function pointOnSurface(Geometry $g) : Geometry;
+    public function pointOnSurface(Surface|MultiSurface $g) : Geometry;
 
     /**
      * Returns the closure of the combinatorial boundary of a Geometry.

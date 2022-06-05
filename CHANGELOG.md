@@ -6,6 +6,14 @@
 
 - Minimum PHP version is now 8.0
 
+💥 **Non-breaking change**
+
+- The following signatures have changed, but are not a breaking change due to LSP:
+  - `DatabaseEngine::getParameterPlaceholder(mixed $parameter): string`
+  - `GeometryEngine::length(Curve|MultiCurve $g): float`
+  - `GeometryEngine::area(Surface|MultiSurface $g): float`
+  - `GeometryEngine::pointOnSurface(Surface|MultiSurface $g): Geometry`
+
 ## [0.7.1](https://github.com/brick/geo/releases/tag/0.7.1) - 2021-11-06
 
 🐛 **Fixes**
