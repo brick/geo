@@ -34,6 +34,11 @@ class WKTParser
         $this->scan($wkt);
     }
 
+    /**
+     * @return array<int, string>
+     *
+     * @psalm-return array<static::T_*, string>
+     */
     protected function getRegex() : array
     {
         return [

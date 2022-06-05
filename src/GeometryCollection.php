@@ -76,7 +76,7 @@ class GeometryCollection extends Geometry
             }
         }
 
-        $this->geometries = $geometries;
+        $this->geometries = array_values($geometries);
     }
 
     /**

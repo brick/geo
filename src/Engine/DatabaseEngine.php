@@ -76,7 +76,7 @@ abstract class DatabaseEngine implements GeometryEngine
     /**
      * Builds and executes a SQL query for a GIS function.
      *
-     * @psalm-param list<Geometry|scalar|null> $parameters
+     * @psalm-param array<Geometry|scalar|null> $parameters
      *
      * @param string $function        The SQL GIS function to execute.
      * @param array  $parameters      The Geometry objects or scalar values to pass as parameters.

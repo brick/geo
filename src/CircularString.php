@@ -53,7 +53,7 @@ class CircularString extends Curve
             throw new InvalidGeometryException('A CircularString must have an odd number of points.');
         }
 
-        $this->points = $points;
+        $this->points = array_values($points);
     }
 
     /**

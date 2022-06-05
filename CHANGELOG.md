@@ -14,6 +14,10 @@
   - `GeometryEngine::area(Surface|MultiSurface $g): float`
   - `GeometryEngine::pointOnSurface(Surface|MultiSurface $g): Geometry`
 
+🐛 **Fixes**
+
+- Fixed a potential bug when destructuring associative arrays in Geometry class constructors
+
 ## [0.7.1](https://github.com/brick/geo/releases/tag/0.7.1) - 2021-11-06
 
 🐛 **Fixes**

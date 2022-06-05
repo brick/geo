@@ -72,6 +72,10 @@ class GeoJSONWriter
     }
 
     /**
+     * @psalm-suppress MoreSpecificReturnType
+     * @psalm-suppress LessSpecificReturnStatement
+     * @see https://github.com/vimeo/psalm/issues/8187
+     *
      * @throws GeometryIOException
      */
     private function writeFeature(Feature $feature): stdClass
@@ -101,6 +105,10 @@ class GeoJSONWriter
     }
 
     /**
+     * @psalm-suppress MoreSpecificReturnType
+     * @psalm-suppress LessSpecificReturnStatement
+     * @see https://github.com/vimeo/psalm/issues/8187
+     *
      * @throws GeometryIOException
      */
     private function writeFeatureCollection(FeatureCollection $featureCollection): stdClass
@@ -133,6 +141,10 @@ class GeoJSONWriter
     }
 
     /**
+     * @psalm-suppress MoreSpecificReturnType
+     * @psalm-suppress LessSpecificReturnStatement
+     * @see https://github.com/vimeo/psalm/issues/8187
+     *
      * @throws GeometryIOException
      */
     private function writeGeometry(Geometry $geometry): stdClass
@@ -175,6 +187,10 @@ class GeoJSONWriter
     }
 
     /**
+     * @psalm-suppress MoreSpecificReturnType
+     * @psalm-suppress LessSpecificReturnStatement
+     * @see https://github.com/vimeo/psalm/issues/8187
+     *
      * @throws GeometryIOException
      */
     private function writeGeometryCollection(GeometryCollection $geometryCollection): stdClass

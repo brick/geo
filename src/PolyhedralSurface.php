@@ -61,7 +61,7 @@ class PolyhedralSurface extends Surface
 
         CoordinateSystem::check($this, ...$patches);
 
-        $this->patches = $patches;
+        $this->patches = array_values($patches);
     }
 
     /**

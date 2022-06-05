@@ -49,7 +49,7 @@ class CurvePolygon extends Surface
 
         CoordinateSystem::check($this, ...$rings);
 
-        $this->rings = $rings;
+        $this->rings = array_values($rings);
     }
 
     /**
