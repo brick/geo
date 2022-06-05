@@ -56,7 +56,12 @@ foreach ($classes as $class) {
         }
 
         $methodCode = $methodTemplate;
-        $methodCode = str_replace('function _TEMPLATE_()', $reflectionTools->exportFunction($method, \ReflectionMethod::IS_ABSTRACT), $methodCode);
+        $functionSignature = $reflectionTools->exportFunction($method, \ReflectionMethod::IS_ABSTRACT);
+        // fix for abstract classes that only inherit from IteratorAggregate (GeometryProxy, CurveProxy, SurfaceProxy)
+        if (str_ends_with($functionSignature, 'getIterator()')) {
+            $functionSignature .= ' : \Traversable';
+        }
+        $methodCode = str_replace('function _TEMPLATE_()', $functionSignature, $methodCode);
 
         $parameterCode = $method->getShortName() . '(';
 
