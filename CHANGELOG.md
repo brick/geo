@@ -1,5 +1,11 @@
 # Changelog
 
+## UNRELEASED (0.8.0)
+
+💥 **Breaking change**
+
+- Minimum PHP version is now 8.0
+
 ## [0.7.1](https://github.com/brick/geo/releases/tag/0.7.1) - 2021-11-06
 
 🐛 **Fixes**
