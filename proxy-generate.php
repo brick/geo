@@ -51,7 +51,7 @@ foreach ($classes as $class) {
 
         $docComment = $method->getDocComment();
 
-        if ($docComment !== false && strpos($docComment, '@noproxy') !== false) {
+        if ($docComment !== false && str_contains($docComment, '@noproxy')) {
             continue;
         }
 
