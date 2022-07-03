@@ -28,7 +28,7 @@ class Cloner
      *
      * @throws InvalidArgumentException
      */
-    public static function clone($variable)
+    public static function clone(mixed $variable): mixed
     {
         if (is_object($variable)) {
             if (! $variable instanceof stdClass) {
