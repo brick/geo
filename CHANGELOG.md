@@ -1,5 +1,11 @@
 # Changelog
 
+## UNRELEASED (0.8.1)
+
+✨ **Improvements**
+
+- Removed outdated suggestion in `composer.json`
+
 ## [0.8.0](https://github.com/brick/geo/releases/tag/0.8.0) - 2022-10-11
 
 💥 **Breaking changes**

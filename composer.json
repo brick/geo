@@ -36,8 +36,5 @@
     "config": {
         "process-timeout": 600,
         "preferred-install": "source"
-    },
-    "suggest": {
-        "ext-json": "To read and write GeoJSON"
     }
 }
