@@ -82,9 +82,7 @@ class SQLite3Engine extends DatabaseEngine
                 $statement->bindValue($index++, $parameter->data, $parameter->isBinary ? SQLITE3_BLOB : SQLITE3_TEXT);
                 $statement->bindValue($index++, $parameter->srid, SQLITE3_INTEGER);
             } else {
-                if ($parameter === null) {
-                    $type = SQLITE3_NULL;
-                } elseif (is_int($parameter)) {
+                if (is_int($parameter)) {
                     $type = SQLITE3_INTEGER;
                 } elseif (is_float($parameter)) {
                     $type = SQLITE3_FLOAT;
@@ -98,6 +96,7 @@ class SQLite3Engine extends DatabaseEngine
 
         $result = $statement->execute();
 
+        /** @psalm-var list<mixed> */
         return $result->fetchArray(SQLITE3_NUM);
     }
 }

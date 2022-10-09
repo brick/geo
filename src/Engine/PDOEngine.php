@@ -58,12 +58,8 @@ class PDOEngine extends DatabaseEngine
                     $statement->bindValue($index++, $parameter->data, $parameter->isBinary ? PDO::PARAM_LOB : PDO::PARAM_STR);
                     $statement->bindValue($index++, $parameter->srid, PDO::PARAM_INT);
                 } else {
-                    if ($parameter === null) {
-                        $type = PDO::PARAM_NULL;
-                    } elseif (is_int($parameter)) {
+                    if (is_int($parameter)) {
                         $type = PDO::PARAM_INT;
-                    } elseif (is_bool($parameter)) {
-                        $type = PDO::PARAM_BOOL;
                     } else {
                         $type = PDO::PARAM_STR;
                     }
