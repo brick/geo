@@ -856,7 +856,7 @@ class GeometryTest extends AbstractTestCase
         $geometry1 = Geometry::fromText($geometry1);
         $geometry2 = Geometry::fromText($geometry2);
 
-        self::assertSame($distance, $geometry1->distance($geometry2, $geometryEngine));
+        self::assertEqualsWithDelta($distance, $geometry1->distance($geometry2, $geometryEngine), 1e-14);
     }
 
     public function providerDistance() : array
