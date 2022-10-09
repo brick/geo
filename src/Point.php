@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Brick\Geo;
 
 use ArrayIterator;
-use Brick\Geo\Engine\GeometryEngineRegistry;
+use Brick\Geo\Engine\GeometryEngine;
 use Brick\Geo\Exception\GeometryEngineException;
 use Brick\Geo\Exception\InvalidGeometryException;
 
@@ -338,6 +338,10 @@ class Point extends Geometry
      * The azimuth is an angle measured from the north, and is positive clockwise:
      * North = 0; East = π/2; South = π; West = 3π/2.
      *
+     * @deprecated Please use `$geometryEngine->azimuth()`.
+     *
+     * @noproxy
+     *
      * @param Point $subject Point representing subject of observation.
      *
      * @return float Azimuth of the subject relative to the observer.
@@ -345,8 +349,8 @@ class Point extends Geometry
      * @throws GeometryEngineException If the operation is not supported by the engine.
      * @throws GeometryEngineException If observer and subject locations are coincident.
      */
-    public function azimuth(Point $subject) : float
+    public function azimuth(Point $subject, GeometryEngine $geometryEngine) : float
     {
-        return GeometryEngineRegistry::get()->azimuth($this, $subject);
+        return $geometryEngine->azimuth($this, $subject);
     }
 }

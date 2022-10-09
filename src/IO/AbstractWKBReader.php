@@ -48,48 +48,22 @@ abstract class AbstractWKBReader
             $geometryHeader->srid ?? $srid
         );
 
-        switch ($geometryHeader->geometryType) {
-            case Geometry::POINT:
-                return $this->readPoint($buffer, $cs);
-
-            case Geometry::LINESTRING:
-                return $this->readLineString($buffer, $cs);
-
-            case Geometry::CIRCULARSTRING:
-                return $this->readCircularString($buffer, $cs);
-
-            case Geometry::COMPOUNDCURVE:
-                return $this->readCompoundCurve($buffer, $cs);
-
-            case Geometry::POLYGON:
-                return $this->readPolygon($buffer, $cs);
-
-            case Geometry::CURVEPOLYGON:
-                return $this->readCurvePolygon($buffer, $cs);
-
-            case Geometry::MULTIPOINT:
-                return $this->readMultiPoint($buffer, $cs);
-
-            case Geometry::MULTILINESTRING:
-                return $this->readMultiLineString($buffer, $cs);
-
-            case Geometry::MULTIPOLYGON:
-                return $this->readMultiPolygon($buffer, $cs);
-
-            case Geometry::GEOMETRYCOLLECTION:
-                return $this->readGeometryCollection($buffer, $cs);
-
-            case Geometry::POLYHEDRALSURFACE:
-                return $this->readPolyhedralSurface($buffer, $cs);
-
-            case Geometry::TIN:
-                return $this->readTIN($buffer, $cs);
-
-            case Geometry::TRIANGLE:
-                return $this->readTriangle($buffer, $cs);
-        }
-
-        throw GeometryIOException::unsupportedWKBType($geometryHeader->geometryType);
+        return match ($geometryHeader->geometryType) {
+            Geometry::POINT => $this->readPoint($buffer, $cs),
+            Geometry::LINESTRING => $this->readLineString($buffer, $cs),
+            Geometry::CIRCULARSTRING => $this->readCircularString($buffer, $cs),
+            Geometry::COMPOUNDCURVE => $this->readCompoundCurve($buffer, $cs),
+            Geometry::POLYGON => $this->readPolygon($buffer, $cs),
+            Geometry::CURVEPOLYGON => $this->readCurvePolygon($buffer, $cs),
+            Geometry::MULTIPOINT => $this->readMultiPoint($buffer, $cs),
+            Geometry::MULTILINESTRING => $this->readMultiLineString($buffer, $cs),
+            Geometry::MULTIPOLYGON => $this->readMultiPolygon($buffer, $cs),
+            Geometry::GEOMETRYCOLLECTION => $this->readGeometryCollection($buffer, $cs),
+            Geometry::POLYHEDRALSURFACE => $this->readPolyhedralSurface($buffer, $cs),
+            Geometry::TIN => $this->readTIN($buffer, $cs),
+            Geometry::TRIANGLE => $this->readTriangle($buffer, $cs),
+            default => throw GeometryIOException::unsupportedWKBType($geometryHeader->geometryType),
+        };
     }
 
     private function readPoint(WKBBuffer $buffer, CoordinateSystem $cs) : Point

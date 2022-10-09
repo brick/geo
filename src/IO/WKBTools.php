@@ -49,18 +49,11 @@ abstract class WKBTools
         if ($byteOrder === null) {
             self::checkDoubleIs64Bit();
 
-            switch (pack('L', 0x61626364)) {
-                case 'abcd':
-                    $byteOrder = self::BIG_ENDIAN;
-                    break;
-
-                case 'dcba':
-                    $byteOrder = self::LITTLE_ENDIAN;
-                    break;
-
-                default:
-                    throw GeometryIOException::unsupportedEndianness();
-            }
+            $byteOrder = match (pack('L', 0x61626364)) {
+                'abcd' => self::BIG_ENDIAN,
+                'dcba' => self::LITTLE_ENDIAN,
+                default => throw GeometryIOException::unsupportedEndianness(),
+            };
         }
 
         return $byteOrder;

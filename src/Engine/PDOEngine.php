@@ -106,7 +106,7 @@ class PDOEngine extends DatabaseEngine
     /**
      * @param scalar|null $parameter
      */
-    protected function getParameterPlaceholder($parameter): string
+    protected function getParameterPlaceholder(mixed $parameter): string
     {
         if ($this->pdo->getAttribute(PDO::ATTR_DRIVER_NAME) === 'pgsql') {
             if (is_int($parameter)) {

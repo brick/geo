@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Brick\Geo;
 
-use Brick\Geo\Engine\GeometryEngineRegistry;
+use Brick\Geo\Engine\GeometryEngine;
 use Brick\Geo\Exception\GeometryEngineException;
 
 /**
@@ -39,17 +39,21 @@ abstract class Surface extends Geometry
     /**
      * Returns the area of this Surface, as measured in the spatial reference system of this Surface.
      *
+     * @deprecated Please use `$geometryEngine->area()`.
+     *
      * @noproxy
      *
      * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
-    public function area() : float
+    public function area(GeometryEngine $geometryEngine) : float
     {
-        return GeometryEngineRegistry::get()->area($this);
+        return $geometryEngine->area($this);
     }
 
     /**
      * Returns a Point guaranteed to be on this Surface.
+     *
+     * @deprecated Please use `$geometryEngine->pointOnSurface()`.
      *
      * @noproxy
      *
@@ -58,8 +62,8 @@ abstract class Surface extends Geometry
      *
      * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
-    public function pointOnSurface() : Point
+    public function pointOnSurface(GeometryEngine $geometryEngine) : Point
     {
-        return GeometryEngineRegistry::get()->pointOnSurface($this);
+        return $geometryEngine->pointOnSurface($this);
     }
 }

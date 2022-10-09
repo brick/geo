@@ -4,10 +4,16 @@ declare(strict_types=1);
 
 namespace Brick\Geo\Engine;
 
+use Brick\Geo\Curve;
 use Brick\Geo\Exception\GeometryEngineException;
 use Brick\Geo\Geometry;
+use Brick\Geo\MultiCurve;
+use Brick\Geo\MultiSurface;
+use Brick\Geo\MultiPolygon;
 use Brick\Geo\Point;
+use Brick\Geo\Polygon;
 use Brick\Geo\Proxy;
+use Brick\Geo\Surface;
 
 /**
  * Database implementation of the GeometryEngine.
@@ -64,7 +70,7 @@ abstract class DatabaseEngine implements GeometryEngine
      *
      * @param scalar|null $parameter
      */
-    protected function getParameterPlaceholder($parameter): string
+    protected function getParameterPlaceholder(mixed $parameter): string
     {
         return '?';
     }
@@ -72,7 +78,7 @@ abstract class DatabaseEngine implements GeometryEngine
     /**
      * Builds and executes a SQL query for a GIS function.
      *
-     * @psalm-param list<Geometry|scalar|null> $parameters
+     * @psalm-param array<Geometry|scalar|null> $parameters
      *
      * @param string $function        The SQL GIS function to execute.
      * @param array  $parameters      The Geometry objects or scalar values to pass as parameters.
@@ -291,17 +297,17 @@ abstract class DatabaseEngine implements GeometryEngine
         return $this->queryGeometry('ST_Centroid', $g);
     }
 
-    public function pointOnSurface(Geometry $g) : Geometry
+    public function pointOnSurface(Surface|MultiSurface $g) : Geometry
     {
         return $this->queryGeometry('ST_PointOnSurface', $g);
     }
 
-    public function length(Geometry $g) : float
+    public function length(Curve|MultiCurve $g) : float
     {
         return $this->queryFloat('ST_Length', $g);
     }
 
-    public function area(Geometry $g) : float
+    public function area(Surface|MultiSurface $g) : float
     {
         return $this->queryFloat('ST_Area', $g);
     }
@@ -329,6 +335,16 @@ abstract class DatabaseEngine implements GeometryEngine
     public function isSimple(Geometry $g) : bool
     {
         return $this->queryBoolean('ST_IsSimple', $g);
+    }
+
+    public function isRing(Curve $curve) : bool
+    {
+        try {
+            return $this->queryBoolean('ST_IsRing', $curve);
+        } catch (GeometryEngineException $e) {
+            // Not all RDBMS (hello, MySQL) support ST_IsRing(), but we have an easy fallback
+            return $this->isClosed($curve) && $this->isSimple($curve);
+        }
     }
 
     public function equals(Geometry $a, Geometry $b) : bool
@@ -411,7 +427,7 @@ abstract class DatabaseEngine implements GeometryEngine
         return $this->queryFloat('ST_MaxDistance', $a, $b);
     }
 
-    public function boundingPolygons(Geometry $g) : Geometry
+    public function boundingPolygons(Polygon $p) : MultiPolygon
     {
         throw GeometryEngineException::unimplementedMethod(__METHOD__);
     }

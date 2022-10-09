@@ -62,7 +62,7 @@ class CompoundCurve extends Curve
             $previousCurve = $curve;
         }
 
-        $this->curves = $curves;
+        $this->curves = array_values($curves);
     }
 
     /**

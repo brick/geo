@@ -202,10 +202,7 @@ abstract class AbstractWKBWriter
         return $wkb;
     }
 
-    /**
-     * @param CompoundCurve|CurvePolygon|GeometryCollection|PolyhedralSurface $collection
-     */
-    private function writeComposedGeometry(Geometry $collection, bool $outer) : string
+    private function writeComposedGeometry(CompoundCurve|CurvePolygon|GeometryCollection|PolyhedralSurface $collection, bool $outer) : string
     {
         $wkb = $this->packByteOrder();
         $wkb.= $this->packHeader($collection, $outer);

@@ -47,48 +47,22 @@ class WKBReader extends AbstractWKBReader
         $buffer->readByteOrder();
         $geometryHeader = $this->readGeometryHeader($buffer);
 
-        switch ($geometryHeader->geometryType) {
-            case Geometry::POINT:
-                return new Proxy\PointProxy($wkb, true, $srid);
-
-            case Geometry::LINESTRING:
-                return new Proxy\LineStringProxy($wkb, true, $srid);
-
-            case Geometry::CIRCULARSTRING:
-                return new Proxy\CircularStringProxy($wkb, true, $srid);
-
-            case Geometry::COMPOUNDCURVE:
-                return new Proxy\CompoundCurveProxy($wkb, true, $srid);
-
-            case Geometry::POLYGON:
-                return new Proxy\PolygonProxy($wkb, true, $srid);
-
-            case Geometry::CURVEPOLYGON:
-                return new Proxy\CurvePolygonProxy($wkb, true, $srid);
-
-            case Geometry::MULTIPOINT:
-                return new Proxy\MultiPointProxy($wkb, true, $srid);
-
-            case Geometry::MULTILINESTRING:
-                return new Proxy\MultiLineStringProxy($wkb, true, $srid);
-
-            case Geometry::MULTIPOLYGON:
-                return new Proxy\MultiPolygonProxy($wkb, true, $srid);
-
-            case Geometry::GEOMETRYCOLLECTION:
-                return new Proxy\GeometryCollectionProxy($wkb, true, $srid);
-
-            case Geometry::POLYHEDRALSURFACE:
-                return new Proxy\PolyhedralSurfaceProxy($wkb, true, $srid);
-
-            case Geometry::TIN:
-                return new Proxy\TINProxy($wkb, true, $srid);
-
-            case Geometry::TRIANGLE:
-                return new Proxy\TriangleProxy($wkb, true, $srid);
-        }
-
-        throw GeometryIOException::unsupportedWKBType($geometryHeader->geometryType);
+        return match ($geometryHeader->geometryType) {
+            Geometry::POINT => new Proxy\PointProxy($wkb, true, $srid),
+            Geometry::LINESTRING => new Proxy\LineStringProxy($wkb, true, $srid),
+            Geometry::CIRCULARSTRING => new Proxy\CircularStringProxy($wkb, true, $srid),
+            Geometry::COMPOUNDCURVE => new Proxy\CompoundCurveProxy($wkb, true, $srid),
+            Geometry::POLYGON => new Proxy\PolygonProxy($wkb, true, $srid),
+            Geometry::CURVEPOLYGON => new Proxy\CurvePolygonProxy($wkb, true, $srid),
+            Geometry::MULTIPOINT => new Proxy\MultiPointProxy($wkb, true, $srid),
+            Geometry::MULTILINESTRING => new Proxy\MultiLineStringProxy($wkb, true, $srid),
+            Geometry::MULTIPOLYGON => new Proxy\MultiPolygonProxy($wkb, true, $srid),
+            Geometry::GEOMETRYCOLLECTION => new Proxy\GeometryCollectionProxy($wkb, true, $srid),
+            Geometry::POLYHEDRALSURFACE => new Proxy\PolyhedralSurfaceProxy($wkb, true, $srid),
+            Geometry::TIN => new Proxy\TINProxy($wkb, true, $srid),
+            Geometry::TRIANGLE => new Proxy\TriangleProxy($wkb, true, $srid),
+            default => throw GeometryIOException::unsupportedWKBType($geometryHeader->geometryType),
+        };
     }
 
     protected function readGeometryHeader(WKBBuffer $buffer) : WKBGeometryHeader

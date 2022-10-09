@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Brick\Geo;
 
-use Brick\Geo\Engine\GeometryEngineRegistry;
+use Brick\Geo\Engine\GeometryEngine;
 use Brick\Geo\Exception\CoordinateSystemException;
 use Brick\Geo\Exception\GeometryEngineException;
 use Brick\Geo\Exception\GeometryIOException;
@@ -190,13 +190,15 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      * the maximums. In some cases, this coordinate will be outside the range of
      * validity for the Spatial Reference System.
      *
+     * @deprecated Please use `$geometryEngine->envelope()`.
+     *
      * @noproxy
      *
      * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
-    public function envelope() : Geometry
+    public function envelope(GeometryEngine $geometryEngine) : Geometry
     {
-        return GeometryEngineRegistry::get()->envelope($this);
+        return $geometryEngine->envelope($this);
     }
 
     /**
@@ -248,13 +250,15 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      *
      * For example, a polygon with self-intersecting rings is invalid.
      *
+     * @deprecated Please use `$geometryEngine->isValid()`.
+     *
      * @noproxy
      *
      * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
-    public function isValid() : bool
+    public function isValid(GeometryEngine $geometryEngine) : bool
     {
-        return GeometryEngineRegistry::get()->isValid($this);
+        return $geometryEngine->isValid($this);
     }
 
     /**
@@ -263,13 +267,15 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      * A geometry is simple if it has no anomalous geometric points,
      * such as self intersection or self tangency.
      *
+     * @deprecated Please use `$geometryEngine->isSimple()`.
+     *
      * @noproxy
      *
      * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
-    public function isSimple() : bool
+    public function isSimple(GeometryEngine $geometryEngine) : bool
     {
-        return GeometryEngineRegistry::get()->isSimple($this);
+        return $geometryEngine->isSimple($this);
     }
 
     /**
@@ -294,13 +300,15 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      * Because the result of this function is a closure, and hence topologically closed,
      * the resulting boundary can be represented using representational Geometry primitives.
      *
+     * @deprecated Please use `$geometryEngine->boundary()`.
+     *
      * @noproxy
      *
      * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
-    public function boundary() : Geometry
+    public function boundary(GeometryEngine $geometryEngine) : Geometry
     {
-        return GeometryEngineRegistry::get()->boundary($this);
+        return $geometryEngine->boundary($this);
     }
 
     /**
@@ -308,25 +316,29 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      *
      * Some geometry engines only support this method on surfaces.
      *
+     * @deprecated Please use `$geometryEngine->centroid()`.
+     *
      * @noproxy
      *
      * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
-    public function centroid() : Point
+    public function centroid(GeometryEngine $geometryEngine) : Point
     {
-        return GeometryEngineRegistry::get()->centroid($this);
+        return $geometryEngine->centroid($this);
     }
 
     /**
      * Returns whether this geometry is spatially equal to another geometry.
      *
+     * @deprecated Please use `$geometryEngine->equals()`.
+     *
      * @noproxy
      *
      * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
-    public function equals(Geometry $geometry) : bool
+    public function equals(Geometry $geometry, GeometryEngine $geometryEngine) : bool
     {
-        return GeometryEngineRegistry::get()->equals($this, $geometry);
+        return $geometryEngine->equals($this, $geometry);
     }
 
     /**
@@ -335,13 +347,15 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      * The geometries are disjoint if they do not share any space together.
      * This is the opposite of `intersects()`.
      *
+     * @deprecated Please use `$geometryEngine->disjoint()`.
+     *
      * @noproxy
      *
      * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
-    public function disjoint(Geometry $geometry) : bool
+    public function disjoint(Geometry $geometry, GeometryEngine $geometryEngine) : bool
     {
-        return GeometryEngineRegistry::get()->disjoint($this, $geometry);
+        return $geometryEngine->disjoint($this, $geometry);
     }
 
     /**
@@ -350,13 +364,15 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      * The geometries intersect if they share any portion of space.
      * This is the opposite of `disjoint()`.
      *
+     * @deprecated Please use `$geometryEngine->intersects()`.
+     *
      * @noproxy
      *
      * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
-    public function intersects(Geometry $geometry) : bool
+    public function intersects(Geometry $geometry, GeometryEngine $geometryEngine) : bool
     {
-        return GeometryEngineRegistry::get()->intersects($this, $geometry);
+        return $geometryEngine->intersects($this, $geometry);
     }
 
     /**
@@ -364,13 +380,15 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      *
      * The geometries touch if they have at least one point in common, but their interiors do not intersect.
      *
+     * @deprecated Please use `$geometryEngine->touches()`.
+     *
      * @noproxy
      *
      * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
-    public function touches(Geometry $geometry) : bool
+    public function touches(Geometry $geometry, GeometryEngine $geometryEngine) : bool
     {
-        return GeometryEngineRegistry::get()->touches($this, $geometry);
+        return $geometryEngine->touches($this, $geometry);
     }
 
     /**
@@ -378,13 +396,15 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      *
      * The geometries cross if they have some, but not all, interior points in common.
      *
+     * @deprecated Please use `$geometryEngine->crosses()`.
+     *
      * @noproxy
      *
      * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
-    public function crosses(Geometry $geometry) : bool
+    public function crosses(Geometry $geometry, GeometryEngine $geometryEngine) : bool
     {
-        return GeometryEngineRegistry::get()->crosses($this, $geometry);
+        return $geometryEngine->crosses($this, $geometry);
     }
 
     /**
@@ -392,13 +412,15 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      *
      * This is the inverse of `contains()`: `$a->within($b) == $b->contains($a)`.
      *
+     * @deprecated Please use `$geometryEngine->within()`.
+     *
      * @noproxy
      *
      * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
-    public function within(Geometry $geometry) : bool
+    public function within(Geometry $geometry, GeometryEngine $geometryEngine) : bool
     {
-        return GeometryEngineRegistry::get()->within($this, $geometry);
+        return $geometryEngine->within($this, $geometry);
     }
 
     /**
@@ -406,13 +428,15 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      *
      * This is the inverse of `within()`: `$a->contains($b) == $b->within($a)`.
      *
+     * @deprecated Please use `$geometryEngine->contains()`.
+     *
      * @noproxy
      *
      * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
-    public function contains(Geometry $geometry) : bool
+    public function contains(Geometry $geometry, GeometryEngine $geometryEngine) : bool
     {
-        return GeometryEngineRegistry::get()->contains($this, $geometry);
+        return $geometryEngine->contains($this, $geometry);
     }
 
     /**
@@ -420,13 +444,15 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      *
      * The geometries overlap if they share space, but are not completely contained by each other.
      *
+     * @deprecated Please use `$geometryEngine->overlaps()`.
+     *
      * @noproxy
      *
      * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
-    public function overlaps(Geometry $geometry) : bool
+    public function overlaps(Geometry $geometry, GeometryEngine $geometryEngine) : bool
     {
-        return GeometryEngineRegistry::get()->overlaps($this, $geometry);
+        return $geometryEngine->overlaps($this, $geometry);
     }
 
     /**
@@ -439,37 +465,43 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      *
      * @see http://en.wikipedia.org/wiki/DE-9IM
      *
+     * @deprecated Please use `$geometryEngine->relate()`.
+     *
      * @noproxy
      *
      * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
-    public function relate(Geometry $geometry, string $matrix) : bool
+    public function relate(Geometry $geometry, string $matrix, GeometryEngine $geometryEngine) : bool
     {
-        return GeometryEngineRegistry::get()->relate($this, $geometry, $matrix);
+        return $geometryEngine->relate($this, $geometry, $matrix);
     }
 
     /**
      * Returns a derived geometry collection value that matches the specified m coordinate value.
      *
+     * @deprecated Please use `$geometryEngine->locateAlong()`.
+     *
      * @noproxy
      *
      * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
-    public function locateAlong(float $mValue) : Geometry
+    public function locateAlong(float $mValue, GeometryEngine $geometryEngine) : Geometry
     {
-        return GeometryEngineRegistry::get()->locateAlong($this, $mValue);
+        return $geometryEngine->locateAlong($this, $mValue);
     }
 
     /**
      * Returns a derived geometry collection value that matches the specified range of m coordinate values inclusively.
      *
+     * @deprecated Please use `$geometryEngine->locateBetween()`.
+     *
      * @noproxy
      *
      * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
-    public function locateBetween(float $mStart, float $mEnd) : Geometry
+    public function locateBetween(float $mStart, float $mEnd, GeometryEngine $geometryEngine) : Geometry
     {
-        return GeometryEngineRegistry::get()->locateBetween($this, $mStart, $mEnd);
+        return $geometryEngine->locateBetween($this, $mStart, $mEnd);
     }
 
     /**
@@ -481,13 +513,15 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      * that the distance between these 2 points is the returned distance
      * between their geometries.
      *
+     * @deprecated Please use `$geometryEngine->distance()`.
+     *
      * @noproxy
      *
      * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
-    public function distance(Geometry $geometry) : float
+    public function distance(Geometry $geometry, GeometryEngine $geometryEngine) : float
     {
-        return GeometryEngineRegistry::get()->distance($this, $geometry);
+        return $geometryEngine->distance($this, $geometry);
     }
 
     /**
@@ -499,13 +533,15 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      * some relatively small error in this distance, but it should be near the
      * resolution of the coordinates used.
      *
+     * @deprecated Please use `$geometryEngine->buffer()`.
+     *
      * @noproxy
      *
      * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
-    public function buffer(float $distance) : Geometry
+    public function buffer(float $distance, GeometryEngine $geometryEngine) : Geometry
     {
-        return GeometryEngineRegistry::get()->buffer($this, $distance);
+        return $geometryEngine->buffer($this, $distance);
     }
 
     /**
@@ -515,13 +551,15 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      * One can think of the convex hull as the geometry you get by wrapping an elastic band around a set of geometries.
      * This is different from a concave hull which is analogous to shrink-wrapping your geometries.
      *
+     * @deprecated Please use `$geometryEngine->convexHull()`.
+     *
      * @noproxy
      *
      * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
-    public function convexHull() : Geometry
+    public function convexHull(GeometryEngine $geometryEngine) : Geometry
     {
-        return GeometryEngineRegistry::get()->convexHull($this);
+        return $geometryEngine->convexHull($this);
     }
 
     /**
@@ -529,37 +567,43 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      *
      * The intersection is the shared portion of the two geometries.
      *
+     * @deprecated Please use `$geometryEngine->intersection()`.
+     *
      * @noproxy
      *
      * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
-    public function intersection(Geometry $geometry) : Geometry
+    public function intersection(Geometry $geometry, GeometryEngine $geometryEngine) : Geometry
     {
-        return GeometryEngineRegistry::get()->intersection($this, $geometry);
+        return $geometryEngine->intersection($this, $geometry);
     }
 
     /**
      * Returns a geometry that represents the union of this geometry and another geometry.
      *
+     * @deprecated Please use `$geometryEngine->union()`.
+     *
      * @noproxy
      *
      * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
-    public function union(Geometry $geometry) : Geometry
+    public function union(Geometry $geometry, GeometryEngine $geometryEngine) : Geometry
     {
-        return GeometryEngineRegistry::get()->union($this, $geometry);
+        return $geometryEngine->union($this, $geometry);
     }
 
     /**
      * Returns a geometry that represents the difference of this geometry and another geometry.
      *
+     * @deprecated Please use `$geometryEngine->difference()`.
+     *
      * @noproxy
      *
      * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
-    public function difference(Geometry $geometry) : Geometry
+    public function difference(Geometry $geometry, GeometryEngine $geometryEngine) : Geometry
     {
-        return GeometryEngineRegistry::get()->difference($this, $geometry);
+        return $geometryEngine->difference($this, $geometry);
     }
 
     /**
@@ -568,61 +612,71 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      * The result is a geometry that represents the portions of the two geometries that do not intersect.
      * It is called a symmetric difference because `$a->symDifference($b) == $b->symDifference($a)`.
      *
+     * @deprecated Please use `$geometryEngine->symDifference()`.
+     *
      * @noproxy
      *
      * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
-    public function symDifference(Geometry $geometry) : Geometry
+    public function symDifference(Geometry $geometry, GeometryEngine $geometryEngine) : Geometry
     {
-        return GeometryEngineRegistry::get()->symDifference($this, $geometry);
+        return $geometryEngine->symDifference($this, $geometry);
     }
 
     /**
      * Snap all points of this geometry to a regular grid.
      *
+     * @deprecated Please use `$geometryEngine->snapToGrid()`.
+     *
      * @noproxy
      *
      * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
-    public function snapToGrid(float $size) : Geometry
+    public function snapToGrid(float $size, GeometryEngine $geometryEngine) : Geometry
     {
-        return GeometryEngineRegistry::get()->snapToGrid($this, $size);
+        return $geometryEngine->snapToGrid($this, $size);
     }
 
     /**
      * Returns a simplified version of this geometry using the Douglas-Peucker algorithm.
      *
+     * @deprecated Please use `$geometryEngine->simplify()`.
+     *
      * @noproxy
      *
      * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
-    public function simplify(float $tolerance) : Geometry
+    public function simplify(float $tolerance, GeometryEngine $geometryEngine) : Geometry
     {
-        return GeometryEngineRegistry::get()->simplify($this, $tolerance);
+        return $geometryEngine->simplify($this, $tolerance);
     }
 
     /**
      * Returns the 2-dimensional largest distance between two geometries in projected units.
      *
+     * @deprecated Please use `$geometryEngine->maxDistance()`.
+     *
      * @noproxy
      *
      * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
-    public function maxDistance(Geometry $geometry) : float
+    public function maxDistance(Geometry $geometry, GeometryEngine $geometryEngine) : float
     {
-        return GeometryEngineRegistry::get()->maxDistance($this, $geometry);
+        return $geometryEngine->maxDistance($this, $geometry);
     }
 
     /**
      * Returns a new geometry with its coordinates transformed to a different spatial reference system.
      *
+     * @deprecated Please use `$geometryEngine->transform()`.
+     *
      * @noproxy
      *
      * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
-    public function transform(int $srid) : Geometry
+    public function transform(int $srid, GeometryEngine $geometryEngine) : Geometry
     {
-        return GeometryEngineRegistry::get()->transform($this, $srid);
+        return $geometryEngine->transform($this, $srid);
     }
 
     /**

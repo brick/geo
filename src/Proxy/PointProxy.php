@@ -231,15 +231,6 @@ class PointProxy extends \Brick\Geo\Point implements ProxyInterface
         return $this->proxyGeometry->getIterator();
     }
 
-    public function azimuth(\Brick\Geo\Point $subject) : float
-    {
-        if ($this->proxyGeometry === null) {
-            $this->load();
-        }
-
-        return $this->proxyGeometry->azimuth($subject);
-    }
-
     public function coordinateDimension() : int
     {
         if ($this->proxyGeometry === null) {

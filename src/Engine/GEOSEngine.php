@@ -4,11 +4,17 @@ declare(strict_types=1);
 
 namespace Brick\Geo\Engine;
 
+use Brick\Geo\Curve;
 use Brick\Geo\Exception\GeometryEngineException;
 use Brick\Geo\IO\EWKBReader;
 use Brick\Geo\IO\EWKBWriter;
 use Brick\Geo\Geometry;
+use Brick\Geo\MultiCurve;
+use Brick\Geo\MultiSurface;
 use Brick\Geo\Point;
+use Brick\Geo\Surface;
+use Brick\Geo\MultiPolygon;
+use Brick\Geo\Polygon;
 use GEOSWKBReader;
 use GEOSWKBWriter;
 use GEOSWKTReader;
@@ -107,7 +113,7 @@ class GEOSEngine implements GeometryEngine
         }
     }
 
-    public function length(Geometry $g) : float
+    public function length(Curve|MultiCurve $g) : float
     {
         try {
             return $this->toGEOS($g)->length();
@@ -116,7 +122,7 @@ class GEOSEngine implements GeometryEngine
         }
     }
 
-    public function area(Geometry $g) : float
+    public function area(Surface|MultiSurface $g) : float
     {
         try {
             return $this->toGEOS($g)->area();
@@ -143,7 +149,7 @@ class GEOSEngine implements GeometryEngine
         }
     }
 
-    public function pointOnSurface(Geometry $g) : Geometry
+    public function pointOnSurface(Surface|MultiSurface $g) : Geometry
     {
         try {
             return $this->fromGEOS($this->toGEOS($g)->pointOnSurface());
@@ -183,6 +189,15 @@ class GEOSEngine implements GeometryEngine
     {
         try {
             return $this->toGEOS($g)->isSimple();
+        } catch (\Exception $e) {
+            throw GeometryEngineException::operationNotSupportedByEngine($e);
+        }
+    }
+
+    public function isRing(Curve $curve) : bool
+    {
+        try {
+            return $this->toGEOS($curve)->isRing();
         } catch (\Exception $e) {
             throw GeometryEngineException::operationNotSupportedByEngine($e);
         }
@@ -348,7 +363,7 @@ class GEOSEngine implements GeometryEngine
         throw GeometryEngineException::unimplementedMethod(__METHOD__);
     }
 
-    public function boundingPolygons(Geometry $g) : Geometry
+    public function boundingPolygons(Polygon $p) : MultiPolygon
     {
         throw GeometryEngineException::unimplementedMethod(__METHOD__);
     }

@@ -41,7 +41,7 @@ class GeoJSONWriter
      *
      * @throws GeometryIOException If the given geometry cannot be exported as GeoJSON.
      */
-    public function write(object $object) : string
+    public function write(Geometry|Feature|FeatureCollection $object) : string
     {
         return json_encode($this->writeRaw($object), $this->prettyPrint ? JSON_PRETTY_PRINT : 0);
     }
@@ -58,7 +58,7 @@ class GeoJSONWriter
      *
      * @throws GeometryIOException
      */
-    public function writeRaw(object $object): stdClass
+    public function writeRaw(Geometry|Feature|FeatureCollection $object): stdClass
     {
         if ($object instanceof Feature) {
             return $this->writeFeature($object);
@@ -68,14 +68,14 @@ class GeoJSONWriter
             return $this->writeFeatureCollection($object);
         }
 
-        if ($object instanceof Geometry) {
-            return $this->writeGeometry($object);
-        }
-
-        throw new InvalidArgumentException('Expected Feature, FeatureCollection or Geometry, got ' . get_class($object));
+        return $this->writeGeometry($object);
     }
 
     /**
+     * @psalm-suppress MoreSpecificReturnType
+     * @psalm-suppress LessSpecificReturnStatement
+     * @see https://github.com/vimeo/psalm/issues/8187
+     *
      * @throws GeometryIOException
      */
     private function writeFeature(Feature $feature): stdClass
@@ -105,6 +105,10 @@ class GeoJSONWriter
     }
 
     /**
+     * @psalm-suppress MoreSpecificReturnType
+     * @psalm-suppress LessSpecificReturnStatement
+     * @see https://github.com/vimeo/psalm/issues/8187
+     *
      * @throws GeometryIOException
      */
     private function writeFeatureCollection(FeatureCollection $featureCollection): stdClass
@@ -137,6 +141,10 @@ class GeoJSONWriter
     }
 
     /**
+     * @psalm-suppress MoreSpecificReturnType
+     * @psalm-suppress LessSpecificReturnStatement
+     * @see https://github.com/vimeo/psalm/issues/8187
+     *
      * @throws GeometryIOException
      */
     private function writeGeometry(Geometry $geometry): stdClass
@@ -179,6 +187,10 @@ class GeoJSONWriter
     }
 
     /**
+     * @psalm-suppress MoreSpecificReturnType
+     * @psalm-suppress LessSpecificReturnStatement
+     * @see https://github.com/vimeo/psalm/issues/8187
+     *
      * @throws GeometryIOException
      */
     private function writeGeometryCollection(GeometryCollection $geometryCollection): stdClass

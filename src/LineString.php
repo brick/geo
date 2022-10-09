@@ -55,7 +55,7 @@ class LineString extends Curve
             throw new InvalidGeometryException('A LineString must be composed of at least 2 points.');
         }
 
-        $this->points = $points;
+        $this->points = array_values($points);
     }
 
     /**

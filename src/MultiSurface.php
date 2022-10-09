@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Brick\Geo;
 
-use Brick\Geo\Engine\GeometryEngineRegistry;
+use Brick\Geo\Engine\GeometryEngine;
 use Brick\Geo\Exception\GeometryEngineException;
 
 /**
@@ -28,17 +28,21 @@ abstract class MultiSurface extends GeometryCollection
     /**
      * Returns the area of this MultiSurface, as measured in the spatial reference system of this MultiSurface.
      *
+     * @deprecated Please use `$geometryEngine->area()`.
+     *
      * @noproxy
      *
      * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
-    public function area() : float
+    public function area(GeometryEngine $geometryEngine) : float
     {
-        return GeometryEngineRegistry::get()->area($this);
+        return $geometryEngine->area($this);
     }
 
     /**
      * Returns a Point guaranteed to be on this MultiSurface.
+     *
+     * @deprecated Please use `$geometryEngine->pointOnSurface()`.
      *
      * @noproxy
      *
@@ -47,8 +51,8 @@ abstract class MultiSurface extends GeometryCollection
      *
      * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
-    public function pointOnSurface() : Point
+    public function pointOnSurface(GeometryEngine $geometryEngine) : Point
     {
-        return GeometryEngineRegistry::get()->pointOnSurface($this);
+        return $geometryEngine->pointOnSurface($this);
     }
 }

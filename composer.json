@@ -11,7 +11,7 @@
     ],
     "license": "MIT",
     "require": {
-        "php": "^7.4 || ^8.0"
+        "php": "^8.0"
     },
     "require-dev": {
         "ext-pdo": "*",
@@ -20,7 +20,7 @@
         "brick/reflection": "~0.2.0 || ~0.3.0 || ~0.4.0",
         "phpunit/phpunit": "^8.0 || ^9.0",
         "php-coveralls/php-coveralls": "^2.0",
-        "vimeo/psalm": "4.3.1"
+        "vimeo/psalm": "4.28.0"
     },
     "autoload": {
         "psr-4": {
