@@ -332,25 +332,4 @@ class Point extends Geometry
     {
         return new ArrayIterator($this->toArray());
     }
-
-    /**
-     * Returns the azimuth in radians of the segment defined by the given point geometries.
-     * The azimuth is an angle measured from the north, and is positive clockwise:
-     * North = 0; East = π/2; South = π; West = 3π/2.
-     *
-     * @deprecated Please use `$geometryEngine->azimuth()`.
-     *
-     * @noproxy
-     *
-     * @param Point $subject Point representing subject of observation.
-     *
-     * @return float Azimuth of the subject relative to the observer.
-     *
-     * @throws GeometryEngineException If the operation is not supported by the engine.
-     * @throws GeometryEngineException If observer and subject locations are coincident.
-     */
-    public function azimuth(Point $subject, GeometryEngine $geometryEngine) : float
-    {
-        return $geometryEngine->azimuth($this, $subject);
-    }
 }

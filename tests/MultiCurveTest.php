@@ -69,7 +69,7 @@ class MultiCurveTest extends AbstractTestCase
         $curve = MultiCurve::fromText($curve);
         $this->skipIfUnsupportedGeometry($curve);
 
-        $actualLength = $curve->length($geometryEngine);
+        $actualLength = $geometryEngine->length($curve);
 
         self::assertEqualsWithDelta($length, $actualLength, 0.001);
     }
@@ -104,7 +104,7 @@ class MultiCurveTest extends AbstractTestCase
             $this->expectException(GeometryEngineException::class);
         }
 
-        self::assertSame($isClosed, $curve->isClosed($geometryEngine));
+        self::assertSame($isClosed, $geometryEngine->isClosed($curve));
     }
 
     public function providerIsClosed() : array

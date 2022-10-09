@@ -35,35 +35,4 @@ abstract class Surface extends Geometry
     {
         return 2;
     }
-
-    /**
-     * Returns the area of this Surface, as measured in the spatial reference system of this Surface.
-     *
-     * @deprecated Please use `$geometryEngine->area()`.
-     *
-     * @noproxy
-     *
-     * @throws GeometryEngineException If the operation is not supported by the geometry engine.
-     */
-    public function area(GeometryEngine $geometryEngine) : float
-    {
-        return $geometryEngine->area($this);
-    }
-
-    /**
-     * Returns a Point guaranteed to be on this Surface.
-     *
-     * @deprecated Please use `$geometryEngine->pointOnSurface()`.
-     *
-     * @noproxy
-     *
-     * @psalm-suppress LessSpecificReturnStatement
-     * @psalm-suppress MoreSpecificReturnType
-     *
-     * @throws GeometryEngineException If the operation is not supported by the geometry engine.
-     */
-    public function pointOnSurface(GeometryEngine $geometryEngine) : Point
-    {
-        return $geometryEngine->pointOnSurface($this);
-    }
 }

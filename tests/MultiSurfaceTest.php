@@ -70,7 +70,7 @@ class MultiSurfaceTest extends AbstractTestCase
         $multiSurface = MultiSurface::fromText($multiSurface);
         $this->skipIfUnsupportedGeometry($multiSurface);
 
-        $actualArea = $multiSurface->area($geometryEngine);
+        $actualArea = $geometryEngine->area($multiSurface);
 
         self::assertEqualsWithDelta($area, $actualArea, 0.001);
     }
@@ -98,7 +98,7 @@ class MultiSurfaceTest extends AbstractTestCase
 
         $multiSurface = MultiSurface::fromText($multiMultiSurface);
         $this->skipIfUnsupportedGeometry($multiSurface);
-        $this->assertWktEquals($multiSurface->centroid($geometryEngine), $centroid);
+        $this->assertWktEquals($geometryEngine->centroid($multiSurface), $centroid);
     }
 
     public function providerCentroid() : array
@@ -127,10 +127,10 @@ class MultiSurfaceTest extends AbstractTestCase
         $multiSurface = MultiSurface::fromText($multiMultiSurface);
         $this->skipIfUnsupportedGeometry($multiSurface);
 
-        $pointOnSurface = $multiSurface->pointOnSurface($geometryEngine);
+        $pointOnSurface = $geometryEngine->pointOnSurface($multiSurface);
 
         self::assertInstanceOf(Point::class, $pointOnSurface);
-        self::assertTrue($multiSurface->contains($pointOnSurface, $geometryEngine));
+        self::assertTrue($geometryEngine->contains($multiSurface, $pointOnSurface));
     }
 
     public function providerPointOnSurface() : array

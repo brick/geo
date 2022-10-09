@@ -25,34 +25,4 @@ use Brick\Geo\Exception\GeometryEngineException;
  */
 abstract class MultiSurface extends GeometryCollection
 {
-    /**
-     * Returns the area of this MultiSurface, as measured in the spatial reference system of this MultiSurface.
-     *
-     * @deprecated Please use `$geometryEngine->area()`.
-     *
-     * @noproxy
-     *
-     * @throws GeometryEngineException If the operation is not supported by the geometry engine.
-     */
-    public function area(GeometryEngine $geometryEngine) : float
-    {
-        return $geometryEngine->area($this);
-    }
-
-    /**
-     * Returns a Point guaranteed to be on this MultiSurface.
-     *
-     * @deprecated Please use `$geometryEngine->pointOnSurface()`.
-     *
-     * @noproxy
-     *
-     * @psalm-suppress LessSpecificReturnStatement
-     * @psalm-suppress MoreSpecificReturnType
-     *
-     * @throws GeometryEngineException If the operation is not supported by the geometry engine.
-     */
-    public function pointOnSurface(GeometryEngine $geometryEngine) : Point
-    {
-        return $geometryEngine->pointOnSurface($this);
-    }
 }

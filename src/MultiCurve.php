@@ -28,35 +28,4 @@ use Brick\Geo\Exception\GeometryEngineException;
  */
 abstract class MultiCurve extends GeometryCollection
 {
-    /**
-     * Returns whether this MultiCurve is closed.
-     *
-     * The MultiCurve is considered closed if each element curve is closed.
-     *
-     * @deprecated Please use `$geometryEngine->isClosed()`.
-     *
-     * @noproxy
-     *
-     * @throws GeometryEngineException If the operation is not supported by the geometry engine.
-     */
-    public function isClosed(GeometryEngine $geometryEngine) : bool
-    {
-        return $geometryEngine->isClosed($this);
-    }
-
-    /**
-     * Returns the length of this MultiCurve.
-     *
-     * The length is equal to the sum of the lengths of the element Curves.
-     *
-     * @deprecated Please use `$geometryEngine->length()`.
-     *
-     * @noproxy
-     *
-     * @throws GeometryEngineException If the operation is not supported by the geometry engine.
-     */
-    public function length(GeometryEngine $geometryEngine) : float
-    {
-        return $geometryEngine->length($this);
-    }
 }

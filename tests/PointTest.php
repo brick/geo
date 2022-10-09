@@ -201,7 +201,7 @@ class PointTest extends AbstractTestCase
             $this->expectException(GeometryEngineException::class);
         }
 
-        $azimuthActual = $observer->azimuth($subject, $geometryEngine);
+        $azimuthActual = $geometryEngine->azimuth($observer, $subject);
 
         self::assertEqualsWithDelta($azimuthExpected, $azimuthActual, 0.001);
     }

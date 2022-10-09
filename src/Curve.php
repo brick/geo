@@ -26,20 +26,6 @@ abstract class Curve extends Geometry
     }
 
     /**
-     * Returns the length of this Curve in its associated spatial reference.
-     *
-     * @deprecated Please use `$geometryEngine->length()`.
-     *
-     * @noproxy
-     *
-     * @throws GeometryEngineException If the operation is not supported by the geometry engine.
-     */
-    public function length(GeometryEngine $geometryEngine) : float
-    {
-        return $geometryEngine->length($this);
-    }
-
-    /**
      * Returns the start Point of this Curve.
      *
      * @throws EmptyGeometryException If the curve is empty.
@@ -52,39 +38,4 @@ abstract class Curve extends Geometry
      * @throws EmptyGeometryException If the curve is empty.
      */
     abstract public function endPoint() : Point;
-
-    /**
-     * Returns whether this Curve is closed.
-     *
-     * The curve is closed if `startPoint()` == `endPoint()`.
-     *
-     * @deprecated Please use `$geometryEngine->isClosed()`.
-     *
-     * @noproxy
-     *
-     * @throws GeometryEngineException If the operation is not supported by the geometry engine.
-     */
-    public function isClosed(GeometryEngine $geometryEngine) : bool
-    {
-        return $geometryEngine->isClosed($this);
-    }
-
-    /**
-     * Returns whether this Curve is a ring.
-     *
-     * The curve is a ring if it is both closed and simple.
-     *
-     * The curve is closed if its start point is equal to its end point.
-     * The curve is simple if it does not pass through the same point more than once.
-     *
-     * @deprecated Please use `$geometryEngine->isRing()`.
-     *
-     * @noproxy
-     *
-     * @throws GeometryEngineException If the operation is not supported by the geometry engine.
-     */
-    public function isRing(GeometryEngine $geometryEngine) : bool
-    {
-        return $geometryEngine->isRing($this);
-    }
 }

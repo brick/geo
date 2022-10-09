@@ -111,32 +111,6 @@ class PolyhedralSurface extends Surface
     }
 
     /**
-     * Returns the collection of polygons in this surface that bounds the given polygon 'p' for any polygon 'p' in the surface.
-     *
-     * @deprecated Please use `$geometryEngine->boundingPolygons()`.
-     *
-     * @noproxy
-     *
-     * @throws GeometryEngineException If the operation is not supported by the geometry engine.
-     */
-    public function boundingPolygons(Polygon $p, GeometryEngine $geometryEngine) : MultiPolygon
-    {
-        return $geometryEngine->boundingPolygons($p);
-    }
-
-    /**
-     * @deprecated Please use `$geometryEngine->isClosed()`.
-     *
-     * @noproxy
-     *
-     * @throws GeometryEngineException If the operation is not supported by the geometry engine.
-     */
-    public function isClosed(GeometryEngine $geometryEngine) : bool
-    {
-        return $geometryEngine->isClosed($this);
-    }
-
-    /**
      * @noproxy
      */
     public function geometryType() : string

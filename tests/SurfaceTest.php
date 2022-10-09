@@ -26,7 +26,7 @@ class SurfaceTest extends AbstractTestCase
         $surface = Surface::fromText($surface);
         $this->skipIfUnsupportedGeometry($surface);
 
-        $actualArea = $surface->area($geometryEngine);
+        $actualArea = $geometryEngine->area($surface);
 
         self::assertIsFloat($actualArea);
         self::assertEqualsWithDelta($area, $actualArea, 0.001);
@@ -57,7 +57,7 @@ class SurfaceTest extends AbstractTestCase
 
         $surface = Surface::fromText($surface);
         $this->skipIfUnsupportedGeometry($surface);
-        $this->assertWktEquals($surface->centroid($geometryEngine), $centroid);
+        $this->assertWktEquals($geometryEngine->centroid($surface), $centroid);
     }
 
     public function providerCentroid() : array
@@ -87,10 +87,10 @@ class SurfaceTest extends AbstractTestCase
         $surface = Surface::fromText($surface);
         $this->skipIfUnsupportedGeometry($surface);
 
-        $pointOnSurface = $surface->pointOnSurface($geometryEngine);
+        $pointOnSurface = $geometryEngine->pointOnSurface($surface);
 
         self::assertInstanceOf(Point::class, $pointOnSurface);
-        self::assertTrue($surface->contains($pointOnSurface, $geometryEngine));
+        self::assertTrue($geometryEngine->contains($surface, $pointOnSurface));
     }
 
     public function providerPointOnSurface() : array

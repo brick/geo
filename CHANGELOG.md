@@ -6,7 +6,7 @@
 
 **Minimum PHP version is now `8.0`.**
 
-The global `GeometryEngineRegistry` is gone. All convenience methods that rely on the `GeometryEngine` are deprecated, and need the `GeometryEngine` to be passed explicitly as an extra argument.
+The global `GeometryEngineRegistry` is gone. All convenience methods that rely on the `GeometryEngineRegistry` have been removed.
 You should now explicitly call the `GeometryEngine`, that you can get injected with your dependency injection container.
 
 For example, the following call:
@@ -20,14 +20,6 @@ Should be replaced with:
 ```php
 $geometryEngine->length($lineString);
 ```
-
-You can still call it this way for now:
-
-```php
-$lineString->length($geometryEngine);
-```
-
-But this behaviour is deprecated and will be removed in a future version.
 
 **Detail of breaking changes**
 
@@ -43,7 +35,7 @@ The following method signatures have been changed:
 
 - `GeometryEngine::boundingPolygons()`
 
-The following methods have been deprecated, and now need an extra `GeometryEngine` parameter:
+The following deprecated methods have been removed:
 
 - `Curve::isClosed()`
 - `Curve::isRing()`
