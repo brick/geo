@@ -13,6 +13,8 @@ use Brick\Geo\MultiCurve;
 use Brick\Geo\MultiSurface;
 use Brick\Geo\Point;
 use Brick\Geo\Surface;
+use Brick\Geo\MultiPolygon;
+use Brick\Geo\Polygon;
 use GEOSWKBReader;
 use GEOSWKBWriter;
 use GEOSWKTReader;
@@ -192,6 +194,15 @@ class GEOSEngine implements GeometryEngine
         }
     }
 
+    public function isRing(Curve $curve) : bool
+    {
+        try {
+            return $this->toGEOS($curve)->isRing();
+        } catch (\Exception $e) {
+            throw GeometryEngineException::operationNotSupportedByEngine($e);
+        }
+    }
+
     public function equals(Geometry $a, Geometry $b) : bool
     {
         try {
@@ -352,7 +363,7 @@ class GEOSEngine implements GeometryEngine
         throw GeometryEngineException::unimplementedMethod(__METHOD__);
     }
 
-    public function boundingPolygons(Geometry $g) : Geometry
+    public function boundingPolygons(Polygon $p) : MultiPolygon
     {
         throw GeometryEngineException::unimplementedMethod(__METHOD__);
     }

@@ -9,7 +9,9 @@ use Brick\Geo\Exception\GeometryEngineException;
 use Brick\Geo\Geometry;
 use Brick\Geo\MultiCurve;
 use Brick\Geo\MultiSurface;
+use Brick\Geo\MultiPolygon;
 use Brick\Geo\Point;
+use Brick\Geo\Polygon;
 use Brick\Geo\Proxy;
 use Brick\Geo\Surface;
 
@@ -335,6 +337,16 @@ abstract class DatabaseEngine implements GeometryEngine
         return $this->queryBoolean('ST_IsSimple', $g);
     }
 
+    public function isRing(Curve $curve) : bool
+    {
+        try {
+            return $this->queryBoolean('ST_IsRing', $curve);
+        } catch (GeometryEngineException $e) {
+            // Not all RDBMS (hello, MySQL) support ST_IsRing(), but we have an easy fallback
+            return $this->isClosed($curve) && $this->isSimple($curve);
+        }
+    }
+
     public function equals(Geometry $a, Geometry $b) : bool
     {
         return $this->queryBoolean('ST_Equals', $a, $b);
@@ -415,7 +427,7 @@ abstract class DatabaseEngine implements GeometryEngine
         return $this->queryFloat('ST_MaxDistance', $a, $b);
     }
 
-    public function boundingPolygons(Geometry $g) : Geometry
+    public function boundingPolygons(Polygon $p) : MultiPolygon
     {
         throw GeometryEngineException::unimplementedMethod(__METHOD__);
     }

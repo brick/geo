@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Brick\Geo;
 
 use ArrayIterator;
-use Brick\Geo\Engine\GeometryEngineRegistry;
+use Brick\Geo\Engine\GeometryEngine;
 use Brick\Geo\Exception\GeometryEngineException;
 use Brick\Geo\Exception\CoordinateSystemException;
 use Brick\Geo\Exception\NoSuchGeometryException;
@@ -113,6 +113,8 @@ class PolyhedralSurface extends Surface
     /**
      * Returns the collection of polygons in this surface that bounds the given polygon 'p' for any polygon 'p' in the surface.
      *
+     * @deprecated Please use `$geometryEngine->boundingPolygons()`.
+     *
      * @noproxy
      *
      * @psalm-suppress LessSpecificReturnStatement
@@ -120,19 +122,21 @@ class PolyhedralSurface extends Surface
      *
      * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
-    public function boundingPolygons(Polygon $p) : MultiPolygon
+    public function boundingPolygons(Polygon $p, GeometryEngine $geometryEngine) : MultiPolygon
     {
-        return GeometryEngineRegistry::get()->boundingPolygons($p);
+        return $geometryEngine->boundingPolygons($p);
     }
 
     /**
+     * @deprecated Please use `$geometryEngine->isClosed()`.
+     *
      * @noproxy
      *
      * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
-    public function isClosed() : bool
+    public function isClosed(GeometryEngine $geometryEngine) : bool
     {
-        return GeometryEngineRegistry::get()->isClosed($this);
+        return $geometryEngine->isClosed($this);
     }
 
     /**

@@ -2,11 +2,90 @@
 
 ## UNRELEASED (0.8.0)
 
-💥 **Breaking change**
+💥 **Breaking changes**
 
-- Minimum PHP version is now 8.0
+**Minimum PHP version is now `8.0`.**
 
-💥 **Non-breaking change**
+The global `GeometryEngineRegistry` is gone. All convenience methods that rely on the `GeometryEngine` are deprecated, and need the `GeometryEngine` to be passed explicitly as an extra argument.
+You should now explicitly call the `GeometryEngine`, that you can get injected with your dependency injection container.
+
+For example, the following call:
+
+```php
+$lineString->length();
+```
+
+Should be replaced with:
+
+```php
+$geometryEngine->length($lineString);
+```
+
+You can still call it this way for now:
+
+```php
+$lineString->length($geometryEngine);
+```
+
+But this behaviour is deprecated and will be removed in a future version.
+
+**Detail of breaking changes**
+
+The following class has been removed:
+
+- `GeometryEngineRegistry`
+
+The following method has been added:
+
+- `GeometryEngine::isRing()`
+
+The following method signatures have been changed:
+
+- `GeometryEngine::boundingPolygons()`
+
+The following methods have been deprecated, and now need an extra `GeometryEngine` parameter:
+
+- `Curve::isClosed()`
+- `Curve::isRing()`
+- `Curve::length()`
+- `Geometry::boundary()`
+- `Geometry::buffer()`
+- `Geometry::centroid()`
+- `Geometry::contains()`
+- `Geometry::convexHull()`
+- `Geometry::crosses()`
+- `Geometry::difference()`
+- `Geometry::disjoint()`
+- `Geometry::distance()`
+- `Geometry::equals()`
+- `Geometry::envelope()`
+- `Geometry::intersection()`
+- `Geometry::intersects()`
+- `Geometry::isSimple()`
+- `Geometry::isValid()`
+- `Geometry::locateAlong()`
+- `Geometry::locateBetween()`
+- `Geometry::maxDistance()`
+- `Geometry::overlaps()`
+- `Geometry::relate()`
+- `Geometry::simplify()`
+- `Geometry::snapToGrid()`
+- `Geometry::symDifference()`
+- `Geometry::touches()`
+- `Geometry::transform()`
+- `Geometry::union()`
+- `Geometry::within()`
+- `MultiCurve::isClosed()`
+- `MultiCurve::length()`
+- `MultiSurface::area()`
+- `MultiSurface::pointOnSurface()`
+- `Point::azimuth()`
+- `PolyhedralSurface::boundingPolygons()`
+- `PolyhedralSurface::isClosed()`
+- `Surface::area()`
+- `Surface::pointOnSurface()`
+
+- 💥 **Non-breaking changes**
 
 - The following signatures have changed, but are not a breaking change due to LSP:
   - `DatabaseEngine::getParameterPlaceholder(mixed $parameter): string`
