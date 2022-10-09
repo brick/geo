@@ -66,10 +66,8 @@ final class Feature
     /**
      * @param string $name    The property name.
      * @param mixed  $default The default value if the property is not found.
-     *
-     * @return mixed
      */
-    public function getProperty(string $name, $default = null)
+    public function getProperty(string $name, mixed $default = null): mixed
     {
         if ($this->properties === null || ! property_exists($this->properties, $name)) {
             return $default;
@@ -84,7 +82,7 @@ final class Feature
      * @param string $name  The property name.
      * @param mixed  $value The value. Must be convertible to JSON.
      */
-    public function withProperty(string $name, $value): Feature
+    public function withProperty(string $name, mixed $value): Feature
     {
         $properties = Cloner::clone($this->properties);
 

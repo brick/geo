@@ -9,10 +9,7 @@ namespace Brick\Geo\Exception;
  */
 class UnexpectedGeometryException extends GeometryException
 {
-    /**
-     * @param mixed $value
-     */
-    public static function unexpectedGeometryType(string $expectedClass, $value) : UnexpectedGeometryException
+    public static function unexpectedGeometryType(string $expectedClass, mixed $value) : UnexpectedGeometryException
     {
         $value = is_object($value) ? get_class($value) : gettype($value);
         $message = sprintf('Unexpected geometry type: expected %s, got %s.', $expectedClass, $value);
