@@ -49,9 +49,6 @@ class GeoJSONWriter
     /**
      * Writes the given object as a raw stdClass object that can be JSON-encoded.
      *
-     * @psalm-suppress RedundantConditionGivenDocblockType
-     * @psalm-suppress MixedArgument
-     *
      * @param Geometry|Feature|FeatureCollection $object
      *
      * @return stdClass An object to be JSON-encoded.

@@ -117,9 +117,6 @@ class PolyhedralSurface extends Surface
      *
      * @noproxy
      *
-     * @psalm-suppress LessSpecificReturnStatement
-     * @psalm-suppress MoreSpecificReturnType
-     *
      * @throws GeometryEngineException If the operation is not supported by the geometry engine.
      */
     public function boundingPolygons(Polygon $p, GeometryEngine $geometryEngine) : MultiPolygon
