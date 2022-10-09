@@ -166,7 +166,7 @@ class GeoJSONReader
             if (! is_object($feature)) {
                 throw GeometryIOException::invalidGeoJSON(sprintf(
                     'Unexpected data of type %s in "FeatureCollection.features" attribute.',
-                    gettype($features)
+                    get_debug_type($features)
                 ));
             }
 
@@ -260,7 +260,7 @@ class GeoJSONReader
             if (! is_object($geometry)) {
                 throw GeometryIOException::invalidGeoJSON(sprintf(
                     'Unexpected data of type %s in "GeometryCollection.geometries" attribute.',
-                    gettype($geometry)
+                    get_debug_type($geometry)
                 ));
             }
 
