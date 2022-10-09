@@ -8,7 +8,7 @@ use Brick\Geo\CoordinateSystem;
 use Brick\Geo\Geometry;
 
 /**
- * Exception thrown when cordinate systems are mixed.
+ * Exception thrown when coordinate systems are mixed.
  */
 class CoordinateSystemException extends GeometryException
 {
