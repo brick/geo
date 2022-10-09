@@ -348,5 +348,5 @@ class GEOSGeometry
      *
      * @throws \Exception
      */
-    public function voronoiDiagram(float $tolerance = 0.0, bool $onlyEdges = false, GEOSGeometry $extent = null): GEOSGeometry {}
+    public function voronoiDiagram(float $tolerance = 0.0, bool $onlyEdges = false, ?GEOSGeometry $extent = null): GEOSGeometry {}
 }
