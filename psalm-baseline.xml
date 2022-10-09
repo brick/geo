@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<files psalm-version="4.28.0@52e96bea381e6cb07a672aefec791a5817694a26">
+  <file src="src/CircularString.php">
+    <LessSpecificReturnStatement occurrences="3">
+      <code>new CircularString($cs, ...$geometries)</code>
+      <code>new CircularString($cs, ...$points)</code>
+      <code>new CircularString($cs, ...$points)</code>
+    </LessSpecificReturnStatement>
+    <MoreSpecificReturnType occurrences="3">
+      <code>CircularString</code>
+      <code>CircularString</code>
+      <code>CircularString</code>
+    </MoreSpecificReturnType>
+  </file>
+  <file src="src/CompoundCurve.php">
+    <LessSpecificReturnStatement occurrences="3">
+      <code>new CompoundCurve($cs, ...$curves)</code>
+      <code>new CompoundCurve($cs, ...$curves)</code>
+      <code>new CompoundCurve($cs, ...$curves)</code>
+    </LessSpecificReturnStatement>
+    <MoreSpecificReturnType occurrences="3">
+      <code>CompoundCurve</code>
+      <code>CompoundCurve</code>
+      <code>CompoundCurve</code>
+    </MoreSpecificReturnType>
+  </file>
+  <file src="src/CurvePolygon.php">
+    <LessSpecificReturnStatement occurrences="3">
+      <code>new CurvePolygon($cs, ...$rings)</code>
+      <code>new CurvePolygon($cs, ...$rings)</code>
+      <code>new CurvePolygon($cs, ...$rings)</code>
+    </LessSpecificReturnStatement>
+    <MoreSpecificReturnType occurrences="3">
+      <code>CurvePolygon</code>
+      <code>CurvePolygon</code>
+      <code>CurvePolygon</code>
+    </MoreSpecificReturnType>
+  </file>
+  <file src="src/GeometryCollection.php">
+    <LessSpecificReturnStatement occurrences="3">
+      <code>new GeometryCollection($cs, ...$geometries)</code>
+      <code>new GeometryCollection($cs, ...$geometries)</code>
+      <code>new GeometryCollection($cs, ...$geometries)</code>
+    </LessSpecificReturnStatement>
+    <MoreSpecificReturnType occurrences="3">
+      <code>GeometryCollection</code>
+      <code>GeometryCollection</code>
+      <code>GeometryCollection</code>
+    </MoreSpecificReturnType>
+  </file>
+  <file src="src/LineString.php">
+    <LessSpecificReturnStatement occurrences="3">
+      <code>new LineString($cs, ...$points)</code>
+      <code>new LineString($cs, ...$points)</code>
+      <code>new LineString($cs, ...$points)</code>
+    </LessSpecificReturnStatement>
+    <MoreSpecificReturnType occurrences="3">
+      <code>LineString</code>
+      <code>LineString</code>
+      <code>LineString</code>
+    </MoreSpecificReturnType>
+  </file>
+  <file src="src/Point.php">
+    <LessSpecificReturnStatement occurrences="3">
+      <code>new Point($cs, ...$coords)</code>
+      <code>new Point($cs, ...$coords)</code>
+      <code>new Point($cs, ...$coords)</code>
+    </LessSpecificReturnStatement>
+    <MoreSpecificReturnType occurrences="3">
+      <code>Point</code>
+      <code>Point</code>
+      <code>Point</code>
+    </MoreSpecificReturnType>
+  </file>
+  <file src="src/Polygon.php">
+    <LessSpecificReturnStatement occurrences="3">
+      <code>new Polygon($cs, ...$rings)</code>
+      <code>new Polygon($cs, ...$rings)</code>
+      <code>new Polygon($cs, ...$rings)</code>
+    </LessSpecificReturnStatement>
+    <MoreSpecificReturnType occurrences="3">
+      <code>Polygon</code>
+      <code>Polygon</code>
+      <code>Polygon</code>
+    </MoreSpecificReturnType>
+  </file>
+  <file src="src/PolyhedralSurface.php">
+    <LessSpecificReturnStatement occurrences="3">
+      <code>new PolyhedralSurface($cs, ...$patches)</code>
+      <code>new PolyhedralSurface($cs, ...$patches)</code>
+      <code>new PolyhedralSurface($cs, ...$patches)</code>
+    </LessSpecificReturnStatement>
+    <MoreSpecificReturnType occurrences="3">
+      <code>PolyhedralSurface</code>
+      <code>PolyhedralSurface</code>
+      <code>PolyhedralSurface</code>
+    </MoreSpecificReturnType>
+  </file>
+</files>
