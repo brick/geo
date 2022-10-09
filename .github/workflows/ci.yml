@@ -16,7 +16,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: "8.0"
+          php-version: "8.1"
 
       - name: Install composer dependencies
         uses: "ramsey/composer-install@v1"
@@ -33,6 +33,7 @@ jobs:
         php-version:
           - "8.0"
           - "8.1"
+          - "8.2"
         emulate-prepares:
           - "ON"
           - "OFF"
@@ -66,7 +67,7 @@ jobs:
         env:
           ENGINE: PDO_MYSQL
           EMULATE_PREPARES: ${{ matrix.emulate-prepares }}
-        if: ${{ matrix.php-version != '8.0' }}
+        if: ${{ matrix.php-version != '8.1' }}
 
       - name: Run PHPUnit with coverage
         run: |
@@ -75,13 +76,13 @@ jobs:
         env:
           ENGINE: PDO_MYSQL
           EMULATE_PREPARES: ${{ matrix.emulate-prepares }}
-        if: ${{ matrix.php-version == '8.0' }}
+        if: ${{ matrix.php-version == '8.1' }}
 
       - name: Upload coverage report to Coveralls
         run: vendor/bin/php-coveralls --coverage_clover=build/logs/clover.xml -v
         env:
           COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        if: ${{ matrix.php-version == '8.0' }}
+        if: ${{ matrix.php-version == '8.1' }}
 
   phpunit-mariadb:
     name: PHPUnit MariaDB
@@ -90,7 +91,7 @@ jobs:
     strategy:
       matrix:
         php-version:
-          - "8.0"
+          - "8.1"
         emulate-prepares:
           - "ON"
           - "OFF"
@@ -139,7 +140,7 @@ jobs:
     strategy:
       matrix:
         php-version:
-          - "8.0"
+          - "8.1"
 
     steps:
       - name: Checkout
@@ -181,7 +182,7 @@ jobs:
     strategy:
       matrix:
         php-version:
-          - "8.0"
+          - "8.1"
 
     steps:
       - name: Checkout
@@ -220,7 +221,7 @@ jobs:
     strategy:
       matrix:
         php-version:
-          - "8.0"
+          - "8.1"
 
     steps:
       - name: Checkout
