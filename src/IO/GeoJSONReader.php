@@ -53,11 +53,9 @@ class GeoJSONReader
     }
 
     /**
-     * @return Geometry|Feature|FeatureCollection
-     *
      * @throws GeometryException If the GeoJSON file is invalid.
      */
-    public function read(string $geoJson): object
+    public function read(string $geoJson): Geometry|Feature|FeatureCollection
     {
         try {
             $geoJsonObject = json_decode($geoJson, false, 512, JSON_THROW_ON_ERROR);
@@ -74,11 +72,9 @@ class GeoJSONReader
     }
 
     /**
-     * @return Geometry|Feature|FeatureCollection
-     *
      * @throws GeometryException
      */
-    private function readAsObject(stdClass $geoJsonObject): object
+    private function readAsObject(stdClass $geoJsonObject): Geometry|Feature|FeatureCollection
     {
         if (! isset($geoJsonObject->type) || ! is_string($geoJsonObject->type)) {
             throw GeometryIOException::invalidGeoJSON('Missing or malformed "type" attribute.');

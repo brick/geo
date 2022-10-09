@@ -85,7 +85,11 @@ The following methods have been deprecated, and now need an extra `GeometryEngin
 - `Surface::area()`
 - `Surface::pointOnSurface()`
 
-- 💥 **Non-breaking changes**
+The following change only affects you if you implement a custom `DatabaseEngine`:
+
+- The signature of `DatabaseEngine::getParameterPlaceholder()` has changed
+
+💥 **Non-breaking changes**
 
 - The following signatures have changed, but are not a breaking change due to LSP:
   - `DatabaseEngine::getParameterPlaceholder(mixed $parameter): string`

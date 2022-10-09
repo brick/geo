@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Brick\Geo\Engine;
 
 use Brick\Geo\Exception\GeometryEngineException;
+use Brick\Geo\Geometry;
 use PDO;
 use PDOException;
 use PDOStatement;
@@ -99,10 +100,7 @@ class PDOEngine extends DatabaseEngine
         return parent::getGeomFromWKBSyntax();
     }
 
-    /**
-     * @param scalar|null $parameter
-     */
-    protected function getParameterPlaceholder(mixed $parameter): string
+    protected function getParameterPlaceholder(string|float|int $parameter): string
     {
         if ($this->pdo->getAttribute(PDO::ATTR_DRIVER_NAME) === 'pgsql') {
             if (is_int($parameter)) {

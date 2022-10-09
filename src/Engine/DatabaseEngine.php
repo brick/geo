@@ -68,10 +68,8 @@ abstract class DatabaseEngine implements GeometryEngine
      * Returns the placeholder syntax for the given parameter.
      *
      * This method may be overridden to perform explicit type casts if necessary.
-     *
-     * @param scalar|null $parameter
      */
-    protected function getParameterPlaceholder(mixed $parameter): string
+    protected function getParameterPlaceholder(string|float|int $parameter): string
     {
         return '?';
     }
