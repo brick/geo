@@ -36,8 +36,6 @@ composer require brick/geo
 
 Then head on to the [Configuration](#configuration) section to configure a GIS geometry engine.
 
-Failure to configure a geometry engine would result in a `GeometryEngineException` being thrown when trying to use a method that requires one.
-
 Project status & release process
 --------------------------------
 

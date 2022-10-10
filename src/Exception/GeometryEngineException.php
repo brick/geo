@@ -11,11 +11,6 @@ namespace Brick\Geo\Exception;
  */
 class GeometryEngineException extends GeometryException
 {
-    public static function noEngineSet() : GeometryEngineException
-    {
-        return new self('A GeometryEngine must be set to support this feature.');
-    }
-
     public static function unimplementedMethod(string $methodName) : GeometryEngineException
     {
         $message = sprintf('%s() is currently not implemented.', $methodName);
