@@ -16,12 +16,10 @@ Introduction
 
 This library is a PHP implementation of the [OpenGIS specification](http://www.opengeospatial.org/standards/sfa).
 
-It is essentially a wrapper around a third-party GIS engine, to which it delegates most of the complexity of the
-geometry calculations. Several engines are supported, from native PHP extensions such as GEOS to GIS-compatible databases such as MySQL or PostgreSQL.
+It provides [Geometry classes](#geometry-hierarchy) (`Point`, `LineString`, `Polygon`, etc.), and can natively read/write many formats: WKB, WKT, EWKB, EWKT, and GeoJSON.
 
-Already using a MySQL 5.6+ or MariaDB 5.5+ database? Just provide the library with a `PDO` instance and unlock the full power of GIS calculations!
-
-Not using MySQL/MariaDB? You still have a few options to choose from!
+It also provides a `GeometryEngine` interface for advanced calculations (`length`, `area`, `union`, `intersection`, etc.),
+together with implementations that delegate these operations to a third-party GIS engine: the [GEOS](https://git.osgeo.org/gitea/geos/php-geos) extension, or a GIS-enabled database such as MySQL or PostgreSQL.
 
 Requirements and installation
 -----------------------------
@@ -34,7 +32,9 @@ Install the library with [Composer](https://getcomposer.org/):
 composer require brick/geo
 ```
 
-Then head on to the [Configuration](#configuration) section to configure a GIS geometry engine.
+If you only need basic operations such as building Geometry objects, importing from / exporting to one of the supported formats (WKB, WKT, EWKB, EWKT, or GeoJSON), then you're all set.
+
+If you need advanced features, such as `length()`, `union()`, `intersection`, etc., head on to the [Configuration](#configuration) section to choose a `GeometryEngine` implementation.
 
 Project status & release process
 --------------------------------
@@ -45,23 +45,66 @@ The current releases are numbered `0.x.y`. When a non-breaking change is introdu
 
 **When a breaking change is introduced, a new `0.x` version cycle is always started.**
 
-It is therefore safe to lock your project to a given release cycle, such as `0.7.*`.
+It is therefore safe to lock your project to a given release cycle, such as `0.8.*`.
 
 If you need to upgrade to a newer release cycle, check the [release history](https://github.com/brick/geo/releases) for a list of changes introduced by each further `0.x.0` version.
+
+Quick start
+-----------
+
+```php
+use Brick\Geo\LineString;
+use Brick\Geo\Point;
+use Brick\Geo\Polygon;
+
+// Building geometries from coordinates
+
+$lineString = LineString::of(
+    Point::xy(1, 2),
+    Point::xy(3, 4),
+);
+
+echo $lineString->asText(); // LINESTRING (1 2, 3 4)
+
+// Importing geometries
+
+$point = Point::fromText('POINT (1 2)');
+
+echo $point->x(); // 1
+echo $point->y(); // 2
+
+// Using advanced calculations from a GeometryEngine
+// (see the Configuration section)
+
+$polygon = Polygon::fromText('POLYGON ((0 0, 0 3, 3 3, 0 0))');
+echo $geometryEngine->area($polygon); // 4.5
+
+$centroid = $geometryEngine->centroid($polygon);
+echo $centroid->asText(); // POINT (1 2)
+```
 
 Configuration
 -------------
 
-Configuring the library consists in choosing the most convenient `GeometryEngine` implementation for your installation. The following implementations are available:
+Advanced calculations are available through the `GeometryEngine` interface. The library ships with the following implementations:
 
 - `PDOEngine`: communicates with a GIS-compatible database over a `PDO` connection.  
   This engine currently supports the following databases:
-  - [MySQL](http://php.net/manual/en/ref.pdo-mysql.php) version 5.6 or greater.  
-    *Note: MySQL currently only supports 2D geometries.*
-  - MariaDB version 5.5 or greater.
+  - [MySQL](http://php.net/manual/en/ref.pdo-mysql.php) version 5.6 or greater (*2D geometries only*)
+  - MariaDB version 5.5 or greater
   - [PostgreSQL](http://php.net/manual/en/ref.pdo-pgsql.php) with the [PostGIS](http://postgis.net/install) extension.
 - `SQLite3Engine`: communicates with a [SQLite3](http://php.net/manual/en/book.sqlite3.php) database with the [SpatiaLite](https://www.gaia-gis.it/fossil/libspatialite/index) extension.
-- `GEOSEngine`: uses the [GEOS](https://github.com/libgeos/libgeos) PHP bindings.
+- `GEOSEngine`: uses the [GEOS](https://git.osgeo.org/gitea/geos/php-geos) PHP extension
+
+Your choice for the right implementation should be guided by two criteria:
+
+- **availability**: if you already use a GIS-enabled database such as MySQL, this may be an easy choice;
+- **capabilities**: not all databases offer the same GIS capabilities:
+  - some functions may be available on PostgreSQL but not on other databases (see the [Spatial Function Reference](#spatial-function-reference) section)
+  - some functions may be restricted to certain geometry types and/or SRIDs; for example, `buffer()` works on MySQL, but would fail with a `Polygon` on SRID 4326 (GPS coordinates, distance in meters)
+  - some databases may return distances in meters on SRID 4326, while others may return distances in degrees
+
+You should probably start with the easiest method that works for you, and test if this setup matches your expectations.
 
 Following is a step-by-step guide for all possible configurations:
 
@@ -168,7 +211,7 @@ In this example we have created an in-memory database for our GIS calculations, 
 <details>
 <summary>Click to expand</summary>
 
-- Ensure that [the PHP bindings for GEOS](https://git.osgeo.org/gogs/geos/php-geos) are installed on your server (GEOS 3.6.0 onwards; previous versions require compiling GEOS with the `--enable-php` flag).
+- Ensure that [the PHP bindings for GEOS](https://git.osgeo.org/gitea/geos/php-geos) are installed on your server (GEOS 3.6.0 onwards; previous versions require compiling GEOS with the `--enable-php` flag).
 - Ensure that the GEOS extension is enabled in your `php.ini`:
 
         extension=geos.so
@@ -221,22 +264,9 @@ Here is a list of all exceptions:
 - `GeometryEngineException` is thrown when a functionality is not supported by the current geometry engine
 - `GeometryIOException` is thrown when an error occurs while reading or writing (E)WKB/T data
 - `InvalidGeometryException` is thrown when creating an invalid geometry, such as a `LineString` with only one `Point`
-- `NoSuchGeometryException` is thrown when attempting to get a geometry at an non-existing index in a collection
+- `NoSuchGeometryException` is thrown when attempting to get a geometry at a non-existing index in a collection
 - `UnexpectedGeometryException` is thrown when a geometry is not an instance of the expected sub-type, for example when
 calling `Point::fromText()` with a `LineString` WKT.
-
-Example
--------
-
-```php
-use Brick\Geo\Polygon;
-
-$polygon = Polygon::fromText('POLYGON ((0 0, 0 3, 3 3, 0 0))');
-echo $geometryEngine->area($polygon); // 4.5
-
-$centroid = $geometryEngine->centroid($polygon);
-echo $centroid->asText(); // POINT (1 2)
-```
 
 Spatial Function Reference
 --------------------------
