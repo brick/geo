@@ -6,7 +6,7 @@
 
 - Better Psalm annotations for geometry getters
 - Removed outdated suggestion in `composer.json`
-- Minor proxy code style improvements
+- Minor documentation fixes & proxy code style improvements
 
 ## [0.8.0](https://github.com/brick/geo/releases/tag/0.8.0) - 2022-10-11
 

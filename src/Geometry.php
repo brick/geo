@@ -250,7 +250,7 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      * Returns a copy of this Geometry, with the SRID altered.
      *
      * Note that only the SRID value is changed, the coordinates are not reprojected.
-     * Use transform() to reproject the Geometry to another SRID.
+     * Use GeometryEngine::transform() to reproject the Geometry to another SRID.
      *
      * @return static
      */
