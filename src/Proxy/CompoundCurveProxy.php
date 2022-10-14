@@ -13,6 +13,9 @@ use Brick\Geo\CompoundCurve;
 
 /**
  * Proxy class for CompoundCurve.
+ *
+ * @internal This class is not part of the public API and can change at any time.
+ *           Please type-hint against Brick\Geo\CompoundCurve in your projects.
  */
 class CompoundCurveProxy extends CompoundCurve implements ProxyInterface
 {

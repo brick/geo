@@ -13,6 +13,9 @@ use Brick\Geo\_CLASSNAME_;
 
 /**
  * Proxy class for _CLASSNAME_.
+ *
+ * @internal This class is not part of the public API and can change at any time.
+ *           Please type-hint against _FQCN_ in your projects.
  */
 class _CLASSNAME_Proxy extends _CLASSNAME_ implements ProxyInterface
 {

@@ -13,6 +13,9 @@ use Brick\Geo\TIN;
 
 /**
  * Proxy class for TIN.
+ *
+ * @internal This class is not part of the public API and can change at any time.
+ *           Please type-hint against Brick\Geo\TIN in your projects.
  */
 class TINProxy extends TIN implements ProxyInterface
 {

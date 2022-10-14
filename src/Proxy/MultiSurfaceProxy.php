@@ -13,6 +13,9 @@ use Brick\Geo\MultiSurface;
 
 /**
  * Proxy class for MultiSurface.
+ *
+ * @internal This class is not part of the public API and can change at any time.
+ *           Please type-hint against Brick\Geo\MultiSurface in your projects.
  */
 class MultiSurfaceProxy extends MultiSurface implements ProxyInterface
 {

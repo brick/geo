@@ -13,6 +13,9 @@ use Brick\Geo\CurvePolygon;
 
 /**
  * Proxy class for CurvePolygon.
+ *
+ * @internal This class is not part of the public API and can change at any time.
+ *           Please type-hint against Brick\Geo\CurvePolygon in your projects.
  */
 class CurvePolygonProxy extends CurvePolygon implements ProxyInterface
 {

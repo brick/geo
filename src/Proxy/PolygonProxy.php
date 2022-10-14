@@ -13,6 +13,9 @@ use Brick\Geo\Polygon;
 
 /**
  * Proxy class for Polygon.
+ *
+ * @internal This class is not part of the public API and can change at any time.
+ *           Please type-hint against Brick\Geo\Polygon in your projects.
  */
 class PolygonProxy extends Polygon implements ProxyInterface
 {

@@ -13,6 +13,9 @@ use Brick\Geo\Triangle;
 
 /**
  * Proxy class for Triangle.
+ *
+ * @internal This class is not part of the public API and can change at any time.
+ *           Please type-hint against Brick\Geo\Triangle in your projects.
  */
 class TriangleProxy extends Triangle implements ProxyInterface
 {

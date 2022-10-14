@@ -13,6 +13,9 @@ use Brick\Geo\Surface;
 
 /**
  * Proxy class for Surface.
+ *
+ * @internal This class is not part of the public API and can change at any time.
+ *           Please type-hint against Brick\Geo\Surface in your projects.
  */
 class SurfaceProxy extends Surface implements ProxyInterface
 {

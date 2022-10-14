@@ -13,6 +13,9 @@ use Brick\Geo\Point;
 
 /**
  * Proxy class for Point.
+ *
+ * @internal This class is not part of the public API and can change at any time.
+ *           Please type-hint against Brick\Geo\Point in your projects.
  */
 class PointProxy extends Point implements ProxyInterface
 {

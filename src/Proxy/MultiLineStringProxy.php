@@ -13,6 +13,9 @@ use Brick\Geo\MultiLineString;
 
 /**
  * Proxy class for MultiLineString.
+ *
+ * @internal This class is not part of the public API and can change at any time.
+ *           Please type-hint against Brick\Geo\MultiLineString in your projects.
  */
 class MultiLineStringProxy extends MultiLineString implements ProxyInterface
 {

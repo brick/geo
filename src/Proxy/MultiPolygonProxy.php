@@ -13,6 +13,9 @@ use Brick\Geo\MultiPolygon;
 
 /**
  * Proxy class for MultiPolygon.
+ *
+ * @internal This class is not part of the public API and can change at any time.
+ *           Please type-hint against Brick\Geo\MultiPolygon in your projects.
  */
 class MultiPolygonProxy extends MultiPolygon implements ProxyInterface
 {

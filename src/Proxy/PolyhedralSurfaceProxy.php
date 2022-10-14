@@ -13,6 +13,9 @@ use Brick\Geo\PolyhedralSurface;
 
 /**
  * Proxy class for PolyhedralSurface.
+ *
+ * @internal This class is not part of the public API and can change at any time.
+ *           Please type-hint against Brick\Geo\PolyhedralSurface in your projects.
  */
 class PolyhedralSurfaceProxy extends PolyhedralSurface implements ProxyInterface
 {

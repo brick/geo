@@ -1,5 +1,11 @@
 # Changelog
 
+## UNRELEASED (0.9.0)
+
+💥 **Breaking changes**
+
+- Proxies are now `@internal` and considered an implementation detail. This means that they are no longer part of the public API and can change at any time. This means that you should *always* type-hint against the base class and not the proxy.
+
 ## [0.8.1](https://github.com/brick/geo/releases/tag/0.8.1) - 2022-10-14
 
 ✨ **Improvements**

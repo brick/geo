@@ -13,6 +13,9 @@ use Brick\Geo\GeometryCollection;
 
 /**
  * Proxy class for GeometryCollection.
+ *
+ * @internal This class is not part of the public API and can change at any time.
+ *           Please type-hint against Brick\Geo\GeometryCollection in your projects.
  */
 class GeometryCollectionProxy extends GeometryCollection implements ProxyInterface
 {

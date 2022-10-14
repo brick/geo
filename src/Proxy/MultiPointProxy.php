@@ -13,6 +13,9 @@ use Brick\Geo\MultiPoint;
 
 /**
  * Proxy class for MultiPoint.
+ *
+ * @internal This class is not part of the public API and can change at any time.
+ *           Please type-hint against Brick\Geo\MultiPoint in your projects.
  */
 class MultiPointProxy extends MultiPoint implements ProxyInterface
 {

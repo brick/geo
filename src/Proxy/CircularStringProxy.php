@@ -13,6 +13,9 @@ use Brick\Geo\CircularString;
 
 /**
  * Proxy class for CircularString.
+ *
+ * @internal This class is not part of the public API and can change at any time.
+ *           Please type-hint against Brick\Geo\CircularString in your projects.
  */
 class CircularStringProxy extends CircularString implements ProxyInterface
 {

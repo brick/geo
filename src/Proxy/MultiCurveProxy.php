@@ -13,6 +13,9 @@ use Brick\Geo\MultiCurve;
 
 /**
  * Proxy class for MultiCurve.
+ *
+ * @internal This class is not part of the public API and can change at any time.
+ *           Please type-hint against Brick\Geo\MultiCurve in your projects.
  */
 class MultiCurveProxy extends MultiCurve implements ProxyInterface
 {
