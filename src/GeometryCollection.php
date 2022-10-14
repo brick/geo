@@ -262,6 +262,8 @@ class GeometryCollection extends Geometry
 
     /**
      * Returns the FQCN of the contained Geometry type.
+     *
+     * @psalm-return class-string<T>
      */
     protected function containedGeometryType() : string
     {
