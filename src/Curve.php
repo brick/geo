@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace Brick\Geo;
 
-use Brick\Geo\Engine\GeometryEngine;
 use Brick\Geo\Exception\EmptyGeometryException;
-use Brick\Geo\Exception\GeometryEngineException;
 
 /**
  * A Curve is a 1-dimensional geometric object usually stored as a sequence of Points.

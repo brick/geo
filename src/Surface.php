@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace Brick\Geo;
 
-use Brick\Geo\Engine\GeometryEngine;
-use Brick\Geo\Exception\GeometryEngineException;
-
 /**
  * A Surface is a 2-dimensional geometric object.
  *

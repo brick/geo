@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace Brick\Geo;
 
 use ArrayIterator;
-use Brick\Geo\Engine\GeometryEngine;
-use Brick\Geo\Exception\GeometryEngineException;
 use Brick\Geo\Exception\CoordinateSystemException;
 use Brick\Geo\Exception\NoSuchGeometryException;
 

@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace Brick\Geo;
 
-use Brick\Geo\Engine\GeometryEngine;
-use Brick\Geo\Exception\GeometryEngineException;
-
 /**
  * A MultiCurve is a 1-dimensional GeometryCollection whose elements are Curves.
  *
