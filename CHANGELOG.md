@@ -1,6 +1,6 @@
 # Changelog
 
-## UNRELEASED (0.8.1)
+## [0.8.1](https://github.com/brick/geo/releases/tag/0.8.1) - 2022-10-14
 
 ✨ **Improvements**
 
