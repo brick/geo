@@ -13,7 +13,7 @@ use Brick\Geo\Geometry;
 /**
  * Proxy class for Geometry.
  */
-class GeometryProxy extends \Brick\Geo\Geometry implements ProxyInterface
+class GeometryProxy extends Geometry implements ProxyInterface
 {
     /**
      * The WKT or WKB data.
@@ -33,7 +33,7 @@ class GeometryProxy extends \Brick\Geo\Geometry implements ProxyInterface
     /**
      * The underlying geometry, or NULL if not yet loaded.
      */
-    private ?\Brick\Geo\Geometry $proxyGeometry = null;
+    private ?Geometry $proxyGeometry = null;
 
     /**
      * @param string $data     The WKT or WKB data.
@@ -58,8 +58,8 @@ class GeometryProxy extends \Brick\Geo\Geometry implements ProxyInterface
     private function load() : void
     {
         $this->proxyGeometry = $this->isProxyBinary
-            ? \Brick\Geo\Geometry::fromBinary($this->proxyData, $this->proxySRID)
-            : \Brick\Geo\Geometry::fromText($this->proxyData, $this->proxySRID);
+            ? Geometry::fromBinary($this->proxyData, $this->proxySRID)
+            : Geometry::fromText($this->proxyData, $this->proxySRID);
     }
 
     public function isLoaded() : bool

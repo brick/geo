@@ -9,11 +9,12 @@ use Brick\Geo\Exception\CoordinateSystemException;
 use Brick\Geo\Exception\InvalidGeometryException;
 use Brick\Geo\Exception\UnexpectedGeometryException;
 use Brick\Geo\Geometry;
+use Brick\Geo\MultiCurve;
 
 /**
  * Proxy class for MultiCurve.
  */
-class MultiCurveProxy extends \Brick\Geo\MultiCurve implements ProxyInterface
+class MultiCurveProxy extends MultiCurve implements ProxyInterface
 {
     /**
      * The WKT or WKB data.
@@ -33,7 +34,7 @@ class MultiCurveProxy extends \Brick\Geo\MultiCurve implements ProxyInterface
     /**
      * The underlying geometry, or NULL if not yet loaded.
      */
-    private ?\Brick\Geo\MultiCurve $proxyGeometry = null;
+    private ?MultiCurve $proxyGeometry = null;
 
     /**
      * @param string $data     The WKT or WKB data.
@@ -58,8 +59,8 @@ class MultiCurveProxy extends \Brick\Geo\MultiCurve implements ProxyInterface
     private function load() : void
     {
         $this->proxyGeometry = $this->isProxyBinary
-            ? \Brick\Geo\MultiCurve::fromBinary($this->proxyData, $this->proxySRID)
-            : \Brick\Geo\MultiCurve::fromText($this->proxyData, $this->proxySRID);
+            ? MultiCurve::fromBinary($this->proxyData, $this->proxySRID)
+            : MultiCurve::fromText($this->proxyData, $this->proxySRID);
     }
 
     public function isLoaded() : bool

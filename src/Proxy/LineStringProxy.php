@@ -9,11 +9,12 @@ use Brick\Geo\Exception\CoordinateSystemException;
 use Brick\Geo\Exception\InvalidGeometryException;
 use Brick\Geo\Exception\UnexpectedGeometryException;
 use Brick\Geo\Geometry;
+use Brick\Geo\LineString;
 
 /**
  * Proxy class for LineString.
  */
-class LineStringProxy extends \Brick\Geo\LineString implements ProxyInterface
+class LineStringProxy extends LineString implements ProxyInterface
 {
     /**
      * The WKT or WKB data.
@@ -33,7 +34,7 @@ class LineStringProxy extends \Brick\Geo\LineString implements ProxyInterface
     /**
      * The underlying geometry, or NULL if not yet loaded.
      */
-    private ?\Brick\Geo\LineString $proxyGeometry = null;
+    private ?LineString $proxyGeometry = null;
 
     /**
      * @param string $data     The WKT or WKB data.
@@ -58,8 +59,8 @@ class LineStringProxy extends \Brick\Geo\LineString implements ProxyInterface
     private function load() : void
     {
         $this->proxyGeometry = $this->isProxyBinary
-            ? \Brick\Geo\LineString::fromBinary($this->proxyData, $this->proxySRID)
-            : \Brick\Geo\LineString::fromText($this->proxyData, $this->proxySRID);
+            ? LineString::fromBinary($this->proxyData, $this->proxySRID)
+            : LineString::fromText($this->proxyData, $this->proxySRID);
     }
 
     public function isLoaded() : bool

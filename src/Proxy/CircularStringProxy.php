@@ -9,11 +9,12 @@ use Brick\Geo\Exception\CoordinateSystemException;
 use Brick\Geo\Exception\InvalidGeometryException;
 use Brick\Geo\Exception\UnexpectedGeometryException;
 use Brick\Geo\Geometry;
+use Brick\Geo\CircularString;
 
 /**
  * Proxy class for CircularString.
  */
-class CircularStringProxy extends \Brick\Geo\CircularString implements ProxyInterface
+class CircularStringProxy extends CircularString implements ProxyInterface
 {
     /**
      * The WKT or WKB data.
@@ -33,7 +34,7 @@ class CircularStringProxy extends \Brick\Geo\CircularString implements ProxyInte
     /**
      * The underlying geometry, or NULL if not yet loaded.
      */
-    private ?\Brick\Geo\CircularString $proxyGeometry = null;
+    private ?CircularString $proxyGeometry = null;
 
     /**
      * @param string $data     The WKT or WKB data.
@@ -58,8 +59,8 @@ class CircularStringProxy extends \Brick\Geo\CircularString implements ProxyInte
     private function load() : void
     {
         $this->proxyGeometry = $this->isProxyBinary
-            ? \Brick\Geo\CircularString::fromBinary($this->proxyData, $this->proxySRID)
-            : \Brick\Geo\CircularString::fromText($this->proxyData, $this->proxySRID);
+            ? CircularString::fromBinary($this->proxyData, $this->proxySRID)
+            : CircularString::fromText($this->proxyData, $this->proxySRID);
     }
 
     public function isLoaded() : bool

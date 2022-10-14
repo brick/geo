@@ -25,6 +25,27 @@ foreach (glob($classFiles) as $file) {
     $classes[] = pathinfo($file, PATHINFO_FILENAME);
 }
 
+function removeDuplicateImports(string $proxyCode): string
+{
+    $lines = explode("\n", $proxyCode);
+
+    $imports = [];
+
+    $lines = array_filter($lines, function (string $line) use (&$imports): bool {
+        if (str_starts_with($line, 'use ')) {
+            if (in_array($line, $imports, true)) {
+                return false;
+            }
+
+            $imports[] = $line;
+        }
+
+        return true;
+    });
+
+    return implode("\n", $lines);
+}
+
 $proxyTemplate = file_get_contents($proxyTemplate);
 $proxyTemplate = preg_replace('|/\* (.+?) \*/|', '$1', $proxyTemplate);
 
@@ -81,9 +102,9 @@ foreach ($classes as $class) {
     }
 
     $proxyCode = $proxyTemplate;
-    $proxyCode = str_replace('_FQCN_', '\\' . $class->getName(), $proxyCode);
     $proxyCode = str_replace('_CLASSNAME_', $class->getShortName(), $proxyCode);
     $proxyCode = str_replace('// METHODS', $methods, $proxyCode);
+    $proxyCode = removeDuplicateImports($proxyCode);
 
     file_put_contents($proxyDir . $class->getShortName() . 'Proxy.php', $proxyCode);
 

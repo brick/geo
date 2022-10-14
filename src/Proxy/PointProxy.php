@@ -9,11 +9,12 @@ use Brick\Geo\Exception\CoordinateSystemException;
 use Brick\Geo\Exception\InvalidGeometryException;
 use Brick\Geo\Exception\UnexpectedGeometryException;
 use Brick\Geo\Geometry;
+use Brick\Geo\Point;
 
 /**
  * Proxy class for Point.
  */
-class PointProxy extends \Brick\Geo\Point implements ProxyInterface
+class PointProxy extends Point implements ProxyInterface
 {
     /**
      * The WKT or WKB data.
@@ -33,7 +34,7 @@ class PointProxy extends \Brick\Geo\Point implements ProxyInterface
     /**
      * The underlying geometry, or NULL if not yet loaded.
      */
-    private ?\Brick\Geo\Point $proxyGeometry = null;
+    private ?Point $proxyGeometry = null;
 
     /**
      * @param string $data     The WKT or WKB data.
@@ -58,8 +59,8 @@ class PointProxy extends \Brick\Geo\Point implements ProxyInterface
     private function load() : void
     {
         $this->proxyGeometry = $this->isProxyBinary
-            ? \Brick\Geo\Point::fromBinary($this->proxyData, $this->proxySRID)
-            : \Brick\Geo\Point::fromText($this->proxyData, $this->proxySRID);
+            ? Point::fromBinary($this->proxyData, $this->proxySRID)
+            : Point::fromText($this->proxyData, $this->proxySRID);
     }
 
     public function isLoaded() : bool

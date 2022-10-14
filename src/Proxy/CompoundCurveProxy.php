@@ -9,11 +9,12 @@ use Brick\Geo\Exception\CoordinateSystemException;
 use Brick\Geo\Exception\InvalidGeometryException;
 use Brick\Geo\Exception\UnexpectedGeometryException;
 use Brick\Geo\Geometry;
+use Brick\Geo\CompoundCurve;
 
 /**
  * Proxy class for CompoundCurve.
  */
-class CompoundCurveProxy extends \Brick\Geo\CompoundCurve implements ProxyInterface
+class CompoundCurveProxy extends CompoundCurve implements ProxyInterface
 {
     /**
      * The WKT or WKB data.
@@ -33,7 +34,7 @@ class CompoundCurveProxy extends \Brick\Geo\CompoundCurve implements ProxyInterf
     /**
      * The underlying geometry, or NULL if not yet loaded.
      */
-    private ?\Brick\Geo\CompoundCurve $proxyGeometry = null;
+    private ?CompoundCurve $proxyGeometry = null;
 
     /**
      * @param string $data     The WKT or WKB data.
@@ -58,8 +59,8 @@ class CompoundCurveProxy extends \Brick\Geo\CompoundCurve implements ProxyInterf
     private function load() : void
     {
         $this->proxyGeometry = $this->isProxyBinary
-            ? \Brick\Geo\CompoundCurve::fromBinary($this->proxyData, $this->proxySRID)
-            : \Brick\Geo\CompoundCurve::fromText($this->proxyData, $this->proxySRID);
+            ? CompoundCurve::fromBinary($this->proxyData, $this->proxySRID)
+            : CompoundCurve::fromText($this->proxyData, $this->proxySRID);
     }
 
     public function isLoaded() : bool
