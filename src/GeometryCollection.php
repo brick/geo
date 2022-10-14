@@ -124,6 +124,8 @@ class GeometryCollection extends Geometry
     /**
      * Returns the geometries that compose this GeometryCollection.
      *
+     * @psalm-return list<T>
+     *
      * @return Geometry[]
      */
     public function geometries() : array

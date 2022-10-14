@@ -4,6 +4,7 @@
 
 ✨ **Improvements**
 
+- Better Psalm annotations for geometry getters
 - Removed outdated suggestion in `composer.json`
 - Minor proxy code style improvements
 

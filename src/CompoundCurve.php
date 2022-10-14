@@ -127,6 +127,8 @@ class CompoundCurve extends Curve
     /**
      * Returns the curves that compose this CompoundCurve.
      *
+     * @psalm-return list<Curve>
+     *
      * @return Curve[]
      */
     public function curves() : array

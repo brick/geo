@@ -115,6 +115,8 @@ class CircularString extends Curve
     /**
      * Returns the points that compose this CircularString.
      *
+     * @psalm-return list<Point>
+     *
      * @return Point[]
      */
     public function points() : array

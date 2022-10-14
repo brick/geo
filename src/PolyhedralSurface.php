@@ -101,6 +101,8 @@ class PolyhedralSurface extends Surface
     /**
      * Returns the patches that compose this PolyhedralSurface.
      *
+     * @psalm-return list<Polygon>
+     *
      * @return Polygon[]
      */
     public function patches() : array
