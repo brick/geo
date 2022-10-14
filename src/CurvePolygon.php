@@ -8,6 +8,7 @@ use ArrayIterator;
 use Brick\Geo\Exception\CoordinateSystemException;
 use Brick\Geo\Exception\EmptyGeometryException;
 use Brick\Geo\Exception\NoSuchGeometryException;
+use Brick\Geo\Projector\Projector;
 
 /**
  * A CurvePolygon is a planar Surface defined by 1 exterior boundary and 0 or more interior boundaries.
@@ -207,6 +208,17 @@ class CurvePolygon extends Surface
         }
 
         return $that;
+    }
+
+    public function project(Projector $projector): CurvePolygon
+    {
+        return new CurvePolygon(
+            $projector->getTargetCoordinateSystem($this->coordinateSystem),
+            ...array_map(
+                fn (Curve $ring) => $ring->project($projector),
+                $this->rings,
+            ),
+        );
     }
 
     /**

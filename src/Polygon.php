@@ -9,6 +9,7 @@ use Brick\Geo\Exception\CoordinateSystemException;
 use Brick\Geo\Exception\EmptyGeometryException;
 use Brick\Geo\Exception\InvalidGeometryException;
 use Brick\Geo\Exception\NoSuchGeometryException;
+use Brick\Geo\Projector\Projector;
 
 /**
  * A Polygon is a planar Surface defined by 1 exterior boundary and 0 or more interior boundaries.
@@ -227,6 +228,17 @@ class Polygon extends Surface
         }
 
         return $that;
+    }
+
+    public function project(Projector $projector): Polygon
+    {
+        return new Polygon(
+            $projector->getTargetCoordinateSystem($this->coordinateSystem),
+            ...array_map(
+                fn (LineString $ring) => $ring->project($projector),
+                $this->rings,
+            ),
+        );
     }
 
     /**

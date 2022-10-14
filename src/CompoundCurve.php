@@ -9,6 +9,7 @@ use Brick\Geo\Exception\CoordinateSystemException;
 use Brick\Geo\Exception\EmptyGeometryException;
 use Brick\Geo\Exception\InvalidGeometryException;
 use Brick\Geo\Exception\NoSuchGeometryException;
+use Brick\Geo\Projector\Projector;
 
 /**
  * A CompoundCurve is a collection of zero or more continuous CircularString or LineString instances.
@@ -224,6 +225,17 @@ class CompoundCurve extends Curve
         }
 
         return $that;
+    }
+
+    public function project(Projector $projector): CompoundCurve
+    {
+        return new CompoundCurve(
+            $projector->getTargetCoordinateSystem($this->coordinateSystem),
+            ...array_map(
+                fn (Curve $curve) => $curve->project($projector),
+                $this->curves,
+            ),
+        );
     }
 
     /**

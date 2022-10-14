@@ -127,6 +127,15 @@ class TINProxy extends TIN implements ProxyInterface
     }
 
 
+    public function project(\Brick\Geo\Projector\Projector $projector) : \Brick\Geo\TIN
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->project($projector);
+    }
+
     public function numPatches() : int
     {
         if ($this->proxyGeometry === null) {

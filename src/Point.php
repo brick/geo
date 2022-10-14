@@ -6,6 +6,7 @@ namespace Brick\Geo;
 
 use ArrayIterator;
 use Brick\Geo\Exception\InvalidGeometryException;
+use Brick\Geo\Projector\Projector;
 
 /**
  * A Point is a 0-dimensional geometric object and represents a single location in coordinate space.
@@ -303,6 +304,11 @@ class Point extends Geometry
         $that->y = $this->x;
 
         return $that;
+    }
+
+    public function project(Projector $projector) : Point
+    {
+        return $projector->project($this);
     }
 
     /**

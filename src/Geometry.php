@@ -12,6 +12,7 @@ use Brick\Geo\IO\WKTReader;
 use Brick\Geo\IO\WKTWriter;
 use Brick\Geo\IO\WKBReader;
 use Brick\Geo\IO\WKBWriter;
+use Brick\Geo\Projector\Projector;
 
 /**
  * Geometry is the root class of the hierarchy.
@@ -303,6 +304,11 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      * @return static
      */
     abstract public function swapXY() : Geometry;
+
+    /**
+     * Projects this geometry to a different coordinate system.
+     */
+    abstract public function project(Projector $projector): Geometry;
 
     /**
      * Returns a text representation of this geometry.

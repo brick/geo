@@ -217,6 +217,15 @@ class PointProxy extends Point implements ProxyInterface
         return $this->proxyGeometry->swapXY();
     }
 
+    public function project(\Brick\Geo\Projector\Projector $projector) : \Brick\Geo\Point
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->project($projector);
+    }
+
     public function count() : int
     {
         if ($this->proxyGeometry === null) {

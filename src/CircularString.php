@@ -9,6 +9,7 @@ use Brick\Geo\Exception\CoordinateSystemException;
 use Brick\Geo\Exception\EmptyGeometryException;
 use Brick\Geo\Exception\InvalidGeometryException;
 use Brick\Geo\Exception\NoSuchGeometryException;
+use Brick\Geo\Projector\Projector;
 
 /**
  * A CircularString is a Curve made of zero or more connected circular arc segments.
@@ -212,6 +213,17 @@ class CircularString extends Curve
         }
 
         return $that;
+    }
+
+    public function project(Projector $projector): CircularString
+    {
+        return new CircularString(
+            $projector->getTargetCoordinateSystem($this->coordinateSystem),
+            ...array_map(
+                fn (Point $point) => $point->project($projector),
+                $this->points,
+            ),
+        );
     }
 
     /**

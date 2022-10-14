@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Brick\Geo;
 
+use Brick\Geo\Projector\Projector;
+
 /**
  * A MultiPoint is a 0-dimensional GeometryCollection. The elements of a MultiPoint are restricted to Points.
  *
@@ -41,5 +43,16 @@ class MultiPoint extends GeometryCollection
     protected function containedGeometryType() : string
     {
         return Point::class;
+    }
+
+    public function project(Projector $projector): MultiPoint
+    {
+        return new MultiPoint(
+            $projector->getTargetCoordinateSystem($this->coordinateSystem),
+            ...array_map(
+                fn (Point $point) => $point->project($projector),
+                $this->geometries,
+            ),
+        );
     }
 }

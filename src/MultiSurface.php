@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Brick\Geo;
 
+use Brick\Geo\Projector\Projector;
+use Exception;
+
 /**
  * A MultiSurface is a 2-dimensional GeometryCollection whose elements are Surfaces.
  *
@@ -22,4 +25,13 @@ namespace Brick\Geo;
  */
 abstract class MultiSurface extends GeometryCollection
 {
+    public function project(Projector $projector): MultiSurface
+    {
+        throw new Exception(
+            'This exception should never be thrown. ' .
+            'This method is here to ensure that MultiSurface::project() has the correct return type, ' .
+            'and force concrete classes below MultiSurface to return a MultiSurface, too. ' .
+            'It cannot be made abstract because GeometryCollection::project() is not abstract.'
+        );
+    }
 }

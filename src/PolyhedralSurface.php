@@ -7,6 +7,7 @@ namespace Brick\Geo;
 use ArrayIterator;
 use Brick\Geo\Exception\CoordinateSystemException;
 use Brick\Geo\Exception\NoSuchGeometryException;
+use Brick\Geo\Projector\Projector;
 
 /**
  * A PolyhedralSurface is a contiguous collection of polygons, which share common boundary segments.
@@ -198,6 +199,17 @@ class PolyhedralSurface extends Surface
         }
 
         return $that;
+    }
+
+    public function project(Projector $projector): PolyhedralSurface
+    {
+        return new PolyhedralSurface(
+            $projector->getTargetCoordinateSystem($this->coordinateSystem),
+            ...array_map(
+                fn (Polygon $patch) => $patch->project($projector),
+                $this->patches,
+            ),
+        );
     }
 
     /**

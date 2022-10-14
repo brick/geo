@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Brick\Geo;
 
+use Brick\Geo\Projector\Projector;
+
 /**
  * A Surface is a 2-dimensional geometric object.
  *

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Brick\Geo;
 
 use Brick\Geo\Exception\EmptyGeometryException;
+use Brick\Geo\Projector\Projector;
 
 /**
  * A Curve is a 1-dimensional geometric object usually stored as a sequence of Points.
@@ -36,4 +37,6 @@ abstract class Curve extends Geometry
      * @throws EmptyGeometryException If the curve is empty.
      */
     abstract public function endPoint() : Point;
+
+    abstract public function project(Projector $projector): Curve;
 }

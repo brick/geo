@@ -262,6 +262,15 @@ class SurfaceProxy extends Surface implements ProxyInterface
         return $this->proxyGeometry->swapXY();
     }
 
+    public function project(\Brick\Geo\Projector\Projector $projector) : \Brick\Geo\Geometry
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->project($projector);
+    }
+
     public function count()
     {
         if ($this->proxyGeometry === null) {

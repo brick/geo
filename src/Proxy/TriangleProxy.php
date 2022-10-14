@@ -127,6 +127,15 @@ class TriangleProxy extends Triangle implements ProxyInterface
     }
 
 
+    public function project(\Brick\Geo\Projector\Projector $projector) : \Brick\Geo\Triangle
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->project($projector);
+    }
+
     public function exteriorRing() : \Brick\Geo\LineString
     {
         if ($this->proxyGeometry === null) {

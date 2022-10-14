@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Brick\Geo;
 
+use Brick\Geo\Projector\Projector;
+
 /**
  * A MultiPolygon is a MultiSurface whose elements are Polygons.
  *
@@ -49,5 +51,16 @@ class MultiPolygon extends MultiSurface
     protected function containedGeometryType() : string
     {
         return Polygon::class;
+    }
+
+    public function project(Projector $projector): MultiPolygon
+    {
+        return new MultiPolygon(
+            $projector->getTargetCoordinateSystem($this->coordinateSystem),
+            ...array_map(
+                fn (Polygon $polygon) => $polygon->project($projector),
+                $this->geometries,
+            ),
+        );
     }
 }

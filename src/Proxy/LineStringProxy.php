@@ -226,6 +226,15 @@ class LineStringProxy extends LineString implements ProxyInterface
         return $this->proxyGeometry->swapXY();
     }
 
+    public function project(\Brick\Geo\Projector\Projector $projector) : \Brick\Geo\LineString
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->project($projector);
+    }
+
     public function count() : int
     {
         if ($this->proxyGeometry === null) {

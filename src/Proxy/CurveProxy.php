@@ -145,6 +145,15 @@ class CurveProxy extends Curve implements ProxyInterface
         return $this->proxyGeometry->endPoint();
     }
 
+    public function project(\Brick\Geo\Projector\Projector $projector) : \Brick\Geo\Curve
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->project($projector);
+    }
+
     public function coordinateDimension() : int
     {
         if ($this->proxyGeometry === null) {

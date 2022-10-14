@@ -136,6 +136,15 @@ class MultiPointProxy extends MultiPoint implements ProxyInterface
         return $this->proxyGeometry->dimension();
     }
 
+    public function project(\Brick\Geo\Projector\Projector $projector) : \Brick\Geo\MultiPoint
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->project($projector);
+    }
+
     public function numGeometries() : int
     {
         if ($this->proxyGeometry === null) {
@@ -208,7 +217,7 @@ class MultiPointProxy extends MultiPoint implements ProxyInterface
         return $this->proxyGeometry->toArray();
     }
 
-    public function swapXY() : \Brick\Geo\Geometry
+    public function swapXY() : \Brick\Geo\GeometryCollection
     {
         if ($this->proxyGeometry === null) {
             $this->load();

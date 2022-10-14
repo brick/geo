@@ -8,6 +8,7 @@ use ArrayIterator;
 use Brick\Geo\Exception\CoordinateSystemException;
 use Brick\Geo\Exception\NoSuchGeometryException;
 use Brick\Geo\Exception\UnexpectedGeometryException;
+use Brick\Geo\Projector\Projector;
 
 /**
  * A GeometryCollection is a geometric object that is a collection of some number of geometric objects.
@@ -227,7 +228,10 @@ class GeometryCollection extends Geometry
         return $result;
     }
 
-    public function swapXY() : Geometry
+    /**
+     * @return GeometryCollection<T>
+     */
+    public function swapXY() : GeometryCollection
     {
         $that = clone $this;
 
@@ -236,6 +240,17 @@ class GeometryCollection extends Geometry
         }
 
         return $that;
+    }
+
+    public function project(Projector $projector): GeometryCollection
+    {
+        return new GeometryCollection(
+            $projector->getTargetCoordinateSystem($this->coordinateSystem),
+            ...array_map(
+                fn (Geometry $geometry) => $geometry->project($projector),
+                $this->geometries,
+            ),
+        );
     }
 
     /**

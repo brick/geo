@@ -127,6 +127,15 @@ class MultiCurveProxy extends MultiCurve implements ProxyInterface
     }
 
 
+    public function project(\Brick\Geo\Projector\Projector $projector) : \Brick\Geo\MultiCurve
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->project($projector);
+    }
+
     public function numGeometries() : int
     {
         if ($this->proxyGeometry === null) {
@@ -208,7 +217,7 @@ class MultiCurveProxy extends MultiCurve implements ProxyInterface
         return $this->proxyGeometry->toArray();
     }
 
-    public function swapXY() : \Brick\Geo\Geometry
+    public function swapXY() : \Brick\Geo\GeometryCollection
     {
         if ($this->proxyGeometry === null) {
             $this->load();
