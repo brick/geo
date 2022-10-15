@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace Brick\Geo\Tests;
 
-use Brick\Geo\Exception\GeometryEngineException;
 use Brick\Geo\Exception\UnexpectedGeometryException;
 use Brick\Geo\MultiSurface;
-use Brick\Geo\Point;
 
 /**
  * Unit tests for class MultiSurface.
@@ -54,92 +52,6 @@ class MultiSurfaceTest extends AbstractTestCase
             ['010f00000000000000'],
             ['010700000000000000'],
             ['01ed03000000000000'],
-        ];
-    }
-
-    /**
-     * @dataProvider providerArea
-     *
-     * @param string $multiSurface The WKT of the MultiSurface to test.
-     * @param float  $area         The expected area.
-     */
-    public function testArea(string $multiSurface, float $area) : void
-    {
-        $geometryEngine = $this->getGeometryEngine();
-
-        $multiSurface = MultiSurface::fromText($multiSurface);
-        $this->skipIfUnsupportedGeometry($multiSurface);
-
-        $actualArea = $geometryEngine->area($multiSurface);
-
-        self::assertEqualsWithDelta($area, $actualArea, 0.001);
-    }
-
-    public function providerArea() : array
-    {
-        return [
-            ['MULTIPOLYGON (((1 1, 1 9, 9 1, 1 1)))', 32],
-            ['MULTIPOLYGON (((1 1, 1 9, 9 1, 1 1), (2 4, 2 5, 4 5, 4 4, 2 4)))', 30],
-            ['MULTIPOLYGON (((1 1, 1 9, 9 1, 1 1), (2 4, 2 5, 4 5, 4 4, 2 4), (2 2, 2 3, 3 3, 3 2, 2 2)))', 29],
-            ['MULTIPOLYGON (((1 1, 1 9, 9 1, 1 1), (2 4, 2 5, 4 5, 4 4, 2 4)), ((6 5, 6 9, 11 9, 11 5, 6 5)))', 50],
-            ['MULTIPOLYGON Z (((1 1 0, 1 3 0, 4 3 0, 4 5 0, 6 5 0, 6 1 0, 1 1 0)), ((2 4 0, 2 6 0, 4 6 0, 2 4 0)))', 16],
-        ];
-    }
-
-    /**
-     * @dataProvider providerCentroid
-     *
-     * @param string $multiMultiSurface The WKT of the MultiSurface to test.
-     * @param string $centroid          The WKT of the expected centroid.
-     */
-    public function testCentroid(string $multiMultiSurface, string $centroid) : void
-    {
-        $geometryEngine = $this->getGeometryEngine();
-
-        $multiSurface = MultiSurface::fromText($multiMultiSurface);
-        $this->skipIfUnsupportedGeometry($multiSurface);
-        $this->assertWktEquals($geometryEngine->centroid($multiSurface), $centroid);
-    }
-
-    public function providerCentroid() : array
-    {
-        return [
-            ['MULTIPOLYGON (((0 0, 0 3, 3 3, 3 0, 0 0), (1 1, 1 2, 2 2, 2 1, 1 1)))', 'POINT (1.5 1.5)'],
-            ['MULTIPOLYGON (((1 1, 1 3, 3 3, 3 1, 1 1)), ((4 1, 4 3, 6 3, 6 1, 4 1)))', 'POINT (3.5 2)'],
-            ['MULTIPOLYGON (((1 1, 1 4, 4 4, 4 1, 1 1), (2 2, 2 3, 3 3, 3 2, 2 2)), ((5 1, 5 4, 8 4, 8 1, 5 1), (6 2, 6 3, 7 3, 7 2, 6 2)))', 'POINT (4.5 2.5)'],
-        ];
-    }
-
-    /**
-     * @dataProvider providerPointOnSurface
-     *
-     * @param string $multiMultiSurface The WKT of the MultiSurface to test.
-     */
-    public function testPointOnSurface(string $multiMultiSurface) : void
-    {
-        $geometryEngine = $this->getGeometryEngine();
-
-        if ($this->isMySQL() || $this->isMariaDB('< 10.1.2')) {
-            // MySQL and older MariaDB do not support ST_PointOnSurface()
-            $this->expectException(GeometryEngineException::class);
-        }
-
-        $multiSurface = MultiSurface::fromText($multiMultiSurface);
-        $this->skipIfUnsupportedGeometry($multiSurface);
-
-        $pointOnSurface = $geometryEngine->pointOnSurface($multiSurface);
-
-        self::assertInstanceOf(Point::class, $pointOnSurface);
-        self::assertTrue($geometryEngine->contains($multiSurface, $pointOnSurface));
-    }
-
-    public function providerPointOnSurface() : array
-    {
-        return [
-            ['MULTIPOLYGON (((1 1, 1 3, 4 3, 4 6, 6 6, 6 1, 1 1)))'],
-            ['MULTIPOLYGON (((0 0, 0 4, 3 4, 3 3, 4 3, 4 0, 0 0)))'],
-            ['MULTIPOLYGON (((0 0, 0 3, 3 3, 3 0, 0 0), (1 1, 1 2, 2 2, 2 1, 1 1)))'],
-            ['MULTIPOLYGON (((1 1, 1 9, 9 1, 1 1), (2 4, 2 5, 4 5, 4 4, 2 4)), ((6 5, 6 9, 11 9, 11 5, 6 5)))'],
         ];
     }
 }
