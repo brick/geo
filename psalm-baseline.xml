@@ -36,6 +36,14 @@
       <code>CurvePolygon</code>
     </MoreSpecificReturnType>
   </file>
+  <file src="src/Geometry.php">
+    <LessSpecificReturnStatement occurrences="1">
+      <code>$this-&gt;project(new SRIDProjector($srid))</code>
+    </LessSpecificReturnStatement>
+    <MoreSpecificReturnType occurrences="1">
+      <code>static</code>
+    </MoreSpecificReturnType>
+  </file>
   <file src="src/GeometryCollection.php">
     <LessSpecificReturnStatement occurrences="3">
       <code>new GeometryCollection($cs, ...$geometries)</code>

@@ -13,6 +13,7 @@ use Brick\Geo\IO\WKTWriter;
 use Brick\Geo\IO\WKBReader;
 use Brick\Geo\IO\WKBWriter;
 use Brick\Geo\Projector\Projector;
+use Brick\Geo\Projector\SRIDProjector;
 
 /**
  * Geometry is the root class of the hierarchy.
@@ -261,10 +262,7 @@ abstract class Geometry implements \Countable, \IteratorAggregate
             return $this;
         }
 
-        $that = clone $this;
-        $that->coordinateSystem = $that->coordinateSystem->withSRID($srid);
-
-        return $that;
+        return $this->project(new SRIDProjector($srid));
     }
 
     /**

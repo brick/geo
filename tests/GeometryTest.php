@@ -1181,6 +1181,62 @@ class GeometryTest extends AbstractTestCase
     }
 
     /**
+     * @dataProvider providerWithSRID
+     */
+    public function testWithSRID(string $wkt): void
+    {
+        $geometry = Geometry::fromText($wkt)->withSRID(4326);
+
+        $this->assertSRID(4326, $geometry);
+        self::assertSame($wkt, $geometry->asText());
+    }
+
+    private function assertSRID(int $expectedSRID, Geometry $geometry): void
+    {
+        self::assertSame($expectedSRID, $geometry->SRID());
+
+        foreach ($geometry as $value) {
+            if ($value instanceof Geometry) {
+                $this->assertSRID($expectedSRID, $value);
+            }
+        }
+    }
+
+    public function providerWithSRID(): array
+    {
+        return [
+            ['POINT (1 2)'],
+            ['POINT Z (1 2 3)'],
+            ['POINT M (1 2 3)'],
+            ['POINT ZM (1 2 3 4)'],
+            ['LINESTRING (1 2, 3 4)'],
+            ['LINESTRING Z (1 2 3, 4 5 6)'],
+            ['LINESTRING M (1 2 3, 4 5 6)'],
+            ['LINESTRING ZM (1 2 3 4, 5 6 7 8)'],
+            ['POLYGON ((1 2, 3 4, 5 6, 1 2))'],
+            ['POLYGON Z ((1 2 3, 4 5 6, 7 8 9, 1 2 3))'],
+            ['POLYGON M ((1 2 3, 4 5 6, 7 8 9, 1 2 3))'],
+            ['POLYGON ZM ((1 2 3 4, 5 6 7 8, 9 10 11 12, 1 2 3 4))'],
+            ['MULTIPOINT (1 2, 3 4)'],
+            ['MULTIPOINT Z (1 2 3, 4 5 6)'],
+            ['MULTIPOINT M (1 2 3, 4 5 6)'],
+            ['MULTIPOINT ZM (1 2 3 4, 5 6 7 8)'],
+            ['MULTILINESTRING ((1 2, 3 4), (5 6, 7 8))'],
+            ['MULTILINESTRING Z ((1 2 3, 4 5 6), (7 8 9, 10 11 12))'],
+            ['MULTILINESTRING M ((1 2 3, 4 5 6), (7 8 9, 10 11 12))'],
+            ['MULTILINESTRING ZM ((1 2 3 4, 5 6 7 8), (9 10 11 12, 13 14 15 16))'],
+            ['MULTIPOLYGON (((1 2, 3 4, 5 6, 1 2)), ((7 8, 9 10, 11 12, 7 8)))'],
+            ['MULTIPOLYGON Z (((1 2 3, 4 5 6, 7 8 9, 1 2 3)), ((10 11 12, 13 14 15, 16 17 18, 10 11 12)))'],
+            ['MULTIPOLYGON M (((1 2 3, 4 5 6, 7 8 9, 1 2 3)), ((10 11 12, 13 14 15, 16 17 18, 10 11 12)))'],
+            ['MULTIPOLYGON ZM (((1 2 3 4, 5 6 7 8, 9 10 11 12, 1 2 3 4)), ((13 14 15 16, 17 18 19 20, 21 22 23 24, 13 14 15 16)))'],
+            ['GEOMETRYCOLLECTION (POINT (1 2), LINESTRING (3 4, 5 6))'],
+            ['GEOMETRYCOLLECTION Z (POINT Z (1 2 3), LINESTRING Z (4 5 6, 7 8 9))'],
+            ['GEOMETRYCOLLECTION M (POINT M (1 2 3), LINESTRING M (4 5 6, 7 8 9))'],
+            ['GEOMETRYCOLLECTION ZM (POINT ZM (1 2 3 4), LINESTRING ZM (5 6 7 8, 9 10 11 12))'],
+        ];
+    }
+
+    /**
      * @dataProvider providerToArray
      *
      * @param string $geometry The WKT of the geometry to test.

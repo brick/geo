@@ -6,6 +6,10 @@
 
 - Proxies are now `@internal` and considered an implementation detail. This means that they are no longer part of the public API and can change at any time. This means that you should *always* type-hint against the base class and not the proxy.
 
+🐛 **Bug fixes**
+
+- `Geometry::withSRID()` now properly propagates the SRID to all sub-geometries. Previously, only the top-level geometry was updated.
+
 ✨ **New features**
 
 - New `Projector` API to reproject geometry coordinates.
