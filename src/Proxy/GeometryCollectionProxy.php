@@ -208,15 +208,6 @@ class GeometryCollectionProxy extends GeometryCollection implements ProxyInterfa
         return $this->proxyGeometry->toArray();
     }
 
-    public function swapXY() : \Brick\Geo\GeometryCollection
-    {
-        if ($this->proxyGeometry === null) {
-            $this->load();
-        }
-
-        return $this->proxyGeometry->swapXY();
-    }
-
     public function project(\Brick\Geo\Projector\Projector $projector) : \Brick\Geo\GeometryCollection
     {
         if ($this->proxyGeometry === null) {
@@ -305,6 +296,15 @@ class GeometryCollectionProxy extends GeometryCollection implements ProxyInterfa
         }
 
         return $this->proxyGeometry->withSRID($srid);
+    }
+
+    public function swapXY() : \Brick\Geo\Geometry
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->swapXY();
     }
 
 }

@@ -208,15 +208,6 @@ class PolygonProxy extends Polygon implements ProxyInterface
         return $this->proxyGeometry->toArray();
     }
 
-    public function swapXY() : \Brick\Geo\Geometry
-    {
-        if ($this->proxyGeometry === null) {
-            $this->load();
-        }
-
-        return $this->proxyGeometry->swapXY();
-    }
-
     public function project(\Brick\Geo\Projector\Projector $projector) : \Brick\Geo\Polygon
     {
         if ($this->proxyGeometry === null) {
@@ -305,6 +296,15 @@ class PolygonProxy extends Polygon implements ProxyInterface
         }
 
         return $this->proxyGeometry->withSRID($srid);
+    }
+
+    public function swapXY() : \Brick\Geo\Geometry
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->swapXY();
     }
 
 }

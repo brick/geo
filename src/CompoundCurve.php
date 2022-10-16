@@ -216,17 +216,6 @@ class CompoundCurve extends Curve
         return $result;
     }
 
-    public function swapXY() : Geometry
-    {
-        $that = clone $this;
-
-        foreach ($that->curves as & $curve) {
-            $curve = $curve->swapXY();
-        }
-
-        return $that;
-    }
-
     public function project(Projector $projector): CompoundCurve
     {
         return new CompoundCurve(

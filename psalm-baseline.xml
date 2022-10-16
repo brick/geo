@@ -37,10 +37,12 @@
     </MoreSpecificReturnType>
   </file>
   <file src="src/Geometry.php">
-    <LessSpecificReturnStatement occurrences="1">
+    <LessSpecificReturnStatement occurrences="2">
       <code>$this-&gt;project(new SRIDProjector($srid))</code>
+      <code>$this-&gt;project(new SwapXYProjector())</code>
     </LessSpecificReturnStatement>
-    <MoreSpecificReturnType occurrences="1">
+    <MoreSpecificReturnType occurrences="2">
+      <code>static</code>
       <code>static</code>
     </MoreSpecificReturnType>
   </file>

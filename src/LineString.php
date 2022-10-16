@@ -246,17 +246,6 @@ class LineString extends Curve
         return $result;
     }
 
-    public function swapXY() : Geometry
-    {
-        $that = clone $this;
-
-        foreach ($that->points as & $point) {
-            $point = $point->swapXY();
-        }
-
-        return $that;
-    }
-
     public function project(Projector $projector): LineString
     {
         return new LineString(

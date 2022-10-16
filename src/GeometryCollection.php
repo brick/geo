@@ -228,20 +228,6 @@ class GeometryCollection extends Geometry
         return $result;
     }
 
-    /**
-     * @return GeometryCollection<T>
-     */
-    public function swapXY() : GeometryCollection
-    {
-        $that = clone $this;
-
-        foreach ($that->geometries as & $geometry) {
-            $geometry = $geometry->swapXY();
-        }
-
-        return $that;
-    }
-
     public function project(Projector $projector): GeometryCollection
     {
         return new GeometryCollection(

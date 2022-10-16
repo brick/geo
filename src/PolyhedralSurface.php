@@ -190,17 +190,6 @@ class PolyhedralSurface extends Surface
         return $result;
     }
 
-    public function swapXY() : Geometry
-    {
-        $that = clone $this;
-
-        foreach ($that->patches as & $patch) {
-            $patch = $patch->swapXY();
-        }
-
-        return $that;
-    }
-
     public function project(Projector $projector): PolyhedralSurface
     {
         return new PolyhedralSurface(

@@ -14,6 +14,7 @@ use Brick\Geo\IO\WKBReader;
 use Brick\Geo\IO\WKBWriter;
 use Brick\Geo\Projector\Projector;
 use Brick\Geo\Projector\SRIDProjector;
+use Brick\Geo\Projector\SwapXYProjector;
 
 /**
  * Geometry is the root class of the hierarchy.
@@ -297,11 +298,17 @@ abstract class Geometry implements \Countable, \IteratorAggregate
     abstract public function toArray() : array;
 
     /**
-     * Returns a copy of this Geometry, with the X and Y coordinates swapped.
+     * Returns a copy of this Geometry, with the SRID altered.
+     *
+     * Note that only the SRID value is changed, the coordinates are not reprojected.
+     * Use GeometryEngine::transform() to reproject the Geometry to another SRID.
      *
      * @return static
      */
-    abstract public function swapXY() : Geometry;
+    public function swapXY() : Geometry
+    {
+        return $this->project(new SwapXYProjector());
+    }
 
     /**
      * Projects this geometry to a different coordinate system.

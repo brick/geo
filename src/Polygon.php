@@ -219,17 +219,6 @@ class Polygon extends Surface
         return $result;
     }
 
-    public function swapXY() : Geometry
-    {
-        $that = clone $this;
-
-        foreach ($that->rings as & $ring) {
-            $ring = $ring->swapXY();
-        }
-
-        return $that;
-    }
-
     public function project(Projector $projector): Polygon
     {
         return new Polygon(

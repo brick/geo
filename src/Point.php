@@ -296,16 +296,6 @@ class Point extends Geometry
         return $result;
     }
 
-    public function swapXY() : Geometry
-    {
-        $that = clone $this;
-
-        $that->x = $this->y;
-        $that->y = $this->x;
-
-        return $that;
-    }
-
     public function project(Projector $projector) : Point
     {
         return $projector->project($this);

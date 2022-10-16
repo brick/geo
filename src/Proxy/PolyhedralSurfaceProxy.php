@@ -199,15 +199,6 @@ class PolyhedralSurfaceProxy extends PolyhedralSurface implements ProxyInterface
         return $this->proxyGeometry->toArray();
     }
 
-    public function swapXY() : \Brick\Geo\Geometry
-    {
-        if ($this->proxyGeometry === null) {
-            $this->load();
-        }
-
-        return $this->proxyGeometry->swapXY();
-    }
-
     public function project(\Brick\Geo\Projector\Projector $projector) : \Brick\Geo\PolyhedralSurface
     {
         if ($this->proxyGeometry === null) {
@@ -296,6 +287,15 @@ class PolyhedralSurfaceProxy extends PolyhedralSurface implements ProxyInterface
         }
 
         return $this->proxyGeometry->withSRID($srid);
+    }
+
+    public function swapXY() : \Brick\Geo\Geometry
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->swapXY();
     }
 
 }
