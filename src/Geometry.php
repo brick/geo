@@ -13,6 +13,7 @@ use Brick\Geo\IO\WKTWriter;
 use Brick\Geo\IO\WKBReader;
 use Brick\Geo\IO\WKBWriter;
 use Brick\Geo\Projector\Projector;
+use Brick\Geo\Projector\RemoveZMProjector;
 use Brick\Geo\Projector\SRIDProjector;
 use Brick\Geo\Projector\SwapXYProjector;
 
@@ -271,21 +272,42 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      *
      * @return static
      */
-    abstract public function toXY() : Geometry;
+    public function toXY(): Geometry
+    {
+        if ($this->coordinateDimension() === 2) {
+            return $this;
+        }
+
+        return $this->project(new RemoveZMProjector(removeZ: true, removeM: true));
+    }
 
     /**
      * Returns a copy of this Geometry, with the Z coordinate removed.
      *
      * @return static
      */
-    abstract public function withoutZ() : Geometry;
+    public function withoutZ() : Geometry
+    {
+        if (! $this->coordinateSystem->hasZ()) {
+            return $this;
+        }
+
+        return $this->project(new RemoveZMProjector(removeZ: true));
+    }
 
     /**
      * Returns a copy of this Geometry, with the M coordinate removed.
      *
      * @return static
      */
-    abstract public function withoutM() : Geometry;
+    public function withoutM() : Geometry
+    {
+        if (! $this->coordinateSystem->hasM()) {
+            return $this;
+        }
+
+        return $this->project(new RemoveZMProjector(removeM: true));
+    }
 
     /**
      * Returns the bounding box of the Geometry.

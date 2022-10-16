@@ -156,47 +156,6 @@ class Polygon extends Surface
         return Geometry::POLYGON;
     }
 
-    public function toXY(): Polygon
-    {
-        if ($this->coordinateDimension() === 2) {
-            return $this;
-        }
-
-        $cs = $this->coordinateSystem
-            ->withZ(false)
-            ->withM(false);
-
-        $rings = array_map(fn(LineString $ring) => $ring->toXY(), $this->rings);
-
-        return new Polygon($cs, ...$rings);
-    }
-
-    public function withoutZ(): Polygon
-    {
-        if (! $this->coordinateSystem->hasZ()) {
-            return $this;
-        }
-
-        $cs = $this->coordinateSystem->withZ(false);
-
-        $rings = array_map(fn(LineString $ring) => $ring->withoutZ(), $this->rings);
-
-        return new Polygon($cs, ...$rings);
-    }
-
-    public function withoutM(): Polygon
-    {
-        if (! $this->coordinateSystem->hasM()) {
-            return $this;
-        }
-
-        $cs = $this->coordinateSystem->withM(false);
-
-        $rings = array_map(fn(LineString $ring) => $ring->withoutM(), $this->rings);
-
-        return new Polygon($cs, ...$rings);
-    }
-
     public function getBoundingBox() : BoundingBox
     {
         $boundingBox = new BoundingBox();

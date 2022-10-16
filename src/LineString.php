@@ -183,47 +183,6 @@ class LineString extends Curve
         return Geometry::LINESTRING;
     }
 
-    public function toXY(): LineString
-    {
-        if ($this->coordinateDimension() === 2) {
-            return $this;
-        }
-
-        $cs = $this->coordinateSystem
-            ->withZ(false)
-            ->withM(false);
-
-        $points = array_map(fn(Point $point) => $point->toXY(), $this->points);
-
-        return new LineString($cs, ...$points);
-    }
-
-    public function withoutZ(): LineString
-    {
-        if (! $this->coordinateSystem->hasZ()) {
-            return $this;
-        }
-
-        $cs = $this->coordinateSystem->withZ(false);
-
-        $points = array_map(fn(Point $point) => $point->withoutZ(), $this->points);
-
-        return new LineString($cs, ...$points);
-    }
-
-    public function withoutM(): LineString
-    {
-        if (! $this->coordinateSystem->hasM()) {
-            return $this;
-        }
-
-        $cs = $this->coordinateSystem->withM(false);
-
-        $points = array_map(fn(Point $point) => $point->withoutM(), $this->points);
-
-        return new LineString($cs, ...$points);
-    }
-
     public function getBoundingBox() : BoundingBox
     {
         $boundingBox = new BoundingBox();

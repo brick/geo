@@ -172,33 +172,6 @@ class CompoundCurveProxy extends CompoundCurve implements ProxyInterface
         return $this->proxyGeometry->curves();
     }
 
-    public function toXY() : \Brick\Geo\CompoundCurve
-    {
-        if ($this->proxyGeometry === null) {
-            $this->load();
-        }
-
-        return $this->proxyGeometry->toXY();
-    }
-
-    public function withoutZ() : \Brick\Geo\CompoundCurve
-    {
-        if ($this->proxyGeometry === null) {
-            $this->load();
-        }
-
-        return $this->proxyGeometry->withoutZ();
-    }
-
-    public function withoutM() : \Brick\Geo\CompoundCurve
-    {
-        if ($this->proxyGeometry === null) {
-            $this->load();
-        }
-
-        return $this->proxyGeometry->withoutM();
-    }
-
     public function getBoundingBox() : \Brick\Geo\BoundingBox
     {
         if ($this->proxyGeometry === null) {
@@ -305,6 +278,33 @@ class CompoundCurveProxy extends CompoundCurve implements ProxyInterface
         }
 
         return $this->proxyGeometry->withSRID($srid);
+    }
+
+    public function toXY() : \Brick\Geo\Geometry
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->toXY();
+    }
+
+    public function withoutZ() : \Brick\Geo\Geometry
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->withoutZ();
+    }
+
+    public function withoutM() : \Brick\Geo\Geometry
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->withoutM();
     }
 
     public function swapXY() : \Brick\Geo\Geometry

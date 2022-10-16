@@ -153,47 +153,6 @@ class CompoundCurve extends Curve
         return Geometry::COMPOUNDCURVE;
     }
 
-    public function toXY(): CompoundCurve
-    {
-        if ($this->coordinateDimension() === 2) {
-            return $this;
-        }
-
-        $cs = $this->coordinateSystem
-            ->withZ(false)
-            ->withM(false);
-
-        $curves = array_map(fn(Curve $curve) => $curve->toXY(), $this->curves);
-
-        return new CompoundCurve($cs, ...$curves);
-    }
-
-    public function withoutZ(): CompoundCurve
-    {
-        if (! $this->coordinateSystem->hasZ()) {
-            return $this;
-        }
-
-        $cs = $this->coordinateSystem->withZ(false);
-
-        $curves = array_map(fn(Curve $curve) => $curve->withoutZ(), $this->curves);
-
-        return new CompoundCurve($cs, ...$curves);
-    }
-
-    public function withoutM(): CompoundCurve
-    {
-        if (! $this->coordinateSystem->hasM()) {
-            return $this;
-        }
-
-        $cs = $this->coordinateSystem->withM(false);
-
-        $curves = array_map(fn(Curve $curve) => $curve->withoutM(), $this->curves);
-
-        return new CompoundCurve($cs, ...$curves);
-    }
-
     public function getBoundingBox() : BoundingBox
     {
         $boundingBox = new BoundingBox();

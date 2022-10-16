@@ -136,47 +136,6 @@ class CurvePolygon extends Surface
         return Geometry::CURVEPOLYGON;
     }
 
-    public function toXY(): CurvePolygon
-    {
-        if ($this->coordinateDimension() === 2) {
-            return $this;
-        }
-
-        $cs = $this->coordinateSystem
-            ->withZ(false)
-            ->withM(false);
-
-        $rings = array_map(fn(Curve $ring) => $ring->toXY(), $this->rings);
-
-        return new CurvePolygon($cs, ...$rings);
-    }
-
-    public function withoutZ(): CurvePolygon
-    {
-        if (! $this->coordinateSystem->hasZ()) {
-            return $this;
-        }
-
-        $cs = $this->coordinateSystem->withZ(false);
-
-        $rings = array_map(fn(Curve $ring) => $ring->withoutZ(), $this->rings);
-
-        return new CurvePolygon($cs, ...$rings);
-    }
-
-    public function withoutM(): CurvePolygon
-    {
-        if (! $this->coordinateSystem->hasM()) {
-            return $this;
-        }
-
-        $cs = $this->coordinateSystem->withM(false);
-
-        $rings = array_map(fn(Curve $ring) => $ring->withoutM(), $this->rings);
-
-        return new CurvePolygon($cs, ...$rings);
-    }
-
     public function getBoundingBox() : BoundingBox
     {
         $boundingBox = new BoundingBox();

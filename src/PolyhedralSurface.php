@@ -127,47 +127,6 @@ class PolyhedralSurface extends Surface
         return Geometry::POLYHEDRALSURFACE;
     }
 
-    public function toXY(): PolyhedralSurface
-    {
-        if ($this->coordinateDimension() === 2) {
-            return $this;
-        }
-
-        $cs = $this->coordinateSystem
-            ->withZ(false)
-            ->withM(false);
-
-        $patches = array_map(fn(Polygon $patch) => $patch->toXY(), $this->patches);
-
-        return new PolyhedralSurface($cs, ...$patches);
-    }
-
-    public function withoutZ(): PolyhedralSurface
-    {
-        if (! $this->coordinateSystem->hasZ()) {
-            return $this;
-        }
-
-        $cs = $this->coordinateSystem->withZ(false);
-
-        $patches = array_map(fn(Polygon $patch) => $patch->withoutZ(), $this->patches);
-
-        return new PolyhedralSurface($cs, ...$patches);
-    }
-
-    public function withoutM(): PolyhedralSurface
-    {
-        if (! $this->coordinateSystem->hasM()) {
-            return $this;
-        }
-
-        $cs = $this->coordinateSystem->withM(false);
-
-        $patches = array_map(fn(Polygon $patch) => $patch->withoutM(), $this->patches);
-
-        return new PolyhedralSurface($cs, ...$patches);
-    }
-
     public function getBoundingBox() : BoundingBox
     {
         $boundingBox = new BoundingBox();
