@@ -13,6 +13,7 @@
 ✨ **New features**
 
 - New `Projector` API to reproject geometry coordinates.
+- New method: `Polygon::rings()`
 
 ## [0.8.1](https://github.com/brick/geo/releases/tag/0.8.1) - 2022-10-14
 

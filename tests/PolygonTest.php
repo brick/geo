@@ -186,151 +186,163 @@ class PolygonTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerExteriorRing
+     * @dataProvider providerRings
      *
-     * @param string $polygon      The WKT of the Polygon to test.
-     * @param string $exteriorRing The WKT of the expected exterior ring.
+     * @param string      $polygonWKT       The WKT of the Polygon to test.
+     * @param string|null $exteriorRingWKT  The WKT of the exterior ring, or null if the Polygon is empty.
+     * @param string[]    $interiorRingWKTs The WKT of the interior rings.
+     * @param int         $srid             The SRID of the geometries.
      */
-    public function testExteriorRing(string $polygon, string $exteriorRing) : void
+    public function testRings(string $polygonWKT, ?string $exteriorRingWKT, array $interiorRingWKTs, int $srid) : void
     {
-        foreach ([0, 1] as $srid) {
-            $ring = Polygon::fromText($polygon, $srid)->exteriorRing();
-            $this->assertWktEquals($ring, $exteriorRing, $srid);
-        }
-    }
+        $polygon = Polygon::fromText($polygonWKT, $srid);
 
-    public function providerExteriorRing() : array
-    {
-        return [
-            ['POLYGON ((1 2, 1 3, 2 2, 1 2))', 'LINESTRING (1 2, 1 3, 2 2, 1 2)'],
-            ['POLYGON ((0 0, 0 9, 9 9, 0 0), (1 1, 1 8, 8 8, 1 1))', 'LINESTRING (0 0, 0 9, 9 9, 0 0)'],
-            ['POLYGON Z ((1 2 3, 4 5 6, 7 8 9, 1 2 3))', 'LINESTRING Z (1 2 3, 4 5 6, 7 8 9, 1 2 3)'],
-            ['POLYGON M ((1 2 3, 4 5 6, 7 8 9, 1 2 3))', 'LINESTRING M (1 2 3, 4 5 6, 7 8 9, 1 2 3)'],
-            ['POLYGON ZM ((1 2 0 1, 1 3 0 2, 2 2 0 3, 1 2 0 1))', 'LINESTRING ZM (1 2 0 1, 1 3 0 2, 2 2 0 3, 1 2 0 1)'],
-        ];
-    }
+        $ringWKTs = array_merge($exteriorRingWKT === null ? [] : [$exteriorRingWKT], $interiorRingWKTs);
 
-    /**
-     * @dataProvider providerExteriorRingOfEmptyPolygon
-     *
-     * @param string $polygon The WKT of the polygon to test.
-     */
-    public function testExteriorRingOfEmptyPolygon(string $polygon) : void
-    {
-        $this->expectException(EmptyGeometryException::class);
-        Polygon::fromText($polygon)->exteriorRing();
-    }
+        self::assertWktEqualsMultiple($polygon->rings(), $ringWKTs, $srid);
 
-    public function providerExteriorRingOfEmptyPolygon() : array
-    {
-        return [
-            ['POLYGON EMPTY'],
-            ['POLYGON Z EMPTY'],
-            ['POLYGON M EMPTY'],
-            ['POLYGON ZM EMPTY'],
-        ];
-    }
-
-    /**
-     * @dataProvider providerNumInteriorRings
-     *
-     * @param string $polygon          The WKT of the Polygon to test.
-     * @param int    $numInteriorRings The expected number of interior rings.
-     */
-    public function testNumInteriorRings(string $polygon, int $numInteriorRings) : void
-    {
-        $polygon = Polygon::fromText($polygon);
-        self::assertSame($numInteriorRings, $polygon->numInteriorRings());
-    }
-
-    public function providerNumInteriorRings() : array
-    {
-        return [
-            ['POLYGON EMPTY', 0],
-            ['POLYGON Z EMPTY', 0],
-            ['POLYGON M EMPTY', 0],
-            ['POLYGON ZM EMPTY', 0],
-            ['POLYGON ((0 0, 0 1, 1 1, 0 0))', 0],
-            ['POLYGON ((0 0, 0 9, 9 9, 0 0), (1 1, 1 8, 8 8, 1 1))', 1],
-            ['POLYGON ((0 0, 0 9, 9 9, 0 0), (1 2, 1 4, 2 4, 1 2), (1 5, 2 6, 2 5, 1 5))', 2],
-            ['POLYGON Z ((0 0 0, 0 1 0, 1 1 0, 0 0 0))', 0],
-            ['POLYGON Z ((0 0 0, 0 9 0, 9 9 0, 0 0 0), (1 1 0, 1 8 0, 8 8 0, 1 1 0))', 1],
-        ];
-    }
-
-    /**
-     * @dataProvider providerInteriorRingN
-     *
-     * @param string      $polygon       The WKT of the Polygon to test.
-     * @param int         $n             The ring number.
-     * @param string|null $interiorRingN The WKT of the expected interior ring, or NULL if an exception is expected.
-     * @param int         $srid          The SRID of the geometries.
-     */
-    public function testInteriorRingN(string $polygon, int $n, ?string $interiorRingN, int $srid) : void
-    {
-        if ($interiorRingN === null) {
-            $this->expectException(NoSuchGeometryException::class);
+        if ($exteriorRingWKT !== null) {
+            $this->assertWktEquals($polygon->exteriorRing(), $exteriorRingWKT, $srid);
+        } else {
+            $this->expectExceptionIn(function () use ($polygon) {
+                $polygon->exteriorRing();
+            }, EmptyGeometryException::class);
         }
 
-        $ring = Polygon::fromText($polygon, $srid)->interiorRingN($n);
-        $this->assertWktEquals($ring, $interiorRingN, $srid);
+        self::assertWktEqualsMultiple($polygon->interiorRings(), $interiorRingWKTs, $srid);
+        self::assertSame(count($interiorRingWKTs), $polygon->numInteriorRings());
+
+        $this->expectExceptionIn(function () use ($polygon) {
+            $polygon->interiorRingN(0);
+        }, NoSuchGeometryException::class);
+
+        $index = 1;
+        foreach ($interiorRingWKTs as $interiorRingWKT) {
+            $this->assertWktEquals($polygon->interiorRingN($index), $interiorRingWKT, $srid);
+            $index++;
+        }
+
+        $this->expectExceptionIn(function () use ($polygon, $index) {
+            $polygon->interiorRingN($index);
+        }, NoSuchGeometryException::class);
     }
 
-    public function providerInteriorRingN() : \Generator
+    public function providerRings() : \Generator
     {
         $tests = [
-            ['POLYGON EMPTY', [
-                0 => null,
-                1 => null,
-            ]],
-            ['POLYGON Z EMPTY', [
-                0 => null,
-                1 => null,
-            ]],
-            ['POLYGON M EMPTY', [
-                0 => null,
-                1 => null,
-            ]],
-            ['POLYGON ZM EMPTY', [
-                0 => null,
-                1 => null,
-            ]],
-            ['POLYGON ((0 0, 0 1, 1 1, 0 0))', [
-                0 => null,
-                1 => null,
-            ]],
-            ['POLYGON ((0 0, 0 9, 9 9, 0 0), (1 1, 1 8, 8 8, 1 1))', [
-                0 => null,
-                1 => 'LINESTRING (1 1, 1 8, 8 8, 1 1)',
-                2 => null,
-            ]],
-            ['POLYGON ((0 0, 0 9, 9 9, 0 0), (1 1, 1 8, 8 8, 1 1))', [
-                0 => null,
-                1 => 'LINESTRING (1 1, 1 8, 8 8, 1 1)',
-                2 => null,
-            ]],
-            ['POLYGON ((0 0, 0 9, 9 9, 0 0), (1 2, 1 4, 2 4, 1 2), (1 5, 2 6, 2 5, 1 5))', [
-                0 => null,
-                1 => 'LINESTRING (1 2, 1 4, 2 4, 1 2)',
-                2 => 'LINESTRING (1 5, 2 6, 2 5, 1 5)',
-                3 => null,
-            ]],
-            ['POLYGON Z ((0 0 0, 0 1 0, 1 1 0, 0 0 0))', [
-                0 => null,
-                1 => null,
-            ]],
-            ['POLYGON Z ((0 0 0, 0 9 0, 9 9 0, 0 0 0), (1 1 0, 1 8 0, 8 8 0, 1 1 0))', [
-                0 => null,
-                1 => 'LINESTRING Z (1 1 0, 1 8 0, 8 8 0, 1 1 0)',
-                2 => null,
-            ]],
+            // XY
+            [
+                'polygon' => 'POLYGON EMPTY',
+                'exteriorRing' => null,
+                'interiorRings' => []
+            ],
+            [
+                'polygon' => 'POLYGON ((0 0, 0 1, 1 1, 0 0))',
+                'exteriorRing' => 'LINESTRING (0 0, 0 1, 1 1, 0 0)',
+                'interiorRings' => []
+            ],
+            [
+                'polygon' => 'POLYGON ((0 0, 0 9, 9 9, 0 0), (1 1, 1 8, 8 8, 1 1))',
+                'exteriorRing' => 'LINESTRING (0 0, 0 9, 9 9, 0 0)',
+                'interiorRings' => [
+                    'LINESTRING (1 1, 1 8, 8 8, 1 1)'
+                ]
+            ],
+            [
+                'polygon' => 'POLYGON ((0 0, 0 9, 9 9, 0 0), (1 2, 1 4, 2 4, 1 2), (1 5, 2 6, 2 5, 1 5))',
+                'exteriorRing' => 'LINESTRING (0 0, 0 9, 9 9, 0 0)',
+                'interiorRings' => [
+                    'LINESTRING (1 2, 1 4, 2 4, 1 2)',
+                    'LINESTRING (1 5, 2 6, 2 5, 1 5)',
+                ]
+            ],
+            // XYZ
+            [
+                'polygon' => 'POLYGON Z EMPTY',
+                'exteriorRing' => null,
+                'interiorRings' => []
+            ],
+            [
+                'polygon' => 'POLYGON Z ((0 0 0, 0 1 0, 1 1 0, 0 0 0))',
+                'exteriorRing' => 'LINESTRING Z (0 0 0, 0 1 0, 1 1 0, 0 0 0)',
+                'interiorRings' => []
+            ],
+            [
+                'polygon' => 'POLYGON Z ((0 0 0, 0 9 0, 9 9 0, 0 0 0), (1 1 0, 1 8 0, 8 8 0, 1 1 0))',
+                'exteriorRing' => 'LINESTRING Z (0 0 0, 0 9 0, 9 9 0, 0 0 0)',
+                'interiorRings' => [
+                    'LINESTRING Z (1 1 0, 1 8 0, 8 8 0, 1 1 0)'
+                ]
+            ],
+            [
+                'polygon' => 'POLYGON Z ((0 0 0, 0 9 0, 9 9 0, 0 0 0), (1 1 0, 1 8 0, 8 8 0, 1 1 0), (1 2 3, 4 5 6, 7 8 9, 1 2 3))',
+                'exteriorRing' => 'LINESTRING Z (0 0 0, 0 9 0, 9 9 0, 0 0 0)',
+                'interiorRings' => [
+                    'LINESTRING Z (1 1 0, 1 8 0, 8 8 0, 1 1 0)',
+                    'LINESTRING Z (1 2 3, 4 5 6, 7 8 9, 1 2 3)'
+                ]
+            ],
+            // XYM
+            [
+                'polygon' => 'POLYGON M EMPTY',
+                'exteriorRing' => null,
+                'interiorRings' => []
+            ],
+            [
+                'polygon' => 'POLYGON M ((0 0 0, 0 1 0, 1 1 0, 0 0 0))',
+                'exteriorRing' => 'LINESTRING M (0 0 0, 0 1 0, 1 1 0, 0 0 0)',
+                'interiorRings' => []
+            ],
+            [
+                'polygon' => 'POLYGON M ((0 0 0, 0 9 0, 9 9 0, 0 0 0), (1 2 3, 4 5 6, 7 8 9, 1 2 3))',
+                'exteriorRing' => 'LINESTRING M (0 0 0, 0 9 0, 9 9 0, 0 0 0)',
+                'interiorRings' => [
+                    'LINESTRING M (1 2 3, 4 5 6, 7 8 9, 1 2 3)'
+                ]
+            ],
+            [
+                'polygon' => 'POLYGON M ((0 0 0, 0 9 0, 9 9 0, 0 0 0), (1 1 0, 1 8 0, 8 8 0, 1 1 0), (1 2 3, 4 5 6, 7 8 9, 1 2 3))',
+                'exteriorRing' => 'LINESTRING M (0 0 0, 0 9 0, 9 9 0, 0 0 0)',
+                'interiorRings' => [
+                    'LINESTRING M (1 1 0, 1 8 0, 8 8 0, 1 1 0)',
+                    'LINESTRING M (1 2 3, 4 5 6, 7 8 9, 1 2 3)'
+                ]
+            ],
+            // XYZM
+            [
+                'polygon' => 'POLYGON ZM EMPTY',
+                'exteriorRing' => null,
+                'interiorRings' => []
+            ],
+            [
+                'polygon' => 'POLYGON ZM ((1 2 0 1, 1 3 0 2, 2 2 0 3, 1 2 0 1))',
+                'exteriorRing' => 'LINESTRING ZM (1 2 0 1, 1 3 0 2, 2 2 0 3, 1 2 0 1)',
+                'interiorRings' => []
+            ],
+            [
+                'polygon' => 'POLYGON ZM ((1 2 0 1, 1 3 0 2, 2 2 0 3, 1 2 0 1), (1 2 1 1, 1 3 1 2, 2 2 1 3, 1 2 1 1))',
+                'exteriorRing' => 'LINESTRING ZM (1 2 0 1, 1 3 0 2, 2 2 0 3, 1 2 0 1)',
+                'interiorRings' => [
+                    'LINESTRING ZM (1 2 1 1, 1 3 1 2, 2 2 1 3, 1 2 1 1)'
+                ]
+            ],
+            [
+                'polygon' => 'POLYGON ZM ((1 2 0 1, 1 3 0 2, 2 2 0 3, 1 2 0 1), (1 2 1 1, 1 3 1 2, 2 2 1 3, 1 2 1 1), (1 2 2 1, 1 3 2 2, 2 2 2 3, 1 2 2 1))',
+                'exteriorRing' => 'LINESTRING ZM (1 2 0 1, 1 3 0 2, 2 2 0 3, 1 2 0 1)',
+                'interiorRings' => [
+                    'LINESTRING ZM (1 2 1 1, 1 3 1 2, 2 2 1 3, 1 2 1 1)',
+                    'LINESTRING ZM (1 2 2 1, 1 3 2 2, 2 2 2 3, 1 2 2 1)'
+                ]
+            ]
         ];
 
-        foreach ($tests as [$polygon, $interiorRings]) {
-            foreach ($interiorRings as $n => $interiorRingN) {
-                foreach ([0, 1] as $srid) {
-                    yield [$polygon, $n, $interiorRingN, $srid];
-                }
+        foreach ($tests as [
+            'polygon' => $polygon,
+            'exteriorRing' => $exteriorRing,
+            'interiorRings' => $interiorRings,
+        ]) {
+            foreach ([0, 1] as $srid) {
+                yield [$polygon, $exteriorRing, $interiorRings, $srid];
             }
         }
     }

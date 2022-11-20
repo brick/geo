@@ -19,7 +19,9 @@ use Brick\Geo\CurvePolygon;
 use Brick\Geo\PolyhedralSurface;
 use Brick\Geo\TIN;
 use Brick\Geo\Triangle;
+use Closure;
 use PHPUnit\Framework\TestCase;
+use Throwable;
 
 /**
  * Base class for Geometry tests.
@@ -30,6 +32,25 @@ class AbstractTestCase extends TestCase
     {
         self::assertSame($wkt, $geometry->asText());
         self::assertSame($srid, $geometry->SRID());
+    }
+
+    /**
+     * @param Geometry[] $geometries
+     * @param string[] $wkts
+     */
+    final protected function assertWktEqualsMultiple(array $geometries, array $wkts, int $srid = 0) : void
+    {
+        foreach ($geometries as $geometry) {
+            self::assertSame($srid, $geometry->SRID());
+        }
+
+        self::assertSame(
+            $wkts,
+            array_map(
+                fn (Geometry $geometry) => $geometry->asText(),
+                $geometries
+            )
+        );
     }
 
     /**
@@ -329,5 +350,25 @@ class AbstractTestCase extends TestCase
         array_walk_recursive($coords, function (& $value) {
             $value = (float) $value;
         });
+    }
+
+    /**
+     * @param Closure():void $closure
+     * @param class-string<Throwable> $exceptionClass
+     */
+    final protected function expectExceptionIn(Closure $closure, string $exceptionClass): void
+    {
+        try {
+            $closure();
+        } catch (Throwable $exception) {
+            if (get_class($exception) === $exceptionClass) {
+                $this->addtoAssertionCount(1);
+                return;
+            }
+
+            throw $exception;
+        }
+
+        $this->fail(sprintf('Failed asserting that exception of type "%s" is thrown.', $exceptionClass));
     }
 }

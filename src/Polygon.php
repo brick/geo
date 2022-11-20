@@ -89,6 +89,18 @@ class Polygon extends Surface
     }
 
     /**
+     * Returns all rings in this Polygon, with the exterior ring first, then the interior rings.
+     *
+     * Returns an empty array if this Polygon is empty.
+     *
+     * @return LineString[]
+     */
+    public function rings(): array
+    {
+        return $this->rings;
+    }
+
+    /**
      * Returns the exterior ring of this Polygon.
      *
      * @throws EmptyGeometryException

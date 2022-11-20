@@ -127,6 +127,15 @@ class PolygonProxy extends Polygon implements ProxyInterface
     }
 
 
+    public function rings() : array
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->rings();
+    }
+
     public function exteriorRing() : \Brick\Geo\LineString
     {
         if ($this->proxyGeometry === null) {
