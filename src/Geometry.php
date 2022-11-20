@@ -338,6 +338,20 @@ abstract class Geometry implements \Countable, \IteratorAggregate
     abstract public function project(Projector $projector): Geometry;
 
     /**
+     * Returns whether this Geometry is identical to another Geometry.
+     *
+     * This method will only return true if the geometries are of the same type, with the exact same coordinates,
+     * in the same order, and with the same SRID.
+     *
+     * This is different from the concept of spatially equal; if you need to check for spatial equality,
+     * please see `GeometryEngine::equals()` instead.
+     */
+    public function isIdenticalTo(Geometry $that) : bool
+    {
+        return $this->SRID() === $that->SRID() && $this->asText() === $that->asText();
+    }
+
+    /**
      * Returns a text representation of this geometry.
      *
      * @noproxy

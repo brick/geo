@@ -307,4 +307,13 @@ class MultiPointProxy extends MultiPoint implements ProxyInterface
         return $this->proxyGeometry->swapXY();
     }
 
+    public function isIdenticalTo(\Brick\Geo\Geometry $that) : bool
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->isIdenticalTo($that);
+    }
+
 }

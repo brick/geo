@@ -279,6 +279,15 @@ class GeometryProxy extends Geometry implements ProxyInterface
         return $this->proxyGeometry->project($projector);
     }
 
+    public function isIdenticalTo(\Brick\Geo\Geometry $that) : bool
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->isIdenticalTo($that);
+    }
+
     public function count()
     {
         if ($this->proxyGeometry === null) {

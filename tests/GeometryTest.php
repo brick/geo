@@ -431,4 +431,46 @@ class GeometryTest extends AbstractTestCase
             ['LINESTRING ZM (1 2 3 4, 5 6 7 8)', [[1, 2, 3, 4], [5, 6, 7, 8]]],
         ];
     }
+
+    /**
+     * @dataProvider providerIsIdenticalTo
+     */
+    public function testIsIdenticalTo(string $wkt1, string $wkt2, bool $identical) : void
+    {
+        $geometry1 = Geometry::fromText($wkt1);
+        $geometry2 = Geometry::fromText($wkt2);
+
+        self::assertSame($identical, $geometry1->isIdenticalTo($geometry2));
+    }
+
+    /**
+     * @dataProvider providerIsIdenticalTo
+     */
+    public function testIsIdenticalToDifferentSRIDs(string $wkt1, string $wkt2) : void
+    {
+        $geometry1 = Geometry::fromText($wkt1, 1);
+        $geometry2 = Geometry::fromText($wkt2, 2);
+
+        self::assertFalse($geometry1->isIdenticalTo($geometry2));
+    }
+
+    public function providerIsIdenticalTo() : array
+    {
+        return [
+            ['POINT EMPTY', 'POINT EMPTY', true],
+            ['POINT EMPTY', 'POINT Z EMPTY', false],
+            ['POINT EMPTY', 'POINT (1 1)', false],
+            ['POINT (1 1)', 'POINT (1 1)', true],
+            ['POINT (1 1)', 'POINT (1 2)', false],
+            ['POINT (1 1)', 'POINT (1 1.000001)', false],
+            ['POINT (1 1)', 'POINT Z (1 1 1)', false],
+            ['POINT Z (1 2 3)', 'POINT M (1 2 3)', false],
+            ['POINT (1 1)', 'MULTIPOINT (1 1)', false],
+            ['POINT (1 1)', 'GEOMETRYCOLLECTION(POINT (1 1))', false],
+            ['MULTIPOINT (1 1)', 'MULTIPOINT (1 1)', true],
+            ['MULTIPOINT (1 1)', 'MULTIPOINT (2 3)', false],
+            ['MULTIPOINT (1 1)', 'MULTIPOINT (1 1, 2 3)', false],
+            ['MULTIPOINT (1 2, 2 3)', 'MULTIPOINT (2 3, 1 2)', false],
+        ];
+    }
 }
