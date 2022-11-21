@@ -116,11 +116,11 @@ interface GeometryEngine
      *
      * @param Surface|MultiSurface $g The geometry.
      *
-     * @return Geometry A point of the surface of the geometry.
+     * @return Point A point of the surface of the geometry.
      *
      * @throws GeometryEngineException If the operation is not supported by the engine.
      */
-    public function pointOnSurface(Surface|MultiSurface $g) : Geometry;
+    public function pointOnSurface(Surface|MultiSurface $g) : Point;
 
     /**
      * Returns the closure of the combinatorial boundary of a Geometry.

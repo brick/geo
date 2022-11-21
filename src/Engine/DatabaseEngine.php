@@ -282,17 +282,15 @@ abstract class DatabaseEngine implements GeometryEngine
         return $this->queryGeometry('ST_Envelope', $g);
     }
 
-    /**
-     * @psalm-suppress LessSpecificReturnStatement
-     * @psalm-suppress MoreSpecificReturnType
-     */
     public function centroid(Geometry $g) : Point
     {
+        /** @var Point */
         return $this->queryGeometry('ST_Centroid', $g);
     }
 
-    public function pointOnSurface(Surface|MultiSurface $g) : Geometry
+    public function pointOnSurface(Surface|MultiSurface $g) : Point
     {
+        /** @var Point */
         return $this->queryGeometry('ST_PointOnSurface', $g);
     }
 

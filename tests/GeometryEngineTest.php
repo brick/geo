@@ -311,7 +311,6 @@ class GeometryEngineTest extends AbstractTestCase
 
         $pointOnSurface = $geometryEngine->pointOnSurface($geometry);
 
-        self::assertInstanceOf(Point::class, $pointOnSurface);
         self::assertTrue($geometryEngine->contains($geometry, $pointOnSurface));
     }
 
