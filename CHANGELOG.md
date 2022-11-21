@@ -1,11 +1,11 @@
 # Changelog
 
-## UNRELEASED (0.9.0)
+## [0.9.0](https://github.com/brick/geo/releases/tag/0.9.0) - 2022-11-22
 
 💥 **Breaking changes**
 
 - Proxies are now `@internal` and considered an implementation detail. This means that they are no longer part of the public API and can change at any time. This means that you should *always* type-hint against the base class and not the proxy.
-- `Point` constructor now throw an exception when passing NaN or infinite coordinates.
+- `Point` constructor now throws an exception when passing `NaN` or infinite coordinates.
 - `GeometryEngine::pointOnSurface()` now returns `Point` instead of `Geometry`.
 
 🐛 **Bug fixes**
@@ -21,7 +21,7 @@
 
 ✨ **Improvements**
 
-- `GeometryCollection::geometryN()` is now properly documented with generics
+- `GeometryCollection::geometryN()` is now properly documented with generics.
 
 ## [0.8.1](https://github.com/brick/geo/releases/tag/0.8.1) - 2022-10-14
 
