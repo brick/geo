@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Brick\Geo;
 
+use Brick\Geo\Attribute\NoProxy;
 use Brick\Geo\Projector\Projector;
 
 /**
@@ -19,17 +20,13 @@ use Brick\Geo\Projector\Projector;
  */
 class MultiPoint extends GeometryCollection
 {
-    /**
-     * @noproxy
-     */
+    #[NoProxy]
     public function geometryType() : string
     {
         return 'MultiPoint';
     }
 
-    /**
-     * @noproxy
-     */
+    #[NoProxy]
     public function geometryTypeBinary() : int
     {
         return Geometry::MULTIPOINT;

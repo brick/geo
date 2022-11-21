@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Brick\Geo;
 
 use ArrayIterator;
+use Brick\Geo\Attribute\NoProxy;
 use Brick\Geo\Exception\CoordinateSystemException;
 use Brick\Geo\Exception\EmptyGeometryException;
 use Brick\Geo\Exception\InvalidGeometryException;
@@ -167,17 +168,13 @@ class LineString extends Curve
         return $this->points;
     }
 
-    /**
-     * @noproxy
-     */
+    #[NoProxy]
     public function geometryType() : string
     {
         return 'LineString';
     }
 
-    /**
-     * @noproxy
-     */
+    #[NoProxy]
     public function geometryTypeBinary() : int
     {
         return Geometry::LINESTRING;

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Brick\Geo;
 
+use Brick\Geo\Attribute\NoProxy;
 use Brick\Geo\Exception\InvalidGeometryException;
 use Brick\Geo\Projector\Projector;
 
@@ -29,17 +30,13 @@ class Triangle extends Polygon
         }
     }
 
-    /**
-     * @noproxy
-     */
+    #[NoProxy]
     public function geometryType() : string
     {
         return 'Triangle';
     }
 
-    /**
-     * @noproxy
-     */
+    #[NoProxy]
     public function geometryTypeBinary() : int
     {
         return Geometry::TRIANGLE;

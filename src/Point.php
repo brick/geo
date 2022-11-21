@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Brick\Geo;
 
 use ArrayIterator;
+use Brick\Geo\Attribute\NoProxy;
 use Brick\Geo\Exception\InvalidGeometryException;
 use Brick\Geo\Projector\Projector;
 
@@ -198,25 +199,19 @@ class Point extends Geometry
         return $this->m;
     }
 
-    /**
-     * @noproxy
-     */
+    #[NoProxy]
     public function geometryType() : string
     {
         return 'Point';
     }
 
-    /**
-     * @noproxy
-     */
+    #[NoProxy]
     public function geometryTypeBinary() : int
     {
         return Geometry::POINT;
     }
 
-    /**
-     * @noproxy
-     */
+    #[NoProxy]
     public function dimension() : int
     {
         return 0;

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Brick\Geo;
 
 use ArrayIterator;
+use Brick\Geo\Attribute\NoProxy;
 use Brick\Geo\Exception\CoordinateSystemException;
 use Brick\Geo\Exception\EmptyGeometryException;
 use Brick\Geo\Exception\NoSuchGeometryException;
@@ -120,17 +121,13 @@ class CurvePolygon extends Surface
         return array_slice($this->rings, 1);
     }
 
-    /**
-     * @noproxy
-     */
+    #[NoProxy]
     public function geometryType() : string
     {
         return 'CurvePolygon';
     }
 
-    /**
-     * @noproxy
-     */
+    #[NoProxy]
     public function geometryTypeBinary() : int
     {
         return Geometry::CURVEPOLYGON;

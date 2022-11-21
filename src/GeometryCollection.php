@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Brick\Geo;
 
 use ArrayIterator;
+use Brick\Geo\Attribute\NoProxy;
 use Brick\Geo\Exception\CoordinateSystemException;
 use Brick\Geo\Exception\NoSuchGeometryException;
 use Brick\Geo\Exception\UnexpectedGeometryException;
@@ -134,17 +135,13 @@ class GeometryCollection extends Geometry
         return $this->geometries;
     }
 
-    /**
-     * @noproxy
-     */
+    #[NoProxy]
     public function geometryType() : string
     {
         return 'GeometryCollection';
     }
 
-    /**
-     * @noproxy
-     */
+    #[NoProxy]
     public function geometryTypeBinary() : int
     {
         return Geometry::GEOMETRYCOLLECTION;

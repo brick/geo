@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Brick\Geo;
 
+use Brick\Geo\Attribute\NoProxy;
 use Brick\Geo\Projector\Projector;
 
 /**
@@ -27,17 +28,13 @@ use Brick\Geo\Projector\Projector;
  */
 class MultiPolygon extends MultiSurface
 {
-    /**
-     * @noproxy
-     */
+    #[NoProxy]
     public function geometryType() : string
     {
         return 'MultiPolygon';
     }
 
-    /**
-     * @noproxy
-     */
+    #[NoProxy]
     public function geometryTypeBinary() : int
     {
         return Geometry::MULTIPOLYGON;
