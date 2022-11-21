@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Brick\Geo;
 
+use Brick\Geo\Attribute\NoProxy;
 use Brick\Geo\Exception\EmptyGeometryException;
+use Brick\Geo\Projector\Projector;
 
 /**
  * A Curve is a 1-dimensional geometric object usually stored as a sequence of Points.
@@ -14,10 +16,9 @@ use Brick\Geo\Exception\EmptyGeometryException;
 abstract class Curve extends Geometry
 {
     /**
-     * @noproxy
-     *
      * A Curve is a 1-dimensional geometric object.
      */
+    #[NoProxy]
     public function dimension() : int
     {
         return 1;
@@ -36,4 +37,6 @@ abstract class Curve extends Geometry
      * @throws EmptyGeometryException If the curve is empty.
      */
     abstract public function endPoint() : Point;
+
+    abstract public function project(Projector $projector): Curve;
 }

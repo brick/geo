@@ -1,5 +1,28 @@
 # Changelog
 
+## UNRELEASED (0.9.0)
+
+💥 **Breaking changes**
+
+- Proxies are now `@internal` and considered an implementation detail. This means that they are no longer part of the public API and can change at any time. This means that you should *always* type-hint against the base class and not the proxy.
+- `Point` constructor now throw an exception when passing NaN or infinite coordinates.
+- `GeometryEngine::pointOnSurface()` now returns `Point` instead of `Geometry`.
+
+🐛 **Bug fixes**
+
+- `Geometry::withSRID()` now properly propagates the SRID to all sub-geometries. Previously, only the top-level geometry was updated.
+- `Point` constructor would error when destructuring an associative array.
+
+✨ **New features**
+
+- New `Projector` API to reproject geometry coordinates.
+- New method: `Polygon::rings()`
+- New method: `Geometry::isIdenticalTo()`
+
+✨ **Improvements**
+
+- `GeometryCollection::geometryN()` is now properly documented with generics
+
 ## [0.8.1](https://github.com/brick/geo/releases/tag/0.8.1) - 2022-10-14
 
 ✨ **Improvements**

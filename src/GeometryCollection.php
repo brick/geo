@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace Brick\Geo;
 
 use ArrayIterator;
+use Brick\Geo\Attribute\NoProxy;
 use Brick\Geo\Exception\CoordinateSystemException;
 use Brick\Geo\Exception\NoSuchGeometryException;
 use Brick\Geo\Exception\UnexpectedGeometryException;
+use Brick\Geo\Projector\Projector;
 
 /**
  * A GeometryCollection is a geometric object that is a collection of some number of geometric objects.
@@ -110,6 +112,8 @@ class GeometryCollection extends Geometry
      *
      * @param int $n The geometry number, 1-based.
      *
+     * @return T
+     *
      * @throws NoSuchGeometryException If there is no Geometry at this index.
      */
     public function geometryN(int $n) : Geometry
@@ -133,17 +137,13 @@ class GeometryCollection extends Geometry
         return $this->geometries;
     }
 
-    /**
-     * @noproxy
-     */
+    #[NoProxy]
     public function geometryType() : string
     {
         return 'GeometryCollection';
     }
 
-    /**
-     * @noproxy
-     */
+    #[NoProxy]
     public function geometryTypeBinary() : int
     {
         return Geometry::GEOMETRYCOLLECTION;
@@ -162,47 +162,6 @@ class GeometryCollection extends Geometry
         }
 
         return $dimension;
-    }
-
-    public function toXY(): GeometryCollection
-    {
-        if ($this->coordinateDimension() === 2) {
-            return $this;
-        }
-
-        $cs = $this->coordinateSystem
-            ->withZ(false)
-            ->withM(false);
-
-        $geometries = array_map(fn(Geometry $geometry) => $geometry->toXY(), $this->geometries);
-
-        return new GeometryCollection($cs, ...$geometries);
-    }
-
-    public function withoutZ(): GeometryCollection
-    {
-        if (! $this->coordinateSystem->hasZ()) {
-            return $this;
-        }
-
-        $cs = $this->coordinateSystem->withZ(false);
-
-        $geometries = array_map(fn(Geometry $geometry) => $geometry->withoutZ(), $this->geometries);
-
-        return new GeometryCollection($cs, ...$geometries);
-    }
-
-    public function withoutM(): GeometryCollection
-    {
-        if (! $this->coordinateSystem->hasM()) {
-            return $this;
-        }
-
-        $cs = $this->coordinateSystem->withM(false);
-
-        $geometries = array_map(fn(Geometry $geometry) => $geometry->withoutM(), $this->geometries);
-
-        return new GeometryCollection($cs, ...$geometries);
     }
 
     public function getBoundingBox() : BoundingBox
@@ -227,15 +186,15 @@ class GeometryCollection extends Geometry
         return $result;
     }
 
-    public function swapXY() : Geometry
+    public function project(Projector $projector): GeometryCollection
     {
-        $that = clone $this;
-
-        foreach ($that->geometries as & $geometry) {
-            $geometry = $geometry->swapXY();
-        }
-
-        return $that;
+        return new GeometryCollection(
+            $projector->getTargetCoordinateSystem($this->coordinateSystem),
+            ...array_map(
+                fn (Geometry $geometry) => $geometry->project($projector),
+                $this->geometries,
+            ),
+        );
     }
 
     /**
@@ -262,6 +221,8 @@ class GeometryCollection extends Geometry
 
     /**
      * Returns the FQCN of the contained Geometry type.
+     *
+     * @psalm-return class-string<T>
      */
     protected function containedGeometryType() : string
     {

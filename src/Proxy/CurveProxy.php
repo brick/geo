@@ -13,6 +13,9 @@ use Brick\Geo\Curve;
 
 /**
  * Proxy class for Curve.
+ *
+ * @internal This class is not part of the public API and can change at any time.
+ *           Please type-hint against Brick\Geo\Curve in your projects.
  */
 class CurveProxy extends Curve implements ProxyInterface
 {
@@ -140,6 +143,15 @@ class CurveProxy extends Curve implements ProxyInterface
         }
 
         return $this->proxyGeometry->endPoint();
+    }
+
+    public function project(\Brick\Geo\Projector\Projector $projector) : \Brick\Geo\Curve
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->project($projector);
     }
 
     public function coordinateDimension() : int
@@ -275,6 +287,15 @@ class CurveProxy extends Curve implements ProxyInterface
         }
 
         return $this->proxyGeometry->swapXY();
+    }
+
+    public function isIdenticalTo(\Brick\Geo\Geometry $that) : bool
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->isIdenticalTo($that);
     }
 
     public function count()

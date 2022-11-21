@@ -13,6 +13,9 @@ use Brick\Geo\CompoundCurve;
 
 /**
  * Proxy class for CompoundCurve.
+ *
+ * @internal This class is not part of the public API and can change at any time.
+ *           Please type-hint against Brick\Geo\CompoundCurve in your projects.
  */
 class CompoundCurveProxy extends CompoundCurve implements ProxyInterface
 {
@@ -169,33 +172,6 @@ class CompoundCurveProxy extends CompoundCurve implements ProxyInterface
         return $this->proxyGeometry->curves();
     }
 
-    public function toXY() : \Brick\Geo\CompoundCurve
-    {
-        if ($this->proxyGeometry === null) {
-            $this->load();
-        }
-
-        return $this->proxyGeometry->toXY();
-    }
-
-    public function withoutZ() : \Brick\Geo\CompoundCurve
-    {
-        if ($this->proxyGeometry === null) {
-            $this->load();
-        }
-
-        return $this->proxyGeometry->withoutZ();
-    }
-
-    public function withoutM() : \Brick\Geo\CompoundCurve
-    {
-        if ($this->proxyGeometry === null) {
-            $this->load();
-        }
-
-        return $this->proxyGeometry->withoutM();
-    }
-
     public function getBoundingBox() : \Brick\Geo\BoundingBox
     {
         if ($this->proxyGeometry === null) {
@@ -214,13 +190,13 @@ class CompoundCurveProxy extends CompoundCurve implements ProxyInterface
         return $this->proxyGeometry->toArray();
     }
 
-    public function swapXY() : \Brick\Geo\Geometry
+    public function project(\Brick\Geo\Projector\Projector $projector) : \Brick\Geo\CompoundCurve
     {
         if ($this->proxyGeometry === null) {
             $this->load();
         }
 
-        return $this->proxyGeometry->swapXY();
+        return $this->proxyGeometry->project($projector);
     }
 
     public function count() : int
@@ -302,6 +278,51 @@ class CompoundCurveProxy extends CompoundCurve implements ProxyInterface
         }
 
         return $this->proxyGeometry->withSRID($srid);
+    }
+
+    public function toXY() : \Brick\Geo\Geometry
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->toXY();
+    }
+
+    public function withoutZ() : \Brick\Geo\Geometry
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->withoutZ();
+    }
+
+    public function withoutM() : \Brick\Geo\Geometry
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->withoutM();
+    }
+
+    public function swapXY() : \Brick\Geo\Geometry
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->swapXY();
+    }
+
+    public function isIdenticalTo(\Brick\Geo\Geometry $that) : bool
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->isIdenticalTo($that);
     }
 
 }

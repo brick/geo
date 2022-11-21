@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace Brick\Geo;
 
 use ArrayIterator;
+use Brick\Geo\Attribute\NoProxy;
 use Brick\Geo\Exception\CoordinateSystemException;
 use Brick\Geo\Exception\EmptyGeometryException;
 use Brick\Geo\Exception\InvalidGeometryException;
 use Brick\Geo\Exception\NoSuchGeometryException;
+use Brick\Geo\Projector\Projector;
 
 /**
  * A CompoundCurve is a collection of zero or more continuous CircularString or LineString instances.
@@ -136,61 +138,16 @@ class CompoundCurve extends Curve
         return $this->curves;
     }
 
-    /**
-     * @noproxy
-     */
+    #[NoProxy]
     public function geometryType() : string
     {
         return 'CompoundCurve';
     }
 
-    /**
-     * @noproxy
-     */
+    #[NoProxy]
     public function geometryTypeBinary() : int
     {
         return Geometry::COMPOUNDCURVE;
-    }
-
-    public function toXY(): CompoundCurve
-    {
-        if ($this->coordinateDimension() === 2) {
-            return $this;
-        }
-
-        $cs = $this->coordinateSystem
-            ->withZ(false)
-            ->withM(false);
-
-        $curves = array_map(fn(Curve $curve) => $curve->toXY(), $this->curves);
-
-        return new CompoundCurve($cs, ...$curves);
-    }
-
-    public function withoutZ(): CompoundCurve
-    {
-        if (! $this->coordinateSystem->hasZ()) {
-            return $this;
-        }
-
-        $cs = $this->coordinateSystem->withZ(false);
-
-        $curves = array_map(fn(Curve $curve) => $curve->withoutZ(), $this->curves);
-
-        return new CompoundCurve($cs, ...$curves);
-    }
-
-    public function withoutM(): CompoundCurve
-    {
-        if (! $this->coordinateSystem->hasM()) {
-            return $this;
-        }
-
-        $cs = $this->coordinateSystem->withM(false);
-
-        $curves = array_map(fn(Curve $curve) => $curve->withoutM(), $this->curves);
-
-        return new CompoundCurve($cs, ...$curves);
     }
 
     public function getBoundingBox() : BoundingBox
@@ -215,15 +172,15 @@ class CompoundCurve extends Curve
         return $result;
     }
 
-    public function swapXY() : Geometry
+    public function project(Projector $projector): CompoundCurve
     {
-        $that = clone $this;
-
-        foreach ($that->curves as & $curve) {
-            $curve = $curve->swapXY();
-        }
-
-        return $that;
+        return new CompoundCurve(
+            $projector->getTargetCoordinateSystem($this->coordinateSystem),
+            ...array_map(
+                fn (Curve $curve) => $curve->project($projector),
+                $this->curves,
+            ),
+        );
     }
 
     /**

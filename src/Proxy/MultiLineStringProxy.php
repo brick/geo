@@ -13,6 +13,9 @@ use Brick\Geo\MultiLineString;
 
 /**
  * Proxy class for MultiLineString.
+ *
+ * @internal This class is not part of the public API and can change at any time.
+ *           Please type-hint against Brick\Geo\MultiLineString in your projects.
  */
 class MultiLineStringProxy extends MultiLineString implements ProxyInterface
 {
@@ -133,6 +136,15 @@ class MultiLineStringProxy extends MultiLineString implements ProxyInterface
         return $this->proxyGeometry->dimension();
     }
 
+    public function project(\Brick\Geo\Projector\Projector $projector) : \Brick\Geo\MultiLineString
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->project($projector);
+    }
+
     public function numGeometries() : int
     {
         if ($this->proxyGeometry === null) {
@@ -160,33 +172,6 @@ class MultiLineStringProxy extends MultiLineString implements ProxyInterface
         return $this->proxyGeometry->geometries();
     }
 
-    public function toXY() : \Brick\Geo\GeometryCollection
-    {
-        if ($this->proxyGeometry === null) {
-            $this->load();
-        }
-
-        return $this->proxyGeometry->toXY();
-    }
-
-    public function withoutZ() : \Brick\Geo\GeometryCollection
-    {
-        if ($this->proxyGeometry === null) {
-            $this->load();
-        }
-
-        return $this->proxyGeometry->withoutZ();
-    }
-
-    public function withoutM() : \Brick\Geo\GeometryCollection
-    {
-        if ($this->proxyGeometry === null) {
-            $this->load();
-        }
-
-        return $this->proxyGeometry->withoutM();
-    }
-
     public function getBoundingBox() : \Brick\Geo\BoundingBox
     {
         if ($this->proxyGeometry === null) {
@@ -203,15 +188,6 @@ class MultiLineStringProxy extends MultiLineString implements ProxyInterface
         }
 
         return $this->proxyGeometry->toArray();
-    }
-
-    public function swapXY() : \Brick\Geo\Geometry
-    {
-        if ($this->proxyGeometry === null) {
-            $this->load();
-        }
-
-        return $this->proxyGeometry->swapXY();
     }
 
     public function count() : int
@@ -293,6 +269,51 @@ class MultiLineStringProxy extends MultiLineString implements ProxyInterface
         }
 
         return $this->proxyGeometry->withSRID($srid);
+    }
+
+    public function toXY() : \Brick\Geo\Geometry
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->toXY();
+    }
+
+    public function withoutZ() : \Brick\Geo\Geometry
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->withoutZ();
+    }
+
+    public function withoutM() : \Brick\Geo\Geometry
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->withoutM();
+    }
+
+    public function swapXY() : \Brick\Geo\Geometry
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->swapXY();
+    }
+
+    public function isIdenticalTo(\Brick\Geo\Geometry $that) : bool
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->isIdenticalTo($that);
     }
 
 }

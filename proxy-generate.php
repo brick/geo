@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Brick\Geo\Attribute\NoProxy;
 use Brick\Geo\BoundingBox;
 use Brick\Geo\CoordinateSystem;
 use Brick\Reflection\ReflectionTools;
@@ -70,9 +71,7 @@ foreach ($classes as $class) {
             continue;
         }
 
-        $docComment = $method->getDocComment();
-
-        if ($docComment !== false && str_contains($docComment, '@noproxy')) {
+        if ($method->getAttributes(NoProxy::class)) {
             continue;
         }
 
@@ -102,6 +101,7 @@ foreach ($classes as $class) {
     }
 
     $proxyCode = $proxyTemplate;
+    $proxyCode = str_replace('_FQCN_', $class->getName(), $proxyCode);
     $proxyCode = str_replace('_CLASSNAME_', $class->getShortName(), $proxyCode);
     $proxyCode = str_replace('// METHODS', $methods, $proxyCode);
     $proxyCode = removeDuplicateImports($proxyCode);

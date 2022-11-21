@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Brick\Geo;
 
+use Brick\Geo\Attribute\NoProxy;
 use Brick\Geo\Exception\CoordinateSystemException;
 use Brick\Geo\Exception\GeometryIOException;
 use Brick\Geo\Exception\InvalidGeometryException;
@@ -12,6 +13,10 @@ use Brick\Geo\IO\WKTReader;
 use Brick\Geo\IO\WKTWriter;
 use Brick\Geo\IO\WKBReader;
 use Brick\Geo\IO\WKBWriter;
+use Brick\Geo\Projector\Projector;
+use Brick\Geo\Projector\RemoveZMProjector;
+use Brick\Geo\Projector\SRIDProjector;
+use Brick\Geo\Projector\SwapXYProjector;
 
 /**
  * Geometry is the root class of the hierarchy.
@@ -169,10 +174,9 @@ abstract class Geometry implements \Countable, \IteratorAggregate
     /**
      * Returns the Spatial Reference System ID for this geometry.
      *
-     * @noproxy
-     *
      * @return int The SRID, zero if not set.
      */
+    #[NoProxy]
     public function SRID() : int
     {
         return $this->coordinateSystem->SRID();
@@ -180,9 +184,8 @@ abstract class Geometry implements \Countable, \IteratorAggregate
 
     /**
      * Returns the WKT representation of this geometry.
-     *
-     * @noproxy
      */
+    #[NoProxy]
     public function asText() : string
     {
         /** @var WKTWriter|null $wktWriter */
@@ -197,9 +200,8 @@ abstract class Geometry implements \Countable, \IteratorAggregate
 
     /**
      * Returns the WKB representation of this geometry.
-     *
-     * @noproxy
      */
+    #[NoProxy]
     public function asBinary() : string
     {
         /** @var WKBWriter|null $wkbWriter */
@@ -260,10 +262,7 @@ abstract class Geometry implements \Countable, \IteratorAggregate
             return $this;
         }
 
-        $that = clone $this;
-        $that->coordinateSystem = $that->coordinateSystem->withSRID($srid);
-
-        return $that;
+        return $this->project(new SRIDProjector($srid));
     }
 
     /**
@@ -271,21 +270,42 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      *
      * @return static
      */
-    abstract public function toXY() : Geometry;
+    public function toXY(): Geometry
+    {
+        if ($this->coordinateDimension() === 2) {
+            return $this;
+        }
+
+        return $this->project(new RemoveZMProjector(removeZ: true, removeM: true));
+    }
 
     /**
      * Returns a copy of this Geometry, with the Z coordinate removed.
      *
      * @return static
      */
-    abstract public function withoutZ() : Geometry;
+    public function withoutZ() : Geometry
+    {
+        if (! $this->coordinateSystem->hasZ()) {
+            return $this;
+        }
+
+        return $this->project(new RemoveZMProjector(removeZ: true));
+    }
 
     /**
      * Returns a copy of this Geometry, with the M coordinate removed.
      *
      * @return static
      */
-    abstract public function withoutM() : Geometry;
+    public function withoutM() : Geometry
+    {
+        if (! $this->coordinateSystem->hasM()) {
+            return $this;
+        }
+
+        return $this->project(new RemoveZMProjector(removeM: true));
+    }
 
     /**
      * Returns the bounding box of the Geometry.
@@ -298,17 +318,41 @@ abstract class Geometry implements \Countable, \IteratorAggregate
     abstract public function toArray() : array;
 
     /**
-     * Returns a copy of this Geometry, with the X and Y coordinates swapped.
+     * Returns a copy of this Geometry, with the SRID altered.
+     *
+     * Note that only the SRID value is changed, the coordinates are not reprojected.
+     * Use GeometryEngine::transform() to reproject the Geometry to another SRID.
      *
      * @return static
      */
-    abstract public function swapXY() : Geometry;
+    public function swapXY() : Geometry
+    {
+        return $this->project(new SwapXYProjector());
+    }
+
+    /**
+     * Projects this geometry to a different coordinate system.
+     */
+    abstract public function project(Projector $projector): Geometry;
+
+    /**
+     * Returns whether this Geometry is identical to another Geometry.
+     *
+     * This method will only return true if the geometries are of the same type, with the exact same coordinates,
+     * in the same order, and with the same SRID.
+     *
+     * This is different from the concept of spatially equal; if you need to check for spatial equality,
+     * please see `GeometryEngine::equals()` instead.
+     */
+    public function isIdenticalTo(Geometry $that) : bool
+    {
+        return $this->SRID() === $that->SRID() && $this->asText() === $that->asText();
+    }
 
     /**
      * Returns a text representation of this geometry.
-     *
-     * @noproxy
      */
+    #[NoProxy]
     final public function __toString() : string
     {
         return $this->asText();

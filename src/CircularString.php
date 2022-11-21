@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace Brick\Geo;
 
 use ArrayIterator;
+use Brick\Geo\Attribute\NoProxy;
 use Brick\Geo\Exception\CoordinateSystemException;
 use Brick\Geo\Exception\EmptyGeometryException;
 use Brick\Geo\Exception\InvalidGeometryException;
 use Brick\Geo\Exception\NoSuchGeometryException;
+use Brick\Geo\Projector\Projector;
 
 /**
  * A CircularString is a Curve made of zero or more connected circular arc segments.
@@ -124,61 +126,16 @@ class CircularString extends Curve
         return $this->points;
     }
 
-    /**
-     * @noproxy
-     */
+    #[NoProxy]
     public function geometryType() : string
     {
         return 'CircularString';
     }
 
-    /**
-     * @noproxy
-     */
+    #[NoProxy]
     public function geometryTypeBinary() : int
     {
         return Geometry::CIRCULARSTRING;
-    }
-
-    public function toXY(): CircularString
-    {
-        if ($this->coordinateDimension() === 2) {
-            return $this;
-        }
-
-        $cs = $this->coordinateSystem
-            ->withZ(false)
-            ->withM(false);
-
-        $points = array_map(fn(Point $point) => $point->toXY(), $this->points);
-
-        return new CircularString($cs, ...$points);
-    }
-
-    public function withoutZ(): CircularString
-    {
-        if (! $this->coordinateSystem->hasZ()) {
-            return $this;
-        }
-
-        $cs = $this->coordinateSystem->withZ(false);
-
-        $points = array_map(fn(Point $point) => $point->withoutZ(), $this->points);
-
-        return new CircularString($cs, ...$points);
-    }
-
-    public function withoutM(): CircularString
-    {
-        if (! $this->coordinateSystem->hasM()) {
-            return $this;
-        }
-
-        $cs = $this->coordinateSystem->withM(false);
-
-        $geometries = array_map(fn(Point $point) => $point->withoutM(), $this->points);
-
-        return new CircularString($cs, ...$geometries);
     }
 
     public function getBoundingBox() : BoundingBox
@@ -203,15 +160,15 @@ class CircularString extends Curve
         return $result;
     }
 
-    public function swapXY() : Geometry
+    public function project(Projector $projector): CircularString
     {
-        $that = clone $this;
-
-        foreach ($that->points as & $point) {
-            $point = $point->swapXY();
-        }
-
-        return $that;
+        return new CircularString(
+            $projector->getTargetCoordinateSystem($this->coordinateSystem),
+            ...array_map(
+                fn (Point $point) => $point->project($projector),
+                $this->points,
+            ),
+        );
     }
 
     /**

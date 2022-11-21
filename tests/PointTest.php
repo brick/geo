@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Brick\Geo\Tests;
 
 use Brick\Geo\CoordinateSystem;
-use Brick\Geo\Exception\GeometryEngineException;
 use Brick\Geo\Exception\InvalidGeometryException;
 use Brick\Geo\Point;
+use Generator;
 
 /**
  * Unit tests for class Point.
@@ -16,29 +16,56 @@ class PointTest extends AbstractTestCase
 {
     /**
      * @dataProvider providerConstructorWithInvalidCoordinates
+     *
+     * @param float[] $coords
      */
-    public function testConstructorWithInvalidCoordinates(bool $z, bool $m, float ...$coords) : void
-    {
+    public function testConstructorWithInvalidCoordinates(
+        bool $hasZ,
+        bool $hasM,
+        array $coords,
+        string $exceptionMessage,
+    ): void {
         $this->expectException(InvalidGeometryException::class);
-        new Point(new CoordinateSystem($z, $m), ...$coords);
+        $this->expectExceptionMessage($exceptionMessage);
+
+        new Point(new CoordinateSystem($hasZ, $hasM), ...$coords);
     }
 
-    public function providerConstructorWithInvalidCoordinates() : array
+    public function providerConstructorWithInvalidCoordinates() : Generator
     {
-        return [
-            [false, false, 1],
-            [false, false, 1, 2, 3],
-            [true,  false, 1],
-            [true,  false, 1, 2],
-            [true,  false, 1, 2, 3, 4],
-            [false, true,  1],
-            [false, true,  1, 2],
-            [false, true,  1, 2, 3, 4],
-            [true,  true,  1],
-            [true,  true,  1, 2],
-            [true,  true,  1, 2, 3],
-            [true,  true,  1, 2, 3, 4, 5],
-        ];
+        yield [false, false, [1], 'Expected 2 coordinates for Point XY, got 1.'];
+        yield [false, false, [1, 2, 3], 'Expected 2 coordinates for Point XY, got 3.'];
+        yield [true,  false, [1], 'Expected 3 coordinates for Point XYZ, got 1.'];
+        yield [true,  false, [1, 2], 'Expected 3 coordinates for Point XYZ, got 2.'];
+        yield [true,  false, [1, 2, 3, 4], 'Expected 3 coordinates for Point XYZ, got 4.'];
+        yield [false, true,  [1], 'Expected 3 coordinates for Point XYM, got 1.'];
+        yield [false, true,  [1, 2], 'Expected 3 coordinates for Point XYM, got 2.'];
+        yield [false, true,  [1, 2, 3, 4], 'Expected 3 coordinates for Point XYM, got 4.'];
+        yield [true,  true,  [1], 'Expected 4 coordinates for Point XYZM, got 1.'];
+        yield [true,  true,  [1, 2], 'Expected 4 coordinates for Point XYZM, got 2.'];
+        yield [true,  true,  [1, 2, 3], 'Expected 4 coordinates for Point XYZM, got 3.'];
+        yield [true,  true,  [1, 2, 3, 4, 5], 'Expected 4 coordinates for Point XYZM, got 5.'];
+
+        foreach ([
+            [NAN, 'NaN'],
+            [+INF, '+INF'],
+            [-INF, '-INF'],
+        ] as [$value, $name]) {
+            yield [false, false, [$value, 2], "Coordinate #1 (X) for Point XY is $name, this is not allowed."];
+            yield [false, false, [1, $value], "Coordinate #2 (Y) for Point XY is $name, this is not allowed."];
+            yield [true, false, [1, 2, $value], "Coordinate #3 (Z) for Point XYZ is $name, this is not allowed."];
+            yield [false, true, [1, 2, $value], "Coordinate #3 (M) for Point XYM is $name, this is not allowed."];
+            yield [true, true, [1, 2, $value, 4], "Coordinate #3 (Z) for Point XYZM is $name, this is not allowed."];
+            yield [true, true, [1, 2, 3, $value], "Coordinate #4 (M) for Point XYZM is $name, this is not allowed."];
+        }
+    }
+
+    public function testConstructorWithAssociativeArray() : void
+    {
+        $point = new Point(CoordinateSystem::xy(), ...['x_whatever' => 1, 'y_whatever' => 2]);
+
+        self::assertSame(1.0, $point->x());
+        self::assertSame(2.0, $point->y());
     }
 
     private function assertPointFactoryMethodAndAccessors(Point $point, float $x, float $y, ?float $z, ?float $m, int $srid) : void
@@ -176,45 +203,6 @@ class PointTest extends AbstractTestCase
             ['POINT Z (2.3 3.4 4.5)', [2.3, 3.4, 4.5]],
             ['POINT M (3.4 4.5 5.6)', [3.4, 4.5, 5.6]],
             ['POINT ZM (4.5 5.6 6.7 7.8)', [4.5, 5.6, 6.7, 7.8]],
-        ];
-    }
-
-    /**
-     * @dataProvider providerAzimuth
-     *
-     * @param string     $observerWkt     The WKT of the point, representing the observer location.
-     * @param string     $subjectWkt      The WKT of the point, representing the subject location.
-     * @param float|null $azimuthExpected The expected azimuth, or null if an exception is expected.
-     */
-    public function testAzimuth(string $observerWkt, string $subjectWkt, ?float $azimuthExpected): void
-    {
-        $geometryEngine = $this->getGeometryEngine();
-
-        if (! $this->isPostGIS()) {
-            $this->expectException(GeometryEngineException::class);
-        }
-
-        $observer = Point::fromText($observerWkt);
-        $subject = Point::fromText($subjectWkt);
-
-        if ($azimuthExpected === null) {
-            $this->expectException(GeometryEngineException::class);
-        }
-
-        $azimuthActual = $geometryEngine->azimuth($observer, $subject);
-
-        self::assertEqualsWithDelta($azimuthExpected, $azimuthActual, 0.001);
-    }
-
-    public function providerAzimuth(): array
-    {
-        return [
-            ['POINT (0 0)', 'POINT (0 0)', null],
-            ['POINT (0 0)', 'POINT (0 1)', 0],
-            ['POINT (0 0)', 'POINT (1 0)', pi() / 2],
-            ['POINT (0 0)', 'POINT (0 -1)', pi()],
-            ['POINT (0 0)', 'POINT (-1 0)', pi() * 3 / 2],
-            ['POINT (0 0)', 'POINT (-0.000001 1)', pi() * 2],
         ];
     }
 }

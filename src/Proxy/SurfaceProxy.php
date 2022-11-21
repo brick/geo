@@ -13,6 +13,9 @@ use Brick\Geo\Surface;
 
 /**
  * Proxy class for Surface.
+ *
+ * @internal This class is not part of the public API and can change at any time.
+ *           Please type-hint against Brick\Geo\Surface in your projects.
  */
 class SurfaceProxy extends Surface implements ProxyInterface
 {
@@ -257,6 +260,24 @@ class SurfaceProxy extends Surface implements ProxyInterface
         }
 
         return $this->proxyGeometry->swapXY();
+    }
+
+    public function project(\Brick\Geo\Projector\Projector $projector) : \Brick\Geo\Geometry
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->project($projector);
+    }
+
+    public function isIdenticalTo(\Brick\Geo\Geometry $that) : bool
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->isIdenticalTo($that);
     }
 
     public function count()

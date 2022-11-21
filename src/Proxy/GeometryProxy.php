@@ -12,6 +12,9 @@ use Brick\Geo\Geometry;
 
 /**
  * Proxy class for Geometry.
+ *
+ * @internal This class is not part of the public API and can change at any time.
+ *           Please type-hint against Brick\Geo\Geometry in your projects.
  */
 class GeometryProxy extends Geometry implements ProxyInterface
 {
@@ -265,6 +268,24 @@ class GeometryProxy extends Geometry implements ProxyInterface
         }
 
         return $this->proxyGeometry->swapXY();
+    }
+
+    public function project(\Brick\Geo\Projector\Projector $projector) : \Brick\Geo\Geometry
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->project($projector);
+    }
+
+    public function isIdenticalTo(\Brick\Geo\Geometry $that) : bool
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->isIdenticalTo($that);
     }
 
     public function count()

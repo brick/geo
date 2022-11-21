@@ -13,6 +13,9 @@ use Brick\Geo\Polygon;
 
 /**
  * Proxy class for Polygon.
+ *
+ * @internal This class is not part of the public API and can change at any time.
+ *           Please type-hint against Brick\Geo\Polygon in your projects.
  */
 class PolygonProxy extends Polygon implements ProxyInterface
 {
@@ -124,6 +127,15 @@ class PolygonProxy extends Polygon implements ProxyInterface
     }
 
 
+    public function rings() : array
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->rings();
+    }
+
     public function exteriorRing() : \Brick\Geo\LineString
     {
         if ($this->proxyGeometry === null) {
@@ -160,33 +172,6 @@ class PolygonProxy extends Polygon implements ProxyInterface
         return $this->proxyGeometry->interiorRings();
     }
 
-    public function toXY() : \Brick\Geo\Polygon
-    {
-        if ($this->proxyGeometry === null) {
-            $this->load();
-        }
-
-        return $this->proxyGeometry->toXY();
-    }
-
-    public function withoutZ() : \Brick\Geo\Polygon
-    {
-        if ($this->proxyGeometry === null) {
-            $this->load();
-        }
-
-        return $this->proxyGeometry->withoutZ();
-    }
-
-    public function withoutM() : \Brick\Geo\Polygon
-    {
-        if ($this->proxyGeometry === null) {
-            $this->load();
-        }
-
-        return $this->proxyGeometry->withoutM();
-    }
-
     public function getBoundingBox() : \Brick\Geo\BoundingBox
     {
         if ($this->proxyGeometry === null) {
@@ -205,13 +190,13 @@ class PolygonProxy extends Polygon implements ProxyInterface
         return $this->proxyGeometry->toArray();
     }
 
-    public function swapXY() : \Brick\Geo\Geometry
+    public function project(\Brick\Geo\Projector\Projector $projector) : \Brick\Geo\Polygon
     {
         if ($this->proxyGeometry === null) {
             $this->load();
         }
 
-        return $this->proxyGeometry->swapXY();
+        return $this->proxyGeometry->project($projector);
     }
 
     public function count() : int
@@ -293,6 +278,51 @@ class PolygonProxy extends Polygon implements ProxyInterface
         }
 
         return $this->proxyGeometry->withSRID($srid);
+    }
+
+    public function toXY() : \Brick\Geo\Geometry
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->toXY();
+    }
+
+    public function withoutZ() : \Brick\Geo\Geometry
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->withoutZ();
+    }
+
+    public function withoutM() : \Brick\Geo\Geometry
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->withoutM();
+    }
+
+    public function swapXY() : \Brick\Geo\Geometry
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->swapXY();
+    }
+
+    public function isIdenticalTo(\Brick\Geo\Geometry $that) : bool
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->isIdenticalTo($that);
     }
 
 }

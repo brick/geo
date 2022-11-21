@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace Brick\Geo;
 
 use ArrayIterator;
+use Brick\Geo\Attribute\NoProxy;
 use Brick\Geo\Exception\CoordinateSystemException;
 use Brick\Geo\Exception\EmptyGeometryException;
 use Brick\Geo\Exception\InvalidGeometryException;
 use Brick\Geo\Exception\NoSuchGeometryException;
+use Brick\Geo\Projector\Projector;
 
 /**
  * A LineString is a Curve with linear interpolation between Points.
@@ -166,61 +168,16 @@ class LineString extends Curve
         return $this->points;
     }
 
-    /**
-     * @noproxy
-     */
+    #[NoProxy]
     public function geometryType() : string
     {
         return 'LineString';
     }
 
-    /**
-     * @noproxy
-     */
+    #[NoProxy]
     public function geometryTypeBinary() : int
     {
         return Geometry::LINESTRING;
-    }
-
-    public function toXY(): LineString
-    {
-        if ($this->coordinateDimension() === 2) {
-            return $this;
-        }
-
-        $cs = $this->coordinateSystem
-            ->withZ(false)
-            ->withM(false);
-
-        $points = array_map(fn(Point $point) => $point->toXY(), $this->points);
-
-        return new LineString($cs, ...$points);
-    }
-
-    public function withoutZ(): LineString
-    {
-        if (! $this->coordinateSystem->hasZ()) {
-            return $this;
-        }
-
-        $cs = $this->coordinateSystem->withZ(false);
-
-        $points = array_map(fn(Point $point) => $point->withoutZ(), $this->points);
-
-        return new LineString($cs, ...$points);
-    }
-
-    public function withoutM(): LineString
-    {
-        if (! $this->coordinateSystem->hasM()) {
-            return $this;
-        }
-
-        $cs = $this->coordinateSystem->withM(false);
-
-        $points = array_map(fn(Point $point) => $point->withoutM(), $this->points);
-
-        return new LineString($cs, ...$points);
     }
 
     public function getBoundingBox() : BoundingBox
@@ -245,15 +202,15 @@ class LineString extends Curve
         return $result;
     }
 
-    public function swapXY() : Geometry
+    public function project(Projector $projector): LineString
     {
-        $that = clone $this;
-
-        foreach ($that->points as & $point) {
-            $point = $point->swapXY();
-        }
-
-        return $that;
+        return new LineString(
+            $projector->getTargetCoordinateSystem($this->coordinateSystem),
+            ...array_map(
+                fn (Point $point) => $point->project($projector),
+                $this->points,
+            ),
+        );
     }
 
     /**

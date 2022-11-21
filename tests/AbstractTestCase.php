@@ -4,14 +4,8 @@ declare(strict_types=1);
 
 namespace Brick\Geo\Tests;
 
-use Brick\Geo\Engine\GeometryEngine;
-use Brick\Geo\Exception\GeometryEngineException;
-use Brick\Geo\Engine\GEOSEngine;
-use Brick\Geo\Engine\PDOEngine;
-use Brick\Geo\Engine\SQLite3Engine;
 use Brick\Geo\CoordinateSystem;
 use Brick\Geo\Geometry;
-use Brick\Geo\GeometryCollection;
 use Brick\Geo\MultiLineString;
 use Brick\Geo\MultiPoint;
 use Brick\Geo\MultiPolygon;
@@ -25,176 +19,15 @@ use Brick\Geo\CurvePolygon;
 use Brick\Geo\PolyhedralSurface;
 use Brick\Geo\TIN;
 use Brick\Geo\Triangle;
-use LogicException;
+use Closure;
 use PHPUnit\Framework\TestCase;
+use Throwable;
 
 /**
  * Base class for Geometry tests.
  */
 class AbstractTestCase extends TestCase
 {
-    final protected function getGeometryEngine(): GeometryEngine
-    {
-        if (! isset($GLOBALS['GEOMETRY_ENGINE'])) {
-            self::markTestSkipped('This test requires a geometry engine to be set.');
-        }
-
-        return $GLOBALS['GEOMETRY_ENGINE'];
-    }
-
-    final protected function isMySQL(?string $operatorAndVersion = null) : bool
-    {
-        return $this->isMySQLorMariaDB(false, $operatorAndVersion);
-    }
-
-    final protected function isMariaDB(?string $operatorAndVersion = null) : bool
-    {
-        return $this->isMySQLorMariaDB(true, $operatorAndVersion);
-    }
-
-    final protected function isPostGIS() : bool
-    {
-        return $this->isPDODriver('pgsql');
-    }
-
-    /**
-     * @param string|null $operatorAndVersion An optional version to satisfy.
-     */
-    final protected function isSpatiaLite(?string $operatorAndVersion = null) : bool
-    {
-        $engine = $this->getGeometryEngine();
-
-        if ($engine instanceof SQLite3Engine) {
-            if ($operatorAndVersion === null) {
-                return true;
-            }
-
-            $version = $engine->getSQLite3()->querySingle('SELECT spatialite_version()');
-
-            return $this->isVersion($version, $operatorAndVersion);
-        }
-
-        return false;
-    }
-
-    /**
-     * @param string|null $operatorAndVersion An optional version to satisfy.
-     */
-    final protected function isGEOS(?string $operatorAndVersion = null) : bool
-    {
-        $engine = $this->getGeometryEngine();
-
-        if ($engine instanceof GEOSEngine) {
-            if ($operatorAndVersion === null) {
-                return true;
-            }
-
-            $version = GEOSVersion();
-            $dashPos = strpos($version, '-');
-
-            if ($dashPos !== false) {
-                $version = substr($version, 0, $dashPos);
-            }
-
-            return $this->isVersion($version, $operatorAndVersion);
-        }
-
-        return false;
-    }
-
-    /**
-     * Skips the test if the current geometry engine does not match the requirements.
-     *
-     * Example: ['MySQL', 'MariaDB', 'PostGIS']
-     *
-     * Supported engines:
-     *
-     * - MySQL
-     * - MariaDB
-     * - SpatiaLite
-     * - PostGIS
-     * - GEOS
-     *
-     * @param string[] $supportedEngines
-     */
-    final protected function requireEngine(array $supportedEngines): void
-    {
-        $diff = array_values(array_diff($supportedEngines, ['MySQL', 'MariaDB', 'SpatiaLite', 'PostGIS', 'GEOS']));
-
-        if ($diff) {
-            throw new LogicException("Unsupported engine: {$diff[0]}");
-        }
-
-        if (in_array('MySQL', $supportedEngines) && $this->isMySQL()) {
-            return;
-        }
-
-        if (in_array('MariaDB', $supportedEngines) && $this->isMariaDB()) {
-            return;
-        }
-
-        if (in_array('SpatiaLite', $supportedEngines) && $this->isSpatiaLite()) {
-            return;
-        }
-
-        if (in_array('PostGIS', $supportedEngines) && $this->isPostGIS()) {
-            return;
-        }
-
-        if (in_array('GEOS', $supportedEngines) && $this->isGEOS()) {
-            return;
-        }
-
-        self::markTestSkipped('Not supported on this geometry engine.');
-    }
-
-    final protected function skipIfUnsupportedGeometry(Geometry $geometry) : void
-    {
-        if ($geometry->is3D() || $geometry->isMeasured()) {
-            if ($this->isMySQL() || $this->isMariaDB()) {
-                // MySQL and MariaDB do not support Z and M coordinates.
-                $this->expectException(GeometryEngineException::class);
-            }
-        }
-
-        if ($geometry->isMeasured()) {
-            if ($this->isGEOS()) {
-                self::markTestSkipped('GEOS does not support M coordinates in WKB.');
-            }
-        }
-
-        if ($geometry->isEmpty() && ! $geometry instanceof GeometryCollection) {
-            if ($this->isMySQL() || $this->isMariaDB()) {
-                // MySQL and MariaDB do not correctly handle empty geometries, apart from collections.
-                $this->expectException(GeometryEngineException::class);
-            }
-
-            if ($this->isSpatiaLite()) {
-                self::markTestSkipped('SpatiaLite does not correctly handle empty geometries.');
-            }
-        }
-
-        if ($geometry instanceof CircularString || $geometry instanceof CompoundCurve || $geometry instanceof CurvePolygon) {
-            if ($this->isGEOS() || $this->isSpatiaLite() || $this->isMySQL() || $this->isMariaDB()) {
-                // GEOS, SpatiaLite, MySQL and MariaDB do not support these geometries.
-                // Only PostGIS currently supports these.
-                $this->expectException(GeometryEngineException::class);
-            }
-        }
-    }
-
-    final protected function skipIfUnsupportedByEngine(Geometry $geometry1, Geometry $geometry2, string $methodName) : void
-    {
-        $this->skipIfUnsupportedGeometry($geometry1);
-        $this->skipIfUnsupportedGeometry($geometry2);
-
-        if ($this->isMySQL('< 5.7')) {
-            if ($geometry1->geometryType() !== $geometry2->geometryType()) {
-                self::markTestSkipped(sprintf('MySQL 5.6 does not support %s() on different geometry types.', $methodName));
-            }
-        }
-    }
-
     final protected function assertWktEquals(Geometry $geometry, string $wkt, int $srid = 0) : void
     {
         self::assertSame($wkt, $geometry->asText());
@@ -202,30 +35,21 @@ class AbstractTestCase extends TestCase
     }
 
     /**
-     * Asserts that two geometries are spatially equal.
+     * @param Geometry[] $geometries
+     * @param string[] $wkts
      */
-    final protected function assertGeometryEquals(Geometry $expected, Geometry $actual) : void
+    final protected function assertWktEqualsMultiple(array $geometries, array $wkts, int $srid = 0) : void
     {
-        $expectedWKT = $expected->asText();
-        $actualWKT = $actual->asText();
-
-        if ($expectedWKT === $actualWKT) {
-            // Some engines do not consider empty geometries to be equal, so we test for WKT equality first.
-            $this->addToAssertionCount(1);
-
-            return;
+        foreach ($geometries as $geometry) {
+            self::assertSame($srid, $geometry->SRID());
         }
 
-        self::assertSame($expected->geometryType(), $actual->geometryType());
-
-        $geometryEngine = $this->getGeometryEngine();
-
-        self::assertTrue($geometryEngine->equals($actual, $expected), 'Failed asserting that two geometries are spatially equal.'
-            . "\n---Expected"
-            . "\n+++Actual"
-            . "\n@@ @@"
-            . "\n-" . $expectedWKT
-            . "\n+" . $actualWKT
+        self::assertSame(
+            $wkts,
+            array_map(
+                fn (Geometry $geometry) => $geometry->asText(),
+                $geometries
+            )
         );
     }
 
@@ -529,70 +353,22 @@ class AbstractTestCase extends TestCase
     }
 
     /**
-     * @param string $version            The version of the software in use, such as "4.0.1".
-     * @param string $operatorAndVersion The comparison operator and version to test against, such as ">= 4.0".
+     * @param Closure():void $closure
+     * @param class-string<Throwable> $exceptionClass
      */
-    private function isVersion(string $version, string $operatorAndVersion) : bool
+    final protected function expectExceptionIn(Closure $closure, string $exceptionClass): void
     {
-        if (preg_match('/^([\<\>]?\=?) ?(.*)/', $operatorAndVersion, $matches) !== 1) {
-            throw new LogicException("Invalid operator and version: $operatorAndVersion");
-        }
-
-        [, $operator, $testVersion] = $matches;
-
-        if ($operator === '') {
-            $operator = '=';
-        }
-
-        return version_compare($version, $testVersion, $operator);
-    }
-
-    private function isPDODriver(string $name) : bool
-    {
-        $engine = $this->getGeometryEngine();
-
-        if ($engine instanceof PDOEngine) {
-            if ($engine->getPDO()->getAttribute(\PDO::ATTR_DRIVER_NAME) === $name) {
-                return true;
+        try {
+            $closure();
+        } catch (Throwable $exception) {
+            if (get_class($exception) === $exceptionClass) {
+                $this->addtoAssertionCount(1);
+                return;
             }
+
+            throw $exception;
         }
 
-        return false;
-    }
-    /**
-     * @param bool        $testMariaDB        False to check for MYSQL, true to check for MariaDB.
-     * @param string|null $operatorAndVersion An optional comparison operator and version number to test against.
-     */
-    private function isMySQLorMariaDB(bool $testMariaDB, ?string $operatorAndVersion = null) : bool
-    {
-        $engine = $this->getGeometryEngine();
-
-        if ($engine instanceof PDOEngine) {
-            $pdo = $engine->getPDO();
-
-            if ($pdo->getAttribute(\PDO::ATTR_DRIVER_NAME) === 'mysql') {
-                $statement = $pdo->query('SELECT VERSION()');
-                $version = $statement->fetchColumn();
-
-                $pos = strpos($version, '-MariaDB');
-                $isMariaDB = ($pos !== false);
-
-                if ($isMariaDB) {
-                    $version = substr($version, 0, $pos);
-                }
-
-                if ($testMariaDB !== $isMariaDB) {
-                    return false;
-                }
-
-                if ($operatorAndVersion === null) {
-                    return true;
-                }
-
-                return $this->isVersion($version, $operatorAndVersion);
-            }
-        }
-
-        return false;
+        $this->fail(sprintf('Failed asserting that exception of type "%s" is thrown.', $exceptionClass));
     }
 }

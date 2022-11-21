@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace Brick\Geo;
 
 use ArrayIterator;
+use Brick\Geo\Attribute\NoProxy;
 use Brick\Geo\Exception\InvalidGeometryException;
+use Brick\Geo\Projector\Projector;
 
 /**
  * A Point is a 0-dimensional geometric object and represents a single location in coordinate space.
@@ -55,6 +57,26 @@ class Point extends Geometry
                     $cs->coordinateName(),
                     count($coords)
                 ));
+            }
+
+            $coords = array_values($coords);
+
+            foreach ($coords as $i => $coord) {
+                if (! is_finite($coord)) {
+                    $coordinateName = match ($i) {
+                        0 => 'X',
+                        1 => 'Y',
+                        2 => $cs->hasZ() ? 'Z' : 'M',
+                        3 => 'M',
+                    };
+                    throw new InvalidGeometryException(sprintf(
+                        'Coordinate #%d (%s) for Point %s is %s, this is not allowed.',
+                        $i + 1,
+                        $coordinateName,
+                        $cs->coordinateName(),
+                        is_infinite($coord) ? ($coord > 0 ? '+' : '-') . 'INF' : 'NaN',
+                    ));
+                }
             }
 
             $this->x = $coords[0];
@@ -177,92 +199,22 @@ class Point extends Geometry
         return $this->m;
     }
 
-    /**
-     * @noproxy
-     */
+    #[NoProxy]
     public function geometryType() : string
     {
         return 'Point';
     }
 
-    /**
-     * @noproxy
-     */
+    #[NoProxy]
     public function geometryTypeBinary() : int
     {
         return Geometry::POINT;
     }
 
-    /**
-     * @noproxy
-     */
+    #[NoProxy]
     public function dimension() : int
     {
         return 0;
-    }
-
-    public function toXY(): Point
-    {
-        if ($this->coordinateDimension() === 2) {
-            return $this;
-        }
-
-        $cs = $this->coordinateSystem
-            ->withZ(false)
-            ->withM(false)
-        ;
-
-        $coords = $this->toArray();
-
-        if ($coords) {
-            $coords = array_slice($coords, 0, 2);
-        }
-
-        return new Point($cs, ...$coords);
-    }
-
-    public function withoutZ(): Point
-    {
-        if (! $this->coordinateSystem->hasZ()) {
-            return $this;
-        }
-
-        $cs = $this->coordinateSystem->withZ(false);
-
-        $coords = [];
-
-        if ($this->x !== null && $this->y !== null) {
-            $coords[] = $this->x;
-            $coords[] = $this->y;
-
-            if ($this->m !== null) {
-                $coords[] = $this->m;
-            }
-        }
-
-        return new Point($cs, ...$coords);
-    }
-
-    public function withoutM(): Point
-    {
-        if (! $this->coordinateSystem()->hasM()) {
-            return $this;
-        }
-
-        $cs = $this->coordinateSystem->withM(false);
-
-        $coords = [];
-
-        if ($this->x !== null && $this->y !== null) {
-            $coords[] = $this->x;
-            $coords[] = $this->y;
-
-            if ($this->z !== null) {
-                $coords[] = $this->z;
-            }
-        }
-
-        return new Point($cs, ...$coords);
     }
 
     public function getBoundingBox() : BoundingBox
@@ -295,14 +247,9 @@ class Point extends Geometry
         return $result;
     }
 
-    public function swapXY() : Geometry
+    public function project(Projector $projector) : Point
     {
-        $that = clone $this;
-
-        $that->x = $this->y;
-        $that->y = $this->x;
-
-        return $that;
+        return $projector->project($this);
     }
 
     /**

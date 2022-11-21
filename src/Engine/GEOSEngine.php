@@ -136,22 +136,20 @@ class GEOSEngine implements GeometryEngine
         throw GeometryEngineException::unimplementedMethod(__METHOD__);
     }
 
-    /**
-     * @psalm-suppress LessSpecificReturnStatement
-     * @psalm-suppress MoreSpecificReturnType
-     */
     public function centroid(Geometry $g) : Point
     {
         try {
+            /** @var Point */
             return $this->fromGEOS($this->toGEOS($g)->centroid());
         } catch (\Exception $e) {
             throw GeometryEngineException::operationNotSupportedByEngine($e);
         }
     }
 
-    public function pointOnSurface(Surface|MultiSurface $g) : Geometry
+    public function pointOnSurface(Surface|MultiSurface $g) : Point
     {
         try {
+            /** @var Point */
             return $this->fromGEOS($this->toGEOS($g)->pointOnSurface());
         } catch (\Exception $e) {
             throw GeometryEngineException::operationNotSupportedByEngine($e);

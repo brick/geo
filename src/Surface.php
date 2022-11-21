@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Brick\Geo;
 
+use Brick\Geo\Attribute\NoProxy;
+use Brick\Geo\Projector\Projector;
+
 /**
  * A Surface is a 2-dimensional geometric object.
  *
@@ -24,10 +27,9 @@ namespace Brick\Geo;
 abstract class Surface extends Geometry
 {
     /**
-     * @noproxy
-     *
      * A Surface is a 2-dimensional geometric object.
      */
+    #[NoProxy]
     public function dimension() : int
     {
         return 2;

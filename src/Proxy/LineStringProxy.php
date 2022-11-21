@@ -13,6 +13,9 @@ use Brick\Geo\LineString;
 
 /**
  * Proxy class for LineString.
+ *
+ * @internal This class is not part of the public API and can change at any time.
+ *           Please type-hint against Brick\Geo\LineString in your projects.
  */
 class LineStringProxy extends LineString implements ProxyInterface
 {
@@ -169,33 +172,6 @@ class LineStringProxy extends LineString implements ProxyInterface
         return $this->proxyGeometry->points();
     }
 
-    public function toXY() : \Brick\Geo\LineString
-    {
-        if ($this->proxyGeometry === null) {
-            $this->load();
-        }
-
-        return $this->proxyGeometry->toXY();
-    }
-
-    public function withoutZ() : \Brick\Geo\LineString
-    {
-        if ($this->proxyGeometry === null) {
-            $this->load();
-        }
-
-        return $this->proxyGeometry->withoutZ();
-    }
-
-    public function withoutM() : \Brick\Geo\LineString
-    {
-        if ($this->proxyGeometry === null) {
-            $this->load();
-        }
-
-        return $this->proxyGeometry->withoutM();
-    }
-
     public function getBoundingBox() : \Brick\Geo\BoundingBox
     {
         if ($this->proxyGeometry === null) {
@@ -214,13 +190,13 @@ class LineStringProxy extends LineString implements ProxyInterface
         return $this->proxyGeometry->toArray();
     }
 
-    public function swapXY() : \Brick\Geo\Geometry
+    public function project(\Brick\Geo\Projector\Projector $projector) : \Brick\Geo\LineString
     {
         if ($this->proxyGeometry === null) {
             $this->load();
         }
 
-        return $this->proxyGeometry->swapXY();
+        return $this->proxyGeometry->project($projector);
     }
 
     public function count() : int
@@ -302,6 +278,51 @@ class LineStringProxy extends LineString implements ProxyInterface
         }
 
         return $this->proxyGeometry->withSRID($srid);
+    }
+
+    public function toXY() : \Brick\Geo\Geometry
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->toXY();
+    }
+
+    public function withoutZ() : \Brick\Geo\Geometry
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->withoutZ();
+    }
+
+    public function withoutM() : \Brick\Geo\Geometry
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->withoutM();
+    }
+
+    public function swapXY() : \Brick\Geo\Geometry
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->swapXY();
+    }
+
+    public function isIdenticalTo(\Brick\Geo\Geometry $that) : bool
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->isIdenticalTo($that);
     }
 
 }

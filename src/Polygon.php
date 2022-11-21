@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace Brick\Geo;
 
 use ArrayIterator;
+use Brick\Geo\Attribute\NoProxy;
 use Brick\Geo\Exception\CoordinateSystemException;
 use Brick\Geo\Exception\EmptyGeometryException;
 use Brick\Geo\Exception\InvalidGeometryException;
 use Brick\Geo\Exception\NoSuchGeometryException;
+use Brick\Geo\Projector\Projector;
 
 /**
  * A Polygon is a planar Surface defined by 1 exterior boundary and 0 or more interior boundaries.
@@ -88,6 +90,18 @@ class Polygon extends Surface
     }
 
     /**
+     * Returns all rings in this Polygon, with the exterior ring first, then the interior rings.
+     *
+     * Returns an empty array if this Polygon is empty.
+     *
+     * @return LineString[]
+     */
+    public function rings(): array
+    {
+        return $this->rings;
+    }
+
+    /**
      * Returns the exterior ring of this Polygon.
      *
      * @throws EmptyGeometryException
@@ -139,61 +153,16 @@ class Polygon extends Surface
         return array_slice($this->rings, 1);
     }
 
-    /**
-     * @noproxy
-     */
+    #[NoProxy]
     public function geometryType() : string
     {
         return 'Polygon';
     }
 
-    /**
-     * @noproxy
-     */
+    #[NoProxy]
     public function geometryTypeBinary() : int
     {
         return Geometry::POLYGON;
-    }
-
-    public function toXY(): Polygon
-    {
-        if ($this->coordinateDimension() === 2) {
-            return $this;
-        }
-
-        $cs = $this->coordinateSystem
-            ->withZ(false)
-            ->withM(false);
-
-        $rings = array_map(fn(LineString $ring) => $ring->toXY(), $this->rings);
-
-        return new Polygon($cs, ...$rings);
-    }
-
-    public function withoutZ(): Polygon
-    {
-        if (! $this->coordinateSystem->hasZ()) {
-            return $this;
-        }
-
-        $cs = $this->coordinateSystem->withZ(false);
-
-        $rings = array_map(fn(LineString $ring) => $ring->withoutZ(), $this->rings);
-
-        return new Polygon($cs, ...$rings);
-    }
-
-    public function withoutM(): Polygon
-    {
-        if (! $this->coordinateSystem->hasM()) {
-            return $this;
-        }
-
-        $cs = $this->coordinateSystem->withM(false);
-
-        $rings = array_map(fn(LineString $ring) => $ring->withoutM(), $this->rings);
-
-        return new Polygon($cs, ...$rings);
     }
 
     public function getBoundingBox() : BoundingBox
@@ -218,15 +187,15 @@ class Polygon extends Surface
         return $result;
     }
 
-    public function swapXY() : Geometry
+    public function project(Projector $projector): Polygon
     {
-        $that = clone $this;
-
-        foreach ($that->rings as & $ring) {
-            $ring = $ring->swapXY();
-        }
-
-        return $that;
+        return new Polygon(
+            $projector->getTargetCoordinateSystem($this->coordinateSystem),
+            ...array_map(
+                fn (LineString $ring) => $ring->project($projector),
+                $this->rings,
+            ),
+        );
     }
 
     /**

@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace Brick\Geo;
 
 use ArrayIterator;
+use Brick\Geo\Attribute\NoProxy;
 use Brick\Geo\Exception\CoordinateSystemException;
 use Brick\Geo\Exception\NoSuchGeometryException;
+use Brick\Geo\Projector\Projector;
 
 /**
  * A PolyhedralSurface is a contiguous collection of polygons, which share common boundary segments.
@@ -110,61 +112,16 @@ class PolyhedralSurface extends Surface
         return $this->patches;
     }
 
-    /**
-     * @noproxy
-     */
+    #[NoProxy]
     public function geometryType() : string
     {
         return 'PolyhedralSurface';
     }
 
-    /**
-     * @noproxy
-     */
+    #[NoProxy]
     public function geometryTypeBinary() : int
     {
         return Geometry::POLYHEDRALSURFACE;
-    }
-
-    public function toXY(): PolyhedralSurface
-    {
-        if ($this->coordinateDimension() === 2) {
-            return $this;
-        }
-
-        $cs = $this->coordinateSystem
-            ->withZ(false)
-            ->withM(false);
-
-        $patches = array_map(fn(Polygon $patch) => $patch->toXY(), $this->patches);
-
-        return new PolyhedralSurface($cs, ...$patches);
-    }
-
-    public function withoutZ(): PolyhedralSurface
-    {
-        if (! $this->coordinateSystem->hasZ()) {
-            return $this;
-        }
-
-        $cs = $this->coordinateSystem->withZ(false);
-
-        $patches = array_map(fn(Polygon $patch) => $patch->withoutZ(), $this->patches);
-
-        return new PolyhedralSurface($cs, ...$patches);
-    }
-
-    public function withoutM(): PolyhedralSurface
-    {
-        if (! $this->coordinateSystem->hasM()) {
-            return $this;
-        }
-
-        $cs = $this->coordinateSystem->withM(false);
-
-        $patches = array_map(fn(Polygon $patch) => $patch->withoutM(), $this->patches);
-
-        return new PolyhedralSurface($cs, ...$patches);
     }
 
     public function getBoundingBox() : BoundingBox
@@ -189,15 +146,15 @@ class PolyhedralSurface extends Surface
         return $result;
     }
 
-    public function swapXY() : Geometry
+    public function project(Projector $projector): PolyhedralSurface
     {
-        $that = clone $this;
-
-        foreach ($that->patches as & $patch) {
-            $patch = $patch->swapXY();
-        }
-
-        return $that;
+        return new PolyhedralSurface(
+            $projector->getTargetCoordinateSystem($this->coordinateSystem),
+            ...array_map(
+                fn (Polygon $patch) => $patch->project($projector),
+                $this->patches,
+            ),
+        );
     }
 
     /**
