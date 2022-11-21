@@ -40,6 +40,14 @@ class PointTest extends AbstractTestCase
         ];
     }
 
+    public function testConstructorWithAssociativeArray() : void
+    {
+        $point = new Point(CoordinateSystem::xy(), ...['x_whatever' => 1, 'y_whatever' => 2]);
+
+        self::assertSame(1.0, $point->x());
+        self::assertSame(2.0, $point->y());
+    }
+
     private function assertPointFactoryMethodAndAccessors(Point $point, float $x, float $y, ?float $z, ?float $m, int $srid) : void
     {
         self::assertSame($x, $point->x());

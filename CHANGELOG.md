@@ -9,6 +9,7 @@
 🐛 **Bug fixes**
 
 - `Geometry::withSRID()` now properly propagates the SRID to all sub-geometries. Previously, only the top-level geometry was updated.
+- `Point` constructor would error when destructuring an associative array.
 
 ✨ **New features**
 

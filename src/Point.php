@@ -58,6 +58,8 @@ class Point extends Geometry
                 ));
             }
 
+            $coords = array_values($coords);
+
             $this->x = $coords[0];
             $this->y = $coords[1];
 
