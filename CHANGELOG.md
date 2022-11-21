@@ -19,6 +19,10 @@
 - New method: `Polygon::rings()`
 - New method: `Geometry::isIdenticalTo()`
 
+✨ **Improvements**
+
+- `GeometryCollection::geometryN()` is now properly documented with generics
+
 ## [0.8.1](https://github.com/brick/geo/releases/tag/0.8.1) - 2022-10-14
 
 ✨ **Improvements**

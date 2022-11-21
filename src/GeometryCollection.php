@@ -112,6 +112,8 @@ class GeometryCollection extends Geometry
      *
      * @param int $n The geometry number, 1-based.
      *
+     * @return T
+     *
      * @throws NoSuchGeometryException If there is no Geometry at this index.
      */
     public function geometryN(int $n) : Geometry
