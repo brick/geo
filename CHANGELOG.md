@@ -5,6 +5,7 @@
 💥 **Breaking changes**
 
 - Proxies are now `@internal` and considered an implementation detail. This means that they are no longer part of the public API and can change at any time. This means that you should *always* type-hint against the base class and not the proxy.
+- `Point` constructor now throw an exception when passing NaN or infinite coordinates.
 
 🐛 **Bug fixes**
 

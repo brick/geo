@@ -7,6 +7,7 @@ namespace Brick\Geo\Tests;
 use Brick\Geo\CoordinateSystem;
 use Brick\Geo\Exception\InvalidGeometryException;
 use Brick\Geo\Point;
+use Generator;
 
 /**
  * Unit tests for class Point.
@@ -15,29 +16,48 @@ class PointTest extends AbstractTestCase
 {
     /**
      * @dataProvider providerConstructorWithInvalidCoordinates
+     *
+     * @param float[] $coords
      */
-    public function testConstructorWithInvalidCoordinates(bool $z, bool $m, float ...$coords) : void
-    {
+    public function testConstructorWithInvalidCoordinates(
+        bool $hasZ,
+        bool $hasM,
+        array $coords,
+        string $exceptionMessage,
+    ): void {
         $this->expectException(InvalidGeometryException::class);
-        new Point(new CoordinateSystem($z, $m), ...$coords);
+        $this->expectExceptionMessage($exceptionMessage);
+
+        new Point(new CoordinateSystem($hasZ, $hasM), ...$coords);
     }
 
-    public function providerConstructorWithInvalidCoordinates() : array
+    public function providerConstructorWithInvalidCoordinates() : Generator
     {
-        return [
-            [false, false, 1],
-            [false, false, 1, 2, 3],
-            [true,  false, 1],
-            [true,  false, 1, 2],
-            [true,  false, 1, 2, 3, 4],
-            [false, true,  1],
-            [false, true,  1, 2],
-            [false, true,  1, 2, 3, 4],
-            [true,  true,  1],
-            [true,  true,  1, 2],
-            [true,  true,  1, 2, 3],
-            [true,  true,  1, 2, 3, 4, 5],
-        ];
+        yield [false, false, [1], 'Expected 2 coordinates for Point XY, got 1.'];
+        yield [false, false, [1, 2, 3], 'Expected 2 coordinates for Point XY, got 3.'];
+        yield [true,  false, [1], 'Expected 3 coordinates for Point XYZ, got 1.'];
+        yield [true,  false, [1, 2], 'Expected 3 coordinates for Point XYZ, got 2.'];
+        yield [true,  false, [1, 2, 3, 4], 'Expected 3 coordinates for Point XYZ, got 4.'];
+        yield [false, true,  [1], 'Expected 3 coordinates for Point XYM, got 1.'];
+        yield [false, true,  [1, 2], 'Expected 3 coordinates for Point XYM, got 2.'];
+        yield [false, true,  [1, 2, 3, 4], 'Expected 3 coordinates for Point XYM, got 4.'];
+        yield [true,  true,  [1], 'Expected 4 coordinates for Point XYZM, got 1.'];
+        yield [true,  true,  [1, 2], 'Expected 4 coordinates for Point XYZM, got 2.'];
+        yield [true,  true,  [1, 2, 3], 'Expected 4 coordinates for Point XYZM, got 3.'];
+        yield [true,  true,  [1, 2, 3, 4, 5], 'Expected 4 coordinates for Point XYZM, got 5.'];
+
+        foreach ([
+            [NAN, 'NaN'],
+            [+INF, '+INF'],
+            [-INF, '-INF'],
+        ] as [$value, $name]) {
+            yield [false, false, [$value, 2], "Coordinate #1 (X) for Point XY is $name, this is not allowed."];
+            yield [false, false, [1, $value], "Coordinate #2 (Y) for Point XY is $name, this is not allowed."];
+            yield [true, false, [1, 2, $value], "Coordinate #3 (Z) for Point XYZ is $name, this is not allowed."];
+            yield [false, true, [1, 2, $value], "Coordinate #3 (M) for Point XYM is $name, this is not allowed."];
+            yield [true, true, [1, 2, $value, 4], "Coordinate #3 (Z) for Point XYZM is $name, this is not allowed."];
+            yield [true, true, [1, 2, 3, $value], "Coordinate #4 (M) for Point XYZM is $name, this is not allowed."];
+        }
     }
 
     public function testConstructorWithAssociativeArray() : void

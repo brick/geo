@@ -60,6 +60,24 @@ class Point extends Geometry
 
             $coords = array_values($coords);
 
+            foreach ($coords as $i => $coord) {
+                if (! is_finite($coord)) {
+                    $coordinateName = match ($i) {
+                        0 => 'X',
+                        1 => 'Y',
+                        2 => $cs->hasZ() ? 'Z' : 'M',
+                        3 => 'M',
+                    };
+                    throw new InvalidGeometryException(sprintf(
+                        'Coordinate #%d (%s) for Point %s is %s, this is not allowed.',
+                        $i + 1,
+                        $coordinateName,
+                        $cs->coordinateName(),
+                        is_infinite($coord) ? ($coord > 0 ? '+' : '-') . 'INF' : 'NaN',
+                    ));
+                }
+            }
+
             $this->x = $coords[0];
             $this->y = $coords[1];
 
