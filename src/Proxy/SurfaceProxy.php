@@ -127,7 +127,7 @@ class SurfaceProxy extends Surface implements ProxyInterface
     }
 
 
-    public function coordinateDimension() : int
+    public function coordinateDimension(): int
     {
         if ($this->proxyGeometry === null) {
             $this->load();
@@ -136,7 +136,7 @@ class SurfaceProxy extends Surface implements ProxyInterface
         return $this->proxyGeometry->coordinateDimension();
     }
 
-    public function spatialDimension() : int
+    public function spatialDimension(): int
     {
         if ($this->proxyGeometry === null) {
             $this->load();
@@ -145,7 +145,7 @@ class SurfaceProxy extends Surface implements ProxyInterface
         return $this->proxyGeometry->spatialDimension();
     }
 
-    public function geometryType() : string
+    public function geometryType(): string
     {
         if ($this->proxyGeometry === null) {
             $this->load();
@@ -154,7 +154,7 @@ class SurfaceProxy extends Surface implements ProxyInterface
         return $this->proxyGeometry->geometryType();
     }
 
-    public function geometryTypeBinary() : int
+    public function geometryTypeBinary(): int
     {
         if ($this->proxyGeometry === null) {
             $this->load();
@@ -163,7 +163,7 @@ class SurfaceProxy extends Surface implements ProxyInterface
         return $this->proxyGeometry->geometryTypeBinary();
     }
 
-    public function isEmpty() : bool
+    public function isEmpty(): bool
     {
         if ($this->proxyGeometry === null) {
             $this->load();
@@ -172,7 +172,7 @@ class SurfaceProxy extends Surface implements ProxyInterface
         return $this->proxyGeometry->isEmpty();
     }
 
-    public function is3D() : bool
+    public function is3D(): bool
     {
         if ($this->proxyGeometry === null) {
             $this->load();
@@ -181,7 +181,7 @@ class SurfaceProxy extends Surface implements ProxyInterface
         return $this->proxyGeometry->is3D();
     }
 
-    public function isMeasured() : bool
+    public function isMeasured(): bool
     {
         if ($this->proxyGeometry === null) {
             $this->load();
@@ -190,7 +190,7 @@ class SurfaceProxy extends Surface implements ProxyInterface
         return $this->proxyGeometry->isMeasured();
     }
 
-    public function coordinateSystem() : \Brick\Geo\CoordinateSystem
+    public function coordinateSystem(): \Brick\Geo\CoordinateSystem
     {
         if ($this->proxyGeometry === null) {
             $this->load();
@@ -199,7 +199,7 @@ class SurfaceProxy extends Surface implements ProxyInterface
         return $this->proxyGeometry->coordinateSystem();
     }
 
-    public function withSRID(int $srid) : \Brick\Geo\Geometry
+    public function withSRID(int $srid): \Brick\Geo\Geometry
     {
         if ($this->proxyGeometry === null) {
             $this->load();
@@ -208,7 +208,7 @@ class SurfaceProxy extends Surface implements ProxyInterface
         return $this->proxyGeometry->withSRID($srid);
     }
 
-    public function toXY() : \Brick\Geo\Geometry
+    public function toXY(): \Brick\Geo\Geometry
     {
         if ($this->proxyGeometry === null) {
             $this->load();
@@ -217,7 +217,7 @@ class SurfaceProxy extends Surface implements ProxyInterface
         return $this->proxyGeometry->toXY();
     }
 
-    public function withoutZ() : \Brick\Geo\Geometry
+    public function withoutZ(): \Brick\Geo\Geometry
     {
         if ($this->proxyGeometry === null) {
             $this->load();
@@ -226,7 +226,7 @@ class SurfaceProxy extends Surface implements ProxyInterface
         return $this->proxyGeometry->withoutZ();
     }
 
-    public function withoutM() : \Brick\Geo\Geometry
+    public function withoutM(): \Brick\Geo\Geometry
     {
         if ($this->proxyGeometry === null) {
             $this->load();
@@ -235,7 +235,7 @@ class SurfaceProxy extends Surface implements ProxyInterface
         return $this->proxyGeometry->withoutM();
     }
 
-    public function getBoundingBox() : \Brick\Geo\BoundingBox
+    public function getBoundingBox(): \Brick\Geo\BoundingBox
     {
         if ($this->proxyGeometry === null) {
             $this->load();
@@ -244,7 +244,7 @@ class SurfaceProxy extends Surface implements ProxyInterface
         return $this->proxyGeometry->getBoundingBox();
     }
 
-    public function toArray() : array
+    public function toArray(): array
     {
         if ($this->proxyGeometry === null) {
             $this->load();
@@ -253,7 +253,7 @@ class SurfaceProxy extends Surface implements ProxyInterface
         return $this->proxyGeometry->toArray();
     }
 
-    public function swapXY() : \Brick\Geo\Geometry
+    public function swapXY(): \Brick\Geo\Geometry
     {
         if ($this->proxyGeometry === null) {
             $this->load();
@@ -262,7 +262,7 @@ class SurfaceProxy extends Surface implements ProxyInterface
         return $this->proxyGeometry->swapXY();
     }
 
-    public function project(\Brick\Geo\Projector\Projector $projector) : \Brick\Geo\Geometry
+    public function project(\Brick\Geo\Projector\Projector $projector): \Brick\Geo\Geometry
     {
         if ($this->proxyGeometry === null) {
             $this->load();
@@ -271,7 +271,7 @@ class SurfaceProxy extends Surface implements ProxyInterface
         return $this->proxyGeometry->project($projector);
     }
 
-    public function isIdenticalTo(\Brick\Geo\Geometry $that) : bool
+    public function isIdenticalTo(\Brick\Geo\Geometry $that): bool
     {
         if ($this->proxyGeometry === null) {
             $this->load();

@@ -127,7 +127,7 @@ class MultiPolygonProxy extends MultiPolygon implements ProxyInterface
     }
 
 
-    public function dimension() : int
+    public function dimension(): int
     {
         if ($this->proxyGeometry === null) {
             $this->load();
@@ -136,7 +136,7 @@ class MultiPolygonProxy extends MultiPolygon implements ProxyInterface
         return $this->proxyGeometry->dimension();
     }
 
-    public function project(\Brick\Geo\Projector\Projector $projector) : \Brick\Geo\MultiPolygon
+    public function project(\Brick\Geo\Projector\Projector $projector): \Brick\Geo\MultiPolygon
     {
         if ($this->proxyGeometry === null) {
             $this->load();
@@ -145,7 +145,7 @@ class MultiPolygonProxy extends MultiPolygon implements ProxyInterface
         return $this->proxyGeometry->project($projector);
     }
 
-    public function numGeometries() : int
+    public function numGeometries(): int
     {
         if ($this->proxyGeometry === null) {
             $this->load();
@@ -154,7 +154,7 @@ class MultiPolygonProxy extends MultiPolygon implements ProxyInterface
         return $this->proxyGeometry->numGeometries();
     }
 
-    public function geometryN(int $n) : \Brick\Geo\Geometry
+    public function geometryN(int $n): \Brick\Geo\Geometry
     {
         if ($this->proxyGeometry === null) {
             $this->load();
@@ -163,7 +163,7 @@ class MultiPolygonProxy extends MultiPolygon implements ProxyInterface
         return $this->proxyGeometry->geometryN($n);
     }
 
-    public function geometries() : array
+    public function geometries(): array
     {
         if ($this->proxyGeometry === null) {
             $this->load();
@@ -172,7 +172,7 @@ class MultiPolygonProxy extends MultiPolygon implements ProxyInterface
         return $this->proxyGeometry->geometries();
     }
 
-    public function getBoundingBox() : \Brick\Geo\BoundingBox
+    public function getBoundingBox(): \Brick\Geo\BoundingBox
     {
         if ($this->proxyGeometry === null) {
             $this->load();
@@ -181,7 +181,7 @@ class MultiPolygonProxy extends MultiPolygon implements ProxyInterface
         return $this->proxyGeometry->getBoundingBox();
     }
 
-    public function toArray() : array
+    public function toArray(): array
     {
         if ($this->proxyGeometry === null) {
             $this->load();
@@ -190,7 +190,7 @@ class MultiPolygonProxy extends MultiPolygon implements ProxyInterface
         return $this->proxyGeometry->toArray();
     }
 
-    public function count() : int
+    public function count(): int
     {
         if ($this->proxyGeometry === null) {
             $this->load();
@@ -199,7 +199,7 @@ class MultiPolygonProxy extends MultiPolygon implements ProxyInterface
         return $this->proxyGeometry->count();
     }
 
-    public function getIterator() : \ArrayIterator
+    public function getIterator(): \ArrayIterator
     {
         if ($this->proxyGeometry === null) {
             $this->load();
@@ -208,7 +208,7 @@ class MultiPolygonProxy extends MultiPolygon implements ProxyInterface
         return $this->proxyGeometry->getIterator();
     }
 
-    public function coordinateDimension() : int
+    public function coordinateDimension(): int
     {
         if ($this->proxyGeometry === null) {
             $this->load();
@@ -217,7 +217,7 @@ class MultiPolygonProxy extends MultiPolygon implements ProxyInterface
         return $this->proxyGeometry->coordinateDimension();
     }
 
-    public function spatialDimension() : int
+    public function spatialDimension(): int
     {
         if ($this->proxyGeometry === null) {
             $this->load();
@@ -226,7 +226,7 @@ class MultiPolygonProxy extends MultiPolygon implements ProxyInterface
         return $this->proxyGeometry->spatialDimension();
     }
 
-    public function isEmpty() : bool
+    public function isEmpty(): bool
     {
         if ($this->proxyGeometry === null) {
             $this->load();
@@ -235,7 +235,7 @@ class MultiPolygonProxy extends MultiPolygon implements ProxyInterface
         return $this->proxyGeometry->isEmpty();
     }
 
-    public function is3D() : bool
+    public function is3D(): bool
     {
         if ($this->proxyGeometry === null) {
             $this->load();
@@ -244,7 +244,7 @@ class MultiPolygonProxy extends MultiPolygon implements ProxyInterface
         return $this->proxyGeometry->is3D();
     }
 
-    public function isMeasured() : bool
+    public function isMeasured(): bool
     {
         if ($this->proxyGeometry === null) {
             $this->load();
@@ -253,7 +253,7 @@ class MultiPolygonProxy extends MultiPolygon implements ProxyInterface
         return $this->proxyGeometry->isMeasured();
     }
 
-    public function coordinateSystem() : \Brick\Geo\CoordinateSystem
+    public function coordinateSystem(): \Brick\Geo\CoordinateSystem
     {
         if ($this->proxyGeometry === null) {
             $this->load();
@@ -262,7 +262,7 @@ class MultiPolygonProxy extends MultiPolygon implements ProxyInterface
         return $this->proxyGeometry->coordinateSystem();
     }
 
-    public function withSRID(int $srid) : \Brick\Geo\Geometry
+    public function withSRID(int $srid): \Brick\Geo\Geometry
     {
         if ($this->proxyGeometry === null) {
             $this->load();
@@ -271,7 +271,7 @@ class MultiPolygonProxy extends MultiPolygon implements ProxyInterface
         return $this->proxyGeometry->withSRID($srid);
     }
 
-    public function toXY() : \Brick\Geo\Geometry
+    public function toXY(): \Brick\Geo\Geometry
     {
         if ($this->proxyGeometry === null) {
             $this->load();
@@ -280,7 +280,7 @@ class MultiPolygonProxy extends MultiPolygon implements ProxyInterface
         return $this->proxyGeometry->toXY();
     }
 
-    public function withoutZ() : \Brick\Geo\Geometry
+    public function withoutZ(): \Brick\Geo\Geometry
     {
         if ($this->proxyGeometry === null) {
             $this->load();
@@ -289,7 +289,7 @@ class MultiPolygonProxy extends MultiPolygon implements ProxyInterface
         return $this->proxyGeometry->withoutZ();
     }
 
-    public function withoutM() : \Brick\Geo\Geometry
+    public function withoutM(): \Brick\Geo\Geometry
     {
         if ($this->proxyGeometry === null) {
             $this->load();
@@ -298,7 +298,7 @@ class MultiPolygonProxy extends MultiPolygon implements ProxyInterface
         return $this->proxyGeometry->withoutM();
     }
 
-    public function swapXY() : \Brick\Geo\Geometry
+    public function swapXY(): \Brick\Geo\Geometry
     {
         if ($this->proxyGeometry === null) {
             $this->load();
@@ -307,7 +307,7 @@ class MultiPolygonProxy extends MultiPolygon implements ProxyInterface
         return $this->proxyGeometry->swapXY();
     }
 
-    public function isIdenticalTo(\Brick\Geo\Geometry $that) : bool
+    public function isIdenticalTo(\Brick\Geo\Geometry $that): bool
     {
         if ($this->proxyGeometry === null) {
             $this->load();
