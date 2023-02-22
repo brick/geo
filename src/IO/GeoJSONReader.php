@@ -58,7 +58,7 @@ class GeoJSONReader
     public function read(string $geoJson): Geometry|Feature|FeatureCollection
     {
         try {
-            $geoJsonObject = json_decode($geoJson, false, 512, JSON_THROW_ON_ERROR);
+            $geoJsonObject = json_decode($geoJson, flags: JSON_THROW_ON_ERROR);
         } catch (JsonException $e) {
             throw GeometryIOException::invalidGeoJSON('Unable to parse GeoJSON string.', $e);
         }
