@@ -20,7 +20,7 @@
         "brick/reflection": "~0.5.0",
         "phpunit/phpunit": "^9.0",
         "php-coveralls/php-coveralls": "^2.0",
-        "vimeo/psalm": "4.28.0"
+        "vimeo/psalm": "5.7.5"
     },
     "autoload": {
         "psr-4": {

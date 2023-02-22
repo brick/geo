@@ -15,10 +15,8 @@ class Cloner
     /**
      * @psalm-suppress RawObjectIteration
      * @psalm-suppress MixedAssignment
-     * @psalm-suppress MixedArrayOffset
      * @psalm-suppress InvalidReturnType
      * @psalm-suppress InvalidReturnStatement
-     * @psalm-suppress DocblockTypeContradiction
      *
      * @psalm-template T
      *

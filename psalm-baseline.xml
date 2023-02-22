@@ -1,19 +1,136 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="4.28.0@52e96bea381e6cb07a672aefec791a5817694a26">
+<files psalm-version="5.7.5@5390c212bab06ee230c8720c2e9c54b823db00c8">
+  <file src="src/CircularString.php">
+    <InvalidReturnStatement>
+      <code><![CDATA[new ArrayIterator($this->points)]]></code>
+    </InvalidReturnStatement>
+    <InvalidReturnType>
+      <code><![CDATA[ArrayIterator<int, Point>]]></code>
+    </InvalidReturnType>
+  </file>
+  <file src="src/CompoundCurve.php">
+    <InvalidArrayOffset>
+      <code><![CDATA[$this->curves[$count - 1]]]></code>
+    </InvalidArrayOffset>
+    <InvalidReturnStatement>
+      <code><![CDATA[new ArrayIterator($this->curves)]]></code>
+    </InvalidReturnStatement>
+    <InvalidReturnType>
+      <code><![CDATA[ArrayIterator<int, Curve>]]></code>
+    </InvalidReturnType>
+    <MixedInferredReturnType>
+      <code>Point</code>
+    </MixedInferredReturnType>
+    <MixedMethodCall>
+      <code>endPoint</code>
+    </MixedMethodCall>
+    <MixedReturnStatement>
+      <code><![CDATA[$this->curves[$count - 1]->endPoint()]]></code>
+    </MixedReturnStatement>
+  </file>
+  <file src="src/CurvePolygon.php">
+    <InvalidReturnStatement>
+      <code><![CDATA[new ArrayIterator($this->rings)]]></code>
+    </InvalidReturnStatement>
+    <InvalidReturnType>
+      <code><![CDATA[ArrayIterator<int, Curve>]]></code>
+    </InvalidReturnType>
+  </file>
+  <file src="src/Engine/DatabaseEngine.php">
+    <MixedAssignment>
+      <code>$result</code>
+      <code>$result</code>
+    </MixedAssignment>
+    <PossiblyUndefinedArrayOffset>
+      <code>$result</code>
+      <code>$result</code>
+    </PossiblyUndefinedArrayOffset>
+  </file>
+  <file src="src/Engine/PDOEngine.php">
+    <MixedAssignment>
+      <code>$result</code>
+    </MixedAssignment>
+    <MixedInferredReturnType>
+      <code>array</code>
+    </MixedInferredReturnType>
+    <MixedReturnStatement>
+      <code>$result</code>
+    </MixedReturnStatement>
+  </file>
   <file src="src/Geometry.php">
-    <LessSpecificReturnStatement occurrences="5">
-      <code>$this-&gt;project(new RemoveZMProjector(removeM: true))</code>
-      <code>$this-&gt;project(new RemoveZMProjector(removeZ: true))</code>
-      <code>$this-&gt;project(new RemoveZMProjector(removeZ: true, removeM: true))</code>
-      <code>$this-&gt;project(new SRIDProjector($srid))</code>
-      <code>$this-&gt;project(new SwapXYProjector())</code>
+    <LessSpecificReturnStatement>
+      <code><![CDATA[$this->project(new RemoveZMProjector(removeM: true))]]></code>
+      <code><![CDATA[$this->project(new RemoveZMProjector(removeZ: true))]]></code>
+      <code><![CDATA[$this->project(new RemoveZMProjector(removeZ: true, removeM: true))]]></code>
+      <code><![CDATA[$this->project(new SRIDProjector($srid))]]></code>
+      <code><![CDATA[$this->project(new SwapXYProjector())]]></code>
     </LessSpecificReturnStatement>
-    <MoreSpecificReturnType occurrences="5">
+    <MissingTemplateParam>
+      <code>\IteratorAggregate</code>
+    </MissingTemplateParam>
+    <MoreSpecificReturnType>
       <code>static</code>
       <code>static</code>
       <code>static</code>
       <code>static</code>
       <code>static</code>
     </MoreSpecificReturnType>
+  </file>
+  <file src="src/GeometryCollection.php">
+    <DocblockTypeContradiction>
+      <code>$geometry instanceof $containedGeometryType</code>
+    </DocblockTypeContradiction>
+    <InvalidReturnStatement>
+      <code><![CDATA[new ArrayIterator($this->geometries)]]></code>
+    </InvalidReturnStatement>
+    <InvalidReturnType>
+      <code><![CDATA[ArrayIterator<int, T>]]></code>
+    </InvalidReturnType>
+    <MixedArgument>
+      <code>$geometry</code>
+    </MixedArgument>
+  </file>
+  <file src="src/IO/EWKTParser.php">
+    <InvalidClassConstantType>
+      <code>T_NUMBER</code>
+      <code>T_WORD</code>
+    </InvalidClassConstantType>
+  </file>
+  <file src="src/LineString.php">
+    <InvalidReturnStatement>
+      <code><![CDATA[new ArrayIterator($this->points)]]></code>
+    </InvalidReturnStatement>
+    <InvalidReturnType>
+      <code><![CDATA[ArrayIterator<int, Point>]]></code>
+    </InvalidReturnType>
+  </file>
+  <file src="src/Point.php">
+    <InvalidReturnStatement>
+      <code><![CDATA[new ArrayIterator($this->toArray())]]></code>
+    </InvalidReturnStatement>
+    <InvalidReturnType>
+      <code><![CDATA[ArrayIterator<int, float>]]></code>
+    </InvalidReturnType>
+  </file>
+  <file src="src/Polygon.php">
+    <InvalidReturnStatement>
+      <code><![CDATA[new ArrayIterator($this->rings)]]></code>
+    </InvalidReturnStatement>
+    <InvalidReturnType>
+      <code><![CDATA[ArrayIterator<int, LineString>]]></code>
+    </InvalidReturnType>
+  </file>
+  <file src="src/PolyhedralSurface.php">
+    <InvalidReturnStatement>
+      <code><![CDATA[new ArrayIterator($this->patches)]]></code>
+    </InvalidReturnStatement>
+    <InvalidReturnType>
+      <code><![CDATA[ArrayIterator<int, Polygon>]]></code>
+    </InvalidReturnType>
+  </file>
+  <file src="src/Projector/SwapXYProjector.php">
+    <PossiblyUndefinedArrayOffset>
+      <code>$x</code>
+    </PossiblyUndefinedArrayOffset>
   </file>
 </files>
