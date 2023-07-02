@@ -163,11 +163,13 @@ Update the code with your own connection parameters, or use an existing `PDO` co
 <details>
 <summary>Click to expand</summary>
 
-Due to [limitations in the PDO_SQLITE driver](https://bugs.php.net/bug.php?id=64810), it is currently not possible to load the SpatiaLite extension with a
+Due to [limitations in the PDO_SQLITE driver](https://bugs.php.net/bug.php?id=64810), it is currently not possible<sup>*</sup> to load the SpatiaLite extension with a
 `SELECT LOAD_EXTENSION()` query, hence you cannot use SpatiaLite with the PDO driver.
 
 You need to use the SQLite3 driver instead. Note that you can keep using your existing PDO_SQLITE code,
 all you need to do is create an additional in-memory SQLite3 database just to power the geometry engine.
+
+<sup>* It actually *is* possible, using [moxio/sqlite-extended-api](https://github.com/Moxio/sqlite-extended-api), which uses FFI and [Z-Engine](https://github.com/lisachenko/z-engine), but beware that this library is still experimental!</sup>
 </details>
 
 ### Using SQLite3 with SpatiaLite
