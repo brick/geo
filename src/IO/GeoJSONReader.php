@@ -104,8 +104,6 @@ class GeoJSONReader
     }
 
     /**
-     * @psalm-suppress TypeDoesNotContainType
-     *
      * @throws GeometryException
      */
     private function readFeature(stdClass $geoJsonFeature) : Feature
