@@ -333,7 +333,7 @@ abstract class DatabaseEngine implements GeometryEngine
     {
         try {
             return $this->queryBoolean('ST_IsRing', $curve);
-        } catch (GeometryEngineException $e) {
+        } catch (GeometryEngineException) {
             // Not all RDBMS (hello, MySQL) support ST_IsRing(), but we have an easy fallback
             return $this->isClosed($curve) && $this->isSimple($curve);
         }
