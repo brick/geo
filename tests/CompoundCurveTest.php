@@ -27,9 +27,7 @@ class CompoundCurveTest extends AbstractTestCase
     public function testCreate(array $curvesWKT, bool $is3D, bool $isMeasured, string $compoundCurveWKT) : void
     {
         foreach ([0, 1] as $srid) {
-            $instantiateCurve = function ($curve) use ($srid) {
-                return Curve::fromText($curve, $srid);
-            };
+            $instantiateCurve = fn(string $curve) => Curve::fromText($curve, $srid);
 
             $cs = new CoordinateSystem($is3D, $isMeasured, $srid);
             $compoundCurve = new CompoundCurve($cs, ...array_map($instantiateCurve, $curvesWKT));

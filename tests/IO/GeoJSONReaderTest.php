@@ -129,9 +129,7 @@ class GeoJSONReaderTest extends GeoJSONAbstractTest
      */
     private function alterCase(string $geojson) : string
     {
-        $callback = function(array $matches) : string {
-            return $matches[1] . strtoupper($matches[2]);
-        };
+        $callback = fn(array $matches): string => $matches[1] . strtoupper($matches[2]);
 
         return preg_replace_callback('/("type"\s*\:\s*)("[^"]+")/', $callback, $geojson);
     }

@@ -27,9 +27,7 @@ class CircularStringTest extends AbstractTestCase
     public function testCreate(array $pointsWKT, bool $is3D, bool $isMeasured, string $circularStringWKT) : void
     {
         foreach ([0, 1] as $srid) {
-            $instantiatePoint = function ($point) use ($srid) {
-                return Point::fromText($point, $srid);
-            };
+            $instantiatePoint = fn(string $point) => Point::fromText($point, $srid);
 
             $cs = new CoordinateSystem($is3D, $isMeasured, $srid);
             $circularString = new CircularString($cs, ...array_map($instantiatePoint, $pointsWKT));

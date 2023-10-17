@@ -25,9 +25,7 @@ class PolyhedralSurfaceTest extends AbstractTestCase
     public function testCreate(array $patchesWKT, bool $is3D, bool $isMeasured, string $polyhedralSurfaceWKT) : void
     {
         foreach ([0, 1] as $srid) {
-            $instantiatePolygon = function ($patch) use ($srid) {
-                return Polygon::fromText($patch, $srid);
-            };
+            $instantiatePolygon = fn(string $patch) => Polygon::fromText($patch, $srid);
 
             $cs = new CoordinateSystem($is3D, $isMeasured, $srid);
             $polyhedralSurface = new PolyhedralSurface($cs, ...array_map($instantiatePolygon, $patchesWKT));
