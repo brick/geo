@@ -21,7 +21,7 @@ use Brick\Geo\Projector\SwapXYProjector;
 /**
  * Geometry is the root class of the hierarchy.
  */
-abstract class Geometry implements \Countable, \IteratorAggregate
+abstract class Geometry implements \Countable, \IteratorAggregate, \Stringable
 {
     final public const GEOMETRY           = 0;
     final public const POINT              = 1;
