@@ -145,6 +145,8 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      *
      * The coordinate dimension can be 2 (for x and y), 3 (with z or m added), or 4 (with both z and m added).
      * The ordinates x, y and z are spatial, and the ordinate m is a measure.
+     *
+     * @return int<2, 4>
      */
     public function coordinateDimension() : int
     {
@@ -158,6 +160,8 @@ abstract class Geometry implements \Countable, \IteratorAggregate
      * spatial position of this geometry in a coordinate system.
      *
      * The spatial dimension is 3 if the coordinate system has a Z coordinate, 2 otherwise.
+     *
+     * @return int<2, 3>
      */
     public function spatialDimension() : int
     {

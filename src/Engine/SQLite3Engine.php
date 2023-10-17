@@ -24,7 +24,7 @@ class SQLite3Engine extends DatabaseEngine
     /**
      * A cache of the prepared statements, indexed by query.
      *
-     * @var SQLite3Stmt[]
+     * @var array<string, SQLite3Stmt>
      */
     private array $statements = [];
 

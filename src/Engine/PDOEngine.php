@@ -23,7 +23,7 @@ class PDOEngine extends DatabaseEngine
     /**
      * A cache of the prepared statements, indexed by query.
      *
-     * @var PDOStatement[]
+     * @var array<string, PDOStatement>
      */
     private array $statements = [];
 

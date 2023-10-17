@@ -98,6 +98,8 @@ class CoordinateSystem
 
     /**
      * Returns a name for the coordinates in this system, such as XY or XYZ.
+     *
+     * @return 'XY'|'XYZ'|'XYM'|'XYZM'
      */
     public function coordinateName() : string
     {
@@ -119,7 +121,13 @@ class CoordinateSystem
      *
      * The coordinate dimension is the total number of coordinates in the coordinate system.
      *
-     * @return int 2 for (X,Y), 3 for (X,Y,Z) and (X,Y,M), 4 for (X,Y,Z,M).
+     * Returns:
+     *
+     * - 2 for (X,Y)
+     * - 3 for (X,Y,Z) and (X,Y,M)
+     * - 4 for (X,Y,Z,M)
+     *
+     * @return int<2, 4>
      */
     public function coordinateDimension() : int
     {
@@ -141,7 +149,7 @@ class CoordinateSystem
      *
      * The spatial dimension is 3 if the coordinate system has a Z coordinate, 2 otherwise.
      *
-     * @return int 2 for (X,Y) and (X,Y,M), 3 for (X,Y,Z) and (X,Y,Z,M).
+     * @return int<2, 3>
      */
     public function spatialDimension() : int
     {
