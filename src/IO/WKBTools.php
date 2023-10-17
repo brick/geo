@@ -11,8 +11,8 @@ use Brick\Geo\Exception\GeometryIOException;
  */
 abstract class WKBTools
 {
-    public const BIG_ENDIAN    = 0;
-    public const LITTLE_ENDIAN = 1;
+    final public const BIG_ENDIAN    = 0;
+    final public const LITTLE_ENDIAN = 1;
 
     /**
      * @throws GeometryIOException

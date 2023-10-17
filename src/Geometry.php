@@ -23,24 +23,24 @@ use Brick\Geo\Projector\SwapXYProjector;
  */
 abstract class Geometry implements \Countable, \IteratorAggregate
 {
-    public const GEOMETRY           = 0;
-    public const POINT              = 1;
-    public const LINESTRING         = 2;
-    public const POLYGON            = 3;
-    public const MULTIPOINT         = 4;
-    public const MULTILINESTRING    = 5;
-    public const MULTIPOLYGON       = 6;
-    public const GEOMETRYCOLLECTION = 7;
-    public const CIRCULARSTRING     = 8;
-    public const COMPOUNDCURVE      = 9;
-    public const CURVEPOLYGON       = 10;
-    public const MULTICURVE         = 11;
-    public const MULTISURFACE       = 12;
-    public const CURVE              = 13;
-    public const SURFACE            = 14;
-    public const POLYHEDRALSURFACE  = 15;
-    public const TIN                = 16;
-    public const TRIANGLE           = 17;
+    final public const GEOMETRY           = 0;
+    final public const POINT              = 1;
+    final public const LINESTRING         = 2;
+    final public const POLYGON            = 3;
+    final public const MULTIPOINT         = 4;
+    final public const MULTILINESTRING    = 5;
+    final public const MULTIPOLYGON       = 6;
+    final public const GEOMETRYCOLLECTION = 7;
+    final public const CIRCULARSTRING     = 8;
+    final public const COMPOUNDCURVE      = 9;
+    final public const CURVEPOLYGON       = 10;
+    final public const MULTICURVE         = 11;
+    final public const MULTISURFACE       = 12;
+    final public const CURVE              = 13;
+    final public const SURFACE            = 14;
+    final public const POLYHEDRALSURFACE  = 15;
+    final public const TIN                = 16;
+    final public const TRIANGLE           = 17;
 
     /**
      * The coordinate system of this geometry.
