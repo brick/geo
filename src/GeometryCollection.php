@@ -73,7 +73,7 @@ class GeometryCollection extends Geometry
                     '%s expects instance of %s, instance of %s given.',
                     static::class,
                     $containedGeometryType,
-                    get_class($geometry)
+                    $geometry::class
                 ));
             }
         }

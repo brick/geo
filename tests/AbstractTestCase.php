@@ -361,7 +361,7 @@ class AbstractTestCase extends TestCase
         try {
             $closure();
         } catch (Throwable $exception) {
-            if (get_class($exception) === $exceptionClass) {
+            if ($exception::class === $exceptionClass) {
                 $this->addtoAssertionCount(1);
                 return;
             }

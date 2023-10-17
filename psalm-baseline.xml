@@ -86,9 +86,6 @@
     <InvalidReturnType>
       <code><![CDATA[ArrayIterator<int, T>]]></code>
     </InvalidReturnType>
-    <MixedArgument>
-      <code>$geometry</code>
-    </MixedArgument>
   </file>
   <file src="src/IO/EWKTParser.php">
     <InvalidClassConstantType>
