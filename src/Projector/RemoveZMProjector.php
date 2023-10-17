@@ -13,8 +13,8 @@ use Brick\Geo\Point;
 final class RemoveZMProjector implements Projector
 {
     public function __construct(
-        private bool $removeZ = false,
-        private bool $removeM = false,
+        private readonly bool $removeZ = false,
+        private readonly bool $removeM = false,
     ) {
     }
 

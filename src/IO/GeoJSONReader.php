@@ -40,7 +40,7 @@ class GeoJSONReader
         'geometrycollection' => 'GeometryCollection',
     ];
 
-    private bool $lenient;
+    private readonly bool $lenient;
 
     /**
      * @param bool $lenient Whether to parse the GeoJSON in lenient mode. This mode allows different cases for GeoJSON

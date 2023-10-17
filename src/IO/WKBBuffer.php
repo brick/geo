@@ -11,11 +11,11 @@ use Brick\Geo\Exception\GeometryIOException;
  */
 class WKBBuffer
 {
-    private string $wkb;
-    private int $length;
+    private readonly string $wkb;
+    private readonly int $length;
     private int $position = 0;
     /** @psalm-var WKBTools::BIG_ENDIAN|WKBTools::LITTLE_ENDIAN */
-    private int $machineByteOrder;
+    private readonly int $machineByteOrder;
     private bool $invert = false;
 
     public function __construct(string $wkb)

@@ -18,9 +18,9 @@ use stdClass;
  */
 class GeoJSONWriter
 {
-    private bool $prettyPrint;
+    private readonly bool $prettyPrint;
 
-    private bool $setBbox;
+    private readonly bool $setBbox;
 
     /**
      * @param bool $prettyPrint Whether to pretty-print the JSON output.

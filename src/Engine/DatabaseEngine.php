@@ -22,7 +22,7 @@ use Brick\Geo\Surface;
  */
 abstract class DatabaseEngine implements GeometryEngine
 {
-    private bool $useProxy;
+    private readonly bool $useProxy;
 
     public function __construct(bool $useProxy)
     {

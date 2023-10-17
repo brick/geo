@@ -13,7 +13,7 @@ use Brick\Geo\Point;
 final class SRIDProjector implements Projector
 {
     public function __construct(
-        private int $targetSRID,
+        private readonly int $targetSRID,
     ) {
     }
 

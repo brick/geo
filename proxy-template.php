@@ -22,17 +22,17 @@ class _CLASSNAME_Proxy extends _CLASSNAME_ implements ProxyInterface
     /**
      * The WKT or WKB data.
      */
-    private string $proxyData;
+    private readonly string $proxyData;
 
     /**
      * `true` if WKB, `false` if WKT.
      */
-    private bool $isProxyBinary;
+    private readonly bool $isProxyBinary;
 
     /**
      * The SRID of the underlying geometry.
      */
-    private int $proxySRID;
+    private readonly int $proxySRID;
 
     /**
      * The underlying geometry, or NULL if not yet loaded.

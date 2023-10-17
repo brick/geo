@@ -16,17 +16,17 @@ class CoordinateSystem
     /**
      * Whether this coordinate system has Z-coordinates.
      */
-    private bool $hasZ;
+    private readonly bool $hasZ;
 
     /**
      * Whether this coordinate system has M-coordinates.
      */
-    private bool $hasM;
+    private readonly bool $hasM;
 
     /**
      * The Spatial Reference System Identifier of this coordinate system.
      */
-    private int $srid;
+    private readonly int $srid;
 
     /**
      * @param bool $hasZ Whether the coordinate system has Z-coordinates.
@@ -157,10 +157,7 @@ class CoordinateSystem
             return $this;
         }
 
-        $that = clone $this;
-        $that->hasZ = $hasZ;
-
-        return $that;
+        return new CoordinateSystem($hasZ, $this->hasM, $this->srid);
     }
 
     /**
@@ -172,10 +169,7 @@ class CoordinateSystem
             return $this;
         }
 
-        $that = clone $this;
-        $that->hasM = $hasM;
-
-        return $that;
+        return new CoordinateSystem($this->hasZ, $hasM, $this->srid);
     }
 
     /**
@@ -187,10 +181,7 @@ class CoordinateSystem
             return $this;
         }
 
-        $that = clone $this;
-        $that->srid = $srid;
-
-        return $that;
+        return new CoordinateSystem($this->hasZ, $this->hasM, $srid);
     }
 
     public function isEqualTo(CoordinateSystem $that) : bool

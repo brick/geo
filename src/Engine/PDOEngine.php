@@ -18,7 +18,7 @@ class PDOEngine extends DatabaseEngine
     /**
      * The database connection.
      */
-    private PDO $pdo;
+    private readonly PDO $pdo;
 
     /**
      * A cache of the prepared statements, indexed by query.

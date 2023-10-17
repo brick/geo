@@ -19,7 +19,7 @@ class SQLite3Engine extends DatabaseEngine
     /**
      * The database connection.
      */
-    private SQLite3 $sqlite3;
+    private readonly SQLite3 $sqlite3;
 
     /**
      * A cache of the prepared statements, indexed by query.

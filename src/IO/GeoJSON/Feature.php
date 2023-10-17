@@ -18,12 +18,12 @@ final class Feature
      *
      * @var Geometry|null
      */
-    private ?Geometry $geometry;
+    private readonly ?Geometry $geometry;
 
     /**
      * An optional key-value map of feature properties. Must be convertible to JSON.
      */
-    private ?stdClass $properties;
+    private readonly ?stdClass $properties;
 
     /**
      * @param Geometry|null $geometry
