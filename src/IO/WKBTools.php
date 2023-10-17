@@ -11,9 +11,6 @@ use Brick\Geo\Exception\GeometryIOException;
  */
 abstract class WKBTools
 {
-    final public const BIG_ENDIAN    = 0;
-    final public const LITTLE_ENDIAN = 1;
-
     /**
      * @throws GeometryIOException
      */
@@ -25,33 +22,21 @@ abstract class WKBTools
     }
 
     /**
-     * @throws \InvalidArgumentException
-     */
-    public static function checkByteOrder(int $byteOrder) : void
-    {
-        if ($byteOrder !== self::BIG_ENDIAN && $byteOrder !== self::LITTLE_ENDIAN) {
-            throw new \InvalidArgumentException('Invalid byte order: ' . var_export($byteOrder, true));
-        }
-    }
-
-    /**
      * Detects the machine byte order (big endian or little endian).
-     *
-     * @psalm-return self::BIG_ENDIAN|self::LITTLE_ENDIAN
      *
      * @throws GeometryIOException
      */
-    public static function getMachineByteOrder() : int
+    public static function getMachineByteOrder() : WKBByteOrder
     {
-        /** @psalm-var self::BIG_ENDIAN|self::LITTLE_ENDIAN|null $byteOrder */
+        /** @var WKBByteOrder|null $byteOrder */
         static $byteOrder;
 
         if ($byteOrder === null) {
             self::checkDoubleIs64Bit();
 
             $byteOrder = match (pack('L', 0x61626364)) {
-                'abcd' => self::BIG_ENDIAN,
-                'dcba' => self::LITTLE_ENDIAN,
+                'abcd' => WKBByteOrder::BIG_ENDIAN,
+                'dcba' => WKBByteOrder::LITTLE_ENDIAN,
                 default => throw GeometryIOException::unsupportedEndianness(),
             };
         }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Brick\Geo\Tests;
 
 use Brick\Geo\Exception\UnexpectedGeometryException;
+use Brick\Geo\IO\WKBByteOrder;
 use Brick\Geo\IO\WKBTools;
 use Brick\Geo\Geometry;
 use Brick\Geo\Point;
@@ -71,11 +72,10 @@ class GeometryTest extends AbstractTestCase
     {
         $machineByteOrder = WKBTools::getMachineByteOrder();
 
-        if ($machineByteOrder === WKBTools::BIG_ENDIAN) {
-            $binary = $bigEndianBinary;
-        } else {
-            $binary = $littleEndianBinary;
-        }
+        $binary = match ($machineByteOrder) {
+            WKBByteOrder::BIG_ENDIAN => $bigEndianBinary,
+            WKBByteOrder::LITTLE_ENDIAN => $littleEndianBinary,
+        };
 
         self::assertSame($binary, bin2hex(Geometry::fromText($text)->asBinary()));
     }

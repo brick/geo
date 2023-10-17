@@ -21,15 +21,9 @@ use Brick\Geo\PolyhedralSurface;
  */
 abstract class AbstractWKBWriter
 {
-    /**
-     * @psalm-var WKBTools::BIG_ENDIAN|WKBTools::LITTLE_ENDIAN
-     */
-    private int $byteOrder;
+    private WKBByteOrder $byteOrder;
 
-    /**
-     * @psalm-var WKBTools::BIG_ENDIAN|WKBTools::LITTLE_ENDIAN
-     */
-    private int $machineByteOrder;
+    private WKBByteOrder $machineByteOrder;
 
     /**
      * @throws GeometryIOException
@@ -39,15 +33,8 @@ abstract class AbstractWKBWriter
         $this->byteOrder = $this->machineByteOrder = WKBTools::getMachineByteOrder();
     }
 
-    /**
-     * @param int $byteOrder The byte order, one of the WKBTools::BIG_ENDIAN or WKBTools::LITTLE_ENDIAN constants.
-     *
-     * @throws \InvalidArgumentException If the byte order is invalid.
-     */
-    public function setByteOrder(int $byteOrder) : void
+    public function setByteOrder(WKBByteOrder $byteOrder) : void
     {
-        WKBTools::checkByteOrder($byteOrder);
-        /** @var WKBTools::BIG_ENDIAN|WKBTools::LITTLE_ENDIAN byteOrder */
         $this->byteOrder = $byteOrder;
     }
 
@@ -110,12 +97,15 @@ abstract class AbstractWKBWriter
 
     private function packByteOrder() : string
     {
-        return pack('C', $this->byteOrder);
+        return pack('C', $this->byteOrder->value);
     }
 
     protected function packUnsignedInteger(int $uint) : string
     {
-        return pack($this->byteOrder === WKBTools::BIG_ENDIAN ? 'N' : 'V', $uint);
+        return pack(match ($this->byteOrder) {
+            WKBByteOrder::BIG_ENDIAN => 'N',
+            WKBByteOrder::LITTLE_ENDIAN => 'V'
+        }, $uint);
     }
 
     private function packDouble(float $double) : string

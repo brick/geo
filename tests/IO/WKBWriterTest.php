@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Brick\Geo\Tests\IO;
 
 use Brick\Geo\Exception\GeometryIOException;
-use Brick\Geo\IO\WKBTools;
+use Brick\Geo\IO\WKBByteOrder;
 use Brick\Geo\IO\WKBWriter;
 use Brick\Geo\IO\WKTReader;
 use Brick\Geo\Point;
@@ -18,11 +18,11 @@ class WKBWriterTest extends WKBAbstractTest
     /**
      * @dataProvider providerWrite
      *
-     * @param string $wkt       The WKT to read.
-     * @param string $wkb       The expected WKB output, hex-encoded.
-     * @param int    $byteOrder The byte order to use.
+     * @param string       $wkt       The WKT to read.
+     * @param string       $wkb       The expected WKB output, hex-encoded.
+     * @param WKBByteOrder $byteOrder The byte order to use.
      */
-    public function testWrite(string $wkt, string $wkb, int $byteOrder) : void
+    public function testWrite(string $wkt, string $wkb, WKBByteOrder $byteOrder) : void
     {
         $writer = new WKBWriter();
         $writer->setByteOrder($byteOrder);
@@ -38,11 +38,11 @@ class WKBWriterTest extends WKBAbstractTest
     public function providerWrite() : \Generator
     {
         foreach ($this->providerLittleEndianWKB() as [$wkt, $wkb]) {
-            yield [$wkt, $wkb, WKBTools::LITTLE_ENDIAN];
+            yield [$wkt, $wkb, WKBByteOrder::LITTLE_ENDIAN];
         }
 
         foreach ($this->providerBigEndianWKB() as [$wkt, $wkb]) {
-            yield [$wkt, $wkb, WKBTools::BIG_ENDIAN];
+            yield [$wkt, $wkb, WKBByteOrder::BIG_ENDIAN];
         }
     }
 

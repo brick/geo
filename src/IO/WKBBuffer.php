@@ -14,8 +14,7 @@ class WKBBuffer
     private readonly string $wkb;
     private readonly int $length;
     private int $position = 0;
-    /** @psalm-var WKBTools::BIG_ENDIAN|WKBTools::LITTLE_ENDIAN */
-    private readonly int $machineByteOrder;
+    private readonly WKBByteOrder $machineByteOrder;
     private bool $invert = false;
 
     public function __construct(string $wkb)
@@ -105,12 +104,13 @@ class WKBBuffer
     public function readByteOrder() : void
     {
         $byteOrder = $this->readUnsignedChar();
+        $wkbByteOrder = WKBByteOrder::tryFrom($byteOrder);
 
-        if ($byteOrder !== WKBTools::BIG_ENDIAN && $byteOrder !== WKBTools::LITTLE_ENDIAN) {
+        if ($wkbByteOrder === null) {
             throw GeometryIOException::invalidWKB('unknown byte order: ' . $byteOrder);
         }
 
-        $this->invert = ($byteOrder !== $this->machineByteOrder);
+        $this->invert = ($wkbByteOrder !== $this->machineByteOrder);
     }
 
     public function rewind(int $bytes) : void
