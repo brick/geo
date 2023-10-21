@@ -318,10 +318,7 @@ abstract class Geometry implements \Countable, \IteratorAggregate
     abstract public function toArray() : array;
 
     /**
-     * Returns a copy of this Geometry, with the SRID altered.
-     *
-     * Note that only the SRID value is changed, the coordinates are not reprojected.
-     * Use GeometryEngine::transform() to reproject the Geometry to another SRID.
+     * Returns a copy of this Geometry, with the X and Y coordinates swapped.
      *
      * @return static
      */
