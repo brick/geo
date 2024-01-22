@@ -219,9 +219,7 @@ class GeometryEngineTest extends AbstractTestCase
     {
         $geometryEngine = $this->getGeometryEngine();
 
-        if (! $this->isPostGIS()) {
-            $this->expectException(GeometryEngineException::class);
-        }
+        $this->requireEngine(['SpatiaLite', 'PostGIS']);
 
         $observer = Point::fromText($observerWkt);
         $subject = Point::fromText($subjectWkt);
@@ -1144,7 +1142,7 @@ class GeometryEngineTest extends AbstractTestCase
     {
         $geometryEngine = $this->getGeometryEngine();
 
-        if ($this->isGEOS() || $this->isMySQL() || $this->isMariaDB() || $this->isSpatiaLite()) {
+        if ($this->isGEOS() || $this->isMySQL() || $this->isMariaDB()) {
             $this->expectException(GeometryEngineException::class);
         }
 
