@@ -30,7 +30,7 @@ jobs:
 
   phpunit-mysql:
     name: PHPUnit MySQL
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
 
     strategy:
       matrix:
@@ -90,7 +90,7 @@ jobs:
 
   phpunit-mariadb:
     name: PHPUnit MariaDB
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
 
     strategy:
       matrix:
@@ -139,7 +139,7 @@ jobs:
 
   phpunit-postgres:
     name: PHPUnit PostgreSQL
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
 
     strategy:
       matrix:
@@ -181,7 +181,7 @@ jobs:
 
   phpunit-sqlite:
     name: PHPUnit SQLite
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
 
     strategy:
       matrix:
@@ -220,7 +220,7 @@ jobs:
 
   phpunit-geos:
     name: PHPUnit GEOS
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
 
     strategy:
       matrix:
