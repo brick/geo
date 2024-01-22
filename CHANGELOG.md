@@ -5,9 +5,14 @@
 💥 **Breaking changes**
 
 - **Minimum PHP version is now `8.1`**
+- interface `GeometryEngine` has a new method: `makeValid()`
 - `AbstractWKBWriter::setByteOrder()` now accepts a `WKBByteOrder` enum instead of a `WKBTools::*_ENDIAN` constant
 - constants `WKBTools::BIG_ENDIAN` and `WKBTools::LITTLE_ENDIAN` have been removed
 - method `WKBTools::checkByteOrder()` has been removed
+
+✨ **New features**
+
+- New engine method: `GeometryEngine::makeValid()`
 
 ## [0.9.0](https://github.com/brick/geo/releases/tag/0.9.0) - 2022-11-22
 

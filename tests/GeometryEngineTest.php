@@ -401,6 +401,52 @@ class GeometryEngineTest extends AbstractTestCase
             ['POLYGON ((0 0, 0 1, 1 0, 1 1, 0 0))', false],
         ];
     }
+
+    /**
+     * @dataProvider providerMakeValid
+     *
+     * @param string $geometryWKT The WKT of the geometry to test.
+     * @param string $validGeometryWKT The WKT of the expected geometry.
+     */
+    public function testMakeValid(string $geometryWKT, string $validGeometryWKT) : void
+    {
+        $geometryEngine = $this->getGeometryEngine();
+
+        $this->requireEngine(['SpatiaLite', 'PostGIS']);
+
+        $geometry = Geometry::fromText($geometryWKT);
+        $validGeometry = Geometry::fromText($validGeometryWKT);
+
+        $makeValidGeometry = $geometryEngine->makeValid($geometry);
+
+        // ensure that our tests are valid
+        self::assertTrue($geometryEngine->isValid($validGeometry));
+        self::assertSame($geometryWKT === $validGeometryWKT, $geometryEngine->isValid($geometry));
+
+        if ($geometryWKT === $validGeometryWKT) {
+            // valid geometries should be returned as is
+            self::assertSame($geometryWKT, $makeValidGeometry->asText());
+        } else {
+            $this->assertGeometryEquals($validGeometry, $makeValidGeometry);
+            self::assertTrue($geometryEngine->isValid($makeValidGeometry));
+        }
+    }
+
+    public function providerMakeValid() : array
+    {
+        return [
+            // valid geometries, returned as is
+            ['POINT (1 2)', 'POINT (1 2)'],
+            ['LINESTRING (1 2, 3 4)', 'LINESTRING (1 2, 3 4)'],
+            ['POLYGON ((0 0, 1 1, 1 0, 0 0))', 'POLYGON ((0 0, 1 1, 1 0, 0 0))'],
+            ['MULTIPOLYGON (((0 0, 1 1, 1 0, 0 0)), ((2 2, 3 3, 3 2, 2 2)))', 'MULTIPOLYGON (((0 0, 1 1, 1 0, 0 0)), ((2 2, 3 3, 3 2, 2 2)))'],
+
+            // invalid geometries
+            ['MULTIPOLYGON (((0 2, 10 12, 12 10, 2 0, 0 2)), ((0 6, 6 12, 12 6, 6 0, 0 6)))', 'MULTIPOLYGON (((2 0, 0 2, 2 4, 4 2, 2 0)), ((0 6, 6 12, 8 10, 2 4, 0 6)), ((12 6, 6 0, 4 2, 10 8, 12 6)), ((8 10, 10 12, 12 10, 10 8, 8 10)))'],
+            ['MULTIPOLYGON (((0 24, 4 32, 12 36, 20 32, 24 24, 20 16, 12 12, 4 16, 0 24)), ((12 24, 16 32, 24 36, 32 32, 36 24, 32 16, 24 12, 16 16, 12 24)), ((0 12, 4 20, 12 24, 20 20, 24 12, 20 4, 12 0, 4 4, 0 12)), ((12 12, 16 20, 24 24, 32 20, 36 12, 32 4, 24 0, 16 4, 12 12)))', 'MULTIPOLYGON(((0 24, 4 32, 12 36, 18 33, 16 32, 12 24, 4 20, 3 18, 0 24)), ((4 4, 0 12, 3 18, 4 16, 12 12, 16 4, 18 3, 12 0, 4 4)), ((15 18, 16 16, 18 15, 12 12, 15 18)), ((12 24, 18 21, 16 20, 15 18, 12 24)), ((20 4, 24 12, 32 16, 33 18, 36 12, 32 4, 24 0, 18 3, 20 4)), ((20 16, 21 18, 24 12, 18 15, 20 16)), ((20 20, 18 21, 24 24, 21 18, 20 20)), ((18 33, 24 36, 32 32, 36 24, 33 18, 32 20, 24 24, 20 32, 18 33)))'],
+        ];
+    }
+
     /**
      * @dataProvider providerIsClosed
      *

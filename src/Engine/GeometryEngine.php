@@ -189,6 +189,15 @@ interface GeometryEngine
     public function isRing(Curve $curve) : bool;
 
     /**
+     * Attempts to create a valid representation of a given invalid geometry without losing any of the input vertices.
+     *
+     * Valid geometries are returned unchanged.
+     *
+     * @throws GeometryEngineException If the operation is not supported by the engine.
+     */
+    public function makeValid(Geometry $g) : Geometry;
+
+    /**
      * Returns true if the given geometries are spatially equal.
      *
      * @param Geometry $a The first geometry.

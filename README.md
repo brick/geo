@@ -301,6 +301,7 @@ This table also shows which functions are part of the OpenGIS standard.
 | `length`         |  ✓   |    ✓    |   ✓    |   ✓    |     ✓      |        ✓         |
 | `locateAlong`    |      |    ✓    |        |        |     ✓      |                  |
 | `locateBetween`  |      |    ✓    |        |        |     ✓      |                  |
+| `makeValid`      |      |    ✓    |        |        |     ✓      |                  |
 | `maxDistance`    |      |    ✓    |        |        |     ✓      |                  |
 | `overlaps`       |  ✓   |    ✓    |   ✓    |   ✓    |     ✓      |        ✓         |
 | `pointOnSurface` |  ✓   |    ✓    |        |        |     ✓      |        ✓         |

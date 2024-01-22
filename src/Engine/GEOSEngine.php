@@ -201,6 +201,11 @@ class GEOSEngine implements GeometryEngine
         }
     }
 
+    public function makeValid(Geometry $g): Geometry
+    {
+        throw GeometryEngineException::unimplementedMethod(__METHOD__);
+    }
+
     public function equals(Geometry $a, Geometry $b) : bool
     {
         try {

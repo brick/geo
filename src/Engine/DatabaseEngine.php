@@ -339,6 +339,11 @@ abstract class DatabaseEngine implements GeometryEngine
         }
     }
 
+    public function makeValid(Geometry $g) : Geometry
+    {
+        return $this->queryGeometry('ST_MakeValid', $g);
+    }
+
     public function equals(Geometry $a, Geometry $b) : bool
     {
         return $this->queryBoolean('ST_Equals', $a, $b);
