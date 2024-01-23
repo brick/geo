@@ -10,6 +10,7 @@ use Brick\Geo\Curve;
 use Brick\Geo\Exception\EmptyGeometryException;
 use Brick\Geo\Exception\InvalidGeometryException;
 use Brick\Geo\Exception\NoSuchGeometryException;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * Unit tests for class CompoundCurve.
@@ -17,13 +18,12 @@ use Brick\Geo\Exception\NoSuchGeometryException;
 class CompoundCurveTest extends AbstractTestCase
 {
     /**
-     * @dataProvider providerCreate
-     *
      * @param string[] $curvesWKT        The WKT of the Curves that compose the CompoundCurve.
      * @param bool     $is3D             Whether the curves have Z coordinates.
      * @param bool     $isMeasured       Whether the curves have M coordinates.
      * @param string   $compoundCurveWKT The WKT of the expected CompoundCurve.
      */
+    #[DataProvider('providerCreate')]
     public function testCreate(array $curvesWKT, bool $is3D, bool $isMeasured, string $compoundCurveWKT) : void
     {
         foreach ([0, 1] as $srid) {
@@ -46,10 +46,9 @@ class CompoundCurveTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerCreateInvalidCompoundCurve
-     *
      * @param string $compoundCurve The WKT of an invalid CompoundCurve.
      */
+    #[DataProvider('providerCreateInvalidCompoundCurve')]
     public function testCreateInvalidCompoundCurve(string $compoundCurve) : void
     {
         $this->expectException(InvalidGeometryException::class);
@@ -65,9 +64,7 @@ class CompoundCurveTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @dataProvider providerStartPointEndPoint
-     */
+    #[DataProvider('providerStartPointEndPoint')]
     public function testStartPointEndPoint(string $compoundCurve, string $startPoint, string $endPoint) : void
     {
         foreach ([0, 1] as $srid) {
@@ -88,10 +85,9 @@ class CompoundCurveTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerEmptyCompoundCurve
-     *
      * @param string $compoundCurve The WKT of an empty CompoundCurve.
      */
+    #[DataProvider('providerEmptyCompoundCurve')]
     public function testStartPointOfEmptyCompoundCurve(string $compoundCurve) : void
     {
         $this->expectException(EmptyGeometryException::class);
@@ -99,10 +95,9 @@ class CompoundCurveTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerEmptyCompoundCurve
-     *
      * @param string $compoundCurve The WKT of an empty CompoundCurve.
      */
+    #[DataProvider('providerEmptyCompoundCurve')]
     public function testEndPointOfEmptyCompoundCurve(string $compoundCurve) : void
     {
         $this->expectException(EmptyGeometryException::class);
@@ -120,11 +115,10 @@ class CompoundCurveTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerNumCurves
-     *
      * @param string $compoundCurve The WKT of the CompoundCurve to test.
      * @param int    $numCurves     The expected number of curves.
      */
+    #[DataProvider('providerNumCurves')]
     public function testNumCurves(string $compoundCurve, int $numCurves) : void
     {
         self::assertSame($numCurves, CompoundCurve::fromText($compoundCurve)->numCurves());
@@ -145,13 +139,12 @@ class CompoundCurveTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerCurveN
-     *
      * @param string      $compoundCurve The WKT of the CompoundCurve to test.
      * @param int         $n             The curve number.
      * @param string|null $curveN        The WKT of the expected curve, or NULL if an exception is expected.
      * @param int         $srid          The SRID of the geometries.
      */
+    #[DataProvider('providerCurveN')]
     public function testCurveN(string $compoundCurve, int $n, ?string $curveN, int $srid) : void
     {
         if ($curveN === null) {

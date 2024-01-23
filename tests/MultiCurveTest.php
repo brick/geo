@@ -6,6 +6,7 @@ namespace Brick\Geo\Tests;
 
 use Brick\Geo\Exception\UnexpectedGeometryException;
 use Brick\Geo\MultiCurve;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * Unit tests for class MultiCurve.
@@ -13,10 +14,9 @@ use Brick\Geo\MultiCurve;
 class MultiCurveTest extends AbstractTestCase
 {
     /**
-     * @dataProvider providerInvalidFromText
-     *
      * @param string $wkt A valid WKT, for a non-multicurve geometry.
      */
+    #[DataProvider('providerInvalidFromText')]
     public function testInvalidFromText(string $wkt) : void
     {
         $this->expectException(UnexpectedGeometryException::class);
@@ -34,10 +34,9 @@ class MultiCurveTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerInvalidFromBinary
-     *
      * @param string $wkb A valid HEX WKB, for a non-multicurve geometry.
      */
+    #[DataProvider('providerInvalidFromBinary')]
     public function testInvalidFromBinary(string $wkb) : void
     {
         $this->expectException(UnexpectedGeometryException::class);

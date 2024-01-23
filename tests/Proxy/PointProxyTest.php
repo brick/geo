@@ -7,15 +7,14 @@ namespace Brick\Geo\Tests\Proxy;
 use Brick\Geo\Point;
 use Brick\Geo\Proxy\PointProxy;
 use Brick\Geo\Tests\AbstractTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * Unit tests for class PointProxy.
  */
 class PointProxyTest extends AbstractTestCase
 {
-    /**
-     * @dataProvider providerProxy
-     */
+    #[DataProvider('providerProxy')]
     public function testProxy(string $data, bool $isBinary, bool $is3D, bool $isMeasured, array $coords) : void
     {
         if ($isBinary) {

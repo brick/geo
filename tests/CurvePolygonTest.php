@@ -8,15 +8,14 @@ use Brick\Geo\CoordinateSystem;
 use Brick\Geo\CurvePolygon;
 use Brick\Geo\Exception\EmptyGeometryException;
 use Brick\Geo\Exception\NoSuchGeometryException;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * Unit tests for class CurvePolygon.
  */
 class CurvePolygonTest extends AbstractTestCase
 {
-    /**
-     * @dataProvider providerEmptyFactoryMethod
-     */
+    #[DataProvider('providerEmptyFactoryMethod')]
     public function testEmptyFactoryMethod(bool $is3D, bool $isMeasured, int $srid) : void
     {
         $cs = new CoordinateSystem($is3D, $isMeasured, $srid);
@@ -43,11 +42,10 @@ class CurvePolygonTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerExteriorRing
-     *
      * @param string $curvePolygon The WKT of the CurvePolygon to test.
      * @param string $exteriorRing The WKT of the expected exterior ring.
      */
+    #[DataProvider('providerExteriorRing')]
     public function testExteriorRing(string $curvePolygon, string $exteriorRing) : void
     {
         foreach ([0, 1] as $srid) {
@@ -67,10 +65,9 @@ class CurvePolygonTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerExteriorRingOfEmptyCurvePolygon
-     *
      * @param string $polygon The WKT of the CurvePolygon to test.
      */
+    #[DataProvider('providerExteriorRingOfEmptyCurvePolygon')]
     public function testExteriorRingOfEmptyCurvePolygon(string $polygon) : void
     {
         $this->expectException(EmptyGeometryException::class);
@@ -87,11 +84,10 @@ class CurvePolygonTest extends AbstractTestCase
         ];
     }
     /**
-     * @dataProvider providerNumInteriorRings
-     *
      * @param string $polygon          The WKT of the Polygon to test.
      * @param int    $numInteriorRings The expected number of interior rings.
      */
+    #[DataProvider('providerNumInteriorRings')]
     public function testNumInteriorRings(string $polygon, int $numInteriorRings) : void
     {
         $polygon = CurvePolygon::fromText($polygon);
@@ -114,13 +110,12 @@ class CurvePolygonTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerInteriorRingN
-     *
      * @param string      $curvePolygon  The WKT of the CurvePolygon to test.
      * @param int         $n             The ring number.
      * @param string|null $interiorRingN The WKT of the expected interior ring, or NULL if an exception is expected.
      * @param int         $srid          The SRID of the geometries.
      */
+    #[DataProvider('providerInteriorRingN')]
     public function testInteriorRingN(string $curvePolygon, int $n, ?string $interiorRingN, int $srid) : void
     {
         if ($interiorRingN === null) {

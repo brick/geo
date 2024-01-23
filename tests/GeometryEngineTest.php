@@ -21,6 +21,7 @@ use Brick\Geo\Point;
 use Brick\Geo\Polygon;
 use Brick\Geo\Surface;
 use LogicException;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * Tests for GeometryEngine implementations.
@@ -28,12 +29,11 @@ use LogicException;
 class GeometryEngineTest extends AbstractTestCase
 {
     /**
-     * @dataProvider providerUnion
-     *
      * @param string $geometry1 The WKT of the first geometry.
      * @param string $geometry2 The WKT of the second geometry.
      * @param string $result    The WKT of the result geometry.
      */
+    #[DataProvider('providerUnion')]
     public function testUnion(string $geometry1, string $geometry2, string $result) : void
     {
         $geometryEngine = $this->getGeometryEngine();
@@ -70,12 +70,11 @@ class GeometryEngineTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerDifference
-     *
      * @param string $geometry1 The WKT of the first geometry.
      * @param string $geometry2 The WKT of the second geometry.
      * @param string $result    The WKT of the result geometry.
      */
+    #[DataProvider('providerDifference')]
     public function testDifference(string $geometry1, string $geometry2, string $result) : void
     {
         $geometryEngine = $this->getGeometryEngine();
@@ -101,11 +100,10 @@ class GeometryEngineTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerEnvelope
-     *
      * @param string $geometry The WKT of the geometry to test.
      * @param string $envelope The WKT of the expected envelope.
      */
+    #[DataProvider('providerEnvelope')]
     public function testEnvelope(string $geometry, string $envelope) : void
     {
         $geometryEngine = $this->getGeometryEngine();
@@ -126,11 +124,10 @@ class GeometryEngineTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerLength
-     *
      * @param string $wkt    The WKT of the Curve or MultiCurve to test.
      * @param float  $length The expected length.
      */
+    #[DataProvider('providerLength')]
     public function testLength(string $wkt, float $length) : void
     {
         $geometryEngine = $this->getGeometryEngine();
@@ -170,11 +167,10 @@ class GeometryEngineTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerArea
-     *
      * @param string $wkt The WKT of the Surface to test.
      * @param float  $area    The expected area.
      */
+    #[DataProvider('providerArea')]
     public function testArea(string $wkt, float $area) : void
     {
         $geometryEngine = $this->getGeometryEngine();
@@ -209,12 +205,11 @@ class GeometryEngineTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerAzimuth
-     *
      * @param string     $observerWkt     The WKT of the point, representing the observer location.
      * @param string     $subjectWkt      The WKT of the point, representing the subject location.
      * @param float|null $azimuthExpected The expected azimuth, or null if an exception is expected.
      */
+    #[DataProvider('providerAzimuth')]
     public function testAzimuth(string $observerWkt, string $subjectWkt, ?float $azimuthExpected): void
     {
         $geometryEngine = $this->getGeometryEngine();
@@ -246,13 +241,12 @@ class GeometryEngineTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerCentroid
-     *
      * @param string        $wkt              The WKT of the geometry to calculate centroid for.
      * @param float         $centroidX        Expected `x` coordinate of the geometry centroid.
      * @param float         $centroidY        Expected `y` coordinate of the geometry centroid.
      * @param string[]|null $supportedEngines The engines that support this test, or null for all engines.
      */
+    #[DataProvider('providerCentroid')]
     public function testCentroid(string $wkt, float $centroidX, float $centroidY, ?array $supportedEngines) : void
     {
         $geometryEngine = $this->getGeometryEngine();
@@ -290,10 +284,9 @@ class GeometryEngineTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerPointOnSurface
-     *
      * @param string $wkt The WKT of the Surface or MultiSurface to test.
      */
+    #[DataProvider('providerPointOnSurface')]
     public function testPointOnSurface(string $wkt) : void
     {
         $geometryEngine = $this->getGeometryEngine();
@@ -329,11 +322,10 @@ class GeometryEngineTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerBoundary
-     *
      * @param string $geometry The WKT of the geometry to test.
      * @param string $boundary The WKT of the expected boundary.
      */
+    #[DataProvider('providerBoundary')]
     public function testBoundary(string $geometry, string $boundary) : void
     {
         $geometryEngine = $this->getGeometryEngine();
@@ -368,11 +360,10 @@ class GeometryEngineTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerIsValid
-     *
      * @param string $geometry The WKT of the geometry to test.
      * @param bool   $isValid  Whether the geometry is valid.
      */
+    #[DataProvider('providerIsValid')]
     public function testIsValid(string $geometry, bool $isValid) : void
     {
         $geometryEngine = $this->getGeometryEngine();
@@ -401,11 +392,10 @@ class GeometryEngineTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerMakeValid
-     *
      * @param string $geometryWKT The WKT of the geometry to test.
      * @param string $validGeometryWKT The WKT of the expected geometry.
      */
+    #[DataProvider('providerMakeValid')]
     public function testMakeValid(string $geometryWKT, string $validGeometryWKT) : void
     {
         $geometryEngine = $this->getGeometryEngine();
@@ -446,11 +436,10 @@ class GeometryEngineTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerIsClosed
-     *
      * @param string $wkt      The WKT of the Curve or MultiCurve to test.
      * @param bool   $isClosed Whether the Curve is closed.
      */
+    #[DataProvider('providerIsClosed')]
     public function testIsClosed(string $wkt, bool $isClosed) : void
     {
         $geometryEngine = $this->getGeometryEngine();
@@ -500,11 +489,10 @@ class GeometryEngineTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerIsSimple
-     *
      * @param string $geometry The WKT of the geometry to test.
      * @param bool   $isSimple Whether the geometry is simple.
      */
+    #[DataProvider('providerIsSimple')]
     public function testIsSimple(string $geometry, bool $isSimple) : void
     {
         $geometryEngine = $this->getGeometryEngine();
@@ -537,11 +525,10 @@ class GeometryEngineTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerIsRing
-     *
      * @param string $wkt    The WKT of the Curve to test.
      * @param bool   $isRing Whether the Curve is a ring.
      */
+    #[DataProvider('providerIsRing')]
     public function testIsRing(string $wkt, bool $isRing) : void
     {
         $geometryEngine = $this->getGeometryEngine();
@@ -595,12 +582,11 @@ class GeometryEngineTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerEquals
-     *
      * @param string $geometry1 The WKT of the first geometry.
      * @param string $geometry2 The WKT of the second geometry.
      * @param bool   $equals    Whether the geometries are spatially equal.
      */
+    #[DataProvider('providerEquals')]
     public function testEquals(string $geometry1, string $geometry2, bool $equals) : void
     {
         $geometryEngine = $this->getGeometryEngine();
@@ -634,12 +620,11 @@ class GeometryEngineTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerDisjoint
-     *
      * @param string $geometry1 The WKT of the first geometry.
      * @param string $geometry2 The WKT of the second geometry.
      * @param bool   $disjoint  Whether the geometries are spatially disjoint.
      */
+    #[DataProvider('providerDisjoint')]
     public function testDisjoint(string $geometry1, string $geometry2, bool $disjoint) : void
     {
         $geometryEngine = $this->getGeometryEngine();
@@ -665,12 +650,11 @@ class GeometryEngineTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerIntersects
-     *
      * @param string $geometry1  The WKT of the first geometry.
      * @param string $geometry2  The WKT of the second geometry.
      * @param bool   $intersects Whether the geometries spatially intersect.
      */
+    #[DataProvider('providerIntersects')]
     public function testIntersects(string $geometry1, string $geometry2, bool $intersects) : void
     {
         $geometryEngine = $this->getGeometryEngine();
@@ -696,12 +680,11 @@ class GeometryEngineTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerTouches
-     *
      * @param string $geometry1 The WKT of the first geometry.
      * @param string $geometry2 The WKT of the second geometry.
      * @param bool   $touches   Whether the geometries spatially touch.
      */
+    #[DataProvider('providerTouches')]
     public function testTouches(string $geometry1, string $geometry2, bool $touches) : void
     {
         $geometryEngine = $this->getGeometryEngine();
@@ -729,12 +712,11 @@ class GeometryEngineTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerCrosses
-     *
      * @param string $geometry1 The WKT of the first geometry.
      * @param string $geometry2 The WKT of the second geometry.
      * @param bool   $crosses   Whether the geometries spatially cross.
      */
+    #[DataProvider('providerCrosses')]
     public function testCrosses(string $geometry1, string $geometry2, bool $crosses) : void
     {
         $geometryEngine = $this->getGeometryEngine();
@@ -762,12 +744,11 @@ class GeometryEngineTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerWithin
-     *
      * @param string $geometry1 The WKT of the first geometry.
      * @param string $geometry2 The WKT of the second geometry.
      * @param bool   $within    Whether the first geometry is within the second one.
      */
+    #[DataProvider('providerWithin')]
     public function testWithin(string $geometry1, string $geometry2, bool $within) : void
     {
         $geometryEngine = $this->getGeometryEngine();
@@ -790,12 +771,11 @@ class GeometryEngineTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerContains
-     *
      * @param string $geometry1 The WKT of the first geometry.
      * @param string $geometry2 The WKT of the second geometry.
      * @param bool   $contains  Whether the first geometry contains the second one.
      */
+    #[DataProvider('providerContains')]
     public function testContains(string $geometry1, string $geometry2, bool $contains) : void
     {
         $geometryEngine = $this->getGeometryEngine();
@@ -818,12 +798,11 @@ class GeometryEngineTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerOverlaps
-     *
      * @param string $geometry1 The WKT of the first geometry.
      * @param string $geometry2 The WKT of the second geometry.
      * @param bool   $overlaps  Whether the first geometry overlaps the second one.
      */
+    #[DataProvider('providerOverlaps')]
     public function testOverlaps(string $geometry1, string $geometry2, bool $overlaps) : void
     {
         $geometryEngine = $this->getGeometryEngine();
@@ -843,13 +822,12 @@ class GeometryEngineTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerRelate
-     *
      * @param string $geometry1 The WKT of the first geometry.
      * @param string $geometry2 The WKT of the second geometry.
      * @param string $matrix    The intersection matrix pattern.
      * @param bool   $relate    Whether the first geometry is spatially related to the second one.
      */
+    #[DataProvider('providerRelate')]
     public function testRelate(string $geometry1, string $geometry2, string $matrix, bool $relate) : void
     {
         $geometryEngine = $this->getGeometryEngine();
@@ -875,12 +853,11 @@ class GeometryEngineTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerLocateAlong
-     *
      * @param string $geometry The WKT of the base geometry.
      * @param float  $measure  The test measure.
      * @param string $result   The WKT of the result geometry.
      */
+    #[DataProvider('providerLocateAlong')]
     public function testLocateAlong(string $geometry, float $measure, string $result) : void
     {
         $geometryEngine = $this->getGeometryEngine();
@@ -901,13 +878,12 @@ class GeometryEngineTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerLocateBetween
-     *
      * @param string $geometry The WKT of the geometry to test.
      * @param float  $mStart   The start measure.
      * @param float  $mEnd     The end measure.
      * @param string $result   The WKT of the second geometry.
      */
+    #[DataProvider('providerLocateBetween')]
     public function testLocateBetween(string $geometry, float $mStart, float $mEnd, string $result) : void
     {
         $geometryEngine = $this->getGeometryEngine();
@@ -928,12 +904,11 @@ class GeometryEngineTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerDistance
-     *
      * @param string $geometry1 The WKT of the first geometry.
      * @param string $geometry2 The WKT of the second geometry.
      * @param float  $distance  The distance between the geometries.
      */
+    #[DataProvider('providerDistance')]
     public function testDistance(string $geometry1, string $geometry2, float $distance) : void
     {
         $geometryEngine = $this->getGeometryEngine();
@@ -953,11 +928,10 @@ class GeometryEngineTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerBuffer
-     *
      * @param string $geometry The WKT of the base geometry.
      * @param float  $distance The distance of the buffer.
      */
+    #[DataProvider('providerBuffer')]
     public function testBuffer(string $geometry, float $distance) : void
     {
         $geometryEngine = $this->getGeometryEngine();
@@ -986,11 +960,10 @@ class GeometryEngineTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerConvexHull
-     *
      * @param string $geometry The WKT of the base geometry.
      * @param string $result   The WKT of the result geometry.
      */
+    #[DataProvider('providerConvexHull')]
     public function testConvexHull(string $geometry, string $result) : void
     {
         $geometryEngine = $this->getGeometryEngine();
@@ -1015,12 +988,11 @@ class GeometryEngineTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerIntersection
-     *
      * @param string $geometry1 The WKT of the first geometry.
      * @param string $geometry2 The WKT of the second geometry.
      * @param string $result    The WKT of the result geometry.
      */
+    #[DataProvider('providerIntersection')]
     public function testIntersection(string $geometry1, string $geometry2, string $result) : void
     {
         $geometryEngine = $this->getGeometryEngine();
@@ -1043,12 +1015,11 @@ class GeometryEngineTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerSymDifference
-     *
      * @param string $geometry1 The WKT of the first geometry.
      * @param string $geometry2 The WKT of the second geometry.
      * @param string $result    The WKT of the result geometry.
      */
+    #[DataProvider('providerSymDifference')]
     public function testSymDifference(string $geometry1, string $geometry2, string $result) : void
     {
         $geometryEngine = $this->getGeometryEngine();
@@ -1070,12 +1041,11 @@ class GeometryEngineTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerSnapToGrid
-     *
      * @param string $geometry The WKT of the geometry to test.
      * @param float  $size     The grid size.
      * @param string $result   The WKT of the result geometry.
      */
+    #[DataProvider('providerSnapToGrid')]
     public function testSnapToGrid(string $geometry, float $size, string $result) : void
     {
         $geometryEngine = $this->getGeometryEngine();
@@ -1103,12 +1073,11 @@ class GeometryEngineTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerSimplify
-     *
      * @param string $geometry  The WKT of the geometry to test.
      * @param float  $tolerance The tolerance.
      * @param string $result    The WKT of the result geometry.
      */
+    #[DataProvider('providerSimplify')]
     public function testSimplify(string$geometry, float $tolerance, string $result) : void
     {
         $geometryEngine = $this->getGeometryEngine();
@@ -1132,12 +1101,11 @@ class GeometryEngineTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerMaxDistance
-     *
      * @param string $geometry1   The WKT of the first geometry.
      * @param string $geometry2   The WKT of the second geometry.
      * @param float  $maxDistance The expected value.
      */
+    #[DataProvider('providerMaxDistance')]
     public function testMaxDistance(string $geometry1, string $geometry2, float $maxDistance) : void
     {
         $geometryEngine = $this->getGeometryEngine();
@@ -1161,9 +1129,7 @@ class GeometryEngineTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @dataProvider providerTransform
-     */
+    #[DataProvider('providerTransform')]
     public function testTransform(string $originalWKT, int $originalSRID, int $targetSRID, string $expectedWKT) : void
     {
         $geometryEngine = $this->getGeometryEngine();

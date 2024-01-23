@@ -8,6 +8,7 @@ use Brick\Geo\Exception\NoSuchGeometryException;
 use Brick\Geo\CoordinateSystem;
 use Brick\Geo\Polygon;
 use Brick\Geo\PolyhedralSurface;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * Unit tests for class PolyhedralSurface.
@@ -15,13 +16,12 @@ use Brick\Geo\PolyhedralSurface;
 class PolyhedralSurfaceTest extends AbstractTestCase
 {
     /**
-     * @dataProvider providerCreate
-     *
      * @param string[] $patchesWKT           The WKT of the patches (polygons) that compose the PolyhedralSurface.
      * @param bool     $is3D                 Whether the patches have Z coordinates.
      * @param bool     $isMeasured           Whether the patches have M coordinates.
      * @param string   $polyhedralSurfaceWKT The WKT of the expected PolyhedralSurface.
      */
+    #[DataProvider('providerCreate')]
     public function testCreate(array $patchesWKT, bool $is3D, bool $isMeasured, string $polyhedralSurfaceWKT) : void
     {
         foreach ([0, 1] as $srid) {
@@ -44,11 +44,10 @@ class PolyhedralSurfaceTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerNumPatches
-     *
      * @param string $polyhedralSurface The WKT of the PolyhedralSurface to test.
      * @param int    $numPatches        The expected number of patches.
      */
+    #[DataProvider('providerNumPatches')]
     public function testNumPatches(string $polyhedralSurface, int $numPatches) : void
     {
         self::assertSame($numPatches, PolyhedralSurface::fromText($polyhedralSurface)->numPatches());
@@ -69,13 +68,12 @@ class PolyhedralSurfaceTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerPatchN
-     *
      * @param string      $polyhedralSurface The WKT of the PolyhedralSurface to test.
      * @param int         $n                 The patch number.
      * @param string|null $patchN            The WKT of the expected patch, or NULL if an exception is expected.
      * @param int         $srid              The SRID of the geometries.
      */
+    #[DataProvider('providerPatchN')]
     public function testPatchN(string $polyhedralSurface, int $n, ?string $patchN, int $srid) : void
     {
         if ($patchN === null) {
