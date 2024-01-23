@@ -1,6 +1,6 @@
 # Changelog
 
-## UNRELEASED (0.10.0)
+## [0.10.0](https://github.com/brick/geo/releases/tag/0.10.0) - 2024-01-23
 
 💥 **Breaking changes**
 
