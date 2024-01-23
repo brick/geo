@@ -31,7 +31,7 @@ class PointTest extends AbstractTestCase
         new Point(new CoordinateSystem($hasZ, $hasM), ...$coords);
     }
 
-    public function providerConstructorWithInvalidCoordinates() : Generator
+    public static function providerConstructorWithInvalidCoordinates() : Generator
     {
         yield [false, false, [1], 'Expected 2 coordinates for Point XY, got 1.'];
         yield [false, false, [1, 2, 3], 'Expected 2 coordinates for Point XY, got 3.'];
@@ -192,7 +192,7 @@ class PointTest extends AbstractTestCase
         self::assertSame(count($coordinates), count($point));
     }
 
-    public function providerToArrayAndInterfaces() : array
+    public static function providerToArrayAndInterfaces() : array
     {
         return [
             ['POINT EMPTY', []],

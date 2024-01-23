@@ -7,9 +7,9 @@ namespace Brick\Geo\Tests\IO;
 /**
  * Base class for EWKB reader/writer tests.
  */
-abstract class EWKBAbstractTest extends WKBAbstractTest
+abstract class EWKBAbstractTestCase extends WKBAbstractTestCase
 {
-    public function providerBigEndianEWKB() : array
+    public static function providerBigEndianEWKB() : array
     {
         return [
             // Point
@@ -176,7 +176,7 @@ abstract class EWKBAbstractTest extends WKBAbstractTest
         ];
     }
 
-    public function providerBigEndianEWKB_SRID() : array
+    public static function providerBigEndianEWKB_SRID() : array
     {
         return [
             // Point
@@ -343,7 +343,7 @@ abstract class EWKBAbstractTest extends WKBAbstractTest
         ];
     }
 
-    public function providerLittleEndianEWKB() : array
+    public static function providerLittleEndianEWKB() : array
     {
         return [
             // Point
@@ -510,7 +510,7 @@ abstract class EWKBAbstractTest extends WKBAbstractTest
         ];
     }
 
-    public function providerLittleEndianEWKB_SRID() : array
+    public static function providerLittleEndianEWKB_SRID() : array
     {
         return [
             // Point

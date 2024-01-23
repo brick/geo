@@ -9,7 +9,7 @@ use Brick\Geo\IO\WKBReader;
 /**
  * Unit tests for class WKBReader.
  */
-class WKBReaderTest extends WKBAbstractTest
+class WKBReaderTest extends WKBAbstractTestCase
 {
     /**
      * @dataProvider providerRead
@@ -26,18 +26,14 @@ class WKBReaderTest extends WKBAbstractTest
         self::assertSame(4326, $geometry->SRID());
     }
 
-    public function providerRead() : \Generator
+    public static function providerRead() : \Generator
     {
-        foreach ($this->providerLittleEndianWKB() as [$wkt, $wkb]) {
+        foreach (self::providerLittleEndianWKB() as [$wkt, $wkb]) {
             yield [$wkb, $wkt];
         }
 
-        foreach ($this->providerBigEndianWKB() as [$wkt, $wkb]) {
+        foreach (self::providerBigEndianWKB() as [$wkt, $wkb]) {
             yield [$wkb, $wkt];
         }
     }
 }
-
-    /**
-     * @return \Generator
-     */

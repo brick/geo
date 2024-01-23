@@ -10,7 +10,7 @@ use Brick\Geo\IO\GeoJSON\FeatureCollection;
 use Brick\Geo\IO\GeoJSONReader;
 use stdClass;
 
-class GeoJSONReaderTest extends GeoJSONAbstractTest
+class GeoJSONReaderTest extends GeoJSONAbstractTestCase
 {
     /**
      * @dataProvider providerReadGeometry
@@ -26,11 +26,11 @@ class GeoJSONReaderTest extends GeoJSONAbstractTest
         $this->assertGeometryContents($geometry, $coords, $is3D, false, 4326);
     }
 
-    public function providerReadGeometry() : \Generator
+    public static function providerReadGeometry() : \Generator
     {
-        foreach ($this->providerGeometryGeoJSON() as [$geojson, $coords, $is3D]) {
+        foreach (self::providerGeometryGeoJSON() as [$geojson, $coords, $is3D]) {
             yield [$geojson, $coords, $is3D, false];
-            yield [$this->alterCase($geojson), $coords, $is3D, true];
+            yield [self::alterCase($geojson), $coords, $is3D, true];
         }
     }
 
@@ -59,11 +59,11 @@ class GeoJSONReaderTest extends GeoJSONAbstractTest
         }
     }
 
-    public function providerReadFeature() : \Generator
+    public static function providerReadFeature() : \Generator
     {
-        foreach ($this->providerFeatureGeoJSON() as [$geojson, $properties, $coords, $is3D]) {
+        foreach (self::providerFeatureGeoJSON() as [$geojson, $properties, $coords, $is3D]) {
             yield [$geojson, $properties, $coords, $is3D, false];
-            yield [$this->alterCase($geojson), $properties, $coords, $is3D, true];
+            yield [self::alterCase($geojson), $properties, $coords, $is3D, true];
         }
     }
 
@@ -88,11 +88,11 @@ class GeoJSONReaderTest extends GeoJSONAbstractTest
         }
     }
 
-    public function providerReadFeatureCollection() : \Generator
+    public static function providerReadFeatureCollection() : \Generator
     {
-        foreach ($this->providerFeatureCollectionGeoJSON() as [$geojson, $properties, $coords, $is3D]) {
+        foreach (self::providerFeatureCollectionGeoJSON() as [$geojson, $properties, $coords, $is3D]) {
             yield [$geojson, $properties, $coords, $is3D, false];
-            yield [$this->alterCase($geojson), $properties, $coords, $is3D, true];
+            yield [self::alterCase($geojson), $properties, $coords, $is3D, true];
         }
     }
 
@@ -109,25 +109,25 @@ class GeoJSONReaderTest extends GeoJSONAbstractTest
         $reader->read($geojson);
     }
 
-    public function providerNonLenientReadWrongCaseType() : \Generator
+    public static function providerNonLenientReadWrongCaseType() : \Generator
     {
-        foreach ($this->providerGeometryPointGeoJSON() as [$geojson]) {
-            yield [$this->alterCase($geojson), 'Unsupported GeoJSON type: POINT.'];
+        foreach (self::providerGeometryPointGeoJSON() as [$geojson]) {
+            yield [self::alterCase($geojson), 'Unsupported GeoJSON type: POINT.'];
         }
 
-        foreach ($this->providerFeaturePointGeoJSON() as [$geojson]) {
-            yield [$this->alterCase($geojson), 'Unsupported GeoJSON type: FEATURE.'];
+        foreach (self::providerFeaturePointGeoJSON() as [$geojson]) {
+            yield [self::alterCase($geojson), 'Unsupported GeoJSON type: FEATURE.'];
         }
 
-        foreach ($this->providerFeatureCollectionGeoJSON() as [$geojson]) {
-            yield [$this->alterCase($geojson), 'Unsupported GeoJSON type: FEATURECOLLECTION.'];
+        foreach (self::providerFeatureCollectionGeoJSON() as [$geojson]) {
+            yield [self::alterCase($geojson), 'Unsupported GeoJSON type: FEATURECOLLECTION.'];
         }
     }
 
     /**
      * Changes the case of type attributes.
      */
-    private function alterCase(string $geojson) : string
+    private static function alterCase(string $geojson) : string
     {
         $callback = fn(array $matches): string => $matches[1] . strtoupper($matches[2]);
 

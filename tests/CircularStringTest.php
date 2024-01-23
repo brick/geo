@@ -35,7 +35,7 @@ class CircularStringTest extends AbstractTestCase
         }
     }
 
-    public function providerCreate() : array
+    public static function providerCreate() : array
     {
         return [
             [['POINT (1 1)', 'POINT (2 2)', 'POINT (3 3)'], false, false, 'CIRCULARSTRING (1 1, 2 2, 3 3)'],
@@ -56,7 +56,7 @@ class CircularStringTest extends AbstractTestCase
         CircularString::fromText($circularString);
     }
 
-    public function providerCreateInvalidCircularString() : array
+    public static function providerCreateInvalidCircularString() : array
     {
         return [
             ['CIRCULARSTRING (1 1)'],
@@ -78,7 +78,7 @@ class CircularStringTest extends AbstractTestCase
         }
     }
 
-    public function providerStartPointEndPoint() : array
+    public static function providerStartPointEndPoint() : array
     {
         return [
             ['CIRCULARSTRING (1 2, 3 4, 5 6, 7 8, 9 0)', 'POINT (1 2)', 'POINT (9 0)'],
@@ -110,7 +110,7 @@ class CircularStringTest extends AbstractTestCase
         CircularString::fromText($circularString)->endPoint();
     }
 
-    public function providerEmptyCircularString() : array
+    public static function providerEmptyCircularString() : array
     {
         return [
             ['CIRCULARSTRING EMPTY'],
@@ -129,7 +129,7 @@ class CircularStringTest extends AbstractTestCase
         self::assertSame($numPoints, $circularString->numPoints());
     }
 
-    public function providerNumPoints() : array
+    public static function providerNumPoints() : array
     {
         return [
             ['CIRCULARSTRING EMPTY', 0],
@@ -154,7 +154,7 @@ class CircularStringTest extends AbstractTestCase
         }
     }
 
-    public function providerPointN() : array
+    public static function providerPointN() : array
     {
         return [
             ['CIRCULARSTRING (1 2, 3 4, 5 6)', 1, 'POINT (1 2)'],
@@ -181,7 +181,7 @@ class CircularStringTest extends AbstractTestCase
         CircularString::fromText($lineString)->pointN($n);
     }
 
-    public function providerInvalidPointNThrowsException() : array
+    public static function providerInvalidPointNThrowsException() : array
     {
         return [
             ['CIRCULARSTRING (1 2, 3 4, 5 2)', 0],

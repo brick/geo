@@ -59,7 +59,7 @@ class GeometryEngineTest extends AbstractTestCase
         self::assertTrue($geometryEngine->equals($union, $result));
     }
 
-    public function providerUnion() : array
+    public static function providerUnion() : array
     {
         return [
             ['POINT EMPTY', 'POINT (1 2)', 'POINT (1 2)'],
@@ -92,7 +92,7 @@ class GeometryEngineTest extends AbstractTestCase
         $this->assertGeometryEquals($result, $difference);
     }
 
-    public function providerDifference() : array
+    public static function providerDifference() : array
     {
         return [
             ['MULTIPOINT (1 2, 3 4, 5 6)', 'MULTIPOINT (3 4)', 'MULTIPOINT (1 2, 5 6)'],
@@ -116,7 +116,7 @@ class GeometryEngineTest extends AbstractTestCase
         $this->assertGeometryEquals($envelope, $geometryEngine->envelope($geometry));
     }
 
-    public function providerEnvelope() : array
+    public static function providerEnvelope() : array
     {
         return [
             ['LINESTRING (0 0, 1 3)', 'POLYGON ((0 0, 0 3, 1 3, 1 0, 0 0))'],
@@ -144,7 +144,7 @@ class GeometryEngineTest extends AbstractTestCase
         self::assertEqualsWithDelta($length, $actualLength, 0.002);
     }
 
-    public function providerLength() : array
+    public static function providerLength() : array
     {
         return [
             ['LINESTRING EMPTY', 0],
@@ -189,7 +189,7 @@ class GeometryEngineTest extends AbstractTestCase
         self::assertEqualsWithDelta($area, $actualArea, 0.001);
     }
 
-    public function providerArea() : array
+    public static function providerArea() : array
     {
         return [
             ['POLYGON ((1 1, 1 9, 9 1, 1 1))', 32],
@@ -233,7 +233,7 @@ class GeometryEngineTest extends AbstractTestCase
         self::assertEqualsWithDelta($azimuthExpected, $azimuthActual, 0.001);
     }
 
-    public function providerAzimuth(): array
+    public static function providerAzimuth(): array
     {
         return [
             ['POINT (0 0)', 'POINT (0 0)', null],
@@ -272,7 +272,7 @@ class GeometryEngineTest extends AbstractTestCase
     /**
      * Note: centroid() on CurvePolygon is not currently supported by any geometry engine.
      */
-    public function providerCentroid() : array
+    public static function providerCentroid() : array
     {
         return [
             ['POINT (42 42)', 42.0, 42.0, ['MySQL', 'SpatiaLite', 'PostGIS', 'GEOS']],
@@ -312,7 +312,7 @@ class GeometryEngineTest extends AbstractTestCase
         self::assertTrue($geometryEngine->contains($geometry, $pointOnSurface));
     }
 
-    public function providerPointOnSurface() : array
+    public static function providerPointOnSurface() : array
     {
         return [
             ['POLYGON ((1 1, 1 3, 4 3, 4 6, 6 6, 6 1, 1 1))'],
@@ -355,7 +355,7 @@ class GeometryEngineTest extends AbstractTestCase
         self::assertSame($boundary, $geometryEngine->boundary($geometry)->asText());
     }
 
-    public function providerBoundary() : array
+    public static function providerBoundary() : array
     {
         return [
             ['POINT (1 2)', 'GEOMETRYCOLLECTION EMPTY'],
@@ -388,7 +388,7 @@ class GeometryEngineTest extends AbstractTestCase
         self::assertSame($isValid, $geometryEngine->isValid($geometry));
     }
 
-    public function providerIsValid() : array
+    public static function providerIsValid() : array
     {
         return [
             ['POINT (1 2)', true],
@@ -430,7 +430,7 @@ class GeometryEngineTest extends AbstractTestCase
         }
     }
 
-    public function providerMakeValid() : array
+    public static function providerMakeValid() : array
     {
         return [
             // valid geometries, returned as is
@@ -466,7 +466,7 @@ class GeometryEngineTest extends AbstractTestCase
         self::assertSame($isClosed, $geometryEngine->isClosed($geometry));
     }
 
-    public function providerIsClosed() : array
+    public static function providerIsClosed() : array
     {
         return [
             ['LINESTRING (1 1, 2 2)', false],
@@ -514,7 +514,7 @@ class GeometryEngineTest extends AbstractTestCase
         self::assertSame($isSimple, $geometryEngine->isSimple($geometry));
     }
 
-    public function providerIsSimple() : array
+    public static function providerIsSimple() : array
     {
         return [
             ['POINT (1 2)', true],
@@ -557,7 +557,7 @@ class GeometryEngineTest extends AbstractTestCase
         self::assertSame($isRing, $geometryEngine->isRing($curve));
     }
 
-    public function providerIsRing() : array
+    public static function providerIsRing() : array
     {
         return [
             ['LINESTRING (1 1, 2 2)', false],
@@ -614,7 +614,7 @@ class GeometryEngineTest extends AbstractTestCase
         self::assertSame($equals, $geometryEngine->equals($geometry1, $geometry2));
     }
 
-    public function providerEquals() : array
+    public static function providerEquals() : array
     {
         return [
             ['POINT (1 2)', 'POINT (1 2)', true],
@@ -652,7 +652,7 @@ class GeometryEngineTest extends AbstractTestCase
         self::assertSame($disjoint, $geometryEngine->disjoint($geometry1, $geometry2));
     }
 
-    public function providerDisjoint() : array
+    public static function providerDisjoint() : array
     {
         return [
             ['LINESTRING (2 1, 2 2)', 'LINESTRING (2 0, 0 2)', true],
@@ -683,7 +683,7 @@ class GeometryEngineTest extends AbstractTestCase
         self::assertSame($intersects, $geometryEngine->intersects($geometry1, $geometry2));
     }
 
-    public function providerIntersects() : array
+    public static function providerIntersects() : array
     {
         return [
             ['LINESTRING (2 1, 2 2)', 'LINESTRING (2 0, 0 2)', false],
@@ -714,7 +714,7 @@ class GeometryEngineTest extends AbstractTestCase
         self::assertSame($touches, $geometryEngine->touches($geometry1, $geometry2));
     }
 
-    public function providerTouches() : array
+    public static function providerTouches() : array
     {
         return [
             ['LINESTRING (1 1, 1 3)', 'LINESTRING (1 1, 3 1)', true],
@@ -747,7 +747,7 @@ class GeometryEngineTest extends AbstractTestCase
         self::assertSame($crosses, $geometryEngine->crosses($geometry1, $geometry2));
     }
 
-    public function providerCrosses() : array
+    public static function providerCrosses() : array
     {
         return [
             ['MULTIPOINT (1 3, 2 2, 3 2)', 'LINESTRING (0 3, 1 1, 2 2, 2 0)', true],
@@ -778,7 +778,7 @@ class GeometryEngineTest extends AbstractTestCase
         self::assertSame($within, $geometryEngine->within($geometry1, $geometry2));
     }
 
-    public function providerWithin() : array
+    public static function providerWithin() : array
     {
         return [
             ['POLYGON ((2 2, 4 3, 4 2, 2 2))', 'POLYGON ((1 1, 1 3, 4 4, 6 3, 5 1, 1 1))', true],
@@ -806,7 +806,7 @@ class GeometryEngineTest extends AbstractTestCase
         self::assertSame($contains, $geometryEngine->contains($geometry1, $geometry2));
     }
 
-    public function providerContains() : array
+    public static function providerContains() : array
     {
         return [
             ['POLYGON ((1 1, 1 3, 4 4, 6 3, 5 1, 1 1))', 'POLYGON ((2 2, 4 3, 4 2, 2 2))', true],
@@ -834,7 +834,7 @@ class GeometryEngineTest extends AbstractTestCase
         self::assertSame($overlaps, $geometryEngine->overlaps($geometry1, $geometry2));
     }
 
-    public function providerOverlaps() : array
+    public static function providerOverlaps() : array
     {
         return [
             ['POLYGON ((1 2, 2 4, 3 3, 2 1, 1 2))', 'POLYGON ((2 2, 2 3, 4 2, 3 1, 2 2))', true],
@@ -864,7 +864,7 @@ class GeometryEngineTest extends AbstractTestCase
         self::assertSame($relate, $geometryEngine->relate($geometry1, $geometry2, $matrix));
     }
 
-    public function providerRelate() : array
+    public static function providerRelate() : array
     {
         return [
             ['POLYGON ((60 160, 220 160, 220 20, 60 20, 60 160))', 'POLYGON ((60 160, 20 200, 260 200, 140 80, 60 160))', '212101212', true],
@@ -892,7 +892,7 @@ class GeometryEngineTest extends AbstractTestCase
         self::assertSame($result, $geometryEngine->locateAlong(Geometry::fromText($geometry), $measure)->asText());
     }
 
-    public function providerLocateAlong() : array
+    public static function providerLocateAlong() : array
     {
         return [
             ['MULTILINESTRING M((1 2 3, 3 4 2, 9 4 3), (1 2 3, 5 4 5))', 3.0, 'MULTIPOINT M (1 2 3, 9 4 3, 1 2 3)'],
@@ -919,7 +919,7 @@ class GeometryEngineTest extends AbstractTestCase
         self::assertSame($result, $geometryEngine->locateBetween(Geometry::fromText($geometry), $mStart, $mEnd)->asText());
     }
 
-    public function providerLocateBetween() : array
+    public static function providerLocateBetween() : array
     {
         return [
             ['MULTIPOINT M(1 2 2)', 2.0, 5.0, 'MULTIPOINT M (1 2 2)'],
@@ -944,7 +944,7 @@ class GeometryEngineTest extends AbstractTestCase
         self::assertEqualsWithDelta($distance, $geometryEngine->distance($geometry1, $geometry2), 1e-14);
     }
 
-    public function providerDistance() : array
+    public static function providerDistance() : array
     {
         return [
             ['POINT(2 1)', 'LINESTRING (3 0, 3 3)', 1.0],
@@ -976,7 +976,7 @@ class GeometryEngineTest extends AbstractTestCase
         }
     }
 
-    public function providerBuffer() : array
+    public static function providerBuffer() : array
     {
         return [
             ['POINT (1 2)', 3.0],
@@ -1005,7 +1005,7 @@ class GeometryEngineTest extends AbstractTestCase
         $this->assertGeometryEquals($result, $geometryEngine->convexHull($geometry));
     }
 
-    public function providerConvexHull() : array
+    public static function providerConvexHull() : array
     {
         return [
             ['LINESTRING (20 20, 30 30, 20 40, 30 50)', 'POLYGON ((20 20, 20 40, 30 50, 30 30, 20 20))'],
@@ -1034,7 +1034,7 @@ class GeometryEngineTest extends AbstractTestCase
         $this->assertGeometryEquals($result, $geometryEngine->intersection($geometry1, $geometry2));
     }
 
-    public function providerIntersection() : array
+    public static function providerIntersection() : array
     {
         return [
             ['POINT (0 0)', 'LINESTRING (0 0, 0 2)', 'POINT (0 0)'],
@@ -1062,7 +1062,7 @@ class GeometryEngineTest extends AbstractTestCase
         $this->assertGeometryEquals($result, $difference);
     }
 
-    public function providerSymDifference() : array
+    public static function providerSymDifference() : array
     {
         return [
             ['POLYGON ((1 1, 1 2, 2 2, 2 4, 4 4, 4 1, 1 1))', 'POLYGON ((3 0, 3 3, 5 3, 5 0, 3 0))', 'MULTIPOLYGON (((1 1, 1 2, 2 2, 2 4, 4 4, 4 3, 3 3, 3 1, 1 1)), ((3 1, 4 1, 4 3, 5 3, 5 0, 3 0, 3 1)))'],
@@ -1092,7 +1092,7 @@ class GeometryEngineTest extends AbstractTestCase
         $this->assertGeometryEquals($result, $snapToGrid);
     }
 
-    public function providerSnapToGrid() : array
+    public static function providerSnapToGrid() : array
     {
         return [
             ['POINT (1.23 4.56)', 1.0, 'POINT (1 5)'],
@@ -1123,7 +1123,7 @@ class GeometryEngineTest extends AbstractTestCase
         $this->assertGeometryEquals($result, $geometryEngine->simplify($geometry, $tolerance));
     }
 
-    public function providerSimplify() : array
+    public static function providerSimplify() : array
     {
         return [
             ['POLYGON ((4 0, 2 1, 1 2, 0 4, 0 6, 1 8, 2 9, 4 10, 6 10, 8 9, 9 8, 10 6, 10 4, 9 2, 8 1, 6 0, 4 0))', 1, 'POLYGON ((4 0, 1 2, 0 6, 2 9, 6 10, 9 8, 10 4, 8 1, 4 0))'],
@@ -1152,7 +1152,7 @@ class GeometryEngineTest extends AbstractTestCase
         self::assertSame($maxDistance, $geometryEngine->maxDistance($geometry1, $geometry2));
     }
 
-    public function providerMaxDistance() : array
+    public static function providerMaxDistance() : array
     {
         return [
             ['POINT (0 0)', 'LINESTRING (2 0, 0 2)', 2.0],
@@ -1182,7 +1182,7 @@ class GeometryEngineTest extends AbstractTestCase
         $this->assertGeometryEqualsWithDelta($expectedGeometry, $transformedGeometry, 0.0000001);
     }
 
-    public function providerTransform() : array
+    public static function providerTransform() : array
     {
         return [
             ['POINT (743238 2967416)', 2249, 4326, 'POINT (-71.1776848522251 42.3902896512902)'],

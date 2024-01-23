@@ -11,7 +11,7 @@ use Brick\Geo\IO\EWKTWriter;
 /**
  * Unit tests for class EWKTWriter.
  */
-class EWKTWriterTest extends EWKTAbstractTest
+class EWKTWriterTest extends EWKTAbstractTestCase
 {
     /**
      * @dataProvider providerPrettyPrint
@@ -29,7 +29,7 @@ class EWKTWriterTest extends EWKTAbstractTest
         self::assertSame($ewkt, $writer->write($lineString));
     }
 
-    public function providerPrettyPrint() : array
+    public static function providerPrettyPrint() : array
     {
         return [
             [false, 'SRID=4326;LINESTRING ZM(1 2 3 4,5 6 7 8)'],

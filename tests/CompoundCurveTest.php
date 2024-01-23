@@ -35,7 +35,7 @@ class CompoundCurveTest extends AbstractTestCase
         }
     }
 
-    public function providerCreate() : array
+    public static function providerCreate() : array
     {
         return [
             [['LINESTRING (1 1, 2 2)', 'CIRCULARSTRING (2 2, 3 3, 5 5)'], false, false, 'COMPOUNDCURVE ((1 1, 2 2), CIRCULARSTRING (2 2, 3 3, 5 5))'],
@@ -56,7 +56,7 @@ class CompoundCurveTest extends AbstractTestCase
         CompoundCurve::fromText($compoundCurve);
     }
 
-    public function providerCreateInvalidCompoundCurve() : array
+    public static function providerCreateInvalidCompoundCurve() : array
     {
         return [
             ['COMPOUNDCURVE ((1 1))'], // contains an invalid LineString
@@ -77,7 +77,7 @@ class CompoundCurveTest extends AbstractTestCase
         }
     }
 
-    public function providerStartPointEndPoint() : array
+    public static function providerStartPointEndPoint() : array
     {
         return [
             ['COMPOUNDCURVE ((1 1, 2 2), CIRCULARSTRING (2 2, 3 3, 5 5))', 'POINT (1 1)', 'POINT (5 5)'],
@@ -109,7 +109,7 @@ class CompoundCurveTest extends AbstractTestCase
         CompoundCurve::fromText($compoundCurve)->endPoint();
     }
 
-    public function providerEmptyCompoundCurve() : array
+    public static function providerEmptyCompoundCurve() : array
     {
         return [
             ['COMPOUNDCURVE EMPTY'],
@@ -130,7 +130,7 @@ class CompoundCurveTest extends AbstractTestCase
         self::assertSame($numCurves, CompoundCurve::fromText($compoundCurve)->numCurves());
     }
 
-    public function providerNumCurves() : array
+    public static function providerNumCurves() : array
     {
         return [
             ['COMPOUNDCURVE EMPTY', 0],
@@ -162,7 +162,7 @@ class CompoundCurveTest extends AbstractTestCase
         $this->assertWktEquals($curve, $curveN, $srid);
     }
 
-    public function providerCurveN() : \Generator
+    public static function providerCurveN() : \Generator
     {
         $tests = [
             ['COMPOUNDCURVE EMPTY', [

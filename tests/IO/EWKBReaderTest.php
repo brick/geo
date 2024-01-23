@@ -10,7 +10,7 @@ use Brick\Geo\IO\EWKTWriter;
 /**
  * Unit tests for class EWKBReader.
  */
-class EWKBReaderTest extends EWKBAbstractTest
+class EWKBReaderTest extends EWKBAbstractTestCase
 {
     /**
      * @dataProvider providerRead
@@ -27,31 +27,31 @@ class EWKBReaderTest extends EWKBAbstractTest
         self::assertSame($ewkt, $writer->write($geometry));
     }
 
-    public function providerRead() : \Generator
+    public static function providerRead() : \Generator
     {
-        foreach ($this->providerBigEndianEWKB() as [$ewkt, $ewkb]) {
+        foreach (self::providerBigEndianEWKB() as [$ewkt, $ewkb]) {
             yield [$ewkb, $ewkt];
         }
 
-        foreach ($this->providerBigEndianEWKB_SRID() as [$ewkt, $ewkb]) {
+        foreach (self::providerBigEndianEWKB_SRID() as [$ewkt, $ewkb]) {
             yield [$ewkb, $ewkt];
         }
 
-        foreach ($this->providerLittleEndianEWKB() as [$ewkt, $ewkb]) {
+        foreach (self::providerLittleEndianEWKB() as [$ewkt, $ewkb]) {
             yield [$ewkb, $ewkt];
         }
 
-        foreach ($this->providerLittleEndianEWKB_SRID() as [$ewkt, $ewkb]) {
+        foreach (self::providerLittleEndianEWKB_SRID() as [$ewkt, $ewkb]) {
             yield [$ewkb, $ewkt];
         }
 
         /* WKB being valid EWKB, we test the reader against WKB as well */
 
-        foreach ($this->providerBigEndianWKB() as [$wkt, $wkb]) {
+        foreach (self::providerBigEndianWKB() as [$wkt, $wkb]) {
             yield [$wkb, $wkt];
         }
 
-        foreach ($this->providerLittleEndianWKB() as [$wkt, $wkb]) {
+        foreach (self::providerLittleEndianWKB() as [$wkt, $wkb]) {
             yield [$wkb, $wkt];
         }
     }

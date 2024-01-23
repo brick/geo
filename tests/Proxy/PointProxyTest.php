@@ -66,7 +66,7 @@ class PointProxyTest extends AbstractTestCase
         }
     }
 
-    public function providerProxy() : array
+    public static function providerProxy() : array
     {
         return [
             ['POINT EMPTY', false, false, false, []],

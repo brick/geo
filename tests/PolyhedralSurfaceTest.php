@@ -33,7 +33,7 @@ class PolyhedralSurfaceTest extends AbstractTestCase
         }
     }
 
-    public function providerCreate() : array
+    public static function providerCreate() : array
     {
         return [
             [['POLYGON ((0 0, 0 1, 1 1, 1 0, 0 0))', 'POLYGON ((1 0, 1 1, 2 1, 2 0, 1 0))'], false, false, 'POLYHEDRALSURFACE (((0 0, 0 1, 1 1, 1 0, 0 0)), ((1 0, 1 1, 2 1, 2 0, 1 0)))'],
@@ -54,7 +54,7 @@ class PolyhedralSurfaceTest extends AbstractTestCase
         self::assertSame($numPatches, PolyhedralSurface::fromText($polyhedralSurface)->numPatches());
     }
 
-    public function providerNumPatches() : array
+    public static function providerNumPatches() : array
     {
         return [
             ['POLYHEDRALSURFACE EMPTY', 0],
@@ -86,7 +86,7 @@ class PolyhedralSurfaceTest extends AbstractTestCase
         $this->assertWktEquals($patch, $patchN, $srid);
     }
 
-    public function providerPatchN() : \Generator
+    public static function providerPatchN() : \Generator
     {
         $tests = [
             ['POLYHEDRALSURFACE EMPTY', [

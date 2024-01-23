@@ -9,7 +9,7 @@ use Brick\Geo\IO\GeoJSONWriter;
 use Brick\Geo\Point;
 use Brick\Geo\Polygon;
 
-class GeoJSONWriterTest extends GeoJSONAbstractTest
+class GeoJSONWriterTest extends GeoJSONAbstractTestCase
 {
     /**
      * @dataProvider providerGeometryGeoJSON

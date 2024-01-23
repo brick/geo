@@ -23,7 +23,7 @@ class MultiSurfaceTest extends AbstractTestCase
         MultiSurface::fromText($wkt);
     }
 
-    public function providerInvalidFromText() : array
+    public static function providerInvalidFromText() : array
     {
         return [
             ['POINT EMPTY'],
@@ -44,7 +44,7 @@ class MultiSurfaceTest extends AbstractTestCase
         MultiSurface::fromBinary(hex2bin($wkb));
     }
 
-    public function providerInvalidFromBinary() : array
+    public static function providerInvalidFromBinary() : array
     {
         return [
             ['000000000200000000'],

@@ -12,7 +12,7 @@ use Brick\Geo\MultiLineString;
 /**
  * Unit tests for class WKTWriter.
  */
-class WKTWriterTest extends WKTAbstractTest
+class WKTWriterTest extends WKTAbstractTestCase
 {
     /**
      * @dataProvider providerPrettyPrint
@@ -42,7 +42,7 @@ class WKTWriterTest extends WKTAbstractTest
         self::assertSame($wkt, $writer->write($geometryCollection));
     }
 
-    public function providerPrettyPrint() : array
+    public static function providerPrettyPrint() : array
     {
         return [
             [false, false, 'GEOMETRYCOLLECTION(POINT(1 2),MULTILINESTRING((1 2,4 5),(2 3,5 6)))'],
@@ -319,7 +319,7 @@ class WKTWriterTest extends WKTAbstractTest
         self::assertSame($wkt, $writer->write($geometry));
     }
 
-    public function providerWriteEmptyGeometryCollection() : array
+    public static function providerWriteEmptyGeometryCollection() : array
     {
         return [
             ['GEOMETRYCOLLECTION EMPTY'],

@@ -84,7 +84,7 @@ class GeometryTest extends AbstractTestCase
      * This is a very succinct series of tests for text/binary import/export methods.
      * Exhaustive tests for WKT and WKB are in the IO directory.
      */
-    public function providerTextBinary() : array
+    public static function providerTextBinary() : array
     {
         return [
             ['POINT (1 2)', '00000000013ff00000000000004000000000000000', '0101000000000000000000f03f0000000000000040'],
@@ -103,7 +103,7 @@ class GeometryTest extends AbstractTestCase
         self::assertSame($dimension, $geometry->dimension());
     }
 
-    public function providerDimension() : array
+    public static function providerDimension() : array
     {
         return [
             ['POINT EMPTY', 0],
@@ -165,7 +165,7 @@ class GeometryTest extends AbstractTestCase
         self::assertSame($coordinateDimension, Geometry::fromText($geometry)->coordinateDimension());
     }
 
-    public function providerCoordinateDimension() : array
+    public static function providerCoordinateDimension() : array
     {
         return [
             ['POINT (1 2)', 2],
@@ -190,7 +190,7 @@ class GeometryTest extends AbstractTestCase
         self::assertSame($spatialDimension, Geometry::fromText($geometry)->spatialDimension());
     }
 
-    public function providerSpatialDimension() : array
+    public static function providerSpatialDimension() : array
     {
         return [
             ['POINT (1 2)', 2],
@@ -216,7 +216,7 @@ class GeometryTest extends AbstractTestCase
         self::assertSame($geometryType, $geometry->geometryType());
     }
 
-    public function providerGeometryType() : array
+    public static function providerGeometryType() : array
     {
         return [
             ['POINT EMPTY', 'Point'],
@@ -282,7 +282,7 @@ class GeometryTest extends AbstractTestCase
         self::assertSame($srid, Geometry::fromText('POINT EMPTY', $srid)->SRID());
     }
 
-    public function providerSRID() : array
+    public static function providerSRID() : array
     {
         return [
             [4326],
@@ -301,7 +301,7 @@ class GeometryTest extends AbstractTestCase
         self::assertSame($isEmpty, Geometry::fromText($geometry)->isEmpty());
     }
 
-    public function providerIsEmpty() : array
+    public static function providerIsEmpty() : array
     {
         return [
             ['POINT EMPTY', true],
@@ -327,7 +327,7 @@ class GeometryTest extends AbstractTestCase
         self::assertSame($isMeasured, Geometry::fromText($geometry)->isMeasured());
     }
 
-    public function providerDimensionality() : array
+    public static function providerDimensionality() : array
     {
         return [
             ['POINT EMPTY', false, false],
@@ -363,7 +363,7 @@ class GeometryTest extends AbstractTestCase
         }
     }
 
-    public function providerWithSRID(): array
+    public static function providerWithSRID(): array
     {
         return [
             ['POINT (1 2)'],
@@ -409,7 +409,7 @@ class GeometryTest extends AbstractTestCase
         self::assertSame($array, Geometry::fromText($geometry)->toArray());
     }
 
-    public function providerToArray() : array
+    public static function providerToArray() : array
     {
         return [
             ['POINT EMPTY', []],
@@ -454,7 +454,7 @@ class GeometryTest extends AbstractTestCase
         self::assertFalse($geometry1->isIdenticalTo($geometry2));
     }
 
-    public function providerIsIdenticalTo() : array
+    public static function providerIsIdenticalTo() : array
     {
         return [
             ['POINT EMPTY', 'POINT EMPTY', true],
