@@ -9,7 +9,7 @@ use Brick\Geo\IO\EWKTReader;
 /**
  * Unit tests for class EWKTReader.
  */
-class EWKTReaderTest extends EWKTAbstractTest
+class EWKTReaderTest extends EWKTAbstractTestCase
 {
     /**
      * @dataProvider providerRead
@@ -26,11 +26,11 @@ class EWKTReaderTest extends EWKTAbstractTest
         $this->assertGeometryContents($geometry, $coords, $is3D, $isMeasured, $srid);
     }
 
-    public function providerRead() : \Generator
+    public static function providerRead() : \Generator
     {
-        foreach ($this->providerWKT() as [$wkt, $coords, $is3D, $isMeasured]) {
+        foreach (self::providerWKT() as [$wkt, $coords, $is3D, $isMeasured]) {
             yield [$wkt, $coords, $is3D, $isMeasured, 0];
-            yield [$this->toEWKT($wkt, 4326), $coords, $is3D, $isMeasured, 4326];
+            yield [self::toEWKT($wkt, 4326), $coords, $is3D, $isMeasured, 4326];
         }
     }
 }

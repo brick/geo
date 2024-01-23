@@ -23,7 +23,7 @@ class LineStringTest extends AbstractTestCase
         self::assertSame($numPoints, $lineString->numPoints());
     }
 
-    public function providerNumPoints() : array
+    public static function providerNumPoints() : array
     {
         return [
             ['LINESTRING EMPTY', 0],
@@ -48,7 +48,7 @@ class LineStringTest extends AbstractTestCase
         }
     }
 
-    public function providerPointN() : array
+    public static function providerPointN() : array
     {
         return [
             ['LINESTRING (1 2, 3 4, 5 6)', 1, 'POINT (1 2)'],
@@ -73,7 +73,7 @@ class LineStringTest extends AbstractTestCase
         LineString::fromText($lineString)->pointN($n);
     }
 
-    public function providerInvalidPointNThrowsException() : array
+    public static function providerInvalidPointNThrowsException() : array
     {
         return [
             ['LINESTRING (1 2, 3 4, 5 6)', 0],
@@ -118,7 +118,7 @@ class LineStringTest extends AbstractTestCase
         self::assertSame($expected, $actual->asText());
     }
 
-    public function providerRectangle() : array
+    public static function providerRectangle() : array
     {
         return [
             ['POINT (1 2)', 'POINT (3 4)', 'LINESTRING (1 2, 3 2, 3 4, 1 4, 1 2)'],
@@ -139,7 +139,7 @@ class LineStringTest extends AbstractTestCase
         LineString::rectangle($point1, $point2);
     }
 
-    public function providerRectangleWithInvalidPoints() : array
+    public static function providerRectangleWithInvalidPoints() : array
     {
         return [
             ['POINT (1 1)', 'POINT Z (2 3 4)'],

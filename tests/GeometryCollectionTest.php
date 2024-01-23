@@ -26,7 +26,7 @@ class GeometryCollectionTest extends AbstractTestCase
         self::assertSame($numGeometries, $geometry->numGeometries());
     }
 
-    public function providerNumGeometries() : array
+    public static function providerNumGeometries() : array
     {
         return [
             ['GEOMETRYCOLLECTION EMPTY', 0],
@@ -53,7 +53,7 @@ class GeometryCollectionTest extends AbstractTestCase
         $this->assertWktEquals($g->geometryN($n), $geometryN, $srid);
     }
 
-    public function providerGeometryN() : \Generator
+    public static function providerGeometryN() : \Generator
     {
         $tests = [
             ['GEOMETRYCOLLECTION EMPTY', 0, null],

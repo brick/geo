@@ -28,7 +28,7 @@ class CurvePolygonTest extends AbstractTestCase
         self::assertSame($srid, $polygon->SRID());
     }
 
-    public function providerEmptyFactoryMethod() : array
+    public static function providerEmptyFactoryMethod() : array
     {
         return [
             [false, false, 0],
@@ -56,7 +56,7 @@ class CurvePolygonTest extends AbstractTestCase
         }
     }
 
-    public function providerExteriorRing() : array
+    public static function providerExteriorRing() : array
     {
         return [
             ['CURVEPOLYGON ((0 0, 0 9, 9 9, 0 0), COMPOUNDCURVE ((1 2, 3 4), CIRCULARSTRING (3 4, 5 6, 7 8, 9 0, 1 2)))', 'LINESTRING (0 0, 0 9, 9 9, 0 0)'],
@@ -77,7 +77,7 @@ class CurvePolygonTest extends AbstractTestCase
         CurvePolygon::fromText($polygon)->exteriorRing();
     }
 
-    public function providerExteriorRingOfEmptyCurvePolygon() : array
+    public static function providerExteriorRingOfEmptyCurvePolygon() : array
     {
         return [
             ['CURVEPOLYGON EMPTY'],
@@ -98,7 +98,7 @@ class CurvePolygonTest extends AbstractTestCase
         self::assertSame($numInteriorRings, $polygon->numInteriorRings());
     }
 
-    public function providerNumInteriorRings() : array
+    public static function providerNumInteriorRings() : array
     {
         return [
             ['CURVEPOLYGON EMPTY', 0],
@@ -131,7 +131,7 @@ class CurvePolygonTest extends AbstractTestCase
         $this->assertWktEquals($ring, $interiorRingN, $srid);
     }
 
-    public function providerInteriorRingN() : \Generator
+    public static function providerInteriorRingN() : \Generator
     {
         $tests = [
             ['CURVEPOLYGON EMPTY', [

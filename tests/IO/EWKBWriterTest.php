@@ -13,7 +13,7 @@ use Brick\Geo\Point;
 /**
  * Unit tests for class EWKBWriter.
  */
-class EWKBWriterTest extends EWKBAbstractTest
+class EWKBWriterTest extends EWKBAbstractTestCase
 {
     /**
      * @dataProvider providerWrite
@@ -35,21 +35,21 @@ class EWKBWriterTest extends EWKBAbstractTest
         self::assertSame($ewkb, bin2hex($output));
     }
 
-    public function providerWrite() : \Generator
+    public static function providerWrite() : \Generator
     {
-        foreach ($this->providerLittleEndianEWKB() as [$wkt, $ewkb]) {
+        foreach (self::providerLittleEndianEWKB() as [$wkt, $ewkb]) {
             yield [$wkt, $ewkb, WKBByteOrder::LITTLE_ENDIAN];
         }
 
-        foreach ($this->providerLittleEndianEWKB_SRID() as [$wkt, $ewkb]) {
+        foreach (self::providerLittleEndianEWKB_SRID() as [$wkt, $ewkb]) {
             yield [$wkt, $ewkb, WKBByteOrder::LITTLE_ENDIAN];
         }
 
-        foreach ($this->providerBigEndianEWKB() as [$wkt, $ewkb]) {
+        foreach (self::providerBigEndianEWKB() as [$wkt, $ewkb]) {
             yield [$wkt, $ewkb, WKBByteOrder::BIG_ENDIAN];
         }
 
-        foreach ($this->providerBigEndianEWKB_SRID() as [$wkt, $ewkb]) {
+        foreach (self::providerBigEndianEWKB_SRID() as [$wkt, $ewkb]) {
             yield [$wkt, $ewkb, WKBByteOrder::BIG_ENDIAN];
         }
     }
@@ -65,7 +65,7 @@ class EWKBWriterTest extends EWKBAbstractTest
         $writer->write($point);
     }
 
-    public function providerWriteEmptyPointThrowsException() : array
+    public static function providerWriteEmptyPointThrowsException() : array
     {
         return [
             [Point::xyEmpty()],

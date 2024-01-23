@@ -30,7 +30,7 @@ class PolygonTest extends AbstractTestCase
         self::assertSame($srid, $polygon->SRID());
     }
 
-    public function providerConstructorEmpty() : array
+    public static function providerConstructorEmpty() : array
     {
         return [
             [false, false, 0],
@@ -62,7 +62,7 @@ class PolygonTest extends AbstractTestCase
         $this->assertWktEquals($polygon, $polygonWKT, $srid);
     }
 
-    public function providerConstructor() : \Generator
+    public static function providerConstructor() : \Generator
     {
         $tests = [
             [['LINESTRING (0 0, 0 3, 3 3, 3 0)', 'LINESTRING (1 1, 1 2, 2 2, 2 1, 1 1)'], 'POLYGON ((0 0, 0 3, 3 3, 3 0), (1 1, 1 2, 2 2, 2 1, 1 1))', false, false],
@@ -101,7 +101,7 @@ class PolygonTest extends AbstractTestCase
         new Polygon($cs, $ring);
     }
 
-    public function providerConstructorWithCoordinateSystemMix() : array
+    public static function providerConstructorWithCoordinateSystemMix() : array
     {
         return [
             ['LINESTRING (0 0, 0 1, 1 1, 0 0)', 0, false, false, 1, 'SRID mix: Polygon with SRID 1 cannot contain LineString with SRID 0.'],
@@ -143,7 +143,7 @@ class PolygonTest extends AbstractTestCase
         $this->assertWktEquals($polygon, $polygonWKT, $srid);
     }
 
-    public function providerOf() : \Generator
+    public static function providerOf() : \Generator
     {
         $tests = [
             [['LINESTRING (0 0, 0 3, 3 3, 3 0)', 'LINESTRING (1 1, 1 2, 2 2, 2 1, 1 1)'], 'POLYGON ((0 0, 0 3, 3 3, 3 0), (1 1, 1 2, 2 2, 2 1, 1 1))'],
@@ -171,7 +171,7 @@ class PolygonTest extends AbstractTestCase
         Polygon::of($outerRing, $innerRing);
     }
 
-    public function providerOfWithCoordinateSystemMix() : array
+    public static function providerOfWithCoordinateSystemMix() : array
     {
         return [
             ['LINESTRING (0 0, 0 3, 3 3, 0 0)', 'LINESTRING (1 1, 1 2, 2 2, 1 1)', 0, 1],
@@ -227,7 +227,7 @@ class PolygonTest extends AbstractTestCase
         }, NoSuchGeometryException::class);
     }
 
-    public function providerRings() : \Generator
+    public static function providerRings() : \Generator
     {
         $tests = [
             // XY

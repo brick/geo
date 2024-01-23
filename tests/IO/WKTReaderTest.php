@@ -9,7 +9,7 @@ use Brick\Geo\IO\WKTReader;
 /**
  * Unit tests for class WKTReader.
  */
-class WKTReaderTest extends WKTAbstractTest
+class WKTReaderTest extends WKTAbstractTestCase
 {
     /**
      * @dataProvider providerRead
@@ -26,11 +26,11 @@ class WKTReaderTest extends WKTAbstractTest
         $this->assertGeometryContents($geometry, $coords, $is3D, $isMeasured, $srid);
     }
 
-    public function providerRead() : \Generator
+    public static function providerRead() : \Generator
     {
-        foreach ($this->providerWKT() as [$wkt, $coords, $is3D, $isMeasured]) {
+        foreach (self::providerWKT() as [$wkt, $coords, $is3D, $isMeasured]) {
             yield [$wkt, $coords, $is3D, $isMeasured, 0];
-            yield [$this->alter($wkt), $coords, $is3D, $isMeasured, 4326];
+            yield [self::alter($wkt), $coords, $is3D, $isMeasured, 4326];
         }
     }
 
@@ -39,7 +39,7 @@ class WKTReaderTest extends WKTAbstractTest
      *
      * The result is still a valid WKT string, that the reader should be able to handle.
      */
-    private function alter(string $wkt) : string
+    private static function alter(string $wkt) : string
     {
         $search = [' ', '(', ')', ','];
         $replace = [];

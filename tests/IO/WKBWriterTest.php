@@ -13,7 +13,7 @@ use Brick\Geo\Point;
 /**
  * Unit tests for class WKBWriter.
  */
-class WKBWriterTest extends WKBAbstractTest
+class WKBWriterTest extends WKBAbstractTestCase
 {
     /**
      * @dataProvider providerWrite
@@ -35,13 +35,13 @@ class WKBWriterTest extends WKBAbstractTest
         self::assertSame($wkb, bin2hex($output));
     }
 
-    public function providerWrite() : \Generator
+    public static function providerWrite() : \Generator
     {
-        foreach ($this->providerLittleEndianWKB() as [$wkt, $wkb]) {
+        foreach (self::providerLittleEndianWKB() as [$wkt, $wkb]) {
             yield [$wkt, $wkb, WKBByteOrder::LITTLE_ENDIAN];
         }
 
-        foreach ($this->providerBigEndianWKB() as [$wkt, $wkb]) {
+        foreach (self::providerBigEndianWKB() as [$wkt, $wkb]) {
             yield [$wkt, $wkb, WKBByteOrder::BIG_ENDIAN];
         }
     }
@@ -57,7 +57,7 @@ class WKBWriterTest extends WKBAbstractTest
         $writer->write($point);
     }
 
-    public function providerWriteEmptyPointThrowsException() : array
+    public static function providerWriteEmptyPointThrowsException() : array
     {
         return [
             [Point::xyEmpty()],

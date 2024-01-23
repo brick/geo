@@ -29,7 +29,7 @@ class CurveTest extends AbstractTestCase
         }
     }
 
-    public function providerStartPointEndPoint() : array
+    public static function providerStartPointEndPoint() : array
     {
         return [
             ['LINESTRING (1 2, 3 4, 5 6)', 'POINT (1 2)', 'POINT (5 6)'],
@@ -67,7 +67,7 @@ class CurveTest extends AbstractTestCase
         Curve::fromText($lineString)->endPoint();
     }
 
-    public function providerEmptyCurve() : array
+    public static function providerEmptyCurve() : array
     {
         return [
             ['LINESTRING EMPTY'],
