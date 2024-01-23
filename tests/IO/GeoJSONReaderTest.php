@@ -8,18 +8,18 @@ use Brick\Geo\Exception\GeometryIOException;
 use Brick\Geo\IO\GeoJSON\Feature;
 use Brick\Geo\IO\GeoJSON\FeatureCollection;
 use Brick\Geo\IO\GeoJSONReader;
+use PHPUnit\Framework\Attributes\DataProvider;
 use stdClass;
 
 class GeoJSONReaderTest extends GeoJSONAbstractTestCase
 {
     /**
-     * @dataProvider providerReadGeometry
-     *
      * @param string $geojson The GeoJSON to read.
      * @param array  $coords  The expected Geometry coordinates.
      * @param bool   $is3D    Whether the resulting Geometry has a Z coordinate.
      * @param bool   $lenient Whether to be lenient about case-sensitivity.
      */
+    #[DataProvider('providerReadGeometry')]
     public function testReadGeometry(string $geojson, array $coords, bool $is3D, bool $lenient) : void
     {
         $geometry = (new GeoJSONReader($lenient))->read($geojson);
@@ -35,14 +35,13 @@ class GeoJSONReaderTest extends GeoJSONAbstractTestCase
     }
 
     /**
-     * @dataProvider providerReadFeature
-     *
      * @param string        $geojson    The GeoJSON to read.
      * @param stdClass|null $properties The contained properties.
      * @param array|null    $coords     The expected Geometry coordinates, or null if the Feature has no geometry.
      * @param bool          $is3D       Whether the resulting Geometry has a Z coordinate.
      * @param bool          $lenient    Whether to be lenient about case-sensitivity.
      */
+    #[DataProvider('providerReadFeature')]
     public function testReadFeature(string $geojson, ?stdClass $properties, ?array $coords, bool $is3D, bool $lenient) : void
     {
         $feature = (new GeoJSONReader($lenient))->read($geojson);
@@ -68,13 +67,12 @@ class GeoJSONReaderTest extends GeoJSONAbstractTestCase
     }
 
     /**
-     * @dataProvider providerReadFeatureCollection
-     *
      * @param string  $geojson The GeoJSON to read.
      * @param array[] $coords  The expected Point coordinates.
      * @param bool[]  $is3D    Whether the resulting Point has a Z coordinate.
      * @param bool    $lenient Whether to be lenient about case-sensitivity.
      */
+    #[DataProvider('providerReadFeatureCollection')]
     public function testReadFeatureCollection(string $geojson, array $properties, array $coords, array $is3D, bool $lenient) : void
     {
         $featureCollection = (new GeoJSONReader($lenient))->read($geojson);
@@ -96,9 +94,7 @@ class GeoJSONReaderTest extends GeoJSONAbstractTestCase
         }
     }
 
-    /**
-     * @dataProvider providerNonLenientReadWrongCaseType
-     */
+    #[DataProvider('providerNonLenientReadWrongCaseType')]
     public function testNonLenientReadWrongCaseType(string $geojson, string $expectedExceptionMessage) : void
     {
         $reader = new GeoJSONReader();

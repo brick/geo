@@ -8,15 +8,14 @@ use Brick\Geo\Exception\CoordinateSystemException;
 use Brick\Geo\Exception\NoSuchGeometryException;
 use Brick\Geo\LineString;
 use Brick\Geo\Point;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * Unit tests for class LineString.
  */
 class LineStringTest extends AbstractTestCase
 {
-    /**
-     * @dataProvider providerNumPoints
-     */
+    #[DataProvider('providerNumPoints')]
     public function testNumPoints(string $lineString, int $numPoints) : void
     {
         $lineString = LineString::fromText($lineString);
@@ -37,9 +36,7 @@ class LineStringTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @dataProvider providerPointN
-     */
+    #[DataProvider('providerPointN')]
     public function testPointN(string $lineString, int $n, string $pointN) : void
     {
         foreach ([0, 1] as $srid) {
@@ -64,9 +61,7 @@ class LineStringTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @dataProvider providerInvalidPointNThrowsException
-     */
+    #[DataProvider('providerInvalidPointNThrowsException')]
     public function testInvalidPointNThrowsException(string $lineString, int $n) : void
     {
         $this->expectException(NoSuchGeometryException::class);
@@ -105,9 +100,7 @@ class LineStringTest extends AbstractTestCase
         ], iterator_to_array($lineString));
     }
 
-    /**
-     * @dataProvider providerRectangle
-     */
+    #[DataProvider('providerRectangle')]
     public function testRectangle(string $point1, string $point2, string $expected) : void
     {
         $point1 = Point::fromText($point1);
@@ -127,9 +120,7 @@ class LineStringTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @dataProvider providerRectangleWithInvalidPoints
-     */
+    #[DataProvider('providerRectangleWithInvalidPoints')]
     public function testRectangleWithInvalidPoints(string $point1, string $point2, int $srid1 = 0, int $srid2 = 0) : void
     {
         $point1 = Point::fromText($point1, $srid1);

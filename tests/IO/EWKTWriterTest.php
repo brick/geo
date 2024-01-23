@@ -7,6 +7,7 @@ namespace Brick\Geo\Tests\IO;
 use Brick\Geo\CoordinateSystem;
 use Brick\Geo\GeometryCollection;
 use Brick\Geo\IO\EWKTWriter;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * Unit tests for class EWKTWriter.
@@ -14,11 +15,10 @@ use Brick\Geo\IO\EWKTWriter;
 class EWKTWriterTest extends EWKTAbstractTestCase
 {
     /**
-     * @dataProvider providerPrettyPrint
-     *
      * @param bool   $prettyPrint Whether to set the prettyPrint parameter.
      * @param string $ewkt        The expected result EWKT.
      */
+    #[DataProvider('providerPrettyPrint')]
     public function testPrettyPrint(bool $prettyPrint, string $ewkt) : void
     {
         $writer = new EWKTWriter();
@@ -38,13 +38,12 @@ class EWKTWriterTest extends EWKTAbstractTestCase
     }
 
     /**
-     * @dataProvider providerPointWKT
-     *
      * @param string $wkt        The expected WKT.
      * @param array  $coords     The Point coordinates.
      * @param bool   $is3D       Whether the Point has a Z coordinate.
      * @param bool   $isMeasured Whether the Point has a M coordinate.
      */
+    #[DataProvider('providerPointWKT')]
     public function testWritePoint(string $wkt, array $coords, bool $is3D, bool $isMeasured) : void
     {
         $writer = new EWKTWriter();
@@ -57,13 +56,12 @@ class EWKTWriterTest extends EWKTAbstractTestCase
     }
 
     /**
-     * @dataProvider providerLineStringWKT
-     *
      * @param string $wkt        The expected WKT.
      * @param array  $coords     The LineString coordinates.
      * @param bool   $is3D       Whether the LineString has Z coordinates.
      * @param bool   $isMeasured Whether the LineString has M coordinates.
      */
+    #[DataProvider('providerLineStringWKT')]
     public function testWriteLineString(string $wkt, array $coords, bool $is3D, bool $isMeasured) : void
     {
         $writer = new EWKTWriter();
@@ -76,13 +74,12 @@ class EWKTWriterTest extends EWKTAbstractTestCase
     }
 
     /**
-     * @dataProvider providerCircularStringWKT
-     *
      * @param string $wkt        The expected WKT.
      * @param array  $coords     The CircularString coordinates.
      * @param bool   $is3D       Whether the CircularString has Z coordinates.
      * @param bool   $isMeasured Whether the CircularString has M coordinates.
      */
+    #[DataProvider('providerCircularStringWKT')]
     public function testWriteCircularString(string $wkt, array $coords, bool $is3D, bool $isMeasured) : void
     {
         $writer = new EWKTWriter();
@@ -95,13 +92,12 @@ class EWKTWriterTest extends EWKTAbstractTestCase
     }
 
     /**
-     * @dataProvider providerCompoundCurveWKT
-     *
      * @param string $wkt        The expected WKT.
      * @param array  $coords     The CompoundCurve coordinates.
      * @param bool   $is3D       Whether the CompoundCurve has Z coordinates.
      * @param bool   $isMeasured Whether the CompoundCurve has M coordinates.
      */
+    #[DataProvider('providerCompoundCurveWKT')]
     public function testWriteCompoundCurve(string $wkt, array $coords, bool $is3D, bool $isMeasured) : void
     {
         $writer = new EWKTWriter();
@@ -114,13 +110,12 @@ class EWKTWriterTest extends EWKTAbstractTestCase
     }
 
     /**
-     * @dataProvider providerPolygonWKT
-     *
      * @param string $wkt        The expected WKT.
      * @param array  $coords     The Polygon coordinates.
      * @param bool   $is3D       Whether the Polygon has Z coordinates.
      * @param bool   $isMeasured Whether the Polygon has M coordinates.
      */
+    #[DataProvider('providerPolygonWKT')]
     public function testWritePolygon(string $wkt, array $coords, bool $is3D, bool $isMeasured) : void
     {
         $writer = new EWKTWriter();
@@ -133,13 +128,12 @@ class EWKTWriterTest extends EWKTAbstractTestCase
     }
 
     /**
-     * @dataProvider providerTriangleWKT
-     *
      * @param string $wkt        The expected WKT.
      * @param array  $coords     The Triangle coordinates.
      * @param bool   $is3D       Whether the Triangle has Z coordinates.
      * @param bool   $isMeasured Whether the Triangle has M coordinates.
      */
+    #[DataProvider('providerTriangleWKT')]
     public function testWriteTriangle(string $wkt, array $coords, bool $is3D, bool $isMeasured) : void
     {
         $writer = new EWKTWriter();
@@ -152,13 +146,12 @@ class EWKTWriterTest extends EWKTAbstractTestCase
     }
 
     /**
-     * @dataProvider providerCurvePolygonWKT
-     *
      * @param string $wkt        The expected WKT.
      * @param array  $coords     The Polygon coordinates.
      * @param bool   $is3D       Whether the Polygon has Z coordinates.
      * @param bool   $isMeasured Whether the Polygon has M coordinates.
      */
+    #[DataProvider('providerCurvePolygonWKT')]
     public function testWriteCurvePolygon(string $wkt, array $coords, bool $is3D, bool $isMeasured) : void
     {
         $writer = new EWKTWriter();
@@ -171,13 +164,12 @@ class EWKTWriterTest extends EWKTAbstractTestCase
     }
 
     /**
-     * @dataProvider providerPolyhedralSurfaceWKT
-     *
      * @param string $wkt        The expected WKT.
      * @param array  $coords     The PolyhedralSurface coordinates.
      * @param bool   $is3D       Whether the PolyhedralSurface has Z coordinates.
      * @param bool   $isMeasured Whether the PolyhedralSurface has M coordinates.
      */
+    #[DataProvider('providerPolyhedralSurfaceWKT')]
     public function testWritePolyhedralSurface(string $wkt, array $coords, bool $is3D, bool $isMeasured) : void
     {
         $writer = new EWKTWriter();
@@ -190,13 +182,12 @@ class EWKTWriterTest extends EWKTAbstractTestCase
     }
 
     /**
-     * @dataProvider providerTINWKT
-     *
      * @param string $wkt        The expected WKT.
      * @param array  $coords     The TIN coordinates.
      * @param bool   $is3D       Whether the TIN has Z coordinates.
      * @param bool   $isMeasured Whether the TIN has M coordinates.
      */
+    #[DataProvider('providerTINWKT')]
     public function testWriteTIN(string $wkt, array $coords, bool $is3D, bool $isMeasured) : void
     {
         $writer = new EWKTWriter();
@@ -209,13 +200,12 @@ class EWKTWriterTest extends EWKTAbstractTestCase
     }
 
     /**
-     * @dataProvider providerMultiPointWKT
-     *
      * @param string $wkt        The expected WKT.
      * @param array  $coords     The MultiPoint coordinates.
      * @param bool   $is3D       Whether the MultiPoint has Z coordinates.
      * @param bool   $isMeasured Whether the MultiPoint has M coordinates.
      */
+    #[DataProvider('providerMultiPointWKT')]
     public function testWriteMultiPoint(string $wkt, array $coords, bool $is3D, bool $isMeasured) : void
     {
         $writer = new EWKTWriter();
@@ -228,13 +218,12 @@ class EWKTWriterTest extends EWKTAbstractTestCase
     }
 
     /**
-     * @dataProvider providerMultiLineStringWKT
-     *
      * @param string $wkt        The expected WKT.
      * @param array  $coords     The MultiLineString coordinates.
      * @param bool   $is3D       Whether the MultiLineString has Z coordinates.
      * @param bool   $isMeasured Whether the MultiLineString has M coordinates.
      */
+    #[DataProvider('providerMultiLineStringWKT')]
     public function testWriteMultiLineString(string $wkt, array $coords, bool $is3D, bool $isMeasured) : void
     {
         $writer = new EWKTWriter();
@@ -247,13 +236,12 @@ class EWKTWriterTest extends EWKTAbstractTestCase
     }
 
     /**
-     * @dataProvider providerMultiPolygonWKT
-     *
      * @param string $wkt        The expected WKT.
      * @param array  $coords     The MultiPolygon coordinates.
      * @param bool   $is3D       Whether the MultiPolygon has Z coordinates.
      * @param bool   $isMeasured Whether the MultiPolygon has M coordinates.
      */
+    #[DataProvider('providerMultiPolygonWKT')]
     public function testWriteMultiPolygon(string $wkt, array $coords, bool $is3D, bool $isMeasured) : void
     {
         $writer = new EWKTWriter();
@@ -266,13 +254,12 @@ class EWKTWriterTest extends EWKTAbstractTestCase
     }
 
     /**
-     * @dataProvider providerGeometryCollectionWKT
-     *
      * @param string $wkt        The expected WKT.
      * @param array  $coords     The GeometryCollection coordinates.
      * @param bool   $is3D       Whether the GeometryCollection has Z coordinates.
      * @param bool   $isMeasured Whether the GeometryCollection has M coordinates.
      */
+    #[DataProvider('providerGeometryCollectionWKT')]
     public function testWriteGeometryCollection(string $wkt, array $coords, bool $is3D, bool $isMeasured) : void
     {
         $writer = new EWKTWriter();

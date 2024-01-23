@@ -10,6 +10,7 @@ use Brick\Geo\Exception\EmptyGeometryException;
 use Brick\Geo\Exception\InvalidGeometryException;
 use Brick\Geo\Exception\NoSuchGeometryException;
 use Brick\Geo\Point;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * Unit tests for class CircularString.
@@ -17,13 +18,12 @@ use Brick\Geo\Point;
 class CircularStringTest extends AbstractTestCase
 {
     /**
-     * @dataProvider providerCreate
-     *
      * @param string[] $pointsWKT        The WKT of the Points that compose the CircularString.
      * @param bool     $is3D              Whether the points have Z coordinates.
      * @param bool     $isMeasured        Whether the points have M coordinates.
      * @param string   $circularStringWKT The WKT of the expected CircularString.
      */
+    #[DataProvider('providerCreate')]
     public function testCreate(array $pointsWKT, bool $is3D, bool $isMeasured, string $circularStringWKT) : void
     {
         foreach ([0, 1] as $srid) {
@@ -46,10 +46,9 @@ class CircularStringTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerCreateInvalidCircularString
-     *
      * @param string $circularString The WKT of an invalid CircularString.
      */
+    #[DataProvider('providerCreateInvalidCircularString')]
     public function testCreateInvalidCircularString(string $circularString) : void
     {
         $this->expectException(InvalidGeometryException::class);
@@ -66,9 +65,7 @@ class CircularStringTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @dataProvider providerStartPointEndPoint
-     */
+    #[DataProvider('providerStartPointEndPoint')]
     public function testStartPointEndPoint(string $circularString, string $startPoint, string $endPoint) : void
     {
         foreach ([0, 1] as $srid) {
@@ -89,10 +86,9 @@ class CircularStringTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerEmptyCircularString
-     *
      * @param string $circularString The WKT of an empty CircularString.
      */
+    #[DataProvider('providerEmptyCircularString')]
     public function testStartPointOfEmptyCircularString(string $circularString) : void
     {
         $this->expectException(EmptyGeometryException::class);
@@ -100,10 +96,9 @@ class CircularStringTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerEmptyCircularString
-     *
      * @param string $circularString The WKT of an empty CircularString.
      */
+    #[DataProvider('providerEmptyCircularString')]
     public function testEndPointOfEmptyCircularString(string $circularString) : void
     {
         $this->expectException(EmptyGeometryException::class);
@@ -120,9 +115,7 @@ class CircularStringTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @dataProvider providerNumPoints
-     */
+    #[DataProvider('providerNumPoints')]
     public function testNumPoints(string $circularString, int $numPoints) : void
     {
         $circularString = CircularString::fromText($circularString);
@@ -143,9 +136,7 @@ class CircularStringTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @dataProvider providerPointN
-     */
+    #[DataProvider('providerPointN')]
     public function testPointN(string $lineString, int $n, string $pointN) : void
     {
         foreach ([0, 1] as $srid) {
@@ -172,9 +163,7 @@ class CircularStringTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @dataProvider providerInvalidPointNThrowsException
-     */
+    #[DataProvider('providerInvalidPointNThrowsException')]
     public function testInvalidPointNThrowsException(string $lineString, int $n) : void
     {
         $this->expectException(NoSuchGeometryException::class);

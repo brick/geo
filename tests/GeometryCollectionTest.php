@@ -8,6 +8,7 @@ use Brick\Geo\Exception\NoSuchGeometryException;
 use Brick\Geo\GeometryCollection;
 use Brick\Geo\LineString;
 use Brick\Geo\Point;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * Unit tests for class GeometryCollection.
@@ -15,11 +16,10 @@ use Brick\Geo\Point;
 class GeometryCollectionTest extends AbstractTestCase
 {
     /**
-     * @dataProvider providerNumGeometries
-     *
      * @param string $geometry      The WKT of the GeometryCollection to test.
      * @param int    $numGeometries The expected number of geometries.
      */
+    #[DataProvider('providerNumGeometries')]
     public function testNumGeometries(string $geometry, int $numGeometries) : void
     {
         $geometry = GeometryCollection::fromText($geometry);
@@ -36,13 +36,12 @@ class GeometryCollectionTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerGeometryN
-     *
      * @param string      $geometry  The WKT of the GeometryCollection to test.
      * @param int         $n         The number of the geometry to return.
      * @param string|null $geometryN The WKT of the expected result, or NULL if an exception is expected.
      * @param int         $srid      The SRID of the geometries.
      */
+    #[DataProvider('providerGeometryN')]
     public function testGeometryN(string $geometry, int $n, ?string $geometryN, int $srid) : void
     {
         if ($geometryN === null) {

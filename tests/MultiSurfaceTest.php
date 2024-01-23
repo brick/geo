@@ -6,6 +6,7 @@ namespace Brick\Geo\Tests;
 
 use Brick\Geo\Exception\UnexpectedGeometryException;
 use Brick\Geo\MultiSurface;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * Unit tests for class MultiSurface.
@@ -13,10 +14,9 @@ use Brick\Geo\MultiSurface;
 class MultiSurfaceTest extends AbstractTestCase
 {
     /**
-     * @dataProvider providerInvalidFromText
-     *
      * @param string $wkt A valid WKT, for a non-multisurface geometry.
      */
+    #[DataProvider('providerInvalidFromText')]
     public function testInvalidFromText(string $wkt) : void
     {
         $this->expectException(UnexpectedGeometryException::class);
@@ -34,10 +34,9 @@ class MultiSurfaceTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerInvalidFromBinary
-     *
      * @param string $wkb A valid HEX WKB, for a non-multisurface geometry.
      */
+    #[DataProvider('providerInvalidFromBinary')]
     public function testInvalidFromBinary(string $wkb) : void
     {
         $this->expectException(UnexpectedGeometryException::class);

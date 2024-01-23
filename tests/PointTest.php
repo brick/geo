@@ -8,6 +8,7 @@ use Brick\Geo\CoordinateSystem;
 use Brick\Geo\Exception\InvalidGeometryException;
 use Brick\Geo\Point;
 use Generator;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * Unit tests for class Point.
@@ -15,10 +16,9 @@ use Generator;
 class PointTest extends AbstractTestCase
 {
     /**
-     * @dataProvider providerConstructorWithInvalidCoordinates
-     *
      * @param float[] $coords
      */
+    #[DataProvider('providerConstructorWithInvalidCoordinates')]
     public function testConstructorWithInvalidCoordinates(
         bool $hasZ,
         bool $hasM,
@@ -179,11 +179,10 @@ class PointTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerToArrayAndInterfaces
-     *
      * @param string $point       The WKT of the point to test.
      * @param array  $coordinates The expected coordinates.
      */
+    #[DataProvider('providerToArrayAndInterfaces')]
     public function testToArrayAndInterfaces(string $point, array $coordinates) : void
     {
         $point = Point::fromText($point);

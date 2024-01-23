@@ -9,6 +9,7 @@ use Brick\Geo\IO\WKBByteOrder;
 use Brick\Geo\IO\WKBTools;
 use Brick\Geo\Geometry;
 use Brick\Geo\Point;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * Unit tests for Geometry.
@@ -16,10 +17,9 @@ use Brick\Geo\Point;
 class GeometryTest extends AbstractTestCase
 {
     /**
-     * @dataProvider providerTextBinary
-     *
      * @param string $text The WKT of the geometry to test.
      */
+    #[DataProvider('providerTextBinary')]
     public function testFromAsText(string $text) : void
     {
         $geometry = Geometry::fromText($text);
@@ -40,12 +40,11 @@ class GeometryTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerTextBinary
-     *
      * @param string $text               The WKT of the geometry under test.
      * @param string $bigEndianBinary    The big endian WKB of the geometry under test.
      * @param string $littleEndianBinary The little endian WKB of the geometry under test.
      */
+    #[DataProvider('providerTextBinary')]
     public function testFromBinary(string $text, string $bigEndianBinary, string $littleEndianBinary) : void
     {
         foreach ([$bigEndianBinary, $littleEndianBinary] as $binary) {
@@ -62,12 +61,11 @@ class GeometryTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerTextBinary
-     *
      * @param string $text               The WKT of the geometry under test.
      * @param string $bigEndianBinary    The big endian WKB of the geometry under test.
      * @param string $littleEndianBinary The little endian WKB of the geometry under test.
      */
+    #[DataProvider('providerTextBinary')]
     public function testAsBinary(string $text, string $bigEndianBinary, string $littleEndianBinary) : void
     {
         $machineByteOrder = WKBTools::getMachineByteOrder();
@@ -94,9 +92,7 @@ class GeometryTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @dataProvider providerDimension
-     */
+    #[DataProvider('providerDimension')]
     public function testDimension(string $geometry, int $dimension) : void
     {
         $geometry = Geometry::fromText($geometry);
@@ -155,11 +151,10 @@ class GeometryTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerCoordinateDimension
-     *
      * @param string $geometry            The WKT of the geometry to test.
      * @param int    $coordinateDimension The expected coordinate dimension.
      */
+    #[DataProvider('providerCoordinateDimension')]
     public function testCoordinateDimension(string $geometry, int $coordinateDimension) : void
     {
         self::assertSame($coordinateDimension, Geometry::fromText($geometry)->coordinateDimension());
@@ -180,11 +175,10 @@ class GeometryTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerSpatialDimension
-     *
      * @param string $geometry         The WKT of the geometry to test.
      * @param int    $spatialDimension The expected spatial dimension.
      */
+    #[DataProvider('providerSpatialDimension')]
     public function testSpatialDimension(string $geometry, int $spatialDimension) : void
     {
         self::assertSame($spatialDimension, Geometry::fromText($geometry)->spatialDimension());
@@ -205,11 +199,10 @@ class GeometryTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerGeometryType
-     *
      * @param string $geometry     The WKT of the geometry to test.
      * @param string $geometryType The expected geometry type.
      */
+    #[DataProvider('providerGeometryType')]
     public function testGeometryType(string $geometry, string $geometryType) : void
     {
         $geometry = Geometry::fromText($geometry);
@@ -274,9 +267,7 @@ class GeometryTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @dataProvider providerSRID
-     */
+    #[DataProvider('providerSRID')]
     public function testSRID(int $srid) : void
     {
         self::assertSame($srid, Geometry::fromText('POINT EMPTY', $srid)->SRID());
@@ -291,11 +282,10 @@ class GeometryTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerIsEmpty
-     *
      * @param string $geometry The WKT of the geometry to test.
      * @param bool   $isEmpty  Whether the geometry is empty.
      */
+    #[DataProvider('providerIsEmpty')]
     public function testIsEmpty(string $geometry, bool $isEmpty) : void
     {
         self::assertSame($isEmpty, Geometry::fromText($geometry)->isEmpty());
@@ -315,12 +305,11 @@ class GeometryTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerDimensionality
-     *
      * @param string $geometry   The geometry to test.
      * @param bool   $is3D       Whether the geometry has a Z coordinate.
      * @param bool   $isMeasured Whether the geometry has a M coordinate.
      */
+    #[DataProvider('providerDimensionality')]
     public function testDimensionality(string $geometry, bool $is3D, bool $isMeasured) : void
     {
         self::assertSame($is3D, Geometry::fromText($geometry)->is3D());
@@ -341,9 +330,7 @@ class GeometryTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @dataProvider providerWithSRID
-     */
+    #[DataProvider('providerWithSRID')]
     public function testWithSRID(string $wkt): void
     {
         $geometry = Geometry::fromText($wkt)->withSRID(4326);
@@ -398,11 +385,10 @@ class GeometryTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerToArray
-     *
      * @param string $geometry The WKT of the geometry to test.
      * @param array  $array    The expected result array.
      */
+    #[DataProvider('providerToArray')]
     public function testToArray(string $geometry, array $array) : void
     {
         $this->castToFloat($array);
@@ -432,9 +418,7 @@ class GeometryTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @dataProvider providerIsIdenticalTo
-     */
+    #[DataProvider('providerIsIdenticalTo')]
     public function testIsIdenticalTo(string $wkt1, string $wkt2, bool $identical) : void
     {
         $geometry1 = Geometry::fromText($wkt1);
@@ -443,9 +427,7 @@ class GeometryTest extends AbstractTestCase
         self::assertSame($identical, $geometry1->isIdenticalTo($geometry2));
     }
 
-    /**
-     * @dataProvider providerIsIdenticalTo
-     */
+    #[DataProvider('providerIsIdenticalTo')]
     public function testIsIdenticalToDifferentSRIDs(string $wkt1, string $wkt2) : void
     {
         $geometry1 = Geometry::fromText($wkt1, 1);

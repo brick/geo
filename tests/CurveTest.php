@@ -6,6 +6,7 @@ namespace Brick\Geo\Tests;
 
 use Brick\Geo\Curve;
 use Brick\Geo\Exception\EmptyGeometryException;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * Unit tests for class Curve.
@@ -13,12 +14,11 @@ use Brick\Geo\Exception\EmptyGeometryException;
 class CurveTest extends AbstractTestCase
 {
     /**
-     * @dataProvider providerStartPointEndPoint
-     *
      * @param string $lineString The WKT of the Curve to test.
      * @param string $startPoint The WKT of the expected start point.
      * @param string $endPoint   The WKT of the expected end point.
      */
+    #[DataProvider('providerStartPointEndPoint')]
     public function testStartPointEndPoint(string $lineString, string $startPoint, string $endPoint) : void
     {
         foreach ([0, 1] as $srid) {
@@ -49,18 +49,14 @@ class CurveTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @dataProvider providerEmptyCurve
-     */
+    #[DataProvider('providerEmptyCurve')]
     public function testStartPointOfEmptyCurveThrowsException(string $lineString) : void
     {
         $this->expectException(EmptyGeometryException::class);
         Curve::fromText($lineString)->startPoint();
     }
 
-    /**
-     * @dataProvider providerEmptyCurve
-     */
+    #[DataProvider('providerEmptyCurve')]
     public function testEndPointOfEmptyCurveThrowsException(string $lineString) : void
     {
         $this->expectException(EmptyGeometryException::class);

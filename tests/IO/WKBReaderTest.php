@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Brick\Geo\Tests\IO;
 
 use Brick\Geo\IO\WKBReader;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * Unit tests for class WKBReader.
@@ -12,11 +13,10 @@ use Brick\Geo\IO\WKBReader;
 class WKBReaderTest extends WKBAbstractTestCase
 {
     /**
-     * @dataProvider providerRead
-     *
      * @param string $wkb The WKB to read, hex-encoded.
      * @param string $wkt The expected WKT output.
      */
+    #[DataProvider('providerRead')]
     public function testRead(string $wkb, string $wkt) : void
     {
         $reader = new WKBReader();

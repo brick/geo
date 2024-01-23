@@ -8,14 +8,13 @@ use Brick\Geo\IO\GeoJSONReader;
 use Brick\Geo\IO\GeoJSONWriter;
 use Brick\Geo\Point;
 use Brick\Geo\Polygon;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class GeoJSONWriterTest extends GeoJSONAbstractTestCase
 {
-    /**
-     * @dataProvider providerGeometryGeoJSON
-     * @dataProvider providerFeatureGeoJSON
-     * @dataProvider providerFeatureCollectionGeoJSON
-     */
+    #[DataProvider('providerGeometryGeoJSON')]
+    #[DataProvider('providerFeatureGeoJSON')]
+    #[DataProvider('providerFeatureCollectionGeoJSON')]
     public function testWriteGeometry(string $geojson) : void
     {
         $geometry = (new GeoJSONReader())->read($geojson);

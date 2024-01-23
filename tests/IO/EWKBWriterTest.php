@@ -9,6 +9,7 @@ use Brick\Geo\IO\EWKBWriter;
 use Brick\Geo\IO\EWKTReader;
 use Brick\Geo\IO\WKBByteOrder;
 use Brick\Geo\Point;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * Unit tests for class EWKBWriter.
@@ -16,12 +17,11 @@ use Brick\Geo\Point;
 class EWKBWriterTest extends EWKBAbstractTestCase
 {
     /**
-     * @dataProvider providerWrite
-     *
      * @param string       $ewkt      The EWKT to read.
      * @param string       $ewkb      The expected EWKB output, hex-encoded.
      * @param WKBByteOrder $byteOrder The byte order to use.
      */
+    #[DataProvider('providerWrite')]
     public function testWrite(string $ewkt, string $ewkb, WKBByteOrder $byteOrder) : void
     {
         $writer = new EWKBWriter();
@@ -54,9 +54,7 @@ class EWKBWriterTest extends EWKBAbstractTestCase
         }
     }
 
-    /**
-     * @dataProvider providerWriteEmptyPointThrowsException
-     */
+    #[DataProvider('providerWriteEmptyPointThrowsException')]
     public function testWriteEmptyPointThrowsException(Point $point) : void
     {
         $writer = new EWKBWriter();

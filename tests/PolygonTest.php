@@ -10,15 +10,14 @@ use Brick\Geo\Exception\NoSuchGeometryException;
 use Brick\Geo\CoordinateSystem;
 use Brick\Geo\LineString;
 use Brick\Geo\Polygon;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * Unit tests for class Polygon.
  */
 class PolygonTest extends AbstractTestCase
 {
-    /**
-     * @dataProvider providerConstructorEmpty
-     */
+    #[DataProvider('providerConstructorEmpty')]
     public function testConstructorEmpty(bool $is3D, bool $isMeasured, int $srid) : void
     {
         $cs = new CoordinateSystem($is3D, $isMeasured, $srid);
@@ -45,10 +44,9 @@ class PolygonTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerConstructor
-     *
      * @param string[] $ringsWKT
      */
+    #[DataProvider('providerConstructor')]
     public function testConstructor(array $ringsWKT, string $polygonWKT, bool $hasZ, bool $hasM, int $srid) : void
     {
         $rings = [];
@@ -79,8 +77,6 @@ class PolygonTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerConstructorWithCoordinateSystemMix
-     *
      * @param string  $ringWKT  The WKT of the outer ring of the polygon.
      * @param int     $ringSRID The SRID of the outer ring of the polygon.
      * @param bool    $hasZ     Whether the coordinate system has Z coordinates.
@@ -88,6 +84,7 @@ class PolygonTest extends AbstractTestCase
      * @param int     $srid     The SRID of the coordinate system.
      * @param string  $message  The expected exception message, optional.
      */
+    #[DataProvider('providerConstructorWithCoordinateSystemMix')]
     public function testConstructorWithCoordinateSystemMix(string $ringWKT, int $ringSRID, bool $hasZ, bool $hasM, int $srid, string $message = '') : void
     {
         $this->expectException(CoordinateSystemException::class);
@@ -127,10 +124,9 @@ class PolygonTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerOf
-     *
      * @param string[] $ringsWKT
      */
+    #[DataProvider('providerOf')]
     public function testOf(array $ringsWKT, string $polygonWKT, int $srid) : void
     {
         $rings = [];
@@ -159,9 +155,7 @@ class PolygonTest extends AbstractTestCase
         }
     }
 
-    /**
-     * @dataProvider providerOfWithCoordinateSystemMix
-     */
+    #[DataProvider('providerOfWithCoordinateSystemMix')]
     public function testOfWithCoordinateSystemMix(string $outerRingWKT, string $innerRingWKT, int $outerRingSRID, int $innerRingSRID) : void
     {
         $outerRing = LineString::fromText($outerRingWKT, $outerRingSRID);
@@ -186,13 +180,12 @@ class PolygonTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerRings
-     *
      * @param string      $polygonWKT       The WKT of the Polygon to test.
      * @param string|null $exteriorRingWKT  The WKT of the exterior ring, or null if the Polygon is empty.
      * @param string[]    $interiorRingWKTs The WKT of the interior rings.
      * @param int         $srid             The SRID of the geometries.
      */
+    #[DataProvider('providerRings')]
     public function testRings(string $polygonWKT, ?string $exteriorRingWKT, array $interiorRingWKTs, int $srid) : void
     {
         $polygon = Polygon::fromText($polygonWKT, $srid);
