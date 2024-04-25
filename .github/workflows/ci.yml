@@ -23,7 +23,7 @@ jobs:
           php-version: ${{ env.PSALM_PHP_VERSION }}
 
       - name: Install composer dependencies
-        uses: ramsey/composer-install@v2
+        uses: ramsey/composer-install@v3
 
       - name: Run Psalm
         run: vendor/bin/psalm --show-info=false --find-unused-psalm-suppress --no-progress
@@ -64,7 +64,7 @@ jobs:
           coverage: xdebug
 
       - name: Install composer dependencies
-        uses: ramsey/composer-install@v2
+        uses: ramsey/composer-install@v3
 
       - name: Run PHPUnit
         run: vendor/bin/phpunit
@@ -122,7 +122,7 @@ jobs:
           coverage: xdebug
 
       - name: Install composer dependencies
-        uses: ramsey/composer-install@v2
+        uses: ramsey/composer-install@v3
 
       - name: Run PHPUnit with coverage
         run: |
@@ -165,7 +165,7 @@ jobs:
           coverage: xdebug
 
       - name: Install composer dependencies
-        uses: ramsey/composer-install@v2
+        uses: ramsey/composer-install@v3
 
       - name: Run PHPUnit with coverage
         run: |
@@ -204,7 +204,7 @@ jobs:
         run: sudo apt install libsqlite3-mod-spatialite
 
       - name: Install composer dependencies
-        uses: ramsey/composer-install@v2
+        uses: ramsey/composer-install@v3
 
       - name: Run PHPUnit with coverage
         run: |
@@ -239,7 +239,7 @@ jobs:
           coverage: xdebug
 
       - name: Install composer dependencies
-        uses: ramsey/composer-install@v2
+        uses: ramsey/composer-install@v3
 
       - name: Run PHPUnit with coverage
         run: |
