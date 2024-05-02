@@ -33,6 +33,7 @@ jobs:
     runs-on: ubuntu-22.04
 
     strategy:
+      fail-fast: false
       matrix:
         php-version:
           - "8.1"
@@ -93,6 +94,7 @@ jobs:
     runs-on: ubuntu-22.04
 
     strategy:
+      fail-fast: false
       matrix:
         php-version:
           - "8.1"
