@@ -49,8 +49,8 @@ jobs:
           - "3306:3306"
         options: >-
           --health-cmd "mysqladmin ping --silent"
-          -e MYSQL_ALLOW_EMPTY_PASSWORD=true
-          --entrypoint sh mysql:8 -c "exec docker-entrypoint.sh mysqld --default-authentication-plugin=mysql_native_password"
+        env:
+          MYSQL_ALLOW_EMPTY_PASSWORD: true
 
     steps:
       - name: Checkout
