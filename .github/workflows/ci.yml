@@ -148,16 +148,18 @@ jobs:
         php-version:
           - "8.1"
 
+    services:
+      postgis:
+        image: "postgis/postgis:16-3.4"
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - "5432:5432"
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Setup PostgreSQL with PostGIS
-        uses: huaxk/postgis-action@v1
-        with:
-          postgresql version: 'latest'
-          postgresql password: 'postgres'
-          postgresql user: 'postgres'
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
