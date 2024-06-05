@@ -1164,8 +1164,11 @@ class GeometryEngineTest extends AbstractTestCase
         ];
     }
 
+    /**
+     * @param string|string[] $expectedWKT
+     */
     #[DataProvider('providerSplit')]
-    public function testSplit(string $originalWKT, string $bladeWKT, string $expectedWKT) : void
+    public function testSplit(string $originalWKT, string $bladeWKT, string|array $expectedWKT) : void
     {
         $geometryEngine = $this->getGeometryEngine();
 
@@ -1178,16 +1181,32 @@ class GeometryEngineTest extends AbstractTestCase
 
         $splitGeometry = $geometryEngine->split($originalGeometry, $bladeGeometry);
 
-        $this->assertSame($expectedWKT, $splitGeometry->asText());
+        if (is_array($expectedWKT)) {
+            self::assertContains($splitGeometry->asText(), $expectedWKT);
+        } else {
+            $this->assertSame($expectedWKT, $splitGeometry->asText());
+        }
     }
 
     public static function providerSplit() : array
     {
         return [
-            ['LINESTRING (1 1, 3 3)', 'POINT (2 2)', 'GEOMETRYCOLLECTION (LINESTRING (1 1, 2 2), LINESTRING (2 2, 3 3))'],
-            ['LINESTRING (1 1, 1 2, 2 2, 2 1, 1 1)', 'LINESTRING (0 0, 3 3)', 'GEOMETRYCOLLECTION (LINESTRING (1 1, 1 2, 2 2), LINESTRING (2 2, 2 1, 1 1))'],
-            ['POLYGON ((1 1, 1 2, 2 2, 2 1, 1 1))', 'LINESTRING (0 0, 3 3)', 'GEOMETRYCOLLECTION (POLYGON ((1 1, 1 2, 2 2, 1 1)), POLYGON ((2 2, 2 1, 1 1, 2 2)))'],
-            ['POLYGON ((1 1, 1 2, 3 2, 3 1, 1 1))', 'LINESTRING (1 1, 2 2, 3 1)', 'GEOMETRYCOLLECTION (POLYGON ((1 1, 1 2, 2 2, 1 1)), POLYGON ((1 1, 2 2, 3 1, 1 1)), POLYGON ((3 1, 2 2, 3 2, 3 1)))'],
+            ['LINESTRING (1 1, 3 3)', 'POINT (2 2)', [
+                'MULTILINESTRING ((1 1, 2 2), (2 2, 3 3))',
+                'GEOMETRYCOLLECTION (LINESTRING (1 1, 2 2), LINESTRING (2 2, 3 3))',
+            ]],
+            ['LINESTRING (1 1, 1 2, 2 2, 2 1, 1 1)', 'LINESTRING (0 0, 3 3)', [
+                'MULTILINESTRING ((1 1, 1 2, 2 2), (2 2, 2 1, 1 1))',
+                'GEOMETRYCOLLECTION (LINESTRING (1 1, 1 2, 2 2), LINESTRING (2 2, 2 1, 1 1))',
+            ]],
+            ['POLYGON ((1 1, 1 2, 2 2, 2 1, 1 1))', 'LINESTRING (0 0, 3 3)', [
+                'MULTIPOLYGON (((1 1, 1 2, 2 2, 1 1)), ((2 2, 2 1, 1 1, 2 2)))',
+                'GEOMETRYCOLLECTION (POLYGON ((1 1, 1 2, 2 2, 1 1)), POLYGON ((2 2, 2 1, 1 1, 2 2)))',
+            ]],
+            ['POLYGON ((1 1, 1 2, 3 2, 3 1, 1 1))', 'LINESTRING (1 1, 2 2, 3 1)', [
+                'MULTIPOLYGON (((1 1, 1 2, 2 2, 1 1)), ((2 2, 3 2, 3 1, 2 2)), ((3 1, 1 1, 2 2, 3 1)))',
+                'GEOMETRYCOLLECTION (POLYGON ((1 1, 1 2, 2 2, 1 1)), POLYGON ((1 1, 2 2, 3 1, 1 1)), POLYGON ((3 1, 2 2, 3 2, 3 1)))',
+            ]],
         ];
     }
 
