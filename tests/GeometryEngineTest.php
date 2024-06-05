@@ -323,10 +323,10 @@ class GeometryEngineTest extends AbstractTestCase
 
     /**
      * @param string $geometry The WKT of the geometry to test.
-     * @param string $boundary The WKT of the expected boundary.
+     * @param string|string[] $boundary The WKT of the expected boundary. If multiple possible results, an array.
      */
     #[DataProvider('providerBoundary')]
-    public function testBoundary(string $geometry, string $boundary) : void
+    public function testBoundary(string $geometry, string|array $boundary) : void
     {
         $geometryEngine = $this->getGeometryEngine();
 
@@ -344,16 +344,22 @@ class GeometryEngineTest extends AbstractTestCase
             $this->expectException(GeometryEngineException::class);
         }
 
-        self::assertSame($boundary, $geometryEngine->boundary($geometry)->asText());
+        $actualBoundary = $geometryEngine->boundary($geometry);
+
+        if (is_array($boundary)) {
+            self::assertContains($actualBoundary->asText(), $boundary);
+        } else {
+            self::assertSame($boundary, $actualBoundary->asText());
+        }
     }
 
     public static function providerBoundary() : array
     {
         return [
-            ['POINT (1 2)', 'GEOMETRYCOLLECTION EMPTY'],
-            ['POINT Z (2 3 4)', 'GEOMETRYCOLLECTION EMPTY'],
-            ['POINT M (3 4 5)', 'GEOMETRYCOLLECTION EMPTY'],
-            ['POINT ZM (4 5 6 7)', 'GEOMETRYCOLLECTION EMPTY'],
+            ['POINT (1 2)', ['POINT EMPTY', 'GEOMETRYCOLLECTION EMPTY']],
+            ['POINT Z (2 3 4)', ['POINT Z EMPTY', 'GEOMETRYCOLLECTION EMPTY']],
+            ['POINT M (3 4 5)', ['POINT M EMPTY', 'GEOMETRYCOLLECTION EMPTY']],
+            ['POINT ZM (4 5 6 7)', ['POINT ZM EMPTY', 'GEOMETRYCOLLECTION EMPTY']],
             ['LINESTRING (1 1, 0 0, -1 1)', 'MULTIPOINT (1 1, -1 1)'],
             ['POLYGON ((1 1, 0 0, -1 1, 1 1))', 'LINESTRING (1 1, 0 0, -1 1, 1 1)'],
         ];
