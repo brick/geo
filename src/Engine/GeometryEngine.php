@@ -486,4 +486,9 @@ interface GeometryEngine
      * Returns a new geometry with its coordinates transformed to a different spatial reference system.
      */
     public function transform(Geometry $g, int $srid) : Geometry;
+
+    /**
+     * Splits a geometry into several geometries using a blade.
+     */
+    public function split(Geometry $g, Geometry $blade) : Geometry;
 }
