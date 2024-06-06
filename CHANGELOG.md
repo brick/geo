@@ -5,6 +5,7 @@
 💥 **Breaking changes**
 
 - interface `GeometryEngine` has a new method: `split()`
+- method `GeometryEngine::boundingPolygons()` has been removed
 
 ✨ **New features**
 

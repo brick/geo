@@ -366,11 +366,6 @@ class GEOSEngine implements GeometryEngine
         throw GeometryEngineException::unimplementedMethod(__METHOD__);
     }
 
-    public function boundingPolygons(Polygon $p) : MultiPolygon
-    {
-        throw GeometryEngineException::unimplementedMethod(__METHOD__);
-    }
-
     public function transform(Geometry $g, int $srid) : Geometry
     {
         throw GeometryEngineException::unimplementedMethod(__METHOD__);

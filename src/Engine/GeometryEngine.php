@@ -472,17 +472,6 @@ interface GeometryEngine
     public function maxDistance(Geometry $a, Geometry $b) : float;
 
     /**
-     * Returns the collection of polygons that bounds the given polygon 'p' for any polygon 'p' in the surface.
-     *
-     * @param Polygon $p
-     *
-     * @return MultiPolygon
-     *
-     * @throws GeometryEngineException If the operation is not supported by the engine.
-     */
-    public function boundingPolygons(Polygon $p) : MultiPolygon;
-
-    /**
      * Returns a new geometry with its coordinates transformed to a different spatial reference system.
      */
     public function transform(Geometry $g, int $srid) : Geometry;
