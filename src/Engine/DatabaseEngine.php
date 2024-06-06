@@ -433,4 +433,9 @@ abstract class DatabaseEngine implements GeometryEngine
     {
         return $this->queryGeometry('ST_Transform', $g, $srid);
     }
+
+    public function split(Geometry $g, Geometry $blade) : Geometry
+    {
+        return $this->queryGeometry('ST_Split', $g, $blade);
+    }
 }

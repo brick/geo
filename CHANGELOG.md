@@ -1,5 +1,15 @@
 # Changelog
 
+## UNRELEASED (0.11.0)
+
+💥 **Breaking changes**
+
+- interface `GeometryEngine` has a new method: `split()`
+
+✨ **New features**
+
+- New engine method: `GeometryEngine::split()`
+
 ## [0.10.0](https://github.com/brick/geo/releases/tag/0.10.0) - 2024-01-23
 
 💥 **Breaking changes**

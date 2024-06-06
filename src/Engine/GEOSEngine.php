@@ -375,4 +375,9 @@ class GEOSEngine implements GeometryEngine
     {
         throw GeometryEngineException::unimplementedMethod(__METHOD__);
     }
+
+    public function split(Geometry $g, Geometry $blade) : Geometry
+    {
+        throw GeometryEngineException::unimplementedMethod(__METHOD__);
+    }
 }
