@@ -448,6 +448,24 @@ The library supports reading and writing `Feature` and `FeatureCollection` objec
 
 GeoJSON aims to support WGS84 only, and as such all Geometries are imported using [SRID 4326](https://epsg.io/4326).
 
+## Reducing coordinate precision
+
+Before exporting geometries in a text format, you may need to reduce the precision of the coordinates to keep the output small, while retaining a sufficient precision.
+You can use the `RoundCoordinatesProjector` for this:
+
+```php
+use Brick\Geo\Point;
+use Brick\Geo\Projector\RoundCoordinatesProjector;
+
+$roundProjector = new RoundCoordinatesProjector(2);
+
+$point = Point::xy(1.2345678, 2.3456789);
+echo $point->asText(); // POINT (1.2345678 2.3456789)
+
+$roundedPoint = $roundProjector->project($point);
+echo $roundedPoint->asText(); // POINT (1.23 2.35)
+```
+
 ## Doctrine mappings
 
 You can use `brick/geo` types in your Doctrine entities using the [brick/geo-doctrine](https://github.com/brick/geo-doctrine) package.

@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.11.1](https://github.com/brick/geo/releases/tag/0.11.1) - 2024-08-19
+
+✨ **New features**
+
+- New projector: `RoundCoordinatesProjector`
+
 ## [0.11.0](https://github.com/brick/geo/releases/tag/0.11.0) - 2024-06-07
 
 💥 **Breaking changes**
