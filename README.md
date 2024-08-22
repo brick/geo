@@ -462,7 +462,7 @@ $roundProjector = new RoundCoordinatesProjector(2);
 $point = Point::xy(1.2345678, 2.3456789);
 echo $point->asText(); // POINT (1.2345678 2.3456789)
 
-$roundedPoint = $roundProjector->project($point);
+$roundedPoint = $point->project($roundProjector);
 echo $roundedPoint->asText(); // POINT (1.23 2.35)
 ```
 
