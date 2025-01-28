@@ -195,7 +195,7 @@ class GeoJSONWriter
         $geometries = $geometryCollection->geometries();
 
         $geometries = array_map(function(Geometry $geometry) {
-            if ($geometry instanceof GeometryCollection) {
+            if (is_a($geometry, 'GeometryCollection')) {
                 throw new GeometryIOException('GeoJSON does not allow nested GeometryCollections.');
             }
 
