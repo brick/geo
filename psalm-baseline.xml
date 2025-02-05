@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="5.20.0@3f284e96c9d9be6fe6b15c79416e1d1903dcfef4">
+<files psalm-version="6.3.0@222dda8483516044c2ed7a4c3f197d7c9d6c3ddb">
   <file src="src/CircularString.php">
+    <FalsableReturnStatement>
+      <code><![CDATA[end($this->points)]]></code>
+    </FalsableReturnStatement>
+    <InvalidFalsableReturnType>
+      <code><![CDATA[Point]]></code>
+    </InvalidFalsableReturnType>
     <InvalidReturnStatement>
       <code><![CDATA[new ArrayIterator($this->points)]]></code>
     </InvalidReturnStatement>
@@ -18,11 +24,8 @@
     <InvalidReturnType>
       <code><![CDATA[ArrayIterator<int, Curve>]]></code>
     </InvalidReturnType>
-    <MixedInferredReturnType>
-      <code>Point</code>
-    </MixedInferredReturnType>
     <MixedMethodCall>
-      <code>endPoint</code>
+      <code><![CDATA[endPoint]]></code>
     </MixedMethodCall>
     <MixedReturnStatement>
       <code><![CDATA[$this->curves[$count - 1]->endPoint()]]></code>
@@ -38,23 +41,34 @@
   </file>
   <file src="src/Engine/DatabaseEngine.php">
     <MixedAssignment>
-      <code>$result</code>
-      <code>$result</code>
+      <code><![CDATA[$result]]></code>
+      <code><![CDATA[$result]]></code>
     </MixedAssignment>
+    <PossiblyFalseArgument>
+      <code><![CDATA[$wkb]]></code>
+    </PossiblyFalseArgument>
+    <PossiblyNullArgument>
+      <code><![CDATA[$geometryType]]></code>
+    </PossiblyNullArgument>
+    <PossiblyNullOperand>
+      <code><![CDATA[$geometryType]]></code>
+    </PossiblyNullOperand>
     <PossiblyUndefinedArrayOffset>
-      <code>$result</code>
-      <code>$result</code>
+      <code><![CDATA[$result]]></code>
+      <code><![CDATA[$result]]></code>
     </PossiblyUndefinedArrayOffset>
+  </file>
+  <file src="src/Engine/GEOSEngine.php">
+    <PossiblyFalseArgument>
+      <code><![CDATA[hex2bin($this->wkbWriter->writeHEX($geometry))]]></code>
+    </PossiblyFalseArgument>
   </file>
   <file src="src/Engine/PDOEngine.php">
     <MixedAssignment>
-      <code>$result</code>
+      <code><![CDATA[$result]]></code>
     </MixedAssignment>
-    <MixedInferredReturnType>
-      <code>array</code>
-    </MixedInferredReturnType>
     <MixedReturnStatement>
-      <code>$result</code>
+      <code><![CDATA[$result]]></code>
     </MixedReturnStatement>
   </file>
   <file src="src/Geometry.php">
@@ -66,19 +80,19 @@
       <code><![CDATA[$this->project(new SwapXYProjector())]]></code>
     </LessSpecificReturnStatement>
     <MissingTemplateParam>
-      <code>\IteratorAggregate</code>
+      <code><![CDATA[\IteratorAggregate]]></code>
     </MissingTemplateParam>
     <MoreSpecificReturnType>
-      <code>static</code>
-      <code>static</code>
-      <code>static</code>
-      <code>static</code>
-      <code>static</code>
+      <code><![CDATA[static]]></code>
+      <code><![CDATA[static]]></code>
+      <code><![CDATA[static]]></code>
+      <code><![CDATA[static]]></code>
+      <code><![CDATA[static]]></code>
     </MoreSpecificReturnType>
   </file>
   <file src="src/GeometryCollection.php">
     <DocblockTypeContradiction>
-      <code>$geometry instanceof $containedGeometryType</code>
+      <code><![CDATA[$geometry instanceof $containedGeometryType]]></code>
     </DocblockTypeContradiction>
     <InvalidReturnStatement>
       <code><![CDATA[new ArrayIterator($this->geometries)]]></code>
@@ -87,16 +101,30 @@
       <code><![CDATA[ArrayIterator<int, T>]]></code>
     </InvalidReturnType>
     <MixedArgument>
-      <code>$geometry::class</code>
+      <code><![CDATA[$geometry::class]]></code>
     </MixedArgument>
   </file>
   <file src="src/IO/EWKTParser.php">
     <InvalidClassConstantType>
-      <code>T_NUMBER</code>
-      <code>T_WORD</code>
+      <code><![CDATA[T_NUMBER]]></code>
+      <code><![CDATA[T_WORD]]></code>
     </InvalidClassConstantType>
   </file>
+  <file src="src/IO/GeoJSONWriter.php">
+    <FalsableReturnStatement>
+      <code><![CDATA[json_encode($this->writeRaw($object), $this->prettyPrint ? JSON_PRETTY_PRINT : 0)]]></code>
+    </FalsableReturnStatement>
+    <InvalidFalsableReturnType>
+      <code><![CDATA[string]]></code>
+    </InvalidFalsableReturnType>
+  </file>
   <file src="src/LineString.php">
+    <FalsableReturnStatement>
+      <code><![CDATA[end($this->points)]]></code>
+    </FalsableReturnStatement>
+    <InvalidFalsableReturnType>
+      <code><![CDATA[Point]]></code>
+    </InvalidFalsableReturnType>
     <InvalidReturnStatement>
       <code><![CDATA[new ArrayIterator($this->points)]]></code>
     </InvalidReturnStatement>
@@ -130,7 +158,7 @@
   </file>
   <file src="src/Projector/SwapXYProjector.php">
     <PossiblyUndefinedArrayOffset>
-      <code>$x</code>
+      <code><![CDATA[$x]]></code>
     </PossiblyUndefinedArrayOffset>
   </file>
 </files>

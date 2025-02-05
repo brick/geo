@@ -17,28 +17,4 @@
             <directory name="vendor" />
         </ignoreFiles>
     </projectFiles>
-
-    <issueHandlers>
-        <LessSpecificReturnStatement>
-            <errorLevel type="suppress">
-                <directory name="src/Proxy" />
-            </errorLevel>
-        </LessSpecificReturnStatement>
-        <MoreSpecificReturnType>
-            <errorLevel type="suppress">
-                <directory name="src/Proxy" />
-            </errorLevel>
-        </MoreSpecificReturnType>
-        <PropertyNotSetInConstructor>
-            <errorLevel type="suppress">
-                <directory name="src/Proxy" />
-            </errorLevel>
-        </PropertyNotSetInConstructor>
-        <LessSpecificImplementedReturnType>
-            <!-- @return static and toXY(): sub-type -->
-            <errorLevel type="suppress">
-                <directory name="src" />
-            </errorLevel>
-        </LessSpecificImplementedReturnType>
-    </issueHandlers>
 </psalm>
