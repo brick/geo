@@ -145,26 +145,6 @@
       <code><![CDATA[$this->project(new SRIDProjector($srid))]]></code>
       <code><![CDATA[$this->project(new SwapXYProjector())]]></code>
     </LessSpecificReturnStatement>
-    <MissingClassConstType>
-      <code><![CDATA[CIRCULARSTRING     = 8]]></code>
-      <code><![CDATA[COMPOUNDCURVE      = 9]]></code>
-      <code><![CDATA[CURVE              = 13]]></code>
-      <code><![CDATA[CURVEPOLYGON       = 10]]></code>
-      <code><![CDATA[GEOMETRY           = 0]]></code>
-      <code><![CDATA[GEOMETRYCOLLECTION = 7]]></code>
-      <code><![CDATA[LINESTRING         = 2]]></code>
-      <code><![CDATA[MULTICURVE         = 11]]></code>
-      <code><![CDATA[MULTILINESTRING    = 5]]></code>
-      <code><![CDATA[MULTIPOINT         = 4]]></code>
-      <code><![CDATA[MULTIPOLYGON       = 6]]></code>
-      <code><![CDATA[MULTISURFACE       = 12]]></code>
-      <code><![CDATA[POINT              = 1]]></code>
-      <code><![CDATA[POLYGON            = 3]]></code>
-      <code><![CDATA[POLYHEDRALSURFACE  = 15]]></code>
-      <code><![CDATA[SURFACE            = 14]]></code>
-      <code><![CDATA[TIN                = 16]]></code>
-      <code><![CDATA[TRIANGLE           = 17]]></code>
-    </MissingClassConstType>
     <MissingTemplateParam>
       <code><![CDATA[\IteratorAggregate]]></code>
     </MissingTemplateParam>
@@ -199,11 +179,6 @@
     <ClassMustBeFinal>
       <code><![CDATA[EWKBTools]]></code>
     </ClassMustBeFinal>
-    <MissingClassConstType>
-      <code><![CDATA[M = 0x40000000]]></code>
-      <code><![CDATA[S = 0x20000000]]></code>
-      <code><![CDATA[Z = 0x80000000]]></code>
-    </MissingClassConstType>
   </file>
   <file src="src/IO/EWKBWriter.php">
     <ClassMustBeFinal>
@@ -218,12 +193,6 @@
       <code><![CDATA[T_NUMBER]]></code>
       <code><![CDATA[T_WORD]]></code>
     </InvalidClassConstantType>
-    <MissingClassConstType>
-      <code><![CDATA[REGEX_SRID = 'SRID\=([0-9]+)\s*;']]></code>
-      <code><![CDATA[T_NUMBER = 3]]></code>
-      <code><![CDATA[T_SRID = 1]]></code>
-      <code><![CDATA[T_WORD = 2]]></code>
-    </MissingClassConstType>
   </file>
   <file src="src/IO/EWKTReader.php">
     <ClassMustBeFinal>
@@ -239,19 +208,6 @@
     <ClassMustBeFinal>
       <code><![CDATA[GeoJSONReader]]></code>
     </ClassMustBeFinal>
-    <MissingClassConstType>
-      <code><![CDATA[TYPES = [
-        'feature'            => 'Feature',
-        'featurecollection'  => 'FeatureCollection',
-        'point'              => 'Point',
-        'linestring'         => 'LineString',
-        'polygon'            => 'Polygon',
-        'multipoint'         => 'MultiPoint',
-        'multilinestring'    => 'MultiLineString',
-        'multipolygon'       => 'MultiPolygon',
-        'geometrycollection' => 'GeometryCollection',
-    ]]]></code>
-    </MissingClassConstType>
   </file>
   <file src="src/IO/GeoJSONWriter.php">
     <ClassMustBeFinal>
@@ -283,14 +239,6 @@
     <ClassMustBeFinal>
       <code><![CDATA[WKBWriter]]></code>
     </ClassMustBeFinal>
-  </file>
-  <file src="src/IO/WKTParser.php">
-    <MissingClassConstType>
-      <code><![CDATA[REGEX_NUMBER = '(\-?[0-9]+(?:\.[0-9]+)?(?:e[\+\-]?[0-9]+)?)']]></code>
-      <code><![CDATA[REGEX_WORD   = '([a-z]+)']]></code>
-      <code><![CDATA[T_NUMBER = 2]]></code>
-      <code><![CDATA[T_WORD   = 1]]></code>
-    </MissingClassConstType>
   </file>
   <file src="src/IO/WKTReader.php">
     <ClassMustBeFinal>
