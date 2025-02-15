@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="6.3.0@222dda8483516044c2ed7a4c3f197d7c9d6c3ddb">
+<files psalm-version="6.6.0@07e9a53713232e924da9acb4a6e47507461cd411">
+  <file src="src/BoundingBox.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[BoundingBox]]></code>
+    </ClassMustBeFinal>
+  </file>
   <file src="src/CircularString.php">
     <FalsableReturnStatement>
       <code><![CDATA[end($this->points)]]></code>
@@ -31,6 +36,11 @@
       <code><![CDATA[$this->curves[$count - 1]->endPoint()]]></code>
     </MixedReturnStatement>
   </file>
+  <file src="src/CoordinateSystem.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[CoordinateSystem]]></code>
+    </ClassMustBeFinal>
+  </file>
   <file src="src/CurvePolygon.php">
     <InvalidReturnStatement>
       <code><![CDATA[new ArrayIterator($this->rings)]]></code>
@@ -59,17 +69,73 @@
     </PossiblyUndefinedArrayOffset>
   </file>
   <file src="src/Engine/GEOSEngine.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[GEOSEngine]]></code>
+    </ClassMustBeFinal>
     <PossiblyFalseArgument>
       <code><![CDATA[hex2bin($this->wkbWriter->writeHEX($geometry))]]></code>
     </PossiblyFalseArgument>
   </file>
+  <file src="src/Engine/GeometryParameter.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[GeometryParameter]]></code>
+    </ClassMustBeFinal>
+  </file>
   <file src="src/Engine/PDOEngine.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[PDOEngine]]></code>
+    </ClassMustBeFinal>
     <MixedAssignment>
       <code><![CDATA[$result]]></code>
     </MixedAssignment>
     <MixedReturnStatement>
       <code><![CDATA[$result]]></code>
     </MixedReturnStatement>
+  </file>
+  <file src="src/Engine/SQLite3Engine.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[SQLite3Engine]]></code>
+    </ClassMustBeFinal>
+  </file>
+  <file src="src/Exception/CoordinateSystemException.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[CoordinateSystemException]]></code>
+    </ClassMustBeFinal>
+  </file>
+  <file src="src/Exception/EmptyGeometryException.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[EmptyGeometryException]]></code>
+    </ClassMustBeFinal>
+  </file>
+  <file src="src/Exception/GeometryEngineException.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[GeometryEngineException]]></code>
+    </ClassMustBeFinal>
+  </file>
+  <file src="src/Exception/GeometryIOException.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[GeometryIOException]]></code>
+    </ClassMustBeFinal>
+  </file>
+  <file src="src/Exception/InvalidGeometryException.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[InvalidGeometryException]]></code>
+    </ClassMustBeFinal>
+  </file>
+  <file src="src/Exception/NoSuchGeometryException.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[NoSuchGeometryException]]></code>
+    </ClassMustBeFinal>
+  </file>
+  <file src="src/Exception/SQLite3Exception.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[SQLite3Exception]]></code>
+    </ClassMustBeFinal>
+  </file>
+  <file src="src/Exception/UnexpectedGeometryException.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[UnexpectedGeometryException]]></code>
+    </ClassMustBeFinal>
   </file>
   <file src="src/Geometry.php">
     <LessSpecificReturnStatement>
@@ -79,6 +145,26 @@
       <code><![CDATA[$this->project(new SRIDProjector($srid))]]></code>
       <code><![CDATA[$this->project(new SwapXYProjector())]]></code>
     </LessSpecificReturnStatement>
+    <MissingClassConstType>
+      <code><![CDATA[CIRCULARSTRING     = 8]]></code>
+      <code><![CDATA[COMPOUNDCURVE      = 9]]></code>
+      <code><![CDATA[CURVE              = 13]]></code>
+      <code><![CDATA[CURVEPOLYGON       = 10]]></code>
+      <code><![CDATA[GEOMETRY           = 0]]></code>
+      <code><![CDATA[GEOMETRYCOLLECTION = 7]]></code>
+      <code><![CDATA[LINESTRING         = 2]]></code>
+      <code><![CDATA[MULTICURVE         = 11]]></code>
+      <code><![CDATA[MULTILINESTRING    = 5]]></code>
+      <code><![CDATA[MULTIPOINT         = 4]]></code>
+      <code><![CDATA[MULTIPOLYGON       = 6]]></code>
+      <code><![CDATA[MULTISURFACE       = 12]]></code>
+      <code><![CDATA[POINT              = 1]]></code>
+      <code><![CDATA[POLYGON            = 3]]></code>
+      <code><![CDATA[POLYHEDRALSURFACE  = 15]]></code>
+      <code><![CDATA[SURFACE            = 14]]></code>
+      <code><![CDATA[TIN                = 16]]></code>
+      <code><![CDATA[TRIANGLE           = 17]]></code>
+    </MissingClassConstType>
     <MissingTemplateParam>
       <code><![CDATA[\IteratorAggregate]]></code>
     </MissingTemplateParam>
@@ -104,19 +190,122 @@
       <code><![CDATA[$geometry::class]]></code>
     </MixedArgument>
   </file>
+  <file src="src/IO/EWKBReader.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[EWKBReader]]></code>
+    </ClassMustBeFinal>
+  </file>
+  <file src="src/IO/EWKBTools.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[EWKBTools]]></code>
+    </ClassMustBeFinal>
+    <MissingClassConstType>
+      <code><![CDATA[M = 0x40000000]]></code>
+      <code><![CDATA[S = 0x20000000]]></code>
+      <code><![CDATA[Z = 0x80000000]]></code>
+    </MissingClassConstType>
+  </file>
+  <file src="src/IO/EWKBWriter.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[EWKBWriter]]></code>
+    </ClassMustBeFinal>
+  </file>
   <file src="src/IO/EWKTParser.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[EWKTParser]]></code>
+    </ClassMustBeFinal>
     <InvalidClassConstantType>
       <code><![CDATA[T_NUMBER]]></code>
       <code><![CDATA[T_WORD]]></code>
     </InvalidClassConstantType>
+    <MissingClassConstType>
+      <code><![CDATA[REGEX_SRID = 'SRID\=([0-9]+)\s*;']]></code>
+      <code><![CDATA[T_NUMBER = 3]]></code>
+      <code><![CDATA[T_SRID = 1]]></code>
+      <code><![CDATA[T_WORD = 2]]></code>
+    </MissingClassConstType>
+  </file>
+  <file src="src/IO/EWKTReader.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[EWKTReader]]></code>
+    </ClassMustBeFinal>
+  </file>
+  <file src="src/IO/EWKTWriter.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[EWKTWriter]]></code>
+    </ClassMustBeFinal>
+  </file>
+  <file src="src/IO/GeoJSONReader.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[GeoJSONReader]]></code>
+    </ClassMustBeFinal>
+    <MissingClassConstType>
+      <code><![CDATA[TYPES = [
+        'feature'            => 'Feature',
+        'featurecollection'  => 'FeatureCollection',
+        'point'              => 'Point',
+        'linestring'         => 'LineString',
+        'polygon'            => 'Polygon',
+        'multipoint'         => 'MultiPoint',
+        'multilinestring'    => 'MultiLineString',
+        'multipolygon'       => 'MultiPolygon',
+        'geometrycollection' => 'GeometryCollection',
+    ]]]></code>
+    </MissingClassConstType>
   </file>
   <file src="src/IO/GeoJSONWriter.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[GeoJSONWriter]]></code>
+    </ClassMustBeFinal>
     <FalsableReturnStatement>
       <code><![CDATA[json_encode($this->writeRaw($object), $this->prettyPrint ? JSON_PRETTY_PRINT : 0)]]></code>
     </FalsableReturnStatement>
     <InvalidFalsableReturnType>
       <code><![CDATA[string]]></code>
     </InvalidFalsableReturnType>
+  </file>
+  <file src="src/IO/WKBBuffer.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[WKBBuffer]]></code>
+    </ClassMustBeFinal>
+  </file>
+  <file src="src/IO/WKBGeometryHeader.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[WKBGeometryHeader]]></code>
+    </ClassMustBeFinal>
+  </file>
+  <file src="src/IO/WKBReader.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[WKBReader]]></code>
+    </ClassMustBeFinal>
+  </file>
+  <file src="src/IO/WKBWriter.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[WKBWriter]]></code>
+    </ClassMustBeFinal>
+  </file>
+  <file src="src/IO/WKTParser.php">
+    <MissingClassConstType>
+      <code><![CDATA[REGEX_NUMBER = '(\-?[0-9]+(?:\.[0-9]+)?(?:e[\+\-]?[0-9]+)?)']]></code>
+      <code><![CDATA[REGEX_WORD   = '([a-z]+)']]></code>
+      <code><![CDATA[T_NUMBER = 2]]></code>
+      <code><![CDATA[T_WORD   = 1]]></code>
+    </MissingClassConstType>
+  </file>
+  <file src="src/IO/WKTReader.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[WKTReader]]></code>
+    </ClassMustBeFinal>
+  </file>
+  <file src="src/IO/WKTWriter.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[WKTWriter]]></code>
+    </ClassMustBeFinal>
+  </file>
+  <file src="src/Internal/Cloner.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[Cloner]]></code>
+    </ClassMustBeFinal>
   </file>
   <file src="src/LineString.php">
     <FalsableReturnStatement>
