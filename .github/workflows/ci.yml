@@ -38,9 +38,6 @@ jobs:
       fail-fast: false
       matrix:
         php-version:
-          - "8.1"
-          - "8.2"
-          - "8.3"
           - "8.4"
         emulate-prepares:
           - "ON"
@@ -100,7 +97,7 @@ jobs:
       fail-fast: false
       matrix:
         php-version:
-          - "8.1"
+          - "8.4"
         emulate-prepares:
           - "ON"
           - "OFF"
@@ -149,7 +146,7 @@ jobs:
     strategy:
       matrix:
         php-version:
-          - "8.1"
+          - "8.4"
 
     services:
       postgis:
@@ -193,7 +190,7 @@ jobs:
     strategy:
       matrix:
         php-version:
-          - "8.1"
+          - "8.4"
 
     steps:
       - name: Checkout
@@ -232,7 +229,7 @@ jobs:
     strategy:
       matrix:
         php-version:
-          - "8.1"
+          - "8.4"
 
     steps:
       - name: Checkout
