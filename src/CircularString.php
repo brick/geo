@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Brick\Geo;
 
 use ArrayIterator;
-use Brick\Geo\Attribute\NoProxy;
 use Brick\Geo\Exception\CoordinateSystemException;
 use Brick\Geo\Exception\EmptyGeometryException;
 use Brick\Geo\Exception\InvalidGeometryException;
@@ -18,7 +17,7 @@ use Brick\Geo\Projector\Projector;
  * A circular arc segment is a curved segment defined by three points in a two-dimensional plane;
  * the first point cannot be the same as the third point.
  */
-class CircularString extends Curve
+final class CircularString extends Curve
 {
     /**
      * The Points that compose this CircularString.
@@ -126,13 +125,11 @@ class CircularString extends Curve
         return $this->points;
     }
 
-    #[NoProxy]
     public function geometryType() : string
     {
         return 'CircularString';
     }
 
-    #[NoProxy]
     public function geometryTypeBinary() : int
     {
         return Geometry::CIRCULARSTRING;

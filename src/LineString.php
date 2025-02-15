@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Brick\Geo;
 
 use ArrayIterator;
-use Brick\Geo\Attribute\NoProxy;
 use Brick\Geo\Exception\CoordinateSystemException;
 use Brick\Geo\Exception\EmptyGeometryException;
 use Brick\Geo\Exception\InvalidGeometryException;
@@ -17,7 +16,7 @@ use Brick\Geo\Projector\Projector;
  *
  * Each consecutive pair of Points defines a line segment.
  */
-class LineString extends Curve
+final class LineString extends Curve
 {
     /**
      * The Points that compose this LineString.
@@ -168,13 +167,11 @@ class LineString extends Curve
         return $this->points;
     }
 
-    #[NoProxy]
     public function geometryType() : string
     {
         return 'LineString';
     }
 
-    #[NoProxy]
     public function geometryTypeBinary() : int
     {
         return Geometry::LINESTRING;

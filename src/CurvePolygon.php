@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Brick\Geo;
 
 use ArrayIterator;
-use Brick\Geo\Attribute\NoProxy;
 use Brick\Geo\Exception\CoordinateSystemException;
 use Brick\Geo\Exception\EmptyGeometryException;
 use Brick\Geo\Exception\NoSuchGeometryException;
@@ -17,7 +16,7 @@ use Brick\Geo\Projector\Projector;
  * A CurvePolygon instance differs from a Polygon instance in that a CurvePolygon instance may contain
  * the following circular arc segments: CircularString and CompoundCurve in addition to LineString.
  */
-class CurvePolygon extends Surface
+final class CurvePolygon extends Surface
 {
     /**
      * The rings that compose this CurvePolygon.
@@ -56,8 +55,6 @@ class CurvePolygon extends Surface
 
     /**
      * Creates a non-empty CurvePolygon composed of the given rings.
-     *
-     * @psalm-suppress UnsafeInstantiation
      *
      * @param Curve    $exteriorRing  The exterior ring.
      * @param Curve ...$interiorRings The interior rings, if any.
@@ -121,13 +118,11 @@ class CurvePolygon extends Surface
         return array_slice($this->rings, 1);
     }
 
-    #[NoProxy]
     public function geometryType() : string
     {
         return 'CurvePolygon';
     }
 
-    #[NoProxy]
     public function geometryTypeBinary() : int
     {
         return Geometry::CURVEPOLYGON;
