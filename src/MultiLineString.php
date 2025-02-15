@@ -11,9 +11,8 @@ use Override;
  * A MultiLineString is a MultiCurve whose elements are LineStrings.
  *
  * @extends MultiCurve<LineString>
- * @final
  */
-class MultiLineString extends MultiCurve
+final class MultiLineString extends MultiCurve
 {
     /**
      * @return list<list<list<float>>>

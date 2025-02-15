@@ -18,9 +18,8 @@ use Override;
  * the following circular arc segments: CircularString and CompoundCurve in addition to LineString.
  *
  * @template-implements \IteratorAggregate<int<0, max>, Curve>
- * @final
  */
-class CurvePolygon extends Surface implements \Countable, \IteratorAggregate
+final class CurvePolygon extends Surface implements \Countable, \IteratorAggregate
 {
     /**
      * The rings that compose this CurvePolygon.
