@@ -13,11 +13,11 @@ use Brick\Geo\Exception\GeometryIOException;
  */
 class WKTParser
 {
-    protected const T_WORD   = 1;
-    protected const T_NUMBER = 2;
+    protected const int T_WORD   = 1;
+    protected const int T_NUMBER = 2;
 
-    protected const REGEX_WORD   = '([a-z]+)';
-    protected const REGEX_NUMBER = '(\-?[0-9]+(?:\.[0-9]+)?(?:e[\+\-]?[0-9]+)?)';
+    protected const string REGEX_WORD   = '([a-z]+)';
+    protected const string REGEX_NUMBER = '(\-?[0-9]+(?:\.[0-9]+)?(?:e[\+\-]?[0-9]+)?)';
 
     /**
      * The list of tokens.
