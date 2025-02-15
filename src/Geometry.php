@@ -25,24 +25,24 @@ use Override;
  */
 abstract class Geometry implements \Stringable
 {
-    final public const GEOMETRY           = 0;
-    final public const POINT              = 1;
-    final public const LINESTRING         = 2;
-    final public const POLYGON            = 3;
-    final public const MULTIPOINT         = 4;
-    final public const MULTILINESTRING    = 5;
-    final public const MULTIPOLYGON       = 6;
-    final public const GEOMETRYCOLLECTION = 7;
-    final public const CIRCULARSTRING     = 8;
-    final public const COMPOUNDCURVE      = 9;
-    final public const CURVEPOLYGON       = 10;
-    final public const MULTICURVE         = 11;
-    final public const MULTISURFACE       = 12;
-    final public const CURVE              = 13;
-    final public const SURFACE            = 14;
-    final public const POLYHEDRALSURFACE  = 15;
-    final public const TIN                = 16;
-    final public const TRIANGLE           = 17;
+    final public const int GEOMETRY           = 0;
+    final public const int POINT              = 1;
+    final public const int LINESTRING         = 2;
+    final public const int POLYGON            = 3;
+    final public const int MULTIPOINT         = 4;
+    final public const int MULTILINESTRING    = 5;
+    final public const int MULTIPOLYGON       = 6;
+    final public const int GEOMETRYCOLLECTION = 7;
+    final public const int CIRCULARSTRING     = 8;
+    final public const int COMPOUNDCURVE      = 9;
+    final public const int CURVEPOLYGON       = 10;
+    final public const int MULTICURVE         = 11;
+    final public const int MULTISURFACE       = 12;
+    final public const int CURVE              = 13;
+    final public const int SURFACE            = 14;
+    final public const int POLYHEDRALSURFACE  = 15;
+    final public const int TIN                = 16;
+    final public const int TRIANGLE           = 17;
 
     /**
      * The coordinate system of this geometry.

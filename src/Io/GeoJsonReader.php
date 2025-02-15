@@ -28,7 +28,7 @@ final class GeoJsonReader
     /**
      * The GeoJSON types, in their correct case according to the standard, indexed by their lowercase counterpart.
      */
-    private const TYPES = [
+    private const array TYPES = [
         'feature'            => 'Feature',
         'featurecollection'  => 'FeatureCollection',
         'point'              => 'Point',
