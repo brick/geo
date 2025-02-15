@@ -17,9 +17,8 @@ use Override;
  * The boundary of a MultiPoint is the empty set.
  *
  * @extends GeometryCollection<Point>
- * @final
  */
-class MultiPoint extends GeometryCollection
+final class MultiPoint extends GeometryCollection
 {
     /**
      * @return list<list<float>>

@@ -16,9 +16,8 @@ use Override;
  * A CompoundCurve is a collection of zero or more continuous CircularString or LineString instances.
  *
  * @template-implements \IteratorAggregate<int<0, max>, LineString|CircularString>
- * @final
  */
-class CompoundCurve extends Curve implements \Countable, \IteratorAggregate
+final class CompoundCurve extends Curve implements \Countable, \IteratorAggregate
 {
     /**
      * The Curves that compose this CompoundCurve.

@@ -25,9 +25,8 @@ use Override;
  * Polygon, and every Curve in the boundary of an element Polygon is in the boundary of the MultiPolygon.
  *
  * @extends MultiSurface<Polygon>
- * @final
  */
-class MultiPolygon extends MultiSurface
+final class MultiPolygon extends MultiSurface
 {
     /**
      * @return list<list<list<list<float>>>>

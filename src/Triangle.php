@@ -10,10 +10,8 @@ use Override;
 
 /**
  * A Triangle is a Polygon with 3 distinct, non-collinear vertices and no interior boundary.
- *
- * @final
  */
-class Triangle extends Polygon
+final class Triangle extends Polygon
 {
     #[Override]
     protected function validate(): void

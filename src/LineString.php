@@ -18,9 +18,8 @@ use Override;
  * Each consecutive pair of Points defines a line segment.
  *
  * @template-implements \IteratorAggregate<int<0, max>, Point>
- * @final
  */
-class LineString extends Curve implements \Countable, \IteratorAggregate
+final class LineString extends Curve implements \Countable, \IteratorAggregate
 {
     /**
      * The Points that compose this LineString.
