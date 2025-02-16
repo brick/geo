@@ -7,7 +7,7 @@ namespace Brick\Geo\Exception;
 /**
  * Exception thrown when a geometry is found different from the expected type.
  */
-class UnexpectedGeometryException extends GeometryException
+final class UnexpectedGeometryException extends GeometryException
 {
     public static function unexpectedGeometryType(string $expectedClass, mixed $value) : UnexpectedGeometryException
     {

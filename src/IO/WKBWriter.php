@@ -9,7 +9,7 @@ use Brick\Geo\Geometry;
 /**
  * Writes geometries in the WKB format.
  */
-class WKBWriter extends AbstractWKBWriter
+final class WKBWriter extends AbstractWKBWriter
 {
     protected function packHeader(Geometry $geometry, bool $outer) : string
     {

@@ -12,19 +12,19 @@ use Brick\Geo\Geometry;
  * This object is used to carry a representation of the geometry from the abstract DatabaseEngine to one of its
  * concrete implementations, like PDOEngine or SQLite3Engine.
  */
-class GeometryParameter
+final readonly class GeometryParameter
 {
     /**
      * The WKT or WKB data.
      */
-    public readonly string $data;
+    public string $data;
 
     /**
      * True for WKB, false for WKT.
      */
-    public readonly bool $isBinary;
+    public bool $isBinary;
 
-    public readonly int $srid;
+    public int $srid;
 
     public function __construct(Geometry $geometry, bool $isBinary)
     {
