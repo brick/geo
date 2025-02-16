@@ -9,7 +9,7 @@ namespace Brick\Geo\Exception;
  *
  * This exception is notably thrown when a specific method is not implemented by a geometry engine.
  */
-class GeometryEngineException extends GeometryException
+final class GeometryEngineException extends GeometryException
 {
     public static function unimplementedMethod(string $methodName) : GeometryEngineException
     {

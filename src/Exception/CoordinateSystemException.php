@@ -10,7 +10,7 @@ use Brick\Geo\Geometry;
 /**
  * Exception thrown when coordinate systems are mixed.
  */
-class CoordinateSystemException extends GeometryException
+final class CoordinateSystemException extends GeometryException
 {
     public static function sridMix(int $srid1, int $srid2) : CoordinateSystemException
     {

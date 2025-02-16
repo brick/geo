@@ -9,7 +9,7 @@ use Brick\Geo\Geometry;
 /**
  * Writes geometries in the Extended WKB format designed by PostGIS.
  */
-class EWKBWriter extends AbstractWKBWriter
+final class EWKBWriter extends AbstractWKBWriter
 {
     protected function packHeader(Geometry $geometry, bool $outer) : string
     {

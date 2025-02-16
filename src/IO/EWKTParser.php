@@ -7,7 +7,7 @@ namespace Brick\Geo\IO;
 /**
  * Parser for the Extended WKT format designed by PostGIS.
  */
-class EWKTParser extends WKTParser
+final class EWKTParser extends WKTParser
 {
     protected const int T_SRID = 1;
     protected const int T_WORD = 2;

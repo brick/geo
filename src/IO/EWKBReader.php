@@ -10,7 +10,7 @@ use Brick\Geo\Exception\GeometryIOException;
 /**
  * Reads geometries out of the Extended WKB format designed by PostGIS.
  */
-class EWKBReader extends AbstractWKBReader
+final class EWKBReader extends AbstractWKBReader
 {
     /**
      * @throws GeometryIOException

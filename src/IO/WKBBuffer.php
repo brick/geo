@@ -9,7 +9,7 @@ use Brick\Geo\Exception\GeometryIOException;
 /**
  * Buffer class for reading binary data out of a WKB binary string.
  */
-class WKBBuffer
+final class WKBBuffer
 {
     private readonly string $wkb;
     private readonly int $length;
