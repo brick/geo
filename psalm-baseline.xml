@@ -54,9 +54,6 @@
       <code><![CDATA[$result]]></code>
       <code><![CDATA[$result]]></code>
     </MixedAssignment>
-    <PossiblyFalseArgument>
-      <code><![CDATA[$wkb]]></code>
-    </PossiblyFalseArgument>
     <PossiblyNullArgument>
       <code><![CDATA[$geometryType]]></code>
     </PossiblyNullArgument>
