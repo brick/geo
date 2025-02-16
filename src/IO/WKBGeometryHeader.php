@@ -4,21 +4,13 @@ declare(strict_types=1);
 
 namespace Brick\Geo\IO;
 
-/**
- * @psalm-immutable
- */
-final class WKBGeometryHeader
+final readonly class WKBGeometryHeader
 {
-    public int $geometryType;
-    public bool $hasZ;
-    public bool $hasM;
-    public ?int $srid;
-
-    public function __construct(int $geometryType, bool $hasZ, bool $hasM, ?int $srid = null)
-    {
-        $this->geometryType = $geometryType;
-        $this->hasZ         = $hasZ;
-        $this->hasM         = $hasM;
-        $this->srid         = $srid;
+    public function __construct(
+        public int $geometryType,
+        public bool $hasZ,
+        public bool $hasM,
+        public ?int $srid = null,
+    ) {
     }
 }
