@@ -25,7 +25,7 @@ use GEOSWKTWriter;
 /**
  * GeometryEngine implementation based on the GEOS PHP bindings.
  */
-class GEOSEngine implements GeometryEngine
+final class GEOSEngine implements GeometryEngine
 {
     private readonly GEOSWKBReader $wkbReader;
     private readonly GEOSWKBWriter $wkbWriter;

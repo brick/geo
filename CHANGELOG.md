@@ -5,6 +5,32 @@
 💥 **Breaking changes**
 
 - Interface `GeometryEngine` has 2 new methods: `lineInterpolatePoint()`, `lineInterpolatePoints()`
+- The following classes are now `final`:
+  - `BoundingBox`
+  - `CoordinateSystem`
+  - engines:
+    - `GEOSEngine`
+    - `PDOEngine`
+    - `SQLite3Engine`
+  - exceptions:
+    - `CoordinateSystemException`
+    - `EmptyGeometryException`
+    - `GeometryEngineException`
+    - `GeometryIOException`
+    - `InvalidGeometryException`
+    - `NoSuchGeometryException`
+    - `UnexpectedGeometryException`
+  - input/output:
+    - `EWKBReader`
+    - `EWKBWriter`
+    - `EWKTReader`
+    - `EWKTWriter`
+    - `GeoJSONReader`
+    - `GeoJSONWriter`
+    - `WKBReader`
+    - `WKBWriter`
+    - `WKTReader`
+    - `WKTWriter`
 
 ✨ **New features**
 

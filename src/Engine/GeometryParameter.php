@@ -12,7 +12,7 @@ use Brick\Geo\Geometry;
  * This object is used to carry a representation of the geometry from the abstract DatabaseEngine to one of its
  * concrete implementations, like PDOEngine or SQLite3Engine.
  */
-class GeometryParameter
+final class GeometryParameter
 {
     /**
      * The WKT or WKB data.

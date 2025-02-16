@@ -23,7 +23,7 @@ use stdClass;
 /**
  * Builds geometries out of GeoJSON text strings.
  */
-class GeoJSONReader
+final class GeoJSONReader
 {
     /**
      * The GeoJSON types, in their correct case according to the standard, indexed by their lowercase counterpart.

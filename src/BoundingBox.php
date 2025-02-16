@@ -11,7 +11,7 @@ use Brick\Geo\Exception\EmptyGeometryException;
  * Represents a 2D or 3D bounding box calculated from a set of points. M coordinates are ignored.
  * This class is immutable.
  */
-class BoundingBox
+final class BoundingBox
 {
     private ?float $swX = null;
 

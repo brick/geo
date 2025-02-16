@@ -11,7 +11,7 @@ use Brick\Geo\Exception\CoordinateSystemException;
  *
  * This class is immutable.
  */
-class CoordinateSystem
+final class CoordinateSystem
 {
     /**
      * Whether this coordinate system has Z-coordinates.

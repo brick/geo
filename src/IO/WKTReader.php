@@ -10,7 +10,7 @@ use Brick\Geo\Geometry;
 /**
  * Builds geometries out of Well-Known Text strings.
  */
-class WKTReader extends AbstractWKTReader
+final class WKTReader extends AbstractWKTReader
 {
     /**
      * @param string $wkt  The WKT to read.

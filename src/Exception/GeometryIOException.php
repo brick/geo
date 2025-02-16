@@ -9,7 +9,7 @@ use JsonException;
 /**
  * Exception thrown when an error occurs reading or writing WKT/WKB representations.
  */
-class GeometryIOException extends GeometryException
+final class GeometryIOException extends GeometryException
 {
     public static function invalidWKB(string $message) : GeometryIOException
     {
