@@ -4,14 +4,13 @@ declare(strict_types=1);
 
 namespace Brick\Geo;
 
-use Brick\Geo\Attribute\NoProxy;
 use Brick\Geo\Exception\InvalidGeometryException;
 use Brick\Geo\Projector\Projector;
 
 /**
  * A Triangle is a Polygon with 3 distinct, non-collinear vertices and no interior boundary.
  */
-class Triangle extends Polygon
+final class Triangle extends Polygon
 {
     public function __construct(CoordinateSystem $cs, LineString ...$rings)
     {
@@ -30,13 +29,11 @@ class Triangle extends Polygon
         }
     }
 
-    #[NoProxy]
     public function geometryType() : string
     {
         return 'Triangle';
     }
 
-    #[NoProxy]
     public function geometryTypeBinary() : int
     {
         return Geometry::TRIANGLE;

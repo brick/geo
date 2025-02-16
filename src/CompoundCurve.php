@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Brick\Geo;
 
 use ArrayIterator;
-use Brick\Geo\Attribute\NoProxy;
 use Brick\Geo\Exception\CoordinateSystemException;
 use Brick\Geo\Exception\EmptyGeometryException;
 use Brick\Geo\Exception\InvalidGeometryException;
@@ -15,7 +14,7 @@ use Brick\Geo\Projector\Projector;
 /**
  * A CompoundCurve is a collection of zero or more continuous CircularString or LineString instances.
  */
-class CompoundCurve extends Curve
+final class CompoundCurve extends Curve
 {
     /**
      * The Curves that compose this CompoundCurve.
@@ -138,13 +137,11 @@ class CompoundCurve extends Curve
         return $this->curves;
     }
 
-    #[NoProxy]
     public function geometryType() : string
     {
         return 'CompoundCurve';
     }
 
-    #[NoProxy]
     public function geometryTypeBinary() : int
     {
         return Geometry::COMPOUNDCURVE;

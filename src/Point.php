@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Brick\Geo;
 
 use ArrayIterator;
-use Brick\Geo\Attribute\NoProxy;
 use Brick\Geo\Exception\InvalidGeometryException;
 use Brick\Geo\Projector\Projector;
 
@@ -17,7 +16,7 @@ use Brick\Geo\Projector\Projector;
  *
  * The boundary of a Point is the empty set.
  */
-class Point extends Geometry
+final class Point extends Geometry
 {
     /**
      * The x-coordinate value for this Point, or NULL if the point is empty.
@@ -199,19 +198,16 @@ class Point extends Geometry
         return $this->m;
     }
 
-    #[NoProxy]
     public function geometryType() : string
     {
         return 'Point';
     }
 
-    #[NoProxy]
     public function geometryTypeBinary() : int
     {
         return Geometry::POINT;
     }
 
-    #[NoProxy]
     public function dimension() : int
     {
         return 0;

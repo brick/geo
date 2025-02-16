@@ -4,16 +4,26 @@ declare(strict_types=1);
 
 namespace Brick\Geo\Engine;
 
+use Brick\Geo\CircularString;
+use Brick\Geo\CompoundCurve;
 use Brick\Geo\Curve;
+use Brick\Geo\CurvePolygon;
 use Brick\Geo\Exception\GeometryEngineException;
 use Brick\Geo\Geometry;
+use Brick\Geo\GeometryCollection;
+use Brick\Geo\LineString;
 use Brick\Geo\MultiCurve;
+use Brick\Geo\MultiLineString;
+use Brick\Geo\MultiPoint;
 use Brick\Geo\MultiSurface;
 use Brick\Geo\MultiPolygon;
 use Brick\Geo\Point;
 use Brick\Geo\Polygon;
-use Brick\Geo\Proxy;
+use Brick\Geo\PolyhedralSurface;
+use Brick\Geo\Proxy\ProxyFactory;
 use Brick\Geo\Surface;
+use Brick\Geo\TIN;
+use Brick\Geo\Triangle;
 
 /**
  * Database implementation of the GeometryEngine.
@@ -45,7 +55,7 @@ abstract class DatabaseEngine implements GeometryEngine
     abstract protected function executeQuery(string $query, array $parameters) : array;
 
     /**
-     * Returns the syntax required to perform a ST_GeomFromText(), together with placeholders.
+     * Returns the syntax required to perform an ST_GeomFromText(), together with placeholders.
      *
      * This method may be overridden if necessary.
      */
@@ -55,7 +65,7 @@ abstract class DatabaseEngine implements GeometryEngine
     }
 
     /**
-     * Returns the syntax required to perform a ST_GeomFromWKB(), together with placeholders.
+     * Returns the syntax required to perform an ST_GeomFromWKB(), together with placeholders.
      *
      * This method may be overridden if necessary.
      */
@@ -95,11 +105,7 @@ abstract class DatabaseEngine implements GeometryEngine
 
         foreach ($parameters as $parameter) {
             if ($parameter instanceof Geometry) {
-                if ($parameter instanceof Proxy\ProxyInterface) {
-                    $sendAsBinary = $parameter->isProxyBinary();
-                } else {
-                    $sendAsBinary = ! $parameter->isEmpty();
-                }
+                $sendAsBinary = ! $parameter->isEmpty();
 
                 $queryParameters[] = $sendAsBinary
                     ? $this->getGeomFromWKBSyntax()
@@ -187,9 +193,9 @@ abstract class DatabaseEngine implements GeometryEngine
 
         if ($wkt !== null) {
             if ($this->useProxy) {
-                $proxyClassName = $this->getProxyClassName($geometryType);
+                $geometryClass = $this->getGeometryClass($geometryType);
 
-                return new $proxyClassName($wkt, false, $srid);
+                return ProxyFactory::createWktProxy($geometryClass, $wkt, $srid);
             }
 
             return Geometry::fromText($wkt, $srid);
@@ -198,12 +204,16 @@ abstract class DatabaseEngine implements GeometryEngine
         if ($wkb !== null) {
             if (is_resource($wkb)) {
                 $wkb = stream_get_contents($wkb);
+
+                if ($wkb === false) {
+                    throw new GeometryEngineException('Cannot read stream contents.');
+                }
             }
 
             if ($this->useProxy) {
-                $proxyClassName = $this->getProxyClassName($geometryType);
+                $geometryClass = $this->getGeometryClass($geometryType);
 
-                return new $proxyClassName($wkb, true, $srid);
+                return ProxyFactory::createWkbProxy($geometryClass, $wkb, $srid);
             }
 
             return Geometry::fromBinary($wkb, $srid);
@@ -213,43 +223,43 @@ abstract class DatabaseEngine implements GeometryEngine
     }
 
     /**
-     * @psalm-return class-string<Proxy\ProxyInterface&Geometry>
+     * @return class-string<Geometry>
      *
      * @throws GeometryEngineException
      */
-    private function getProxyClassName(string $geometryType) : string
+    private function getGeometryClass(string $geometryType) : string
     {
-        $proxyClasses = [
-            'CIRCULARSTRING'     => Proxy\CircularStringProxy::class,
-            'COMPOUNDCURVE'      => Proxy\CompoundCurveProxy::class,
-            'CURVE'              => Proxy\CurveProxy::class,
-            'CURVEPOLYGON'       => Proxy\CurvePolygonProxy::class,
-            'GEOMCOLLECTION'     => Proxy\GeometryCollectionProxy::class, /* MySQL 8 - https://github.com/brick/geo/pull/33 */
-            'GEOMETRY'           => Proxy\GeometryProxy::class,
-            'GEOMETRYCOLLECTION' => Proxy\GeometryCollectionProxy::class,
-            'LINESTRING'         => Proxy\LineStringProxy::class,
-            'MULTICURVE'         => Proxy\MultiCurveProxy::class,
-            'MULTILINESTRING'    => Proxy\MultiLineStringProxy::class,
-            'MULTIPOINT'         => Proxy\MultiPointProxy::class,
-            'MULTIPOLYGON'       => Proxy\MultiPolygonProxy::class,
-            'MULTISURFACE'       => Proxy\MultiSurfaceProxy::class,
-            'POINT'              => Proxy\PointProxy::class,
-            'POLYGON'            => Proxy\PolygonProxy::class,
-            'POLYHEDRALSURFACE'  => Proxy\PolyhedralSurfaceProxy::class,
-            'SURFACE'            => Proxy\SurfaceProxy::class,
-            'TIN'                => Proxy\TINProxy::class,
-            'TRIANGLE'           => Proxy\TriangleProxy::class
+        $geometryClasses = [
+            'CIRCULARSTRING'     => CircularString::class,
+            'COMPOUNDCURVE'      => CompoundCurve::class,
+            'CURVE'              => Curve::class,
+            'CURVEPOLYGON'       => CurvePolygon::class,
+            'GEOMCOLLECTION'     => GeometryCollection::class, /* MySQL 8 - https://github.com/brick/geo/pull/33 */
+            'GEOMETRY'           => Geometry::class,
+            'GEOMETRYCOLLECTION' => GeometryCollection::class,
+            'LINESTRING'         => LineString::class,
+            'MULTICURVE'         => MultiCurve::class,
+            'MULTILINESTRING'    => MultiLineString::class,
+            'MULTIPOINT'         => MultiPoint::class,
+            'MULTIPOLYGON'       => MultiPolygon::class,
+            'MULTISURFACE'       => MultiSurface::class,
+            'POINT'              => Point::class,
+            'POLYGON'            => Polygon::class,
+            'POLYHEDRALSURFACE'  => PolyhedralSurface::class,
+            'SURFACE'            => Surface::class,
+            'TIN'                => TIN::class,
+            'TRIANGLE'           => Triangle::class
         ];
 
         $geometryType = strtoupper($geometryType);
         $geometryType = preg_replace('/^ST_/', '', $geometryType);
         $geometryType = preg_replace('/ .*/', '', $geometryType);
 
-        if (! isset($proxyClasses[$geometryType])) {
+        if (! isset($geometryClasses[$geometryType])) {
             throw new GeometryEngineException('Unknown geometry type: ' . $geometryType);
         }
 
-        return $proxyClasses[$geometryType];
+        return $geometryClasses[$geometryType];
     }
 
     public function contains(Geometry $a, Geometry $b) : bool

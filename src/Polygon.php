@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Brick\Geo;
 
 use ArrayIterator;
-use Brick\Geo\Attribute\NoProxy;
 use Brick\Geo\Exception\CoordinateSystemException;
 use Brick\Geo\Exception\EmptyGeometryException;
 use Brick\Geo\Exception\InvalidGeometryException;
@@ -153,13 +152,11 @@ class Polygon extends Surface
         return array_slice($this->rings, 1);
     }
 
-    #[NoProxy]
     public function geometryType() : string
     {
         return 'Polygon';
     }
 
-    #[NoProxy]
     public function geometryTypeBinary() : int
     {
         return Geometry::POLYGON;

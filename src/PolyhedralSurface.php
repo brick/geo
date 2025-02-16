@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Brick\Geo;
 
 use ArrayIterator;
-use Brick\Geo\Attribute\NoProxy;
 use Brick\Geo\Exception\CoordinateSystemException;
 use Brick\Geo\Exception\NoSuchGeometryException;
 use Brick\Geo\Projector\Projector;
@@ -112,13 +111,11 @@ class PolyhedralSurface extends Surface
         return $this->patches;
     }
 
-    #[NoProxy]
     public function geometryType() : string
     {
         return 'PolyhedralSurface';
     }
 
-    #[NoProxy]
     public function geometryTypeBinary() : int
     {
         return Geometry::POLYHEDRALSURFACE;

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Brick\Geo;
 
-use Brick\Geo\Attribute\NoProxy;
 use Brick\Geo\Projector\Projector;
 
 /**
@@ -12,15 +11,13 @@ use Brick\Geo\Projector\Projector;
  *
  * @extends MultiCurve<LineString>
  */
-class MultiLineString extends MultiCurve
+final class MultiLineString extends MultiCurve
 {
-    #[NoProxy]
     public function geometryType() : string
     {
         return 'MultiLineString';
     }
 
-    #[NoProxy]
     public function geometryTypeBinary() : int
     {
         return Geometry::MULTILINESTRING;

@@ -13,7 +13,6 @@
     <projectFiles>
         <directory name="src" />
         <ignoreFiles>
-            <directory name="src/Proxy" />
             <directory name="vendor" />
         </ignoreFiles>
     </projectFiles>

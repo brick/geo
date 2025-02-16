@@ -4,14 +4,13 @@ declare(strict_types=1);
 
 namespace Brick\Geo;
 
-use Brick\Geo\Attribute\NoProxy;
 use Brick\Geo\Exception\UnexpectedGeometryException;
 use Brick\Geo\Projector\Projector;
 
 /**
  * A TIN (triangulated irregular network) is a PolyhedralSurface consisting only of Triangle patches.
  */
-class TIN extends PolyhedralSurface
+final class TIN extends PolyhedralSurface
 {
     /**
      * @throws UnexpectedGeometryException If the patches are not triangles.
@@ -27,13 +26,11 @@ class TIN extends PolyhedralSurface
         }
     }
 
-    #[NoProxy]
     public function geometryType() : string
     {
         return 'TIN';
     }
 
-    #[NoProxy]
     public function geometryTypeBinary() : int
     {
         return Geometry::TIN;
