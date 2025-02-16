@@ -9,7 +9,7 @@ use Brick\Geo\Geometry;
 /**
  * Converter class from Geometry to WKT.
  */
-class WKTWriter extends AbstractWKTWriter
+final class WKTWriter extends AbstractWKTWriter
 {
     public function write(Geometry $geometry) : string
     {

@@ -16,7 +16,7 @@ use stdClass;
 /**
  * Converter class from Geometry to GeoJSON.
  */
-class GeoJSONWriter
+final class GeoJSONWriter
 {
     private readonly bool $prettyPrint;
 

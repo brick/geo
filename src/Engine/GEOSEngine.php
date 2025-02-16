@@ -23,22 +23,22 @@ use GEOSWKTWriter;
 /**
  * GeometryEngine implementation based on the GEOS PHP bindings.
  */
-class GEOSEngine implements GeometryEngine
+final readonly class GEOSEngine implements GeometryEngine
 {
-    private readonly GEOSWKBReader $wkbReader;
-    private readonly GEOSWKBWriter $wkbWriter;
-    private readonly GEOSWKTReader $wktReader;
-    private readonly GEOSWKTWriter $wktWriter;
+    private GEOSWKBReader $wkbReader;
+    private GEOSWKBWriter $wkbWriter;
+    private GEOSWKTReader $wktReader;
+    private GEOSWKTWriter $wktWriter;
 
-    private readonly EWKBReader $ewkbReader;
-    private readonly EWKBWriter $ewkbWriter;
+    private EWKBReader $ewkbReader;
+    private EWKBWriter $ewkbWriter;
 
     /**
      * Whether the GEOS version in use has support for binary read() and write() methods.
      *
      * These methods are available since GEOS 3.5.0.
      */
-    private readonly bool $hasBinaryReadWrite;
+    private bool $hasBinaryReadWrite;
 
     public function __construct()
     {

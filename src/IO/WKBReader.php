@@ -24,7 +24,7 @@ use Brick\Geo\Triangle;
 /**
  * Builds geometries out of Well-Known Binary strings.
  */
-class WKBReader extends AbstractWKBReader
+final class WKBReader extends AbstractWKBReader
 {
     /**
      * @param string $wkb  The WKB to read.

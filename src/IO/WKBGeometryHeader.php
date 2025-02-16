@@ -7,7 +7,7 @@ namespace Brick\Geo\IO;
 /**
  * @psalm-immutable
  */
-class WKBGeometryHeader
+final class WKBGeometryHeader
 {
     public int $geometryType;
     public bool $hasZ;
