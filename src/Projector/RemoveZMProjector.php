@@ -6,6 +6,7 @@ namespace Brick\Geo\Projector;
 
 use Brick\Geo\CoordinateSystem;
 use Brick\Geo\Point;
+use Override;
 
 /**
  * Removes the Z and/or M coordinates of a geometry.
@@ -18,6 +19,7 @@ final class RemoveZMProjector implements Projector
     ) {
     }
 
+    #[Override]
     public function project(Point $point): Point
     {
         $coordinateSystem = $this->getTargetCoordinateSystem($point->coordinateSystem());
@@ -47,6 +49,7 @@ final class RemoveZMProjector implements Projector
         return new Point($coordinateSystem, ...$coords);
     }
 
+    #[Override]
     public function getTargetCoordinateSystem(CoordinateSystem $sourceCoordinateSystem): CoordinateSystem
     {
         return $sourceCoordinateSystem

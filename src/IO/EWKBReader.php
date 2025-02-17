@@ -6,6 +6,7 @@ namespace Brick\Geo\IO;
 
 use Brick\Geo\Geometry;
 use Brick\Geo\Exception\GeometryIOException;
+use Override;
 
 /**
  * Reads geometries out of the Extended WKB format designed by PostGIS.
@@ -27,6 +28,7 @@ final class EWKBReader extends AbstractWKBReader
         return $geometry;
     }
 
+    #[Override]
     protected function readGeometryHeader(WKBBuffer $buffer) : WKBGeometryHeader
     {
         $header = $buffer->readUnsignedLong();

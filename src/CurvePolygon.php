@@ -9,6 +9,7 @@ use Brick\Geo\Exception\CoordinateSystemException;
 use Brick\Geo\Exception\EmptyGeometryException;
 use Brick\Geo\Exception\NoSuchGeometryException;
 use Brick\Geo\Projector\Projector;
+use Override;
 
 /**
  * A CurvePolygon is a planar Surface defined by 1 exterior boundary and 0 or more interior boundaries.
@@ -118,16 +119,19 @@ final class CurvePolygon extends Surface
         return array_slice($this->rings, 1);
     }
 
+    #[Override]
     public function geometryType() : string
     {
         return 'CurvePolygon';
     }
 
+    #[Override]
     public function geometryTypeBinary() : int
     {
         return Geometry::CURVEPOLYGON;
     }
 
+    #[Override]
     public function getBoundingBox() : BoundingBox
     {
         $boundingBox = new BoundingBox();
@@ -139,6 +143,7 @@ final class CurvePolygon extends Surface
         return $boundingBox;
     }
 
+    #[Override]
     public function toArray() : array
     {
         $result = [];
@@ -150,6 +155,7 @@ final class CurvePolygon extends Surface
         return $result;
     }
 
+    #[Override]
     public function project(Projector $projector): CurvePolygon
     {
         return new CurvePolygon(
@@ -166,6 +172,7 @@ final class CurvePolygon extends Surface
      *
      * Required by interface Countable.
      */
+    #[Override]
     public function count() : int
     {
         return count($this->rings);
@@ -178,6 +185,7 @@ final class CurvePolygon extends Surface
      *
      * @psalm-return ArrayIterator<int, Curve>
      */
+    #[Override]
     public function getIterator() : ArrayIterator
     {
         return new ArrayIterator($this->rings);

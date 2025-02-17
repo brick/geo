@@ -6,6 +6,7 @@ namespace Brick\Geo;
 
 use Brick\Geo\Projector\Projector;
 use Exception;
+use Override;
 
 /**
  * A MultiSurface is a 2-dimensional GeometryCollection whose elements are Surfaces.
@@ -25,6 +26,7 @@ use Exception;
  */
 abstract class MultiSurface extends GeometryCollection
 {
+    #[Override]
     public function project(Projector $projector): MultiSurface
     {
         throw new Exception(
