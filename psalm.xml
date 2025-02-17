@@ -17,4 +17,13 @@
             <directory name="vendor" />
         </ignoreFiles>
     </projectFiles>
+
+    <issueHandlers>
+        <InvalidOperand>
+            <!-- Reported for concatenation with int|float; we can ignore these for now -->
+            <errorLevel type="suppress">
+                <directory name="src" />
+            </errorLevel>
+        </InvalidOperand>
+    </issueHandlers>
 </psalm>
