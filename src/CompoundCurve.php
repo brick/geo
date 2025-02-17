@@ -11,6 +11,7 @@ use Brick\Geo\Exception\EmptyGeometryException;
 use Brick\Geo\Exception\InvalidGeometryException;
 use Brick\Geo\Exception\NoSuchGeometryException;
 use Brick\Geo\Projector\Projector;
+use Override;
 
 /**
  * A CompoundCurve is a collection of zero or more continuous CircularString or LineString instances.
@@ -82,6 +83,7 @@ class CompoundCurve extends Curve
         return new CompoundCurve($curve1->coordinateSystem(), $curve1, ...$curveN);
     }
 
+    #[Override]
     public function startPoint() : Point
     {
         if ($this->isEmpty) {
@@ -91,6 +93,7 @@ class CompoundCurve extends Curve
         return $this->curves[0]->startPoint();
     }
 
+    #[Override]
     public function endPoint() : Point
     {
         if ($this->isEmpty) {
@@ -138,18 +141,19 @@ class CompoundCurve extends Curve
         return $this->curves;
     }
 
-    #[NoProxy]
+    #[NoProxy, Override]
     public function geometryType() : string
     {
         return 'CompoundCurve';
     }
 
-    #[NoProxy]
+    #[NoProxy, Override]
     public function geometryTypeBinary() : int
     {
         return Geometry::COMPOUNDCURVE;
     }
 
+    #[Override]
     public function getBoundingBox() : BoundingBox
     {
         $boundingBox = new BoundingBox();
@@ -161,6 +165,7 @@ class CompoundCurve extends Curve
         return $boundingBox;
     }
 
+    #[Override]
     public function toArray() : array
     {
         return array_map(
@@ -169,6 +174,7 @@ class CompoundCurve extends Curve
         );
     }
 
+    #[Override]
     public function project(Projector $projector): CompoundCurve
     {
         return new CompoundCurve(
@@ -185,6 +191,7 @@ class CompoundCurve extends Curve
      *
      * Required by interface Countable.
      */
+    #[Override]
     public function count() : int
     {
         return count($this->curves);
@@ -197,6 +204,7 @@ class CompoundCurve extends Curve
      *
      * @psalm-return ArrayIterator<int, Curve>
      */
+    #[Override]
     public function getIterator() : ArrayIterator
     {
         return new ArrayIterator($this->curves);

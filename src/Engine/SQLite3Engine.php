@@ -9,6 +9,7 @@ use Brick\Geo\Exception\SQLite3Exception;
 use Brick\Geo\Geometry;
 use Brick\Geo\LineString;
 use Brick\Geo\Point;
+use Override;
 use SQLite3;
 use SQLite3Stmt;
 
@@ -43,6 +44,7 @@ final class SQLite3Engine extends DatabaseEngine
         return $this->sqlite3;
     }
 
+    #[Override]
     protected function executeQuery(string $query, array $parameters) : array
     {
         if (isset($this->statements[$query])) {
@@ -103,6 +105,7 @@ final class SQLite3Engine extends DatabaseEngine
         return $result->fetchArray(SQLITE3_NUM);
     }
 
+    #[Override]
     public function lineInterpolatePoint(LineString $lineString, float $fraction) : Point
     {
         $result = $this->queryGeometry('ST_Line_Interpolate_Point', $lineString, $fraction);

@@ -7,6 +7,7 @@ namespace Brick\Geo\IO;
 use Brick\Geo\Geometry;
 use Brick\Geo\Exception\GeometryIOException;
 use Brick\Geo\Proxy;
+use Override;
 
 /**
  * Builds geometries out of Well-Known Binary strings.
@@ -65,6 +66,7 @@ final class WKBReader extends AbstractWKBReader
         };
     }
 
+    #[Override]
     protected function readGeometryHeader(WKBBuffer $buffer) : WKBGeometryHeader
     {
         $wkbType = $buffer->readUnsignedLong();

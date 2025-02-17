@@ -11,6 +11,7 @@ use Brick\Geo\Exception\EmptyGeometryException;
 use Brick\Geo\Exception\InvalidGeometryException;
 use Brick\Geo\Exception\NoSuchGeometryException;
 use Brick\Geo\Projector\Projector;
+use Override;
 
 /**
  * A Polygon is a planar Surface defined by 1 exterior boundary and 0 or more interior boundaries.
@@ -153,18 +154,19 @@ class Polygon extends Surface
         return array_slice($this->rings, 1);
     }
 
-    #[NoProxy]
+    #[NoProxy, Override]
     public function geometryType() : string
     {
         return 'Polygon';
     }
 
-    #[NoProxy]
+    #[NoProxy, Override]
     public function geometryTypeBinary() : int
     {
         return Geometry::POLYGON;
     }
 
+    #[Override]
     public function getBoundingBox() : BoundingBox
     {
         $boundingBox = new BoundingBox();
@@ -176,6 +178,7 @@ class Polygon extends Surface
         return $boundingBox;
     }
 
+    #[Override]
     public function toArray() : array
     {
         return array_map(
@@ -184,6 +187,7 @@ class Polygon extends Surface
         );
     }
 
+    #[Override]
     public function project(Projector $projector): Polygon
     {
         return new Polygon(
@@ -200,6 +204,7 @@ class Polygon extends Surface
      *
      * Required by interface Countable.
      */
+    #[Override]
     public function count() : int
     {
         return count($this->rings);
@@ -212,6 +217,7 @@ class Polygon extends Surface
      *
      * @psalm-return ArrayIterator<int, LineString>
      */
+    #[Override]
     public function getIterator() : ArrayIterator
     {
         return new ArrayIterator($this->rings);

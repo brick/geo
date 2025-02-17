@@ -17,6 +17,7 @@ use Brick\Geo\Projector\Projector;
 use Brick\Geo\Projector\RemoveZMProjector;
 use Brick\Geo\Projector\SRIDProjector;
 use Brick\Geo\Projector\SwapXYProjector;
+use Override;
 
 /**
  * Geometry is the root class of the hierarchy.
@@ -353,7 +354,7 @@ abstract class Geometry implements \Countable, \IteratorAggregate, \Stringable
     /**
      * Returns a text representation of this geometry.
      */
-    #[NoProxy]
+    #[NoProxy, Override]
     final public function __toString() : string
     {
         return $this->asText();

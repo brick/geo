@@ -10,6 +10,7 @@ use Brick\Geo\Exception\CoordinateSystemException;
 use Brick\Geo\Exception\NoSuchGeometryException;
 use Brick\Geo\Exception\UnexpectedGeometryException;
 use Brick\Geo\Projector\Projector;
+use Override;
 
 /**
  * A GeometryCollection is a geometric object that is a collection of some number of geometric objects.
@@ -137,18 +138,19 @@ class GeometryCollection extends Geometry
         return $this->geometries;
     }
 
-    #[NoProxy]
+    #[NoProxy, Override]
     public function geometryType() : string
     {
         return 'GeometryCollection';
     }
 
-    #[NoProxy]
+    #[NoProxy, Override]
     public function geometryTypeBinary() : int
     {
         return Geometry::GEOMETRYCOLLECTION;
     }
 
+    #[Override]
     public function dimension() : int
     {
         $dimension = 0;
@@ -164,6 +166,7 @@ class GeometryCollection extends Geometry
         return $dimension;
     }
 
+    #[Override]
     public function getBoundingBox() : BoundingBox
     {
         $boundingBox = new BoundingBox();
@@ -175,6 +178,7 @@ class GeometryCollection extends Geometry
         return $boundingBox;
     }
 
+    #[Override]
     public function toArray() : array
     {
         return array_map(
@@ -183,6 +187,7 @@ class GeometryCollection extends Geometry
         );
     }
 
+    #[Override]
     public function project(Projector $projector): GeometryCollection
     {
         return new GeometryCollection(
@@ -199,6 +204,7 @@ class GeometryCollection extends Geometry
      *
      * Required by interface Countable.
      */
+    #[Override]
     public function count() : int
     {
         return count($this->geometries);
@@ -211,6 +217,7 @@ class GeometryCollection extends Geometry
      *
      * @psalm-return ArrayIterator<int, T>
      */
+    #[Override]
     public function getIterator() : ArrayIterator
     {
         return new ArrayIterator($this->geometries);

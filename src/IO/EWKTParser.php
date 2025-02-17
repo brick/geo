@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Brick\Geo\IO;
 
+use Override;
+
 /**
  * Parser for the Extended WKT format designed by PostGIS.
  */
@@ -15,6 +17,7 @@ final class EWKTParser extends WKTParser
 
     protected const REGEX_SRID = 'SRID\=([0-9]+)\s*;';
 
+    #[Override]
     protected function getRegex() : array
     {
         return [

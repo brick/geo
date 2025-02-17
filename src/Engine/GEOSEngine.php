@@ -21,6 +21,7 @@ use GEOSWKBReader;
 use GEOSWKBWriter;
 use GEOSWKTReader;
 use GEOSWKTWriter;
+use Override;
 
 /**
  * GeometryEngine implementation based on the GEOS PHP bindings.
@@ -88,6 +89,7 @@ final class GEOSEngine implements GeometryEngine
         return $this->ewkbReader->read(hex2bin($this->wkbWriter->writeHEX($geometry)));
     }
 
+    #[Override]
     public function union(Geometry $a, Geometry $b) : Geometry
     {
         try {
@@ -97,6 +99,7 @@ final class GEOSEngine implements GeometryEngine
         }
     }
 
+    #[Override]
     public function difference(Geometry $a, Geometry $b) : Geometry
     {
         try {
@@ -106,6 +109,7 @@ final class GEOSEngine implements GeometryEngine
         }
     }
 
+    #[Override]
     public function envelope(Geometry $g) : Geometry
     {
         try {
@@ -115,6 +119,7 @@ final class GEOSEngine implements GeometryEngine
         }
     }
 
+    #[Override]
     public function length(Curve|MultiCurve $g) : float
     {
         try {
@@ -124,6 +129,7 @@ final class GEOSEngine implements GeometryEngine
         }
     }
 
+    #[Override]
     public function area(Surface|MultiSurface $g) : float
     {
         try {
@@ -133,11 +139,13 @@ final class GEOSEngine implements GeometryEngine
         }
     }
 
+    #[Override]
     public function azimuth(Point $observer, Point $subject) : float
     {
         throw GeometryEngineException::unimplementedMethod(__METHOD__);
     }
 
+    #[Override]
     public function centroid(Geometry $g) : Point
     {
         try {
@@ -148,6 +156,7 @@ final class GEOSEngine implements GeometryEngine
         }
     }
 
+    #[Override]
     public function pointOnSurface(Surface|MultiSurface $g) : Point
     {
         try {
@@ -158,6 +167,7 @@ final class GEOSEngine implements GeometryEngine
         }
     }
 
+    #[Override]
     public function boundary(Geometry $g) : Geometry
     {
         try {
@@ -167,6 +177,7 @@ final class GEOSEngine implements GeometryEngine
         }
     }
 
+    #[Override]
     public function isValid(Geometry $g) : bool
     {
         try {
@@ -176,6 +187,7 @@ final class GEOSEngine implements GeometryEngine
         }
     }
 
+    #[Override]
     public function isClosed(Geometry $g) : bool
     {
         try {
@@ -185,6 +197,7 @@ final class GEOSEngine implements GeometryEngine
         }
     }
 
+    #[Override]
     public function isSimple(Geometry $g) : bool
     {
         try {
@@ -194,6 +207,7 @@ final class GEOSEngine implements GeometryEngine
         }
     }
 
+    #[Override]
     public function isRing(Curve $curve) : bool
     {
         try {
@@ -203,11 +217,13 @@ final class GEOSEngine implements GeometryEngine
         }
     }
 
+    #[Override]
     public function makeValid(Geometry $g): Geometry
     {
         throw GeometryEngineException::unimplementedMethod(__METHOD__);
     }
 
+    #[Override]
     public function equals(Geometry $a, Geometry $b) : bool
     {
         try {
@@ -217,6 +233,7 @@ final class GEOSEngine implements GeometryEngine
         }
     }
 
+    #[Override]
     public function disjoint(Geometry $a, Geometry $b) : bool
     {
         try {
@@ -226,6 +243,7 @@ final class GEOSEngine implements GeometryEngine
         }
     }
 
+    #[Override]
     public function intersects(Geometry $a, Geometry $b) : bool
     {
         try {
@@ -235,6 +253,7 @@ final class GEOSEngine implements GeometryEngine
         }
     }
 
+    #[Override]
     public function touches(Geometry $a, Geometry $b) : bool
     {
         try {
@@ -244,6 +263,7 @@ final class GEOSEngine implements GeometryEngine
         }
     }
 
+    #[Override]
     public function crosses(Geometry $a, Geometry $b) : bool
     {
         try {
@@ -253,6 +273,7 @@ final class GEOSEngine implements GeometryEngine
         }
     }
 
+    #[Override]
     public function within(Geometry $a, Geometry $b) : bool
     {
         try {
@@ -262,6 +283,7 @@ final class GEOSEngine implements GeometryEngine
         }
     }
 
+    #[Override]
     public function contains(Geometry $a, Geometry $b) : bool
     {
         try {
@@ -271,6 +293,7 @@ final class GEOSEngine implements GeometryEngine
         }
     }
 
+    #[Override]
     public function overlaps(Geometry $a, Geometry $b) : bool
     {
         try {
@@ -280,6 +303,7 @@ final class GEOSEngine implements GeometryEngine
         }
     }
 
+    #[Override]
     public function relate(Geometry $a, Geometry $b, string $matrix) : bool
     {
         try {
@@ -294,16 +318,19 @@ final class GEOSEngine implements GeometryEngine
         }
     }
 
+    #[Override]
     public function locateAlong(Geometry $g, float $mValue) : Geometry
     {
         throw GeometryEngineException::unimplementedMethod(__METHOD__);
     }
 
+    #[Override]
     public function locateBetween(Geometry $g, float $mStart, float $mEnd) : Geometry
     {
         throw GeometryEngineException::unimplementedMethod(__METHOD__);
     }
 
+    #[Override]
     public function distance(Geometry $a, Geometry $b) : float
     {
         try {
@@ -313,6 +340,7 @@ final class GEOSEngine implements GeometryEngine
         }
     }
 
+    #[Override]
     public function buffer(Geometry $g, float $distance) : Geometry
     {
         try {
@@ -322,6 +350,7 @@ final class GEOSEngine implements GeometryEngine
         }
     }
 
+    #[Override]
     public function convexHull(Geometry $g) : Geometry
     {
         try {
@@ -331,6 +360,7 @@ final class GEOSEngine implements GeometryEngine
         }
     }
 
+    #[Override]
     public function intersection(Geometry $a, Geometry $b) : Geometry
     {
         try {
@@ -340,6 +370,7 @@ final class GEOSEngine implements GeometryEngine
         }
     }
 
+    #[Override]
     public function symDifference(Geometry $a, Geometry $b) : Geometry
     {
         try {
@@ -349,11 +380,13 @@ final class GEOSEngine implements GeometryEngine
         }
     }
 
+    #[Override]
     public function snapToGrid(Geometry $g, float $size) : Geometry
     {
         throw GeometryEngineException::unimplementedMethod(__METHOD__);
     }
 
+    #[Override]
     public function simplify(Geometry $g, float $tolerance) : Geometry
     {
         try {
@@ -363,21 +396,25 @@ final class GEOSEngine implements GeometryEngine
         }
     }
 
+    #[Override]
     public function maxDistance(Geometry $a, Geometry $b) : float
     {
         throw GeometryEngineException::unimplementedMethod(__METHOD__);
     }
 
+    #[Override]
     public function transform(Geometry $g, int $srid) : Geometry
     {
         throw GeometryEngineException::unimplementedMethod(__METHOD__);
     }
 
+    #[Override]
     public function split(Geometry $g, Geometry $blade) : Geometry
     {
         throw GeometryEngineException::unimplementedMethod(__METHOD__);
     }
 
+    #[Override]
     public function lineInterpolatePoint(LineString $lineString, float $fraction) : Point
     {
         try {
@@ -393,6 +430,7 @@ final class GEOSEngine implements GeometryEngine
         return $result;
     }
 
+    #[Override]
     public function lineInterpolatePoints(LineString $lineString, float $fraction) : MultiPoint
     {
         throw GeometryEngineException::unimplementedMethod(__METHOD__);

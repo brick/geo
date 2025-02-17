@@ -17,6 +17,7 @@ use Brick\Geo\Polygon;
 use Brick\Geo\Proxy;
 use Brick\Geo\Proxy\ProxyInterface;
 use Brick\Geo\Surface;
+use Override;
 
 /**
  * Database implementation of the GeometryEngine.
@@ -255,83 +256,99 @@ abstract class DatabaseEngine implements GeometryEngine
         return $proxyClasses[$geometryType];
     }
 
+    #[Override]
     public function contains(Geometry $a, Geometry $b) : bool
     {
         return $this->queryBoolean('ST_Contains', $a, $b);
     }
 
+    #[Override]
     public function intersects(Geometry $a, Geometry $b) : bool
     {
         return $this->queryBoolean('ST_Intersects', $a, $b);
     }
 
+    #[Override]
     public function union(Geometry $a, Geometry $b) : Geometry
     {
         return $this->queryGeometry('ST_Union', $a, $b);
     }
 
+    #[Override]
     public function intersection(Geometry $a, Geometry $b) : Geometry
     {
         return $this->queryGeometry('ST_Intersection', $a, $b);
     }
 
+    #[Override]
     public function difference(Geometry $a, Geometry $b) : Geometry
     {
         return $this->queryGeometry('ST_Difference', $a, $b);
     }
 
+    #[Override]
     public function envelope(Geometry $g) : Geometry
     {
         return $this->queryGeometry('ST_Envelope', $g);
     }
 
+    #[Override]
     public function centroid(Geometry $g) : Point
     {
         /** @var Point */
         return $this->queryGeometry('ST_Centroid', $g);
     }
 
+    #[Override]
     public function pointOnSurface(Surface|MultiSurface $g) : Point
     {
         /** @var Point */
         return $this->queryGeometry('ST_PointOnSurface', $g);
     }
 
+    #[Override]
     public function length(Curve|MultiCurve $g) : float
     {
         return $this->queryFloat('ST_Length', $g);
     }
 
+    #[Override]
     public function area(Surface|MultiSurface $g) : float
     {
         return $this->queryFloat('ST_Area', $g);
     }
 
+    #[Override]
     public function azimuth(Point $observer, Point $subject) : float
     {
         return $this->queryFloat('ST_Azimuth', $observer, $subject);
     }
 
+    #[Override]
     public function boundary(Geometry $g) : Geometry
     {
         return $this->queryGeometry('ST_Boundary', $g);
     }
 
+    #[Override]
     public function isValid(Geometry $g) : bool
     {
         return $this->queryBoolean('ST_IsValid', $g);
     }
 
+    #[Override]
     public function isClosed(Geometry $g) : bool
     {
         return $this->queryBoolean('ST_IsClosed', $g);
     }
 
+    #[Override]
     public function isSimple(Geometry $g) : bool
     {
         return $this->queryBoolean('ST_IsSimple', $g);
     }
 
+    #[Override]
     public function isRing(Curve $curve) : bool
     {
         try {
@@ -342,96 +359,115 @@ abstract class DatabaseEngine implements GeometryEngine
         }
     }
 
+    #[Override]
     public function makeValid(Geometry $g) : Geometry
     {
         return $this->queryGeometry('ST_MakeValid', $g);
     }
 
+    #[Override]
     public function equals(Geometry $a, Geometry $b) : bool
     {
         return $this->queryBoolean('ST_Equals', $a, $b);
     }
 
+    #[Override]
     public function disjoint(Geometry $a, Geometry $b) : bool
     {
         return $this->queryBoolean('ST_Disjoint', $a, $b);
     }
 
+    #[Override]
     public function touches(Geometry $a, Geometry $b) : bool
     {
         return $this->queryBoolean('ST_Touches', $a, $b);
     }
 
+    #[Override]
     public function crosses(Geometry $a, Geometry $b) : bool
     {
         return $this->queryBoolean('ST_Crosses', $a, $b);
     }
 
+    #[Override]
     public function within(Geometry $a, Geometry $b) : bool
     {
         return $this->queryBoolean('ST_Within', $a, $b);
     }
 
+    #[Override]
     public function overlaps(Geometry $a, Geometry $b) : bool
     {
         return $this->queryBoolean('ST_Overlaps', $a, $b);
     }
 
+    #[Override]
     public function relate(Geometry $a, Geometry $b, string $matrix) : bool
     {
         return $this->queryBoolean('ST_Relate', $a, $b, $matrix);
     }
 
+    #[Override]
     public function locateAlong(Geometry $g, float $mValue) : Geometry
     {
         return $this->queryGeometry('ST_LocateAlong', $g, $mValue);
     }
 
+    #[Override]
     public function locateBetween(Geometry $g, float $mStart, float $mEnd) : Geometry
     {
         return $this->queryGeometry('ST_LocateBetween', $g, $mStart, $mEnd);
     }
 
+    #[Override]
     public function distance(Geometry $a, Geometry $b) : float
     {
         return $this->queryFloat('ST_Distance', $a, $b);
     }
 
+    #[Override]
     public function buffer(Geometry $g, float $distance) : Geometry
     {
         return $this->queryGeometry('ST_Buffer', $g, $distance);
     }
 
+    #[Override]
     public function convexHull(Geometry $g) : Geometry
     {
         return $this->queryGeometry('ST_ConvexHull', $g);
     }
 
+    #[Override]
     public function symDifference(Geometry $a, Geometry $b) : Geometry
     {
         return $this->queryGeometry('ST_SymDifference', $a, $b);
     }
 
+    #[Override]
     public function snapToGrid(Geometry $g, float $size) : Geometry
     {
         return $this->queryGeometry('ST_SnapToGrid', $g, $size);
     }
 
+    #[Override]
     public function simplify(Geometry $g, float $tolerance) : Geometry
     {
         return $this->queryGeometry('ST_Simplify', $g, $tolerance);
     }
 
+    #[Override]
     public function maxDistance(Geometry $a, Geometry $b) : float
     {
         return $this->queryFloat('ST_MaxDistance', $a, $b);
     }
 
+    #[Override]
     public function transform(Geometry $g, int $srid) : Geometry
     {
         return $this->queryGeometry('ST_Transform', $g, $srid);
     }
 
+    #[Override]
     public function split(Geometry $g, Geometry $blade) : Geometry
     {
         return $this->queryGeometry('ST_Split', $g, $blade);
@@ -440,6 +476,7 @@ abstract class DatabaseEngine implements GeometryEngine
     /**
      * @throws GeometryEngineException
      */
+    #[Override]
     public function lineInterpolatePoint(LineString $lineString, float $fraction) : Point
     {
         $result = $this->queryGeometry('ST_LineInterpolatePoint', $lineString, $fraction);
@@ -450,6 +487,7 @@ abstract class DatabaseEngine implements GeometryEngine
         return $result;
     }
 
+    #[Override]
     public function lineInterpolatePoints(LineString $lineString, float $fraction) : MultiPoint
     {
         $result = $this->queryGeometry('ST_LineInterpolatePoints', $lineString, $fraction);

@@ -6,6 +6,7 @@ namespace Brick\Geo;
 
 use Brick\Geo\Projector\Projector;
 use Exception;
+use Override;
 
 /**
  * A MultiCurve is a 1-dimensional GeometryCollection whose elements are Curves.
@@ -28,6 +29,7 @@ use Exception;
  */
 abstract class MultiCurve extends GeometryCollection
 {
+    #[Override]
     public function project(Projector $projector): MultiCurve
     {
         throw new Exception(

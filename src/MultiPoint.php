@@ -6,6 +6,7 @@ namespace Brick\Geo;
 
 use Brick\Geo\Attribute\NoProxy;
 use Brick\Geo\Projector\Projector;
+use Override;
 
 /**
  * A MultiPoint is a 0-dimensional GeometryCollection. The elements of a MultiPoint are restricted to Points.
@@ -20,28 +21,31 @@ use Brick\Geo\Projector\Projector;
  */
 class MultiPoint extends GeometryCollection
 {
-    #[NoProxy]
+    #[NoProxy, Override]
     public function geometryType() : string
     {
         return 'MultiPoint';
     }
 
-    #[NoProxy]
+    #[NoProxy, Override]
     public function geometryTypeBinary() : int
     {
         return Geometry::MULTIPOINT;
     }
 
+    #[Override]
     public function dimension() : int
     {
         return 0;
     }
 
+    #[Override]
     protected function containedGeometryType() : string
     {
         return Point::class;
     }
 
+    #[Override]
     public function project(Projector $projector): MultiPoint
     {
         return new MultiPoint(

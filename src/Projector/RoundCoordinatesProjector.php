@@ -6,6 +6,7 @@ namespace Brick\Geo\Projector;
 
 use Brick\Geo\CoordinateSystem;
 use Brick\Geo\Point;
+use Override;
 
 /**
  * Rounds coordinates to a given precision.
@@ -18,6 +19,7 @@ final class RoundCoordinatesProjector implements Projector
     ) {
     }
 
+    #[Override]
     public function project(Point $point): Point
     {
         $coords = array_map(
@@ -28,6 +30,7 @@ final class RoundCoordinatesProjector implements Projector
         return new Point($point->coordinateSystem(), ...$coords);
     }
 
+    #[Override]
     public function getTargetCoordinateSystem(CoordinateSystem $sourceCoordinateSystem): CoordinateSystem
     {
         return $sourceCoordinateSystem;

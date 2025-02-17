@@ -7,6 +7,7 @@ namespace Brick\Geo;
 use Brick\Geo\Attribute\NoProxy;
 use Brick\Geo\Exception\InvalidGeometryException;
 use Brick\Geo\Projector\Projector;
+use Override;
 
 /**
  * A Triangle is a Polygon with 3 distinct, non-collinear vertices and no interior boundary.
@@ -30,18 +31,19 @@ class Triangle extends Polygon
         }
     }
 
-    #[NoProxy]
+    #[NoProxy, Override]
     public function geometryType() : string
     {
         return 'Triangle';
     }
 
-    #[NoProxy]
+    #[NoProxy, Override]
     public function geometryTypeBinary() : int
     {
         return Geometry::TRIANGLE;
     }
 
+    #[Override]
     public function project(Projector $projector): Triangle
     {
         return new Triangle(
