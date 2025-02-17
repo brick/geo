@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Brick\Geo;
 
 use Brick\Geo\Projector\Projector;
+use Override;
 
 /**
  * A MultiPolygon is a MultiSurface whose elements are Polygons.
@@ -27,26 +28,31 @@ use Brick\Geo\Projector\Projector;
  */
 final class MultiPolygon extends MultiSurface
 {
+    #[Override]
     public function geometryType() : string
     {
         return 'MultiPolygon';
     }
 
+    #[Override]
     public function geometryTypeBinary() : int
     {
         return Geometry::MULTIPOLYGON;
     }
 
+    #[Override]
     public function dimension() : int
     {
         return 2;
     }
 
+    #[Override]
     protected function containedGeometryType() : string
     {
         return Polygon::class;
     }
 
+    #[Override]
     public function project(Projector $projector): MultiPolygon
     {
         return new MultiPolygon(

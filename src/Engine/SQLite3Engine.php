@@ -6,6 +6,7 @@ namespace Brick\Geo\Engine;
 
 use Brick\Geo\Exception\GeometryEngineException;
 use Brick\Geo\Exception\SQLite3Exception;
+use Override;
 use SQLite3;
 use SQLite3Stmt;
 
@@ -40,6 +41,7 @@ final class SQLite3Engine extends DatabaseEngine
         return $this->sqlite3;
     }
 
+    #[Override]
     protected function executeQuery(string $query, array $parameters) : array
     {
         if (isset($this->statements[$query])) {

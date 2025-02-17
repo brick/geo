@@ -10,6 +10,7 @@ use Brick\Geo\Exception\EmptyGeometryException;
 use Brick\Geo\Exception\InvalidGeometryException;
 use Brick\Geo\Exception\NoSuchGeometryException;
 use Brick\Geo\Projector\Projector;
+use Override;
 
 /**
  * A CircularString is a Curve made of zero or more connected circular arc segments.
@@ -71,6 +72,7 @@ final class CircularString extends Curve
         return new CircularString($point1->coordinateSystem(), $point1, ...$pointN);
     }
 
+    #[Override]
     public function startPoint() : Point
     {
         if ($this->isEmpty) {
@@ -80,6 +82,7 @@ final class CircularString extends Curve
         return $this->points[0];
     }
 
+    #[Override]
     public function endPoint() : Point
     {
         if ($this->isEmpty) {
@@ -125,16 +128,19 @@ final class CircularString extends Curve
         return $this->points;
     }
 
+    #[Override]
     public function geometryType() : string
     {
         return 'CircularString';
     }
 
+    #[Override]
     public function geometryTypeBinary() : int
     {
         return Geometry::CIRCULARSTRING;
     }
 
+    #[Override]
     public function getBoundingBox() : BoundingBox
     {
         $boundingBox = new BoundingBox();
@@ -146,6 +152,7 @@ final class CircularString extends Curve
         return $boundingBox;
     }
 
+    #[Override]
     public function toArray() : array
     {
         return array_map(
@@ -154,6 +161,7 @@ final class CircularString extends Curve
         );
     }
 
+    #[Override]
     public function project(Projector $projector): CircularString
     {
         return new CircularString(
@@ -170,6 +178,7 @@ final class CircularString extends Curve
      *
      * Required by interface Countable.
      */
+    #[Override]
     public function count() : int
     {
         return count($this->points);
@@ -182,6 +191,7 @@ final class CircularString extends Curve
      *
      * @psalm-return ArrayIterator<int, Point>
      */
+    #[Override]
     public function getIterator() : ArrayIterator
     {
         return new ArrayIterator($this->points);

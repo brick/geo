@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Brick\Geo;
 
 use Brick\Geo\Projector\Projector;
+use Override;
 
 /**
  * A MultiLineString is a MultiCurve whose elements are LineStrings.
@@ -13,26 +14,31 @@ use Brick\Geo\Projector\Projector;
  */
 final class MultiLineString extends MultiCurve
 {
+    #[Override]
     public function geometryType() : string
     {
         return 'MultiLineString';
     }
 
+    #[Override]
     public function geometryTypeBinary() : int
     {
         return Geometry::MULTILINESTRING;
     }
 
+    #[Override]
     public function dimension() : int
     {
         return 1;
     }
 
+    #[Override]
     protected function containedGeometryType() : string
     {
         return LineString::class;
     }
 
+    #[Override]
     public function project(Projector $projector): MultiLineString
     {
         return new MultiLineString(

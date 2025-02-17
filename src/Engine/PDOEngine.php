@@ -6,6 +6,7 @@ namespace Brick\Geo\Engine;
 
 use Brick\Geo\Exception\GeometryEngineException;
 use Brick\Geo\Geometry;
+use Override;
 use PDO;
 use PDOException;
 use PDOStatement;
@@ -39,6 +40,7 @@ final class PDOEngine extends DatabaseEngine
         return $this->pdo;
     }
 
+    #[Override]
     protected function executeQuery(string $query, array $parameters) : array
     {
         /** @var int $errMode */
@@ -91,6 +93,7 @@ final class PDOEngine extends DatabaseEngine
         return $result;
     }
 
+    #[Override]
     protected function getGeomFromWKBSyntax(): string
     {
         if ($this->pdo->getAttribute(PDO::ATTR_DRIVER_NAME) === 'mysql') {
@@ -100,6 +103,7 @@ final class PDOEngine extends DatabaseEngine
         return parent::getGeomFromWKBSyntax();
     }
 
+    #[Override]
     protected function getParameterPlaceholder(string|float|int $parameter): string
     {
         if ($this->pdo->getAttribute(PDO::ATTR_DRIVER_NAME) === 'pgsql') {
