@@ -20,6 +20,7 @@ use Brick\Geo\PolyhedralSurface;
 use Brick\Geo\Proxy\ProxyFactory;
 use Brick\Geo\TIN;
 use Brick\Geo\Triangle;
+use Override;
 
 /**
  * Builds geometries out of Well-Known Binary strings.
@@ -88,6 +89,7 @@ final class WKBReader extends AbstractWKBReader
         };
     }
 
+    #[Override]
     protected function readGeometryHeader(WKBBuffer $buffer) : WKBGeometryHeader
     {
         $wkbType = $buffer->readUnsignedLong();

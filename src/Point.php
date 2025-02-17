@@ -7,6 +7,7 @@ namespace Brick\Geo;
 use ArrayIterator;
 use Brick\Geo\Exception\InvalidGeometryException;
 use Brick\Geo\Projector\Projector;
+use Override;
 
 /**
  * A Point is a 0-dimensional geometric object and represents a single location in coordinate space.
@@ -198,21 +199,25 @@ final class Point extends Geometry
         return $this->m;
     }
 
+    #[Override]
     public function geometryType() : string
     {
         return 'Point';
     }
 
+    #[Override]
     public function geometryTypeBinary() : int
     {
         return Geometry::POINT;
     }
 
+    #[Override]
     public function dimension() : int
     {
         return 0;
     }
 
+    #[Override]
     public function getBoundingBox() : BoundingBox
     {
         return (new BoundingBox())->extendedWithPoint($this);
@@ -223,6 +228,7 @@ final class Point extends Geometry
      *
      * @return float[]
      */
+    #[Override]
     public function toArray() : array
     {
         if ($this->isEmpty) {
@@ -243,6 +249,7 @@ final class Point extends Geometry
         return $result;
     }
 
+    #[Override]
     public function project(Projector $projector) : Point
     {
         return $projector->project($this);
@@ -253,6 +260,7 @@ final class Point extends Geometry
      *
      * Required by interface Countable.
      */
+    #[Override]
     public function count() : int
     {
         if ($this->isEmpty) {
@@ -269,6 +277,7 @@ final class Point extends Geometry
      *
      * @psalm-return ArrayIterator<int, float>
      */
+    #[Override]
     public function getIterator() : ArrayIterator
     {
         return new ArrayIterator($this->toArray());

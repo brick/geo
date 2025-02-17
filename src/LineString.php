@@ -10,6 +10,7 @@ use Brick\Geo\Exception\EmptyGeometryException;
 use Brick\Geo\Exception\InvalidGeometryException;
 use Brick\Geo\Exception\NoSuchGeometryException;
 use Brick\Geo\Projector\Projector;
+use Override;
 
 /**
  * A LineString is a Curve with linear interpolation between Points.
@@ -113,6 +114,7 @@ final class LineString extends Curve
         return new LineString($cs, $p1, $p2, $p3, $p4, $p1);
     }
 
+    #[Override]
     public function startPoint() : Point
     {
         if ($this->isEmpty) {
@@ -122,6 +124,7 @@ final class LineString extends Curve
         return $this->points[0];
     }
 
+    #[Override]
     public function endPoint() : Point
     {
         if ($this->isEmpty) {
@@ -167,16 +170,19 @@ final class LineString extends Curve
         return $this->points;
     }
 
+    #[Override]
     public function geometryType() : string
     {
         return 'LineString';
     }
 
+    #[Override]
     public function geometryTypeBinary() : int
     {
         return Geometry::LINESTRING;
     }
 
+    #[Override]
     public function getBoundingBox() : BoundingBox
     {
         $boundingBox = new BoundingBox();
@@ -188,6 +194,7 @@ final class LineString extends Curve
         return $boundingBox;
     }
 
+    #[Override]
     public function toArray() : array
     {
         $result = [];
@@ -199,6 +206,7 @@ final class LineString extends Curve
         return $result;
     }
 
+    #[Override]
     public function project(Projector $projector): LineString
     {
         return new LineString(
@@ -215,6 +223,7 @@ final class LineString extends Curve
      *
      * Required by interface Countable.
      */
+    #[Override]
     public function count() : int
     {
         return count($this->points);
@@ -227,6 +236,7 @@ final class LineString extends Curve
      *
      * @psalm-return ArrayIterator<int, Point>
      */
+    #[Override]
     public function getIterator() : ArrayIterator
     {
         return new ArrayIterator($this->points);

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Brick\Geo;
 
-use Brick\Geo\Projector\Projector;
+use Override;
 
 /**
  * A Surface is a 2-dimensional geometric object.
@@ -28,6 +28,7 @@ abstract class Surface extends Geometry
     /**
      * A Surface is a 2-dimensional geometric object.
      */
+    #[Override]
     public function dimension() : int
     {
         return 2;

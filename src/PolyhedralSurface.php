@@ -8,6 +8,7 @@ use ArrayIterator;
 use Brick\Geo\Exception\CoordinateSystemException;
 use Brick\Geo\Exception\NoSuchGeometryException;
 use Brick\Geo\Projector\Projector;
+use Override;
 
 /**
  * A PolyhedralSurface is a contiguous collection of polygons, which share common boundary segments.
@@ -111,16 +112,19 @@ class PolyhedralSurface extends Surface
         return $this->patches;
     }
 
+    #[Override]
     public function geometryType() : string
     {
         return 'PolyhedralSurface';
     }
 
+    #[Override]
     public function geometryTypeBinary() : int
     {
         return Geometry::POLYHEDRALSURFACE;
     }
 
+    #[Override]
     public function getBoundingBox() : BoundingBox
     {
         $boundingBox = new BoundingBox();
@@ -132,6 +136,7 @@ class PolyhedralSurface extends Surface
         return $boundingBox;
     }
 
+    #[Override]
     public function toArray() : array
     {
         $result = [];
@@ -143,6 +148,7 @@ class PolyhedralSurface extends Surface
         return $result;
     }
 
+    #[Override]
     public function project(Projector $projector): PolyhedralSurface
     {
         return new PolyhedralSurface(
@@ -159,6 +165,7 @@ class PolyhedralSurface extends Surface
      *
      * Required by interface Countable.
      */
+    #[Override]
     public function count() : int
     {
         return count($this->patches);
@@ -171,6 +178,7 @@ class PolyhedralSurface extends Surface
      *
      * @psalm-return ArrayIterator<int, Polygon>
      */
+    #[Override]
     public function getIterator() : ArrayIterator
     {
         return new ArrayIterator($this->patches);
