@@ -47,9 +47,6 @@
     <PossiblyNullArgument>
       <code><![CDATA[$geometryType]]></code>
     </PossiblyNullArgument>
-    <PossiblyNullOperand>
-      <code><![CDATA[$geometryType]]></code>
-    </PossiblyNullOperand>
     <PossiblyUndefinedArrayOffset>
       <code><![CDATA[$result]]></code>
       <code><![CDATA[$result]]></code>
