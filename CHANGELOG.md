@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.11.2](https://github.com/brick/geo/releases/tag/0.11.2) - 2025-02-18
+
+🐛 **Bug fixes**
+
+- extending an empty `BoundingBox` would get its immutability violated by setting a coordinate system
+
 ## [0.11.1](https://github.com/brick/geo/releases/tag/0.11.1) - 2024-08-19
 
 ✨ **New features**

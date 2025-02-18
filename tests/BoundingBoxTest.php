@@ -33,7 +33,7 @@ class BoundingBoxTest extends AbstractTestCase
     public function testSRIDMix(): void
     {
         $bbox = new BoundingBox();
-        $bbox->extendedWithPoint(Point::xy(0, 0));
+        $bbox = $bbox->extendedWithPoint(Point::xy(0, 0));
 
         $this->expectException(CoordinateSystemException::class);
         $bbox->extendedWithPoint(Point::xy(0, 0, 4326));
@@ -42,7 +42,7 @@ class BoundingBoxTest extends AbstractTestCase
     public function testDimensionalityMix(): void
     {
         $bbox = new BoundingBox();
-        $bbox->extendedWithPoint(Point::xy(0, 0));
+        $bbox = $bbox->extendedWithPoint(Point::xy(0, 0));
 
         $this->expectException(CoordinateSystemException::class);
         $bbox->extendedWithPoint(Point::xyz(0, 0, 0));

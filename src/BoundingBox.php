@@ -41,9 +41,12 @@ class BoundingBox
         $point = $point->withoutM();
 
         if ($this->cs === null) {
-            $this->cs = $point->coordinateSystem();
-        } elseif (! $this->cs->isEqualTo($point->coordinateSystem())) {
-            throw CoordinateSystemException::dimensionalityMix($this->cs, $point->coordinateSystem());
+            $cs = $point->coordinateSystem();
+        } else {
+            $cs = $this->cs;
+            if (! $cs->isEqualTo($point->coordinateSystem())) {
+                throw CoordinateSystemException::dimensionalityMix($cs, $point->coordinateSystem());
+            }
         }
 
         $x = $point->x();
@@ -71,8 +74,9 @@ class BoundingBox
             return $this;
         }
 
-        $that = clone $this;
+        $that = new BoundingBox();
 
+        $that->cs = $cs;
         $that->swX = $swX;
         $that->swY = $swY;
         $that->swZ = $swZ;
