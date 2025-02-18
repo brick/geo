@@ -169,7 +169,7 @@ class GeometryCollection extends Geometry
     #[Override]
     public function getBoundingBox() : BoundingBox
     {
-        $boundingBox = new BoundingBox();
+        $boundingBox = BoundingBox::new();
 
         foreach ($this->geometries as $geometry) {
             $boundingBox = $boundingBox->extendedWithBoundingBox($geometry->getBoundingBox());

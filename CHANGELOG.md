@@ -5,6 +5,7 @@
 💥 **Breaking changes**
 
 - Interface `GeometryEngine` has 2 new methods: `lineInterpolatePoint()`, `lineInterpolatePoints()`
+- `BoundingBox`'s constructor is now private, use `BoundingBox::new()` to create a new instance
 - The following classes are now `final`:
   - `BoundingBox`
   - `CoordinateSystem`

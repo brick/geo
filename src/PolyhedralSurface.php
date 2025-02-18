@@ -128,7 +128,7 @@ class PolyhedralSurface extends Surface
     #[Override]
     public function getBoundingBox() : BoundingBox
     {
-        $boundingBox = new BoundingBox();
+        $boundingBox = BoundingBox::new();
 
         foreach ($this->patches as $patch) {
             $boundingBox = $boundingBox->extendedWithBoundingBox($patch->getBoundingBox());

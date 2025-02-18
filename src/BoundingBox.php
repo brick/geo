@@ -13,19 +13,35 @@ use Brick\Geo\Exception\EmptyGeometryException;
  */
 final class BoundingBox
 {
-    private ?float $swX = null;
+    /**
+     * Private constructor. Use BoundingBox::new() to obtain an instance.
+     */
+    private function __construct(
+        public readonly ?CoordinateSystem $cs,
+        public readonly ?float $swX,
+        public readonly ?float $swY,
+        public readonly ?float $swZ,
+        public readonly ?float $neX,
+        public readonly ?float $neY,
+        public readonly ?float $neZ,
+    ) {
+    }
 
-    private ?float $swY = null;
-
-    private ?float $swZ = null;
-
-    private ?float $neX = null;
-
-    private ?float $neY = null;
-
-    private ?float $neZ = null;
-
-    private ?CoordinateSystem $cs = null;
+    /**
+     * Creates an empty BoundingBox instance.
+     */
+    public static function new(): BoundingBox
+    {
+        return new BoundingBox(
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+        );
+    }
 
     /**
      * Returns a copy of this BoundingBox extended with the given Point.
@@ -74,17 +90,15 @@ final class BoundingBox
             return $this;
         }
 
-        $that = new BoundingBox();
-
-        $that->cs = $cs;
-        $that->swX = $swX;
-        $that->swY = $swY;
-        $that->swZ = $swZ;
-        $that->neX = $neX;
-        $that->neY = $neY;
-        $that->neZ = $neZ;
-
-        return $that;
+        return new BoundingBox(
+            $cs,
+            $swX,
+            $swY,
+            $swZ,
+            $neX,
+            $neY,
+            $neZ,
+        );
     }
 
     /**
@@ -119,13 +133,16 @@ final class BoundingBox
             throw new EmptyGeometryException('The bounding box is empty.');
         }
 
+        assert($this->swX !== null);
+        assert($this->swY !== null);
+
         if ($this->cs->hasZ()) {
+            assert($this->swZ !== null);
             $coords = [$this->swX, $this->swY, $this->swZ];
         } else {
             $coords = [$this->swX, $this->swY];
         }
 
-        /** @var list<float> $coords */
         return new Point($this->cs, ...$coords);
     }
 
