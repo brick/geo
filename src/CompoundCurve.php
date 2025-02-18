@@ -155,7 +155,7 @@ final class CompoundCurve extends Curve
     #[Override]
     public function getBoundingBox() : BoundingBox
     {
-        $boundingBox = new BoundingBox();
+        $boundingBox = BoundingBox::new();
 
         foreach ($this->curves as $curve) {
             $boundingBox = $boundingBox->extendedWithBoundingBox($curve->getBoundingBox());

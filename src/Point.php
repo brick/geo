@@ -226,7 +226,7 @@ final class Point extends Geometry
     #[Override]
     public function getBoundingBox() : BoundingBox
     {
-        return (new BoundingBox())->extendedWithPoint($this);
+        return BoundingBox::new()->extendedWithPoint($this);
     }
 
     /**
