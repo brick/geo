@@ -119,7 +119,7 @@ final class GeoJSONWriter
         ];
 
         if ($this->setBbox) {
-            $boundingBox = new BoundingBox();
+            $boundingBox = BoundingBox::new();
 
             foreach ($featureCollection->getFeatures() as $feature) {
                 $featureGeometry = $feature->getGeometry();

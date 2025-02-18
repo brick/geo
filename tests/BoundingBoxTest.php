@@ -16,7 +16,7 @@ class BoundingBoxTest extends AbstractTestCase
 {
     public function testGetSouthWestOnEmptyBoundingBox(): void
     {
-        $bbox = new BoundingBox();
+        $bbox = BoundingBox::new();
 
         $this->expectException(EmptyGeometryException::class);
         $bbox->getSouthWest();
@@ -24,7 +24,7 @@ class BoundingBoxTest extends AbstractTestCase
 
     public function testGetNorthEastOnEmptyBoundingBox(): void
     {
-        $bbox = new BoundingBox();
+        $bbox = BoundingBox::new();
 
         $this->expectException(EmptyGeometryException::class);
         $bbox->getNorthEast();
@@ -32,7 +32,7 @@ class BoundingBoxTest extends AbstractTestCase
 
     public function testSRIDMix(): void
     {
-        $bbox = new BoundingBox();
+        $bbox = BoundingBox::new();
         $bbox = $bbox->extendedWithPoint(Point::xy(0, 0));
 
         $this->expectException(CoordinateSystemException::class);
@@ -41,7 +41,7 @@ class BoundingBoxTest extends AbstractTestCase
 
     public function testDimensionalityMix(): void
     {
-        $bbox = new BoundingBox();
+        $bbox = BoundingBox::new();
         $bbox = $bbox->extendedWithPoint(Point::xy(0, 0));
 
         $this->expectException(CoordinateSystemException::class);
@@ -50,7 +50,7 @@ class BoundingBoxTest extends AbstractTestCase
 
     public function testExtendedWithPointXY(): void
     {
-        $bbox = new BoundingBox();
+        $bbox = BoundingBox::new();
 
         $bbox = $bbox->extendedWithPoint(Point::xy(1, 2, 4326));
         $this->assertPointXYEquals(1, 2, 4326, $bbox->getSouthWest());
@@ -89,7 +89,7 @@ class BoundingBoxTest extends AbstractTestCase
 
     public function testExtendedWithPointXYZ(): void
     {
-        $bbox = new BoundingBox();
+        $bbox = BoundingBox::new();
 
         $bbox = $bbox->extendedWithPoint(Point::xyz(1, 2, 3, 4326));
         $this->assertPointXYZEquals(1, 2, 3, 4326, $bbox->getSouthWest());
