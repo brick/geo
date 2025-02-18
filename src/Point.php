@@ -44,54 +44,60 @@ class Point extends Geometry
      * @param float            ...$coords The point coordinates; can be empty for an empty point.
      *
      * @throws InvalidGeometryException If the number of coordinates does not match the coordinate system.
+     *
+     * @psalm-suppress PossiblyUndefinedArrayOffset
      */
     public function __construct(CoordinateSystem $cs, float ...$coords)
     {
-        parent::__construct($cs, ! $coords);
+        $isEmpty = count($coords) === 0;
 
-        if ($coords) {
-            if (count($coords) !== $cs->coordinateDimension()) {
+        parent::__construct($cs, $isEmpty);
+
+        if ($isEmpty) {
+            return;
+        }
+
+        if (count($coords) !== $cs->coordinateDimension()) {
+            throw new InvalidGeometryException(sprintf(
+                'Expected %d coordinates for Point %s, got %d.',
+                $cs->coordinateDimension(),
+                $cs->coordinateName(),
+                count($coords)
+            ));
+        }
+
+        $coords = array_values($coords);
+
+        foreach ($coords as $i => $coord) {
+            if (! is_finite($coord)) {
+                $coordinateName = match ($i) {
+                    0 => 'X',
+                    1 => 'Y',
+                    2 => $cs->hasZ() ? 'Z' : 'M',
+                    3 => 'M',
+                };
                 throw new InvalidGeometryException(sprintf(
-                    'Expected %d coordinates for Point %s, got %d.',
-                    $cs->coordinateDimension(),
+                    'Coordinate #%d (%s) for Point %s is %s, this is not allowed.',
+                    $i + 1,
+                    $coordinateName,
                     $cs->coordinateName(),
-                    count($coords)
+                    is_infinite($coord) ? ($coord > 0 ? '+' : '-') . 'INF' : 'NaN',
                 ));
             }
+        }
 
-            $coords = array_values($coords);
+        $this->x = $coords[0];
+        $this->y = $coords[1];
 
-            foreach ($coords as $i => $coord) {
-                if (! is_finite($coord)) {
-                    $coordinateName = match ($i) {
-                        0 => 'X',
-                        1 => 'Y',
-                        2 => $cs->hasZ() ? 'Z' : 'M',
-                        3 => 'M',
-                    };
-                    throw new InvalidGeometryException(sprintf(
-                        'Coordinate #%d (%s) for Point %s is %s, this is not allowed.',
-                        $i + 1,
-                        $coordinateName,
-                        $cs->coordinateName(),
-                        is_infinite($coord) ? ($coord > 0 ? '+' : '-') . 'INF' : 'NaN',
-                    ));
-                }
-            }
+        $hasZ = $cs->hasZ();
+        $hasM = $cs->hasM();
 
-            $this->x = $coords[0];
-            $this->y = $coords[1];
+        if ($hasZ) {
+            $this->z = $coords[2];
+        }
 
-            $hasZ = $cs->hasZ();
-            $hasM = $cs->hasM();
-
-            if ($hasZ) {
-                $this->z = $coords[2];
-            }
-
-            if ($hasM) {
-                $this->m = $coords[$hasZ ? 3 : 2];
-            }
+        if ($hasM) {
+            $this->m = $coords[$hasZ ? 3 : 2];
         }
     }
 
