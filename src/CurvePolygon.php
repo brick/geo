@@ -23,7 +23,7 @@ class CurvePolygon extends Surface
      * The rings that compose this CurvePolygon.
      *
      * The first one represents the exterior ring, and the
-     * (optional) other ones represent the interior rings of the CurvePolygon.
+     * (optional) other ones represent the interior rings (holes) of the CurvePolygon.
      *
      * An empty CurvePolygon contains no rings.
      *
