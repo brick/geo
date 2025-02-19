@@ -44,7 +44,7 @@ class GeometryCollection extends Geometry
      * @psalm-param T ...$geometries
      *
      * @throws CoordinateSystemException   If different coordinate systems are used.
-     * @throws UnexpectedGeometryException If a geometry is not a valid type for a sub-class of GeometryCollection.
+     * @throws UnexpectedGeometryException If a geometry is not a valid type for a subclass of GeometryCollection.
      */
     public function __construct(CoordinateSystem $cs, Geometry ...$geometries)
     {
@@ -92,7 +92,7 @@ class GeometryCollection extends Geometry
      * @return static
      *
      * @throws CoordinateSystemException   If the geometries use different coordinate systems.
-     * @throws UnexpectedGeometryException If a geometry is not a valid type for a sub-class of GeometryCollection.
+     * @throws UnexpectedGeometryException If a geometry is not a valid type for a subclass of GeometryCollection.
      */
     public static function of(Geometry $geometry1, Geometry ...$geometryN) : GeometryCollection
     {

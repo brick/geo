@@ -254,7 +254,7 @@ If you use them, just require the [brick/geo-doctrine](https://github.com/brick/
 
 🐛 **Fixes**
 
-- Doctrine types could hydrate a parent Geometry proxy class, but now hydrate the correct Geometry proxy sub-class by introspecting the WKB without fully loading it
+- Doctrine types could hydrate a parent Geometry proxy class, but now hydrate the correct Geometry proxy subclass by introspecting the WKB without fully loading it
 
 ✨ **Improvements**
 
