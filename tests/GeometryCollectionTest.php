@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Brick\Geo\Tests;
 
 use Brick\Geo\Exception\NoSuchGeometryException;
+use Brick\Geo\Geometry;
 use Brick\Geo\GeometryCollection;
 use Brick\Geo\LineString;
 use Brick\Geo\Point;
@@ -88,5 +89,49 @@ class GeometryCollectionTest extends AbstractTestCase
 
         self::assertInstanceOf(\Traversable::class, $geometryCollection);
         self::assertSame([$point, $lineString], iterator_to_array($geometryCollection));
+    }
+
+    /**
+     * @param string[] $addedGeometriesWkt
+     */
+    #[DataProvider('providerWithAddedGeometries')]
+    public function testWithAddedGeometries(string $geometryCollectionWkt, array $addedGeometriesWkt, string $expectedWkt): void
+    {
+        $geometryCollection = GeometryCollection::fromText($geometryCollectionWkt, 1234);
+        $actual = $geometryCollection->withAddedGeometries(
+            ...array_map(fn (string $wkt) => Geometry::fromText($wkt, 1234),
+            $addedGeometriesWkt,
+        ));
+
+        $this->assertWktEquals($geometryCollection, $geometryCollectionWkt, 1234); // ensure immutability
+        $this->assertWktEquals($actual, $expectedWkt, 1234);
+    }
+
+    public static function providerWithAddedGeometries(): array
+    {
+        return [
+            ['GEOMETRYCOLLECTION EMPTY', [], 'GEOMETRYCOLLECTION EMPTY'],
+            ['GEOMETRYCOLLECTION EMPTY', ['POINT (1 2)'], 'GEOMETRYCOLLECTION (POINT (1 2))'],
+            ['GEOMETRYCOLLECTION EMPTY', ['POINT (1 2)', 'LINESTRING (3 4, 5 6)'], 'GEOMETRYCOLLECTION (POINT (1 2), LINESTRING (3 4, 5 6))'],
+            ['GEOMETRYCOLLECTION (POINT (9 9), POLYGON ((1 2, 3 4, 3 1, 1 2)))', [], 'GEOMETRYCOLLECTION (POINT (9 9), POLYGON ((1 2, 3 4, 3 1, 1 2)))'],
+            ['GEOMETRYCOLLECTION (POINT (9 9), POLYGON ((1 2, 3 4, 3 1, 1 2)))', ['POINT (1 2)'], 'GEOMETRYCOLLECTION (POINT (9 9), POLYGON ((1 2, 3 4, 3 1, 1 2)), POINT (1 2))'],
+            ['GEOMETRYCOLLECTION (POINT (9 9), POLYGON ((1 2, 3 4, 3 1, 1 2)))', ['POINT (1 2)', 'LINESTRING (3 4, 5 6)'], 'GEOMETRYCOLLECTION (POINT (9 9), POLYGON ((1 2, 3 4, 3 1, 1 2)), POINT (1 2), LINESTRING (3 4, 5 6))'],
+            ['GEOMETRYCOLLECTION Z EMPTY', [], 'GEOMETRYCOLLECTION Z EMPTY'],
+            ['GEOMETRYCOLLECTION Z EMPTY', ['POINT Z (1 2 3)'], 'GEOMETRYCOLLECTION Z (POINT Z (1 2 3))'],
+            ['GEOMETRYCOLLECTION Z EMPTY', ['POINT Z (1 2 3)', 'LINESTRING Z (3 4 5, 5 6 7)'], 'GEOMETRYCOLLECTION Z (POINT Z (1 2 3), LINESTRING Z (3 4 5, 5 6 7))'],
+            ['GEOMETRYCOLLECTION Z (POINT Z (9 9 1), POLYGON Z ((1 2 3, 3 4 5, 3 1 2, 1 2 3)))', [], 'GEOMETRYCOLLECTION Z (POINT Z (9 9 1), POLYGON Z ((1 2 3, 3 4 5, 3 1 2, 1 2 3)))'],
+            ['GEOMETRYCOLLECTION Z (POINT Z (9 9 1), POLYGON Z ((1 2 3, 3 4 5, 3 1 2, 1 2 3)))', ['POINT Z (1 2 3)'], 'GEOMETRYCOLLECTION Z (POINT Z (9 9 1), POLYGON Z ((1 2 3, 3 4 5, 3 1 2, 1 2 3)), POINT Z (1 2 3))'],
+            ['GEOMETRYCOLLECTION Z (POINT Z (9 9 1), POLYGON Z ((1 2 3, 3 4 5, 3 1 2, 1 2 3)))', ['POINT Z (1 2 3)', 'LINESTRING Z (3 4 5, 5 6 7)'], 'GEOMETRYCOLLECTION Z (POINT Z (9 9 1), POLYGON Z ((1 2 3, 3 4 5, 3 1 2, 1 2 3)), POINT Z (1 2 3), LINESTRING Z (3 4 5, 5 6 7))'],
+
+            ['MULTIPOINT EMPTY', [], 'MULTIPOINT EMPTY'],
+            ['MULTIPOINT EMPTY', ['POINT (1 2)'], 'MULTIPOINT (1 2)'],
+            ['MULTIPOINT EMPTY', ['POINT (1 2)', 'POINT (3 4)'], 'MULTIPOINT (1 2, 3 4)'],
+            ['MULTIPOINT (0 0)', [], 'MULTIPOINT (0 0)'],
+            ['MULTIPOINT (0 0)', ['POINT (1 2)'], 'MULTIPOINT (0 0, 1 2)'],
+            ['MULTIPOINT (0 0)', ['POINT (1 2)', 'POINT (3 4)'], 'MULTIPOINT (0 0, 1 2, 3 4)'],
+            ['MULTIPOINT (0 0, 1 1)', [], 'MULTIPOINT (0 0, 1 1)'],
+            ['MULTIPOINT (0 0, 1 1)', ['POINT (2 2)'], 'MULTIPOINT (0 0, 1 1, 2 2)'],
+            ['MULTIPOINT (0 0, 1 1)', ['POINT (2 2)', 'POINT (3 3)'], 'MULTIPOINT (0 0, 1 1, 2 2, 3 3)'],
+        ];
     }
 }

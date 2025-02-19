@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace Brick\Geo\Tests;
 
 use Brick\Geo\CoordinateSystem;
+use Brick\Geo\Curve;
 use Brick\Geo\CurvePolygon;
 use Brick\Geo\Exception\EmptyGeometryException;
 use Brick\Geo\Exception\NoSuchGeometryException;
+use Brick\Geo\LineString;
 use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
@@ -178,5 +180,81 @@ class CurvePolygonTest extends AbstractTestCase
                 }
             }
         }
+    }
+
+    #[DataProvider('providerWithExteriorRing')]
+    public function testWithExteriorRing(string $curvePolygonWkt, string $exteriorRingWkt, string $expectedWkt): void
+    {
+        $curvePolygon = CurvePolygon::fromText($curvePolygonWkt, 1234);
+        $actual = $curvePolygon->withExteriorRing(Curve::fromText($exteriorRingWkt, 1234));
+
+        $this->assertWktEquals($curvePolygon, $curvePolygonWkt, 1234); // ensure immutability
+        $this->assertWktEquals($actual, $expectedWkt, 1234);
+    }
+
+    public static function providerWithExteriorRing(): array
+    {
+        return [
+            ['CURVEPOLYGON EMPTY', 'LINESTRING (0 0, 0 9, 9 9, 0 0)', 'CURVEPOLYGON ((0 0, 0 9, 9 9, 0 0))'],
+            ['CURVEPOLYGON ((0 0, 0 9, 9 9, 0 0), CIRCULARSTRING (0 0, 1 1, 2 2, 3 1, 0 0))', 'CIRCULARSTRING (0 0, 1 2, 3 1, 3 0, 0 0)', 'CURVEPOLYGON (CIRCULARSTRING (0 0, 1 2, 3 1, 3 0, 0 0), CIRCULARSTRING (0 0, 1 1, 2 2, 3 1, 0 0))'],
+            ['CURVEPOLYGON Z EMPTY', 'CIRCULARSTRING Z (0 0 1, 1 1 2, 2 2 3, 3 3 4, 0 0 1)', 'CURVEPOLYGON Z (CIRCULARSTRING Z (0 0 1, 1 1 2, 2 2 3, 3 3 4, 0 0 1))'],
+            ['CURVEPOLYGON Z ((0 0 1, 0 9 2, 9 9 3, 0 0 1), CIRCULARSTRING Z (0 0 1, 1 1 2, 2 2 3, 3 1 2, 0 0 1))', 'CIRCULARSTRING Z (0 0 1, 1 2 2, 3 1 3, 3 0 3, 0 0 3)', 'CURVEPOLYGON Z (CIRCULARSTRING Z (0 0 1, 1 2 2, 3 1 3, 3 0 3, 0 0 3), CIRCULARSTRING Z (0 0 1, 1 1 2, 2 2 3, 3 1 2, 0 0 1))'],
+        ];
+    }
+
+    /**
+     * @param string[] $interiorRingsWkt
+     */
+    #[DataProvider('providerWithInteriorRings')]
+    public function testWithInteriorRings(string $curvePolygonWkt, array $interiorRingsWkt, string $expectedWkt): void
+    {
+        $curvePolygon = CurvePolygon::fromText($curvePolygonWkt, 1234);
+        $actual = $curvePolygon->withInteriorRings(...array_map(
+            fn (string $wkt) => Curve::fromText($wkt, 1234),
+            $interiorRingsWkt,
+        ));
+
+        $this->assertWktEquals($curvePolygon, $curvePolygonWkt, 1234); // ensure immutability
+        $this->assertWktEquals($actual, $expectedWkt, 1234);
+    }
+
+    public static function providerWithInteriorRings(): array
+    {
+        return [
+            ['CURVEPOLYGON ((0 0, 0 9, 9 9, 0 0))', [], 'CURVEPOLYGON ((0 0, 0 9, 9 9, 0 0))'],
+            ['CURVEPOLYGON ((0 0, 0 9, 9 9, 0 0))', ['CIRCULARSTRING (0 0, 1 1, 2 1, 3 2, 0 0)'], 'CURVEPOLYGON ((0 0, 0 9, 9 9, 0 0), CIRCULARSTRING (0 0, 1 1, 2 1, 3 2, 0 0))'],
+            ['CURVEPOLYGON ((0 0, 0 9, 9 9, 0 0))', ['CIRCULARSTRING (0 0, 1 1, 2 1, 3 2, 0 0)', 'LINESTRING (2 1, 2 3, 4 1, 2 1)'], 'CURVEPOLYGON ((0 0, 0 9, 9 9, 0 0), CIRCULARSTRING (0 0, 1 1, 2 1, 3 2, 0 0), (2 1, 2 3, 4 1, 2 1))'],
+            ['CURVEPOLYGON Z ((0 0 1, 0 9 2, 9 9 3, 0 0 1))', [], 'CURVEPOLYGON Z ((0 0 1, 0 9 2, 9 9 3, 0 0 1))'],
+            ['CURVEPOLYGON Z ((0 0 1, 0 9 2, 9 9 3, 0 0 1))', ['CIRCULARSTRING Z (0 0 1, 1 1 2, 2 1 3, 3 2 1, 0 0 1)'], 'CURVEPOLYGON Z ((0 0 1, 0 9 2, 9 9 3, 0 0 1), CIRCULARSTRING Z (0 0 1, 1 1 2, 2 1 3, 3 2 1, 0 0 1))'],
+            ['CURVEPOLYGON Z ((0 0 1, 0 9 2, 9 9 3, 0 0 1))', ['CIRCULARSTRING Z (0 0 1, 1 1 2, 2 1 3, 3 2 1, 0 0 1)', 'LINESTRING Z (2 1 3, 2 3 4, 4 1 2, 2 1 3)'], 'CURVEPOLYGON Z ((0 0 1, 0 9 2, 9 9 3, 0 0 1), CIRCULARSTRING Z (0 0 1, 1 1 2, 2 1 3, 3 2 1, 0 0 1), (2 1 3, 2 3 4, 4 1 2, 2 1 3))'],
+        ];
+    }
+
+    /**
+     * @param string[] $addedInteriorRingsWkt
+     */
+    #[DataProvider('providerWithAddedInteriorRings')]
+    public function testWithAddedInteriorRings(string $curvePolygonWkt, array $addedInteriorRingsWkt, string $expectedWkt): void
+    {
+        $curvePolygon = CurvePolygon::fromText($curvePolygonWkt, 1234);
+        $actual = $curvePolygon->withAddedInteriorRings(...array_map(
+            fn (string $wkt) => Curve::fromText($wkt, 1234),
+            $addedInteriorRingsWkt,
+        ));
+
+        $this->assertWktEquals($curvePolygon, $curvePolygonWkt, 1234); // ensure immutability
+        $this->assertWktEquals($actual, $expectedWkt, 1234);
+    }
+
+    public static function providerWithAddedInteriorRings(): array
+    {
+        return [
+            ['CURVEPOLYGON ((0 0, 0 9, 9 9, 0 0))', [], 'CURVEPOLYGON ((0 0, 0 9, 9 9, 0 0))'],
+            ['CURVEPOLYGON ((0 0, 0 9, 9 9, 0 0))', ['CIRCULARSTRING (0 0, 1 1, 2 2, 3 0, 0 0)'], 'CURVEPOLYGON ((0 0, 0 9, 9 9, 0 0), CIRCULARSTRING (0 0, 1 1, 2 2, 3 0, 0 0))'],
+            ['CURVEPOLYGON ((0 0, 0 9, 9 9, 0 0))', ['CIRCULARSTRING (0 0, 1 1, 2 2, 3 0, 0 0)', 'LINESTRING (0 0, 9 1)'], 'CURVEPOLYGON ((0 0, 0 9, 9 9, 0 0), CIRCULARSTRING (0 0, 1 1, 2 2, 3 0, 0 0), (0 0, 9 1))'],
+            ['CURVEPOLYGON Z ((0 0 1, 0 9 2, 9 9 3, 0 0 1))', [], 'CURVEPOLYGON Z ((0 0 1, 0 9 2, 9 9 3, 0 0 1))'],
+            ['CURVEPOLYGON Z ((0 0 1, 0 9 2, 9 9 3, 0 0 1))', ['CIRCULARSTRING Z (0 0 1, 1 1 2, 2 2 3, 3 0 4, 0 0 1)'], 'CURVEPOLYGON Z ((0 0 1, 0 9 2, 9 9 3, 0 0 1), CIRCULARSTRING Z (0 0 1, 1 1 2, 2 2 3, 3 0 4, 0 0 1))'],
+            ['CURVEPOLYGON Z ((0 0 1, 0 9 2, 9 9 3, 0 0 1))', ['CIRCULARSTRING Z (0 0 1, 1 1 2, 2 2 3, 3 0 4, 0 0 1)', 'LINESTRING Z (0 0 1, 9 1 5)'], 'CURVEPOLYGON Z ((0 0 1, 0 9 2, 9 9 3, 0 0 1), CIRCULARSTRING Z (0 0 1, 1 1 2, 2 2 3, 3 0 4, 0 0 1), (0 0 1, 9 1 5))'],
+        ];
     }
 }

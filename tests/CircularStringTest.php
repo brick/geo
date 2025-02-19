@@ -199,4 +199,32 @@ class CircularStringTest extends AbstractTestCase
             $circularString->pointN(3)
         ], iterator_to_array($circularString));
     }
+
+    /**
+     * @param string[] $addedPointsWkt
+     */
+    #[DataProvider('providerWithAddedPoints')]
+    public function testWithAddedPoints(string $circularStringWkt, array $addedPointsWkt, string $expectedWkt): void
+    {
+        $circularString = CircularString::fromText($circularStringWkt, 1234);
+        $actual = $circularString->withAddedPoints(...array_map(
+            fn (string $wkt) => Point::fromText($wkt, 1234),
+            $addedPointsWkt,
+        ));
+
+        $this->assertWktEquals($circularString, $circularStringWkt, 1234); // ensure immutability
+        $this->assertWktEquals($actual, $expectedWkt, 1234);
+    }
+
+    public static function providerWithAddedPoints(): array
+    {
+        return [
+            ['CIRCULARSTRING EMPTY', ['POINT (1 2)', 'POINT (3 4)', 'POINT (5 6)'], 'CIRCULARSTRING (1 2, 3 4, 5 6)'],
+            ['CIRCULARSTRING (1 2, 3 4, 5 6)', [], 'CIRCULARSTRING (1 2, 3 4, 5 6)'],
+            ['CIRCULARSTRING (1 2, 3 4, 5 6)', ['POINT (7 8)', 'POINT (9 0)'], 'CIRCULARSTRING (1 2, 3 4, 5 6, 7 8, 9 0)'],
+            ['CIRCULARSTRING Z EMPTY', ['POINT Z (1 2 3)', 'POINT Z (3 4 5)', 'POINT Z (5 6 7)'], 'CIRCULARSTRING Z (1 2 3, 3 4 5, 5 6 7)'],
+            ['CIRCULARSTRING Z (1 2 1, 3 4 2, 5 6 3)', [], 'CIRCULARSTRING Z (1 2 1, 3 4 2, 5 6 3)'],
+            ['CIRCULARSTRING Z (1 2 1, 3 4 2, 5 6 3)', ['POINT Z (7 8 4)', 'POINT Z (9 0 5)'], 'CIRCULARSTRING Z (1 2 1, 3 4 2, 5 6 3, 7 8 4, 9 0 5)'],
+        ];
+    }
 }

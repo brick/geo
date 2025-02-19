@@ -187,4 +187,28 @@ class CurvePolygon extends Surface
     {
         return new ArrayIterator($this->rings);
     }
+
+    /**
+     * Returns a copy of this CurvePolygon, with the exterior ring replaced with the given one.
+     */
+    public function withExteriorRing(Curve $exteriorRing) : CurvePolygon
+    {
+        return new CurvePolygon($this->coordinateSystem, $exteriorRing, ...$this->interiorRings());
+    }
+
+    /**
+     * Returns a copy of this CurvePolygon, with the interior rings replaced with the given ones.
+     */
+    public function withInteriorRings(Curve ...$interiorRings) : CurvePolygon
+    {
+        return new CurvePolygon($this->coordinateSystem, $this->exteriorRing(), ...$interiorRings);
+    }
+
+    /**
+     * Returns a copy of this CurvePolygon, with the given interior rings added.
+     */
+    public function withAddedInteriorRings(Curve ...$interiorRings) : CurvePolygon
+    {
+        return new CurvePolygon($this->coordinateSystem, $this->exteriorRing(), ...$this->interiorRings(), ...$interiorRings);
+    }
 }

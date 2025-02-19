@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.11.3](https://github.com/brick/geo/releases/tag/0.11.3) - 2025-02-19
+
+✨ **New features**
+
+- The following methods have been added:
+  - `CircularString::withAddedPoints()`
+  - `CompoundCurve::withAddedCurves()`
+  - `CurvePolygon::withExteriorRing()`, `withInteriorRings()`, `withAddedInteriorRings()`
+  - `GeometryCollection::withAddedGeometries()`
+  - `LineString::withAddedPoints()`
+  - `Polygon::withExteriorRing()`, `withInteriorRings()`, `withAddedInteriorRings()`
+  - `PolyhedralSurface::withAddedPatches()`
+
 ## [0.11.2](https://github.com/brick/geo/releases/tag/0.11.2) - 2025-02-18
 
 🐛 **Bug fixes**

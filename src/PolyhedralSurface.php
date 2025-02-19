@@ -178,4 +178,14 @@ class PolyhedralSurface extends Surface
     {
         return new ArrayIterator($this->patches);
     }
+
+    /**
+     * Returns a copy of this PolyhedralSurface, with the given patches added.
+     *
+     * @psalm-suppress UnsafeInstantiation
+     */
+    public function withAddedPatches(Polygon ...$patches) : PolyhedralSurface
+    {
+        return new static($this->coordinateSystem, ...$this->patches, ...$patches);
+    }
 }

@@ -224,4 +224,34 @@ class CompoundCurveTest extends AbstractTestCase
             $compoundCurve->curveN(2)
         ], iterator_to_array($compoundCurve));
     }
+
+    /**
+     * @param string[] $addedCurvesWkt
+     */
+    #[DataProvider('providerWithAddedCurves')]
+    public function testWithAddedCurves(string $compoundCurveWkt, array $addedCurvesWkt, string $expectedWkt): void
+    {
+        $compoundCurve = CompoundCurve::fromText($compoundCurveWkt, 1234);
+        $actual = $compoundCurve->withAddedCurves(
+            ...array_map(fn (string $wkt) => Curve::fromText($wkt, 1234),
+            $addedCurvesWkt,
+        ));
+
+        $this->assertWktEquals($compoundCurve, $compoundCurveWkt, 1234); // ensure immutability
+        $this->assertWktEquals($actual, $expectedWkt, 1234);
+    }
+
+    public static function providerWithAddedCurves(): array
+    {
+        return [
+            ['COMPOUNDCURVE EMPTY', ['LINESTRING (1 2, 3 4)'], 'COMPOUNDCURVE ((1 2, 3 4))'],
+            ['COMPOUNDCURVE ((1 1, 2 2), CIRCULARSTRING (2 2, 3 3, 5 5))', [], 'COMPOUNDCURVE ((1 1, 2 2), CIRCULARSTRING (2 2, 3 3, 5 5))'],
+            ['COMPOUNDCURVE ((1 1, 2 2), CIRCULARSTRING (2 2, 3 3, 5 5))', ['LINESTRING (5 5, 6 6)'], 'COMPOUNDCURVE ((1 1, 2 2), CIRCULARSTRING (2 2, 3 3, 5 5), (5 5, 6 6))'],
+            ['COMPOUNDCURVE ((1 1, 2 2), CIRCULARSTRING (2 2, 3 3, 5 5))', ['LINESTRING (5 5, 6 6)', 'CIRCULARSTRING (6 6, 7 7, 8 8)'], 'COMPOUNDCURVE ((1 1, 2 2), CIRCULARSTRING (2 2, 3 3, 5 5), (5 5, 6 6), CIRCULARSTRING (6 6, 7 7, 8 8))'],
+            ['COMPOUNDCURVE Z EMPTY', ['LINESTRING Z (1 2 3, 2 3 4)'], 'COMPOUNDCURVE Z ((1 2 3, 2 3 4))'],
+            ['COMPOUNDCURVE Z ((1 2 3, 2 3 4), CIRCULARSTRING Z (2 3 4, 3 4 5, 4 5 6))', [], 'COMPOUNDCURVE Z ((1 2 3, 2 3 4), CIRCULARSTRING Z (2 3 4, 3 4 5, 4 5 6))'],
+            ['COMPOUNDCURVE Z ((1 2 3, 2 3 4), CIRCULARSTRING Z (2 3 4, 3 4 5, 4 5 6))', ['LINESTRING Z (4 5 6, 5 6 7)'], 'COMPOUNDCURVE Z ((1 2 3, 2 3 4), CIRCULARSTRING Z (2 3 4, 3 4 5, 4 5 6), (4 5 6, 5 6 7))'],
+            ['COMPOUNDCURVE Z ((1 2 3, 2 3 4), CIRCULARSTRING Z (2 3 4, 3 4 5, 4 5 6))', ['LINESTRING Z (4 5 6, 5 6 7)', 'CIRCULARSTRING Z (5 6 7, 6 7 8, 7 8 9)'], 'COMPOUNDCURVE Z ((1 2 3, 2 3 4), CIRCULARSTRING Z (2 3 4, 3 4 5, 4 5 6), (4 5 6, 5 6 7), CIRCULARSTRING Z (5 6 7, 6 7 8, 7 8 9))'],
+        ];
+    }
 }

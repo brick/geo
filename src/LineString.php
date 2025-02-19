@@ -234,4 +234,12 @@ class LineString extends Curve
     {
         return new ArrayIterator($this->points);
     }
+
+    /**
+     * Returns a copy of this LineString, with the given points added.
+     */
+    public function withAddedPoints(Point ...$points): LineString
+    {
+        return new LineString($this->coordinateSystem, ...$this->points, ...$points);
+    }
 }

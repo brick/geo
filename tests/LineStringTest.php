@@ -139,4 +139,31 @@ class LineStringTest extends AbstractTestCase
             ['POINT (1 2)', 'POINT (3 4)', 1, 2],
         ];
     }
+
+    /**
+     * @param string[] $addedPointsWkt
+     */
+    #[DataProvider('providerWithAddedPoints')]
+    public function testWithAddedPoints(string $lineStringWkt, array $addedPointsWkt, string $expectedWkt): void
+    {
+        $lineString = LineString::fromText($lineStringWkt, 1234);
+        $actual = $lineString->withAddedPoints(
+            ...array_map(fn (string $wkt) => Point::fromText($wkt, 1234),
+            $addedPointsWkt,
+        ));
+
+        $this->assertWktEquals($lineString, $lineStringWkt, 1234); // ensure immutability
+        $this->assertWktEquals($actual, $expectedWkt, 1234);
+    }
+
+    public static function providerWithAddedPoints(): array
+    {
+        return [
+            ['LINESTRING EMPTY', [], 'LINESTRING EMPTY'],
+            ['LINESTRING EMPTY', ['POINT (1 2)', 'POINT (3 4)'], 'LINESTRING (1 2, 3 4)'],
+            ['LINESTRING (0 0, 1 1)', [], 'LINESTRING (0 0, 1 1)'],
+            ['LINESTRING (0 0, 1 1)', ['POINT (2 2)'], 'LINESTRING (0 0, 1 1, 2 2)'],
+            ['LINESTRING (0 0, 1 1)', ['POINT (2 2)', 'POINT (3 3)'], 'LINESTRING (0 0, 1 1, 2 2, 3 3)'],
+        ];
+    }
 }

@@ -192,4 +192,12 @@ class CircularString extends Curve
     {
         return new ArrayIterator($this->points);
     }
+
+    /**
+     * Returns a copy of this CircularString, with the given points added.
+     */
+    public function withAddedPoints(Point ...$points): CircularString
+    {
+        return new CircularString($this->coordinateSystem, ...$this->points, ...$points);
+    }
 }

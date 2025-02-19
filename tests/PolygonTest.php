@@ -339,4 +339,80 @@ class PolygonTest extends AbstractTestCase
             }
         }
     }
+
+    #[DataProvider('providerWithExteriorRing')]
+    public function testWithExteriorRing(string $polygonWkt, string $exteriorRingWkt, string $expectedWkt): void
+    {
+        $polygon = Polygon::fromText($polygonWkt, 1234);
+        $actual = $polygon->withExteriorRing(LineString::fromText($exteriorRingWkt, 1234));
+
+        $this->assertWktEquals($polygon, $polygonWkt, 1234); // ensure immutability
+        $this->assertWktEquals($actual, $expectedWkt, 1234);
+    }
+
+    public static function providerWithExteriorRing(): array
+    {
+        return [
+            ['POLYGON EMPTY', 'LINESTRING (0 0, 0 9, 9 9, 0 0)', 'POLYGON ((0 0, 0 9, 9 9, 0 0))'],
+            ['POLYGON ((0 0, 0 9, 9 9, 0 0), (0 0, 1 1, 2 2, 0 0))', 'LINESTRING (0 0, 1 2, 3 1, 3 0, 0 0)', 'POLYGON ((0 0, 1 2, 3 1, 3 0, 0 0), (0 0, 1 1, 2 2, 0 0))'],
+            ['POLYGON Z EMPTY', 'LINESTRING Z (0 0 1, 1 1 2, 2 2 3, 3 3 4, 0 0 1)', 'POLYGON Z ((0 0 1, 1 1 2, 2 2 3, 3 3 4, 0 0 1))'],
+            ['POLYGON Z ((0 0 1, 0 9 2, 9 9 3, 0 0 1), (0 0 1, 1 1 2, 2 2 3, 0 0 1))', 'LINESTRING Z (0 0 1, 1 2 2, 3 1 3, 3 0 3, 0 0 3)', 'POLYGON Z ((0 0 1, 1 2 2, 3 1 3, 3 0 3, 0 0 3), (0 0 1, 1 1 2, 2 2 3, 0 0 1))'],
+        ];
+    }
+
+    /**
+     * @param string[] $interiorRingsWkt
+     */
+    #[DataProvider('providerWithInteriorRings')]
+    public function testWithInteriorRings(string $polygonWkt, array $interiorRingsWkt, string $expectedWkt): void
+    {
+        $polygon = Polygon::fromText($polygonWkt, 1234);
+        $actual = $polygon->withInteriorRings(...array_map(
+            fn (string $wkt) => LineString::fromText($wkt, 1234),
+            $interiorRingsWkt,
+        ));
+
+        $this->assertWktEquals($polygon, $polygonWkt, 1234); // ensure immutability
+        $this->assertWktEquals($actual, $expectedWkt, 1234);
+    }
+
+    public static function providerWithInteriorRings(): array
+    {
+        return [
+            ['POLYGON ((0 0, 0 9, 9 9, 0 0))', [], 'POLYGON ((0 0, 0 9, 9 9, 0 0))'],
+            ['POLYGON ((0 0, 0 9, 9 9, 0 0))', ['LINESTRING (0 0, 1 1, 2 1, 0 0)'], 'POLYGON ((0 0, 0 9, 9 9, 0 0), (0 0, 1 1, 2 1, 0 0))'],
+            ['POLYGON ((0 0, 0 9, 9 9, 0 0))', ['LINESTRING (0 0, 1 1, 2 1, 0 0)', 'LINESTRING (2 1, 2 3, 3 1, 2 1)'], 'POLYGON ((0 0, 0 9, 9 9, 0 0), (0 0, 1 1, 2 1, 0 0), (2 1, 2 3, 3 1, 2 1))'],
+            ['POLYGON Z ((0 0 1, 0 9 2, 9 9 3, 0 0 1))', [], 'POLYGON Z ((0 0 1, 0 9 2, 9 9 3, 0 0 1))'],
+            ['POLYGON Z ((0 0 1, 0 9 2, 9 9 3, 0 0 1))', ['LINESTRING Z (0 0 1, 1 1 2, 2 1 3, 0 0 1)'], 'POLYGON Z ((0 0 1, 0 9 2, 9 9 3, 0 0 1), (0 0 1, 1 1 2, 2 1 3, 0 0 1))'],
+            ['POLYGON Z ((0 0 1, 0 9 2, 9 9 3, 0 0 1))', ['LINESTRING Z (0 0 1, 1 1 2, 2 1 3, 0 0 1)', 'LINESTRING Z (2 1 3, 2 3 4, 3 4 2, 2 1 3)'], 'POLYGON Z ((0 0 1, 0 9 2, 9 9 3, 0 0 1), (0 0 1, 1 1 2, 2 1 3, 0 0 1), (2 1 3, 2 3 4, 3 4 2, 2 1 3))'],
+        ];
+    }
+
+    /**
+     * @param string[] $addedInteriorRingsWkt
+     */
+    #[DataProvider('providerWithAddedInteriorRings')]
+    public function testWithAddedInteriorRings(string $polygonWkt, array $addedInteriorRingsWkt, string $expectedWkt): void
+    {
+        $polygon = Polygon::fromText($polygonWkt, 1234);
+        $actual = $polygon->withAddedInteriorRings(...array_map(
+            fn (string $wkt) => LineString::fromText($wkt, 1234),
+            $addedInteriorRingsWkt,
+        ));
+
+        $this->assertWktEquals($polygon, $polygonWkt, 1234); // ensure immutability
+        $this->assertWktEquals($actual, $expectedWkt, 1234);
+    }
+
+    public static function providerWithAddedInteriorRings(): array
+    {
+        return [
+            ['POLYGON ((0 0, 0 9, 9 9, 0 0))', [], 'POLYGON ((0 0, 0 9, 9 9, 0 0))'],
+            ['POLYGON ((0 0, 0 9, 9 9, 0 0))', ['LINESTRING (0 0, 1 1, 2 2, 3 0, 0 0)'], 'POLYGON ((0 0, 0 9, 9 9, 0 0), (0 0, 1 1, 2 2, 3 0, 0 0))'],
+            ['POLYGON ((0 0, 0 9, 9 9, 0 0))', ['LINESTRING (0 0, 1 1, 2 2, 3 0, 0 0)', 'LINESTRING (1 2, 2 3, 3 1, 1 2)'], 'POLYGON ((0 0, 0 9, 9 9, 0 0), (0 0, 1 1, 2 2, 3 0, 0 0), (1 2, 2 3, 3 1, 1 2))'],
+            ['POLYGON Z ((0 0 1, 0 9 2, 9 9 3, 0 0 1))', [], 'POLYGON Z ((0 0 1, 0 9 2, 9 9 3, 0 0 1))'],
+            ['POLYGON Z ((0 0 1, 0 9 2, 9 9 3, 0 0 1))', ['LINESTRING Z (0 0 1, 1 1 2, 2 2 3, 3 0 4, 0 0 1)'], 'POLYGON Z ((0 0 1, 0 9 2, 9 9 3, 0 0 1), (0 0 1, 1 1 2, 2 2 3, 3 0 4, 0 0 1))'],
+            ['POLYGON Z ((0 0 1, 0 9 2, 9 9 3, 0 0 1))', ['LINESTRING Z (0 0 1, 1 1 2, 2 2 3, 3 0 4, 0 0 1)', 'LINESTRING Z (1 2 1, 2 3 2, 3 1 3, 1 2 4)'], 'POLYGON Z ((0 0 1, 0 9 2, 9 9 3, 0 0 1), (0 0 1, 1 1 2, 2 2 3, 3 0 4, 0 0 1), (1 2 1, 2 3 2, 3 1 3, 1 2 4))'],
+        ];
+    }
 }

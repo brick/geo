@@ -228,4 +228,18 @@ class GeometryCollection extends Geometry
     {
         return Geometry::class;
     }
+
+    /**
+     * Returns a copy of this GeometryCollection, with the given geometries added.
+     *
+     * @psalm-suppress UnsafeInstantiation
+     *
+     * @param T ...$geometries
+     *
+     * @return GeometryCollection<T>
+     */
+    public function withAddedGeometries(Geometry ...$geometries): GeometryCollection
+    {
+        return new static($this->coordinateSystem, ...$this->geometries, ...$geometries);
+    }
 }

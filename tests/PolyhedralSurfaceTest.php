@@ -155,4 +155,42 @@ class PolyhedralSurfaceTest extends AbstractTestCase
             $polyhedralSurface->patchN(3)
         ], iterator_to_array($polyhedralSurface));
     }
+
+    /**
+     * @param string[] $addedPatchesWkt
+     */
+    #[DataProvider('providerWithAddedPatches')]
+    public function testWithAddedPatches(string $polyhedralSurfaceWkt, array $addedPatchesWkt, string $expectedWkt): void
+    {
+        $polyhedralSurface = PolyhedralSurface::fromText($polyhedralSurfaceWkt, 1234);
+        $actual = $polyhedralSurface->withAddedPatches(
+            ...array_map(fn (string $wkt) => Polygon::fromText($wkt, 1234),
+            $addedPatchesWkt,
+        ));
+
+        $this->assertWktEquals($polyhedralSurface, $polyhedralSurfaceWkt, 1234); // ensure immutability
+        $this->assertWktEquals($actual, $expectedWkt, 1234);
+    }
+
+    public static function providerWithAddedPatches(): array
+    {
+        return [
+            ['POLYHEDRALSURFACE EMPTY', [], 'POLYHEDRALSURFACE EMPTY'],
+            ['POLYHEDRALSURFACE EMPTY', ['POLYGON ((0 0, 0 1, 1 1, 1 0, 0 0))'], 'POLYHEDRALSURFACE (((0 0, 0 1, 1 1, 1 0, 0 0)))'],
+            ['POLYHEDRALSURFACE EMPTY', ['POLYGON ((0 0, 0 1, 1 1, 1 0, 0 0))', 'POLYGON ((1 0, 1 1, 2 1, 2 0, 1 0))'], 'POLYHEDRALSURFACE (((0 0, 0 1, 1 1, 1 0, 0 0)), ((1 0, 1 1, 2 1, 2 0, 1 0)))'],
+            ['POLYHEDRALSURFACE (((0 0, 0 1, 1 1, 1 0, 0 0)))', [], 'POLYHEDRALSURFACE (((0 0, 0 1, 1 1, 1 0, 0 0)))'],
+            ['POLYHEDRALSURFACE (((0 0, 0 1, 1 1, 1 0, 0 0)))', ['POLYGON ((1 0, 1 1, 2 1, 2 0, 1 0))'], 'POLYHEDRALSURFACE (((0 0, 0 1, 1 1, 1 0, 0 0)), ((1 0, 1 1, 2 1, 2 0, 1 0)))'],
+            ['POLYHEDRALSURFACE (((0 0, 0 1, 1 1, 1 0, 0 0)))', ['POLYGON ((1 0, 1 1, 2 1, 2 0, 1 0))', 'POLYGON ((2 0, 2 1, 3 1, 3 0, 2 0))'], 'POLYHEDRALSURFACE (((0 0, 0 1, 1 1, 1 0, 0 0)), ((1 0, 1 1, 2 1, 2 0, 1 0)), ((2 0, 2 1, 3 1, 3 0, 2 0)))'],
+            ['POLYHEDRALSURFACE (((0 0, 0 1, 1 1, 1 0, 0 0)), ((1 0, 1 1, 2 1, 2 0, 1 0)))', [], 'POLYHEDRALSURFACE (((0 0, 0 1, 1 1, 1 0, 0 0)), ((1 0, 1 1, 2 1, 2 0, 1 0)))'],
+            ['POLYHEDRALSURFACE (((0 0, 0 1, 1 1, 1 0, 0 0)), ((1 0, 1 1, 2 1, 2 0, 1 0)))', ['POLYGON ((2 0, 2 1, 3 1, 3 0, 2 0))'], 'POLYHEDRALSURFACE (((0 0, 0 1, 1 1, 1 0, 0 0)), ((1 0, 1 1, 2 1, 2 0, 1 0)), ((2 0, 2 1, 3 1, 3 0, 2 0)))'],
+
+            ['TIN EMPTY', ['TRIANGLE ((0 0, 0 1, 1 1, 0 0))'], 'TIN (((0 0, 0 1, 1 1, 0 0)))'],
+            ['TIN EMPTY', ['TRIANGLE ((0 0, 0 1, 1 1, 0 0))', 'TRIANGLE ((1 0, 1 1, 2 1, 1 0))'], 'TIN (((0 0, 0 1, 1 1, 0 0)), ((1 0, 1 1, 2 1, 1 0)))'],
+            ['TIN (((0 0, 0 1, 1 1, 0 0)))', [], 'TIN (((0 0, 0 1, 1 1, 0 0)))'],
+            ['TIN (((0 0, 0 1, 1 1, 0 0)))', ['TRIANGLE ((1 0, 1 1, 2 1, 1 0))'], 'TIN (((0 0, 0 1, 1 1, 0 0)), ((1 0, 1 1, 2 1, 1 0)))'],
+            ['TIN (((0 0, 0 1, 1 1, 0 0)))', ['TRIANGLE ((1 0, 1 1, 2 1, 1 0))', 'TRIANGLE ((2 0, 2 1, 3 1, 2 0))'], 'TIN (((0 0, 0 1, 1 1, 0 0)), ((1 0, 1 1, 2 1, 1 0)), ((2 0, 2 1, 3 1, 2 0)))'],
+            ['TIN (((0 0, 0 1, 1 1, 0 0)), ((1 0, 1 1, 2 1, 1 0)))', [], 'TIN (((0 0, 0 1, 1 1, 0 0)), ((1 0, 1 1, 2 1, 1 0)))'],
+            ['TIN (((0 0, 0 1, 1 1, 0 0)), ((1 0, 1 1, 2 1, 1 0)))', ['TRIANGLE ((2 0, 2 1, 3 1, 2 0))'], 'TIN (((0 0, 0 1, 1 1, 0 0)), ((1 0, 1 1, 2 1, 1 0)), ((2 0, 2 1, 3 1, 2 0)))'],
+        ];
+    }
 }

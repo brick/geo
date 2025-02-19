@@ -219,4 +219,34 @@ class Polygon extends Surface
     {
         return new ArrayIterator($this->rings);
     }
+
+    /**
+     * Returns a copy of this Polygon, with the exterior ring replaced with the given one.
+     *
+     * @psalm-suppress UnsafeInstantiation
+     */
+    public function withExteriorRing(LineString $exteriorRing) : Polygon
+    {
+        return new static($this->coordinateSystem, $exteriorRing, ...$this->interiorRings());
+    }
+
+    /**
+     * Returns a copy of this Polygon, with the interior rings replaced with the given ones.
+     *
+     * @psalm-suppress UnsafeInstantiation
+     */
+    public function withInteriorRings(LineString ...$interiorRings) : Polygon
+    {
+        return new static($this->coordinateSystem, $this->exteriorRing(), ...$interiorRings);
+    }
+
+    /**
+     * Returns a copy of this Polygon, with the given interior rings added.
+     *
+     * @psalm-suppress UnsafeInstantiation
+     */
+    public function withAddedInteriorRings(LineString ...$interiorRings) : Polygon
+    {
+        return new static($this->coordinateSystem, $this->exteriorRing(), ...$this->interiorRings(), ...$interiorRings);
+    }
 }

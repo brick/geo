@@ -204,4 +204,12 @@ class CompoundCurve extends Curve
     {
         return new ArrayIterator($this->curves);
     }
+
+    /**
+     * Returns a copy of this CompoundCurve, with the given curves added.
+     */
+    public function withAddedCurves(Curve ...$curves): CompoundCurve
+    {
+        return new CompoundCurve($this->coordinateSystem, ...$this->curves, ...$curves);
+    }
 }
