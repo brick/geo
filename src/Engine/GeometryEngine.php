@@ -480,4 +480,9 @@ interface GeometryEngine
      * Splits a geometry into several geometries using a blade.
      */
     public function split(Geometry $g, Geometry $blade) : Geometry;
+
+    /**
+     * Returns a point interpolated along a line at a fractional location.
+     */
+    public function lineInterpolatePoint(Geometry $g, float $fraction) : Geometry;
 }

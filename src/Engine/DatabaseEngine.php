@@ -433,4 +433,9 @@ abstract class DatabaseEngine implements GeometryEngine
     {
         return $this->queryGeometry('ST_Split', $g, $blade);
     }
+
+    public function lineInterpolatePoint(Geometry $g, float $fraction) : Geometry
+    {
+        return $this->queryGeometry('ST_LineInterpolatePoint', $g, $fraction);
+    }
 }
