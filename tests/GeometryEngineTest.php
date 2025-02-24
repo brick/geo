@@ -1231,7 +1231,7 @@ class GeometryEngineTest extends AbstractTestCase
             ['LINESTRING(0 0, 10 10, 20 20, 30 30, 40 40)', 0, 'POINT (0 0)'],
             ['LINESTRING(0 0, 10 10, 20 20, 30 30, 40 40)', 0.25, 'POINT (10 10)'],
             ['LINESTRING(0 0, 10 10, 20 20, 30 30, 40 40)', 0.50, 'POINT (20 20)'],
-            ['LINESTRING(0 0, 10 10, 20 20, 30 30, 40 40)', 1, 'POINT (30 15)'],
+            ['LINESTRING(0 0, 10 10, 20 20, 30 30, 40 40)', 1, 'POINT (40 40)'],
         ];
     }
 
