@@ -1228,9 +1228,10 @@ class GeometryEngineTest extends AbstractTestCase
     public static function providerLineInterpolatePoint() : array
     {
         return [
-            ['LINESTRING(0 0, 10 10, 20 5, 30 15)', 0, 'POINT (0 0)'],
-            ['LINESTRING(0 0, 10 10, 20 5, 30 15)', 0.25, 'POINT (7.5 7.5)'],
-            ['LINESTRING(0 0, 10 10, 20 5, 30 15)', 1, 'POINT (30 15)'],
+            ['LINESTRING(0 0, 10 10, 20 20, 30 30, 40 40)', 0, 'POINT (0 0)'],
+            ['LINESTRING(0 0, 10 10, 20 20, 30 30, 40 40)', 0.25, 'POINT (10 10)'],
+            ['LINESTRING(0 0, 10 10, 20 20, 30 30, 40 40)', 0.50, 'POINT (20 20)'],
+            ['LINESTRING(0 0, 10 10, 20 20, 30 30, 40 40)', 1, 'POINT (30 15)'],
         ];
     }
 
