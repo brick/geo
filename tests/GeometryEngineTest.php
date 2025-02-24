@@ -1211,7 +1211,7 @@ class GeometryEngineTest extends AbstractTestCase
     }
 
     #[DataProvider('providerLineInterpolatePoint')]
-    public function testLineInterpolatePoint(string $originalWKT, float $fraktion, string $expectedWKT) : void
+    public function testLineInterpolatePoint(string $originalWKT, float $fraction, string $expectedWKT) : void
     {
         $geometryEngine = $this->getGeometryEngine();
 
@@ -1220,7 +1220,7 @@ class GeometryEngineTest extends AbstractTestCase
         }
 
         $geometry = Geometry::fromText($originalWKT);
-        $resultGeometry = $geometryEngine->lineInterpolatePoint($geometry, $fraktion);
+        $resultGeometry = $geometryEngine->lineInterpolatePoint($geometry, $fraction);
 
         $this->assertSame($expectedWKT, $resultGeometry->asText());
     }
