@@ -491,4 +491,14 @@ interface GeometryEngine
      * @return Geometry The point.
      */
     public function lineInterpolatePoint(LineString $linestring, float $fraction) : Geometry;
+
+    /**
+     * Returns one or more points interpolated along a line at a fractional interval.
+     *
+     * @param LineString $linestring The linestring.
+     * @param float $fraction Is a float between 0.0 and 1.0 representing the spacing between the points as a fraction of line length.
+     *
+     * @return Geometry The MultiPoint or Point.
+     */
+    public function lineInterpolatePoints(LineString $linestring, float $fraction) : Geometry;
 }

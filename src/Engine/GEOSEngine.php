@@ -385,4 +385,9 @@ class GEOSEngine implements GeometryEngine
             throw GeometryEngineException::operationNotSupportedByEngine($e);
         }
     }
+
+    public function lineInterpolatePoints(LineString $linestring, float $fraction) : Geometry
+    {
+        throw GeometryEngineException::unimplementedMethod(__METHOD__);
+    }
 }
