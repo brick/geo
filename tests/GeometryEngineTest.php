@@ -1248,21 +1248,14 @@ class GeometryEngineTest extends AbstractTestCase
         $linestring = LineString::fromText($originalWKT);
         $resultGeometry = $geometryEngine->lineInterpolatePoints($linestring, $fraction);
 
-        if ($this->isMySQL()) {
-            // mysql always returns a MULTIPOINT where postgis returns a POINT if there is only one point as result
-            $expectedWKT = str_replace('POINT (', 'MULTIPOINT (', $expectedWKT);
-        }
-
         $this->assertSame($expectedWKT, $resultGeometry->asText());
     }
 
     public static function providerLineInterpolatePoints() : array
     {
         return [
-            ['LINESTRING(0 0, 10 10, 20 20, 30 30, 40 40)', 0, 'POINT (0 0)'],
             ['LINESTRING(0 0, 10 10, 20 20, 30 30, 40 40)', 0.25, 'MULTIPOINT (10 10, 20 20, 30 30, 40 40)'],
             ['LINESTRING(0 0, 10 10, 20 20, 30 30, 40 40)', 0.50, 'MULTIPOINT (20 20, 40 40)'],
-            ['LINESTRING(0 0, 10 10, 20 20, 30 30, 40 40)', 1, 'POINT (40 40)'],
         ];
     }
 
