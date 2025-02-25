@@ -104,6 +104,6 @@ class SQLite3Engine extends DatabaseEngine
 
     public function lineInterpolatePoint(LineString $linestring, float $fraction) : Geometry
     {
-        return $this->queryGeometry('ST_InterpolatePoint', $linestring, $fraction);
+        return $this->queryGeometry('ST_Line_Interpolate_Point', $linestring, $fraction);
     }
 }

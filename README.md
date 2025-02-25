@@ -315,7 +315,7 @@ if you use a specific geometry engine, sometimes with a minimum version.
 | `transform`            | ✓    | ✓       | 8.0.13 | ✓       | ✓          |
 | `union`                | ✓    | ✓       | ✓      | ✓       | ✓          |
 | `within`               | ✓    | ✓       | ✓      | ✓       | ✓          |
-| `lineInterpolatePoint` | ✓    | ✓       | ✓      |         | ✓          |
+| `lineInterpolatePoint` | ✓    | ✓       | 8.0.24 |         | ✓          |
 
 Importing and exporting geometries
 ----------------------------------
