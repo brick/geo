@@ -310,12 +310,12 @@ if you use a specific geometry engine, sometimes with a minimum version.
 | `simplify`             | ✓    | ✓       | 5.7.6  |         | 4.1.0      |
 | `snapToGrid`           |      | ✓       |        |         | ✓          |
 | `split`                |      | ✓       |        |         | ✓          |
-| `lineInterpolatePoint` |      | ✓       |        |         |            |
 | `symDifference`        | ✓    | ✓       | ✓      | ✓       | ✓          |
 | `touches`              | ✓    | ✓       | ✓      | ✓       | ✓          |
 | `transform`            | ✓    | ✓       | 8.0.13 | ✓       | ✓          |
 | `union`                | ✓    | ✓       | ✓      | ✓       | ✓          |
 | `within`               | ✓    | ✓       | ✓      | ✓       | ✓          |
+| `lineInterpolatePoint` | ✓    | ✓       | ✓      |         | ✓          |
 
 Importing and exporting geometries
 ----------------------------------

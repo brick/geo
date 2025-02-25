@@ -9,6 +9,7 @@ use Brick\Geo\Exception\GeometryEngineException;
 use Brick\Geo\IO\EWKBReader;
 use Brick\Geo\IO\EWKBWriter;
 use Brick\Geo\Geometry;
+use Brick\Geo\LineString;
 use Brick\Geo\MultiCurve;
 use Brick\Geo\MultiSurface;
 use Brick\Geo\Point;
@@ -376,8 +377,12 @@ class GEOSEngine implements GeometryEngine
         throw GeometryEngineException::unimplementedMethod(__METHOD__);
     }
 
-    public function lineInterpolatePoint(Geometry $g, float $fraction) : Geometry
+    public function lineInterpolatePoint(LineString $linestring, float $fraction) : Geometry
     {
-        throw GeometryEngineException::unimplementedMethod(__METHOD__);
+        try {
+            return $this->fromGEOS($this->toGEOS($linestring)->interpolate($fraction, true));
+        } catch (\Exception $e) {
+            throw GeometryEngineException::operationNotSupportedByEngine($e);
+        }
     }
 }

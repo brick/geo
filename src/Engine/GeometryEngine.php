@@ -7,6 +7,7 @@ namespace Brick\Geo\Engine;
 use Brick\Geo\Curve;
 use Brick\Geo\Geometry;
 use Brick\Geo\Exception\GeometryEngineException;
+use Brick\Geo\LineString;
 use Brick\Geo\MultiCurve;
 use Brick\Geo\MultiPolygon;
 use Brick\Geo\MultiSurface;
@@ -483,6 +484,11 @@ interface GeometryEngine
 
     /**
      * Returns a point interpolated along a line at a fractional location.
+     *
+     * @param LineString $linestring The linestring.
+     * @param float $fraction Is a float between 0.0 and 1.0 representing the fraction of line length where the point is to be located.
+     *
+     * @return Geometry The point.
      */
-    public function lineInterpolatePoint(Geometry $g, float $fraction) : Geometry;
+    public function lineInterpolatePoint(LineString $linestring, float $fraction) : Geometry;
 }

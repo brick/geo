@@ -15,6 +15,7 @@ use Brick\Geo\Engine\SQLite3Engine;
 use Brick\Geo\Exception\GeometryEngineException;
 use Brick\Geo\Geometry;
 use Brick\Geo\GeometryCollection;
+use Brick\Geo\LineString;
 use Brick\Geo\MultiCurve;
 use Brick\Geo\MultiSurface;
 use Brick\Geo\Point;
@@ -1215,12 +1216,12 @@ class GeometryEngineTest extends AbstractTestCase
     {
         $geometryEngine = $this->getGeometryEngine();
 
-        if (! $this->isPostGIS()) {
-            self::markTestSkipped('This test currently runs on PostGIS only.');
+        if ($this->isMariaDB()) {
+            self::markTestSkipped('This test currently does not run on MariaDB.');
         }
 
-        $geometry = Geometry::fromText($originalWKT);
-        $resultGeometry = $geometryEngine->lineInterpolatePoint($geometry, $fraction);
+        $linestring = LineString::fromText($originalWKT);
+        $resultGeometry = $geometryEngine->lineInterpolatePoint($linestring, $fraction);
 
         $this->assertSame($expectedWKT, $resultGeometry->asText());
     }

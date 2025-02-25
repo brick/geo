@@ -7,6 +7,7 @@ namespace Brick\Geo\Engine;
 use Brick\Geo\Curve;
 use Brick\Geo\Exception\GeometryEngineException;
 use Brick\Geo\Geometry;
+use Brick\Geo\LineString;
 use Brick\Geo\MultiCurve;
 use Brick\Geo\MultiSurface;
 use Brick\Geo\MultiPolygon;
@@ -176,7 +177,7 @@ abstract class DatabaseEngine implements GeometryEngine
      *
      * @throws GeometryEngineException
      */
-    private function queryGeometry(string $function, Geometry|string|float|int ...$parameters) : Geometry
+    protected function queryGeometry(string $function, Geometry|string|float|int ...$parameters) : Geometry
     {
         /** @var array{string|null, string|resource|null, string, int|numeric-string} $result */
         $result = $this->query($function, $parameters, true);
@@ -434,8 +435,8 @@ abstract class DatabaseEngine implements GeometryEngine
         return $this->queryGeometry('ST_Split', $g, $blade);
     }
 
-    public function lineInterpolatePoint(Geometry $g, float $fraction) : Geometry
+    public function lineInterpolatePoint(LineString $linestring, float $fraction) : Geometry
     {
-        return $this->queryGeometry('ST_LineInterpolatePoint', $g, $fraction);
+        return $this->queryGeometry('ST_LineInterpolatePoint', $linestring, $fraction);
     }
 }
