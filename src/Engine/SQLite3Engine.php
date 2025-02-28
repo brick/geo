@@ -116,6 +116,8 @@ class SQLite3Engine extends DatabaseEngine
 
     public function lineInterpolateEquidistantPoints(LineString $linestring, float $fraction) : MultiPoint
     {
+        $fraction = $this->length($linestring) * $fraction;
+
         $result = $this->queryGeometry('ST_Line_Interpolate_Equidistant_Points', $linestring, $fraction);
         if (! $result instanceof MultiPoint) {
             throw new GeometryEngineException('This operation yielded the wrong geometry type: ' . $result::class);
