@@ -1246,6 +1246,8 @@ class GeometryEngineTest extends AbstractTestCase
         }
 
         $linestring = LineString::fromText($originalWKT);
+        $this->skipIfUnsupportedGeometry($linestring);
+
         $resultGeometry = $geometryEngine->lineInterpolatePoints($linestring, $fraction);
 
         $this->assertSame($expectedWKT, $resultGeometry->asText());
