@@ -8,6 +8,7 @@ use Brick\Geo\Exception\GeometryEngineException;
 use Brick\Geo\Exception\SQLite3Exception;
 use Brick\Geo\Geometry;
 use Brick\Geo\LineString;
+use Brick\Geo\MultiPoint;
 use Brick\Geo\Point;
 use SQLite3;
 use SQLite3Stmt;
@@ -107,6 +108,18 @@ class SQLite3Engine extends DatabaseEngine
     {
         $result = $this->queryGeometry('ST_Line_Interpolate_Point', $linestring, $fraction);
         if (! $result instanceof Point) {
+            throw new GeometryEngineException('This operation yielded the wrong geometry type: ' . $result::class);
+        }
+
+        return $result;
+    }
+
+    public function lineInterpolateEquidistantPoints(LineString $linestring, float $fraction) : MultiPoint
+    {
+        $fraction = $this->length($linestring) * $fraction;
+
+        $result = $this->queryGeometry('ST_Line_Interpolate_Equidistant_Points', $linestring, $fraction);
+        if (! $result instanceof MultiPoint) {
             throw new GeometryEngineException('This operation yielded the wrong geometry type: ' . $result::class);
         }
 
