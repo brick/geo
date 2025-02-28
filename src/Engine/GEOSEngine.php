@@ -393,7 +393,7 @@ class GEOSEngine implements GeometryEngine
         return $result;
     }
 
-    public function lineInterpolatePoints(LineString $linestring, float $fraction) : Point|MultiPoint
+    public function lineInterpolatePoints(LineString $linestring, float $fraction) : MultiPoint
     {
         throw GeometryEngineException::unimplementedMethod(__METHOD__);
     }

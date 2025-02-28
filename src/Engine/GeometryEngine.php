@@ -499,7 +499,7 @@ interface GeometryEngine
      * @param LineString $linestring The linestring.
      * @param float $fraction Is a float between 0.0 and 1.0 representing the spacing between the points as a fraction of line length.
      *
-     * @return Point|MultiPoint The MultiPoint or Point.
+     * @return MultiPoint The MultiPoint.
      */
-    public function lineInterpolatePoints(LineString $linestring, float $fraction) : Point|MultiPoint;
+    public function lineInterpolatePoints(LineString $linestring, float $fraction) : MultiPoint;
 }

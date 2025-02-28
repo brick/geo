@@ -475,7 +475,7 @@ abstract class DatabaseEngine implements GeometryEngine
         return $result;
     }
 
-    public function lineInterpolatePoints(LineString $linestring, float $fraction) : Point|MultiPoint
+    public function lineInterpolatePoints(LineString $linestring, float $fraction) : MultiPoint
     {
         return $this->queryMultiPoint('ST_LineInterpolatePoints', $linestring, $fraction);
     }
