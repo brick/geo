@@ -278,45 +278,45 @@ GeometryEngine methods reference
 This is a list of all methods available in the `GeometryEngine` interface. Some methods are only available
 if you use a specific geometry engine, sometimes with a minimum version.
 
-| Function Name           | GEOS | PostGIS | MySQL  | MariaDB | SpatiaLite |
-|-------------------------|------|---------|--------|---------|------------|
-| `area`                  | ✓    | ✓       | ✓      | ✓       | ✓          |
-| `azimuth`               |      | ✓       |        |         | ✓          |
-| `boundary`              | ✓    | ✓       |        |         | ✓          |
-| `buffer`                | ✓    | ✓       | ✓      | ✓       | ✓          |
-| `centroid`              | ✓    | ✓       | ✓      | ✓       | ✓          |
-| `contains`              | ✓    | ✓       | ✓      | ✓       | ✓          |
-| `convexHull`            | ✓    | ✓       | 5.7.6  |         | ✓          |
-| `crosses`               | ✓    | ✓       | ✓      | ✓       | ✓          |
-| `difference`            | ✓    | ✓       | ✓      | ✓       | ✓          |
-| `disjoint`              | ✓    | ✓       | ✓      | ✓       | ✓          |
-| `distance`              | ✓    | ✓       | ✓      | ✓       | ✓          |
-| `envelope`              | ✓    | ✓       | ✓      | ✓       | ✓          |
-| `equals`                | ✓    | ✓       | ✓      | ✓       | ✓          |
-| `intersection`          | ✓    | ✓       | ✓      | ✓       | ✓          |
-| `intersects`            | ✓    | ✓       | ✓      | ✓       | ✓          |
-| `isClosed`              | ✓    | ✓       | ✓      | ✓       | ✓          |
-| `isRing`                | ✓    | ✓       | ✓      | ✓       | ✓          |
-| `isSimple`              | ✓    | ✓       | ✓      | ✓       | ✓          |
-| `isValid`               | ✓    | ✓       | 5.7.6  |         | ✓          |
-| `length`                | ✓    | ✓       | ✓      | ✓       | ✓          |
-| `locateAlong`           |      | ✓       |        |         | ✓          |
-| `locateBetween`         |      | ✓       |        |         | ✓          |
-| `makeValid`             |      | ✓       |        |         | ✓          |
-| `maxDistance`           |      | ✓       |        |         | ✓          |
-| `overlaps`              | ✓    | ✓       | ✓      | ✓       | ✓          |
-| `pointOnSurface`        | ✓    | ✓       |        |         | ✓          |
-| `relate`                | ✓    | ✓       |        |         | ✓          |
-| `simplify`              | ✓    | ✓       | 5.7.6  |         | 4.1.0      |
-| `snapToGrid`            |      | ✓       |        |         | ✓          |
-| `split`                 |      | ✓       |        |         | ✓          |
-| `symDifference`         | ✓    | ✓       | ✓      | ✓       | ✓          |
-| `touches`               | ✓    | ✓       | ✓      | ✓       | ✓          |
-| `transform`             | ✓    | ✓       | 8.0.13 | ✓       | ✓          |
-| `union`                 | ✓    | ✓       | ✓      | ✓       | ✓          |
-| `within`                | ✓    | ✓       | ✓      | ✓       | ✓          |
-| `lineInterpolatePoint`  | ✓    | ✓       | 8.0.24 |         | ✓          |
-| `lineInterpolatePoints` |      | ✓       | 8.0.24 |         |            |
+| Function Name                      | GEOS | PostGIS | MySQL  | MariaDB | SpatiaLite |
+|------------------------------------|------|---------|--------|---------|------------|
+| `area`                             | ✓    | ✓       | ✓      | ✓       | ✓          |
+| `azimuth`                          |      | ✓       |        |         | ✓          |
+| `boundary`                         | ✓    | ✓       |        |         | ✓          |
+| `buffer`                           | ✓    | ✓       | ✓      | ✓       | ✓          |
+| `centroid`                         | ✓    | ✓       | ✓      | ✓       | ✓          |
+| `contains`                         | ✓    | ✓       | ✓      | ✓       | ✓          |
+| `convexHull`                       | ✓    | ✓       | 5.7.6  |         | ✓          |
+| `crosses`                          | ✓    | ✓       | ✓      | ✓       | ✓          |
+| `difference`                       | ✓    | ✓       | ✓      | ✓       | ✓          |
+| `disjoint`                         | ✓    | ✓       | ✓      | ✓       | ✓          |
+| `distance`                         | ✓    | ✓       | ✓      | ✓       | ✓          |
+| `envelope`                         | ✓    | ✓       | ✓      | ✓       | ✓          |
+| `equals`                           | ✓    | ✓       | ✓      | ✓       | ✓          |
+| `intersection`                     | ✓    | ✓       | ✓      | ✓       | ✓          |
+| `intersects`                       | ✓    | ✓       | ✓      | ✓       | ✓          |
+| `isClosed`                         | ✓    | ✓       | ✓      | ✓       | ✓          |
+| `isRing`                           | ✓    | ✓       | ✓      | ✓       | ✓          |
+| `isSimple`                         | ✓    | ✓       | ✓      | ✓       | ✓          |
+| `isValid`                          | ✓    | ✓       | 5.7.6  |         | ✓          |
+| `length`                           | ✓    | ✓       | ✓      | ✓       | ✓          |
+| `lineInterpolatePoint`             | ✓    | ✓       | 8.0.24 |         | ✓          |
+| `lineInterpolateEquidistantPoints` |      | ✓       | 8.0.24 |         |            |
+| `locateAlong`                      |      | ✓       |        |         | ✓          |
+| `locateBetween`                    |      | ✓       |        |         | ✓          |
+| `makeValid`                        |      | ✓       |        |         | ✓          |
+| `maxDistance`                      |      | ✓       |        |         | ✓          |
+| `overlaps`                         | ✓    | ✓       | ✓      | ✓       | ✓          |
+| `pointOnSurface`                   | ✓    | ✓       |        |         | ✓          |
+| `relate`                           | ✓    | ✓       |        |         | ✓          |
+| `simplify`                         | ✓    | ✓       | 5.7.6  |         | 4.1.0      |
+| `snapToGrid`                       |      | ✓       |        |         | ✓          |
+| `split`                            |      | ✓       |        |         | ✓          |
+| `symDifference`                    | ✓    | ✓       | ✓      | ✓       | ✓          |
+| `touches`                          | ✓    | ✓       | ✓      | ✓       | ✓          |
+| `transform`                        | ✓    | ✓       | 8.0.13 | ✓       | ✓          |
+| `union`                            | ✓    | ✓       | ✓      | ✓       | ✓          |
+| `within`                           | ✓    | ✓       | ✓      | ✓       | ✓          |
 
 Importing and exporting geometries
 ----------------------------------

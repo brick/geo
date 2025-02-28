@@ -9,6 +9,7 @@ use Brick\Geo\Exception\GeometryEngineException;
 use Brick\Geo\Geometry;
 use Brick\Geo\LineString;
 use Brick\Geo\MultiCurve;
+use Brick\Geo\MultiPoint;
 use Brick\Geo\MultiSurface;
 use Brick\Geo\MultiPolygon;
 use Brick\Geo\Point;
@@ -435,13 +436,29 @@ abstract class DatabaseEngine implements GeometryEngine
         return $this->queryGeometry('ST_Split', $g, $blade);
     }
 
-    public function lineInterpolatePoint(LineString $linestring, float $fraction) : Geometry
+    /**
+     * @throws GeometryEngineException
+     */
+    public function lineInterpolatePoint(LineString $linestring, float $fraction) : Point
     {
-        return $this->queryGeometry('ST_LineInterpolatePoint', $linestring, $fraction);
+        $result = $this->queryGeometry('ST_LineInterpolatePoint', $linestring, $fraction);
+        if (! $result instanceof Point) {
+            throw new GeometryEngineException('This operation yielded wrong type: ' . $result::class);
+        }
+
+        return $result;
     }
 
-    public function lineInterpolatePoints(LineString $linestring, float $fraction) : Geometry
+    /**
+     * @throws GeometryEngineException
+     */
+    public function lineInterpolateEquidistantPoints(LineString $linestring, float $fraction) : Point|MultiPoint
     {
-        return $this->queryGeometry('ST_LineInterpolatePoints', $linestring, $fraction);
+        $result = $this->queryGeometry('ST_LineInterpolatePoints', $linestring, $fraction);
+        if (! $result instanceof Point && ! $result instanceof MultiPoint) {
+            throw new GeometryEngineException('This operation yielded the wrong geometry type: ' . $result::class);
+        }
+
+        return $result;
     }
 }
