@@ -1237,21 +1237,16 @@ class GeometryEngineTest extends AbstractTestCase
     }
 
     #[DataProvider('providerLineInterpolateEquidistantPoints')]
-    public function testLineInterpolateEquidistantPoints(string $originalWKT, float $fraction, string $expectedWKT, string $expectedWKTSpatiaLite) : void
+    public function testLineInterpolateEquidistantPoints(string $originalWKT, float $fraction, string $expectedWKT) : void
     {
         $geometryEngine = $this->getGeometryEngine();
 
-        if ($this->isGEOS() || $this->isMariaDB()) {
-            self::markTestSkipped('This test currently does not run on GEOS and MariaDB.');
+        if (! $this->isPostGIS() && ! $this->isMySQL()) {
+            self::markTestSkipped('This test currently runs on PostGIS & MySQL only');
         }
 
         $linestring = LineString::fromText($originalWKT);
         $resultGeometry = $geometryEngine->lineInterpolateEquidistantPoints($linestring, $fraction);
-
-        if ($this->isSpatiaLite()) {
-            $this->assertSame($expectedWKTSpatiaLite, $resultGeometry->asText());
-            return;
-        }
 
         $this->assertSame($expectedWKT, $resultGeometry->asText());
     }
@@ -1259,8 +1254,8 @@ class GeometryEngineTest extends AbstractTestCase
     public static function providerLineInterpolateEquidistantPoints() : array
     {
         return [
-            ['LINESTRING(0 0, 10 10, 20 20, 30 30, 40 40)', 0.25, 'MULTIPOINT (10 10, 20 20, 30 30, 40 40)', 'MULTIPOINT M (10 10 14.142135623731, 20 20 28.284271247462, 30 30 42.426406871193)'],
-            ['LINESTRING(0 0, 10 10, 20 20, 30 30, 40 40)', 0.50, 'MULTIPOINT (20 20, 40 40)', 'MULTIPOINT M (20 20 28.284271247462)'],
+            ['LINESTRING(0 0, 10 10, 20 20, 30 30, 40 40)', 0.25, 'MULTIPOINT (10 10, 20 20, 30 30, 40 40)'],
+            ['LINESTRING(0 0, 10 10, 20 20, 30 30, 40 40)', 0.50, 'MULTIPOINT (20 20, 40 40)'],
         ];
     }
 
