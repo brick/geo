@@ -452,7 +452,7 @@ abstract class DatabaseEngine implements GeometryEngine
     /**
      * @throws GeometryEngineException
      */
-    public function lineInterpolateEquidistantPoints(LineString $linestring, float $fraction) : Point|MultiPoint
+    public function lineInterpolatePoints(LineString $linestring, float $fraction) : Point|MultiPoint
     {
         $result = $this->queryGeometry('ST_LineInterpolatePoints', $linestring, $fraction);
         if (! $result instanceof Point && ! $result instanceof MultiPoint) {

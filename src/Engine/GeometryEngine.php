@@ -501,5 +501,5 @@ interface GeometryEngine
      *
      * @return Point|MultiPoint The MultiPoint or Point.
      */
-    public function lineInterpolateEquidistantPoints(LineString $linestring, float $fraction) : Point|MultiPoint;
+    public function lineInterpolatePoints(LineString $linestring, float $fraction) : Point|MultiPoint;
 }
