@@ -301,7 +301,7 @@ if you use a specific geometry engine, sometimes with a minimum version.
 | `isValid`                          | ✓    | ✓       | 5.7.6  |         | ✓          |
 | `length`                           | ✓    | ✓       | ✓      | ✓       | ✓          |
 | `lineInterpolatePoint`             | ✓    | ✓       | 8.0.24 |         | ✓          |
-| `lineInterpolateEquidistantPoints` |      | ✓       | 8.0.24 |         | ✓          |
+| `lineInterpolateEquidistantPoints` |      | ✓       | 8.0.24 |         |            |
 | `locateAlong`                      |      | ✓       |        |         | ✓          |
 | `locateBetween`                    |      | ✓       |        |         | ✓          |
 | `makeValid`                        |      | ✓       |        |         | ✓          |

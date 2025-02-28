@@ -1241,8 +1241,8 @@ class GeometryEngineTest extends AbstractTestCase
     {
         $geometryEngine = $this->getGeometryEngine();
 
-        if ($this->isGEOS() || $this->isMariaDB()) {
-            self::markTestSkipped('This test currently does not run on GEOS and MariaDB.');
+        if (! $this->isPostGIS() && ! $this->isMySQL()) {
+            self::markTestSkipped('This test currently runs on PostGIS & MySQL only');
         }
 
         $linestring = LineString::fromText($originalWKT);
