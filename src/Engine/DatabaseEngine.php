@@ -15,6 +15,7 @@ use Brick\Geo\MultiPolygon;
 use Brick\Geo\Point;
 use Brick\Geo\Polygon;
 use Brick\Geo\Proxy;
+use Brick\Geo\Proxy\ProxyInterface;
 use Brick\Geo\Surface;
 
 /**
@@ -168,6 +169,31 @@ abstract class DatabaseEngine implements GeometryEngine
         }
 
         return (float) $result;
+    }
+
+    /**
+     * Queries a GIS function returning a MultiPoint value.
+     *
+     * @param string                       $function   The SQL GIS function to execute.
+     * @param Geometry|string|float|int ...$parameters The Geometry objects or scalar values to pass as parameters.
+     *
+     * @throws GeometryEngineException
+     */
+    private function queryMultiPoint(string $function, Geometry|string|float|int ...$parameters) : MultiPoint
+    {
+        $result = $this->queryGeometry($function, ...$parameters);
+
+        if ($result instanceof MultiPoint) {
+            return $result;
+        }
+
+        $geometry = $result instanceof ProxyInterface ? $result->getGeometry() : $result;
+
+        if ($geometry->isEmpty()) {
+            return MultiPoint::fromText('MULTIPOINT EMPTY');
+        }
+
+        return MultiPoint::of($result);
     }
 
     /**
@@ -449,16 +475,8 @@ abstract class DatabaseEngine implements GeometryEngine
         return $result;
     }
 
-    /**
-     * @throws GeometryEngineException
-     */
     public function lineInterpolatePoints(LineString $linestring, float $fraction) : Point|MultiPoint
     {
-        $result = $this->queryGeometry('ST_LineInterpolatePoints', $linestring, $fraction);
-        if (! $result instanceof Point && ! $result instanceof MultiPoint) {
-            throw new GeometryEngineException('This operation yielded the wrong geometry type: ' . $result::class);
-        }
-
-        return $result;
+        return $this->queryMultiPoint('ST_LineInterpolatePoints', $linestring, $fraction);
     }
 }
