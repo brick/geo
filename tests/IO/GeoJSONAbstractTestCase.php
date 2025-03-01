@@ -428,6 +428,36 @@ abstract class GeoJSONAbstractTestCase extends AbstractTestCase
                 ],
                 true
             ],
+            [
+                '{"type":"GeometryCollection","geometries":[{"type":"Point","coordinates":[1,2]},{"type":"MultiPoint","coordinates":[[3,4],[5,6]]}]}',
+                [
+                    [1,2],
+                    [[3,4], [5,6]],
+                ],
+                false
+            ],
+            [
+                '{"type":"GeometryCollection","geometries":[{"type":"Point","coordinates":[1,2]},{"type":"MultiLineString","coordinates":[[[3,4],[5,6],[7,8]],[[0,1],[2,3],[4,5]]]}]}',
+                [
+                    [1,2],
+                    [
+                        [[3, 4], [5, 6], [7, 8]],
+                        [[0, 1], [2, 3], [4, 5]],
+                    ],
+                ],
+                false
+            ],
+            [
+                '{"type":"GeometryCollection","geometries":[{"type":"Point","coordinates":[1,2]},{"type":"MultiPolygon","coordinates":[[[[3,4],[5,6],[1,2],[3,4]]],[[[0,1],[2,3],[4,5],[0,1]]]]}]}',
+                [
+                    [1,2],
+                    [
+                        [[[3, 4], [5, 6], [1, 2], [3, 4]]],
+                        [[[0, 1], [2, 3], [4, 5], [0, 1]]],
+                    ],
+                ],
+                false
+            ],
         ];
     }
 

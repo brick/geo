@@ -1,5 +1,11 @@
 # Changelog
 
+# UNRELEASED (0.11.4)
+
+🐛 **Bug fixes**
+
+- `GeoJSONWriter` erroneously refused to write `MultiPoint`, `MultiLineString` and `MultiPolygon` nested inside `GeometryCollection` (#53)
+
 ## [0.11.3](https://github.com/brick/geo/releases/tag/0.11.3) - 2025-02-19
 
 ✨ **New features**
