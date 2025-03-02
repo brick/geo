@@ -13,6 +13,7 @@
 ✨ **Improvements**
 
 - Improved exception messages in non-lenient mode in `GeoJSONReader`
+- Performance improvement in `GeoJSONWriter` when the `bbox` attribute is not requested
 
 ## [0.11.3](https://github.com/brick/geo/releases/tag/0.11.3) - 2025-02-19
 

@@ -177,10 +177,12 @@ class GeoJSONWriter
             'coordinates' => $geometry->toArray()
         ];
 
-        $boundingBox = $geometry->getBoundingBox();
+        if ($this->setBbox) {
+            $boundingBox = $geometry->getBoundingBox();
 
-        if ($this->setBbox && ! $boundingBox->isEmpty()) {
-            $result['bbox'] = $this->bboxToCoordinateArray($boundingBox);
+            if (! $boundingBox->isEmpty()) {
+                $result['bbox'] = $this->bboxToCoordinateArray($boundingBox);
+            }
         }
 
         return (object) $result;
@@ -213,10 +215,12 @@ class GeoJSONWriter
             'geometries' => $geometries
         ];
 
-        $boundingBox = $geometryCollection->getBoundingBox();
+        if ($this->setBbox) {
+            $boundingBox = $geometryCollection->getBoundingBox();
 
-        if ($this->setBbox && ! $boundingBox->isEmpty()) {
-            $result['bbox'] = $this->bboxToCoordinateArray($boundingBox);
+            if (! $boundingBox->isEmpty()) {
+                $result['bbox'] = $this->bboxToCoordinateArray($boundingBox);
+            }
         }
 
         return (object) $result;
