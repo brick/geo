@@ -12,7 +12,7 @@ abstract class EWKTAbstractTestCase extends WKTAbstractTestCase
     /**
      * Prepends the SRID to a WKT string, making it an EWKT.
      */
-    protected static function toEWKT(string $wkt, int $srid) : string
+    final protected static function toEWKT(string $wkt, int $srid) : string
     {
         return 'SRID=' . $srid . ';' . $wkt;
     }

@@ -11,7 +11,7 @@ use Brick\Geo\Tests\AbstractTestCase;
  */
 abstract class WKTAbstractTestCase extends AbstractTestCase
 {
-    public static function providerWKT() : array
+    final public static function providerWKT() : array
     {
         return array_merge(
             self::providerPointWKT(),
@@ -30,7 +30,7 @@ abstract class WKTAbstractTestCase extends AbstractTestCase
         );
     }
 
-    public static function providerPointWKT() : array
+    final public static function providerPointWKT() : array
     {
         return [
             ['POINT EMPTY', [], false, false],
@@ -45,7 +45,7 @@ abstract class WKTAbstractTestCase extends AbstractTestCase
         ];
     }
 
-    public static function providerLineStringWKT() : array
+    final public static function providerLineStringWKT() : array
     {
         return [
             ['LINESTRING EMPTY', [], false, false],
@@ -60,7 +60,7 @@ abstract class WKTAbstractTestCase extends AbstractTestCase
         ];
     }
 
-    public static function providerCircularStringWKT() : array
+    final public static function providerCircularStringWKT() : array
     {
         return [
             ['CIRCULARSTRING EMPTY', [], false, false],
@@ -75,7 +75,7 @@ abstract class WKTAbstractTestCase extends AbstractTestCase
         ];
     }
 
-    public static function providerCompoundCurveWKT() : array
+    final public static function providerCompoundCurveWKT() : array
     {
         return [
             ['COMPOUNDCURVE EMPTY', [], false, false],
@@ -90,7 +90,7 @@ abstract class WKTAbstractTestCase extends AbstractTestCase
         ];
     }
 
-    public static function providerPolygonWKT() : array
+    final public static function providerPolygonWKT() : array
     {
         return [
             ['POLYGON EMPTY', [], false, false],
@@ -110,7 +110,7 @@ abstract class WKTAbstractTestCase extends AbstractTestCase
         ];
     }
 
-    public static function providerCurvePolygonWKT() : array
+    final public static function providerCurvePolygonWKT() : array
     {
         return [
             ['CURVEPOLYGON EMPTY', [], false, false],
@@ -125,7 +125,7 @@ abstract class WKTAbstractTestCase extends AbstractTestCase
         ];
     }
 
-    public static function providerMultiPointWKT() : array
+    final public static function providerMultiPointWKT() : array
     {
         return [
             ['MULTIPOINT EMPTY', [], false, false],
@@ -140,7 +140,7 @@ abstract class WKTAbstractTestCase extends AbstractTestCase
         ];
     }
 
-    public static function providerMultiLineStringWKT() : array
+    final public static function providerMultiLineStringWKT() : array
     {
         return [
             ['MULTILINESTRING EMPTY', [], false, false],
@@ -160,7 +160,7 @@ abstract class WKTAbstractTestCase extends AbstractTestCase
         ];
     }
 
-    public static function providerMultiPolygonWKT() : array
+    final public static function providerMultiPolygonWKT() : array
     {
         return [
             ['MULTIPOLYGON EMPTY', [], false, false],
@@ -180,7 +180,7 @@ abstract class WKTAbstractTestCase extends AbstractTestCase
         ];
     }
 
-    public static function providerGeometryCollectionWKT() : array
+    final public static function providerGeometryCollectionWKT() : array
     {
         return [
             ['GEOMETRYCOLLECTION EMPTY', [], false, false],
@@ -195,7 +195,7 @@ abstract class WKTAbstractTestCase extends AbstractTestCase
         ];
     }
 
-    public static function providerPolyhedralSurfaceWKT() : array
+    final public static function providerPolyhedralSurfaceWKT() : array
     {
         return [
             ['POLYHEDRALSURFACE EMPTY', [], false, false],
@@ -210,7 +210,7 @@ abstract class WKTAbstractTestCase extends AbstractTestCase
         ];
     }
 
-    public static function providerTriangleWKT() : array
+    final public static function providerTriangleWKT() : array
     {
         return [
             ['TRIANGLE EMPTY', [], false, false],
@@ -225,7 +225,7 @@ abstract class WKTAbstractTestCase extends AbstractTestCase
         ];
     }
 
-    public static function providerTINWKT() : array
+    final public static function providerTINWKT() : array
     {
         return [
             ['TIN EMPTY', [], false, false],
