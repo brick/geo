@@ -43,9 +43,11 @@ class GeoJSONReader
     private readonly bool $lenient;
 
     /**
-     * @param bool $lenient Whether to parse the GeoJSON in lenient mode. This mode allows different cases for GeoJSON
-     *                      types, such as POINT instead of Point, even though the standard enforces a case-sensitive
-     *                      comparison. This mode also allows nested GeometryCollections, and missing Feature props.
+     * @param bool $lenient Whether to parse the GeoJSON in lenient mode.
+     *                      This mode allows for some deviations from the GeoJSON spec:
+     *                        - wrong case for GeoJSON types, e.g. POINT instead of Point
+     *                        - missing "geometry" or "properties" attributes in Features
+ *                            - nested GeometryCollections
      */
     public function __construct(bool $lenient = false)
     {
@@ -122,7 +124,11 @@ class GeoJSONReader
                 $geometry = $this->readGeometry($geoJsonFeature->geometry);
             }
         } elseif (! $this->lenient) {
-            throw GeometryIOException::invalidGeoJSON('Missing "Feature.geometry" attribute.');
+            throw GeometryIOException::invalidGeoJSON(
+                'Missing "Feature.geometry" attribute. ' .
+                'Features without geometry should use an explicit null value for this field. ' .
+                'You can ignore this error by setting the $lenient flag to true.',
+            );
         }
 
         $properties = null;
@@ -137,7 +143,11 @@ class GeoJSONReader
                 $properties = $geoJsonFeature->properties;
             }
         } elseif (! $this->lenient) {
-            throw GeometryIOException::invalidGeoJSON('Missing "Feature.properties" attribute.');
+            throw GeometryIOException::invalidGeoJSON(
+                'Missing "Feature.properties" attribute. ' .
+                'Features without properties should use an explicit null value for this field. ' .
+                'You can ignore this error by setting the $lenient flag to true.',
+            );
         }
 
         return new Feature($geometry, $properties);
@@ -190,7 +200,6 @@ class GeoJSONReader
             return $this->readGeometryCollection($geoJsonGeometry);
         }
 
-        // Verify geometry `coordinates`
         if (! isset($geoJsonGeometry->coordinates) || ! is_array($geoJsonGeometry->coordinates)) {
             throw GeometryIOException::invalidGeoJSON(sprintf('Missing or malformed "%s.coordinates" attribute.', $geoType));
         }
@@ -263,7 +272,10 @@ class GeoJSONReader
             }
 
             if (isset($geometry->type) && $geometry->type === 'GeometryCollection' && ! $this->lenient) {
-                throw new GeometryIOException('GeoJSON does not allow nested GeometryCollections.');
+                throw GeometryIOException::invalidGeoJSON(
+                    'GeoJSON does not allow nested GeometryCollections. ' .
+                    'You can allow this by setting the $lenient flag to true.',
+                );
             }
 
             /** @var stdClass $geometry */
@@ -435,15 +447,25 @@ class GeoJSONReader
      * Normalizes the given GeoJSON type.
      *
      * If the type is not recognized, it is returned as is.
+     * If the type is recognized but in the wrong case, it is fixed in lenient mode,
+     * and an exception is thrown otherwise.
      */
     private function normalizeGeoJSONType(string $type) : string
     {
-        if ($this->lenient) {
-            $type = strtolower($type);
+        $typeLower = strtolower($type);
 
-            if (isset(self::TYPES[$type])) {
-                return self::TYPES[$type];
+        if (isset(self::TYPES[$typeLower])) {
+            $correctCase = self::TYPES[$typeLower];
+
+            if ($type === $correctCase) {
+                return $type;
             }
+
+            if ($this->lenient) {
+                return $correctCase;
+            }
+
+            throw GeometryIOException::unsupportedGeoJSONTypeWrongCase($type, $correctCase);
         }
 
         return $type;

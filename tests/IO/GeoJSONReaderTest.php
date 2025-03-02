@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace Brick\Geo\Tests\IO;
 
 use Brick\Geo\Exception\GeometryIOException;
+use Brick\Geo\GeometryCollection;
 use Brick\Geo\IO\GeoJSON\Feature;
 use Brick\Geo\IO\GeoJSON\FeatureCollection;
 use Brick\Geo\IO\GeoJSONReader;
+use Brick\Geo\Point;
 use PHPUnit\Framework\Attributes\DataProvider;
 use stdClass;
 
@@ -94,8 +96,159 @@ class GeoJSONReaderTest extends GeoJSONAbstractTestCase
         }
     }
 
-    #[DataProvider('providerNonLenientReadWrongCaseType')]
-    public function testNonLenientReadWrongCaseType(string $geojson, string $expectedExceptionMessage) : void
+    public function testReadFeatureWithMissingGeometry() : void
+    {
+        $reader = new GeoJSONReader();
+
+        $geoJSON = <<<'EOF'
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Foo"
+            }
+        }
+        EOF;
+
+        $this->expectException(GeometryIOException::class);
+        $this->expectExceptionMessage(
+            'Missing "Feature.geometry" attribute. Features without geometry should use an explicit null value for ' .
+            'this field. You can ignore this error by setting the $lenient flag to true.',
+        );
+
+        $reader->read($geoJSON);
+    }
+
+    public function testReadFeatureWithMissingGeometryInLenientMode() : void
+    {
+        $reader = new GeoJSONReader(lenient: true);
+
+        $geoJSON = <<<'EOF'
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Foo"
+            }
+        }
+        EOF;
+
+        $feature = $reader->read($geoJSON);
+
+        self::assertInstanceOf(Feature::class, $feature);
+        self::assertNull($feature->getGeometry());
+        self::assertNotNull($feature->getProperties());
+        self::assertSame(['name' => 'Foo'], (array) $feature->getProperties());
+    }
+
+    public function testReadFeatureWithMissingProperties() : void
+    {
+        $reader = new GeoJSONReader();
+
+        $geoJSON = <<<'EOF'
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [1, 2]
+            }
+        }
+        EOF;
+
+        $this->expectException(GeometryIOException::class);
+        $this->expectExceptionMessage(
+            'Missing "Feature.properties" attribute. Features without properties should use an explicit null value for ' .
+            'this field. You can ignore this error by setting the $lenient flag to true.',
+        );
+
+        $reader->read($geoJSON);
+    }
+
+    public function testReadFeatureWithMissingPropertiesInLenientMode() : void
+    {
+        $reader = new GeoJSONReader(lenient: true);
+
+        $geoJSON = <<<'EOF'
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [1, 2]
+            }
+        }
+        EOF;
+
+        $feature = $reader->read($geoJSON);
+
+        self::assertInstanceOf(Feature::class, $feature);
+        self::assertNull($feature->getProperties());
+        self::assertInstanceOf(Point::class, $feature->getGeometry());
+        self::assertSame([1.0, 2.0], $feature->getGeometry()->toArray());
+    }
+
+    public function testNestedGeometryCollection(): void
+    {
+        $reader = new GeoJSONReader();
+
+        $geoJSON = <<<'EOF'
+        {
+            "type": "GeometryCollection",
+            "geometries": [
+                {
+                    "type": "GeometryCollection",
+                    "geometries": [
+                        {
+                            "type": "Point",
+                            "coordinates": [12, 34]
+                        }
+                    ]
+                }
+            ]
+        }
+        EOF;
+
+        $this->expectException(GeometryIOException::class);
+        $this->expectExceptionMessage(
+            'Invalid GeoJSON: GeoJSON does not allow nested GeometryCollections. You can allow this by setting the ' .
+            '$lenient flag to true.',
+        );
+
+        $reader->read($geoJSON);
+    }
+
+    public function testNestedGeometryCollectionInLenientMode(): void
+    {
+        $reader = new GeoJSONReader(lenient: true);
+
+        $geoJSON = <<<'EOF'
+        {
+            "type": "GeometryCollection",
+            "geometries": [
+                {
+                    "type": "GeometryCollection",
+                    "geometries": [
+                        {
+                            "type": "Point",
+                            "coordinates": [12, 34]
+                        }
+                    ]
+                }
+            ]
+        }
+        EOF;
+
+        $geometryCollection = $reader->read($geoJSON);
+
+        self::assertInstanceOf(GeometryCollection::class, $geometryCollection);
+        $geometries = $geometryCollection->geometries();
+        self::assertCount(1, $geometries);
+        self::assertInstanceOf(GeometryCollection::class, $geometries[0]);
+        $subGeometries = $geometries[0]->geometries();
+        self::assertCount(1, $subGeometries);
+        self::assertInstanceOf(Point::class, $subGeometries[0]);
+        self::assertSame([12.0, 34.0], $subGeometries[0]->toArray());
+    }
+
+    #[DataProvider('providerWrongCaseTypeInNonLenientMode')]
+    public function testWrongCaseTypeInNonLenientMode(string $geojson, string $expectedExceptionMessage) : void
     {
         $reader = new GeoJSONReader();
 
@@ -105,18 +258,27 @@ class GeoJSONReaderTest extends GeoJSONAbstractTestCase
         $reader->read($geojson);
     }
 
-    public static function providerNonLenientReadWrongCaseType() : \Generator
+    public static function providerWrongCaseTypeInNonLenientMode() : \Generator
     {
-        foreach (self::providerGeometryPointGeoJSON() as [$geojson]) {
-            yield [self::alterCase($geojson), 'Unsupported GeoJSON type: POINT.'];
-        }
+        $tests = [
+            [self::providerGeometryPointGeoJSON(), 'POINT', 'Point'],
+            [self::providerGeometryLineStringGeoJSON(), 'LINESTRING', 'LineString'],
+            [self::providerGeometryPolygonGeoJSON(), 'POLYGON', 'Polygon'],
+            [self::providerGeometryMultiPointGeoJSON(), 'MULTIPOINT', 'MultiPoint'],
+            [self::providerGeometryMultiLineStringGeoJSON(), 'MULTILINESTRING', 'MultiLineString'],
+            [self::providerGeometryMultiPolygonGeoJSON(), 'MULTIPOLYGON', 'MultiPolygon'],
+            [self::providerGeometryCollectionGeoJSON(), 'GEOMETRYCOLLECTION', 'GeometryCollection'],
+            [self::providerFeaturePointGeoJSON(), 'FEATURE', 'Feature'],
+            [self::providerFeatureCollectionGeoJSON(), 'FEATURECOLLECTION', 'FeatureCollection'],
+        ];
 
-        foreach (self::providerFeaturePointGeoJSON() as [$geojson]) {
-            yield [self::alterCase($geojson), 'Unsupported GeoJSON type: FEATURE.'];
-        }
-
-        foreach (self::providerFeatureCollectionGeoJSON() as [$geojson]) {
-            yield [self::alterCase($geojson), 'Unsupported GeoJSON type: FEATURECOLLECTION.'];
+        foreach ($tests as [$provider, $wrongCase, $correctCase]) {
+            foreach ($provider as [$geoJSON]) {
+                yield [
+                    self::alterCase($geoJSON),
+                    "Unsupported GeoJSON type: $wrongCase. The correct case is $correctCase. You can allow incorrect cases by setting the \$lenient flag to true.",
+                ];
+            }
         }
     }
 

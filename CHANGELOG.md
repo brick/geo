@@ -10,6 +10,10 @@
 
 - `GeoJSONWriter` constructor now has a `$lenient` flag to allow nested `GeometryCollection` objects
 
+✨ **Improvements**
+
+- Improved exception messages in non-lenient mode in `GeoJSONReader`
+
 ## [0.11.3](https://github.com/brick/geo/releases/tag/0.11.3) - 2025-02-19
 
 ✨ **New features**

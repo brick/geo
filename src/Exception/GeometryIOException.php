@@ -47,6 +47,18 @@ class GeometryIOException extends GeometryException
         return new self($message);
     }
 
+    public static function unsupportedGeoJSONTypeWrongCase(string $wrongCase, string $correctCase) : GeometryIOException
+    {
+        $message = sprintf(
+            'Unsupported GeoJSON type: %s. The correct case is %s. ' .
+            'You can allow incorrect cases by setting the $lenient flag to true.',
+            $wrongCase,
+            $correctCase,
+        );
+
+        return new self($message);
+    }
+
     public static function unsupportedGeometryType(string $geometryType) : GeometryIOException
     {
         $message = sprintf('Unsupported geometry type: %s.', $geometryType);
