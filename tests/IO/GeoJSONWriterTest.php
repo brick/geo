@@ -27,7 +27,7 @@ class GeoJSONWriterTest extends GeoJSONAbstractTestCase
 
     public function testPrettyPrint() : void
     {
-        $writer = new GeoJSONWriter(true);
+        $writer = new GeoJSONWriter(prettyPrint: true);
         $geoJSONOutput = $writer->write(Point::xyz(1, 2, 3));
 
         $expectedGeoJSON = <<<'EOF'
@@ -46,7 +46,7 @@ class GeoJSONWriterTest extends GeoJSONAbstractTestCase
 
     public function testWriteGeometryWithM() : void
     {
-        $writer = new GeoJSONWriter(true);
+        $writer = new GeoJSONWriter(prettyPrint: true);
 
         // the M coordinate must be ignored
         $geoJSONOutput = $writer->write(Point::xym(1, 2, 3));
@@ -66,7 +66,7 @@ class GeoJSONWriterTest extends GeoJSONAbstractTestCase
 
     public function testWriteGeometryWithBbox() : void
     {
-        $writer = new GeoJSONWriter(true, true);
+        $writer = new GeoJSONWriter(prettyPrint: true, setBbox: true);
 
         $polygon = Polygon::fromText('POLYGON((2 2, 1 5, 2 8, 3 5, 2 2))');
         $geoJSONOutput = $writer->write($polygon);
