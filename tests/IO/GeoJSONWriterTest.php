@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Brick\Geo\Tests\IO;
 
+use Brick\Geo\Exception\GeometryIOException;
+use Brick\Geo\GeometryCollection;
 use Brick\Geo\IO\GeoJSONReader;
 use Brick\Geo\IO\GeoJSONWriter;
 use Brick\Geo\Point;
@@ -104,6 +106,57 @@ class GeoJSONWriterTest extends GeoJSONAbstractTestCase
             ]
         }
         EOL;
+
+        self::assertSame($expectedGeoJSON, $geoJSONOutput);
+    }
+
+    public function testNestedGeometryCollection(): void
+    {
+        $writer = new GeoJSONWriter(prettyPrint: true, lenient: false);
+
+        $geometry = GeometryCollection::of(
+            GeometryCollection::of(
+                Point::xy(12, 34),
+            ),
+        );
+
+        $this->expectException(GeometryIOException::class);
+        $this->expectExceptionMessage('GeoJSON does not allow nested GeometryCollections. You can allow this by setting the $lenient flag to true.');
+
+        $writer->write($geometry);
+    }
+
+    public function testNestedGeometryCollectionInLenientMode(): void
+    {
+        $writer = new GeoJSONWriter(prettyPrint: true, lenient: true);
+
+        $geometry = GeometryCollection::of(
+            GeometryCollection::of(
+                Point::xy(12, 34),
+            ),
+        );
+
+        $geoJSONOutput = $writer->write($geometry);
+
+        $expectedGeoJSON = <<<'EOF'
+        {
+            "type": "GeometryCollection",
+            "geometries": [
+                {
+                    "type": "GeometryCollection",
+                    "geometries": [
+                        {
+                            "type": "Point",
+                            "coordinates": [
+                                12,
+                                34
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+        EOF;
 
         self::assertSame($expectedGeoJSON, $geoJSONOutput);
     }

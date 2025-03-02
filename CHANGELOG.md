@@ -6,6 +6,10 @@
 
 - `GeoJSONWriter` erroneously refused to write `MultiPoint`, `MultiLineString` and `MultiPolygon` nested inside `GeometryCollection` (#53)
 
+✨ **New features**
+
+- `GeoJSONWriter` constructor now has a `$lenient` flag to allow nested `GeometryCollection` objects
+
 ## [0.11.3](https://github.com/brick/geo/releases/tag/0.11.3) - 2025-02-19
 
 ✨ **New features**

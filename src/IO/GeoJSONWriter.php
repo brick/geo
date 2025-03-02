@@ -10,7 +10,6 @@ use Brick\Geo\Geometry;
 use Brick\Geo\GeometryCollection;
 use Brick\Geo\IO\GeoJSON\Feature;
 use Brick\Geo\IO\GeoJSON\FeatureCollection;
-use InvalidArgumentException;
 use stdClass;
 
 /**
@@ -22,14 +21,18 @@ class GeoJSONWriter
 
     private readonly bool $setBbox;
 
+    private readonly bool $lenient;
+
     /**
      * @param bool $prettyPrint Whether to pretty-print the JSON output.
      * @param bool $setBbox     Whether to set the bbox attribute of each non-empty GeoJSON object.
+     * @param bool $lenient     Whether to allow nested GeometryCollections, forbidden by the GeoJSON spec.
      */
-    public function __construct(bool $prettyPrint = false, bool $setBbox = false)
+    public function __construct(bool $prettyPrint = false, bool $setBbox = false, bool $lenient = false)
     {
         $this->prettyPrint = $prettyPrint;
         $this->setBbox = $setBbox;
+        $this->lenient = $lenient;
     }
 
     /**
@@ -195,8 +198,11 @@ class GeoJSONWriter
         $geometries = $geometryCollection->geometries();
 
         $geometries = array_map(function(Geometry $geometry) {
-            if ($geometry::class === GeometryCollection::class) {
-                throw new GeometryIOException('GeoJSON does not allow nested GeometryCollections.');
+            if ($geometry::class === GeometryCollection::class && ! $this->lenient) {
+                throw new GeometryIOException(
+                    'GeoJSON does not allow nested GeometryCollections. ' .
+                    'You can allow this by setting the $lenient flag to true.',
+                );
             }
 
             return $this->writeGeometry($geometry);
