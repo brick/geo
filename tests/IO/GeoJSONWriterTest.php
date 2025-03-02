@@ -30,7 +30,7 @@ class GeoJSONWriterTest extends GeoJSONAbstractTestCase
         $writer = new GeoJSONWriter(true);
         $geoJSONOutput = $writer->write(Point::xyz(1, 2, 3));
 
-        $expectedGeoJSON = <<<EOL
+        $expectedGeoJSON = <<<'EOF'
         {
             "type": "Point",
             "coordinates": [
@@ -39,7 +39,7 @@ class GeoJSONWriterTest extends GeoJSONAbstractTestCase
                 3
             ]
         }
-        EOL;
+        EOF;
 
         self::assertSame($expectedGeoJSON, $geoJSONOutput);
     }
@@ -51,7 +51,7 @@ class GeoJSONWriterTest extends GeoJSONAbstractTestCase
         // the M coordinate must be ignored
         $geoJSONOutput = $writer->write(Point::xym(1, 2, 3));
 
-        $expectedGeoJSON = <<<EOL
+        $expectedGeoJSON = <<<'EOF'
         {
             "type": "Point",
             "coordinates": [
@@ -59,7 +59,7 @@ class GeoJSONWriterTest extends GeoJSONAbstractTestCase
                 2
             ]
         }
-        EOL;
+        EOF;
 
         self::assertSame($expectedGeoJSON, $geoJSONOutput);
     }
@@ -71,7 +71,7 @@ class GeoJSONWriterTest extends GeoJSONAbstractTestCase
         $polygon = Polygon::fromText('POLYGON((2 2, 1 5, 2 8, 3 5, 2 2))');
         $geoJSONOutput = $writer->write($polygon);
 
-        $expectedGeoJSON = <<<EOL
+        $expectedGeoJSON = <<<'EOF'
         {
             "type": "Polygon",
             "coordinates": [
@@ -105,7 +105,7 @@ class GeoJSONWriterTest extends GeoJSONAbstractTestCase
                 8
             ]
         }
-        EOL;
+        EOF;
 
         self::assertSame($expectedGeoJSON, $geoJSONOutput);
     }
