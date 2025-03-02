@@ -205,8 +205,8 @@ class GeoJSONReader
         }
 
         /*
-         * Note: we should actually check the contents of the coords array here!
-         * Type-hints make static analysis happy, but errors will appear at runtime if the GeoJSON is invalid.
+         * TODO: we should actually check the contents of the coords array here!
+         *       Type-hints make static analysis happy, but errors will appear at runtime if the GeoJSON is invalid.
          */
 
         $coordinates = $geoJsonGeometry->coordinates;
