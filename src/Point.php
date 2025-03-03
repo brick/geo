@@ -254,7 +254,7 @@ final class Point extends Geometry
     }
 
     #[Override]
-    public function project(Projector $projector) : Point
+    public function project(Projector $projector) : static
     {
         return $projector->project($this);
     }

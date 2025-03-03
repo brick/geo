@@ -40,16 +40,4 @@ final class Triangle extends Polygon
     {
         return Geometry::TRIANGLE;
     }
-
-    #[Override]
-    public function project(Projector $projector): Triangle
-    {
-        return new Triangle(
-            $projector->getTargetCoordinateSystem($this->coordinateSystem),
-            ...array_map(
-                fn (LineString $ring) => $ring->project($projector),
-                $this->rings,
-            ),
-        );
-    }
 }

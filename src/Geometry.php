@@ -72,14 +72,12 @@ abstract class Geometry implements \Stringable
      * @param string $wkt  The Well-Known Text representation.
      * @param int    $srid The optional SRID to use.
      *
-     * @return static
-     *
      * @throws GeometryIoException         If the given string is not a valid WKT representation.
      * @throws CoordinateSystemException   If the WKT contains mixed coordinate systems.
      * @throws InvalidGeometryException    If the WKT represents an invalid geometry.
      * @throws UnexpectedGeometryException If the resulting geometry is not an instance of the current class.
      */
-    public static function fromText(string $wkt, int $srid = 0) : Geometry
+    public static function fromText(string $wkt, int $srid = 0) : static
     {
         /** @var WktReader|null $wktReader */
         static $wktReader;
@@ -106,14 +104,12 @@ abstract class Geometry implements \Stringable
      * @param string $wkb  The Well-Known Binary representation.
      * @param int    $srid The optional SRID to use.
      *
-     * @return static
-     *
      * @throws GeometryIoException         If the given string is not a valid WKB representation.
      * @throws CoordinateSystemException   If the WKB contains mixed coordinate systems.
      * @throws InvalidGeometryException    If the WKB represents an invalid geometry.
      * @throws UnexpectedGeometryException If the resulting geometry is not an instance of the current class.
      */
-    public static function fromBinary(string $wkb, int $srid = 0) : Geometry
+    public static function fromBinary(string $wkb, int $srid = 0) : static
     {
         /** @var WkbReader|null $wkbReader */
         static $wkbReader;
@@ -255,10 +251,8 @@ abstract class Geometry implements \Stringable
      *
      * Note that only the SRID value is changed, the coordinates are not reprojected.
      * Use GeometryEngine::transform() to reproject the Geometry to another SRID.
-     *
-     * @return static
      */
-    public function withSrid(int $srid) : Geometry
+    public function withSrid(int $srid) : static
     {
         if ($srid === $this->srid()) {
             return $this;
@@ -269,10 +263,8 @@ abstract class Geometry implements \Stringable
 
     /**
      * Returns a copy of this Geometry, with Z and M coordinates removed.
-     *
-     * @return static
      */
-    public function toXy(): Geometry
+    public function toXy(): static
     {
         if ($this->coordinateDimension() === 2) {
             return $this;
@@ -283,10 +275,8 @@ abstract class Geometry implements \Stringable
 
     /**
      * Returns a copy of this Geometry, with the Z coordinate removed.
-     *
-     * @return static
      */
-    public function withoutZ() : Geometry
+    public function withoutZ() : static
     {
         if (! $this->coordinateSystem->hasZ()) {
             return $this;
@@ -297,10 +287,8 @@ abstract class Geometry implements \Stringable
 
     /**
      * Returns a copy of this Geometry, with the M coordinate removed.
-     *
-     * @return static
      */
-    public function withoutM() : Geometry
+    public function withoutM() : static
     {
         if (! $this->coordinateSystem->hasM()) {
             return $this;
@@ -342,10 +330,8 @@ abstract class Geometry implements \Stringable
 
     /**
      * Returns a copy of this Geometry, with the X and Y coordinates swapped.
-     *
-     * @return static
      */
-    public function swapXy() : Geometry
+    public function swapXy() : static
     {
         return $this->project(new SwapXyProjector());
     }
@@ -353,7 +339,7 @@ abstract class Geometry implements \Stringable
     /**
      * Projects this geometry to a different coordinate system.
      */
-    abstract public function project(Projector $projector): Geometry;
+    abstract public function project(Projector $projector): static;
 
     /**
      * Returns whether this Geometry is identical to another Geometry.

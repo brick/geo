@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Brick\Geo;
 
-use Brick\Geo\Projector\Projector;
 use Override;
 
 /**
@@ -54,17 +53,5 @@ final class MultiPoint extends GeometryCollection
     protected function containedGeometryType() : string
     {
         return Point::class;
-    }
-
-    #[Override]
-    public function project(Projector $projector): MultiPoint
-    {
-        return new MultiPoint(
-            $projector->getTargetCoordinateSystem($this->coordinateSystem),
-            ...array_map(
-                fn (Point $point) => $point->project($projector),
-                $this->geometries,
-            ),
-        );
     }
 }
