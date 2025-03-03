@@ -183,7 +183,7 @@ final class CurvePolygon extends Surface
      *
      * Required by interface IteratorAggregate.
      *
-     * @psalm-return ArrayIterator<int, Curve>
+     * @psalm-return ArrayIterator<int<0, max>, Curve>
      */
     #[Override]
     public function getIterator() : ArrayIterator

@@ -75,7 +75,7 @@ final class CircularString extends Curve
     #[Override]
     public function startPoint() : Point
     {
-        if ($this->isEmpty) {
+        if ($this->points === []) {
             throw new EmptyGeometryException('The CircularString is empty and has no start point.');
         }
 
@@ -85,7 +85,7 @@ final class CircularString extends Curve
     #[Override]
     public function endPoint() : Point
     {
-        if ($this->isEmpty) {
+        if ($this->points === []) {
             throw new EmptyGeometryException('The CircularString is empty and has no end point.');
         }
 
@@ -192,7 +192,7 @@ final class CircularString extends Curve
      *
      * Required by interface IteratorAggregate.
      *
-     * @psalm-return ArrayIterator<int, Point>
+     * @psalm-return ArrayIterator<int<0, max>, Point>
      */
     #[Override]
     public function getIterator() : ArrayIterator

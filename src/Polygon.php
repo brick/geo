@@ -224,7 +224,7 @@ class Polygon extends Surface
      *
      * Required by interface IteratorAggregate.
      *
-     * @psalm-return ArrayIterator<int, LineString>
+     * @psalm-return ArrayIterator<int<0, max>, LineString>
      */
     #[Override]
     public function getIterator() : ArrayIterator

@@ -1,70 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <files psalm-version="6.8.8@1361cd33008feb3ae2b4a93f1860e14e538ec8c2">
-  <file src="src/CircularString.php">
-    <FalsableReturnStatement>
-      <code><![CDATA[end($this->points)]]></code>
-    </FalsableReturnStatement>
-    <InvalidFalsableReturnType>
-      <code><![CDATA[Point]]></code>
-    </InvalidFalsableReturnType>
-    <InvalidReturnStatement>
-      <code><![CDATA[new ArrayIterator($this->points)]]></code>
-    </InvalidReturnStatement>
-    <InvalidReturnType>
-      <code><![CDATA[ArrayIterator<int, Point>]]></code>
-    </InvalidReturnType>
-  </file>
-  <file src="src/CompoundCurve.php">
-    <InvalidArrayOffset>
-      <code><![CDATA[$this->curves[$count - 1]]]></code>
-    </InvalidArrayOffset>
-    <InvalidReturnStatement>
-      <code><![CDATA[new ArrayIterator($this->curves)]]></code>
-    </InvalidReturnStatement>
-    <InvalidReturnType>
-      <code><![CDATA[ArrayIterator<int, Curve>]]></code>
-    </InvalidReturnType>
-    <MixedMethodCall>
-      <code><![CDATA[endPoint]]></code>
-    </MixedMethodCall>
-    <MixedReturnStatement>
-      <code><![CDATA[$this->curves[$count - 1]->endPoint()]]></code>
-    </MixedReturnStatement>
-  </file>
-  <file src="src/CurvePolygon.php">
-    <InvalidReturnStatement>
-      <code><![CDATA[new ArrayIterator($this->rings)]]></code>
-    </InvalidReturnStatement>
-    <InvalidReturnType>
-      <code><![CDATA[ArrayIterator<int, Curve>]]></code>
-    </InvalidReturnType>
-  </file>
-  <file src="src/Engine/DatabaseEngine.php">
-    <MixedAssignment>
-      <code><![CDATA[$result]]></code>
-      <code><![CDATA[$result]]></code>
-    </MixedAssignment>
-    <PossiblyNullArgument>
-      <code><![CDATA[$geometryType]]></code>
-    </PossiblyNullArgument>
-    <PossiblyUndefinedArrayOffset>
-      <code><![CDATA[$result]]></code>
-      <code><![CDATA[$result]]></code>
-    </PossiblyUndefinedArrayOffset>
-  </file>
-  <file src="src/Engine/GEOSEngine.php">
-    <PossiblyFalseArgument>
-      <code><![CDATA[hex2bin($this->wkbWriter->writeHEX($geometry))]]></code>
-    </PossiblyFalseArgument>
-  </file>
-  <file src="src/Engine/PDOEngine.php">
-    <MixedAssignment>
-      <code><![CDATA[$result]]></code>
-    </MixedAssignment>
-    <MixedReturnStatement>
-      <code><![CDATA[$result]]></code>
-    </MixedReturnStatement>
-  </file>
   <file src="src/Geometry.php">
     <MissingTemplateParam>
       <code><![CDATA[\IteratorAggregate]]></code>
@@ -83,40 +18,5 @@
     <InvalidFalsableReturnType>
       <code><![CDATA[string]]></code>
     </InvalidFalsableReturnType>
-  </file>
-  <file src="src/LineString.php">
-    <FalsableReturnStatement>
-      <code><![CDATA[end($this->points)]]></code>
-    </FalsableReturnStatement>
-    <InvalidFalsableReturnType>
-      <code><![CDATA[Point]]></code>
-    </InvalidFalsableReturnType>
-    <InvalidReturnStatement>
-      <code><![CDATA[new ArrayIterator($this->points)]]></code>
-    </InvalidReturnStatement>
-    <InvalidReturnType>
-      <code><![CDATA[ArrayIterator<int, Point>]]></code>
-    </InvalidReturnType>
-  </file>
-  <file src="src/Point.php">
-    <InvalidReturnStatement>
-      <code><![CDATA[new ArrayIterator($this->toArray())]]></code>
-    </InvalidReturnStatement>
-    <InvalidReturnType>
-      <code><![CDATA[ArrayIterator<int, float>]]></code>
-    </InvalidReturnType>
-  </file>
-  <file src="src/Polygon.php">
-    <InvalidReturnStatement>
-      <code><![CDATA[new ArrayIterator($this->rings)]]></code>
-    </InvalidReturnStatement>
-    <InvalidReturnType>
-      <code><![CDATA[ArrayIterator<int, LineString>]]></code>
-    </InvalidReturnType>
-  </file>
-  <file src="src/Projector/SwapXYProjector.php">
-    <PossiblyUndefinedArrayOffset>
-      <code><![CDATA[$x]]></code>
-    </PossiblyUndefinedArrayOffset>
   </file>
 </files>

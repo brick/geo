@@ -95,7 +95,7 @@ final class CompoundCurve extends Curve
     #[Override]
     public function endPoint() : Point
     {
-        if ($this->isEmpty) {
+        if ($this->curves === []) {
             throw new EmptyGeometryException('The CompoundCurve is empty and has no end point.');
         }
 
@@ -204,7 +204,7 @@ final class CompoundCurve extends Curve
      *
      * Required by interface IteratorAggregate.
      *
-     * @psalm-return ArrayIterator<int, Curve>
+     * @psalm-return ArrayIterator<int<0, max>, Curve>
      */
     #[Override]
     public function getIterator() : ArrayIterator

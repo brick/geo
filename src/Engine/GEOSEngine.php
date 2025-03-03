@@ -84,7 +84,10 @@ final readonly class GEOSEngine implements GeometryEngine
             return $this->ewkbReader->read($this->wkbWriter->write($geometry));
         }
 
-        return $this->ewkbReader->read(hex2bin($this->wkbWriter->writeHEX($geometry)));
+        $ewkb = hex2bin($this->wkbWriter->writeHEX($geometry));
+        assert($ewkb !== false);
+
+        return $this->ewkbReader->read($ewkb);
     }
 
     #[Override]
