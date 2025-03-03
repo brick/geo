@@ -7,12 +7,15 @@ namespace Brick\Geo\Engine;
 use Brick\Geo\Curve;
 use Brick\Geo\Exception\GeometryEngineException;
 use Brick\Geo\Geometry;
+use Brick\Geo\LineString;
 use Brick\Geo\MultiCurve;
+use Brick\Geo\MultiPoint;
 use Brick\Geo\MultiSurface;
 use Brick\Geo\MultiPolygon;
 use Brick\Geo\Point;
 use Brick\Geo\Polygon;
 use Brick\Geo\Proxy;
+use Brick\Geo\Proxy\ProxyInterface;
 use Brick\Geo\Surface;
 
 /**
@@ -169,6 +172,31 @@ abstract class DatabaseEngine implements GeometryEngine
     }
 
     /**
+     * Queries a GIS function returning a MultiPoint value.
+     *
+     * @param string                       $function   The SQL GIS function to execute.
+     * @param Geometry|string|float|int ...$parameters The Geometry objects or scalar values to pass as parameters.
+     *
+     * @throws GeometryEngineException
+     */
+    private function queryMultiPoint(string $function, Geometry|string|float|int ...$parameters) : MultiPoint
+    {
+        $result = $this->queryGeometry($function, ...$parameters);
+
+        if ($result instanceof MultiPoint) {
+            return $result;
+        }
+
+        $geometry = $result instanceof ProxyInterface ? $result->getGeometry() : $result;
+
+        if ($geometry->isEmpty()) {
+            return MultiPoint::fromText('MULTIPOINT EMPTY');
+        }
+
+        return MultiPoint::of($result);
+    }
+
+    /**
      * Queries a GIS function returning a Geometry object.
      *
      * @param string                       $function   The SQL GIS function to execute.
@@ -176,7 +204,7 @@ abstract class DatabaseEngine implements GeometryEngine
      *
      * @throws GeometryEngineException
      */
-    private function queryGeometry(string $function, Geometry|string|float|int ...$parameters) : Geometry
+    protected function queryGeometry(string $function, Geometry|string|float|int ...$parameters) : Geometry
     {
         /** @var array{string|null, string|resource|null, string, int|numeric-string} $result */
         $result = $this->query($function, $parameters, true);
@@ -432,5 +460,23 @@ abstract class DatabaseEngine implements GeometryEngine
     public function split(Geometry $g, Geometry $blade) : Geometry
     {
         return $this->queryGeometry('ST_Split', $g, $blade);
+    }
+
+    /**
+     * @throws GeometryEngineException
+     */
+    public function lineInterpolatePoint(LineString $linestring, float $fraction) : Point
+    {
+        $result = $this->queryGeometry('ST_LineInterpolatePoint', $linestring, $fraction);
+        if (! $result instanceof Point) {
+            throw new GeometryEngineException('This operation yielded wrong type: ' . $result::class);
+        }
+
+        return $result;
+    }
+
+    public function lineInterpolatePoints(LineString $linestring, float $fraction) : MultiPoint
+    {
+        return $this->queryMultiPoint('ST_LineInterpolatePoints', $linestring, $fraction);
     }
 }

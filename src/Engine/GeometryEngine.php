@@ -7,7 +7,9 @@ namespace Brick\Geo\Engine;
 use Brick\Geo\Curve;
 use Brick\Geo\Geometry;
 use Brick\Geo\Exception\GeometryEngineException;
+use Brick\Geo\LineString;
 use Brick\Geo\MultiCurve;
+use Brick\Geo\MultiPoint;
 use Brick\Geo\MultiPolygon;
 use Brick\Geo\MultiSurface;
 use Brick\Geo\Point;
@@ -480,4 +482,24 @@ interface GeometryEngine
      * Splits a geometry into several geometries using a blade.
      */
     public function split(Geometry $g, Geometry $blade) : Geometry;
+
+    /**
+     * Returns a point interpolated along a line at a fractional location.
+     *
+     * @param LineString $linestring The linestring.
+     * @param float $fraction Is a float between 0.0 and 1.0 representing the fraction of line length where the point is to be located.
+     *
+     * @return Point The point.
+     */
+    public function lineInterpolatePoint(LineString $linestring, float $fraction) : Point;
+
+    /**
+     * Returns one or more points interpolated along a line at a fractional interval.
+     *
+     * @param LineString $linestring The linestring.
+     * @param float $fraction Is a float between 0.0 and 1.0 representing the spacing between the points as a fraction of line length.
+     *
+     * @return MultiPoint The MultiPoint.
+     */
+    public function lineInterpolatePoints(LineString $linestring, float $fraction) : MultiPoint;
 }
