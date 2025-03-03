@@ -1,6 +1,6 @@
 # Changelog
 
-# UNRELEASED (0.11.4)
+## [0.11.4](https://github.com/brick/geo/releases/tag/0.11.4) - 2025-03-03
 
 🐛 **Bug fixes**
 
