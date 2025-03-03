@@ -7,6 +7,7 @@ namespace Brick\Geo;
 use ArrayIterator;
 use Brick\Geo\Exception\CoordinateSystemException;
 use Brick\Geo\Exception\NoSuchGeometryException;
+use Brick\Geo\Exception\UnexpectedGeometryException;
 use Brick\Geo\Projector\Projector;
 use Override;
 
@@ -29,6 +30,8 @@ use Override;
  * finite solid. If outward, the surface is the exterior boundary of the enclosed surface. If inward, the surface
  * is the interior of the infinite complement of the enclosed solid. A Ball with some number of voids (holes) inside
  * can thus be presented as one exterior boundary shell, and some number in interior boundary shells.
+ *
+ * @template T of Polygon
  */
 class PolyhedralSurface extends Surface
 {
@@ -37,7 +40,7 @@ class PolyhedralSurface extends Surface
      *
      * An empty PolyhedralSurface contains no polygons.
      *
-     * @psalm-var list<Polygon>
+     * @psalm-var list<T>
      *
      * @var Polygon[]
      */
@@ -47,11 +50,11 @@ class PolyhedralSurface extends Surface
      * The coordinate system of each of the patches must match the one of the PolyhedralSurface.
      *
      * @param CoordinateSystem $cs         The coordinate system of the PolyhedralSurface.
-     * @param Polygon          ...$patches The patches that compose the PolyhedralSurface.
+     * @param T                ...$patches The patches that compose the PolyhedralSurface.
      *
      * @throws CoordinateSystemException If different coordinate systems are used.
      */
-    public function __construct(CoordinateSystem $cs, Polygon ...$patches)
+    final public function __construct(CoordinateSystem $cs, Polygon ...$patches)
     {
         parent::__construct($cs, ! $patches);
 
@@ -61,22 +64,49 @@ class PolyhedralSurface extends Surface
 
         CoordinateSystem::check($this, ...$patches);
 
+        $patchType = $this->patchType();
+
+        foreach ($patches as $patch) {
+            /**
+             * @psalm-suppress DocblockTypeContradiction We do want to enforce this in code, as not everyone uses static analysis!
+             * @psalm-suppress MixedArgument It looks like due to this check, Psalm considers that $geometry has no type anymore.
+             */
+            if (! $patch instanceof $patchType) {
+                throw new UnexpectedGeometryException(sprintf(
+                    '%s expects instance of %s, instance of %s given.',
+                    static::class,
+                    $patchType,
+                    $patch::class
+                ));
+            }
+        }
+
         $this->patches = array_values($patches);
     }
 
     /**
      * Creates a non-empty PolyhedralSurface composed of the given patches.
      *
-     * @psalm-suppress UnsafeInstantiation
-     *
      * @param Polygon    $patch1 The first patch.
      * @param Polygon ...$patchN The subsequent patches, if any.
      *
      * @throws CoordinateSystemException If the patches use different coordinate systems.
+     *
+     * @psalm-suppress UnsafeGenericInstantiation Not sure how to fix this.
      */
-    public static function of(Polygon $patch1, Polygon ...$patchN) : PolyhedralSurface
+    public static function of(Polygon $patch1, Polygon ...$patchN) : static
     {
         return new static($patch1->coordinateSystem(), $patch1, ...$patchN);
+    }
+
+    /**
+     * Returns the FQCN of the contained patch type.
+     *
+     * @psalm-return class-string<T>
+     */
+    protected function patchType() : string
+    {
+        return Polygon::class;
     }
 
     public function numPatches() : int
@@ -88,6 +118,8 @@ class PolyhedralSurface extends Surface
      * Returns the specified patch N in this PolyhedralSurface.
      *
      * @param int $n The patch number, 1-based.
+     *
+     * @return T
      *
      * @throws NoSuchGeometryException If there is no patch at this index.
      */
@@ -103,7 +135,7 @@ class PolyhedralSurface extends Surface
     /**
      * Returns the patches that compose this PolyhedralSurface.
      *
-     * @psalm-return list<Polygon>
+     * @psalm-return list<T>
      *
      * @return Polygon[]
      */
@@ -148,10 +180,13 @@ class PolyhedralSurface extends Surface
         return $result;
     }
 
+    /**
+     * @psalm-suppress UnsafeGenericInstantiation Not sure how to fix this.
+     */
     #[Override]
-    public function project(Projector $projector): PolyhedralSurface
+    public function project(Projector $projector): static
     {
-        return new PolyhedralSurface(
+        return new static(
             $projector->getTargetCoordinateSystem($this->coordinateSystem),
             ...array_map(
                 fn (Polygon $patch) => $patch->project($projector),
@@ -176,7 +211,7 @@ class PolyhedralSurface extends Surface
      *
      * Required by interface IteratorAggregate.
      *
-     * @psalm-return ArrayIterator<int, Polygon>
+     * @psalm-return ArrayIterator<int<0, max>, T>
      */
     #[Override]
     public function getIterator() : ArrayIterator
@@ -187,9 +222,9 @@ class PolyhedralSurface extends Surface
     /**
      * Returns a copy of this PolyhedralSurface, with the given patches added.
      *
-     * @psalm-suppress UnsafeInstantiation
+     * @psalm-suppress UnsafeGenericInstantiation Not sure how to fix this.
      */
-    public function withAddedPatches(Polygon ...$patches) : PolyhedralSurface
+    public function withAddedPatches(Polygon ...$patches) : static
     {
         return new static($this->coordinateSystem, ...$this->patches, ...$patches);
     }

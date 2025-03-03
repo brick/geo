@@ -13,20 +13,19 @@ use Override;
  */
 final class Triangle extends Polygon
 {
-    public function __construct(CoordinateSystem $cs, LineString ...$rings)
+    #[Override]
+    protected function validate(): void
     {
-        parent::__construct($cs, ...$rings);
-
         if ($this->isEmpty) {
             return;
         }
 
         if ($this->exteriorRing()->numPoints() !== 4) {
-            throw new InvalidGeometryException('A triangle must have exactly 4 (3 + 1) points.');
+            throw new InvalidGeometryException('A Triangle must have exactly 4 (3 + first again) points.');
         }
 
         if ($this->numInteriorRings() !== 0) {
-            throw new InvalidGeometryException('A triangle must not have interior rings.');
+            throw new InvalidGeometryException('A Triangle must not have interior rings.');
         }
     }
 
@@ -40,17 +39,5 @@ final class Triangle extends Polygon
     public function geometryTypeBinary() : int
     {
         return Geometry::TRIANGLE;
-    }
-
-    #[Override]
-    public function project(Projector $projector): Triangle
-    {
-        return new Triangle(
-            $projector->getTargetCoordinateSystem($this->coordinateSystem),
-            ...array_map(
-                fn (LineString $ring) => $ring->project($projector),
-                $this->rings,
-            ),
-        );
     }
 }

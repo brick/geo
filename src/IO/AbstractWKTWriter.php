@@ -106,6 +106,7 @@ abstract class AbstractWKTWriter
         } elseif ($geometry instanceof GeometryCollection) {
             $data = $this->writeGeometryCollection($geometry);
         } elseif ($geometry instanceof TIN) {
+            /** @psalm-suppress InvalidArgument Not sure how to fix this. */
             $data = $this->writePolyhedralSurface($geometry);
         } elseif ($geometry instanceof PolyhedralSurface) {
             $data = $this->writePolyhedralSurface($geometry);

@@ -62,9 +62,9 @@ final class CurvePolygon extends Surface
      *
      * @throws CoordinateSystemException If the rings use different coordinate systems.
      */
-    public static function of(Curve $exteriorRing, Curve ...$interiorRings) :  CurvePolygon
+    public static function of(Curve $exteriorRing, Curve ...$interiorRings) : CurvePolygon
     {
-        return new static($exteriorRing->coordinateSystem(), $exteriorRing, ...$interiorRings);
+        return new CurvePolygon($exteriorRing->coordinateSystem(), $exteriorRing, ...$interiorRings);
     }
 
     /**
@@ -156,7 +156,7 @@ final class CurvePolygon extends Surface
     }
 
     #[Override]
-    public function project(Projector $projector): CurvePolygon
+    public function project(Projector $projector): static
     {
         return new CurvePolygon(
             $projector->getTargetCoordinateSystem($this->coordinateSystem),

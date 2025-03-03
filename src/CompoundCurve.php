@@ -177,7 +177,7 @@ final class CompoundCurve extends Curve
     }
 
     #[Override]
-    public function project(Projector $projector): CompoundCurve
+    public function project(Projector $projector): static
     {
         return new CompoundCurve(
             $projector->getTargetCoordinateSystem($this->coordinateSystem),
