@@ -1,5 +1,11 @@
 # Changelog
 
+## UNRELEASED
+
+🐛 **Bug fixes**
+
+- The error mode of the PDO connection in `PDOEngine` could be left modified when an exception occurs
+
 ## [0.11.4](https://github.com/brick/geo/releases/tag/0.11.4) - 2025-03-03
 
 🐛 **Bug fixes**
