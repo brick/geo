@@ -85,9 +85,9 @@ final class PDOEngine extends DatabaseEngine
             }
 
             throw $e;
+        } finally {
+            $this->pdo->setAttribute(PDO::ATTR_ERRMODE, $errMode);
         }
-
-        $this->pdo->setAttribute(PDO::ATTR_ERRMODE, $errMode);
 
         assert($result !== false);
 
