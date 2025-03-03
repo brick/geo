@@ -66,37 +66,9 @@
     </MixedReturnStatement>
   </file>
   <file src="src/Geometry.php">
-    <LessSpecificReturnStatement>
-      <code><![CDATA[$this->project(new RemoveZMProjector(removeM: true))]]></code>
-      <code><![CDATA[$this->project(new RemoveZMProjector(removeZ: true))]]></code>
-      <code><![CDATA[$this->project(new RemoveZMProjector(removeZ: true, removeM: true))]]></code>
-      <code><![CDATA[$this->project(new SRIDProjector($srid))]]></code>
-      <code><![CDATA[$this->project(new SwapXYProjector())]]></code>
-    </LessSpecificReturnStatement>
     <MissingTemplateParam>
       <code><![CDATA[\IteratorAggregate]]></code>
     </MissingTemplateParam>
-    <MoreSpecificReturnType>
-      <code><![CDATA[static]]></code>
-      <code><![CDATA[static]]></code>
-      <code><![CDATA[static]]></code>
-      <code><![CDATA[static]]></code>
-      <code><![CDATA[static]]></code>
-    </MoreSpecificReturnType>
-  </file>
-  <file src="src/GeometryCollection.php">
-    <DocblockTypeContradiction>
-      <code><![CDATA[$geometry instanceof $containedGeometryType]]></code>
-    </DocblockTypeContradiction>
-    <InvalidReturnStatement>
-      <code><![CDATA[new ArrayIterator($this->geometries)]]></code>
-    </InvalidReturnStatement>
-    <InvalidReturnType>
-      <code><![CDATA[ArrayIterator<int, T>]]></code>
-    </InvalidReturnType>
-    <MixedArgument>
-      <code><![CDATA[$geometry::class]]></code>
-    </MixedArgument>
   </file>
   <file src="src/IO/EWKTParser.php">
     <InvalidClassConstantType>
@@ -140,14 +112,6 @@
     </InvalidReturnStatement>
     <InvalidReturnType>
       <code><![CDATA[ArrayIterator<int, LineString>]]></code>
-    </InvalidReturnType>
-  </file>
-  <file src="src/PolyhedralSurface.php">
-    <InvalidReturnStatement>
-      <code><![CDATA[new ArrayIterator($this->patches)]]></code>
-    </InvalidReturnStatement>
-    <InvalidReturnType>
-      <code><![CDATA[ArrayIterator<int, Polygon>]]></code>
     </InvalidReturnType>
   </file>
   <file src="src/Projector/SwapXYProjector.php">

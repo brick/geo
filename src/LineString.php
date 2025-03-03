@@ -204,7 +204,7 @@ final class LineString extends Curve
     }
 
     #[Override]
-    public function project(Projector $projector): LineString
+    public function project(Projector $projector): static
     {
         return new LineString(
             $projector->getTargetCoordinateSystem($this->coordinateSystem),

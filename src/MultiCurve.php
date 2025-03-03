@@ -4,10 +4,6 @@ declare(strict_types=1);
 
 namespace Brick\Geo;
 
-use Brick\Geo\Projector\Projector;
-use Exception;
-use Override;
-
 /**
  * A MultiCurve is a 1-dimensional GeometryCollection whose elements are Curves.
  *
@@ -29,14 +25,4 @@ use Override;
  */
 abstract class MultiCurve extends GeometryCollection
 {
-    #[Override]
-    public function project(Projector $projector): MultiCurve
-    {
-        throw new Exception(
-            'This exception should never be thrown. ' .
-            'This method is here to ensure that MultiCurve::project() has the correct return type, ' .
-            'and force concrete classes below MultiCurve to return a MultiCurve, too. ' .
-            'It cannot be made abstract because GeometryCollection::project() is not abstract.'
-        );
-    }
 }
