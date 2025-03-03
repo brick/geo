@@ -281,7 +281,7 @@ final class Point extends Geometry
      *
      * Required by interface IteratorAggregate.
      *
-     * @psalm-return ArrayIterator<int, float>
+     * @psalm-return ArrayIterator<int<0, max>, float>
      */
     #[Override]
     public function getIterator() : ArrayIterator
