@@ -20,7 +20,7 @@ final class WKTReader extends AbstractWKTReader
      */
     public function read(string $wkt, int $srid = 0) : Geometry
     {
-        $parser = new WKTParser(strtoupper($wkt));
+        $parser = new WKTParser(strtoupper($wkt), false);
         $geometry = $this->readGeometry($parser, $srid);
 
         if (! $parser->isEndOfStream()) {

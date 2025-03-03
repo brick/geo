@@ -21,10 +21,4 @@
       <code><![CDATA[static]]></code>
     </MoreSpecificReturnType>
   </file>
-  <file src="src/IO/EWKTParser.php">
-    <InvalidClassConstantType>
-      <code><![CDATA[T_NUMBER]]></code>
-      <code><![CDATA[T_WORD]]></code>
-    </InvalidClassConstantType>
-  </file>
 </files>

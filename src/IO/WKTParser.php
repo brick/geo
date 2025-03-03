@@ -7,53 +7,64 @@ namespace Brick\Geo\IO;
 use Brick\Geo\Exception\GeometryIOException;
 
 /**
- * Well-Known Text parser.
+ * Well-Known Text parser, with support for EWKT.
  *
  * @internal
  */
-class WKTParser
+final class WKTParser
 {
-    protected const T_WORD   = 1;
-    protected const T_NUMBER = 2;
-
-    protected const REGEX_WORD   = '([a-z]+)';
-    protected const REGEX_NUMBER = '(\-?[0-9]+(?:\.[0-9]+)?(?:e[\+\-]?[0-9]+)?)';
+    private const string REGEX_CAPTURE_WORD   = '([a-z]+)';
+    private const string REGEX_CAPTURE_NUMBER = '(\-?[0-9]+(?:\.[0-9]+)?(?:e[\+\-]?[0-9]+)?)';
+    private const string REGEX_WHITESPACE = '\s+';
+    private const string REGEX_CAPTURE_OTHER = '(.+?)';
+    private const string REGEX_CAPTURE_SRID = 'SRID\=([0-9]+)\s*;'; // EWKT
 
     /**
      * The list of tokens.
      *
-     * @var list<array{int, string}>
+     * The first element of each token is the token type, the second element is the token value.
+     *
+     * @var list<array{WKTTokenType, string}>
      */
-    protected array $tokens = [];
+    private array $tokens = [];
 
     /**
      * The current token pointer.
      */
-    protected int $current = 0;
+    private int $current = 0;
 
-    public function __construct(string $wkt)
-    {
+    public function __construct(
+        string $wkt,
+        private bool $ewkt = false,
+    ) {
         $this->scan($wkt);
-    }
-
-    /**
-     * @return array<static::T_*, string>
-     */
-    protected function getRegex() : array
-    {
-        return [
-            self::T_WORD   => self::REGEX_WORD,
-            self::T_NUMBER => self::REGEX_NUMBER,
-        ];
     }
 
     private function scan(string $wkt) : void
     {
-        $regex = $this->getRegex();
-        $regex[] = '\s+';
-        $regex[] = '(.+?)';
+        $regexPatterns = [
+            self::REGEX_CAPTURE_WORD,
+            self::REGEX_CAPTURE_NUMBER,
+            self::REGEX_WHITESPACE,
+            self::REGEX_CAPTURE_OTHER,
+        ];
 
-        $regex = '/' . implode('|', $regex) . '/i';
+        if ($this->ewkt) {
+            array_unshift($regexPatterns, self::REGEX_CAPTURE_SRID);
+        }
+
+        $matchKeyToType = $this->ewkt ? [
+            1 => WKTTokenType::SRID,
+            2 => WKTTokenType::Word,
+            3 => WKTTokenType::Number,
+            4 => WKTTokenType::Other,
+        ] : [
+            1 => WKTTokenType::Word,
+            2 => WKTTokenType::Number,
+            3 => WKTTokenType::Other,
+        ];
+
+        $regex = '/' . implode('|', $regexPatterns) . '/i';
 
         preg_match_all($regex, $wkt, $matches, PREG_SET_ORDER);
 
@@ -66,14 +77,14 @@ class WKTParser
                 }
 
                 if ($value !== '') {
-                    $this->tokens[] = [$key, $value];
+                    $this->tokens[] = [$matchKeyToType[$key], $value];
                 }
             }
         }
     }
 
     /**
-     * @return array{int, string}|null The next token, or null if there are no more tokens.
+     * @return array{WKTTokenType, string}|null The next token, or null if there are no more tokens.
      */
     private function peekToken(): ?array
     {
@@ -81,7 +92,7 @@ class WKTParser
     }
 
     /**
-     * @return array{int, string}|null The next token, or null if there are no more tokens.
+     * @return array{WKTTokenType, string}|null The next token, or null if there are no more tokens.
      */
     private function nextToken() : ?array
     {
@@ -136,7 +147,7 @@ class WKTParser
         if ($token === null) {
             throw new GeometryIOException("Expected word but encountered end of stream");
         }
-        if ($token[0] !== static::T_WORD) {
+        if ($token[0] !== WKTTokenType::Word) {
             throw new GeometryIOException("Expected word but encountered '" . $token[1] . "'");
         }
 
@@ -154,7 +165,7 @@ class WKTParser
             return null;
         }
 
-        if ($token[0] !== static::T_WORD) {
+        if ($token[0] !== WKTTokenType::Word) {
             return null;
         }
 
@@ -195,7 +206,7 @@ class WKTParser
             return true;
         }
 
-        if ($token[0] === static::T_WORD) {
+        if ($token[0] === WKTTokenType::Word) {
             return false;
         }
 
@@ -213,7 +224,7 @@ class WKTParser
             throw new GeometryIOException("Expected number but encountered end of stream");
         }
 
-        if ($token[0] !== static::T_NUMBER) {
+        if ($token[0] !== WKTTokenType::Number) {
             throw new GeometryIOException("Expected number but encountered '" . $token[1] . "'");
         }
 
@@ -235,6 +246,23 @@ class WKTParser
         }
 
         return $token[1];
+    }
+
+    public function getOptionalSRID() : int
+    {
+        $token = $this->tokens[$this->current] ?? null;
+
+        if ($token === null) {
+            return 0;
+        }
+
+        if ($token[0] !== WKTTokenType::SRID) {
+            return 0;
+        }
+
+        $this->current++;
+
+        return (int) $token[1];
     }
 
     public function isEndOfStream() : bool
