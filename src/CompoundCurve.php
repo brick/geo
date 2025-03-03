@@ -86,7 +86,7 @@ class CompoundCurve extends Curve implements \Countable, \IteratorAggregate
     #[Override]
     public function startPoint() : Point
     {
-        if ($this->isEmpty) {
+        if (count($this->curves) === 0) {
             throw new EmptyGeometryException('The CompoundCurve is empty and has no start point.');
         }
 
@@ -96,11 +96,11 @@ class CompoundCurve extends Curve implements \Countable, \IteratorAggregate
     #[Override]
     public function endPoint() : Point
     {
-        if ($this->isEmpty) {
+        $count = count($this->curves);
+
+        if ($count === 0) {
             throw new EmptyGeometryException('The CompoundCurve is empty and has no end point.');
         }
-
-        $count = count($this->curves);
 
         return $this->curves[$count - 1]->endPoint();
     }

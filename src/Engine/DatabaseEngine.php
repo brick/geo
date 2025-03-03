@@ -42,7 +42,7 @@ abstract class DatabaseEngine implements GeometryEngine
      * @param string $query      The SQL query to execute.
      * @param array  $parameters The geometry data or scalar values to pass as parameters.
      *
-     * @return array A numeric result array.
+     * @return list<mixed> A numeric result array.
      *
      * @throws GeometryEngineException
      */
@@ -142,15 +142,18 @@ abstract class DatabaseEngine implements GeometryEngine
      */
     private function queryBoolean(string $function, Geometry|string|float|int ...$parameters) : bool
     {
-        [$result] = $this->query($function, $parameters, false);
+        /** @var array{scalar|null} $result */
+        $result = $this->query($function, $parameters, false);
+
+        $value = $result[0];
 
         // SQLite3 returns -1 when calling a boolean GIS function on a NULL result,
         // MariaDB returns -1 when an unsupported operation is performed on a Z/M geometry.
-        if ($result === null || $result === -1 || $result === '-1') {
+        if ($value === null || $value === -1 || $value === '-1') {
             throw GeometryEngineException::operationYieldedNoResult();
         }
 
-        return (bool) $result;
+        return (bool) $value;
     }
 
     /**
@@ -163,13 +166,16 @@ abstract class DatabaseEngine implements GeometryEngine
      */
     private function queryFloat(string $function, Geometry|string|float|int ...$parameters) : float
     {
-        [$result] = $this->query($function, $parameters, false);
+        /** @var array{scalar|null} $result */
+        $result = $this->query($function, $parameters, false);
 
-        if ($result === null) {
+        $value = $result[0];
+
+        if ($value === null) {
             throw GeometryEngineException::operationYieldedNoResult();
         }
 
-        return (float) $result;
+        return (float) $value;
     }
 
     /**
@@ -247,7 +253,9 @@ abstract class DatabaseEngine implements GeometryEngine
 
         $geometryType = strtoupper($geometryType);
         $geometryType = preg_replace('/^ST_/', '', $geometryType);
+        assert($geometryType !== null);
         $geometryType = preg_replace('/ .*/', '', $geometryType);
+        assert($geometryType !== null);
 
         if (! isset($proxyClasses[$geometryType])) {
             throw new GeometryEngineException('Unknown geometry type: ' . $geometryType);

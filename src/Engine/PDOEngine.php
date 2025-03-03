@@ -73,6 +73,7 @@ final class PDOEngine extends DatabaseEngine
 
             $statement->execute();
 
+            /** @var list<mixed>|false $result */
             $result = $statement->fetch(PDO::FETCH_NUM);
         } catch (PDOException $e) {
             $errorClass = substr((string) $e->getCode(), 0, 2);

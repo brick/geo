@@ -76,7 +76,7 @@ class CircularString extends Curve implements \Countable, \IteratorAggregate
     #[Override]
     public function startPoint() : Point
     {
-        if ($this->isEmpty) {
+        if (count($this->points) === 0) {
             throw new EmptyGeometryException('The CircularString is empty and has no start point.');
         }
 
@@ -86,11 +86,13 @@ class CircularString extends Curve implements \Countable, \IteratorAggregate
     #[Override]
     public function endPoint() : Point
     {
-        if ($this->isEmpty) {
+        $count = count($this->points);
+
+        if ($count === 0) {
             throw new EmptyGeometryException('The CircularString is empty and has no end point.');
         }
 
-        return end($this->points);
+        return $this->points[$count - 1];
     }
 
     /**
