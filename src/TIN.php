@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Brick\Geo;
 
-use Brick\Geo\Exception\UnexpectedGeometryException;
-use Brick\Geo\Projector\Projector;
 use Override;
 
 /**
@@ -31,17 +29,5 @@ final class TIN extends PolyhedralSurface
     public function geometryTypeBinary() : int
     {
         return Geometry::TIN;
-    }
-
-    #[Override]
-    public function project(Projector $projector): TIN
-    {
-        return new TIN(
-            $projector->getTargetCoordinateSystem($this->coordinateSystem),
-            ...array_map(
-                fn (Polygon $patch) => $patch->project($projector),
-                $this->patches,
-            ),
-        );
     }
 }

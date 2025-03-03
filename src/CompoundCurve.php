@@ -172,7 +172,7 @@ final class CompoundCurve extends Curve implements \Countable, \IteratorAggregat
     }
 
     #[Override]
-    public function project(Projector $projector): CompoundCurve
+    public function project(Projector $projector): static
     {
         return new CompoundCurve(
             $projector->getTargetCoordinateSystem($this->coordinateSystem),

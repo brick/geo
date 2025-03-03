@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Brick\Geo;
 
-use Brick\Geo\Projector\Projector;
 use Override;
 
 /**
@@ -62,17 +61,5 @@ final class MultiPolygon extends MultiSurface
     protected function containedGeometryType() : string
     {
         return Polygon::class;
-    }
-
-    #[Override]
-    public function project(Projector $projector): MultiPolygon
-    {
-        return new MultiPolygon(
-            $projector->getTargetCoordinateSystem($this->coordinateSystem),
-            ...array_map(
-                fn (Polygon $polygon) => $polygon->project($projector),
-                $this->geometries,
-            ),
-        );
     }
 }

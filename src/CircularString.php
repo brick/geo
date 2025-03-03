@@ -163,7 +163,7 @@ final class CircularString extends Curve implements \Countable, \IteratorAggrega
     }
 
     #[Override]
-    public function project(Projector $projector): CircularString
+    public function project(Projector $projector): static
     {
         return new CircularString(
             $projector->getTargetCoordinateSystem($this->coordinateSystem),

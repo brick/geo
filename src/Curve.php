@@ -37,7 +37,4 @@ abstract class Curve extends Geometry
      * @throws EmptyGeometryException If the curve is empty.
      */
     abstract public function endPoint() : Point;
-
-    #[Override]
-    abstract public function project(Projector $projector): Curve;
 }

@@ -53,7 +53,7 @@ class PolyhedralSurface extends Surface implements \Countable, \IteratorAggregat
      *
      * @throws CoordinateSystemException If different coordinate systems are used.
      */
-    public function __construct(CoordinateSystem $cs, Polygon ...$patches)
+    final public function __construct(CoordinateSystem $cs, Polygon ...$patches)
     {
         parent::__construct($cs, ! $patches);
 
@@ -86,14 +86,14 @@ class PolyhedralSurface extends Surface implements \Countable, \IteratorAggregat
     /**
      * Creates a non-empty PolyhedralSurface composed of the given patches.
      *
-     * @psalm-suppress UnsafeInstantiation
-     *
      * @param Polygon    $patch1 The first patch.
      * @param Polygon ...$patchN The subsequent patches, if any.
      *
      * @throws CoordinateSystemException If the patches use different coordinate systems.
+     *
+     * @psalm-suppress UnsafeGenericInstantiation Not sure how to fix this.
      */
-    public static function of(Polygon $patch1, Polygon ...$patchN) : PolyhedralSurface
+    public static function of(Polygon $patch1, Polygon ...$patchN) : static
     {
         return new static($patch1->coordinateSystem(), $patch1, ...$patchN);
     }
@@ -175,10 +175,13 @@ class PolyhedralSurface extends Surface implements \Countable, \IteratorAggregat
         );
     }
 
+    /**
+     * @psalm-suppress UnsafeGenericInstantiation Not sure how to fix this.
+     */
     #[Override]
-    public function project(Projector $projector): PolyhedralSurface
+    public function project(Projector $projector): static
     {
-        return new PolyhedralSurface(
+        return new static(
             $projector->getTargetCoordinateSystem($this->coordinateSystem),
             ...array_map(
                 fn (Polygon $patch) => $patch->project($projector),
@@ -210,9 +213,9 @@ class PolyhedralSurface extends Surface implements \Countable, \IteratorAggregat
     /**
      * Returns a copy of this PolyhedralSurface, with the given patches added.
      *
-     * @psalm-suppress UnsafeInstantiation
+     * @psalm-suppress UnsafeGenericInstantiation Not sure how to fix this.
      */
-    public function withAddedPatches(Polygon ...$patches) : PolyhedralSurface
+    public function withAddedPatches(Polygon ...$patches) : static
     {
         return new static($this->coordinateSystem, ...$this->patches, ...$patches);
     }

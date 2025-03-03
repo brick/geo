@@ -45,7 +45,7 @@ class GeometryCollection extends Geometry implements \Countable, \IteratorAggreg
      * @throws CoordinateSystemException   If different coordinate systems are used.
      * @throws UnexpectedGeometryException If a geometry is not a valid type for a subclass of GeometryCollection.
      */
-    public function __construct(CoordinateSystem $cs, Geometry ...$geometries)
+    final public function __construct(CoordinateSystem $cs, Geometry ...$geometries)
     {
         $isEmpty = true;
 
@@ -87,17 +87,15 @@ class GeometryCollection extends Geometry implements \Countable, \IteratorAggreg
     /**
      * Creates a non-empty GeometryCollection composed of the given geometries.
      *
-     * @psalm-suppress UnsafeInstantiation
-     *
      * @param Geometry    $geometry1 The first geometry.
      * @param Geometry ...$geometryN The subsequent geometries, if any.
      *
-     * @return static
-     *
      * @throws CoordinateSystemException   If the geometries use different coordinate systems.
      * @throws UnexpectedGeometryException If a geometry is not a valid type for a subclass of GeometryCollection.
+     *
+     * @psalm-suppress UnsafeGenericInstantiation Not sure how to fix this.
      */
-    public static function of(Geometry $geometry1, Geometry ...$geometryN) : GeometryCollection
+    public static function of(Geometry $geometry1, Geometry ...$geometryN) : static
     {
         return new static($geometry1->coordinateSystem(), $geometry1, ...$geometryN);
     }
@@ -187,10 +185,13 @@ class GeometryCollection extends Geometry implements \Countable, \IteratorAggreg
         );
     }
 
+    /**
+     * @psalm-suppress UnsafeGenericInstantiation Not sure how to fix this.
+     */
     #[Override]
-    public function project(Projector $projector): GeometryCollection
+    public function project(Projector $projector): static
     {
-        return new GeometryCollection(
+        return new static(
             $projector->getTargetCoordinateSystem($this->coordinateSystem),
             ...array_map(
                 fn (Geometry $geometry) => $geometry->project($projector),
@@ -232,13 +233,11 @@ class GeometryCollection extends Geometry implements \Countable, \IteratorAggreg
     /**
      * Returns a copy of this GeometryCollection, with the given geometries added.
      *
-     * @psalm-suppress UnsafeInstantiation
-     *
      * @param T ...$geometries
      *
-     * @return GeometryCollection<T>
+     * @psalm-suppress UnsafeGenericInstantiation Not sure how to fix this.
      */
-    public function withAddedGeometries(Geometry ...$geometries): GeometryCollection
+    public function withAddedGeometries(Geometry ...$geometries): static
     {
         return new static($this->coordinateSystem, ...$this->geometries, ...$geometries);
     }

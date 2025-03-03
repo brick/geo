@@ -205,7 +205,7 @@ final class LineString extends Curve implements \Countable, \IteratorAggregate
     }
 
     #[Override]
-    public function project(Projector $projector): LineString
+    public function project(Projector $projector): static
     {
         return new LineString(
             $projector->getTargetCoordinateSystem($this->coordinateSystem),

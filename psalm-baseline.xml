@@ -1,21 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <files psalm-version="6.8.8@1361cd33008feb3ae2b4a93f1860e14e538ec8c2">
-  <file src="src/Geometry.php">
-    <LessSpecificReturnStatement>
-      <code><![CDATA[$this->project(new RemoveZMProjector(removeM: true))]]></code>
-      <code><![CDATA[$this->project(new RemoveZMProjector(removeZ: true))]]></code>
-      <code><![CDATA[$this->project(new RemoveZMProjector(removeZ: true, removeM: true))]]></code>
-      <code><![CDATA[$this->project(new SRIDProjector($srid))]]></code>
-      <code><![CDATA[$this->project(new SwapXYProjector())]]></code>
-    </LessSpecificReturnStatement>
-    <MoreSpecificReturnType>
-      <code><![CDATA[static]]></code>
-      <code><![CDATA[static]]></code>
-      <code><![CDATA[static]]></code>
-      <code><![CDATA[static]]></code>
-      <code><![CDATA[static]]></code>
-    </MoreSpecificReturnType>
-  </file>
   <file src="src/IO/EWKTParser.php">
     <InvalidClassConstantType>
       <code><![CDATA[T_NUMBER]]></code>

@@ -60,7 +60,7 @@ class Polygon extends Surface implements \Countable, \IteratorAggregate
      * @throws InvalidGeometryException  If the resulting geometry is not valid for a sub-type of Polygon.
      * @throws CoordinateSystemException If different coordinate systems are used.
      */
-    public function __construct(CoordinateSystem $cs, LineString ...$rings)
+    final public function __construct(CoordinateSystem $cs, LineString ...$rings)
     {
         parent::__construct($cs, ! $rings);
 
@@ -85,15 +85,13 @@ class Polygon extends Surface implements \Countable, \IteratorAggregate
     /**
      * Creates a non-empty Polygon composed of the given rings.
      *
-     * @psalm-suppress UnsafeInstantiation
-     *
      * @param LineString    $exteriorRing  The exterior ring.
      * @param LineString ...$interiorRings The interior rings, if any.
      *
-     * @throws InvalidGeometryException  If the resulting geometry is not valid for a sub-type of Polygon.
+     * @throws InvalidGeometryException  If the resulting geometry is not valid for a subtype of Polygon.
      * @throws CoordinateSystemException If the rings use different coordinate systems.
      */
-    public static function of(LineString $exteriorRing, LineString ...$interiorRings) : Polygon
+    public static function of(LineString $exteriorRing, LineString ...$interiorRings) : static
     {
         return new static($exteriorRing->coordinateSystem(), $exteriorRing, ...$interiorRings);
     }
@@ -197,9 +195,9 @@ class Polygon extends Surface implements \Countable, \IteratorAggregate
     }
 
     #[Override]
-    public function project(Projector $projector): Polygon
+    public function project(Projector $projector): static
     {
-        return new Polygon(
+        return new static(
             $projector->getTargetCoordinateSystem($this->coordinateSystem),
             ...array_map(
                 fn (LineString $ring) => $ring->project($projector),
@@ -230,30 +228,24 @@ class Polygon extends Surface implements \Countable, \IteratorAggregate
 
     /**
      * Returns a copy of this Polygon, with the exterior ring replaced with the given one.
-     *
-     * @psalm-suppress UnsafeInstantiation
      */
-    public function withExteriorRing(LineString $exteriorRing) : Polygon
+    public function withExteriorRing(LineString $exteriorRing) : static
     {
         return new static($this->coordinateSystem, $exteriorRing, ...$this->interiorRings());
     }
 
     /**
      * Returns a copy of this Polygon, with the interior rings replaced with the given ones.
-     *
-     * @psalm-suppress UnsafeInstantiation
      */
-    public function withInteriorRings(LineString ...$interiorRings) : Polygon
+    public function withInteriorRings(LineString ...$interiorRings) : static
     {
         return new static($this->coordinateSystem, $this->exteriorRing(), ...$interiorRings);
     }
 
     /**
      * Returns a copy of this Polygon, with the given interior rings added.
-     *
-     * @psalm-suppress UnsafeInstantiation
      */
-    public function withAddedInteriorRings(LineString ...$interiorRings) : Polygon
+    public function withAddedInteriorRings(LineString ...$interiorRings) : static
     {
         return new static($this->coordinateSystem, $this->exteriorRing(), ...$this->interiorRings(), ...$interiorRings);
     }
