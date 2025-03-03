@@ -118,14 +118,6 @@
       <code><![CDATA[T_WORD]]></code>
     </InvalidClassConstantType>
   </file>
-  <file src="src/IO/GeoJSONWriter.php">
-    <FalsableReturnStatement>
-      <code><![CDATA[json_encode($this->writeRaw($object), $this->prettyPrint ? JSON_PRETTY_PRINT : 0)]]></code>
-    </FalsableReturnStatement>
-    <InvalidFalsableReturnType>
-      <code><![CDATA[string]]></code>
-    </InvalidFalsableReturnType>
-  </file>
   <file src="src/LineString.php">
     <FalsableReturnStatement>
       <code><![CDATA[end($this->points)]]></code>

@@ -46,7 +46,13 @@ final class GeoJSONWriter
      */
     public function write(Geometry|Feature|FeatureCollection $object) : string
     {
-        return json_encode($this->writeRaw($object), $this->prettyPrint ? JSON_PRETTY_PRINT : 0);
+        $flags = JSON_THROW_ON_ERROR;
+
+        if ($this->prettyPrint) {
+            $flags |= JSON_PRETTY_PRINT;
+        }
+
+        return json_encode($this->writeRaw($object), $flags);
     }
 
     /**
