@@ -5,12 +5,6 @@
       <code><![CDATA[\IteratorAggregate]]></code>
     </MissingTemplateParam>
   </file>
-  <file src="src/IO/EWKTParser.php">
-    <InvalidClassConstantType>
-      <code><![CDATA[T_NUMBER]]></code>
-      <code><![CDATA[T_WORD]]></code>
-    </InvalidClassConstantType>
-  </file>
   <file src="src/IO/GeoJSONWriter.php">
     <FalsableReturnStatement>
       <code><![CDATA[json_encode($this->writeRaw($object), $this->prettyPrint ? JSON_PRETTY_PRINT : 0)]]></code>
