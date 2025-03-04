@@ -154,7 +154,7 @@ class CompoundCurveProxy extends CompoundCurve implements ProxyInterface
         return $this->proxyGeometry->numCurves();
     }
 
-    public function curveN(int $n): \Brick\Geo\Curve
+    public function curveN(int $n): \Brick\Geo\LineString|\Brick\Geo\CircularString
     {
         if ($this->proxyGeometry === null) {
             $this->load();
@@ -217,7 +217,7 @@ class CompoundCurveProxy extends CompoundCurve implements ProxyInterface
         return $this->proxyGeometry->getIterator();
     }
 
-    public function withAddedCurves(\Brick\Geo\Curve ...$curves): \Brick\Geo\CompoundCurve
+    public function withAddedCurves(\Brick\Geo\LineString|\Brick\Geo\CircularString ...$curves): \Brick\Geo\CompoundCurve
     {
         if ($this->proxyGeometry === null) {
             $this->load();

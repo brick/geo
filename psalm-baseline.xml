@@ -18,12 +18,6 @@
     <InvalidArrayOffset>
       <code><![CDATA[$this->curves[$count - 1]]]></code>
     </InvalidArrayOffset>
-    <InvalidReturnStatement>
-      <code><![CDATA[new ArrayIterator($this->curves)]]></code>
-    </InvalidReturnStatement>
-    <InvalidReturnType>
-      <code><![CDATA[ArrayIterator<int, Curve>]]></code>
-    </InvalidReturnType>
     <MixedMethodCall>
       <code><![CDATA[endPoint]]></code>
     </MixedMethodCall>

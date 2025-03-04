@@ -23,23 +23,21 @@ class CompoundCurve extends Curve
      *
      * This array can be empty.
      *
-     * @psalm-var list<Curve>
-     *
-     * @var Curve[]
+     * @var list<LineString|CircularString>
      */
     protected array $curves = [];
 
     /**
      * The coordinate system of each of the curves must match the one of the CompoundCurve.
      *
-     * @param CoordinateSystem $cs        The coordinate system of the CompoundCurve.
-     * @param Curve            ...$curves The curves that compose the CompoundCurve.
+     * @param CoordinateSystem             $cs     The coordinate system of the CompoundCurve.
+     * @param LineString|CircularString ...$curves The curves that compose the CompoundCurve.
      *
      * @throws EmptyGeometryException    If any of the input curves is empty.
      * @throws InvalidGeometryException  If the compound curve is not continuous.
      * @throws CoordinateSystemException If different coordinate systems are used.
      */
-    public function __construct(CoordinateSystem $cs, Curve ...$curves)
+    public function __construct(CoordinateSystem $cs, LineString|CircularString ...$curves)
     {
         parent::__construct($cs, ! $curves);
 
@@ -71,14 +69,14 @@ class CompoundCurve extends Curve
     /**
      * Creates a non-empty CompoundCurve composed of the given curves.
      *
-     * @param Curve    $curve1 The first curve.
-     * @param Curve ...$curveN The subsequent curves, if any.
+     * @param LineString|CircularString    $curve1 The first curve.
+     * @param LineString|CircularString ...$curveN The subsequent curves, if any.
      *
      * @throws EmptyGeometryException    If any of the input curves is empty.
      * @throws InvalidGeometryException  If the compound curve is not continuous.
      * @throws CoordinateSystemException If the curves use different coordinate systems.
      */
-    public static function of(Curve $curve1, Curve ...$curveN) : CompoundCurve
+    public static function of(LineString|CircularString $curve1, LineString|CircularString ...$curveN) : CompoundCurve
     {
         return new CompoundCurve($curve1->coordinateSystem(), $curve1, ...$curveN);
     }
@@ -120,7 +118,7 @@ class CompoundCurve extends Curve
      *
      * @throws NoSuchGeometryException If there is no Curve at this index.
      */
-    public function curveN(int $n) : Curve
+    public function curveN(int $n) : LineString|CircularString
     {
         if (! isset($this->curves[$n - 1])) {
             throw new NoSuchGeometryException('There is no Curve in this CompoundCurve at index ' . $n);
@@ -132,9 +130,7 @@ class CompoundCurve extends Curve
     /**
      * Returns the curves that compose this CompoundCurve.
      *
-     * @psalm-return list<Curve>
-     *
-     * @return Curve[]
+     * @return list<LineString|CircularString>
      */
     public function curves() : array
     {
@@ -202,7 +198,7 @@ class CompoundCurve extends Curve
      *
      * Required by interface IteratorAggregate.
      *
-     * @psalm-return ArrayIterator<int, Curve>
+     * @psalm-return ArrayIterator<int<0, max>, LineString|CircularString>
      */
     #[Override]
     public function getIterator() : ArrayIterator
@@ -213,7 +209,7 @@ class CompoundCurve extends Curve
     /**
      * Returns a copy of this CompoundCurve, with the given curves added.
      */
-    public function withAddedCurves(Curve ...$curves): CompoundCurve
+    public function withAddedCurves(LineString|CircularString ...$curves): CompoundCurve
     {
         return new CompoundCurve($this->coordinateSystem, ...$this->curves, ...$curves);
     }

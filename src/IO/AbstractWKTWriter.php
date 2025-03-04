@@ -166,11 +166,11 @@ abstract class AbstractWKTWriter
 
         foreach ($compoundCurve as $curve) {
             if ($curve instanceof LineString) {
+                // LineString does not need the LINESTRING keyword
                 $result[] = '(' . $this->writeLineString($curve). ')';
-            } elseif ($curve instanceof CircularString) {
-                $result[] = $this->doWrite($curve);
             } else {
-                throw new GeometryIOException('Only LineString and CircularString are allowed in CompoundCurve WKT.');
+                // CircularString needs the CIRCULARSTRING keyword
+                $result[] = $this->doWrite($curve);
             }
         }
 

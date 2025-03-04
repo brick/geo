@@ -6,6 +6,7 @@
 
 - Interface `GeometryEngine` has 2 new methods: `lineInterpolatePoint()`, `lineInterpolatePoints()`
 - `BoundingBox`'s constructor is now private, use `BoundingBox::new()` to create a new instance
+- `CompoundCurve` can now only contain `LineString` and `CircularString` instances; nested `CompoundCurve` instances are forbidden
 - The following classes are now `final`:
   - `BoundingBox`
   - `CoordinateSystem`
