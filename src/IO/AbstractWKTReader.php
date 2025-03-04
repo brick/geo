@@ -241,8 +241,8 @@ abstract class AbstractWKTReader
             } else {
                 $curve = $this->readGeometry($parser, $cs->SRID());
 
-                if (! $curve instanceof Curve) {
-                    throw new GeometryIOException('Expected Curve, got ' . $curve->geometryType());
+                if (! $curve instanceof LineString && ! $curve instanceof CircularString) {
+                    throw new GeometryIOException('Expected LineString|CircularString, got ' . $curve->geometryType());
                 }
 
                 $curves[] = $curve;
