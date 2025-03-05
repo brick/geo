@@ -19,6 +19,18 @@ use Override;
  */
 final class MultiPoint extends GeometryCollection
 {
+    /**
+     * @return list<list<float>>
+     */
+    #[Override]
+    public function toArray() : array
+    {
+        return array_map(
+            fn(Point $point) => $point->toArray(),
+            $this->geometries,
+        );
+    }
+
     #[Override]
     public function geometryType() : string
     {

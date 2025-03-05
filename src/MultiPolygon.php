@@ -27,6 +27,18 @@ use Override;
  */
 final class MultiPolygon extends MultiSurface
 {
+    /**
+     * @return list<list<list<list<float>>>>
+     */
+    #[Override]
+    public function toArray() : array
+    {
+        return array_map(
+            fn(Polygon $polygon) => $polygon->toArray(),
+            $this->geometries,
+        );
+    }
+
     #[Override]
     public function geometryType() : string
     {

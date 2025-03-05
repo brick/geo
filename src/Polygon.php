@@ -184,6 +184,9 @@ class Polygon extends Surface
         return $boundingBox;
     }
 
+    /**
+     * @return list<list<list<float>>>
+     */
     #[Override]
     public function toArray() : array
     {

@@ -160,6 +160,9 @@ final class CompoundCurve extends Curve
         return $boundingBox;
     }
 
+    /**
+     * @return list<list<list<float>>>
+     */
     #[Override]
     public function toArray() : array
     {

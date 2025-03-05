@@ -194,6 +194,9 @@ final class LineString extends Curve
         return $boundingBox;
     }
 
+    /**
+     * @return list<list<float>>
+     */
     #[Override]
     public function toArray() : array
     {

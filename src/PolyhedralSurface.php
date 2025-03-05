@@ -168,6 +168,9 @@ class PolyhedralSurface extends Surface
         return $boundingBox;
     }
 
+    /**
+     * @return list<list<list<list<float>>>>
+     */
     #[Override]
     public function toArray() : array
     {

@@ -230,9 +230,7 @@ final class Point extends Geometry
     }
 
     /**
-     * @psalm-return list<float>
-     *
-     * @return float[]
+     * @return list<float>
      */
     #[Override]
     public function toArray() : array
