@@ -18,11 +18,11 @@ final class Cloner
      * @psalm-suppress InvalidReturnType
      * @psalm-suppress InvalidReturnStatement
      *
-     * @psalm-template T
+     * @template T
      *
-     * @psalm-param T $variable
+     * @param T $variable
      *
-     * @psalm-return T
+     * @return T
      *
      * @throws InvalidArgumentException
      */

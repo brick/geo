@@ -31,7 +31,7 @@ function GEOSVersion(): string {}
  *      Edges which form rings which are invalid
  *      (e.g. the component lines contain a self-intersection)
  *
- * @psalm-return array{rings: GEOSGeometry[], cut_edges?: GEOSGeometry[], dangles: GEOSGeometry[], invalid_rings: GEOSGeometry[]}
+ * @return array{rings: GEOSGeometry[], cut_edges?: GEOSGeometry[], dangles: GEOSGeometry[], invalid_rings: GEOSGeometry[]}
  */
 function GEOSPolygonize(GEOSGeometry $geom): array {}
 

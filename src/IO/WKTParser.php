@@ -22,7 +22,7 @@ final class WKTParser
      *
      * The first element of each token is the token type, the second element is the token value.
      *
-     * @psalm-var list<array{WKTTokenType, string}>
+     * @var list<array{WKTTokenType, string}>
      */
     private array $tokens = [];
 
@@ -82,9 +82,7 @@ final class WKTParser
     }
 
     /**
-     * @psalm-return array{WKTTokenType, string}|null
-     *
-     * @return array|null The next token, or null if there are no more tokens.
+     * @return array{WKTTokenType, string}|null The next token, or null if there are no more tokens.
      */
     private function nextToken() : ?array
     {
