@@ -38,6 +38,10 @@
 
 - New engine methods: `GeometryEngine::lineInterpolatePoint()`, `lineInterpolatePoints()` (#55 by @arminwinkt)
 
+✨ **Improvements**
+
+- Improved documentation and return types for `Geometry::toArray()` methods
+
 ## [0.11.5](https://github.com/brick/geo/releases/tag/0.11.5) - 2025-03-06
 
 🐛 **Bug fixes**

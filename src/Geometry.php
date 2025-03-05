@@ -319,6 +319,17 @@ abstract class Geometry implements \Countable, \IteratorAggregate, \Stringable
 
     /**
      * Returns the raw coordinates of this geometry as an array.
+     *
+     * This returns potentially nested lists of floats.
+     *
+     * Examples:
+     * - a Point will return list<float>
+     * - a LineString will return list<list<float>>
+     * - a Polygon will return list<list<list<float>>>
+     *
+     * Subclasses will narrow down the return type as appropriate.
+     *
+     * @return list<mixed>
      */
     abstract public function toArray() : array;
 

@@ -127,6 +127,15 @@ class MultiLineStringProxy extends MultiLineString implements ProxyInterface
     }
 
 
+    public function toArray(): array
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->toArray();
+    }
+
     public function dimension(): int
     {
         if ($this->proxyGeometry === null) {
@@ -179,15 +188,6 @@ class MultiLineStringProxy extends MultiLineString implements ProxyInterface
         }
 
         return $this->proxyGeometry->getBoundingBox();
-    }
-
-    public function toArray(): array
-    {
-        if ($this->proxyGeometry === null) {
-            $this->load();
-        }
-
-        return $this->proxyGeometry->toArray();
     }
 
     public function count(): int
