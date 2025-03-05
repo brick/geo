@@ -23,7 +23,7 @@ class WktReaderTest extends WktAbstractTestCase
     #[DataProvider('providerRead')]
     public function testRead(string $wkt, array $coords, bool $is3D, bool $isMeasured, int $srid) : void
     {
-        $geometry = (new WktReader())->read($wkt, $srid);
+        $geometry = new WktReader()->read($wkt, $srid);
         $this->assertGeometryContents($geometry, $coords, $is3D, $isMeasured, $srid);
     }
 

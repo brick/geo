@@ -24,7 +24,7 @@ class GeoJsonReaderTest extends GeoJsonAbstractTestCase
     #[DataProvider('providerReadGeometry')]
     public function testReadGeometry(string $geoJson, array $coords, bool $is3D, bool $lenient) : void
     {
-        $geometry = (new GeoJsonReader($lenient))->read($geoJson);
+        $geometry = new GeoJsonReader($lenient)->read($geoJson);
         $this->assertGeometryContents($geometry, $coords, $is3D, false, 4326);
     }
 
@@ -46,7 +46,7 @@ class GeoJsonReaderTest extends GeoJsonAbstractTestCase
     #[DataProvider('providerReadFeature')]
     public function testReadFeature(string $geoJson, ?stdClass $properties, ?array $coords, bool $is3D, bool $lenient) : void
     {
-        $feature = (new GeoJsonReader($lenient))->read($geoJson);
+        $feature = new GeoJsonReader($lenient)->read($geoJson);
 
         self::assertInstanceOf(Feature::class, $feature);
         self::assertEquals($properties, $feature->getProperties());
@@ -77,7 +77,7 @@ class GeoJsonReaderTest extends GeoJsonAbstractTestCase
     #[DataProvider('providerReadFeatureCollection')]
     public function testReadFeatureCollection(string $geoJson, array $properties, array $coords, array $is3D, bool $lenient) : void
     {
-        $featureCollection = (new GeoJsonReader($lenient))->read($geoJson);
+        $featureCollection = new GeoJsonReader($lenient)->read($geoJson);
 
         self::assertInstanceOf(FeatureCollection::class, $featureCollection);
 
