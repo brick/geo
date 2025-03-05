@@ -17,17 +17,17 @@ use Override;
  *
  * A circular arc segment is a curved segment defined by three points in a two-dimensional plane;
  * the first point cannot be the same as the third point.
+ *
+ * @template-implements \IteratorAggregate<Point>
  */
-final class CircularString extends Curve
+final class CircularString extends Curve implements \Countable, \IteratorAggregate
 {
     /**
      * The Points that compose this CircularString.
      *
      * An empty CircularString contains no points.
      *
-     * @psalm-var list<Point>
-     *
-     * @var Point[]
+     * @var list<Point>
      */
     protected array $points = [];
 
@@ -119,9 +119,7 @@ final class CircularString extends Curve
     /**
      * Returns the points that compose this CircularString.
      *
-     * @psalm-return list<Point>
-     *
-     * @return Point[]
+     * @return list<Point>
      */
     public function points() : array
     {
@@ -178,8 +176,6 @@ final class CircularString extends Curve
 
     /**
      * Returns the number of points in this CircularString.
-     *
-     * Required by interface Countable.
      */
     #[Override]
     public function count() : int
@@ -190,9 +186,7 @@ final class CircularString extends Curve
     /**
      * Returns an iterator for the points in this CircularString.
      *
-     * Required by interface IteratorAggregate.
-     *
-     * @psalm-return ArrayIterator<int<0, max>, Point>
+     * @return ArrayIterator<int<0, max>, Point>
      */
     #[Override]
     public function getIterator() : ArrayIterator

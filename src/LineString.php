@@ -16,8 +16,10 @@ use Override;
  * A LineString is a Curve with linear interpolation between Points.
  *
  * Each consecutive pair of Points defines a line segment.
+ *
+ * @template-implements \IteratorAggregate<Point>
  */
-final class LineString extends Curve
+final class LineString extends Curve implements \Countable, \IteratorAggregate
 {
     /**
      * The Points that compose this LineString.
@@ -25,9 +27,7 @@ final class LineString extends Curve
      * An empty LineString contains no points.
      * A non-empty LineString contains a minimum of 2 points.
      *
-     * @psalm-var list<Point>
-     *
-     * @var Point[]
+     * @var list<Point>
      */
     protected array $points = [];
 
@@ -161,9 +161,7 @@ final class LineString extends Curve
     /**
      * Returns the points that compose this LineString.
      *
-     * @psalm-return list<Point>
-     *
-     * @return Point[]
+     * @return list<Point>
      */
     public function points() : array
     {
@@ -220,8 +218,6 @@ final class LineString extends Curve
 
     /**
      * Returns the number of points in this LineString.
-     *
-     * Required by interface Countable.
      */
     #[Override]
     public function count() : int
@@ -232,9 +228,7 @@ final class LineString extends Curve
     /**
      * Returns an iterator for the points in this LineString.
      *
-     * Required by interface IteratorAggregate.
-     *
-     * @psalm-return ArrayIterator<int<0, max>, Point>
+     * @return ArrayIterator<int<0, max>, Point>
      */
     #[Override]
     public function getIterator() : ArrayIterator

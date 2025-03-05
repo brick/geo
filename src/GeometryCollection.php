@@ -26,8 +26,9 @@ use Override;
  * geometric-defined operations.
  *
  * @template T of Geometry
+ * @template-implements \IteratorAggregate<T>
  */
-class GeometryCollection extends Geometry
+class GeometryCollection extends Geometry implements \Countable, \IteratorAggregate
 {
     /**
      * The geometries that compose this GeometryCollection.
@@ -130,9 +131,7 @@ class GeometryCollection extends Geometry
     /**
      * Returns the geometries that compose this GeometryCollection.
      *
-     * @psalm-return list<T>
-     *
-     * @return Geometry[]
+     * @return list<T>
      */
     public function geometries() : array
     {
@@ -205,8 +204,6 @@ class GeometryCollection extends Geometry
 
     /**
      * Returns the number of geometries in this GeometryCollection.
-     *
-     * Required by interface Countable.
      */
     #[Override]
     public function count() : int
@@ -217,9 +214,7 @@ class GeometryCollection extends Geometry
     /**
      * Returns an iterator for the geometries in this GeometryCollection.
      *
-     * Required by interface IteratorAggregate.
-     *
-     * @psalm-return ArrayIterator<int<0, max>, T>
+     * @return ArrayIterator<int<0, max>, T>
      */
     #[Override]
     public function getIterator() : ArrayIterator

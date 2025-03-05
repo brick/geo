@@ -14,8 +14,10 @@ use Override;
 
 /**
  * A CompoundCurve is a collection of zero or more continuous CircularString or LineString instances.
+ *
+ * @template-implements \IteratorAggregate<LineString|CircularString>
  */
-final class CompoundCurve extends Curve
+final class CompoundCurve extends Curve implements \Countable, \IteratorAggregate
 {
     /**
      * The Curves that compose this CompoundCurve.
@@ -186,8 +188,6 @@ final class CompoundCurve extends Curve
 
     /**
      * Returns the number of curves in this CompoundCurve.
-     *
-     * Required by interface Countable.
      */
     #[Override]
     public function count() : int
@@ -198,9 +198,7 @@ final class CompoundCurve extends Curve
     /**
      * Returns an iterator for the curves in this CompoundCurve.
      *
-     * Required by interface IteratorAggregate.
-     *
-     * @psalm-return ArrayIterator<int<0, max>, LineString|CircularString>
+     * @return ArrayIterator<int<0, max>, LineString|CircularString>
      */
     #[Override]
     public function getIterator() : ArrayIterator

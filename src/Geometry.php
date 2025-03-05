@@ -21,7 +21,7 @@ use Override;
 /**
  * Geometry is the root class of the hierarchy.
  */
-abstract class Geometry implements \Countable, \IteratorAggregate, \Stringable
+abstract class Geometry implements \Stringable
 {
     final public const int GEOMETRY           = 0;
     final public const int POINT              = 1;

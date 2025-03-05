@@ -32,17 +32,16 @@ use Override;
  * can thus be presented as one exterior boundary shell, and some number in interior boundary shells.
  *
  * @template T of Polygon
+ * @template-implements \IteratorAggregate<int<0, max>, T>
  */
-class PolyhedralSurface extends Surface
+class PolyhedralSurface extends Surface implements \Countable, \IteratorAggregate
 {
     /**
      * The polygons that compose this PolyhedralSurface.
      *
      * An empty PolyhedralSurface contains no polygons.
      *
-     * @psalm-var list<T>
-     *
-     * @var Polygon[]
+     * @var list<T>
      */
     protected array $patches = [];
 
@@ -135,9 +134,7 @@ class PolyhedralSurface extends Surface
     /**
      * Returns the patches that compose this PolyhedralSurface.
      *
-     * @psalm-return list<T>
-     *
-     * @return Polygon[]
+     * @return list<T>
      */
     public function patches() : array
     {
@@ -197,8 +194,6 @@ class PolyhedralSurface extends Surface
 
     /**
      * Returns the number of patches in this PolyhedralSurface.
-     *
-     * Required by interface Countable.
      */
     #[Override]
     public function count() : int
@@ -209,9 +204,7 @@ class PolyhedralSurface extends Surface
     /**
      * Returns an iterator for the patches in this PolyhedralSurface.
      *
-     * Required by interface IteratorAggregate.
-     *
-     * @psalm-return ArrayIterator<int<0, max>, T>
+     * @return ArrayIterator<int<0, max>, T>
      */
     #[Override]
     public function getIterator() : ArrayIterator
