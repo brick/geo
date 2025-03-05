@@ -262,8 +262,8 @@ abstract class AbstractWKBReader
         for ($i = 0; $i < $numPatches; $i++) {
             $patch = $this->readGeometry($buffer, $cs->SRID());
 
-            if (! $patch instanceof Polygon) {
-                throw new GeometryIOException('Expected Polygon, got ' . $patch->geometryType());
+            if (! $patch instanceof Triangle) {
+                throw new GeometryIOException('Expected Triangle, got ' . $patch->geometryType());
             }
 
             $patches[] = $patch;

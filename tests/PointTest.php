@@ -182,16 +182,14 @@ class PointTest extends AbstractTestCase
      * @param string $point       The WKT of the point to test.
      * @param array  $coordinates The expected coordinates.
      */
-    #[DataProvider('providerToArrayAndInterfaces')]
-    public function testToArrayAndInterfaces(string $point, array $coordinates) : void
+    #[DataProvider('providerToArray')]
+    public function testToArray(string $point, array $coordinates) : void
     {
         $point = Point::fromText($point);
         self::assertSame($coordinates, $point->toArray());
-        self::assertSame($coordinates, iterator_to_array($point));
-        self::assertSame(count($coordinates), count($point));
     }
 
-    public static function providerToArrayAndInterfaces() : array
+    public static function providerToArray() : array
     {
         return [
             ['POINT EMPTY', []],

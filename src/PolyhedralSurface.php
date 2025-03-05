@@ -8,6 +8,7 @@ use ArrayIterator;
 use Brick\Geo\Attribute\NoProxy;
 use Brick\Geo\Exception\CoordinateSystemException;
 use Brick\Geo\Exception\NoSuchGeometryException;
+use Brick\Geo\Exception\UnexpectedGeometryException;
 use Brick\Geo\Projector\Projector;
 use Override;
 
@@ -30,17 +31,18 @@ use Override;
  * finite solid. If outward, the surface is the exterior boundary of the enclosed surface. If inward, the surface
  * is the interior of the infinite complement of the enclosed solid. A Ball with some number of voids (holes) inside
  * can thus be presented as one exterior boundary shell, and some number in interior boundary shells.
+ *
+ * @template T of Polygon
+ * @template-implements \IteratorAggregate<int<0, max>, T>
  */
-class PolyhedralSurface extends Surface
+class PolyhedralSurface extends Surface implements \Countable, \IteratorAggregate
 {
     /**
      * The polygons that compose this PolyhedralSurface.
      *
      * An empty PolyhedralSurface contains no polygons.
      *
-     * @psalm-var list<Polygon>
-     *
-     * @var Polygon[]
+     * @var list<T>
      */
     protected array $patches = [];
 
@@ -48,7 +50,7 @@ class PolyhedralSurface extends Surface
      * The coordinate system of each of the patches must match the one of the PolyhedralSurface.
      *
      * @param CoordinateSystem $cs         The coordinate system of the PolyhedralSurface.
-     * @param Polygon          ...$patches The patches that compose the PolyhedralSurface.
+     * @param T                ...$patches The patches that compose the PolyhedralSurface.
      *
      * @throws CoordinateSystemException If different coordinate systems are used.
      */
@@ -61,6 +63,23 @@ class PolyhedralSurface extends Surface
         }
 
         CoordinateSystem::check($this, ...$patches);
+
+        $patchType = $this->patchType();
+
+        foreach ($patches as $patch) {
+            /**
+             * @psalm-suppress DocblockTypeContradiction We do want to enforce this in code, as not everyone uses static analysis!
+             * @psalm-suppress MixedArgument It looks like due to this check, Psalm considers that $geometry no longer has a type.
+             */
+            if (! $patch instanceof $patchType) {
+                throw new UnexpectedGeometryException(sprintf(
+                    '%s expects instance of %s, instance of %s given.',
+                    static::class,
+                    $patchType,
+                    $patch::class
+                ));
+            }
+        }
 
         $this->patches = array_values($patches);
     }
@@ -80,6 +99,16 @@ class PolyhedralSurface extends Surface
         return new static($patch1->coordinateSystem(), $patch1, ...$patchN);
     }
 
+    /**
+     * Returns the FQCN of the contained patch type.
+     *
+     * @psalm-return class-string<T>
+     */
+    protected function patchType() : string
+    {
+        return Polygon::class;
+    }
+
     public function numPatches() : int
     {
         return count($this->patches);
@@ -89,6 +118,8 @@ class PolyhedralSurface extends Surface
      * Returns the specified patch N in this PolyhedralSurface.
      *
      * @param int $n The patch number, 1-based.
+     *
+     * @return T
      *
      * @throws NoSuchGeometryException If there is no patch at this index.
      */
@@ -104,9 +135,7 @@ class PolyhedralSurface extends Surface
     /**
      * Returns the patches that compose this PolyhedralSurface.
      *
-     * @psalm-return list<Polygon>
-     *
-     * @return Polygon[]
+     * @return list<T>
      */
     public function patches() : array
     {
@@ -163,8 +192,6 @@ class PolyhedralSurface extends Surface
 
     /**
      * Returns the number of patches in this PolyhedralSurface.
-     *
-     * Required by interface Countable.
      */
     #[Override]
     public function count() : int
@@ -175,9 +202,7 @@ class PolyhedralSurface extends Surface
     /**
      * Returns an iterator for the patches in this PolyhedralSurface.
      *
-     * Required by interface IteratorAggregate.
-     *
-     * @psalm-return ArrayIterator<int, Polygon>
+     * @return ArrayIterator<int<0, max>, T>
      */
     #[Override]
     public function getIterator() : ArrayIterator

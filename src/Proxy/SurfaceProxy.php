@@ -280,22 +280,4 @@ class SurfaceProxy extends Surface implements ProxyInterface
         return $this->proxyGeometry->isIdenticalTo($that);
     }
 
-    public function count()
-    {
-        if ($this->proxyGeometry === null) {
-            $this->load();
-        }
-
-        return $this->proxyGeometry->count();
-    }
-
-    public function getIterator() : \Traversable
-    {
-        if ($this->proxyGeometry === null) {
-            $this->load();
-        }
-
-        return $this->proxyGeometry->getIterator();
-    }
-
 }

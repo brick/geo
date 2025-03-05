@@ -190,24 +190,6 @@ class PointProxy extends Point implements ProxyInterface
         return $this->proxyGeometry->project($projector);
     }
 
-    public function count(): int
-    {
-        if ($this->proxyGeometry === null) {
-            $this->load();
-        }
-
-        return $this->proxyGeometry->count();
-    }
-
-    public function getIterator(): \ArrayIterator
-    {
-        if ($this->proxyGeometry === null) {
-            $this->load();
-        }
-
-        return $this->proxyGeometry->getIterator();
-    }
-
     public function coordinateDimension(): int
     {
         if ($this->proxyGeometry === null) {

@@ -259,32 +259,4 @@ class Point extends Geometry
     {
         return $projector->project($this);
     }
-
-    /**
-     * Returns the number of coordinates in this Point.
-     *
-     * Required by interface Countable.
-     */
-    #[Override]
-    public function count() : int
-    {
-        if ($this->isEmpty) {
-            return 0;
-        }
-
-        return $this->coordinateSystem->coordinateDimension();
-    }
-
-    /**
-     * Returns an iterator for the coordinates in this Point.
-     *
-     * Required by interface IteratorAggregate.
-     *
-     * @psalm-return ArrayIterator<int, float>
-     */
-    #[Override]
-    public function getIterator() : ArrayIterator
-    {
-        return new ArrayIterator($this->toArray());
-    }
 }

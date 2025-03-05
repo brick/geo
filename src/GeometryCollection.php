@@ -27,17 +27,16 @@ use Override;
  * geometric-defined operations.
  *
  * @template T of Geometry
+ * @template-implements \IteratorAggregate<int<0, max>, T>
  */
-class GeometryCollection extends Geometry
+class GeometryCollection extends Geometry implements \Countable, \IteratorAggregate
 {
     /**
      * The geometries that compose this GeometryCollection.
      *
      * This array can be empty.
      *
-     * @psalm-var list<T>
-     *
-     * @var Geometry[]
+     * @var list<T>
      */
     protected array $geometries = [];
 
@@ -69,6 +68,10 @@ class GeometryCollection extends Geometry
         $containedGeometryType = $this->containedGeometryType();
 
         foreach ($geometries as $geometry) {
+            /**
+             * @psalm-suppress DocblockTypeContradiction We do want to enforce this in code, as not everyone uses static analysis!
+             * @psalm-suppress MixedArgument It looks like due to this check, Psalm considers that $geometry no longer has a type.
+             */
             if (! $geometry instanceof $containedGeometryType) {
                 throw new UnexpectedGeometryException(sprintf(
                     '%s expects instance of %s, instance of %s given.',
@@ -129,9 +132,7 @@ class GeometryCollection extends Geometry
     /**
      * Returns the geometries that compose this GeometryCollection.
      *
-     * @psalm-return list<T>
-     *
-     * @return Geometry[]
+     * @return list<T>
      */
     public function geometries() : array
     {
@@ -201,8 +202,6 @@ class GeometryCollection extends Geometry
 
     /**
      * Returns the number of geometries in this GeometryCollection.
-     *
-     * Required by interface Countable.
      */
     #[Override]
     public function count() : int
@@ -213,9 +212,7 @@ class GeometryCollection extends Geometry
     /**
      * Returns an iterator for the geometries in this GeometryCollection.
      *
-     * Required by interface IteratorAggregate.
-     *
-     * @psalm-return ArrayIterator<int, T>
+     * @return ArrayIterator<int<0, max>, T>
      */
     #[Override]
     public function getIterator() : ArrayIterator

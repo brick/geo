@@ -11,21 +11,15 @@ use Override;
 
 /**
  * A TIN (triangulated irregular network) is a PolyhedralSurface consisting only of Triangle patches.
+ *
+ * @template-extends PolyhedralSurface<Triangle>
  */
 class TIN extends PolyhedralSurface
 {
-    /**
-     * @throws UnexpectedGeometryException If the patches are not triangles.
-     */
-    public function __construct(CoordinateSystem $cs, Polygon ...$patches)
+    #[Override]
+    protected function patchType() : string
     {
-        parent::__construct($cs, ...$patches);
-
-        foreach ($patches as $patch) {
-            if (! $patch instanceof Triangle) {
-                throw new UnexpectedGeometryException('The patches in a TIN must be triangles.');
-            }
-        }
+        return Triangle::class;
     }
 
     #[NoProxy, Override]

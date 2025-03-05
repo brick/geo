@@ -7,12 +7,6 @@
     <InvalidFalsableReturnType>
       <code><![CDATA[Point]]></code>
     </InvalidFalsableReturnType>
-    <InvalidReturnStatement>
-      <code><![CDATA[new ArrayIterator($this->points)]]></code>
-    </InvalidReturnStatement>
-    <InvalidReturnType>
-      <code><![CDATA[ArrayIterator<int, Point>]]></code>
-    </InvalidReturnType>
   </file>
   <file src="src/CompoundCurve.php">
     <InvalidArrayOffset>
@@ -24,14 +18,6 @@
     <MixedReturnStatement>
       <code><![CDATA[$this->curves[$count - 1]->endPoint()]]></code>
     </MixedReturnStatement>
-  </file>
-  <file src="src/CurvePolygon.php">
-    <InvalidReturnStatement>
-      <code><![CDATA[new ArrayIterator($this->rings)]]></code>
-    </InvalidReturnStatement>
-    <InvalidReturnType>
-      <code><![CDATA[ArrayIterator<int, Curve>]]></code>
-    </InvalidReturnType>
   </file>
   <file src="src/Engine/DatabaseEngine.php">
     <MixedAssignment>
@@ -73,9 +59,6 @@
       <code><![CDATA[$this->project(new SRIDProjector($srid))]]></code>
       <code><![CDATA[$this->project(new SwapXYProjector())]]></code>
     </LessSpecificReturnStatement>
-    <MissingTemplateParam>
-      <code><![CDATA[\IteratorAggregate]]></code>
-    </MissingTemplateParam>
     <MoreSpecificReturnType>
       <code><![CDATA[static]]></code>
       <code><![CDATA[static]]></code>
@@ -83,20 +66,6 @@
       <code><![CDATA[static]]></code>
       <code><![CDATA[static]]></code>
     </MoreSpecificReturnType>
-  </file>
-  <file src="src/GeometryCollection.php">
-    <DocblockTypeContradiction>
-      <code><![CDATA[$geometry instanceof $containedGeometryType]]></code>
-    </DocblockTypeContradiction>
-    <InvalidReturnStatement>
-      <code><![CDATA[new ArrayIterator($this->geometries)]]></code>
-    </InvalidReturnStatement>
-    <InvalidReturnType>
-      <code><![CDATA[ArrayIterator<int, T>]]></code>
-    </InvalidReturnType>
-    <MixedArgument>
-      <code><![CDATA[$geometry::class]]></code>
-    </MixedArgument>
   </file>
   <file src="src/IO/AbstractWKTWriter.php">
     <InvalidOperand>
@@ -119,36 +88,6 @@
     <InvalidFalsableReturnType>
       <code><![CDATA[Point]]></code>
     </InvalidFalsableReturnType>
-    <InvalidReturnStatement>
-      <code><![CDATA[new ArrayIterator($this->points)]]></code>
-    </InvalidReturnStatement>
-    <InvalidReturnType>
-      <code><![CDATA[ArrayIterator<int, Point>]]></code>
-    </InvalidReturnType>
-  </file>
-  <file src="src/Point.php">
-    <InvalidReturnStatement>
-      <code><![CDATA[new ArrayIterator($this->toArray())]]></code>
-    </InvalidReturnStatement>
-    <InvalidReturnType>
-      <code><![CDATA[ArrayIterator<int, float>]]></code>
-    </InvalidReturnType>
-  </file>
-  <file src="src/Polygon.php">
-    <InvalidReturnStatement>
-      <code><![CDATA[new ArrayIterator($this->rings)]]></code>
-    </InvalidReturnStatement>
-    <InvalidReturnType>
-      <code><![CDATA[ArrayIterator<int, LineString>]]></code>
-    </InvalidReturnType>
-  </file>
-  <file src="src/PolyhedralSurface.php">
-    <InvalidReturnStatement>
-      <code><![CDATA[new ArrayIterator($this->patches)]]></code>
-    </InvalidReturnStatement>
-    <InvalidReturnType>
-      <code><![CDATA[ArrayIterator<int, Polygon>]]></code>
-    </InvalidReturnType>
   </file>
   <file src="src/Projector/SwapXYProjector.php">
     <PossiblyUndefinedArrayOffset>

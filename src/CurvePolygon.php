@@ -17,8 +17,10 @@ use Override;
  *
  * A CurvePolygon instance differs from a Polygon instance in that a CurvePolygon instance may contain
  * the following circular arc segments: CircularString and CompoundCurve in addition to LineString.
+ *
+ * @template-implements \IteratorAggregate<int<0, max>, Curve>
  */
-class CurvePolygon extends Surface
+class CurvePolygon extends Surface implements \Countable, \IteratorAggregate
 {
     /**
      * The rings that compose this CurvePolygon.
@@ -28,9 +30,7 @@ class CurvePolygon extends Surface
      *
      * An empty CurvePolygon contains no rings.
      *
-     * @psalm-var list<Curve>
-     *
-     * @var Curve[]
+     * @var list<Curve>
      */
     protected array $rings = [];
 
@@ -115,7 +115,7 @@ class CurvePolygon extends Surface
     /**
      * Returns the interior rings in this CurvePolygon.
      *
-     * @return Curve[]
+     * @return list<Curve>
      */
     public function interiorRings() : array
     {
@@ -169,8 +169,6 @@ class CurvePolygon extends Surface
 
     /**
      * Returns the number of rings (exterior + interior) in this CurvePolygon.
-     *
-     * Required by interface Countable.
      */
     #[Override]
     public function count() : int
@@ -181,9 +179,7 @@ class CurvePolygon extends Surface
     /**
      * Returns an iterator for the rings (exterior + interior) in this CurvePolygon.
      *
-     * Required by interface IteratorAggregate.
-     *
-     * @psalm-return ArrayIterator<int, Curve>
+     * @return ArrayIterator<int<0, max>, Curve>
      */
     #[Override]
     public function getIterator() : ArrayIterator

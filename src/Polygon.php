@@ -35,8 +35,10 @@ use Override;
  *
  * In the above assertions, interior, closure and exterior have the standard topological definitions. The combination
  * of (a) and (c) makes a Polygon a regular closed Point set. Polygons are simple geometric objects.
+ *
+ * @template-implements \IteratorAggregate<int<0, max>, LineString>
  */
-class Polygon extends Surface
+class Polygon extends Surface implements \Countable, \IteratorAggregate
 {
     /**
      * The rings that compose this polygon.
@@ -46,9 +48,7 @@ class Polygon extends Surface
      *
      * An empty Polygon contains no rings.
      *
-     * @psalm-var list<LineString>
-     *
-     * @var LineString[]
+     * @var list<LineString>
      */
     protected array $rings = [];
 
@@ -72,6 +72,15 @@ class Polygon extends Surface
         CoordinateSystem::check($this, ...$rings);
 
         $this->rings = array_values($rings);
+
+        $this->validate();
+    }
+
+    /**
+     * Can be overridden by subclasses to validate constraints.
+     */
+    protected function validate(): void
+    {
     }
 
     /**
@@ -95,7 +104,7 @@ class Polygon extends Surface
      *
      * Returns an empty array if this Polygon is empty.
      *
-     * @return LineString[]
+     * @return list<LineString>
      */
     public function rings(): array
     {
@@ -204,8 +213,6 @@ class Polygon extends Surface
 
     /**
      * Returns the number of rings (exterior + interior) in this Polygon.
-     *
-     * Required by interface Countable.
      */
     #[Override]
     public function count() : int
@@ -216,9 +223,7 @@ class Polygon extends Surface
     /**
      * Returns an iterator for the rings (exterior + interior) in this Polygon.
      *
-     * Required by interface IteratorAggregate.
-     *
-     * @psalm-return ArrayIterator<int, LineString>
+     * @return ArrayIterator<int<0, max>, LineString>
      */
     #[Override]
     public function getIterator() : ArrayIterator
