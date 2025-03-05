@@ -36,11 +36,8 @@ abstract class DatabaseEngine implements GeometryEngine
     /**
      * Executes a SQL query.
      *
-     * @psalm-param list<GeometryParameter|string|float|int> $parameters
-     * @psalm-return list<mixed>
-     *
-     * @param string $query      The SQL query to execute.
-     * @param array  $parameters The geometry data or scalar values to pass as parameters.
+     * @param string                                   $query      The SQL query to execute.
+     * @param list<GeometryParameter|string|float|int> $parameters The geometry data or scalar values to pass as parameters.
      *
      * @return list<mixed> A numeric result array.
      *
@@ -81,14 +78,11 @@ abstract class DatabaseEngine implements GeometryEngine
     /**
      * Builds and executes a SQL query for a GIS function.
      *
-     * @psalm-param array<Geometry|string|float|int> $parameters
-     * @psalm-return list<mixed>
+     * @param string                           $function        The SQL GIS function to execute.
+     * @param array<Geometry|string|float|int> $parameters      The Geometry objects or scalar values to pass as parameters.
+     * @param bool                             $returnsGeometry Whether the GIS function returns a Geometry.
      *
-     * @param string $function        The SQL GIS function to execute.
-     * @param array  $parameters      The Geometry objects or scalar values to pass as parameters.
-     * @param bool   $returnsGeometry Whether the GIS function returns a Geometry.
-     *
-     * @return array A numeric result array.
+     * @return list<mixed> A numeric result array.
      *
      * @throws GeometryEngineException
      */
@@ -223,7 +217,7 @@ abstract class DatabaseEngine implements GeometryEngine
     }
 
     /**
-     * @psalm-return class-string<Proxy\ProxyInterface&Geometry>
+     * @return class-string<Proxy\ProxyInterface&Geometry>
      *
      * @throws GeometryEngineException
      */

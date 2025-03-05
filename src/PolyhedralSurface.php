@@ -102,7 +102,7 @@ class PolyhedralSurface extends Surface implements \Countable, \IteratorAggregat
     /**
      * Returns the FQCN of the contained patch type.
      *
-     * @psalm-return class-string<T>
+     * @return class-string<T>
      */
     protected function patchType() : string
     {

@@ -64,7 +64,7 @@ final class WKBBuffer
      */
     private function readUnsignedChar() : int
     {
-        /** @psalm-var array{1: int} $unpack */
+        /** @var array{1: int} $unpack */
         $unpack = unpack('C', $this->read(1, 1));
 
         return $unpack[1];
@@ -75,7 +75,7 @@ final class WKBBuffer
      */
     public function readUnsignedLong() : int
     {
-        /** @psalm-var array{1: int} $unpack */
+        /** @var array{1: int} $unpack */
         $unpack = unpack('L', $this->read(1, 4));
 
         return $unpack[1];

@@ -20,7 +20,7 @@ class WKTParser
     /**
      * The list of tokens.
      *
-     * @psalm-var list<array{int, string}>
+     * @var list<array{int, string}>
      */
     protected array $tokens = [];
 
@@ -35,9 +35,7 @@ class WKTParser
     }
 
     /**
-     * @return array<int, string>
-     *
-     * @psalm-return array<static::T_*, string>
+     * @return array<static::T_*, string>
      */
     protected function getRegex() : array
     {
@@ -73,9 +71,7 @@ class WKTParser
     }
 
     /**
-     * @psalm-return array{int, string}|null
-     *
-     * @return array|null The next token, or null if there are no more tokens.
+     * @return array{int, string}|null The next token, or null if there are no more tokens.
      */
     private function nextToken() : ?array
     {

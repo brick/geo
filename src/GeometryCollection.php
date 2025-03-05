@@ -41,7 +41,7 @@ class GeometryCollection extends Geometry implements \Countable, \IteratorAggreg
     protected array $geometries = [];
 
     /**
-     * @psalm-param T ...$geometries
+     * @param T ...$geometries
      *
      * @throws CoordinateSystemException   If different coordinate systems are used.
      * @throws UnexpectedGeometryException If a geometry is not a valid type for a subclass of GeometryCollection.
@@ -223,7 +223,7 @@ class GeometryCollection extends Geometry implements \Countable, \IteratorAggreg
     /**
      * Returns the FQCN of the contained Geometry type.
      *
-     * @psalm-return class-string<T>
+     * @return class-string<T>
      */
     protected function containedGeometryType() : string
     {

@@ -292,9 +292,7 @@ final class GeoJSONReader
     /**
      * [x, y]
      *
-     * @psalm-param list<float> $coords
-     *
-     * @param float[] $coords
+     * @param list<float> $coords
      *
      * @throws GeometryException
      */
@@ -306,9 +304,7 @@ final class GeoJSONReader
     /**
      * [[x, y], ...]
      *
-     * @psalm-param list<list<float>> $coords
-     *
-     * @param float[][] $coords
+     * @param list<list<float>> $coords
      *
      * @throws GeometryException
      */
@@ -326,9 +322,7 @@ final class GeoJSONReader
     /**
      * [[x, y], ...]
      *
-     * @psalm-param list<list<float>> $coords
-     *
-     * @param float[][] $coords
+     * @param list<list<float>> $coords
      *
      * @throws GeometryException
      */
@@ -346,9 +340,7 @@ final class GeoJSONReader
     /**
      * [[[x, y], ...], ...]
      *
-     * @psalm-param list<list<list<float>>> $coords
-     *
-     * @param float[][][] $coords
+     * @param list<list<list<float>>> $coords
      *
      * @throws GeometryException
      */
@@ -366,9 +358,7 @@ final class GeoJSONReader
     /**
      * [[[x, y], ...], ...]
      *
-     * @psalm-param list<list<list<float>>> $coords
-     *
-     * @param float[][][] $coords
+     * @param list<list<list<float>>> $coords
      *
      * @throws GeometryException
      */
@@ -386,9 +376,7 @@ final class GeoJSONReader
     /**
      * [[[[x, y], ...], ...], ...]
      *
-     * @psalm-param list<list<list<list<float>>>> $coords
-     *
-     * @param float[][][][] $coords
+     * @param list<list<list<list<float>>>> $coords
      *
      * @throws GeometryException
      */

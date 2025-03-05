@@ -101,7 +101,7 @@ final class SQLite3Engine extends DatabaseEngine
 
         $result = $statement->execute();
 
-        /** @psalm-var list<mixed> */
+        /** @var list<mixed> */
         return $result->fetchArray(SQLITE3_NUM);
     }
 
