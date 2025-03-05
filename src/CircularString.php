@@ -151,13 +151,10 @@ class CircularString extends Curve
 
     public function toArray() : array
     {
-        $result = [];
-
-        foreach ($this->points as $point) {
-            $result[] = $point->toArray();
-        }
-
-        return $result;
+        return array_map(
+            fn (Point $point) => $point->toArray(),
+            $this->points,
+        );
     }
 
     public function project(Projector $projector): CircularString

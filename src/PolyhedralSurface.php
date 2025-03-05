@@ -137,13 +137,10 @@ class PolyhedralSurface extends Surface
 
     public function toArray() : array
     {
-        $result = [];
-
-        foreach ($this->patches as $patch) {
-            $result[] = $patch->toArray();
-        }
-
-        return $result;
+        return array_map(
+            fn (Polygon $patch) => $patch->toArray(),
+            $this->patches,
+        );
     }
 
     public function project(Projector $projector): PolyhedralSurface

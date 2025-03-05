@@ -178,13 +178,10 @@ class Polygon extends Surface
 
     public function toArray() : array
     {
-        $result = [];
-
-        foreach ($this->rings as $ring) {
-            $result[] = $ring->toArray();
-        }
-
-        return $result;
+        return array_map(
+            fn (LineString $ring) => $ring->toArray(),
+            $this->rings,
+        );
     }
 
     public function project(Projector $projector): Polygon

@@ -177,13 +177,10 @@ class GeometryCollection extends Geometry
 
     public function toArray() : array
     {
-        $result = [];
-
-        foreach ($this->geometries as $geometry) {
-            $result[] = $geometry->toArray();
-        }
-
-        return $result;
+        return array_map(
+            fn (Geometry $geometry) => $geometry->toArray(),
+            $this->geometries,
+        );
     }
 
     public function project(Projector $projector): GeometryCollection

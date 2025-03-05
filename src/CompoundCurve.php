@@ -163,13 +163,10 @@ class CompoundCurve extends Curve
 
     public function toArray() : array
     {
-        $result = [];
-
-        foreach ($this->curves as $curve) {
-            $result[] = $curve->toArray();
-        }
-
-        return $result;
+        return array_map(
+            fn (Curve $curve) => $curve->toArray(),
+            $this->curves,
+        );
     }
 
     public function project(Projector $projector): CompoundCurve
