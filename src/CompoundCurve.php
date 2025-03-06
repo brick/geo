@@ -26,7 +26,7 @@ final readonly class CompoundCurve extends Curve implements \Countable, \Iterato
      *
      * @var list<LineString|CircularString>
      */
-    protected array $curves;
+    public array $curves;
 
     /**
      * The coordinate system of each of the curves must match the one of the CompoundCurve.
@@ -80,7 +80,7 @@ final readonly class CompoundCurve extends Curve implements \Countable, \Iterato
      */
     public static function of(LineString|CircularString $curve1, LineString|CircularString ...$curveN) : CompoundCurve
     {
-        return new CompoundCurve($curve1->coordinateSystem(), $curve1, ...$curveN);
+        return new CompoundCurve($curve1->coordinateSystem, $curve1, ...$curveN);
     }
 
     #[Override]
@@ -133,6 +133,8 @@ final readonly class CompoundCurve extends Curve implements \Countable, \Iterato
      * Returns the curves that compose this CompoundCurve.
      *
      * @return list<LineString|CircularString>
+     *
+     * @deprecated Use $curves property instead.
      */
     public function curves() : array
     {

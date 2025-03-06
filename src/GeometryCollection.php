@@ -37,7 +37,7 @@ readonly class GeometryCollection extends Geometry implements \Countable, \Itera
      *
      * @var list<T>
      */
-    protected array $geometries;
+    public array $geometries;
 
     /**
      * @param T ...$geometries
@@ -97,7 +97,7 @@ readonly class GeometryCollection extends Geometry implements \Countable, \Itera
      */
     public static function of(Geometry $geometry1, Geometry ...$geometryN) : static
     {
-        return new static($geometry1->coordinateSystem(), $geometry1, ...$geometryN);
+        return new static($geometry1->coordinateSystem, $geometry1, ...$geometryN);
     }
 
     /**
@@ -130,6 +130,8 @@ readonly class GeometryCollection extends Geometry implements \Countable, \Itera
      * Returns the geometries that compose this GeometryCollection.
      *
      * @return list<T>
+     *
+     * @deprecated Use $geometries property instead.
      */
     public function geometries() : array
     {

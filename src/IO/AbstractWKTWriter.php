@@ -55,20 +55,17 @@ abstract class AbstractWKTWriter
     {
         $type = strtoupper($geometry->geometryType());
 
-        $cs = $geometry->coordinateSystem();
-
-        $hasZ = $cs->hasZ();
-        $hasM = $cs->hasM();
+        $cs = $geometry->coordinateSystem;
 
         $dimensionality = '';
 
-        if ($hasZ || $hasM) {
+        if ($cs->hasZ || $cs->hasM) {
             $dimensionality .= ' ';
 
-            if ($hasZ) {
+            if ($cs->hasZ) {
                 $dimensionality .= 'Z';
             }
-            if ($hasM) {
+            if ($cs->hasM) {
                 $dimensionality .= 'M';
             }
         }
@@ -123,14 +120,14 @@ abstract class AbstractWKTWriter
     private function writePoint(Point $point) : string
     {
         /** @psalm-suppress PossiblyNullOperand */
-        $result = $point->x() . ' ' . $point->y();
+        $result = $point->x . ' ' . $point->y;
 
-        if (null !== $z = $point->z()) {
-            $result .= ' ' . $z;
+        if ($point->z !== null) {
+            $result .= ' ' . $point->z;
         }
 
-        if (null !== $m = $point->m()) {
-            $result .= ' ' . $m;
+        if ($point->m !== null) {
+            $result .= ' ' . $point->m;
         }
 
         return $result;

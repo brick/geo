@@ -58,17 +58,17 @@ final readonly class BoundingBox
         $point = $point->withoutM();
 
         if ($this->cs === null) {
-            $cs = $point->coordinateSystem();
+            $cs = $point->coordinateSystem;
         } else {
             $cs = $this->cs;
-            if (! $cs->isEqualTo($point->coordinateSystem())) {
-                throw CoordinateSystemException::dimensionalityMix($cs, $point->coordinateSystem());
+            if (! $cs->isEqualTo($point->coordinateSystem)) {
+                throw CoordinateSystemException::dimensionalityMix($cs, $point->coordinateSystem);
             }
         }
 
-        $x = $point->x();
-        $y = $point->y();
-        $z = $point->z();
+        $x = $point->x;
+        $y = $point->y;
+        $z = $point->z;
 
         $swX = ($this->swX === null) ? $x : min($this->swX, $x);
         $swY = ($this->swY === null) ? $y : min($this->swY, $y);
@@ -137,7 +137,7 @@ final readonly class BoundingBox
         assert($this->swX !== null);
         assert($this->swY !== null);
 
-        if ($this->cs->hasZ()) {
+        if ($this->cs->hasZ) {
             assert($this->swZ !== null);
             $coords = [$this->swX, $this->swY, $this->swZ];
         } else {
@@ -158,7 +158,7 @@ final readonly class BoundingBox
             throw new EmptyGeometryException('The bounding box is empty.');
         }
 
-        if ($this->cs->hasZ()) {
+        if ($this->cs->hasZ) {
             $coords = [$this->neX, $this->neY, $this->neZ];
         } else {
             $coords = [$this->neX, $this->neY];

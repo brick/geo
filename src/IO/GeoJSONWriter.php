@@ -203,8 +203,6 @@ final class GeoJSONWriter
      */
     private function writeGeometryCollection(GeometryCollection $geometryCollection): stdClass
     {
-        $geometries = $geometryCollection->geometries();
-
         $geometries = array_map(function(Geometry $geometry) {
             if ($geometry::class === GeometryCollection::class && ! $this->lenient) {
                 throw new GeometryIOException(
@@ -214,7 +212,7 @@ final class GeoJSONWriter
             }
 
             return $this->writeGeometry($geometry);
-        }, $geometries);
+        }, $geometryCollection->geometries);
 
         $result = [
             'type' => 'GeometryCollection',

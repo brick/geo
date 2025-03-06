@@ -239,7 +239,7 @@ abstract class AbstractWKTReader
             if ($parser->isNextOpenerOrWord()) {
                 $curves[] = $this->readLineStringText($parser, $cs);
             } else {
-                $curve = $this->readGeometry($parser, $cs->SRID());
+                $curve = $this->readGeometry($parser, $cs->srid);
 
                 if (! $curve instanceof LineString && ! $curve instanceof CircularString) {
                     throw new GeometryIOException('Expected LineString|CircularString, got ' . $curve->geometryType());
@@ -304,7 +304,7 @@ abstract class AbstractWKTReader
             if ($parser->isNextOpenerOrWord()) {
                 $curves[] = $this->readLineStringText($parser, $cs);
             } else {
-                $curve = $this->readGeometry($parser, $cs->SRID());
+                $curve = $this->readGeometry($parser, $cs->srid);
 
                 if (! $curve instanceof Curve) {
                     throw new GeometryIOException('Expected Curve, got ' . $curve->geometryType());
@@ -361,7 +361,7 @@ abstract class AbstractWKTReader
         $geometries = [];
 
         do {
-            $geometries[] = $this->readGeometry($parser, $cs->SRID());
+            $geometries[] = $this->readGeometry($parser, $cs->srid);
             $nextToken = $parser->getNextCloserOrComma();
         } while ($nextToken === ',');
 

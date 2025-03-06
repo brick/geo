@@ -108,7 +108,7 @@ abstract class AbstractWKBReader
         $curves = [];
 
         for ($i = 0; $i < $numCurves; $i++) {
-            $curve = $this->readGeometry($buffer, $cs->SRID());
+            $curve = $this->readGeometry($buffer, $cs->srid);
 
             if (! $curve instanceof LineString && ! $curve instanceof CircularString) {
                 throw new GeometryIOException('Expected LineString|CircularString, got ' . $curve->geometryType());
@@ -143,7 +143,7 @@ abstract class AbstractWKBReader
         $rings = [];
 
         for ($i = 0; $i < $numRings; $i++) {
-            $ring = $this->readGeometry($buffer, $cs->SRID());
+            $ring = $this->readGeometry($buffer, $cs->srid);
 
             if (! $ring instanceof Curve) {
                 throw new GeometryIOException('Expected Curve, got ' . $ring->geometryType());
@@ -164,7 +164,7 @@ abstract class AbstractWKBReader
         $points = [];
 
         for ($i = 0; $i < $numPoints; $i++) {
-            $point = $this->readGeometry($buffer, $cs->SRID());
+            $point = $this->readGeometry($buffer, $cs->srid);
 
             if (! $point instanceof Point) {
                 throw new GeometryIOException('Expected Point, got ' . $point->geometryType());
@@ -185,7 +185,7 @@ abstract class AbstractWKBReader
         $lineStrings = [];
 
         for ($i = 0; $i < $numLineStrings; $i++) {
-            $lineString = $this->readGeometry($buffer, $cs->SRID());
+            $lineString = $this->readGeometry($buffer, $cs->srid);
 
             if (! $lineString instanceof LineString) {
                 throw new GeometryIOException('Expected LineString, got ' . $lineString->geometryType());
@@ -206,7 +206,7 @@ abstract class AbstractWKBReader
         $polygons = [];
 
         for ($i = 0; $i < $numPolygons; $i++) {
-            $polygon = $this->readGeometry($buffer, $cs->SRID());
+            $polygon = $this->readGeometry($buffer, $cs->srid);
 
             if (! $polygon instanceof Polygon) {
                 throw new GeometryIOException('Expected Polygon, got ' . $polygon->geometryType());
@@ -224,7 +224,7 @@ abstract class AbstractWKBReader
         $geometries = [];
 
         for ($i = 0; $i < $numGeometries; $i++) {
-            $geometries[] = $this->readGeometry($buffer, $cs->SRID());
+            $geometries[] = $this->readGeometry($buffer, $cs->srid);
         }
 
         return new GeometryCollection($cs, ...$geometries);
@@ -239,7 +239,7 @@ abstract class AbstractWKBReader
         $patches = [];
 
         for ($i = 0; $i < $numPatches; $i++) {
-            $patch = $this->readGeometry($buffer, $cs->SRID());
+            $patch = $this->readGeometry($buffer, $cs->srid);
 
             if (! $patch instanceof Polygon) {
                 throw new GeometryIOException('Expected Polygon, got ' . $patch->geometryType());
@@ -260,7 +260,7 @@ abstract class AbstractWKBReader
         $patches = [];
 
         for ($i = 0; $i < $numPatches; $i++) {
-            $patch = $this->readGeometry($buffer, $cs->SRID());
+            $patch = $this->readGeometry($buffer, $cs->srid);
 
             if (! $patch instanceof Triangle) {
                 throw new GeometryIOException('Expected Triangle, got ' . $patch->geometryType());

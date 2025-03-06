@@ -45,7 +45,7 @@ abstract readonly class Geometry implements \Stringable
     /**
      * The coordinate system of this geometry.
      */
-    protected CoordinateSystem $coordinateSystem;
+    public CoordinateSystem $coordinateSystem;
 
     /**
      * Whether this geometry is empty.
@@ -178,7 +178,7 @@ abstract readonly class Geometry implements \Stringable
      */
     public function SRID() : int
     {
-        return $this->coordinateSystem->SRID();
+        return $this->coordinateSystem->srid;
     }
 
     /**
@@ -226,7 +226,7 @@ abstract readonly class Geometry implements \Stringable
      */
     public function is3D() : bool
     {
-        return $this->coordinateSystem->hasZ();
+        return $this->coordinateSystem->hasZ;
     }
 
     /**
@@ -234,11 +234,13 @@ abstract readonly class Geometry implements \Stringable
      */
     public function isMeasured() : bool
     {
-        return $this->coordinateSystem->hasM();
+        return $this->coordinateSystem->hasM;
     }
 
     /**
      * Returns the coordinate system of this geometry.
+     *
+     * @deprecated Use $coordinateSystem property instead.
      */
     public function coordinateSystem() : CoordinateSystem
     {
@@ -277,7 +279,7 @@ abstract readonly class Geometry implements \Stringable
      */
     public function withoutZ() : static
     {
-        if (! $this->coordinateSystem->hasZ()) {
+        if (! $this->coordinateSystem->hasZ) {
             return $this;
         }
 
@@ -289,7 +291,7 @@ abstract readonly class Geometry implements \Stringable
      */
     public function withoutM() : static
     {
-        if (! $this->coordinateSystem->hasM()) {
+        if (! $this->coordinateSystem->hasM) {
             return $this;
         }
 
