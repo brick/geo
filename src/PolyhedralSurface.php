@@ -34,7 +34,7 @@ use Override;
  * @template T of Polygon
  * @template-implements \IteratorAggregate<int<0, max>, T>
  */
-class PolyhedralSurface extends Surface implements \Countable, \IteratorAggregate
+readonly class PolyhedralSurface extends Surface implements \Countable, \IteratorAggregate
 {
     /**
      * The polygons that compose this PolyhedralSurface.
@@ -43,7 +43,7 @@ class PolyhedralSurface extends Surface implements \Countable, \IteratorAggregat
      *
      * @var list<T>
      */
-    protected array $patches = [];
+    protected array $patches;
 
     /**
      * The coordinate system of each of the patches must match the one of the PolyhedralSurface.
@@ -55,9 +55,12 @@ class PolyhedralSurface extends Surface implements \Countable, \IteratorAggregat
      */
     final public function __construct(CoordinateSystem $cs, Polygon ...$patches)
     {
-        parent::__construct($cs, ! $patches);
+        $isEmpty = (count($patches) === 0);
+        parent::__construct($cs, $isEmpty);
 
-        if (! $patches) {
+        $this->patches = array_values($patches);
+
+        if ($isEmpty) {
             return;
         }
 
@@ -79,8 +82,6 @@ class PolyhedralSurface extends Surface implements \Countable, \IteratorAggregat
                 ));
             }
         }
-
-        $this->patches = array_values($patches);
     }
 
     /**

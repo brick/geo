@@ -11,7 +11,7 @@ use Override;
  *
  * @extends MultiCurve<LineString>
  */
-final class MultiLineString extends MultiCurve
+final readonly class MultiLineString extends MultiCurve
 {
     /**
      * @return list<list<list<float>>>

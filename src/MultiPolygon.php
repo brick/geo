@@ -25,7 +25,7 @@ use Override;
  *
  * @extends MultiSurface<Polygon>
  */
-final class MultiPolygon extends MultiSurface
+final readonly class MultiPolygon extends MultiSurface
 {
     /**
      * @return list<list<list<list<float>>>>

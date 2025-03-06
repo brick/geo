@@ -13,7 +13,7 @@ use Override;
  *
  * The subtype of Curve specifies the form of the interpolation between Points.
  */
-abstract class Curve extends Geometry
+abstract readonly class Curve extends Geometry
 {
     /**
      * A Curve is a 1-dimensional geometric object.

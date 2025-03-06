@@ -20,6 +20,6 @@ namespace Brick\Geo;
  * @template T of Surface
  * @extends GeometryCollection<T>
  */
-abstract class MultiSurface extends GeometryCollection
+abstract readonly class MultiSurface extends GeometryCollection
 {
 }
