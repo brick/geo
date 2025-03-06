@@ -27,7 +27,7 @@ final class RoundCoordinatesProjector implements Projector
             $point->toArray(),
         );
 
-        return new Point($point->coordinateSystem(), ...$coords);
+        return new Point($point->coordinateSystem, ...$coords);
     }
 
     #[Override]

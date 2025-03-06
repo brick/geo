@@ -17,13 +17,13 @@ final class WKBWriter extends AbstractWKBWriter
     {
         $geometryType = $geometry->geometryTypeBinary();
 
-        $cs = $geometry->coordinateSystem();
+        $cs = $geometry->coordinateSystem;
 
-        if ($cs->hasZ()) {
+        if ($cs->hasZ) {
             $geometryType += 1000;
         }
 
-        if ($cs->hasM()) {
+        if ($cs->hasM) {
             $geometryType += 2000;
         }
 

@@ -31,7 +31,7 @@ final readonly class CurvePolygon extends Surface implements \Countable, \Iterat
      *
      * @var list<Curve>
      */
-    protected array $rings;
+    public array $rings;
 
     /**
      * The coordinate system of each of the rings must match the one of the CurvePolygon.
@@ -65,7 +65,7 @@ final readonly class CurvePolygon extends Surface implements \Countable, \Iterat
      */
     public static function of(Curve $exteriorRing, Curve ...$interiorRings) : CurvePolygon
     {
-        return new CurvePolygon($exteriorRing->coordinateSystem(), $exteriorRing, ...$interiorRings);
+        return new CurvePolygon($exteriorRing->coordinateSystem, $exteriorRing, ...$interiorRings);
     }
 
     /**
