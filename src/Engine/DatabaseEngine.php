@@ -172,31 +172,6 @@ abstract class DatabaseEngine implements GeometryEngine
     }
 
     /**
-     * Queries a GIS function returning a MultiPoint value.
-     *
-     * @param string                       $function   The SQL GIS function to execute.
-     * @param Geometry|string|float|int ...$parameters The Geometry objects or scalar values to pass as parameters.
-     *
-     * @throws GeometryEngineException
-     */
-    private function queryMultiPoint(string $function, Geometry|string|float|int ...$parameters) : MultiPoint
-    {
-        $result = $this->queryGeometry($function, ...$parameters);
-
-        if ($result instanceof MultiPoint) {
-            return $result;
-        }
-
-        $geometry = $result instanceof ProxyInterface ? $result->getGeometry() : $result;
-
-        if ($geometry->isEmpty()) {
-            return MultiPoint::fromText('MULTIPOINT EMPTY');
-        }
-
-        return MultiPoint::of($result);
-    }
-
-    /**
      * Queries a GIS function returning a Geometry object.
      *
      * @param string                       $function   The SQL GIS function to execute.
@@ -477,6 +452,16 @@ abstract class DatabaseEngine implements GeometryEngine
 
     public function lineInterpolatePoints(LineString $linestring, float $fraction) : MultiPoint
     {
-        return $this->queryMultiPoint('ST_LineInterpolatePoints', $linestring, $fraction);
+        $result = $this->queryGeometry('ST_LineInterpolatePoints', $linestring, $fraction);
+
+        if ($result instanceof MultiPoint) {
+            return $result;
+        }
+
+        if ($result->isEmpty()) {
+            return new MultiPoint($result->coordinateSystem());
+        }
+
+        return MultiPoint::of($result);
     }
 }
