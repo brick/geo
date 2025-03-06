@@ -217,6 +217,15 @@ class CircularStringProxy extends CircularString implements ProxyInterface
         return $this->proxyGeometry->getIterator();
     }
 
+    public function withAddedPoints(\Brick\Geo\Point ...$points): \Brick\Geo\CircularString
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->withAddedPoints($points);
+    }
+
     public function coordinateDimension(): int
     {
         if ($this->proxyGeometry === null) {

@@ -217,6 +217,33 @@ class PolygonProxy extends Polygon implements ProxyInterface
         return $this->proxyGeometry->getIterator();
     }
 
+    public function withExteriorRing(\Brick\Geo\LineString $exteriorRing): \Brick\Geo\Polygon
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->withExteriorRing($exteriorRing);
+    }
+
+    public function withInteriorRings(\Brick\Geo\LineString ...$interiorRings): \Brick\Geo\Polygon
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->withInteriorRings($interiorRings);
+    }
+
+    public function withAddedInteriorRings(\Brick\Geo\LineString ...$interiorRings): \Brick\Geo\Polygon
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->withAddedInteriorRings($interiorRings);
+    }
+
     public function coordinateDimension(): int
     {
         if ($this->proxyGeometry === null) {

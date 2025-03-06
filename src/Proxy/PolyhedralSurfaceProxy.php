@@ -199,6 +199,15 @@ class PolyhedralSurfaceProxy extends PolyhedralSurface implements ProxyInterface
         return $this->proxyGeometry->getIterator();
     }
 
+    public function withAddedPatches(\Brick\Geo\Polygon ...$patches): \Brick\Geo\PolyhedralSurface
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->withAddedPatches($patches);
+    }
+
     public function coordinateDimension(): int
     {
         if ($this->proxyGeometry === null) {
