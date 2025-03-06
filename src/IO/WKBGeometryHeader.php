@@ -7,13 +7,13 @@ namespace Brick\Geo\IO;
 /**
  * @internal
  */
-final class WKBGeometryHeader
+final readonly class WKBGeometryHeader
 {
     public function __construct(
-        public readonly int $geometryType,
-        public readonly bool $hasZ,
-        public readonly bool $hasM,
-        public readonly ?int $srid = null,
+        public int $geometryType,
+        public bool $hasZ,
+        public bool $hasM,
+        public ?int $srid = null,
     ) {
     }
 }
