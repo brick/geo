@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="6.3.0@222dda8483516044c2ed7a4c3f197d7c9d6c3ddb">
+<files psalm-version="6.8.8@1361cd33008feb3ae2b4a93f1860e14e538ec8c2">
   <file src="src/CircularString.php">
     <FalsableReturnStatement>
       <code><![CDATA[end($this->points)]]></code>
@@ -103,6 +103,14 @@
     <MixedArgument>
       <code><![CDATA[$geometry::class]]></code>
     </MixedArgument>
+  </file>
+  <file src="src/IO/AbstractWKTWriter.php">
+    <InvalidOperand>
+      <code><![CDATA[$m]]></code>
+      <code><![CDATA[$point->x()]]></code>
+      <code><![CDATA[$point->y()]]></code>
+      <code><![CDATA[$z]]></code>
+    </InvalidOperand>
   </file>
   <file src="src/IO/EWKTParser.php">
     <InvalidClassConstantType>
