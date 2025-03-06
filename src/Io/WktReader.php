@@ -12,7 +12,7 @@ use Brick\Geo\Io\Internal\WktParser;
 /**
  * Builds geometries out of Well-Known Text strings.
  */
-final class WktReader extends AbstractWktReader
+final readonly class WktReader extends AbstractWktReader
 {
     /**
      * @param string $wkt  The WKT to read.

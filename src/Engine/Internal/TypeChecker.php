@@ -10,7 +10,7 @@ use Brick\Geo\Geometry;
 /**
  * Type checker for engine return values.
  */
-final class TypeChecker
+final readonly class TypeChecker
 {
     /**
      * Checks that the given geometry is an instance of the expected class.

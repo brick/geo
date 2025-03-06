@@ -12,6 +12,6 @@ use Attribute;
  * @internal
  */
 #[Attribute(Attribute::TARGET_METHOD)]
-final class NoProxy
+final readonly class NoProxy
 {
 }

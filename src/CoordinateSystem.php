@@ -11,22 +11,22 @@ use Brick\Geo\Exception\CoordinateSystemException;
  *
  * This class is immutable.
  */
-final class CoordinateSystem
+final readonly class CoordinateSystem
 {
     /**
      * Whether this coordinate system has Z-coordinates.
      */
-    private readonly bool $hasZ;
+    private bool $hasZ;
 
     /**
      * Whether this coordinate system has M-coordinates.
      */
-    private readonly bool $hasM;
+    private bool $hasM;
 
     /**
      * The Spatial Reference System Identifier of this coordinate system.
      */
-    private readonly int $srid;
+    private int $srid;
 
     /**
      * @param bool $hasZ Whether the coordinate system has Z-coordinates.

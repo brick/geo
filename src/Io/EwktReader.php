@@ -12,7 +12,7 @@ use Brick\Geo\Io\Internal\WktParser;
 /**
  * Reads geometries from the Extended WKT format designed by PostGIS.
  */
-final class EwktReader extends AbstractWktReader
+final readonly class EwktReader extends AbstractWktReader
 {
     /**
      * @throws GeometryIoException

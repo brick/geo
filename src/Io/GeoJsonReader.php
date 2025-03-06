@@ -23,7 +23,7 @@ use stdClass;
 /**
  * Builds geometries out of GeoJSON text strings.
  */
-final class GeoJsonReader
+final readonly class GeoJsonReader
 {
     /**
      * The GeoJSON types, in their correct case according to the standard, indexed by their lowercase counterpart.
@@ -40,7 +40,7 @@ final class GeoJsonReader
         'geometrycollection' => 'GeometryCollection',
     ];
 
-    private readonly bool $lenient;
+    private bool $lenient;
 
     /**
      * @param bool $lenient Whether to parse the GeoJSON in lenient mode.

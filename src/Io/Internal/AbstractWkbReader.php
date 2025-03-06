@@ -27,7 +27,7 @@ use Brick\Geo\Triangle;
  *
  * @internal
  */
-abstract class AbstractWkbReader
+abstract readonly class AbstractWkbReader
 {
     /**
      * @throws GeometryIoException

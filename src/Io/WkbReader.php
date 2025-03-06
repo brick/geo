@@ -15,7 +15,7 @@ use Override;
 /**
  * Builds geometries out of Well-Known Binary strings.
  */
-final class WkbReader extends AbstractWkbReader
+final readonly class WkbReader extends AbstractWkbReader
 {
     /**
      * @param string $wkb  The WKB to read.

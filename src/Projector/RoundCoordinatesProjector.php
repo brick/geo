@@ -12,10 +12,10 @@ use Override;
  * Rounds coordinates to a given precision.
  * This projector is typically used to simplify the WKT representation of geometries.
  */
-final class RoundCoordinatesProjector implements Projector
+final readonly class RoundCoordinatesProjector implements Projector
 {
     public function __construct(
-        private readonly int $precision,
+        private int $precision,
     ) {
     }
 

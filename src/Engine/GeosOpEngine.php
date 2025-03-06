@@ -21,11 +21,11 @@ use Override;
  *
  * https://libgeos.org/usage/tools/#geosop
  */
-final class GeosOpEngine implements GeometryEngine
+final readonly class GeosOpEngine implements GeometryEngine
 {
     public function __construct(
         /** Path to the geosop binary. */
-        private readonly string $geosopPath,
+        private string $geosopPath,
     ) {
     }
 

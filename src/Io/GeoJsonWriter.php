@@ -15,13 +15,13 @@ use stdClass;
 /**
  * Converter class from Geometry to GeoJSON.
  */
-final class GeoJsonWriter
+final readonly class GeoJsonWriter
 {
-    private readonly bool $prettyPrint;
+    private bool $prettyPrint;
 
-    private readonly bool $setBbox;
+    private bool $setBbox;
 
-    private readonly bool $lenient;
+    private bool $lenient;
 
     /**
      * @param bool $prettyPrint Whether to pretty-print the JSON output.

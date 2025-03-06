@@ -11,19 +11,19 @@ use stdClass;
 /**
  * A GeoJSON Feature. This class is immutable.
  */
-final class Feature
+final readonly class Feature
 {
     /**
      * The contained geometry, or null if this feature is not associated with a geometry.
      *
      * @var Geometry|null
      */
-    private readonly ?Geometry $geometry;
+    private ?Geometry $geometry;
 
     /**
      * An optional key-value map of feature properties. Must be convertible to JSON.
      */
-    private readonly ?stdClass $properties;
+    private ?stdClass $properties;
 
     /**
      * @param Geometry|null $geometry

@@ -11,10 +11,10 @@ use Override;
 /**
  * Changes the SRID of a Geometry, without changing its coordinates.
  */
-final class SridProjector implements Projector
+final readonly class SridProjector implements Projector
 {
     public function __construct(
-        private readonly int $targetSrid,
+        private int $targetSrid,
     ) {
     }
 

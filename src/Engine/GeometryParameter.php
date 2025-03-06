@@ -14,19 +14,19 @@ use Brick\Geo\Geometry;
  *
  * @internal
  */
-final class GeometryParameter
+final readonly class GeometryParameter
 {
     /**
      * The WKT or WKB data.
      */
-    public readonly string $data;
+    public string $data;
 
     /**
      * True for WKB, false for WKT.
      */
-    public readonly bool $isBinary;
+    public bool $isBinary;
 
-    public readonly int $srid;
+    public int $srid;
 
     public function __construct(Geometry $geometry, bool $isBinary)
     {

@@ -15,7 +15,7 @@ use Override;
 /**
  * Reads geometries out of the Extended WKB format designed by PostGIS.
  */
-final class EwkbReader extends AbstractWkbReader
+final readonly class EwkbReader extends AbstractWkbReader
 {
     /**
      * @throws GeometryIoException

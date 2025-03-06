@@ -11,7 +11,7 @@ use Brick\Geo\Exception\GeometryIoException;
  *
  * @internal
  */
-abstract class WkbTools
+final readonly class WkbTools
 {
     /**
      * @throws GeometryIoException

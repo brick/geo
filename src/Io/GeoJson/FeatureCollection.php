@@ -7,7 +7,7 @@ namespace Brick\Geo\Io\GeoJson;
 /**
  * A GeoJSON FeatureCollection. This class is immutable.
  */
-final class FeatureCollection
+final readonly class FeatureCollection
 {
     /**
      * The contained features.
@@ -35,10 +35,6 @@ final class FeatureCollection
      */
     public function withAddedFeature(Feature $feature): FeatureCollection
     {
-        $that = clone $this;
-
-        $that->features[] = $feature;
-
-        return $that;
+        return new FeatureCollection(...$this->features, ...[$feature]);
     }
 }

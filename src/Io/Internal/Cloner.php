@@ -10,7 +10,7 @@ use stdClass;
 /**
  * @internal This class is not part of the public API and can change at any time.
  */
-final class Cloner
+final readonly class Cloner
 {
     /**
      * @psalm-suppress RawObjectIteration
