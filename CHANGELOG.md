@@ -1,5 +1,15 @@
 # Changelog
 
+## UNRELEASED
+
+💥 **Breaking changes**
+
+- Interface `GeometryEngine` has 2 new methods: `lineInterpolatePoint()`, `lineInterpolatePoints()`
+
+✨ **New features**
+
+- New engine methods: `GeometryEngine::lineInterpolatePoint()`, `lineInterpolatePoints()` (#55 by @arminwinkt)
+
 ## [0.11.5](https://github.com/brick/geo/releases/tag/0.11.5) - 2025-03-06
 
 🐛 **Bug fixes**
