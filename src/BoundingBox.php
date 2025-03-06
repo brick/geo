@@ -11,19 +11,19 @@ use Brick\Geo\Exception\EmptyGeometryException;
  * Represents a 2D or 3D bounding box calculated from a set of points. M coordinates are ignored.
  * This class is immutable.
  */
-final class BoundingBox
+final readonly class BoundingBox
 {
     /**
      * Private constructor. Use BoundingBox::new() to obtain an instance.
      */
     private function __construct(
-        public readonly ?CoordinateSystem $cs,
-        public readonly ?float $swX,
-        public readonly ?float $swY,
-        public readonly ?float $swZ,
-        public readonly ?float $neX,
-        public readonly ?float $neY,
-        public readonly ?float $neZ,
+        public ?CoordinateSystem $cs,
+        public ?float $swX,
+        public ?float $swY,
+        public ?float $swZ,
+        public ?float $neX,
+        public ?float $neY,
+        public ?float $neZ,
     ) {
     }
 

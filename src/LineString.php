@@ -19,7 +19,7 @@ use Override;
  *
  * @template-implements \IteratorAggregate<int<0, max>, Point>
  */
-final class LineString extends Curve implements \Countable, \IteratorAggregate
+final readonly class LineString extends Curve implements \Countable, \IteratorAggregate
 {
     /**
      * The Points that compose this LineString.
@@ -29,7 +29,7 @@ final class LineString extends Curve implements \Countable, \IteratorAggregate
      *
      * @var list<Point>
      */
-    protected array $points = [];
+    protected array $points;
 
     /**
      * A LineString must be composed of 2 points or more, or 0 points for an empty LineString.
@@ -45,9 +45,12 @@ final class LineString extends Curve implements \Countable, \IteratorAggregate
      */
     public function __construct(CoordinateSystem $cs, Point ...$points)
     {
-        parent::__construct($cs, ! $points);
+        $isEmpty = (count($points) === 0);
+        parent::__construct($cs, $isEmpty);
 
-        if (! $points) {
+        $this->points = array_values($points);
+
+        if ($isEmpty) {
             return;
         }
 
@@ -56,8 +59,6 @@ final class LineString extends Curve implements \Countable, \IteratorAggregate
         if (count($points) < 2) {
             throw new InvalidGeometryException('A LineString must be composed of at least 2 points.');
         }
-
-        $this->points = array_values($points);
     }
 
     /**

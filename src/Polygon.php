@@ -37,7 +37,7 @@ use Override;
  *
  * @template-implements \IteratorAggregate<int<0, max>, LineString>
  */
-class Polygon extends Surface implements \Countable, \IteratorAggregate
+readonly class Polygon extends Surface implements \Countable, \IteratorAggregate
 {
     /**
      * The rings that compose this polygon.
@@ -49,7 +49,7 @@ class Polygon extends Surface implements \Countable, \IteratorAggregate
      *
      * @var list<LineString>
      */
-    protected array $rings = [];
+    protected array $rings;
 
     /**
      * The coordinate system of each of the rings must match the one of the Polygon.
@@ -62,15 +62,16 @@ class Polygon extends Surface implements \Countable, \IteratorAggregate
      */
     final public function __construct(CoordinateSystem $cs, LineString ...$rings)
     {
-        parent::__construct($cs, ! $rings);
+        $isEmpty = (count($rings) === 0);
+        parent::__construct($cs, $isEmpty);
 
-        if (! $rings) {
+        $this->rings = array_values($rings);
+
+        if ($isEmpty) {
             return;
         }
 
         CoordinateSystem::check($this, ...$rings);
-
-        $this->rings = array_values($rings);
 
         $this->validate();
     }

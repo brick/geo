@@ -25,22 +25,22 @@ use Override;
 /**
  * GeometryEngine implementation based on the GEOS PHP bindings.
  */
-final class GeosEngine implements GeometryEngine
+final readonly class GeosEngine implements GeometryEngine
 {
-    private readonly GEOSWKBReader $geosWkbReader;
-    private readonly GEOSWKBWriter $geosWkbWriter;
-    private readonly GEOSWKTReader $geosWktReader;
-    private readonly GEOSWKTWriter $geosWktWriter;
+    private GEOSWKBReader $geosWkbReader;
+    private GEOSWKBWriter $geosWkbWriter;
+    private GEOSWKTReader $geosWktReader;
+    private GEOSWKTWriter $geosWktWriter;
 
-    private readonly EwkbReader $ewkbReader;
-    private readonly EwkbWriter $ewkbWriter;
+    private EwkbReader $ewkbReader;
+    private EwkbWriter $ewkbWriter;
 
     /**
      * Whether the GEOS version in use has support for binary read() and write() methods.
      *
      * These methods are available since GEOS 3.5.0.
      */
-    private readonly bool $hasBinaryReadWrite;
+    private bool $hasBinaryReadWrite;
 
     public function __construct()
     {

@@ -20,7 +20,7 @@ use Override;
  *
  * @template-implements \IteratorAggregate<int<0, max>, Point>
  */
-final class CircularString extends Curve implements \Countable, \IteratorAggregate
+final readonly class CircularString extends Curve implements \Countable, \IteratorAggregate
 {
     /**
      * The Points that compose this CircularString.
@@ -29,7 +29,7 @@ final class CircularString extends Curve implements \Countable, \IteratorAggrega
      *
      * @var list<Point>
      */
-    protected array $points = [];
+    protected array $points;
 
     /**
      * @throws InvalidGeometryException  If the number of points is invalid.
@@ -37,15 +37,18 @@ final class CircularString extends Curve implements \Countable, \IteratorAggrega
      */
     public function __construct(CoordinateSystem $cs, Point ...$points)
     {
-        parent::__construct($cs, ! $points);
+        $numPoints = count($points);
+        $isEmpty = ($numPoints === 0);
 
-        if (! $points) {
+        parent::__construct($cs, $isEmpty);
+
+        $this->points = array_values($points);
+
+        if ($isEmpty) {
             return;
         }
 
         CoordinateSystem::check($this, ...$points);
-
-        $numPoints = count($points);
 
         if ($numPoints < 3) {
             throw new InvalidGeometryException('A CircularString must be made of at least 3 points.');
@@ -54,8 +57,6 @@ final class CircularString extends Curve implements \Countable, \IteratorAggrega
         if ($numPoints % 2 === 0) {
             throw new InvalidGeometryException('A CircularString must have an odd number of points.');
         }
-
-        $this->points = array_values($points);
     }
 
     /**
