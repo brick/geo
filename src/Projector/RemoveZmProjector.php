@@ -22,16 +22,16 @@ final class RemoveZmProjector implements Projector
     #[Override]
     public function project(Point $point): Point
     {
-        $coordinateSystem = $this->getTargetCoordinateSystem($point->coordinateSystem());
+        $coordinateSystem = $this->getTargetCoordinateSystem($point->coordinateSystem);
 
         if ($point->isEmpty()) {
             return new Point($coordinateSystem);
         }
 
-        $x = $point->x();
-        $y = $point->y();
-        $z = $point->z();
-        $m = $point->m();
+        $x = $point->x;
+        $y = $point->y;
+        $z = $point->z;
+        $m = $point->m;
 
         assert($x !== null);
         assert($y !== null);
@@ -53,7 +53,7 @@ final class RemoveZmProjector implements Projector
     public function getTargetCoordinateSystem(CoordinateSystem $sourceCoordinateSystem): CoordinateSystem
     {
         return $sourceCoordinateSystem
-            ->withZ($sourceCoordinateSystem->hasZ() && ! $this->removeZ)
-            ->withM($sourceCoordinateSystem->hasM() && ! $this->removeM);
+            ->withZ($sourceCoordinateSystem->hasZ && ! $this->removeZ)
+            ->withM($sourceCoordinateSystem->hasM && ! $this->removeM);
     }
 }

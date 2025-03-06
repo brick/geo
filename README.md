@@ -75,8 +75,8 @@ echo $lineString->asText(); // LINESTRING (1 2, 3 4)
 
 $point = Point::fromText('POINT (1 2)');
 
-echo $point->x(); // 1
-echo $point->y(); // 2
+echo $point->x; // 1
+echo $point->y; // 2
 
 // Using advanced calculations from a GeometryEngine
 // (see the Configuration section)

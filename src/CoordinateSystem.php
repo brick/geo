@@ -16,17 +16,17 @@ final class CoordinateSystem
     /**
      * Whether this coordinate system has Z-coordinates.
      */
-    private readonly bool $hasZ;
+    public bool $hasZ;
 
     /**
      * Whether this coordinate system has M-coordinates.
      */
-    private readonly bool $hasM;
+    public bool $hasM;
 
     /**
      * The Spatial Reference System Identifier of this coordinate system.
      */
-    private readonly int $srid;
+    public int $srid;
 
     /**
      * @param bool $hasZ Whether the coordinate system has Z-coordinates.
@@ -74,6 +74,8 @@ final class CoordinateSystem
 
     /**
      * Returns whether this coordinate system has Z-coordinates.
+     *
+     * @deprecated Use $hasZ property instead.
      */
     public function hasZ() : bool
     {
@@ -82,6 +84,8 @@ final class CoordinateSystem
 
     /**
      * Returns whether this coordinate system has M-coordinates.
+     *
+     * @deprecated Use $hasM property instead.
      */
     public function hasM() : bool
     {
@@ -90,6 +94,8 @@ final class CoordinateSystem
 
     /**
      * Returns the Spatial Reference System Identifier of this coordinate system.
+     *
+     * @deprecated Use $srid property instead.
      */
     public function srid() : int
     {
@@ -207,10 +213,10 @@ final class CoordinateSystem
      */
     public static function check(Geometry $reference, Geometry ...$geometries) : void
     {
-        $referenceCs = $reference->coordinateSystem();
+        $referenceCs = $reference->coordinateSystem;
 
         foreach ($geometries as $geometry) {
-            $geometryCs = $geometry->coordinateSystem();
+            $geometryCs = $geometry->coordinateSystem;
 
             if ($geometryCs->isEqualTo($referenceCs)) {
                 continue;

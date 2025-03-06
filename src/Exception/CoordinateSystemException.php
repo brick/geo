@@ -46,9 +46,9 @@ final class CoordinateSystemException extends GeometryException
         return new CoordinateSystemException(sprintf(
             'Dimensionality mix: %s %s cannot contain %s %s.',
             $reference->geometryType(),
-            $reference->coordinateSystem()->coordinateName(),
+            $reference->coordinateSystem->coordinateName(),
             $culprit->geometryType(),
-            $culprit->coordinateSystem()->coordinateName()
+            $culprit->coordinateSystem->coordinateName()
         ));
     }
 }

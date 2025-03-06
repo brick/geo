@@ -29,7 +29,7 @@ final readonly class CircularString extends Curve implements \Countable, \Iterat
      *
      * @var list<Point>
      */
-    protected array $points;
+    public array $points;
 
     /**
      * @throws InvalidGeometryException  If the number of points is invalid.
@@ -70,7 +70,7 @@ final readonly class CircularString extends Curve implements \Countable, \Iterat
      */
     public static function of(Point $point1, Point ...$pointN) : CircularString
     {
-        return new CircularString($point1->coordinateSystem(), $point1, ...$pointN);
+        return new CircularString($point1->coordinateSystem, $point1, ...$pointN);
     }
 
     #[Override]
@@ -123,6 +123,8 @@ final readonly class CircularString extends Curve implements \Countable, \Iterat
      * Returns the points that compose this CircularString.
      *
      * @return list<Point>
+     *
+     * @deprecated Use $points property instead.
      */
     public function points() : array
     {

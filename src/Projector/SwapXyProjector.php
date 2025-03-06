@@ -28,7 +28,7 @@ final class SwapXyProjector implements Projector
         $coordinates[0] = $y;
         $coordinates[1] = $x;
 
-        return new Point($point->coordinateSystem(), ...$coordinates);
+        return new Point($point->coordinateSystem, ...$coordinates);
     }
 
     #[Override]

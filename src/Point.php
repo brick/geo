@@ -22,22 +22,22 @@ final readonly class Point extends Geometry
     /**
      * The x-coordinate value for this Point, or NULL if the point is empty.
      */
-    private ?float $x;
+    public ?float $x;
 
     /**
      * The y-coordinate value for this Point, or NULL if the point is empty.
      */
-    private ?float $y;
+    public ?float $y;
 
     /**
      * The z-coordinate value for this Point, or NULL if it does not have one.
      */
-    private ?float $z;
+    public ?float $z;
 
     /**
      * The m-coordinate value for this Point, or NULL if it does not have one.
      */
-    private ?float $m;
+    public ?float $m;
 
     /**
      * @param CoordinateSystem $cs        The coordinate system.
@@ -78,7 +78,7 @@ final readonly class Point extends Geometry
                 $coordinateName = match ($i) {
                     0 => 'X',
                     1 => 'Y',
-                    2 => $cs->hasZ() ? 'Z' : 'M',
+                    2 => $cs->hasZ ? 'Z' : 'M',
                     3 => 'M',
                 };
                 throw new InvalidGeometryException(sprintf(
@@ -94,11 +94,8 @@ final readonly class Point extends Geometry
         $this->x = $coords[0];
         $this->y = $coords[1];
 
-        $hasZ = $cs->hasZ();
-        $hasM = $cs->hasM();
-
-        $this->z = $hasZ ? $coords[2] : null;
-        $this->m = $hasM ? $coords[$hasZ ? 3 : 2] : null;
+        $this->z = $cs->hasZ ? $coords[2] : null;
+        $this->m = $cs->hasM ? $coords[$cs->hasZ ? 3 : 2] : null;
     }
 
     /**
@@ -169,6 +166,8 @@ final readonly class Point extends Geometry
      * Returns the x-coordinate value for this Point.
      *
      * Returns NULL if the Point is empty.
+     *
+     * @deprecated Use $x property instead.
      */
     public function x() : ?float
     {
@@ -179,6 +178,8 @@ final readonly class Point extends Geometry
      * Returns the y-coordinate value for this Point.
      *
      * Returns NULL if the Point is empty.
+     *
+     * @deprecated Use $y property instead.
      */
     public function y() : ?float
     {
@@ -189,6 +190,8 @@ final readonly class Point extends Geometry
      * Returns the z-coordinate value for this Point.
      *
      * Returns NULL if the Point is empty, or does not have a Z coordinate.
+     *
+     * @deprecated Use $z property instead.
      */
     public function z() : ?float
     {
@@ -198,7 +201,9 @@ final readonly class Point extends Geometry
     /**
      * Returns the m-coordinate value for this Point.
      *
-     * Returns NULL if the Point is empty, or does not have a M coordinate.
+     * Returns NULL if the Point is empty, or does not have an M coordinate.
+     *
+     * @deprecated Use $m property instead.
      */
     public function m() : ?float
     {

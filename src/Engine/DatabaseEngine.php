@@ -515,7 +515,7 @@ abstract class DatabaseEngine implements GeometryEngine
 
         // POINT EMPTY
         if ($result->isEmpty()) {
-            return new MultiPoint($result->coordinateSystem());
+            return new MultiPoint($result->coordinateSystem);
         }
 
         // POINT

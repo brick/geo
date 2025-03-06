@@ -19,17 +19,17 @@ final class EwkbWriter extends AbstractWkbWriter
     {
         $geometryType = $geometry->geometryTypeBinary();
 
-        $cs = $geometry->coordinateSystem();
+        $cs = $geometry->coordinateSystem;
 
-        if ($cs->hasZ()) {
+        if ($cs->hasZ) {
             $geometryType |= EwkbTools::Z;
         }
 
-        if ($cs->hasM()) {
+        if ($cs->hasM) {
             $geometryType |= EwkbTools::M;
         }
 
-        $srid = $cs->srid();
+        $srid = $cs->srid;
 
         if ($srid !== 0 && $outer) {
             $geometryType |= EwkbTools::S;

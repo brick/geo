@@ -43,7 +43,7 @@ readonly class PolyhedralSurface extends Surface implements \Countable, \Iterato
      *
      * @var list<T>
      */
-    protected array $patches;
+    public array $patches;
 
     /**
      * The coordinate system of each of the patches must match the one of the PolyhedralSurface.
@@ -96,7 +96,7 @@ readonly class PolyhedralSurface extends Surface implements \Countable, \Iterato
      */
     public static function of(Polygon $patch1, Polygon ...$patchN) : static
     {
-        return new static($patch1->coordinateSystem(), $patch1, ...$patchN);
+        return new static($patch1->coordinateSystem, $patch1, ...$patchN);
     }
 
     /**
@@ -136,6 +136,8 @@ readonly class PolyhedralSurface extends Surface implements \Countable, \Iterato
      * Returns the patches that compose this PolyhedralSurface.
      *
      * @return list<T>
+     *
+     * @deprecated Use $patches property instead.
      */
     public function patches() : array
     {

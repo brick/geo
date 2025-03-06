@@ -49,7 +49,7 @@ readonly class Polygon extends Surface implements \Countable, \IteratorAggregate
      *
      * @var list<LineString>
      */
-    protected array $rings;
+    public array $rings;
 
     /**
      * The coordinate system of each of the rings must match the one of the Polygon.
@@ -94,7 +94,7 @@ readonly class Polygon extends Surface implements \Countable, \IteratorAggregate
      */
     public static function of(LineString $exteriorRing, LineString ...$interiorRings) : static
     {
-        return new static($exteriorRing->coordinateSystem(), $exteriorRing, ...$interiorRings);
+        return new static($exteriorRing->coordinateSystem, $exteriorRing, ...$interiorRings);
     }
 
     /**
@@ -103,6 +103,8 @@ readonly class Polygon extends Surface implements \Countable, \IteratorAggregate
      * Returns an empty array if this Polygon is empty.
      *
      * @return list<LineString>
+     *
+     * @deprecated Use $rings property instead.
      */
     public function rings(): array
     {

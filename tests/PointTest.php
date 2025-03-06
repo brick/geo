@@ -64,16 +64,16 @@ class PointTest extends AbstractTestCase
     {
         $point = new Point(CoordinateSystem::xy(), ...['x_whatever' => 1, 'y_whatever' => 2]);
 
-        self::assertSame(1.0, $point->x());
-        self::assertSame(2.0, $point->y());
+        self::assertSame(1.0, $point->x);
+        self::assertSame(2.0, $point->y);
     }
 
     private function assertPointFactoryMethodAndAccessors(Point $point, float $x, float $y, ?float $z, ?float $m, int $srid) : void
     {
-        self::assertSame($x, $point->x());
-        self::assertSame($y, $point->y());
-        self::assertSame($z, $point->z());
-        self::assertSame($m, $point->m());
+        self::assertSame($x, $point->x);
+        self::assertSame($y, $point->y);
+        self::assertSame($z, $point->z);
+        self::assertSame($m, $point->m);
         self::assertSame($srid, $point->srid());
         self::assertFalse($point->isEmpty());
     }
@@ -129,10 +129,10 @@ class PointTest extends AbstractTestCase
     private function assertPointEmptyFactoryMethod(Point $point, bool $is3D, bool $isMeasured, int $srid) : void
     {
         self::assertTrue($point->isEmpty());
-        self::assertNull($point->x());
-        self::assertNull($point->y());
-        self::assertNull($point->z());
-        self::assertNull($point->m());
+        self::assertNull($point->x);
+        self::assertNull($point->y);
+        self::assertNull($point->z);
+        self::assertNull($point->m);
         self::assertSame($is3D, $point->is3D());
         self::assertSame($isMeasured, $point->isMeasured());
         self::assertSame($srid, $point->srid());

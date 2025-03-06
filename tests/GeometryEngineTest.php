@@ -268,8 +268,8 @@ class GeometryEngineTest extends AbstractTestCase
 
         $centroid = $geometryEngine->centroid($wkt);
 
-        $this->assertEqualsWithDelta($centroidX, $centroid->x(), 0.001);
-        $this->assertEqualsWithDelta($centroidY, $centroid->y(), 0.001);
+        $this->assertEqualsWithDelta($centroidX, $centroid->x, 0.001);
+        $this->assertEqualsWithDelta($centroidY, $centroid->y, 0.001);
     }
 
     /**

@@ -29,7 +29,7 @@ final readonly class LineString extends Curve implements \Countable, \IteratorAg
      *
      * @var list<Point>
      */
-    protected array $points;
+    public array $points;
 
     /**
      * A LineString must be composed of 2 points or more, or 0 points for an empty LineString.
@@ -72,7 +72,7 @@ final readonly class LineString extends Curve implements \Countable, \IteratorAg
      */
     public static function of(Point $point1, Point ...$pointN) : LineString
     {
-        return new LineString($point1->coordinateSystem(), $point1, ...$pointN);
+        return new LineString($point1->coordinateSystem, $point1, ...$pointN);
     }
 
     /**
@@ -87,10 +87,10 @@ final readonly class LineString extends Curve implements \Countable, \IteratorAg
      */
     public static function rectangle(Point $a, Point $b) : LineString
     {
-        $cs = $a->coordinateSystem();
+        $cs = $a->coordinateSystem;
 
-        if (! $cs->isEqualTo($b->coordinateSystem())) {
-            throw CoordinateSystemException::dimensionalityMix($cs, $b->coordinateSystem());
+        if (! $cs->isEqualTo($b->coordinateSystem)) {
+            throw CoordinateSystemException::dimensionalityMix($cs, $b->coordinateSystem);
         }
 
         if ($cs->coordinateDimension() !== 2) {
@@ -101,11 +101,11 @@ final readonly class LineString extends Curve implements \Countable, \IteratorAg
             throw new EmptyGeometryException('Points cannot be empty.');
         }
 
-        $x1 = min($a->x(), $b->x());
-        $x2 = max($a->x(), $b->x());
+        $x1 = min($a->x, $b->x);
+        $x2 = max($a->x, $b->x);
 
-        $y1 = min($a->y(), $b->y());
-        $y2 = max($a->y(), $b->y());
+        $y1 = min($a->y, $b->y);
+        $y2 = max($a->y, $b->y);
 
         $p1 = new Point($cs, $x1, $y1);
         $p2 = new Point($cs, $x2, $y1);
@@ -165,6 +165,8 @@ final readonly class LineString extends Curve implements \Countable, \IteratorAg
      * Returns the points that compose this LineString.
      *
      * @return list<Point>
+     *
+     * @deprecated Use $points property instead.
      */
     public function points() : array
     {

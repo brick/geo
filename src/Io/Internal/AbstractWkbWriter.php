@@ -131,13 +131,13 @@ abstract class AbstractWkbWriter
         }
 
         /** @psalm-suppress PossiblyNullArgument */
-        $binary = $this->packDouble($point->x()) . $this->packDouble($point->y());
+        $binary = $this->packDouble($point->x) . $this->packDouble($point->y);
 
-        if (null !== $z = $point->z()) {
-            $binary .= $this->packDouble($z);
+        if ($point->z !== null) {
+            $binary .= $this->packDouble($point->z);
         }
-        if (null !== $m = $point->m()) {
-            $binary .= $this->packDouble($m);
+        if ($point->m !== null) {
+            $binary .= $this->packDouble($point->m);
         }
 
         return $binary;
