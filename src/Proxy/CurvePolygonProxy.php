@@ -208,6 +208,33 @@ class CurvePolygonProxy extends CurvePolygon implements ProxyInterface
         return $this->proxyGeometry->getIterator();
     }
 
+    public function withExteriorRing(\Brick\Geo\Curve $exteriorRing): \Brick\Geo\CurvePolygon
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->withExteriorRing($exteriorRing);
+    }
+
+    public function withInteriorRings(\Brick\Geo\Curve ...$interiorRings): \Brick\Geo\CurvePolygon
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->withInteriorRings($interiorRings);
+    }
+
+    public function withAddedInteriorRings(\Brick\Geo\Curve ...$interiorRings): \Brick\Geo\CurvePolygon
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->withAddedInteriorRings($interiorRings);
+    }
+
     public function coordinateDimension(): int
     {
         if ($this->proxyGeometry === null) {

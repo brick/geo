@@ -217,6 +217,15 @@ class CompoundCurveProxy extends CompoundCurve implements ProxyInterface
         return $this->proxyGeometry->getIterator();
     }
 
+    public function withAddedCurves(\Brick\Geo\Curve ...$curves): \Brick\Geo\CompoundCurve
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->withAddedCurves($curves);
+    }
+
     public function coordinateDimension(): int
     {
         if ($this->proxyGeometry === null) {

@@ -208,6 +208,15 @@ class GeometryCollectionProxy extends GeometryCollection implements ProxyInterfa
         return $this->proxyGeometry->getIterator();
     }
 
+    public function withAddedGeometries(\Brick\Geo\Geometry ...$geometries): \Brick\Geo\GeometryCollection
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->withAddedGeometries($geometries);
+    }
+
     public function coordinateDimension(): int
     {
         if ($this->proxyGeometry === null) {
