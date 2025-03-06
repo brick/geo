@@ -6,6 +6,9 @@ namespace Brick\Geo\Engine;
 
 use Brick\Geo\Exception\GeometryEngineException;
 use Brick\Geo\Exception\SQLite3Exception;
+use Brick\Geo\Geometry;
+use Brick\Geo\LineString;
+use Brick\Geo\Point;
 use SQLite3;
 use SQLite3Stmt;
 
@@ -98,5 +101,15 @@ class SQLite3Engine extends DatabaseEngine
 
         /** @psalm-var list<mixed> */
         return $result->fetchArray(SQLITE3_NUM);
+    }
+
+    public function lineInterpolatePoint(LineString $linestring, float $fraction) : Point
+    {
+        $result = $this->queryGeometry('ST_Line_Interpolate_Point', $linestring, $fraction);
+        if (! $result instanceof Point) {
+            throw new GeometryEngineException('This operation yielded the wrong geometry type: ' . $result::class);
+        }
+
+        return $result;
     }
 }

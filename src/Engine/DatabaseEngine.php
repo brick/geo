@@ -7,12 +7,15 @@ namespace Brick\Geo\Engine;
 use Brick\Geo\Curve;
 use Brick\Geo\Exception\GeometryEngineException;
 use Brick\Geo\Geometry;
+use Brick\Geo\LineString;
 use Brick\Geo\MultiCurve;
+use Brick\Geo\MultiPoint;
 use Brick\Geo\MultiSurface;
 use Brick\Geo\MultiPolygon;
 use Brick\Geo\Point;
 use Brick\Geo\Polygon;
 use Brick\Geo\Proxy;
+use Brick\Geo\Proxy\ProxyInterface;
 use Brick\Geo\Surface;
 
 /**
@@ -176,7 +179,7 @@ abstract class DatabaseEngine implements GeometryEngine
      *
      * @throws GeometryEngineException
      */
-    private function queryGeometry(string $function, Geometry|string|float|int ...$parameters) : Geometry
+    protected function queryGeometry(string $function, Geometry|string|float|int ...$parameters) : Geometry
     {
         /** @var array{string|null, string|resource|null, string, int|numeric-string} $result */
         $result = $this->query($function, $parameters, true);
@@ -432,5 +435,33 @@ abstract class DatabaseEngine implements GeometryEngine
     public function split(Geometry $g, Geometry $blade) : Geometry
     {
         return $this->queryGeometry('ST_Split', $g, $blade);
+    }
+
+    /**
+     * @throws GeometryEngineException
+     */
+    public function lineInterpolatePoint(LineString $linestring, float $fraction) : Point
+    {
+        $result = $this->queryGeometry('ST_LineInterpolatePoint', $linestring, $fraction);
+        if (! $result instanceof Point) {
+            throw new GeometryEngineException('This operation yielded wrong type: ' . $result::class);
+        }
+
+        return $result;
+    }
+
+    public function lineInterpolatePoints(LineString $linestring, float $fraction) : MultiPoint
+    {
+        $result = $this->queryGeometry('ST_LineInterpolatePoints', $linestring, $fraction);
+
+        if ($result instanceof MultiPoint) {
+            return $result;
+        }
+
+        if ($result->isEmpty()) {
+            return new MultiPoint($result->coordinateSystem());
+        }
+
+        return MultiPoint::of($result);
     }
 }

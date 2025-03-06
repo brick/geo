@@ -15,6 +15,7 @@ use Brick\Geo\Engine\SQLite3Engine;
 use Brick\Geo\Exception\GeometryEngineException;
 use Brick\Geo\Geometry;
 use Brick\Geo\GeometryCollection;
+use Brick\Geo\LineString;
 use Brick\Geo\MultiCurve;
 use Brick\Geo\MultiSurface;
 use Brick\Geo\Point;
@@ -1207,6 +1208,59 @@ class GeometryEngineTest extends AbstractTestCase
                 'MULTIPOLYGON (((1 1, 1 2, 2 2, 1 1)), ((2 2, 3 2, 3 1, 2 2)), ((3 1, 1 1, 2 2, 3 1)))',
                 'GEOMETRYCOLLECTION (POLYGON ((1 1, 1 2, 2 2, 1 1)), POLYGON ((1 1, 2 2, 3 1, 1 1)), POLYGON ((3 1, 2 2, 3 2, 3 1)))',
             ]],
+        ];
+    }
+
+    #[DataProvider('providerLineInterpolatePoint')]
+    public function testLineInterpolatePoint(string $originalWKT, float $fraction, string $expectedWKT) : void
+    {
+        $geometryEngine = $this->getGeometryEngine();
+
+        if ($this->isMariaDB()) {
+            self::markTestSkipped('This test currently does not run on MariaDB.');
+        }
+
+        $linestring = LineString::fromText($originalWKT);
+        $resultGeometry = $geometryEngine->lineInterpolatePoint($linestring, $fraction);
+
+        $this->assertSame($expectedWKT, $resultGeometry->asText());
+    }
+
+    public static function providerLineInterpolatePoint() : array
+    {
+        return [
+            ['LINESTRING(0 0, 10 10, 20 20, 30 30, 40 40)', 0, 'POINT (0 0)'],
+            ['LINESTRING(0 0, 10 10, 20 20, 30 30, 40 40)', 0.25, 'POINT (10 10)'],
+            ['LINESTRING(0 0, 10 10, 20 20, 30 30, 40 40)', 0.50, 'POINT (20 20)'],
+            ['LINESTRING(0 0, 10 10, 20 20, 30 30, 40 40)', 1, 'POINT (40 40)'],
+        ];
+    }
+
+    #[DataProvider('providerLineInterpolatePoints')]
+    public function testLineInterpolatePoints(string $originalWKT, float $fraction, string $expectedWKT) : void
+    {
+        $geometryEngine = $this->getGeometryEngine();
+
+        if (! $this->isPostGIS() && ! $this->isMySQL()) {
+            self::markTestSkipped('This test currently runs on PostGIS & MySQL only');
+        }
+
+        $linestring = LineString::fromText($originalWKT);
+        $this->skipIfUnsupportedGeometry($linestring);
+
+        $resultGeometry = $geometryEngine->lineInterpolatePoints($linestring, $fraction);
+
+        $this->assertSame($expectedWKT, $resultGeometry->asText());
+    }
+
+    public static function providerLineInterpolatePoints() : array
+    {
+        return [
+            ['LINESTRING EMPTY', 0, 'MULTIPOINT EMPTY'],
+            ['LINESTRING(0 0, 10 10, 20 20, 30 30, 40 40)', 0, 'MULTIPOINT (0 0)'],
+            ['LINESTRING(0 0, 10 10, 20 20, 30 30, 40 40)', 0.25, 'MULTIPOINT (10 10, 20 20, 30 30, 40 40)'],
+            ['LINESTRING(0 0, 10 10, 20 20, 30 30, 40 40)', 0.50, 'MULTIPOINT (20 20, 40 40)'],
+            ['LINESTRING(0 0, 10 10, 20 20, 30 30, 40 40)', 1, 'MULTIPOINT (40 40)'],
         ];
     }
 

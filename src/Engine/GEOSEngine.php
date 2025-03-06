@@ -9,7 +9,9 @@ use Brick\Geo\Exception\GeometryEngineException;
 use Brick\Geo\IO\EWKBReader;
 use Brick\Geo\IO\EWKBWriter;
 use Brick\Geo\Geometry;
+use Brick\Geo\LineString;
 use Brick\Geo\MultiCurve;
+use Brick\Geo\MultiPoint;
 use Brick\Geo\MultiSurface;
 use Brick\Geo\Point;
 use Brick\Geo\Surface;
@@ -372,6 +374,26 @@ class GEOSEngine implements GeometryEngine
     }
 
     public function split(Geometry $g, Geometry $blade) : Geometry
+    {
+        throw GeometryEngineException::unimplementedMethod(__METHOD__);
+    }
+
+    public function lineInterpolatePoint(LineString $linestring, float $fraction) : Point
+    {
+        try {
+            $result = $this->fromGEOS($this->toGEOS($linestring)->interpolate($fraction, true));
+        } catch (\Exception $e) {
+            throw GeometryEngineException::operationNotSupportedByEngine($e);
+        }
+
+        if (! $result instanceof Point) {
+            throw new GeometryEngineException('This operation yielded the wrong geometry type: ' . $result::class);
+        }
+
+        return $result;
+    }
+
+    public function lineInterpolatePoints(LineString $linestring, float $fraction) : MultiPoint
     {
         throw GeometryEngineException::unimplementedMethod(__METHOD__);
     }
