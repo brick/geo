@@ -80,9 +80,8 @@ class GeometryEngineTest extends AbstractTestCase
     {
         $geometryEngine = $this->getGeometryEngine();
 
-        if ($this->isMySQL('< 5.7')) {
-            self::markTestSkipped('MySQL 5.6 difference() implementation is very buggy and should not be used.');
-        }
+        // MySQL 5.6 difference() implementation is very buggy and should not be used.
+        $this->failsOnMySQL('< 5.7');
 
         $geometry1 = Geometry::fromText($geometry1);
         $geometry2 = Geometry::fromText($geometry2);
@@ -215,7 +214,9 @@ class GeometryEngineTest extends AbstractTestCase
     {
         $geometryEngine = $this->getGeometryEngine();
 
-        $this->requireEngine(['SpatiaLite', 'PostGIS']);
+        $this->failsOnMySQL();
+        $this->failsOnMariaDB();
+        $this->failsOnGEOS();
 
         $observer = Point::fromText($observerWkt);
         $subject = Point::fromText($subjectWkt);
@@ -292,10 +293,9 @@ class GeometryEngineTest extends AbstractTestCase
     {
         $geometryEngine = $this->getGeometryEngine();
 
-        if ($this->isMySQL() || $this->isMariaDB('< 10.1.2')) {
-            // MySQL and older MariaDB do not support ST_PointOnSurface()
-            $this->expectException(GeometryEngineException::class);
-        }
+        // MySQL and older MariaDB do not support ST_PointOnSurface()
+        $this->failsOnMySQL();
+        $this->failsOnMariaDB('< 10.1.2');
 
         /** @var Surface|MultiSurface $geometry */
         $geometry = Geometry::fromText($wkt);
@@ -335,14 +335,13 @@ class GeometryEngineTest extends AbstractTestCase
 
         $this->skipIfUnsupportedGeometry($geometry);
 
-        if ($this->isMySQL() || $this->isMariaDB('< 10.1.2')) {
-            // MySQL and older MariaDB do not support boundary.
-            $this->expectException(GeometryEngineException::class);
-        }
+        // MySQL and older MariaDB do not support boundary.
+        $this->failsOnMySQL();
+        $this->failsOnMariaDB('< 10.1.2');
 
-        if ($this->isSpatiaLite() && $geometry instanceof Point) {
+        if ($geometry instanceof Point) {
             // SpatiaLite fails to return a result for a point's boundary.
-            $this->expectException(GeometryEngineException::class);
+            $this->failsOnSpatiaLite();
         }
 
         $actualBoundary = $geometryEngine->boundary($geometry);
@@ -375,9 +374,8 @@ class GeometryEngineTest extends AbstractTestCase
     {
         $geometryEngine = $this->getGeometryEngine();
 
-        if ($this->isMySQL('< 5.7.6-m16') || $this->isMariaDB('>= 10.0')) {
-            $this->expectException(GeometryEngineException::class);
-        }
+        $this->failsOnMySQL('< 5.7.6-m16');
+        $this->failsOnMariaDB('>= 10.0');
 
         $geometry = Geometry::fromText($geometry);
 
@@ -407,7 +405,9 @@ class GeometryEngineTest extends AbstractTestCase
     {
         $geometryEngine = $this->getGeometryEngine();
 
-        $this->requireEngine(['SpatiaLite', 'PostGIS']);
+        $this->failsOnMySQL();
+        $this->failsOnMariaDB();
+        $this->failsOnGEOS();
 
         $geometry = Geometry::fromText($geometryWKT);
         $validGeometry = Geometry::fromText($validGeometryWKT);
@@ -454,9 +454,9 @@ class GeometryEngineTest extends AbstractTestCase
         $geometry = Geometry::fromText($wkt);
         $this->skipIfUnsupportedGeometry($geometry);
 
-        if ($geometry instanceof MultiCurve && $this->isGEOS('< 3.5.0')) {
+        if ($geometry instanceof MultiCurve) {
             // GEOS PHP bindings do not support isClosed() on MultiCurve in older versions.
-            $this->expectException(GeometryEngineException::class);
+            $this->failsOnGEOS('< 3.5.0');
         }
 
         self::assertSame($isClosed, $geometryEngine->isClosed($geometry));
@@ -543,9 +543,10 @@ class GeometryEngineTest extends AbstractTestCase
         $curve = Curve::fromText($wkt);
         $this->skipIfUnsupportedGeometry($curve);
 
-        if ($geometryEngine->isClosed($curve) && $this->isMariaDB('< 10.1.4')) {
+        if ($geometryEngine->isClosed($curve)) {
+            // A bug in MariaDB returns the wrong result.
             // @see https://mariadb.atlassian.net/browse/MDEV-7510
-            self::markTestSkipped('A bug in MariaDB returns the wrong result.');
+            $this->failsOnMariaDB('< 10.1.4');
         }
 
         self::assertSame($isRing, $geometryEngine->isRing($curve));
@@ -839,9 +840,8 @@ class GeometryEngineTest extends AbstractTestCase
     {
         $geometryEngine = $this->getGeometryEngine();
 
-        if ($this->isMySQL() || $this->isMariaDB('< 10.1.2')) {
-            $this->expectException(GeometryEngineException::class);
-        }
+        $this->failsOnMySQL();
+        $this->failsOnMariaDB('< 10.1.2');
 
         $geometry1 = Geometry::fromText($geometry1);
         $geometry2 = Geometry::fromText($geometry2);
@@ -869,9 +869,9 @@ class GeometryEngineTest extends AbstractTestCase
     {
         $geometryEngine = $this->getGeometryEngine();
 
-        if ($this->isGEOS() || $this->isMySQL() || $this->isMariaDB()) {
-            $this->expectException(GeometryEngineException::class);
-        }
+        $this->failsOnMySQL();
+        $this->failsOnMariaDB();
+        $this->failsOnGEOS();
 
         self::assertSame($result, $geometryEngine->locateAlong(Geometry::fromText($geometry), $measure)->asText());
     }
@@ -895,9 +895,9 @@ class GeometryEngineTest extends AbstractTestCase
     {
         $geometryEngine = $this->getGeometryEngine();
 
-        if ($this->isGEOS() || $this->isMySQL() || $this->isMariaDB()) {
-            $this->expectException(GeometryEngineException::class);
-        }
+        $this->failsOnMySQL();
+        $this->failsOnMariaDB();
+        $this->failsOnGEOS();
 
         self::assertSame($result, $geometryEngine->locateBetween(Geometry::fromText($geometry), $mStart, $mEnd)->asText());
     }
@@ -975,9 +975,8 @@ class GeometryEngineTest extends AbstractTestCase
     {
         $geometryEngine = $this->getGeometryEngine();
 
-        if ($this->isMySQL('< 5.7.6-m16') || $this->isMariaDB('< 10.1.2')) {
-            $this->expectException(GeometryEngineException::class);
-        }
+        $this->failsOnMySQL('< 5.7.6-m16');
+        $this->failsOnMariaDB('< 10.1.2');
 
         $geometry = Geometry::fromText($geometry);
         $result   = Geometry::fromText($result);
@@ -1057,9 +1056,9 @@ class GeometryEngineTest extends AbstractTestCase
     {
         $geometryEngine = $this->getGeometryEngine();
 
-        if ($this->isGEOS() || $this->isMySQL() || $this->isMariaDB()) {
-            $this->expectException(GeometryEngineException::class);
-        }
+        $this->failsOnMySQL();
+        $this->failsOnMariaDB();
+        $this->failsOnGEOS();
 
         $geometry = Geometry::fromText($geometry);
         $result   = Geometry::fromText($result);
@@ -1089,9 +1088,9 @@ class GeometryEngineTest extends AbstractTestCase
     {
         $geometryEngine = $this->getGeometryEngine();
 
-        if ($this->isMySQL('< 5.7.6-m16') || $this->isMariaDB('>= 10.0') || $this->isSpatiaLite('< 4.1.0')) {
-            $this->expectException(GeometryEngineException::class);
-        }
+        $this->failsOnMySQL('< 5.7.6-m16');
+        $this->failsOnMariaDB('>= 10.0');
+        $this->failsOnSpatiaLite('< 4.1.0');
 
         $geometry = Geometry::fromText($geometry);
         $result   = Geometry::fromText($result);
@@ -1117,9 +1116,9 @@ class GeometryEngineTest extends AbstractTestCase
     {
         $geometryEngine = $this->getGeometryEngine();
 
-        if ($this->isGEOS() || $this->isMySQL() || $this->isMariaDB()) {
-            $this->expectException(GeometryEngineException::class);
-        }
+        $this->failsOnMySQL();
+        $this->failsOnMariaDB();
+        $this->failsOnGEOS();
 
         $geometry1 = Geometry::fromText($geometry1);
         $geometry2 = Geometry::fromText($geometry2);
@@ -1141,11 +1140,10 @@ class GeometryEngineTest extends AbstractTestCase
     {
         $geometryEngine = $this->getGeometryEngine();
 
-        if ($this->isGEOS()) {
-            $this->expectException(GeometryEngineException::class);
-        } elseif (! $this->isPostGIS()) {
-            self::markTestSkipped('This test currently runs on PostGIS only.');
-        }
+        $this->failsOnMySQL();
+        $this->failsOnMariaDB();
+        $this->failsOnGEOS();
+        $this->failsOnSpatiaLite();
 
         $originalGeometry = Geometry::fromText($originalWKT, $originalSRID);
         $expectedGeometry = Geometry::fromText($expectedWKT, $targetSRID);
@@ -1173,9 +1171,9 @@ class GeometryEngineTest extends AbstractTestCase
     {
         $geometryEngine = $this->getGeometryEngine();
 
-        if (! $this->isPostGIS() && ! $this->isSpatiaLite()) {
-            self::markTestSkipped('This test currently runs on PostGIS & SpatiaLite only.');
-        }
+        $this->failsOnMySQL();
+        $this->failsOnMariaDB();
+        $this->failsOnGEOS();
 
         $originalGeometry = Geometry::fromText($originalWKT);
         $bladeGeometry = Geometry::fromText($bladeWKT);
@@ -1216,9 +1214,7 @@ class GeometryEngineTest extends AbstractTestCase
     {
         $geometryEngine = $this->getGeometryEngine();
 
-        if ($this->isMariaDB()) {
-            self::markTestSkipped('This test currently does not run on MariaDB.');
-        }
+        $this->failsOnMariaDB();
 
         $lineString = LineString::fromText($originalWKT);
         $resultGeometry = $geometryEngine->lineInterpolatePoint($lineString, $fraction);
@@ -1258,9 +1254,9 @@ class GeometryEngineTest extends AbstractTestCase
     {
         $geometryEngine = $this->getGeometryEngine();
 
-        if (! $this->isPostGIS() && ! $this->isMySQL()) {
-            self::markTestSkipped('This test currently runs on PostGIS & MySQL only');
-        }
+        $this->failsOnMariaDB();
+        $this->failsOnSpatiaLite();
+        $this->failsOnGEOS();
 
         $lineString = LineString::fromText($originalWKT);
         $this->skipIfUnsupportedGeometry($lineString);
@@ -1315,6 +1311,34 @@ class GeometryEngineTest extends AbstractTestCase
         return $GLOBALS['GEOMETRY_ENGINE'];
     }
 
+    private function failsOnMySQL(?string $operatorAndVersion = null) : void
+    {
+        if ($this->isMySQL($operatorAndVersion)) {
+            $this->expectException(GeometryEngineException::class);
+        }
+    }
+
+    private function failsOnMariaDB(?string $operatorAndVersion = null) : void
+    {
+        if ($this->isMariaDB($operatorAndVersion)) {
+            $this->expectException(GeometryEngineException::class);
+        }
+    }
+
+    private function failsOnGEOS(?string $operatorAndVersion = null) : void
+    {
+        if ($this->isGEOS($operatorAndVersion)) {
+            $this->expectException(GeometryEngineException::class);
+        }
+    }
+
+    private function failsOnSpatiaLite(?string $operatorAndVersion = null) : void
+    {
+        if ($this->isSpatiaLite($operatorAndVersion)) {
+            $this->expectException(GeometryEngineException::class);
+        }
+    }
+
     private function isMySQL(?string $operatorAndVersion = null) : bool
     {
         return $this->isMySQLorMariaDB(false, $operatorAndVersion);
@@ -1330,9 +1354,6 @@ class GeometryEngineTest extends AbstractTestCase
         return $this->isPDODriver('pgsql');
     }
 
-    /**
-     * @param string|null $operatorAndVersion An optional version to satisfy.
-     */
     private function isSpatiaLite(?string $operatorAndVersion = null) : bool
     {
         $engine = $this->getGeometryEngine();
@@ -1350,9 +1371,6 @@ class GeometryEngineTest extends AbstractTestCase
         return false;
     }
 
-    /**
-     * @param string|null $operatorAndVersion An optional version to satisfy.
-     */
     private function isGEOS(?string $operatorAndVersion = null) : bool
     {
         $engine = $this->getGeometryEngine();
@@ -1380,15 +1398,7 @@ class GeometryEngineTest extends AbstractTestCase
      *
      * Example: ['MySQL', 'MariaDB', 'PostGIS']
      *
-     * Supported engines:
-     *
-     * - MySQL
-     * - MariaDB
-     * - SpatiaLite
-     * - PostGIS
-     * - GEOS
-     *
-     * @param string[] $supportedEngines
+     * @param list<'MySQL'|'MariaDB'|'SpatiaLite'|'PostGIS'|'GEOS'> $supportedEngines
      */
     private function requireEngine(array $supportedEngines): void
     {
