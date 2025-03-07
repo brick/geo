@@ -13,6 +13,7 @@ use Override;
  * A TIN (triangulated irregular network) is a PolyhedralSurface consisting only of Triangle patches.
  *
  * @template-extends PolyhedralSurface<Triangle>
+ * @final
  */
 class TIN extends PolyhedralSurface
 {

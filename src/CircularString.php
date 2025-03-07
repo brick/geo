@@ -20,6 +20,7 @@ use Override;
  * the first point cannot be the same as the third point.
  *
  * @template-implements \IteratorAggregate<int<0, max>, Point>
+ * @final
  */
 class CircularString extends Curve implements \Countable, \IteratorAggregate
 {

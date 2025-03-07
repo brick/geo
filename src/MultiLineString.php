@@ -12,6 +12,7 @@ use Override;
  * A MultiLineString is a MultiCurve whose elements are LineStrings.
  *
  * @extends MultiCurve<LineString>
+ * @final
  */
 class MultiLineString extends MultiCurve
 {

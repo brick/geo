@@ -17,6 +17,8 @@ use Override;
  * If called for by the associated Spatial Reference System, it may also have coordinate values for z and m.
  *
  * The boundary of a Point is the empty set.
+ *
+ * @final
  */
 class Point extends Geometry
 {

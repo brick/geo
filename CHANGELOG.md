@@ -35,6 +35,20 @@
     - `WKTReader`
     - `WKTWriter`
 
+🗑️ **Deprecations**
+
+- The following classes are marked as `@final`, and will be made final in a future version:
+  - `CircularString`
+  - `CompoundCurve`
+  - `CurvePolygon`
+  - `LineString`
+  - `MultiLineString`
+  - `MultiPoint`
+  - `MultiPolygon`
+  - `Point`
+  - `TIN`
+  - `Triangle`
+
 ✨ **New features**
 
 - New engine methods: `GeometryEngine::lineInterpolatePoint()`, `lineInterpolatePoints()` (#55 by @arminwinkt)

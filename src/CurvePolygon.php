@@ -19,6 +19,7 @@ use Override;
  * the following circular arc segments: CircularString and CompoundCurve in addition to LineString.
  *
  * @template-implements \IteratorAggregate<int<0, max>, Curve>
+ * @final
  */
 class CurvePolygon extends Surface implements \Countable, \IteratorAggregate
 {
@@ -58,14 +59,12 @@ class CurvePolygon extends Surface implements \Countable, \IteratorAggregate
     /**
      * Creates a non-empty CurvePolygon composed of the given rings.
      *
-     * @psalm-suppress UnsafeInstantiation
-     *
      * @param Curve    $exteriorRing  The exterior ring.
      * @param Curve ...$interiorRings The interior rings, if any.
      *
      * @throws CoordinateSystemException If the rings use different coordinate systems.
      */
-    public static function of(Curve $exteriorRing, Curve ...$interiorRings) :  CurvePolygon
+    public static function of(Curve $exteriorRing, Curve ...$interiorRings) : CurvePolygon
     {
         return new static($exteriorRing->coordinateSystem(), $exteriorRing, ...$interiorRings);
     }
