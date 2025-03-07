@@ -76,15 +76,7 @@ final class PDOEngine extends DatabaseEngine
             /** @var list<mixed>|false $result */
             $result = $statement->fetch(PDO::FETCH_NUM);
         } catch (PDOException $e) {
-            $errorClass = substr((string) $e->getCode(), 0, 2);
-
-            // 42XXX = syntax error or access rule violation; reported on undefined function.
-            // 22XXX = data exception; reported by MySQL 5.7 on unsupported geometry.
-            if ($errorClass === '42' || $errorClass === '22') {
-                throw GeometryEngineException::operationNotSupportedByEngine($e);
-            }
-
-            throw $e;
+            throw GeometryEngineException::wrap($e);
         } finally {
             $this->pdo->setAttribute(PDO::ATTR_ERRMODE, $errMode);
         }

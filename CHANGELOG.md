@@ -8,6 +8,8 @@
 - `BoundingBox`'s constructor is now private, use `BoundingBox::new()` to create a new instance
 - `CompoundCurve` can now only contain `LineString` and `CircularString` instances; nested `CompoundCurve` instances are forbidden
 - `Geometry` no longer implements `Countable` and `IteratorAggregate`; subclasses implement these interfaces as needed, with proper types
+- The `SQLite3Exception` class has been removed
+- The `GeometryEngineException::operationNotSupportedByEngine()` method has been removed
 - The following classes are now `final`:
   - `BoundingBox`
   - `CoordinateSystem`
@@ -70,6 +72,8 @@
 ✨ **Improvements**
 
 - Improved documentation and return types for `Geometry::toArray()` methods
+- `PDOEngine` and `SQLite3Engine` now wrap all underlying exceptions in a `GeometryEngineException`
+- When an engine exception occurs, `GeometryEngineException` now includes the original exception message
 
 ## [0.11.5](https://github.com/brick/geo/releases/tag/0.11.5) - 2025-03-06
 

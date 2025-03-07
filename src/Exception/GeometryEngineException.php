@@ -11,16 +11,16 @@ namespace Brick\Geo\Exception;
  */
 final class GeometryEngineException extends GeometryException
 {
+    public static function wrap(\Exception $e) : GeometryEngineException
+    {
+        return new self('The engine returned an exception: ' . $e->getMessage(), 0, $e);
+    }
+
     public static function unimplementedMethod(string $methodName) : GeometryEngineException
     {
         $message = sprintf('%s() is currently not implemented.', $methodName);
 
         return new self($message);
-    }
-
-    public static function operationNotSupportedByEngine(\Exception $e) : GeometryEngineException
-    {
-        return new self('This operation is not supported by the geometry engine.', 0, $e);
     }
 
     public static function operationYieldedNoResult() : GeometryEngineException

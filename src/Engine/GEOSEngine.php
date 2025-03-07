@@ -404,7 +404,7 @@ final class GEOSEngine implements GeometryEngine
         try {
             return $action();
         } catch (\Exception $e) {
-            throw GeometryEngineException::operationNotSupportedByEngine($e);
+            throw GeometryEngineException::wrap($e);
         }
     }
 }
