@@ -8,6 +8,8 @@ use Override;
 
 /**
  * Parser for the Extended WKT format designed by PostGIS.
+ *
+ * @internal
  */
 final class EWKTParser extends WKTParser
 {

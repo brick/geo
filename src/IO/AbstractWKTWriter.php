@@ -22,6 +22,8 @@ use Brick\Geo\Triangle;
 
 /**
  * Base class for WKTWriter and EWKTWriter.
+ *
+ * @internal
  */
 abstract class AbstractWKTWriter
 {

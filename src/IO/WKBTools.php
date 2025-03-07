@@ -8,6 +8,8 @@ use Brick\Geo\Exception\GeometryIOException;
 
 /**
  * Tools for WKB classes.
+ *
+ * @internal
  */
 abstract class WKBTools
 {

@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Brick\Geo\IO;
 
+/**
+ * @internal
+ */
 final class WKBGeometryHeader
 {
     public function __construct(

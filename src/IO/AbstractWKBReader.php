@@ -25,6 +25,8 @@ use Brick\Geo\Exception\GeometryIOException;
 
 /**
  * Base class for WKBReader and EWKBReader.
+ *
+ * @internal
  */
 abstract class AbstractWKBReader
 {

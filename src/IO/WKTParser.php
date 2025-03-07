@@ -8,6 +8,8 @@ use Brick\Geo\Exception\GeometryIOException;
 
 /**
  * Well-Known Text parser.
+ *
+ * @internal
  */
 class WKTParser
 {

@@ -34,6 +34,20 @@
     - `WKBWriter`
     - `WKTReader`
     - `WKTWriter`
+- The following classes are marked as `@internal`, and are no longer part of the public API:
+  - `Attribute\NoProxy`
+  - `Engine\GeometryParameter`
+  - `IO\AbstractWKBReader`
+  - `IO\AbstractWKBWriter`
+  - `IO\AbstractWKTReader`
+  - `IO\AbstractWKTWriter`
+  - `IO\EWKBTools`
+  - `IO\EWKTParser`
+  - `IO\WKBBuffer`
+  - `IO\WKBByteOrder`
+  - `IO\WKBGeometryHeader`
+  - `IO\WKBTools`
+  - `IO\WKTParser`
 
 🗑️ **Deprecations**
 

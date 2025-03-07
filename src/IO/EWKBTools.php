@@ -6,6 +6,8 @@ namespace Brick\Geo\IO;
 
 /**
  * Tools for EWKB classes.
+ *
+ * @internal
  */
 final class EWKBTools extends WKBTools
 {

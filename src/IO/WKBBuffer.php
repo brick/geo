@@ -8,6 +8,8 @@ use Brick\Geo\Exception\GeometryIOException;
 
 /**
  * Buffer class for reading binary data out of a WKB binary string.
+ *
+ * @internal
  */
 final class WKBBuffer
 {

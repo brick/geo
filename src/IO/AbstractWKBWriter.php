@@ -18,6 +18,8 @@ use Brick\Geo\PolyhedralSurface;
 
 /**
  * Base class for WKBWriter and EWKBWriter.
+ *
+ * @internal
  */
 abstract class AbstractWKBWriter
 {
