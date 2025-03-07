@@ -378,10 +378,10 @@ class GEOSEngine implements GeometryEngine
         throw GeometryEngineException::unimplementedMethod(__METHOD__);
     }
 
-    public function lineInterpolatePoint(LineString $linestring, float $fraction) : Point
+    public function lineInterpolatePoint(LineString $lineString, float $fraction) : Point
     {
         try {
-            $result = $this->fromGEOS($this->toGEOS($linestring)->interpolate($fraction, true));
+            $result = $this->fromGEOS($this->toGEOS($lineString)->interpolate($fraction, true));
         } catch (\Exception $e) {
             throw GeometryEngineException::operationNotSupportedByEngine($e);
         }
@@ -393,7 +393,7 @@ class GEOSEngine implements GeometryEngine
         return $result;
     }
 
-    public function lineInterpolatePoints(LineString $linestring, float $fraction) : MultiPoint
+    public function lineInterpolatePoints(LineString $lineString, float $fraction) : MultiPoint
     {
         throw GeometryEngineException::unimplementedMethod(__METHOD__);
     }

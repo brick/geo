@@ -1220,8 +1220,8 @@ class GeometryEngineTest extends AbstractTestCase
             self::markTestSkipped('This test currently does not run on MariaDB.');
         }
 
-        $linestring = LineString::fromText($originalWKT);
-        $resultGeometry = $geometryEngine->lineInterpolatePoint($linestring, $fraction);
+        $lineString = LineString::fromText($originalWKT);
+        $resultGeometry = $geometryEngine->lineInterpolatePoint($lineString, $fraction);
 
         $this->assertSame($expectedWKT, $resultGeometry->asText());
     }
@@ -1262,10 +1262,10 @@ class GeometryEngineTest extends AbstractTestCase
             self::markTestSkipped('This test currently runs on PostGIS & MySQL only');
         }
 
-        $linestring = LineString::fromText($originalWKT);
-        $this->skipIfUnsupportedGeometry($linestring);
+        $lineString = LineString::fromText($originalWKT);
+        $this->skipIfUnsupportedGeometry($lineString);
 
-        $resultGeometry = $geometryEngine->lineInterpolatePoints($linestring, $fraction);
+        $resultGeometry = $geometryEngine->lineInterpolatePoints($lineString, $fraction);
 
         $this->assertSame($expectedWKT, $resultGeometry->asText());
     }

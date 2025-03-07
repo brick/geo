@@ -440,9 +440,9 @@ abstract class DatabaseEngine implements GeometryEngine
     /**
      * @throws GeometryEngineException
      */
-    public function lineInterpolatePoint(LineString $linestring, float $fraction) : Point
+    public function lineInterpolatePoint(LineString $lineString, float $fraction) : Point
     {
-        $result = $this->queryGeometry('ST_LineInterpolatePoint', $linestring, $fraction);
+        $result = $this->queryGeometry('ST_LineInterpolatePoint', $lineString, $fraction);
         if (! $result instanceof Point) {
             throw new GeometryEngineException('This operation yielded wrong type: ' . $result::class);
         }
@@ -450,9 +450,9 @@ abstract class DatabaseEngine implements GeometryEngine
         return $result;
     }
 
-    public function lineInterpolatePoints(LineString $linestring, float $fraction) : MultiPoint
+    public function lineInterpolatePoints(LineString $lineString, float $fraction) : MultiPoint
     {
-        $result = $this->queryGeometry('ST_LineInterpolatePoints', $linestring, $fraction);
+        $result = $this->queryGeometry('ST_LineInterpolatePoints', $lineString, $fraction);
 
         if ($result instanceof MultiPoint) {
             return $result;
