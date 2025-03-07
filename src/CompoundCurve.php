@@ -50,7 +50,6 @@ class CompoundCurve extends Curve implements \Countable, \IteratorAggregate
 
         CoordinateSystem::check($this, ...$curves);
 
-        /** @var Curve|null $previousCurve */
         $previousCurve = null;
 
         foreach ($curves as $curve) {
