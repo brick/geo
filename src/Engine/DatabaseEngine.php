@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Brick\Geo\Engine;
 
 use Brick\Geo\Curve;
+use Brick\Geo\Engine\Internal\TypeChecker;
 use Brick\Geo\Exception\GeometryEngineException;
 use Brick\Geo\Geometry;
 use Brick\Geo\LineString;
@@ -297,15 +298,19 @@ abstract class DatabaseEngine implements GeometryEngine
     #[Override]
     public function centroid(Geometry $g) : Point
     {
-        /** @var Point */
-        return $this->queryGeometry('ST_Centroid', $g);
+        $centroid = $this->queryGeometry('ST_Centroid', $g);
+        TypeChecker::check($centroid, Point::class);
+
+        return $centroid;
     }
 
     #[Override]
     public function pointOnSurface(Surface|MultiSurface $g) : Point
     {
-        /** @var Point */
-        return $this->queryGeometry('ST_PointOnSurface', $g);
+        $pointOnSurface = $this->queryGeometry('ST_PointOnSurface', $g);
+        TypeChecker::check($pointOnSurface, Point::class);
+
+        return $pointOnSurface;
     }
 
     #[Override]
@@ -475,16 +480,11 @@ abstract class DatabaseEngine implements GeometryEngine
         return $this->queryGeometry('ST_Split', $g, $blade);
     }
 
-    /**
-     * @throws GeometryEngineException
-     */
     #[Override]
     public function lineInterpolatePoint(LineString $lineString, float $fraction) : Point
     {
         $result = $this->queryGeometry('ST_LineInterpolatePoint', $lineString, $fraction);
-        if (! $result instanceof Point) {
-            throw new GeometryEngineException('This operation yielded wrong type: ' . $result::class);
-        }
+        TypeChecker::check($result, Point::class);
 
         return $result;
     }
@@ -498,10 +498,14 @@ abstract class DatabaseEngine implements GeometryEngine
             return $result;
         }
 
+        TypeChecker::check($result, Point::class);
+
+        // POINT EMPTY
         if ($result->isEmpty()) {
             return new MultiPoint($result->coordinateSystem());
         }
 
+        // POINT
         return MultiPoint::of($result);
     }
 }

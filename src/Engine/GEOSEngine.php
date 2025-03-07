@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Brick\Geo\Engine;
 
 use Brick\Geo\Curve;
+use Brick\Geo\Engine\Internal\TypeChecker;
 use Brick\Geo\Exception\GeometryEngineException;
 use Brick\Geo\IO\EWKBReader;
 use Brick\Geo\IO\EWKBWriter;
@@ -152,22 +153,28 @@ final class GEOSEngine implements GeometryEngine
     public function centroid(Geometry $g) : Point
     {
         try {
-            /** @var Point */
-            return $this->fromGEOS($this->toGEOS($g)->centroid());
+            $centroid = $this->fromGEOS($this->toGEOS($g)->centroid());
         } catch (\Exception $e) {
             throw GeometryEngineException::operationNotSupportedByEngine($e);
         }
+
+        TypeChecker::check($centroid, Point::class);
+
+        return $centroid;
     }
 
     #[Override]
     public function pointOnSurface(Surface|MultiSurface $g) : Point
     {
         try {
-            /** @var Point */
-            return $this->fromGEOS($this->toGEOS($g)->pointOnSurface());
+            $pointOnSurface = $this->fromGEOS($this->toGEOS($g)->pointOnSurface());
         } catch (\Exception $e) {
             throw GeometryEngineException::operationNotSupportedByEngine($e);
         }
+
+        TypeChecker::check($pointOnSurface, Point::class);
+
+        return $pointOnSurface;
     }
 
     #[Override]
