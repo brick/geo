@@ -178,13 +178,11 @@ class Polygon extends Surface implements \Countable, \IteratorAggregate
     #[Override]
     public function getBoundingBox() : BoundingBox
     {
-        $boundingBox = BoundingBox::new();
-
-        foreach ($this->rings as $ring) {
-            $boundingBox = $boundingBox->extendedWithBoundingBox($ring->getBoundingBox());
-        }
-
-        return $boundingBox;
+        return array_reduce(
+            $this->rings,
+            fn (BoundingBox $boundingBox, LineString $ring) => $boundingBox->extendedWithBoundingBox($ring->getBoundingBox()),
+            BoundingBox::new()
+        );
     }
 
     /**

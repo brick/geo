@@ -154,13 +154,11 @@ class CompoundCurve extends Curve implements \Countable, \IteratorAggregate
     #[Override]
     public function getBoundingBox() : BoundingBox
     {
-        $boundingBox = BoundingBox::new();
-
-        foreach ($this->curves as $curve) {
-            $boundingBox = $boundingBox->extendedWithBoundingBox($curve->getBoundingBox());
-        }
-
-        return $boundingBox;
+        return array_reduce(
+            $this->curves,
+            fn (BoundingBox $boundingBox, Curve $curve) => $boundingBox->extendedWithBoundingBox($curve->getBoundingBox()),
+            BoundingBox::new(),
+        );
     }
 
     /**

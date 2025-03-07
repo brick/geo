@@ -157,13 +157,11 @@ class PolyhedralSurface extends Surface implements \Countable, \IteratorAggregat
     #[Override]
     public function getBoundingBox() : BoundingBox
     {
-        $boundingBox = BoundingBox::new();
-
-        foreach ($this->patches as $patch) {
-            $boundingBox = $boundingBox->extendedWithBoundingBox($patch->getBoundingBox());
-        }
-
-        return $boundingBox;
+        return array_reduce(
+            $this->patches,
+            fn (BoundingBox $boundingBox, Polygon $patch) => $boundingBox->extendedWithBoundingBox($patch->getBoundingBox()),
+            BoundingBox::new(),
+        );
     }
 
     /**

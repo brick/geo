@@ -187,13 +187,11 @@ class LineString extends Curve implements \Countable, \IteratorAggregate
     #[Override]
     public function getBoundingBox() : BoundingBox
     {
-        $boundingBox = BoundingBox::new();
-
-        foreach ($this->points as $point) {
-            $boundingBox = $boundingBox->extendedWithPoint($point);
-        }
-
-        return $boundingBox;
+        return array_reduce(
+            $this->points,
+            fn (BoundingBox $boundingBox, Point $point) => $boundingBox->extendedWithPoint($point),
+            BoundingBox::new()
+        );
     }
 
     /**
