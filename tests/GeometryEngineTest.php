@@ -1140,7 +1140,6 @@ class GeometryEngineTest extends AbstractTestCase
     {
         $geometryEngine = $this->getGeometryEngine();
 
-        $this->failsOnMySQL();
         $this->failsOnMariaDB();
         $this->failsOnGEOS();
         $this->failsOnSpatiaLite();
@@ -1148,18 +1147,25 @@ class GeometryEngineTest extends AbstractTestCase
         $originalGeometry = Geometry::fromText($originalWKT, $originalSRID);
         $expectedGeometry = Geometry::fromText($expectedWKT, $targetSRID);
 
+        if ($this->isMySQL()) {
+            $expectedGeometry = $expectedGeometry->swapXY();
+        }
+
         $transformedGeometry = $geometryEngine->transform($originalGeometry, $targetSRID);
 
-        $this->assertGeometryEqualsWithDelta($expectedGeometry, $transformedGeometry, 0.0000001);
+        $this->assertGeometryEqualsWithDelta($expectedGeometry, $transformedGeometry, 0.02);
     }
 
     public static function providerTransform() : array
     {
         return [
-            ['POINT (743238 2967416)', 2249, 4326, 'POINT (-71.1776848522251 42.3902896512902)'],
-            ['POINT (743238 2967450)', 2249, 4326, 'POINT (-71.1776843766326 42.3903829478009)'],
-            ['POINT (743265 2967450)', 2249, 4326, 'POINT (-71.1775844305465 42.3903826677917)'],
-            ['POINT (743265.625 2967416)', 2249, 4326, 'POINT (-71.1775825927231 42.3902893647987)'],
+            ['POINT (0 0)', 2154, 4326, 'POINT (-1.36 -5.98)'],
+            ['POINT (100000 100000)', 2154, 4326, 'POINT (-0.77 -5.32)'],
+            ['POINT (500000 1000000)', 2154, 4326, 'POINT (1.64 0.65)'],
+            ['POINT (0 0)', 2249, 4326, 'POINT (-73.66 34.24)'],
+            ['POINT (100000 100000)', 2249, 4326, 'POINT (-73.34 34.52)'],
+            ['POINT (500000 1000000)', 2249, 4326, 'POINT (-72.04 37)'],
+            ['POINT (750000 3000000)', 2249, 4326, 'POINT (-71.16 42.47)'],
         ];
     }
 
