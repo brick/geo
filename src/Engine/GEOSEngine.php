@@ -29,10 +29,10 @@ use Override;
  */
 final class GEOSEngine implements GeometryEngine
 {
-    private readonly GEOSWKBReader $wkbReader;
-    private readonly GEOSWKBWriter $wkbWriter;
-    private readonly GEOSWKTReader $wktReader;
-    private readonly GEOSWKTWriter $wktWriter;
+    private readonly GEOSWKBReader $geosWkbReader;
+    private readonly GEOSWKBWriter $geosWkbWriter;
+    private readonly GEOSWKTReader $geosWktReader;
+    private readonly GEOSWKTWriter $geosWktWriter;
 
     private readonly EWKBReader $ewkbReader;
     private readonly EWKBWriter $ewkbWriter;
@@ -46,48 +46,48 @@ final class GEOSEngine implements GeometryEngine
 
     public function __construct()
     {
-        $this->wkbReader = new \GEOSWKBReader();
-        $this->wkbWriter = new \GEOSWKBWriter();
+        $this->geosWkbReader = new \GEOSWKBReader();
+        $this->geosWkbWriter = new \GEOSWKBWriter();
 
-        $this->wktReader = new \GEOSWKTReader();
-        $this->wktWriter = new \GEOSWKTWriter();
+        $this->geosWktReader = new \GEOSWKTReader();
+        $this->geosWktWriter = new \GEOSWKTWriter();
 
         $this->ewkbReader = new EWKBReader();
         $this->ewkbWriter = new EWKBWriter();
 
         /** @psalm-suppress RedundantCondition These methods are not available before GEOS 3.5.0 */
         $this->hasBinaryReadWrite =
-            method_exists($this->wkbReader, 'read') &&
-            method_exists($this->wkbWriter, 'write');
+            method_exists($this->geosWkbReader, 'read') &&
+            method_exists($this->geosWkbWriter, 'write');
     }
 
     private function toGEOS(Geometry $geometry) : \GEOSGeometry
     {
         if ($geometry->isEmpty()) {
-            $geosGeometry = $this->wktReader->read($geometry->asText());
+            $geosGeometry = $this->geosWktReader->read($geometry->asText());
             $geosGeometry->setSRID($geometry->SRID());
 
             return $geosGeometry;
         }
 
         if ($this->hasBinaryReadWrite) {
-            return $this->wkbReader->read($this->ewkbWriter->write($geometry));
+            return $this->geosWkbReader->read($this->ewkbWriter->write($geometry));
         }
 
-        return $this->wkbReader->readHEX(bin2hex($this->ewkbWriter->write($geometry)));
+        return $this->geosWkbReader->readHEX(bin2hex($this->ewkbWriter->write($geometry)));
     }
 
     private function fromGEOS(\GEOSGeometry $geometry) : Geometry
     {
         if ($geometry->isEmpty()) {
-            return Geometry::fromText($this->wktWriter->write($geometry), $geometry->getSRID());
+            return Geometry::fromText($this->geosWktWriter->write($geometry), $geometry->getSRID());
         }
 
         if ($this->hasBinaryReadWrite) {
-            return $this->ewkbReader->read($this->wkbWriter->write($geometry));
+            return $this->ewkbReader->read($this->geosWkbWriter->write($geometry));
         }
 
-        $ewkb = hex2bin($this->wkbWriter->writeHEX($geometry));
+        $ewkb = hex2bin($this->geosWkbWriter->writeHEX($geometry));
         assert($ewkb !== false);
 
         return $this->ewkbReader->read($ewkb);
