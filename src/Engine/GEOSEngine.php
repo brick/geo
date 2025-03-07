@@ -96,51 +96,41 @@ final class GEOSEngine implements GeometryEngine
     #[Override]
     public function union(Geometry $a, Geometry $b) : Geometry
     {
-        try {
-            return $this->fromGEOS($this->toGEOS($a)->union($this->toGEOS($b)));
-        } catch (\Exception $e) {
-            throw GeometryEngineException::operationNotSupportedByEngine($e);
-        }
+        return $this->execute(
+            fn() => $this->fromGEOS($this->toGEOS($a)->union($this->toGEOS($b))),
+        );
     }
 
     #[Override]
     public function difference(Geometry $a, Geometry $b) : Geometry
     {
-        try {
-            return $this->fromGEOS($this->toGEOS($a)->difference($this->toGEOS($b)));
-        } catch (\Exception $e) {
-            throw GeometryEngineException::operationNotSupportedByEngine($e);
-        }
+        return $this->execute(
+            fn() => $this->fromGEOS($this->toGEOS($a)->difference($this->toGEOS($b))),
+        );
     }
 
     #[Override]
     public function envelope(Geometry $g) : Geometry
     {
-        try {
-            return $this->fromGEOS($this->toGEOS($g)->envelope());
-        } catch (\Exception $e) {
-            throw GeometryEngineException::operationNotSupportedByEngine($e);
-        }
+        return $this->execute(
+            fn() => $this->fromGEOS($this->toGEOS($g)->envelope()),
+        );
     }
 
     #[Override]
     public function length(Curve|MultiCurve $g) : float
     {
-        try {
-            return $this->toGEOS($g)->length();
-        } catch (\Exception $e) {
-            throw GeometryEngineException::operationNotSupportedByEngine($e);
-        }
+        return $this->execute(
+            fn() => $this->toGEOS($g)->length(),
+        );
     }
 
     #[Override]
     public function area(Surface|MultiSurface $g) : float
     {
-        try {
-            return $this->toGEOS($g)->area();
-        } catch (\Exception $e) {
-            throw GeometryEngineException::operationNotSupportedByEngine($e);
-        }
+        return $this->execute(
+            fn() => $this->toGEOS($g)->area(),
+        );
     }
 
     #[Override]
@@ -152,11 +142,9 @@ final class GEOSEngine implements GeometryEngine
     #[Override]
     public function centroid(Geometry $g) : Point
     {
-        try {
-            $centroid = $this->fromGEOS($this->toGEOS($g)->centroid());
-        } catch (\Exception $e) {
-            throw GeometryEngineException::operationNotSupportedByEngine($e);
-        }
+        $centroid = $this->execute(
+            fn() => $this->fromGEOS($this->toGEOS($g)->centroid()),
+        );
 
         TypeChecker::check($centroid, Point::class);
 
@@ -166,11 +154,9 @@ final class GEOSEngine implements GeometryEngine
     #[Override]
     public function pointOnSurface(Surface|MultiSurface $g) : Point
     {
-        try {
-            $pointOnSurface = $this->fromGEOS($this->toGEOS($g)->pointOnSurface());
-        } catch (\Exception $e) {
-            throw GeometryEngineException::operationNotSupportedByEngine($e);
-        }
+        $pointOnSurface = $this->execute(
+            fn() => $this->fromGEOS($this->toGEOS($g)->pointOnSurface()),
+        );
 
         TypeChecker::check($pointOnSurface, Point::class);
 
@@ -180,51 +166,41 @@ final class GEOSEngine implements GeometryEngine
     #[Override]
     public function boundary(Geometry $g) : Geometry
     {
-        try {
-            return $this->fromGEOS($this->toGEOS($g)->boundary());
-        } catch (\Exception $e) {
-            throw GeometryEngineException::operationNotSupportedByEngine($e);
-        }
+        return $this->execute(
+            fn() => $this->fromGEOS($this->toGEOS($g)->boundary()),
+        );
     }
 
     #[Override]
     public function isValid(Geometry $g) : bool
     {
-        try {
-            return $this->toGEOS($g)->checkValidity()['valid'];
-        } catch (\Exception $e) {
-            throw GeometryEngineException::operationNotSupportedByEngine($e);
-        }
+        return $this->execute(
+            fn() => $this->toGEOS($g)->checkValidity()['valid'],
+        );
     }
 
     #[Override]
     public function isClosed(Geometry $g) : bool
     {
-        try {
-            return $this->toGEOS($g)->isClosed();
-        } catch (\Exception $e) {
-            throw GeometryEngineException::operationNotSupportedByEngine($e);
-        }
+        return $this->execute(
+            fn() => $this->toGEOS($g)->isClosed(),
+        );
     }
 
     #[Override]
     public function isSimple(Geometry $g) : bool
     {
-        try {
-            return $this->toGEOS($g)->isSimple();
-        } catch (\Exception $e) {
-            throw GeometryEngineException::operationNotSupportedByEngine($e);
-        }
+        return $this->execute(
+            fn() => $this->toGEOS($g)->isSimple(),
+        );
     }
 
     #[Override]
     public function isRing(Curve $curve) : bool
     {
-        try {
-            return $this->toGEOS($curve)->isRing();
-        } catch (\Exception $e) {
-            throw GeometryEngineException::operationNotSupportedByEngine($e);
-        }
+        return $this->execute(
+            fn() => $this->toGEOS($curve)->isRing(),
+        );
     }
 
     #[Override]
@@ -236,96 +212,78 @@ final class GEOSEngine implements GeometryEngine
     #[Override]
     public function equals(Geometry $a, Geometry $b) : bool
     {
-        try {
-            return $this->toGEOS($a)->equals($this->toGEOS($b));
-        } catch (\Exception $e) {
-            throw GeometryEngineException::operationNotSupportedByEngine($e);
-        }
+        return $this->execute(
+            fn() => $this->toGEOS($a)->equals($this->toGEOS($b)),
+        );
     }
 
     #[Override]
     public function disjoint(Geometry $a, Geometry $b) : bool
     {
-        try {
-            return $this->toGEOS($a)->disjoint($this->toGEOS($b));
-        } catch (\Exception $e) {
-            throw GeometryEngineException::operationNotSupportedByEngine($e);
-        }
+        return $this->execute(
+            fn() => $this->toGEOS($a)->disjoint($this->toGEOS($b)),
+        );
     }
 
     #[Override]
     public function intersects(Geometry $a, Geometry $b) : bool
     {
-        try {
-            return $this->toGEOS($a)->intersects($this->toGEOS($b));
-        } catch (\Exception $e) {
-            throw GeometryEngineException::operationNotSupportedByEngine($e);
-        }
+        return $this->execute(
+            fn() => $this->toGEOS($a)->intersects($this->toGEOS($b)),
+        );
     }
 
     #[Override]
     public function touches(Geometry $a, Geometry $b) : bool
     {
-        try {
-            return $this->toGEOS($a)->touches($this->toGEOS($b));
-        } catch (\Exception $e) {
-            throw GeometryEngineException::operationNotSupportedByEngine($e);
-        }
+        return $this->execute(
+            fn() => $this->toGEOS($a)->touches($this->toGEOS($b)),
+        );
     }
 
     #[Override]
     public function crosses(Geometry $a, Geometry $b) : bool
     {
-        try {
-            return $this->toGEOS($a)->crosses($this->toGEOS($b));
-        } catch (\Exception $e) {
-            throw GeometryEngineException::operationNotSupportedByEngine($e);
-        }
+        return $this->execute(
+            fn() => $this->toGEOS($a)->crosses($this->toGEOS($b)),
+        );
     }
 
     #[Override]
     public function within(Geometry $a, Geometry $b) : bool
     {
-        try {
-            return $this->toGEOS($a)->within($this->toGEOS($b));
-        } catch (\Exception $e) {
-            throw GeometryEngineException::operationNotSupportedByEngine($e);
-        }
+        return $this->execute(
+            fn() => $this->toGEOS($a)->within($this->toGEOS($b)),
+        );
     }
 
     #[Override]
     public function contains(Geometry $a, Geometry $b) : bool
     {
-        try {
-            return $this->toGEOS($a)->contains($this->toGEOS($b));
-        } catch (\Exception $e) {
-            throw GeometryEngineException::operationNotSupportedByEngine($e);
-        }
+        return $this->execute(
+            fn() => $this->toGEOS($a)->contains($this->toGEOS($b)),
+        );
     }
 
     #[Override]
     public function overlaps(Geometry $a, Geometry $b) : bool
     {
-        try {
-            return $this->toGEOS($a)->overlaps($this->toGEOS($b));
-        } catch (\Exception $e) {
-            throw GeometryEngineException::operationNotSupportedByEngine($e);
-        }
+        return $this->execute(
+            fn() => $this->toGEOS($a)->overlaps($this->toGEOS($b)),
+        );
     }
 
     #[Override]
     public function relate(Geometry $a, Geometry $b, string $matrix) : bool
     {
-        try {
-            $result = $this->toGEOS($a)->relate($this->toGEOS($b), $matrix);
+        $result = $this->execute(
+            fn() => $this->toGEOS($a)->relate($this->toGEOS($b), $matrix),
+        );
 
-            // giving a matrix should always return a boolean
-            assert(is_bool($result));
+        // giving a matrix should always return a boolean
+        assert(is_bool($result));
 
-            return $result;
-        } catch (\Exception $e) {
-            throw GeometryEngineException::operationNotSupportedByEngine($e);
-        }
+        return $result;
     }
 
     #[Override]
@@ -343,51 +301,41 @@ final class GEOSEngine implements GeometryEngine
     #[Override]
     public function distance(Geometry $a, Geometry $b) : float
     {
-        try {
-            return $this->toGEOS($a)->distance($this->toGEOS($b));
-        } catch (\Exception $e) {
-            throw GeometryEngineException::operationNotSupportedByEngine($e);
-        }
+        return $this->execute(
+            fn() => $this->toGEOS($a)->distance($this->toGEOS($b)),
+        );
     }
 
     #[Override]
     public function buffer(Geometry $g, float $distance) : Geometry
     {
-        try {
-            return $this->fromGEOS($this->toGEOS($g)->buffer($distance));
-        } catch (\Exception $e) {
-            throw GeometryEngineException::operationNotSupportedByEngine($e);
-        }
+        return $this->execute(
+            fn() => $this->fromGEOS($this->toGEOS($g)->buffer($distance)),
+        );
     }
 
     #[Override]
     public function convexHull(Geometry $g) : Geometry
     {
-        try {
-            return $this->fromGEOS($this->toGEOS($g)->convexHull());
-        } catch (\Exception $e) {
-            throw GeometryEngineException::operationNotSupportedByEngine($e);
-        }
+        return $this->execute(
+            fn() => $this->fromGEOS($this->toGEOS($g)->convexHull()),
+        );
     }
 
     #[Override]
     public function intersection(Geometry $a, Geometry $b) : Geometry
     {
-        try {
-            return $this->fromGEOS($this->toGEOS($a)->intersection($this->toGEOS($b)));
-        } catch (\Exception $e) {
-            throw GeometryEngineException::operationNotSupportedByEngine($e);
-        }
+        return $this->execute(
+            fn() => $this->fromGEOS($this->toGEOS($a)->intersection($this->toGEOS($b))),
+        );
     }
 
     #[Override]
     public function symDifference(Geometry $a, Geometry $b) : Geometry
     {
-        try {
-            return $this->fromGEOS($this->toGEOS($a)->symDifference($this->toGEOS($b)));
-        } catch (\Exception $e) {
-            throw GeometryEngineException::operationNotSupportedByEngine($e);
-        }
+        return $this->execute(
+            fn() => $this->fromGEOS($this->toGEOS($a)->symDifference($this->toGEOS($b))),
+        );
     }
 
     #[Override]
@@ -399,11 +347,9 @@ final class GEOSEngine implements GeometryEngine
     #[Override]
     public function simplify(Geometry $g, float $tolerance) : Geometry
     {
-        try {
-            return $this->fromGEOS($this->toGEOS($g)->simplify($tolerance));
-        } catch (\Exception $e) {
-            throw GeometryEngineException::operationNotSupportedByEngine($e);
-        }
+        return $this->execute(
+            fn() => $this->fromGEOS($this->toGEOS($g)->simplify($tolerance)),
+        );
     }
 
     #[Override]
@@ -427,11 +373,9 @@ final class GEOSEngine implements GeometryEngine
     #[Override]
     public function lineInterpolatePoint(LineString $lineString, float $fraction) : Point
     {
-        try {
-            $result = $this->fromGEOS($this->toGEOS($lineString)->interpolate($fraction, true));
-        } catch (\Exception $e) {
-            throw GeometryEngineException::operationNotSupportedByEngine($e);
-        }
+        $result = $this->execute(
+            fn() => $this->fromGEOS($this->toGEOS($lineString)->interpolate($fraction, true)),
+        );
 
         if (! $result instanceof Point) {
             throw new GeometryEngineException('This operation yielded the wrong geometry type: ' . $result::class);
@@ -444,5 +388,23 @@ final class GEOSEngine implements GeometryEngine
     public function lineInterpolatePoints(LineString $lineString, float $fraction) : MultiPoint
     {
         throw GeometryEngineException::unimplementedMethod(__METHOD__);
+    }
+
+    /**
+     * @template T
+     *
+     * @param \Closure(): T $action
+     *
+     * @return T
+     *
+     * @throws GeometryEngineException
+     */
+    private function execute(\Closure $action) : mixed
+    {
+        try {
+            return $action();
+        } catch (\Exception $e) {
+            throw GeometryEngineException::operationNotSupportedByEngine($e);
+        }
     }
 }
