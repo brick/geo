@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Brick\Geo;
 
-use Brick\Geo\Attribute\NoProxy;
 use Brick\Geo\Exception\UnexpectedGeometryException;
 use Brick\Geo\Projector\Projector;
 use Override;
@@ -23,13 +22,13 @@ class Tin extends PolyhedralSurface
         return Triangle::class;
     }
 
-    #[NoProxy, Override]
+    #[Override]
     public function geometryType() : string
     {
         return 'TIN';
     }
 
-    #[NoProxy, Override]
+    #[Override]
     public function geometryTypeBinary() : int
     {
         return Geometry::TIN;

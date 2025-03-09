@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Brick\Geo;
 
-use Brick\Geo\Attribute\NoProxy;
 use Brick\Geo\Projector\Projector;
 use Override;
 
@@ -34,13 +33,13 @@ class MultiPoint extends GeometryCollection
         );
     }
 
-    #[NoProxy, Override]
+    #[Override]
     public function geometryType() : string
     {
         return 'MultiPoint';
     }
 
-    #[NoProxy, Override]
+    #[Override]
     public function geometryTypeBinary() : int
     {
         return Geometry::MULTIPOINT;

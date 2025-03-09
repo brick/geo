@@ -4,12 +4,25 @@ declare(strict_types=1);
 
 namespace Brick\Geo\Io;
 
+use Brick\Geo\CircularString;
+use Brick\Geo\CompoundCurve;
+use Brick\Geo\CurvePolygon;
 use Brick\Geo\Exception\GeometryIoException;
 use Brick\Geo\Geometry;
 use Brick\Geo\Io\Internal\AbstractWkbReader;
 use Brick\Geo\Io\Internal\WkbBuffer;
 use Brick\Geo\Io\Internal\WkbGeometryHeader;
-use Brick\Geo\Proxy;
+use Brick\Geo\GeometryCollection;
+use Brick\Geo\LineString;
+use Brick\Geo\MultiLineString;
+use Brick\Geo\MultiPoint;
+use Brick\Geo\MultiPolygon;
+use Brick\Geo\Point;
+use Brick\Geo\Polygon;
+use Brick\Geo\PolyhedralSurface;
+use Brick\Geo\Proxy\ProxyFactory;
+use Brick\Geo\Tin;
+use Brick\Geo\Triangle;
 use Override;
 
 /**
@@ -41,8 +54,6 @@ final class WkbReader extends AbstractWkbReader
      * This prevents having to fully hydrate the underlying geometry object graph, while still returning an instance
      * of the correct geometry class.
      *
-     * @return Geometry&Proxy\ProxyInterface
-     *
      * @throws GeometryIoException
      */
     public function readAsProxy(string $wkb, int $srid = 0) : Geometry
@@ -51,21 +62,33 @@ final class WkbReader extends AbstractWkbReader
         $buffer->readByteOrder();
         $geometryHeader = $this->readGeometryHeader($buffer);
 
-        return match ($geometryHeader->geometryType) {
-            Geometry::POINT => new Proxy\PointProxy($wkb, true, $srid),
-            Geometry::LINESTRING => new Proxy\LineStringProxy($wkb, true, $srid),
-            Geometry::CIRCULARSTRING => new Proxy\CircularStringProxy($wkb, true, $srid),
-            Geometry::COMPOUNDCURVE => new Proxy\CompoundCurveProxy($wkb, true, $srid),
-            Geometry::POLYGON => new Proxy\PolygonProxy($wkb, true, $srid),
-            Geometry::CURVEPOLYGON => new Proxy\CurvePolygonProxy($wkb, true, $srid),
-            Geometry::MULTIPOINT => new Proxy\MultiPointProxy($wkb, true, $srid),
-            Geometry::MULTILINESTRING => new Proxy\MultiLineStringProxy($wkb, true, $srid),
-            Geometry::MULTIPOLYGON => new Proxy\MultiPolygonProxy($wkb, true, $srid),
-            Geometry::GEOMETRYCOLLECTION => new Proxy\GeometryCollectionProxy($wkb, true, $srid),
-            Geometry::POLYHEDRALSURFACE => new Proxy\PolyhedralSurfaceProxy($wkb, true, $srid),
-            Geometry::TIN => new Proxy\TinProxy($wkb, true, $srid),
-            Geometry::TRIANGLE => new Proxy\TriangleProxy($wkb, true, $srid),
-            default => throw GeometryIoException::unsupportedWkbType($geometryHeader->geometryType),
+        $geometryClass = $this->getGeometryClass($geometryHeader->geometryType);
+
+        return ProxyFactory::createWkbProxy($geometryClass, $wkb, $srid);
+    }
+
+    /**
+     * @return class-string<Geometry>
+     *
+     * @throws GeometryIOException
+     */
+    private function getGeometryClass(int $geometryType) : string
+    {
+        return match ($geometryType) {
+            Geometry::POINT => Point::class,
+            Geometry::LINESTRING => LineString::class,
+            Geometry::CIRCULARSTRING => CircularString::class,
+            Geometry::COMPOUNDCURVE => CompoundCurve::class,
+            Geometry::POLYGON => Polygon::class,
+            Geometry::CURVEPOLYGON => CurvePolygon::class,
+            Geometry::MULTIPOINT => MultiPoint::class,
+            Geometry::MULTILINESTRING => MultiLineString::class,
+            Geometry::MULTIPOLYGON => MultiPolygon::class,
+            Geometry::GEOMETRYCOLLECTION => GeometryCollection::class,
+            Geometry::POLYHEDRALSURFACE => PolyhedralSurface::class,
+            Geometry::TIN => Tin::class,
+            Geometry::TRIANGLE => Triangle::class,
+            default => throw GeometryIOException::unsupportedWkbType($geometryType),
         };
     }
 

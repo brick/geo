@@ -17,7 +17,6 @@
         "ext-pdo": "*",
         "ext-json": "*",
         "ext-sqlite3": "*",
-        "brick/reflection": "~0.5.0",
         "phpunit/phpunit": "^12.0",
         "php-coveralls/php-coveralls": "^2.0",
         "vimeo/psalm": "6.8.8"

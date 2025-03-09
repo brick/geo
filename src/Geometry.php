@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Brick\Geo;
 
-use Brick\Geo\Attribute\NoProxy;
 use Brick\Geo\Exception\CoordinateSystemException;
 use Brick\Geo\Exception\GeometryIoException;
 use Brick\Geo\Exception\InvalidGeometryException;
@@ -182,7 +181,6 @@ abstract class Geometry implements \Stringable
      *
      * @return int The SRID, zero if not set.
      */
-    #[NoProxy]
     public function srid() : int
     {
         return $this->coordinateSystem->srid();
@@ -191,7 +189,6 @@ abstract class Geometry implements \Stringable
     /**
      * Returns the WKT representation of this geometry.
      */
-    #[NoProxy]
     public function asText() : string
     {
         /** @var WktWriter|null $wktWriter */
@@ -207,7 +204,6 @@ abstract class Geometry implements \Stringable
     /**
      * Returns the WKB representation of this geometry.
      */
-    #[NoProxy]
     public function asBinary() : string
     {
         /** @var WkbWriter|null $wkbWriter */
@@ -376,7 +372,7 @@ abstract class Geometry implements \Stringable
     /**
      * Returns a text representation of this geometry.
      */
-    #[NoProxy, Override]
+    #[Override]
     final public function __toString() : string
     {
         return $this->asText();
