@@ -202,4 +202,128 @@ class PointTest extends AbstractTestCase
             ['POINT ZM (4.5 5.6 6.7 7.8)', [4.5, 5.6, 6.7, 7.8]],
         ];
     }
+
+    #[DataProvider('providerIsEqualTo')]
+    public function testIsEqualTo(string $wkt1, int $srid1, string $wkt2, int $srid2, bool $isEqual): void
+    {
+        $point1 = Point::fromText($wkt1, $srid1);
+        $point2 = Point::fromText($wkt2, $srid2);
+
+        self::assertSame($isEqual, $point1->isEqualTo($point2));
+        self::assertSame($isEqual, $point2->isEqualTo($point1));
+    }
+
+    public static function providerIsEqualTo(): array
+    {
+        return [
+            ['POINT EMPTY', 0, 'POINT EMPTY', 0, true],
+            ['POINT EMPTY', 0, 'POINT EMPTY', 4326, false],
+            ['POINT Z EMPTY', 0, 'POINT Z EMPTY', 0, true],
+            ['POINT Z EMPTY', 0, 'POINT Z EMPTY', 4326, false],
+            ['POINT M EMPTY', 0, 'POINT M EMPTY', 0, true],
+            ['POINT M EMPTY', 0, 'POINT M EMPTY', 4326, false],
+            ['POINT ZM EMPTY', 0, 'POINT ZM EMPTY', 0, true],
+            ['POINT ZM EMPTY', 0, 'POINT ZM EMPTY', 4326, false],
+
+            ['POINT EMPTY', 0, 'POINT Z EMPTY', 0, false],
+            ['POINT EMPTY', 0, 'POINT M EMPTY', 0, false],
+            ['POINT EMPTY', 0, 'POINT ZM EMPTY', 0, false],
+            ['POINT Z EMPTY', 0, 'POINT M EMPTY', 0, false],
+            ['POINT Z EMPTY', 0, 'POINT ZM EMPTY', 0, false],
+            ['POINT M EMPTY', 0, 'POINT ZM EMPTY', 0, false],
+
+            ['POINT (1 2)', 0, 'POINT (1 2)', 0, true],
+            ['POINT (1 2)', 0, 'POINT (0 2)', 0, false],
+            ['POINT (1 2)', 0, 'POINT (1 0)', 0, false],
+            ['POINT (1 2)', 0, 'POINT (1 2)', 4326, false],
+
+            ['POINT Z (1 2 3)', 0, 'POINT Z (1 2 3)', 0, true],
+            ['POINT Z (1 2 3)', 0, 'POINT Z (0 2 3)', 0, false],
+            ['POINT Z (1 2 3)', 0, 'POINT Z (1 0 3)', 0, false],
+            ['POINT Z (1 2 3)', 0, 'POINT Z (1 2 0)', 0, false],
+            ['POINT Z (1 2 3)', 0, 'POINT Z (1 2 3)', 4326, false],
+
+            ['POINT M (1 2 3)', 0, 'POINT M (1 2 3)', 0, true],
+            ['POINT M (1 2 3)', 0, 'POINT M (0 2 3)', 0, false],
+            ['POINT M (1 2 3)', 0, 'POINT M (1 0 3)', 0, false],
+            ['POINT M (1 2 3)', 0, 'POINT M (1 2 0)', 0, false],
+            ['POINT M (1 2 3)', 0, 'POINT M (1 2 3)', 4326, false],
+
+            ['POINT ZM (1 2 3 4)', 0, 'POINT ZM (1 2 3 4)', 0, true],
+            ['POINT ZM (1 2 3 4)', 0, 'POINT ZM (0 2 3 4)', 0, false],
+            ['POINT ZM (1 2 3 4)', 0, 'POINT ZM (1 0 3 4)', 0, false],
+            ['POINT ZM (1 2 3 4)', 0, 'POINT ZM (1 2 0 4)', 0, false],
+            ['POINT ZM (1 2 3 4)', 0, 'POINT ZM (1 2 3 0)', 0, false],
+            ['POINT ZM (1 2 3 4)', 0, 'POINT ZM (1 2 3 4)', 4326, false],
+
+            ['POINT (1 2)', 0, 'POINT Z (1 2 0)', 0, false],
+            ['POINT (1 2)', 0, 'POINT M (1 2 0)', 0, false],
+            ['POINT (1 2)', 0, 'POINT ZM (1 2 0 0)', 0, false],
+            ['POINT Z (1 2 3)', 0, 'POINT M (1 2 3)', 0, false],
+            ['POINT Z (1 2 3)', 0, 'POINT ZM (1 2 3 4)', 0, false],
+            ['POINT M (1 2 3)', 0, 'POINT ZM (1 2 3 4)', 0, false],
+        ];
+    }
+
+    #[DataProvider('providerIsSpatiallyEqualTo')]
+    public function testIsSpatiallyEqualTo(string $wkt1, int $srid1, string $wkt2, int $srid2, bool $isEqual): void
+    {
+        $point1 = Point::fromText($wkt1, $srid1);
+        $point2 = Point::fromText($wkt2, $srid2);
+
+        self::assertSame($isEqual, $point1->isSpatiallyEqualTo($point2));
+        self::assertSame($isEqual, $point2->isSpatiallyEqualTo($point1));
+    }
+
+    public static function providerIsSpatiallyEqualTo(): array
+    {
+        return [
+            ['POINT EMPTY', 0, 'POINT EMPTY', 0, true],
+            ['POINT EMPTY', 0, 'POINT EMPTY', 4326, false],
+            ['POINT Z EMPTY', 0, 'POINT Z EMPTY', 0, true],
+            ['POINT Z EMPTY', 0, 'POINT Z EMPTY', 4326, false],
+            ['POINT M EMPTY', 0, 'POINT M EMPTY', 0, true],
+            ['POINT M EMPTY', 0, 'POINT M EMPTY', 4326, false],
+            ['POINT ZM EMPTY', 0, 'POINT ZM EMPTY', 0, true],
+            ['POINT ZM EMPTY', 0, 'POINT ZM EMPTY', 4326, false],
+
+            ['POINT EMPTY', 0, 'POINT Z EMPTY', 0, false],
+            ['POINT EMPTY', 0, 'POINT M EMPTY', 0, true],
+            ['POINT EMPTY', 0, 'POINT ZM EMPTY', 0, false],
+            ['POINT Z EMPTY', 0, 'POINT M EMPTY', 0, false],
+            ['POINT Z EMPTY', 0, 'POINT ZM EMPTY', 0, true],
+            ['POINT M EMPTY', 0, 'POINT ZM EMPTY', 0, false],
+
+            ['POINT (1 2)', 0, 'POINT (1 2)', 0, true],
+            ['POINT (1 2)', 0, 'POINT (0 2)', 0, false],
+            ['POINT (1 2)', 0, 'POINT (1 0)', 0, false],
+            ['POINT (1 2)', 0, 'POINT (1 2)', 4326, false],
+
+            ['POINT Z (1 2 3)', 0, 'POINT Z (1 2 3)', 0, true],
+            ['POINT Z (1 2 3)', 0, 'POINT Z (0 2 3)', 0, false],
+            ['POINT Z (1 2 3)', 0, 'POINT Z (1 0 3)', 0, false],
+            ['POINT Z (1 2 3)', 0, 'POINT Z (1 2 0)', 0, false],
+            ['POINT Z (1 2 3)', 0, 'POINT Z (1 2 3)', 4326, false],
+
+            ['POINT M (1 2 3)', 0, 'POINT M (1 2 3)', 0, true],
+            ['POINT M (1 2 3)', 0, 'POINT M (0 2 3)', 0, false],
+            ['POINT M (1 2 3)', 0, 'POINT M (1 0 3)', 0, false],
+            ['POINT M (1 2 3)', 0, 'POINT M (1 2 0)', 0, true],
+            ['POINT M (1 2 3)', 0, 'POINT M (1 2 3)', 4326, false],
+
+            ['POINT ZM (1 2 3 4)', 0, 'POINT ZM (1 2 3 4)', 0, true],
+            ['POINT ZM (1 2 3 4)', 0, 'POINT ZM (0 2 3 4)', 0, false],
+            ['POINT ZM (1 2 3 4)', 0, 'POINT ZM (1 0 3 4)', 0, false],
+            ['POINT ZM (1 2 3 4)', 0, 'POINT ZM (1 2 0 4)', 0, false],
+            ['POINT ZM (1 2 3 4)', 0, 'POINT ZM (1 2 3 0)', 0, true],
+            ['POINT ZM (1 2 3 4)', 0, 'POINT ZM (1 2 3 4)', 4326, false],
+
+            ['POINT (1 2)', 0, 'POINT Z (1 2 0)', 0, false],
+            ['POINT (1 2)', 0, 'POINT M (1 2 0)', 0, true],
+            ['POINT (1 2)', 0, 'POINT ZM (1 2 0 0)', 0, false],
+            ['POINT Z (1 2 3)', 0, 'POINT M (1 2 3)', 0, false],
+            ['POINT Z (1 2 3)', 0, 'POINT ZM (1 2 3 4)', 0, true],
+            ['POINT M (1 2 3)', 0, 'POINT ZM (1 2 3 4)', 0, false],
+        ];
+    }
 }

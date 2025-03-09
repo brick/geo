@@ -54,11 +54,8 @@ final readonly class CompoundCurve extends Curve implements \Countable, \Iterato
         $previousCurve = null;
 
         foreach ($curves as $curve) {
-            if ($previousCurve) {
-                $endPoint = $previousCurve->endPoint();
-                $startPoint = $curve->startPoint();
-
-                if ($endPoint != $startPoint) { // on purpose by-value comparison!
+            if ($previousCurve !== null) {
+                if (! $curve->startPoint()->isEqualTo($previousCurve->endPoint())) {
                     throw new InvalidGeometryException('Incontinuous compound curve.');
                 }
             }

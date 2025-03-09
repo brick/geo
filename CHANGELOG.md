@@ -122,6 +122,7 @@ The following breaking changes may only affect you if you're writing your own en
 ✨ **New features**
 
 - New engine methods: `GeometryEngine::lineInterpolatePoint()`, `lineInterpolatePoints()` (#55 by @arminwinkt)
+- New method: `Point::isEqualTo()`
 
 ✨ **Improvements**
 
