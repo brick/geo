@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Brick\Geo;
 
 use ArrayIterator;
-use Brick\Geo\Attribute\NoProxy;
 use Brick\Geo\Exception\CoordinateSystemException;
 use Brick\Geo\Exception\EmptyGeometryException;
 use Brick\Geo\Exception\InvalidGeometryException;
@@ -139,13 +138,13 @@ class CompoundCurve extends Curve implements \Countable, \IteratorAggregate
         return $this->curves;
     }
 
-    #[NoProxy, Override]
+    #[Override]
     public function geometryType() : string
     {
         return 'CompoundCurve';
     }
 
-    #[NoProxy, Override]
+    #[Override]
     public function geometryTypeBinary() : int
     {
         return Geometry::COMPOUNDCURVE;

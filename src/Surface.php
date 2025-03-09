@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Brick\Geo;
 
-use Brick\Geo\Attribute\NoProxy;
 use Override;
 
 /**
@@ -29,7 +28,7 @@ abstract class Surface extends Geometry
     /**
      * A Surface is a 2-dimensional geometric object.
      */
-    #[NoProxy, Override]
+    #[Override]
     public function dimension() : int
     {
         return 2;

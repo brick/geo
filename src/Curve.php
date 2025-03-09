@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Brick\Geo;
 
-use Brick\Geo\Attribute\NoProxy;
 use Brick\Geo\Exception\EmptyGeometryException;
 use Brick\Geo\Projector\Projector;
 use Override;
@@ -19,7 +18,7 @@ abstract class Curve extends Geometry
     /**
      * A Curve is a 1-dimensional geometric object.
      */
-    #[NoProxy, Override]
+    #[Override]
     public function dimension() : int
     {
         return 1;
