@@ -263,4 +263,26 @@ final readonly class Point extends Geometry
     {
         return $projector->project($this);
     }
+
+    /**
+     * Returns whether this Point is exactly equal to another Point.
+     * The points must have the same coordinates, in the same coordinate system.
+     */
+    public function isEqualTo(Point $that) : bool
+    {
+        return $this->x === $that->x
+            && $this->y === $that->y
+            && $this->z === $that->z
+            && $this->m === $that->m
+            && $this->coordinateSystem->isEqualTo($that->coordinateSystem);
+    }
+
+    /**
+     * Returns whether this Point is spatially equal to another Point.
+     * M coordinates are ignored in the comparison.
+     */
+    public function isSpatiallyEqualTo(Point $that) : bool
+    {
+        return $this->withoutM()->isEqualTo($that->withoutM());
+    }
 }

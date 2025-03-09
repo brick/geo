@@ -68,6 +68,7 @@
 ✨ **New features**
 
 - New engine methods: `GeometryEngine::lineInterpolatePoint()`, `lineInterpolatePoints()` (#55 by @arminwinkt)
+- New method: `Point::isEqualTo()`
 
 ✨ **Improvements**
 
