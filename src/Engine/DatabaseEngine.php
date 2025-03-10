@@ -445,6 +445,12 @@ abstract class DatabaseEngine implements GeometryEngine
     }
 
     #[Override]
+    public function concaveHull(Geometry $g, float $convexity, bool $allowHoles) : Geometry
+    {
+        return $this->queryGeometry('ST_ConcaveHull', $g, $convexity, $allowHoles);
+    }
+
+    #[Override]
     public function symDifference(Geometry $a, Geometry $b) : Geometry
     {
         return $this->queryGeometry('ST_SymDifference', $a, $b);

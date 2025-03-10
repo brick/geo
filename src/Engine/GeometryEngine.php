@@ -399,8 +399,8 @@ interface GeometryEngine
      * Returns a geometry that represents the convex hull of this geometry.
      *
      * The convex hull of a geometry represents the minimum convex geometry that encloses all geometries within the set.
+     *
      * One can think of the convex hull as the geometry you get by wrapping an elastic band around a set of geometries.
-     * This is different from a concave hull which is analogous to shrink-wrapping your geometries.
      *
      * @param Geometry $g The geometry.
      *
@@ -409,6 +409,24 @@ interface GeometryEngine
      * @throws GeometryEngineException If the operation is not supported by the engine, or an engine error occurs.
      */
     public function convexHull(Geometry $g) : Geometry;
+
+    /**
+     * Returns a geometry that represents the concave hull of this geometry.
+     *
+     * A concave hull is a (usually) concave geometry which contains the input, and whose vertices are a subset of the
+     * input vertices. In the general case the concave hull is a Polygon.
+     *
+     * One can think of the concave hull as the geometry you get by shrink-wrapping your geometries.
+     *
+     * @param Geometry $g          The geometry.
+     * @param float    $convexity  From 0.0 for fully concave to 1.0 for fully convex.
+     * @param bool     $allowHoles Whether to allow holes in the concave hull.
+     *
+     * @return Geometry The concave hull geometry.
+     *
+     * @throws GeometryEngineException If the operation is not supported by the engine.
+     */
+    public function concaveHull(Geometry $g, float $convexity, bool $allowHoles) : Geometry;
 
     /**
      * Returns a geometry that represents the shared portion of the given geometries.

@@ -200,6 +200,16 @@ final class GeosOpEngine implements GeometryEngine
     }
 
     #[Override]
+    public function concaveHull(Geometry $g, float $convexity, bool $allowHoles) : Geometry
+    {
+        if ($allowHoles) {
+            throw new GeometryEngineException('geosop does not support concaveHull with holes.');
+        }
+
+        return $this->queryGeometry('concaveHull', [$g, $convexity], Geometry::class);
+    }
+
+    #[Override]
     public function intersection(Geometry $a, Geometry $b) : Geometry
     {
         return $this->queryGeometry('intersection', [$a, $b], Geometry::class);

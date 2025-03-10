@@ -323,6 +323,12 @@ final class GEOSEngine implements GeometryEngine
     }
 
     #[Override]
+    public function concaveHull(Geometry $g, float $convexity, bool $allowHoles): Geometry
+    {
+        throw GeometryEngineException::unimplementedMethod(__METHOD__);
+    }
+
+    #[Override]
     public function intersection(Geometry $a, Geometry $b) : Geometry
     {
         return $this->execute(

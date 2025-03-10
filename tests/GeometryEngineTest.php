@@ -1038,6 +1038,38 @@ class GeometryEngineTest extends AbstractTestCase
         ];
     }
 
+    #[DataProvider('providerConcaveHull')]
+    public function testConcaveHull(string $geometry, float $convexity, bool $allowHoles, string $expected) : void
+    {
+        $this->failsOnMySQL();
+        $this->failsOnMariaDB();
+        $this->failsOnSpatiaLite();
+        $this->failsOnGEOS();
+        $this->failsOnGeosOp('< 3.11.0');
+
+        if ($allowHoles) {
+            // geosop supports concaveHull, but only without holes.
+            $this->failsOnGeosOp();
+        }
+
+        $geometry = Geometry::fromText($geometry);
+        $expected = Geometry::fromText($expected);
+
+        $actual = $this->getGeometryEngine()->concaveHull($geometry, $convexity, $allowHoles);
+        $this->assertGeometryEquals($expected, $actual);
+    }
+
+    public static function providerConcaveHull() : array
+    {
+        return [
+            ['MULTIPOINT (5 0, 8 9, 0 15, 10 15, 13 25, 16 15, 26 15, 18 9, 21 0, 13 6)', 0.0, false, 'POLYGON ((8 9, 0 15, 10 15, 13 25, 16 15, 26 15, 18 9, 21 0, 13 6, 5 0, 8 9))'],
+            ['MULTIPOINT (5 0, 8 9, 0 15, 10 15, 13 25, 16 15, 26 15, 18 9, 21 0, 13 6)', 0.0, true, 'POLYGON ((8 9, 0 15, 10 15, 13 25, 16 15, 26 15, 18 9, 21 0, 13 6, 5 0, 8 9))'],
+            ['MULTIPOINT (5 0, 8 9, 0 15, 10 15, 13 25, 16 15, 26 15, 18 9, 21 0, 13 6)', 1.0, false, 'POLYGON ((5 0, 0 15, 13 25, 26 15, 21 0, 5 0))'],
+            ['MULTIPOINT (5 0, 8 9, 0 15, 10 15, 13 25, 16 15, 26 15, 18 9, 21 0, 13 6)', 1.0, true, 'POLYGON ((5 0, 0 15, 13 25, 26 15, 21 0, 5 0))'],
+            ['MULTIPOINT (0 6, 1 7, 2 8, 3 9, 4 10, 5 11, 6 12, 7 11, 8 10, 9 9, 10 8, 11 7, 12 6, 11 5, 10 4, 9 3, 8 2, 7 1, 6 0, 5 1, 4 2, 3 3, 2 4, 1 5, 1 6, 2 7, 3 8, 4 9, 5 10, 6 11, 7 10, 8 9, 9 8, 10 7, 11 6, 10 5, 9 4, 8 3, 7 2, 6 1, 5 2, 4 3, 3 4, 2 5, 2 6, 3 7, 4 8, 5 9, 6 10, 7 9, 8 8, 9 7, 10 6, 9 5, 8 4, 7 3, 6 2, 5 3, 4 4, 3 5, 3 6, 4 7, 5 8, 6 9, 7 8, 8 7, 9 6, 8 5, 7 4, 6 3, 5 4, 4 5, 4 6, 6 8, 8 6, 6 4)', 0.75, true, 'POLYGON ((0 6, 1 7, 2 8, 3 9, 4 10, 5 11, 6 12, 7 11, 8 10, 9 9, 10 8, 11 7, 12 6, 11 5, 10 4, 9 3, 8 2, 7 1, 6 0, 5 1, 4 2, 3 3, 2 4, 1 5, 0 6), (6 4, 8 6, 6 8, 4 6, 6 4))'],
+        ];
+    }
+
     /**
      * @param string $geometry1 The WKT of the first geometry.
      * @param string $geometry2 The WKT of the second geometry.

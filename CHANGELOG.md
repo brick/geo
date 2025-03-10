@@ -4,13 +4,17 @@
 
 💥 **Breaking changes**
 
+- `GeometryEngine` interface has a new method: `concaveHull()`
 - `DatabaseEngine::executeQuery()` implementations must now accept `bool` parameters
 - `DatabaseEngine::getParameterPlaceholder()` signature has changed to accept `bool` parameters
 - `DatabaseEngine::queryGeometry()` is now `final`
 
+These breaking changes will likely not affect you, unless you're writing your own geometry engine.
+
 ✨ **New features**
 
 - New geometry engine: `GeosOpEngine` uses the `geosop` binary to perform geometry operations
+- New engine method: `GeometryEngine::concaveHull()`
 
 ✨ **Improvements**
 
