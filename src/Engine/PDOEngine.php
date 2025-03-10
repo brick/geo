@@ -63,6 +63,8 @@ final class PDOEngine extends DatabaseEngine
                 } else {
                     if (is_int($parameter)) {
                         $type = PDO::PARAM_INT;
+                    } elseif (is_bool($parameter)) {
+                        $type = PDO::PARAM_BOOL;
                     } else {
                         $type = PDO::PARAM_STR;
                     }
@@ -97,7 +99,7 @@ final class PDOEngine extends DatabaseEngine
     }
 
     #[Override]
-    protected function getParameterPlaceholder(string|float|int $parameter): string
+    protected function getParameterPlaceholder(string|float|int|bool $parameter): string
     {
         if ($this->pdo->getAttribute(PDO::ATTR_DRIVER_NAME) === 'pgsql') {
             if (is_int($parameter)) {
