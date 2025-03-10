@@ -1211,6 +1211,7 @@ class GeometryEngineTest extends AbstractTestCase
             ['POLYGON ((1 1, 1 2, 3 2, 3 1, 1 1))', 'LINESTRING (1 1, 2 2, 3 1)', [
                 'MULTIPOLYGON (((1 1, 1 2, 2 2, 1 1)), ((2 2, 3 2, 3 1, 2 2)), ((3 1, 1 1, 2 2, 3 1)))',
                 'GEOMETRYCOLLECTION (POLYGON ((1 1, 1 2, 2 2, 1 1)), POLYGON ((1 1, 2 2, 3 1, 1 1)), POLYGON ((3 1, 2 2, 3 2, 3 1)))',
+                'GEOMETRYCOLLECTION (POLYGON ((1 1, 1 2, 2 2, 1 1)), POLYGON ((2 2, 3 2, 3 1, 2 2)), POLYGON ((3 1, 1 1, 2 2, 3 1)))',
             ]],
         ];
     }
