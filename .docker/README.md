@@ -32,7 +32,6 @@ docker compose down
 ```
 
 ## Installing composer dependencies
-Assuming the current working directory is `.docker`:
 ```
-docker run --rm --volume ${PWD}/..:/app composer install
+docker compose exec php composer install
 ```
