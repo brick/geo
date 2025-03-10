@@ -37,8 +37,8 @@ abstract class DatabaseEngine implements GeometryEngine
     /**
      * Executes a SQL query.
      *
-     * @param string                                   $query      The SQL query to execute.
-     * @param list<GeometryParameter|string|float|int> $parameters The geometry data or scalar values to pass as parameters.
+     * @param string                         $query      The SQL query to execute.
+     * @param list<GeometryParameter|scalar> $parameters The geometry data or scalar values to pass as parameters.
      *
      * @return list<mixed> A numeric result array.
      *
@@ -71,7 +71,7 @@ abstract class DatabaseEngine implements GeometryEngine
      *
      * This method may be overridden to perform explicit type casts if necessary.
      */
-    protected function getParameterPlaceholder(string|float|int $parameter): string
+    protected function getParameterPlaceholder(string|float|int|bool $parameter): string
     {
         return '?';
     }
@@ -79,9 +79,9 @@ abstract class DatabaseEngine implements GeometryEngine
     /**
      * Builds and executes a SQL query for a GIS function.
      *
-     * @param string                           $function        The SQL GIS function to execute.
-     * @param array<Geometry|string|float|int> $parameters      The Geometry objects or scalar values to pass as parameters.
-     * @param bool                             $returnsGeometry Whether the GIS function returns a Geometry.
+     * @param string                 $function        The SQL GIS function to execute.
+     * @param array<Geometry|scalar> $parameters      The Geometry objects or scalar values to pass as parameters.
+     * @param bool                   $returnsGeometry Whether the GIS function returns a Geometry.
      *
      * @return list<mixed> A numeric result array.
      *
@@ -130,12 +130,12 @@ abstract class DatabaseEngine implements GeometryEngine
     /**
      * Queries a GIS function returning a boolean value.
      *
-     * @param string                       $function   The SQL GIS function to execute.
-     * @param Geometry|string|float|int ...$parameters The Geometry objects or scalar values to pass as parameters.
+     * @param string          $function      The SQL GIS function to execute.
+     * @param Geometry|scalar ...$parameters The Geometry objects or scalar values to pass as parameters.
      *
      * @throws GeometryEngineException
      */
-    private function queryBoolean(string $function, Geometry|string|float|int ...$parameters) : bool
+    private function queryBoolean(string $function, Geometry|string|float|int|bool ...$parameters) : bool
     {
         /** @var array{scalar|null} $result */
         $result = $this->query($function, $parameters, false);
@@ -154,12 +154,12 @@ abstract class DatabaseEngine implements GeometryEngine
     /**
      * Queries a GIS function returning a floating point value.
      *
-     * @param string                       $function   The SQL GIS function to execute.
-     * @param Geometry|string|float|int ...$parameters The Geometry objects or scalar values to pass as parameters.
+     * @param string          $function      The SQL GIS function to execute.
+     * @param Geometry|scalar ...$parameters The Geometry objects or scalar values to pass as parameters.
      *
      * @throws GeometryEngineException
      */
-    private function queryFloat(string $function, Geometry|string|float|int ...$parameters) : float
+    private function queryFloat(string $function, Geometry|string|float|int|bool ...$parameters) : float
     {
         /** @var array{scalar|null} $result */
         $result = $this->query($function, $parameters, false);
@@ -176,12 +176,12 @@ abstract class DatabaseEngine implements GeometryEngine
     /**
      * Queries a GIS function returning a Geometry object.
      *
-     * @param string                       $function   The SQL GIS function to execute.
-     * @param Geometry|string|float|int ...$parameters The Geometry objects or scalar values to pass as parameters.
+     * @param string             $function   The SQL GIS function to execute.
+     * @param Geometry|scalar ...$parameters The Geometry objects or scalar values to pass as parameters.
      *
      * @throws GeometryEngineException
      */
-    protected function queryGeometry(string $function, Geometry|string|float|int ...$parameters) : Geometry
+    final protected function queryGeometry(string $function, Geometry|string|float|int|bool ...$parameters) : Geometry
     {
         /** @var array{string|null, string|resource|null, string, int|numeric-string} $result */
         $result = $this->query($function, $parameters, true);

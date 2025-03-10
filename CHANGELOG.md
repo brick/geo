@@ -2,6 +2,12 @@
 
 ## UNRELEASED
 
+💥 **Breaking changes**
+
+- `DatabaseEngine::executeQuery()` implementations must now accept `bool` parameters
+- `DatabaseEngine::getParameterPlaceholder()` signature has changed to accept `bool` parameters
+- `DatabaseEngine::queryGeometry()` is now `final`
+
 ✨ **New features**
 
 - New geometry engine: `GeosOpEngine` uses the `geosop` binary to perform geometry operations
