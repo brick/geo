@@ -26,12 +26,6 @@ use Brick\Geo\Engine\GEOSEngine;
                 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                 $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, $emulatePrepares);
 
-                $pdo->exec('DROP DATABASE IF EXISTS geo_tests');
-                $pdo->exec('DROP DATABASE IF EXISTS geo_tests_tmp');
-                $pdo->exec('CREATE DATABASE geo_tests');
-                $pdo->exec('CREATE DATABASE geo_tests_tmp');
-                $pdo->exec('USE geo_tests');
-
                 $statement = $pdo->query('SELECT VERSION()');
                 $version = $statement->fetchColumn();
 
@@ -61,10 +55,6 @@ use Brick\Geo\Engine\GEOSEngine;
                 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
                 $pdo->exec('CREATE EXTENSION IF NOT EXISTS postgis;');
-                $pdo->exec('DROP DATABASE IF EXISTS geo_tests');
-                $pdo->exec('DROP DATABASE IF EXISTS geo_tests_tmp');
-                $pdo->exec('CREATE DATABASE geo_tests');
-                $pdo->exec('CREATE DATABASE geo_tests_tmp');
 
                 $statement = $pdo->query('SELECT version()');
                 $version = $statement->fetchColumn();
