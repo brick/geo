@@ -47,7 +47,7 @@ services:
             - no-new-privileges
     mysql:
         container_name: ${COMPOSE_PROJECT_NAME}-mysql
-        image: mysql:8.0
+        image: mysql:8.4
         networks:
             - network
         environment:
@@ -64,13 +64,13 @@ services:
             - no-new-privileges
     mariadb:
         container_name: ${COMPOSE_PROJECT_NAME}-mariadb
-        image: mariadb:10.1
+        image: mariadb:11.4
         networks:
             - network
         environment:
-            - MYSQL_USER=${MYSQL_USER}
-            - MYSQL_PASSWORD=${MYSQL_PASSWORD}
-            - MYSQL_ROOT_PASSWORD=password # Required to initialize the database
+            - MARIADB_USER=${MYSQL_USER}
+            - MARIADB_PASSWORD=${MYSQL_PASSWORD}
+            - MARIADB_ROOT_PASSWORD=password # Required to initialize the database
         cap_drop:
             - ALL
         cap_add:

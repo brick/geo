@@ -46,7 +46,7 @@ jobs:
 
     services:
       mysql:
-        image: "mysql:8.0"
+        image: "mysql:8.4"
         ports:
           - "3306:3306"
         options: >-
@@ -111,11 +111,11 @@ jobs:
 
     services:
       mariadb:
-        image: "mariadb:10.1"
+        image: "mariadb:11.4"
         env:
-          MYSQL_ROOT_PASSWORD: password
+          MARIADB_ROOT_PASSWORD: password
         options: >-
-          --health-cmd "mysqladmin ping --silent"
+          --health-cmd "mariadb-admin ping --silent --user=root --password=password"
         ports:
           - "3306:3306"
 
