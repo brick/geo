@@ -11,10 +11,14 @@ services:
             - ..:${SOURCES_PATH}
             - ${SOURCES_PATH}/.git # Do not expose .git directory
         environment:
-            - DATABASE_USERNAME
-            - DATABASE_PASSWORD
             - POSTGRES_HOST
             - POSTGRES_PORT
+            - POSTGRES_USER
+            - POSTGRES_PASSWORD
+            - MYSQL_HOST
+            - MYSQL_PORT
+            - MYSQL_USER
+            - MYSQL_PASSWORD
         working_dir: ${SOURCES_PATH}
         cap_drop:
             - ALL
@@ -30,12 +34,30 @@ services:
         networks:
             - network
         environment:
-            - POSTGRES_USER=${DATABASE_USERNAME}
-            - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
+            - POSTGRES_USER=${POSTGRES_USER}
+            - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
         working_dir: /var/lib/postgresql/data
         cap_drop:
             - ALL
         cap_add:
+            - DAC_OVERRIDE
+            - SETGID
+            - SETUID
+        security_opt:
+            - no-new-privileges
+    mysql:
+        container_name: ${COMPOSE_PROJECT_NAME}-mysql
+        image: mysql:8.0
+        networks:
+            - network
+        environment:
+            - MYSQL_USER=${MYSQL_USER}
+            - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+            - MYSQL_ROOT_PASSWORD=password # Required to initialize the database
+        cap_drop:
+            - ALL
+        cap_add:
+            - DAC_OVERRIDE
             - SETGID
             - SETUID
         security_opt:

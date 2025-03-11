@@ -22,7 +22,17 @@ use Brick\Geo\Engine\GEOSEngine;
                 echo 'Using PDOEngine for MySQL' . PHP_EOL;
                 echo 'with emulated prepares ' . ($emulatePrepares ? 'ON' : 'OFF') . PHP_EOL;
 
-                $pdo = new PDO('mysql:host=127.0.0.1;port=3306', 'root', '');
+                $host = $_ENV['MYSQL_HOST'] ?? '127.0.0.1';
+                $port = $_ENV['MYSQL_PORT'] ?? '3306';
+                $username = $_ENV['MYSQL_USER'] ?? 'root';
+                $password = $_ENV['MYSQL_PASSWORD'] ?? '';
+
+                $pdo = new PDO(
+                    sprintf('mysql:host=%s;port=%d', $host, $port),
+                    $username,
+                    $password,
+                );
+
                 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                 $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, $emulatePrepares);
 
@@ -40,8 +50,8 @@ use Brick\Geo\Engine\GEOSEngine;
                 $credentials = [
                     'host' => $_ENV['POSTGRES_HOST'] ?? 'localhost',
                     'port' => $_ENV['POSTGRES_PORT'] ?? '5432',
-                    'username' => $_ENV['DATABASE_USERNAME'] ?? 'postgres',
-                    'password' => $_ENV['DATABASE_PASSWORD'] ?? 'postgres',
+                    'username' => $_ENV['POSTGRES_USER'] ?? 'postgres',
+                    'password' => $_ENV['POSTGRES_PASSWORD'] ?? 'postgres',
                 ];
 
                 $pdo = new PDO(

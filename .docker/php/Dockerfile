@@ -1,10 +1,8 @@
 ARG PHP_VERSION
 FROM php:${PHP_VERSION}-cli
 
-RUN apt update && apt install --yes git libpq-dev libgeos-dev
-RUN docker-php-ext-install pdo pdo_pgsql
-
-RUN apt install --yes libsqlite3-mod-spatialite
+RUN apt update && apt install --yes git libpq-dev libgeos-dev libsqlite3-mod-spatialite
+RUN docker-php-ext-install pdo pdo_pgsql pdo_mysql
 
 RUN echo "[sqlite3]\nsqlite3.extension_dir = /usr/lib/x86_64-linux-gnu"> /usr/local/etc/php/conf.d/sqlite3.ini
 
