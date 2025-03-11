@@ -5,8 +5,6 @@ services:
             context: php
             args:
                 - PHP_VERSION
-        networks:
-            - network
         volumes:
             - ..:${SOURCES_PATH}
             - ${SOURCES_PATH}/.git # Do not expose .git directory
@@ -31,8 +29,6 @@ services:
             args:
                 - POSTGRES_VERSION
                 - POSTGIS_VERSION
-        networks:
-            - network
         environment:
             - POSTGRES_USER=${POSTGRES_USER}
             - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
@@ -48,8 +44,6 @@ services:
     mysql:
         container_name: ${COMPOSE_PROJECT_NAME}-mysql
         image: mysql:8.4
-        networks:
-            - network
         environment:
             - MYSQL_USER=${MYSQL_USER}
             - MYSQL_PASSWORD=${MYSQL_PASSWORD}
@@ -65,8 +59,6 @@ services:
     mariadb:
         container_name: ${COMPOSE_PROJECT_NAME}-mariadb
         image: mariadb:11.4
-        networks:
-            - network
         environment:
             - MARIADB_USER=${MYSQL_USER}
             - MARIADB_PASSWORD=${MYSQL_PASSWORD}
@@ -79,5 +71,3 @@ services:
             - SETUID
         security_opt:
             - no-new-privileges
-networks:
-    network: ~
