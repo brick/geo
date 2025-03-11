@@ -62,5 +62,22 @@ services:
             - SETUID
         security_opt:
             - no-new-privileges
+    mariadb:
+        container_name: ${COMPOSE_PROJECT_NAME}-mariadb
+        image: mariadb:10.1
+        networks:
+            - network
+        environment:
+            - MYSQL_USER=${MYSQL_USER}
+            - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+            - MYSQL_ROOT_PASSWORD=password # Required to initialize the database
+        cap_drop:
+            - ALL
+        cap_add:
+            - DAC_OVERRIDE
+            - SETGID
+            - SETUID
+        security_opt:
+            - no-new-privileges
 networks:
     network: ~
