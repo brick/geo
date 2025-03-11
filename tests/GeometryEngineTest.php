@@ -1142,7 +1142,6 @@ class GeometryEngineTest extends AbstractTestCase
 
         $this->failsOnMariaDB();
         $this->failsOnGEOS();
-        $this->failsOnSpatiaLite();
 
         $originalGeometry = Geometry::fromText($originalWKT, $originalSRID);
         $expectedGeometry = Geometry::fromText($expectedWKT, $targetSRID);

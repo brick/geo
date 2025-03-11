@@ -93,6 +93,8 @@ use Brick\Geo\Engine\GEOSEngine;
                 $spatialiteVersion = $sqlite3->querySingle('SELECT spatialite_version()');
                 echo 'SpatiaLite version: ' . $spatialiteVersion . PHP_EOL;
 
+                $sqlite3->exec('SELECT InitSpatialMetaData()');
+
                 $engine = new SQLite3Engine($sqlite3);
                 break;
 
