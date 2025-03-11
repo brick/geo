@@ -52,7 +52,7 @@ jobs:
         options: >-
           --health-cmd "mysqladmin ping --silent"
         env:
-          MYSQL_ALLOW_EMPTY_PASSWORD: true
+          MYSQL_ROOT_PASSWORD: password
 
     steps:
       - name: Checkout
@@ -72,6 +72,9 @@ jobs:
         run: vendor/bin/phpunit
         env:
           ENGINE: PDO_MYSQL
+          MYSQL_HOST: 127.0.0.1
+          MYSQL_USER: root
+          MYSQL_PASSWORD: password
           EMULATE_PREPARES: ${{ matrix.emulate-prepares }}
         if: ${{ matrix.php-version != env.COVERAGE_PHP_VERSION }}
 
@@ -81,6 +84,9 @@ jobs:
           vendor/bin/phpunit --coverage-clover build/logs/clover.xml
         env:
           ENGINE: PDO_MYSQL
+          MYSQL_HOST: 127.0.0.1
+          MYSQL_USER: root
+          MYSQL_PASSWORD: password
           EMULATE_PREPARES: ${{ matrix.emulate-prepares }}
         if: ${{ matrix.php-version == env.COVERAGE_PHP_VERSION }}
 
@@ -107,7 +113,7 @@ jobs:
       mariadb:
         image: "mariadb:10.1"
         env:
-          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+          MYSQL_ROOT_PASSWORD: password
         options: >-
           --health-cmd "mysqladmin ping --silent"
         ports:
@@ -133,6 +139,9 @@ jobs:
           vendor/bin/phpunit --coverage-clover build/logs/clover.xml
         env:
           ENGINE: PDO_MYSQL
+          MYSQL_HOST: 127.0.0.1
+          MYSQL_USER: root
+          MYSQL_PASSWORD: password
           EMULATE_PREPARES: ${{ matrix.emulate-prepares }}
 
       - name: Upload coverage report to Coveralls
@@ -178,6 +187,9 @@ jobs:
           vendor/bin/phpunit --coverage-clover build/logs/clover.xml
         env:
           ENGINE: PDO_PGSQL
+          POSTGRES_HOST: 127.0.0.1
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
 
       - name: Upload coverage report to Coveralls
         run: vendor/bin/php-coveralls --coverage_clover=build/logs/clover.xml -v
