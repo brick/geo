@@ -259,6 +259,18 @@ abstract class WKTAbstractTestCase extends AbstractTestCase
             ], [
                 'COMPOUNDCURVE ZM(CIRCULARSTRING ZM(1 2 3 4,2 3 4 5,3 4 5 6),(3 4 5 6,7 8 9 0))',
                 'COMPOUNDCURVE ZM(CIRCULARSTRING ZM(1 2 3 4,2 3 4 5,3 4 5 6),LINESTRING ZM(3 4 5 6,7 8 9 0))',
+            ], [
+                'MULTIPOINT(1 2,3 4)',
+                'MULTIPOINT((1 2),(3 4))',
+            ], [
+                'MULTIPOINT Z(1 2 3,4 5 6)',
+                'MULTIPOINT Z((1 2 3),(4 5 6))',
+            ], [
+                'MULTIPOINT M(1 2 3,4 5 6)',
+                'MULTIPOINT M((1 2 3),(4 5 6))',
+            ], [
+                'MULTIPOINT ZM(1 2 3 4,5 6 7 8)',
+                'MULTIPOINT ZM((1 2 3 4),(5 6 7 8))',
             ],
         ];
     }

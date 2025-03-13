@@ -193,6 +193,7 @@ abstract class AbstractWKTReader
 
     /**
      * (x y, ...)
+     * ((x, y), ...)
      *
      * @return Point[]
      */
@@ -202,7 +203,12 @@ abstract class AbstractWKTReader
         $points = [];
 
         do {
+            $hasExtraParentheses = $parser->matchOptionalOpener();
             $points[] = $this->readPoint($parser, $cs);
+            if ($hasExtraParentheses) {
+                $parser->matchCloser();
+            }
+
             $nextToken = $parser->getNextCloserOrComma();
         } while ($nextToken === ',');
 

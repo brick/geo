@@ -75,9 +75,17 @@ class WKTParser
     /**
      * @return array{int, string}|null The next token, or null if there are no more tokens.
      */
+    private function peekToken(): ?array
+    {
+        return $this->tokens[$this->current] ?? null;
+    }
+
+    /**
+     * @return array{int, string}|null The next token, or null if there are no more tokens.
+     */
     private function nextToken() : ?array
     {
-        $token = $this->tokens[$this->current] ?? null;
+        $token = $this->peekToken();
 
         if ($token === null) {
             return null;
@@ -153,6 +161,19 @@ class WKTParser
         $this->current++;
 
         return $token[1];
+    }
+
+    public function matchOptionalOpener(): bool
+    {
+        $token = $this->peekToken();
+
+        $isOpener = ($token !== null && $token[1] === '(');
+
+        if ($isOpener) {
+            $this->current++;
+        }
+
+        return $isOpener;
     }
 
     /**
