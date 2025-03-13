@@ -98,26 +98,25 @@ Advanced calculations are available through the `GeometryEngine` interface. The 
   This engine currently supports the following databases:
   - [MySQL](http://php.net/manual/en/ref.pdo-mysql.php) version 5.6 or greater (*2D geometries only*)
   - MariaDB version 5.5 or greater
-  - [PostgreSQL](http://php.net/manual/en/ref.pdo-pgsql.php) with the [PostGIS](http://postgis.net/install) extension.
-- `SQLite3Engine`: communicates with a [SQLite3](http://php.net/manual/en/book.sqlite3.php) database with the [SpatiaLite](https://www.gaia-gis.it/fossil/libspatialite/index) extension.
+  - [PostgreSQL](http://php.net/manual/en/ref.pdo-pgsql.php) with the [PostGIS](http://postgis.net/) extension
+- `SQLite3Engine`: communicates with an [SQLite3](http://php.net/manual/en/book.sqlite3.php) database with the [SpatiaLite](https://www.gaia-gis.it/fossil/libspatialite/index) extension
 - `GEOSEngine`: uses the [GEOS](https://git.osgeo.org/gitea/geos/php-geos) PHP extension
+- `GeosOpEngine`: uses the [geosop](https://libgeos.org/usage/tools/#geosop) command-line tool
 
 Your choice for the right implementation should be guided by two criteria:
 
 - **availability**: if you already use a GIS-enabled database such as MySQL, this may be an easy choice;
 - **capabilities**: not all databases offer the same GIS capabilities:
-  - some functions may be available on PostgreSQL but not on other databases (see the [Spatial Function Reference](#spatial-function-reference) section)
+  - some functions may be available on PostgreSQL but not on other databases (see the [GeometryEngine methods reference](#geometryengine-methods-reference) section)
   - some functions may be restricted to certain geometry types and/or SRIDs; for example, `buffer()` works on MySQL, but would fail with a `Polygon` on SRID 4326 (GPS coordinates, distance in meters)
   - some databases may return distances in meters on SRID 4326, while others may return distances in degrees
 
 You should probably start with the easiest method that works for you, and test if this setup matches your expectations.
 
-Following is a step-by-step guide for all possible configurations:
-
-### Using PDO and MySQL 5.6 or greater
+Click on one of the following configurations to see the setup instructions:
 
 <details>
-<summary>Click to expand</summary>
+<summary>Using <strong>PDO</strong> and <strong>MySQL</strong></summary>
 
 - Ensure that your MySQL version is at least `5.6`.  
   Earlier versions only have partial GIS support based on bounding boxes and are not supported.
@@ -133,19 +132,15 @@ Following is a step-by-step guide for all possible configurations:
 Update the code with your own connection parameters, or use an existing `PDO` connection if you have one (recommended).
 </details>
 
-### Using PDO and MariaDB 5.5 or greater
-
 <details>
-<summary>Click to expand</summary>
+<summary>Using <strong>PDO</strong> and <strong>MariaDB</strong></summary>
 
-MariaDB is a fork of MySQL, so you can follow the same procedure as for MySQL.
-Just ensure that your MariaDB version is `5.5` or greater.
+- Ensure that your MariaDB version is at least `5.5`.
+- MariaDB is a fork of MySQL, so you can follow the same procedure as for MySQL.
 </details>
 
-### Using PDO and PostgreSQL with PostGIS
-
 <details>
-<summary>Click to expand</summary>
+<summary>Using <strong>PDO</strong> and <strong>PostgreSQL</strong> with <strong>PostGIS</strong></summary>
 
 - Ensure that [PostGIS is installed](http://postgis.net/install/) on your server
 - Enable PostGIS on the database server if needed:
@@ -164,10 +159,8 @@ Just ensure that your MariaDB version is `5.5` or greater.
 Update the code with your own connection parameters, or use an existing `PDO` connection if you have one (recommended).
 </details>
 
-### Using PDO and SQLite with SpatiaLite
-
 <details>
-<summary>Click to expand</summary>
+<summary>Using <strong>PDO</strong> and <strong>SQLite</strong> with <strong>SpatiaLite</strong></summary>
 
 Due to [limitations in the PDO_SQLITE driver](https://bugs.php.net/bug.php?id=64810), it is currently not possible<sup>*</sup> to load the SpatiaLite extension with a
 `SELECT LOAD_EXTENSION()` query, hence you cannot use SpatiaLite with the PDO driver.
@@ -178,10 +171,8 @@ all you need to do is create an additional in-memory SQLite3 database just to po
 <sup>* It actually *is* possible, using [moxio/sqlite-extended-api](https://github.com/Moxio/sqlite-extended-api), which uses FFI and [Z-Engine](https://github.com/lisachenko/z-engine), but beware that this library is still experimental!</sup>
 </details>
 
-### Using SQLite3 with SpatiaLite
-
 <details>
-<summary>Click to expand</summary>
+<summary>Using <strong>SQLite3</strong> with <strong>SpatiaLite</strong></summary>
 
 - Ensure that [SpatiaLite is installed](https://www.gaia-gis.it/fossil/libspatialite/index) on your system.
 - Ensure that the SQLite3 extension is enabled in your `php.ini`:
@@ -214,13 +205,11 @@ all you need to do is create an additional in-memory SQLite3 database just to po
 In this example we have created an in-memory database for our GIS calculations, but you can also use an existing `SQLite3` connection.
 </details>
 
-### Using GEOS PHP bindings
-
 <details>
-<summary>Click to expand</summary>
+<summary>Using the <strong>GEOS</strong> extension</summary>
 
-- Ensure that [the PHP bindings for GEOS](https://git.osgeo.org/gitea/geos/php-geos) are installed on your server (GEOS 3.6.0 onwards; previous versions require compiling GEOS with the `--enable-php` flag).
-- Ensure that the GEOS extension is enabled in your `php.ini`:
+- Ensure that the [GEOS extension](https://git.osgeo.org/gitea/geos/php-geos) is installed on your server (GEOS 3.6.0 onwards; previous versions require compiling GEOS with the `--enable-php` flag).
+- Ensure that the extension is enabled in your `php.ini`:
 
         extension=geos.so
 
@@ -233,10 +222,8 @@ In this example we have created an in-memory database for our GIS calculations, 
     ```
 </details>
 
-### Using the `geosop` command-line tool
-
 <details>
-<summary>Click to expand</summary>
+<summary>Using the <strong><code>geosop</code></strong> command-line tool</summary>
 
 - Ensure that [geosop](https://libgeos.org/usage/tools/#geosop) is installed on your server.
   You can install it on Fedora with the `geos` package, or on Ubuntu / Debian with the `geos-bin` package.
@@ -248,7 +235,8 @@ In this example we have created an in-memory database for our GIS calculations, 
     $geometryEngine = new GeosOpEngine('/usr/bin/geosop');
     ```
 
-Adjust the path to the geosop binary if needed.  
+Adjust the path to the `geosop` binary if needed.
+
 Note that every call to the `GeosOpEngine` will spawn a new process, which comes with a performance overhead compared to the other engines.
 </details>
 
