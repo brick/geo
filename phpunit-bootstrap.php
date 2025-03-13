@@ -1,5 +1,6 @@
 <?php
 
+use Brick\Geo\Engine\GeosOpEngine;
 use Brick\Geo\Engine\PDOEngine;
 use Brick\Geo\Engine\SQLite3Engine;
 use Brick\Geo\Engine\GEOSEngine;
@@ -125,6 +126,15 @@ function getRequiredEnv(string $name): string
                 echo 'GEOS version: ', GEOSVersion(), PHP_EOL;
 
                 $engine = new GEOSEngine();
+                break;
+
+            case 'geosop':
+                echo 'Using GeosOpEngine', PHP_EOL;
+
+                $geosopPath = getRequiredEnv('GEOSOP_PATH');
+                $engine = new GeosOpEngine($geosopPath);
+
+                echo 'geosop version: ', $engine->getGeosOpVersion(), PHP_EOL;
                 break;
 
             default:

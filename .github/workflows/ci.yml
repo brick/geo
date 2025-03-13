@@ -269,3 +269,43 @@ jobs:
         run: vendor/bin/php-coveralls --coverage_clover=build/logs/clover.xml -v
         env:
           COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  phpunit-geosop:
+    name: PHPUnit geosop
+    runs-on: ubuntu-22.04
+
+    strategy:
+      matrix:
+        php-version:
+          - "8.1"
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          coverage: xdebug
+
+      - name: Install composer dependencies
+        uses: ramsey/composer-install@v3
+
+      - name: Install geosop
+        run: |
+          sudo apt update
+          sudo apt install geos-bin
+
+      - name: Run PHPUnit with coverage
+        run: |
+          mkdir -p build/logs
+          vendor/bin/phpunit --coverage-clover build/logs/clover.xml
+        env:
+          ENGINE: geosop
+          GEOSOP_PATH: /usr/bin/geosop
+
+      - name: Upload coverage report to Coveralls
+        run: vendor/bin/php-coveralls --coverage_clover=build/logs/clover.xml -v
+        env:
+          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}

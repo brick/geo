@@ -5,6 +5,7 @@ services:
             context: php
             args:
                 - PHP_VERSION
+                - GEOSOP_VERSION
         volumes:
             - ..:${SOURCES_PATH}
             - ${SOURCES_PATH}/.git # Do not expose .git directory
@@ -17,6 +18,7 @@ services:
             - MYSQL_PORT
             - MYSQL_USER
             - MYSQL_PASSWORD
+            - GEOSOP_PATH
         working_dir: ${SOURCES_PATH}
         cap_drop:
             - ALL

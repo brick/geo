@@ -19,7 +19,11 @@ This library is a PHP implementation of the [OpenGIS specification](http://www.o
 It provides [Geometry classes](#geometry-hierarchy) (`Point`, `LineString`, `Polygon`, etc.), and can natively read/write many formats: WKB, WKT, EWKB, EWKT, and GeoJSON.
 
 It also provides a `GeometryEngine` interface for advanced calculations (`length`, `area`, `union`, `intersection`, etc.),
-together with implementations that delegate these operations to a third-party GIS engine: the [GEOS](https://git.osgeo.org/gitea/geos/php-geos) extension, or a GIS-enabled database such as MySQL or PostgreSQL.
+together with implementations that delegate these operations to a third-party GIS engine:
+
+- the [**GEOS**](https://git.osgeo.org/gitea/geos/php-geos) extension,
+- the [**geosop**](https://libgeos.org/usage/tools/#geosop) command-line tool,
+- or a GIS-enabled database: **MySQL**, **MariaDB**, **PostgreSQL** with PostGIS, or **SQLite** with SpatiaLite.
 
 Requirements and installation
 -----------------------------
@@ -227,6 +231,25 @@ In this example we have created an in-memory database for our GIS calculations, 
     
     $geometryEngine = new GEOSEngine();
     ```
+</details>
+
+### Using the `geosop` command-line tool
+
+<details>
+<summary>Click to expand</summary>
+
+- Ensure that [geosop](https://libgeos.org/usage/tools/#geosop) is installed on your server.
+  You can install it on Fedora with the `geos` package, or on Ubuntu / Debian with the `geos-bin` package.
+- Use this bootstrap code in your project:
+
+    ```php
+    use Brick\Geo\Engine\GeosOpEngine;
+    
+    $geometryEngine = new GeosOpEngine('/usr/bin/geosop');
+    ```
+
+Adjust the path to the geosop binary if needed.  
+Note that every call to the `GeosOpEngine` will spawn a new process, which comes with a performance overhead compared to the other engines.
 </details>
 
 Geometry hierarchy

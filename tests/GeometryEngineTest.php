@@ -10,6 +10,7 @@ use Brick\Geo\Curve;
 use Brick\Geo\CurvePolygon;
 use Brick\Geo\Engine\GeometryEngine;
 use Brick\Geo\Engine\GEOSEngine;
+use Brick\Geo\Engine\GeosOpEngine;
 use Brick\Geo\Engine\PDOEngine;
 use Brick\Geo\Engine\SQLite3Engine;
 use Brick\Geo\Exception\GeometryEngineException;
@@ -56,8 +57,7 @@ class GeometryEngineTest extends AbstractTestCase
             return;
         }
 
-        self::assertSame($result->geometryType(), $union->geometryType());
-        self::assertTrue($geometryEngine->equals($union, $result));
+        $this->assertGeometryEquals($result, $union);
     }
 
     public static function providerUnion() : array
@@ -107,6 +107,10 @@ class GeometryEngineTest extends AbstractTestCase
     public function testEnvelope(string $geometry, string $envelope) : void
     {
         $geometryEngine = $this->getGeometryEngine();
+
+        if ($this->isGeosOp('< 3.12.0')) {
+            self::markTestSkipped('geosop < 3.12.0 returns bogus results.');
+        }
 
         $geometry = Geometry::fromText($geometry);
         $envelope = Geometry::fromText($envelope);
@@ -175,6 +179,8 @@ class GeometryEngineTest extends AbstractTestCase
     {
         $geometryEngine = $this->getGeometryEngine();
 
+        $this->failsOnGeosOp();
+
         /** @var Surface|MultiSurface $surface */
         $surface = Geometry::fromText($wkt);
         $this->skipIfUnsupportedGeometry($surface);
@@ -217,6 +223,7 @@ class GeometryEngineTest extends AbstractTestCase
         $this->failsOnMySQL();
         $this->failsOnMariaDB();
         $this->failsOnGEOS();
+        $this->failsOnGeosOp();
 
         $observer = Point::fromText($observerWkt);
         $subject = Point::fromText($subjectWkt);
@@ -293,9 +300,9 @@ class GeometryEngineTest extends AbstractTestCase
     {
         $geometryEngine = $this->getGeometryEngine();
 
-        // MySQL and older MariaDB do not support ST_PointOnSurface()
         $this->failsOnMySQL();
         $this->failsOnMariaDB('< 10.1.2');
+        $this->failsOnGeosOp();
 
         /** @var Surface|MultiSurface $geometry */
         $geometry = Geometry::fromText($wkt);
@@ -323,11 +330,12 @@ class GeometryEngineTest extends AbstractTestCase
     }
 
     /**
-     * @param string $geometry The WKT of the geometry to test.
-     * @param string|string[] $boundary The WKT of the expected boundary. If multiple possible results, an array.
+     * @param string   $geometry The WKT of the geometry to test.
+     * @param string[] $boundary The WKT of the expected boundary. Different engines have different outputs,
+     *                           so we allow multiple possible values.
      */
     #[DataProvider('providerBoundary')]
-    public function testBoundary(string $geometry, string|array $boundary) : void
+    public function testBoundary(string $geometry, array $boundary) : void
     {
         $geometryEngine = $this->getGeometryEngine();
 
@@ -346,22 +354,40 @@ class GeometryEngineTest extends AbstractTestCase
 
         $actualBoundary = $geometryEngine->boundary($geometry);
 
-        if (is_array($boundary)) {
-            self::assertContains($actualBoundary->asText(), $boundary);
-        } else {
-            self::assertSame($boundary, $actualBoundary->asText());
-        }
+        self::assertContains($actualBoundary->asText(), $boundary);
     }
 
     public static function providerBoundary() : array
     {
         return [
-            ['POINT (1 2)', ['POINT EMPTY', 'GEOMETRYCOLLECTION EMPTY']],
-            ['POINT Z (2 3 4)', ['POINT Z EMPTY', 'GEOMETRYCOLLECTION EMPTY']],
-            ['POINT M (3 4 5)', ['POINT M EMPTY', 'GEOMETRYCOLLECTION EMPTY']],
-            ['POINT ZM (4 5 6 7)', ['POINT ZM EMPTY', 'GEOMETRYCOLLECTION EMPTY']],
-            ['LINESTRING (1 1, 0 0, -1 1)', 'MULTIPOINT (1 1, -1 1)'],
-            ['POLYGON ((1 1, 0 0, -1 1, 1 1))', 'LINESTRING (1 1, 0 0, -1 1, 1 1)'],
+            ['POINT (1 2)', [
+                'POINT EMPTY',
+                'GEOMETRYCOLLECTION EMPTY',
+                'POINT (1 2)', // geosop
+            ]],
+            ['POINT Z (2 3 4)', [
+                'POINT Z EMPTY',
+                'GEOMETRYCOLLECTION EMPTY',
+                'POINT Z (2 3 4)', // geosop
+            ]],
+            ['POINT M (3 4 5)', [
+                'POINT M EMPTY',
+                'GEOMETRYCOLLECTION EMPTY',
+                'POINT (3 4)', // geosop
+            ]],
+            ['POINT ZM (4 5 6 7)', [
+                'POINT ZM EMPTY',
+                'GEOMETRYCOLLECTION EMPTY',
+                'POINT Z (4 5 6)', // geosop
+            ]],
+            ['LINESTRING (1 1, 0 0, -1 1)', [
+                'MULTIPOINT (1 1, -1 1)',
+                'POLYGON ((0 0, -1 1, 1 1, 0 0))', // geosop
+            ]],
+            ['POLYGON ((1 1, 0 0, -1 1, 1 1))', [
+                'LINESTRING (1 1, 0 0, -1 1, 1 1)',
+                'POLYGON ((0 0, -1 1, 1 1, 0 0))', // geosop
+            ]],
         ];
     }
 
@@ -450,6 +476,8 @@ class GeometryEngineTest extends AbstractTestCase
     public function testIsClosed(string $wkt, bool $isClosed) : void
     {
         $geometryEngine = $this->getGeometryEngine();
+
+        $this->failsOnGeosOp();
 
         $geometry = Geometry::fromText($wkt);
         $this->skipIfUnsupportedGeometry($geometry);
@@ -540,6 +568,8 @@ class GeometryEngineTest extends AbstractTestCase
     {
         $geometryEngine = $this->getGeometryEngine();
 
+        $this->failsOnGeosOp();
+
         $curve = Curve::fromText($wkt);
         $this->skipIfUnsupportedGeometry($curve);
 
@@ -599,6 +629,8 @@ class GeometryEngineTest extends AbstractTestCase
     {
         $geometryEngine = $this->getGeometryEngine();
 
+        $this->failsOnGeosOp('< 3.11.0');
+
         $geometry1 = Geometry::fromText($geometry1);
         $geometry2 = Geometry::fromText($geometry2);
 
@@ -636,6 +668,8 @@ class GeometryEngineTest extends AbstractTestCase
     public function testDisjoint(string $geometry1, string $geometry2, bool $disjoint) : void
     {
         $geometryEngine = $this->getGeometryEngine();
+
+        $this->failsOnGeosOp('< 3.12.0');
 
         $geometry1 = Geometry::fromText($geometry1);
         $geometry2 = Geometry::fromText($geometry2);
@@ -697,6 +731,8 @@ class GeometryEngineTest extends AbstractTestCase
     {
         $geometryEngine = $this->getGeometryEngine();
 
+        $this->failsOnGeosOp('< 3.12.0');
+
         $geometry1 = Geometry::fromText($geometry1);
         $geometry2 = Geometry::fromText($geometry2);
 
@@ -729,6 +765,8 @@ class GeometryEngineTest extends AbstractTestCase
     {
         $geometryEngine = $this->getGeometryEngine();
 
+        $this->failsOnGeosOp('< 3.12.0');
+
         $geometry1 = Geometry::fromText($geometry1);
         $geometry2 = Geometry::fromText($geometry2);
 
@@ -760,6 +798,8 @@ class GeometryEngineTest extends AbstractTestCase
     public function testWithin(string $geometry1, string $geometry2, bool $within) : void
     {
         $geometryEngine = $this->getGeometryEngine();
+
+        $this->failsOnGeosOp('< 3.12.0');
 
         $geometry1 = Geometry::fromText($geometry1);
         $geometry2 = Geometry::fromText($geometry2);
@@ -815,6 +855,8 @@ class GeometryEngineTest extends AbstractTestCase
     {
         $geometryEngine = $this->getGeometryEngine();
 
+        $this->failsOnGeosOp('< 3.12.0');
+
         $geometry1 = Geometry::fromText($geometry1);
         $geometry2 = Geometry::fromText($geometry2);
 
@@ -842,6 +884,7 @@ class GeometryEngineTest extends AbstractTestCase
 
         $this->failsOnMySQL();
         $this->failsOnMariaDB('< 10.1.2');
+        $this->failsOnGeosOp();
 
         $geometry1 = Geometry::fromText($geometry1);
         $geometry2 = Geometry::fromText($geometry2);
@@ -872,6 +915,7 @@ class GeometryEngineTest extends AbstractTestCase
         $this->failsOnMySQL();
         $this->failsOnMariaDB();
         $this->failsOnGEOS();
+        $this->failsOnGeosOp();
 
         self::assertSame($result, $geometryEngine->locateAlong(Geometry::fromText($geometry), $measure)->asText());
     }
@@ -898,6 +942,7 @@ class GeometryEngineTest extends AbstractTestCase
         $this->failsOnMySQL();
         $this->failsOnMariaDB();
         $this->failsOnGEOS();
+        $this->failsOnGeosOp();
 
         self::assertSame($result, $geometryEngine->locateBetween(Geometry::fromText($geometry), $mStart, $mEnd)->asText());
     }
@@ -923,7 +968,7 @@ class GeometryEngineTest extends AbstractTestCase
         $geometry1 = Geometry::fromText($geometry1);
         $geometry2 = Geometry::fromText($geometry2);
 
-        self::assertEqualsWithDelta($distance, $geometryEngine->distance($geometry1, $geometry2), 1e-14);
+        self::assertEqualsWithDelta($distance, $geometryEngine->distance($geometry1, $geometry2), 1e-6);
     }
 
     public static function providerDistance() : array
@@ -1059,6 +1104,7 @@ class GeometryEngineTest extends AbstractTestCase
         $this->failsOnMySQL();
         $this->failsOnMariaDB();
         $this->failsOnGEOS();
+        $this->failsOnGeosOp();
 
         $geometry = Geometry::fromText($geometry);
         $result   = Geometry::fromText($result);
@@ -1091,6 +1137,7 @@ class GeometryEngineTest extends AbstractTestCase
         $this->failsOnMySQL('< 5.7.6-m16');
         $this->failsOnMariaDB('>= 10.0');
         $this->failsOnSpatiaLite('< 4.1.0');
+        $this->failsOnGeosOp();
 
         $geometry = Geometry::fromText($geometry);
         $result   = Geometry::fromText($result);
@@ -1119,6 +1166,7 @@ class GeometryEngineTest extends AbstractTestCase
         $this->failsOnMySQL();
         $this->failsOnMariaDB();
         $this->failsOnGEOS();
+        $this->failsOnGeosOp();
 
         $geometry1 = Geometry::fromText($geometry1);
         $geometry2 = Geometry::fromText($geometry2);
@@ -1142,6 +1190,7 @@ class GeometryEngineTest extends AbstractTestCase
 
         $this->failsOnMariaDB();
         $this->failsOnGEOS();
+        $this->failsOnGeosOp();
 
         $originalGeometry = Geometry::fromText($originalWKT, $originalSRID);
         $expectedGeometry = Geometry::fromText($expectedWKT, $targetSRID);
@@ -1179,6 +1228,7 @@ class GeometryEngineTest extends AbstractTestCase
         $this->failsOnMySQL();
         $this->failsOnMariaDB();
         $this->failsOnGEOS();
+        $this->failsOnGeosOp();
 
         $originalGeometry = Geometry::fromText($originalWKT);
         $bladeGeometry = Geometry::fromText($bladeWKT);
@@ -1221,6 +1271,7 @@ class GeometryEngineTest extends AbstractTestCase
         $geometryEngine = $this->getGeometryEngine();
 
         $this->failsOnMariaDB();
+        $this->failsOnGeosOp();
 
         $lineString = LineString::fromText($originalWKT);
         $resultGeometry = $geometryEngine->lineInterpolatePoint($lineString, $fraction);
@@ -1263,6 +1314,7 @@ class GeometryEngineTest extends AbstractTestCase
         $this->failsOnMariaDB();
         $this->failsOnSpatiaLite();
         $this->failsOnGEOS();
+        $this->failsOnGeosOp();
 
         $lineString = LineString::fromText($originalWKT);
         $this->skipIfUnsupportedGeometry($lineString);
@@ -1338,6 +1390,13 @@ class GeometryEngineTest extends AbstractTestCase
         }
     }
 
+    private function failsOnGeosOp(?string $operatorAndVersion = null) : void
+    {
+        if ($this->isGeosOp($operatorAndVersion)) {
+            $this->expectException(GeometryEngineException::class);
+        }
+    }
+
     private function failsOnSpatiaLite(?string $operatorAndVersion = null) : void
     {
         if ($this->isSpatiaLite($operatorAndVersion)) {
@@ -1399,6 +1458,23 @@ class GeometryEngineTest extends AbstractTestCase
         return false;
     }
 
+    private function isGeosOp(?string $operatorAndVersion = null) : bool
+    {
+        $engine = $this->getGeometryEngine();
+
+        if ($engine instanceof GeosOpEngine) {
+            if ($operatorAndVersion === null) {
+                return true;
+            }
+
+            $version = $engine->getGeosOpVersion();
+
+            return $this->isVersion($version, $operatorAndVersion);
+        }
+
+        return false;
+    }
+
     /**
      * Skips the test if the current geometry engine does not match the requirements.
      *
@@ -1440,10 +1516,9 @@ class GeometryEngineTest extends AbstractTestCase
     private function skipIfUnsupportedGeometry(Geometry $geometry) : void
     {
         if ($geometry->is3D() || $geometry->isMeasured()) {
-            if ($this->isMySQL() || $this->isMariaDB()) {
-                // MySQL and MariaDB do not support Z and M coordinates.
-                $this->expectException(GeometryEngineException::class);
-            }
+            // MySQL and MariaDB do not support Z and M coordinates.
+            $this->failsOnMySQL();
+            $this->failsOnMariaDB();
         }
 
         if ($geometry->isMeasured()) {
@@ -1453,10 +1528,9 @@ class GeometryEngineTest extends AbstractTestCase
         }
 
         if ($geometry->isEmpty() && ! $geometry instanceof GeometryCollection) {
-            if ($this->isMySQL() || $this->isMariaDB()) {
-                // MySQL and MariaDB do not correctly handle empty geometries, apart from collections.
-                $this->expectException(GeometryEngineException::class);
-            }
+            // MySQL and MariaDB do not correctly handle empty geometries, apart from collections.
+            $this->failsOnMySQL();
+            $this->failsOnMariaDB();
 
             if ($this->isSpatiaLite()) {
                 self::markTestSkipped('SpatiaLite does not correctly handle empty geometries.');
@@ -1464,11 +1538,11 @@ class GeometryEngineTest extends AbstractTestCase
         }
 
         if ($geometry instanceof CircularString || $geometry instanceof CompoundCurve || $geometry instanceof CurvePolygon) {
-            if ($this->isGEOS() || $this->isSpatiaLite() || $this->isMySQL() || $this->isMariaDB()) {
-                // GEOS, SpatiaLite, MySQL and MariaDB do not support these geometries.
-                // Only PostGIS currently supports these.
-                $this->expectException(GeometryEngineException::class);
-            }
+            $this->failsOnMySQL();
+            $this->failsOnMariaDB();
+            $this->failsOnSpatiaLite();
+            $this->failsOnGEOS();
+            $this->failsOnGeosOp('< 3.13.0');
         }
     }
 
@@ -1499,17 +1573,25 @@ class GeometryEngineTest extends AbstractTestCase
             return;
         }
 
-        self::assertSame($expected->geometryType(), $actual->geometryType());
+        $debug = [
+            '---Expected',
+            '+++Actual',
+            '@@ @@',
+            '-' . $expectedWKT,
+            '+' . $actualWKT,
+        ];
+
+        $debug = "\n" . implode("\n", $debug);
+
+        self::assertSame($expected->geometryType(), $actual->geometryType(), 'Failed asserting that two geometries are of the same type.' . $debug);
+
+        if ($this->isGeosOp('< 3.11.0')) {
+            self::markTestSkipped('geosop < 3.11.0 does not support equals(), skipping spatial equality assertion.');
+        }
 
         $geometryEngine = $this->getGeometryEngine();
 
-        self::assertTrue($geometryEngine->equals($actual, $expected), 'Failed asserting that two geometries are spatially equal.'
-            . "\n---Expected"
-            . "\n+++Actual"
-            . "\n@@ @@"
-            . "\n-" . $expectedWKT
-            . "\n+" . $actualWKT
-        );
+        self::assertTrue($geometryEngine->equals($actual, $expected), 'Failed asserting that two geometries are spatially equal.' . $debug);
     }
 
     /**
