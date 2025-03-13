@@ -6,6 +6,10 @@
 
 - New geometry engine: `GeosOpEngine` uses the `geosop` binary to perform geometry operations
 
+✨ **Improvements**
+
+- All `GeometryEngine` methods are now properly documented with `@throws GeometryEngineException`
+
 🐛 **Bug fixes**
 
 - `WKTParser` and `EWKTParser` now accept both `MULTIPOINT (1 2, 3 4)` and `MULTIPOINT((1 2), (3 4))` syntaxes;

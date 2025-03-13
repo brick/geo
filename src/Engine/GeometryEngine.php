@@ -29,7 +29,7 @@ interface GeometryEngine
      *
      * @return Geometry The union of the geometries.
      *
-     * @throws GeometryEngineException If the operation is not supported by the engine.
+     * @throws GeometryEngineException If the operation is not supported by the engine, or an engine error occurs.
      */
     public function union(Geometry $a, Geometry $b) : Geometry;
 
@@ -41,7 +41,7 @@ interface GeometryEngine
      *
      * @return Geometry The difference of the geometries.
      *
-     * @throws GeometryEngineException If the operation is not supported by the engine.
+     * @throws GeometryEngineException If the operation is not supported by the engine, or an engine error occurs.
      */
     public function difference(Geometry $a, Geometry $b) : Geometry;
 
@@ -59,7 +59,7 @@ interface GeometryEngine
      *
      * @return Geometry The envelope of the geometry.
      *
-     * @throws GeometryEngineException If the operation is not supported by the engine.
+     * @throws GeometryEngineException If the operation is not supported by the engine, or an engine error occurs.
      */
     public function envelope(Geometry $g) : Geometry;
 
@@ -72,7 +72,7 @@ interface GeometryEngine
      *
      * @return float The length of the geometry.
      *
-     * @throws GeometryEngineException If the operation is not supported by the engine.
+     * @throws GeometryEngineException If the operation is not supported by the engine, or an engine error occurs.
      */
     public function length(Curve|MultiCurve $g) : float;
 
@@ -83,7 +83,7 @@ interface GeometryEngine
      *
      * @return float The area of the geometry.
      *
-     * @throws GeometryEngineException If the operation is not supported by the engine.
+     * @throws GeometryEngineException If the operation is not supported by the engine, or an engine error occurs.
      */
     public function area(Surface|MultiSurface $g) : float;
 
@@ -97,7 +97,7 @@ interface GeometryEngine
      *
      * @return float Azimuth of the subject relative to the observer.
      *
-     * @throws GeometryEngineException If the operation is not supported by the engine.
+     * @throws GeometryEngineException If the operation is not supported by the engine, or an engine error occurs.
      * @throws GeometryEngineException If observer and subject locations are coincident.
      */
     public function azimuth(Point $observer, Point $subject) : float;
@@ -109,7 +109,7 @@ interface GeometryEngine
      *
      * @return Point The centroid of the geometry.
      *
-     * @throws GeometryEngineException If the operation is not supported by the engine.
+     * @throws GeometryEngineException If the operation is not supported by the engine, or an engine error occurs.
      */
     public function centroid(Geometry $g) : Point;
 
@@ -120,7 +120,7 @@ interface GeometryEngine
      *
      * @return Point A point of the surface of the geometry.
      *
-     * @throws GeometryEngineException If the operation is not supported by the engine.
+     * @throws GeometryEngineException If the operation is not supported by the engine, or an engine error occurs.
      */
     public function pointOnSurface(Surface|MultiSurface $g) : Point;
 
@@ -134,7 +134,7 @@ interface GeometryEngine
      *
      * @return Geometry The boundary of the geometry.
      *
-     * @throws GeometryEngineException If the operation is not supported by the engine.
+     * @throws GeometryEngineException If the operation is not supported by the engine, or an engine error occurs.
      */
     public function boundary(Geometry $g) : Geometry;
 
@@ -147,7 +147,7 @@ interface GeometryEngine
      *
      * @return bool Whether the geometry is valid.
      *
-     * @throws GeometryEngineException If the operation is not supported by the engine.
+     * @throws GeometryEngineException If the operation is not supported by the engine, or an engine error occurs.
      */
     public function isValid(Geometry $g) : bool;
 
@@ -161,7 +161,7 @@ interface GeometryEngine
      *
      * @return bool Whether the geometry is closed.
      *
-     * @throws GeometryEngineException If the operation is not supported by the engine.
+     * @throws GeometryEngineException If the operation is not supported by the engine, or an engine error occurs.
      */
     public function isClosed(Geometry $g) : bool;
 
@@ -172,7 +172,7 @@ interface GeometryEngine
      *
      * @return bool Whether the geometry is simple.
      *
-     * @throws GeometryEngineException If the operation is not supported by the engine.
+     * @throws GeometryEngineException If the operation is not supported by the engine, or an engine error occurs.
      */
     public function isSimple(Geometry $g) : bool;
 
@@ -186,7 +186,7 @@ interface GeometryEngine
      *
      * @return bool Whether the curve is a ring.
      *
-     * @throws GeometryEngineException If the operation is not supported by the engine.
+     * @throws GeometryEngineException If the operation is not supported by the engine, or an engine error occurs.
      */
     public function isRing(Curve $curve) : bool;
 
@@ -195,7 +195,7 @@ interface GeometryEngine
      *
      * Valid geometries are returned unchanged.
      *
-     * @throws GeometryEngineException If the operation is not supported by the engine.
+     * @throws GeometryEngineException If the operation is not supported by the engine, or an engine error occurs.
      */
     public function makeValid(Geometry $g) : Geometry;
 
@@ -207,7 +207,7 @@ interface GeometryEngine
      *
      * @return bool Whether the geometries are spatially equal.
      *
-     * @throws GeometryEngineException If the operation is not supported by the engine.
+     * @throws GeometryEngineException If the operation is not supported by the engine, or an engine error occurs.
      */
     public function equals(Geometry $a, Geometry $b) : bool;
 
@@ -222,7 +222,7 @@ interface GeometryEngine
      *
      * @return bool Whether the geometries are disjoint.
      *
-     * @throws GeometryEngineException If the operation is not supported by the engine.
+     * @throws GeometryEngineException If the operation is not supported by the engine, or an engine error occurs.
      */
     public function disjoint(Geometry $a, Geometry $b) : bool;
 
@@ -237,7 +237,7 @@ interface GeometryEngine
      *
      * @return bool Whether the geometries intersect.
      *
-     * @throws GeometryEngineException If the operation is not supported by the engine.
+     * @throws GeometryEngineException If the operation is not supported by the engine, or an engine error occurs.
      */
     public function intersects(Geometry $a, Geometry $b) : bool;
 
@@ -251,7 +251,7 @@ interface GeometryEngine
      *
      * @return bool Whether the geometries touch.
      *
-     * @throws GeometryEngineException If the operation is not supported by the engine.
+     * @throws GeometryEngineException If the operation is not supported by the engine, or an engine error occurs.
      */
     public function touches(Geometry $a, Geometry $b) : bool;
 
@@ -265,7 +265,7 @@ interface GeometryEngine
      *
      * @return bool Whether the geometries cross.
      *
-     * @throws GeometryEngineException If the operation is not supported by the engine.
+     * @throws GeometryEngineException If the operation is not supported by the engine, or an engine error occurs.
      */
     public function crosses(Geometry $a, Geometry $b) : bool;
 
@@ -279,7 +279,7 @@ interface GeometryEngine
      *
      * @return bool Whether the first geometry is within the second.
      *
-     * @throws GeometryEngineException If the operation is not supported by the engine.
+     * @throws GeometryEngineException If the operation is not supported by the engine, or an engine error occurs.
      */
     public function within(Geometry $a, Geometry $b) : bool;
 
@@ -296,7 +296,7 @@ interface GeometryEngine
      *
      * @return bool Whether the first geometry contains the second.
      *
-     * @throws GeometryEngineException If the operation is not supported by the engine.
+     * @throws GeometryEngineException If the operation is not supported by the engine, or an engine error occurs.
      */
     public function contains(Geometry $a, Geometry $b) : bool;
 
@@ -311,7 +311,7 @@ interface GeometryEngine
      *
      * @return bool Whether the geometries overlap.
      *
-     * @throws GeometryEngineException If the operation is not supported by the engine.
+     * @throws GeometryEngineException If the operation is not supported by the engine, or an engine error occurs.
      */
     public function overlaps(Geometry $a, Geometry $b) : bool;
 
@@ -331,7 +331,7 @@ interface GeometryEngine
      *
      * @return bool Whether the geometries relate according to the matrix pattern.
      *
-     * @throws GeometryEngineException If the operation is not supported by the engine.
+     * @throws GeometryEngineException If the operation is not supported by the engine, or an engine error occurs.
      */
     public function relate(Geometry $a, Geometry $b, string $matrix) : bool;
 
@@ -343,7 +343,7 @@ interface GeometryEngine
      *
      * @return Geometry The elements that match the measure.
      *
-     * @throws GeometryEngineException If the operation is not supported by the engine.
+     * @throws GeometryEngineException If the operation is not supported by the engine, or an engine error occurs.
      */
     public function locateAlong(Geometry $g, float $mValue) : Geometry;
 
@@ -356,7 +356,7 @@ interface GeometryEngine
      *
      * @return Geometry The elements that match the measures.
      *
-     * @throws GeometryEngineException If the operation is not supported by the engine.
+     * @throws GeometryEngineException If the operation is not supported by the engine, or an engine error occurs.
      */
     public function locateBetween(Geometry $g, float $mStart, float $mEnd) : Geometry;
 
@@ -374,7 +374,7 @@ interface GeometryEngine
      *
      * @return float The distance between the geometries.
      *
-     * @throws GeometryEngineException If the operation is not supported by the engine.
+     * @throws GeometryEngineException If the operation is not supported by the engine, or an engine error occurs.
      */
     public function distance(Geometry $a, Geometry $b) : float;
 
@@ -391,7 +391,7 @@ interface GeometryEngine
      *
      * @return Geometry The buffer geometry.
      *
-     * @throws GeometryEngineException If the operation is not supported by the engine.
+     * @throws GeometryEngineException If the operation is not supported by the engine, or an engine error occurs.
      */
     public function buffer(Geometry $g, float $distance) : Geometry;
 
@@ -406,7 +406,7 @@ interface GeometryEngine
      *
      * @return Geometry The convex hull geometry.
      *
-     * @throws GeometryEngineException If the operation is not supported by the engine.
+     * @throws GeometryEngineException If the operation is not supported by the engine, or an engine error occurs.
      */
     public function convexHull(Geometry $g) : Geometry;
 
@@ -418,7 +418,7 @@ interface GeometryEngine
      *
      * @return Geometry The intersection of the geometries.
      *
-     * @throws GeometryEngineException If the operation is not supported by the engine.
+     * @throws GeometryEngineException If the operation is not supported by the engine, or an engine error occurs.
      */
     public function intersection(Geometry $a, Geometry $b) : Geometry;
 
@@ -433,7 +433,7 @@ interface GeometryEngine
      *
      * @return Geometry The symmetric difference of the geometries.
      *
-     * @throws GeometryEngineException If the operation is not supported by the engine.
+     * @throws GeometryEngineException If the operation is not supported by the engine, or an engine error occurs.
      */
     public function symDifference(Geometry $a, Geometry $b) : Geometry;
 
@@ -445,7 +445,7 @@ interface GeometryEngine
      *
      * @return Geometry The snapped geometry.
      *
-     * @throws GeometryEngineException If the operation is not supported by the engine.
+     * @throws GeometryEngineException If the operation is not supported by the engine, or an engine error occurs.
      */
     public function snapToGrid(Geometry $g, float $size) : Geometry;
 
@@ -457,7 +457,7 @@ interface GeometryEngine
      *
      * @return Geometry The simplified geometry.
      *
-     * @throws GeometryEngineException If the operation is not supported by the engine.
+     * @throws GeometryEngineException If the operation is not supported by the engine, or an engine error occurs.
      */
     public function simplify(Geometry $g, float $tolerance) : Geometry;
 
@@ -469,17 +469,21 @@ interface GeometryEngine
      *
      * @return float The max distance between the geometries.
      *
-     * @throws GeometryEngineException If the operation is not supported by the engine.
+     * @throws GeometryEngineException If the operation is not supported by the engine, or an engine error occurs.
      */
     public function maxDistance(Geometry $a, Geometry $b) : float;
 
     /**
      * Returns a new geometry with its coordinates transformed to a different spatial reference system.
+     *
+     * @throws GeometryEngineException If the operation is not supported by the engine, or an engine error occurs.
      */
     public function transform(Geometry $g, int $srid) : Geometry;
 
     /**
      * Splits a geometry into several geometries using a blade.
+     *
+     * @throws GeometryEngineException If the operation is not supported by the engine, or an engine error occurs.
      */
     public function split(Geometry $g, Geometry $blade) : Geometry;
 
@@ -490,6 +494,8 @@ interface GeometryEngine
      * @param float $fraction Is a float between 0.0 and 1.0 representing the fraction of line length where the point is to be located.
      *
      * @return Point The point.
+     *
+     * @throws GeometryEngineException If the operation is not supported by the engine, or an engine error occurs.
      */
     public function lineInterpolatePoint(LineString $lineString, float $fraction) : Point;
 
@@ -500,6 +506,8 @@ interface GeometryEngine
      * @param float $fraction Is a float between 0.0 and 1.0 representing the spacing between the points as a fraction of line length.
      *
      * @return MultiPoint The MultiPoint.
+     *
+     * @throws GeometryEngineException If the operation is not supported by the engine, or an engine error occurs.
      */
     public function lineInterpolatePoints(LineString $lineString, float $fraction) : MultiPoint;
 }
