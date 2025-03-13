@@ -35,44 +35,19 @@ class WKTReaderTest extends WKTAbstractTestCase
         }
     }
 
-    /**
-     * In WKT, CompoundCurve has a special case: the LINESTRING keyword can be explicitly stated, or omitted.
-     * The tests above cover only the implicit form, which is the format used by WKBWriter.
-     *
-     * These additional tests ensure that both forms can be read correctly.
-     */
-    #[DataProvider('providerReadCompoundCurve')]
-    public function testReadCompoundCurve(string $implicitWKT, string $explicitWKT): void
+    #[DataProvider('providerAlternativeSyntaxWKT')]
+    public function testAlternativeSyntax(string $canonicalWKT, string $alternativeWKT): void
     {
         $wktReader = new WKTReader();
         $wktWriter = new WKTWriter();
         $wktWriter->setPrettyPrint(false);
 
-        $compoundCurveImplicit = $wktReader->read($implicitWKT);
-        $compoundCurveExplicit = $wktReader->read($explicitWKT);
+        $canonical = $wktReader->read($canonicalWKT);
+        $alternative = $wktReader->read($alternativeWKT);
 
-        // WKTWriter always writes the implicit form.
-        self::assertSame($implicitWKT, $wktWriter->write($compoundCurveImplicit));
-        self::assertSame($implicitWKT, $wktWriter->write($compoundCurveExplicit));
-    }
-
-    public static function providerReadCompoundCurve(): array
-    {
-        return [
-            [
-                'COMPOUNDCURVE((1 2,3 4),CIRCULARSTRING(3 4,5 6,7 8))',
-                'COMPOUNDCURVE(LINESTRING(1 2,3 4),CIRCULARSTRING(3 4,5 6,7 8))',
-            ], [
-                'COMPOUNDCURVE Z((1 2 3,4 5 6),CIRCULARSTRING Z(4 5 6,5 6 7,6 7 8))',
-                'COMPOUNDCURVE Z(LINESTRING Z(1 2 3,4 5 6),CIRCULARSTRING Z(4 5 6,5 6 7,6 7 8))',
-            ], [
-                'COMPOUNDCURVE M((1 2 3,2 3 4),CIRCULARSTRING M(2 3 4,5 6 7,8 9 0))',
-                'COMPOUNDCURVE M(LINESTRING M(1 2 3,2 3 4),CIRCULARSTRING M(2 3 4,5 6 7,8 9 0))',
-            ], [
-                'COMPOUNDCURVE ZM(CIRCULARSTRING ZM(1 2 3 4,2 3 4 5,3 4 5 6),(3 4 5 6,7 8 9 0))',
-                'COMPOUNDCURVE ZM(CIRCULARSTRING ZM(1 2 3 4,2 3 4 5,3 4 5 6),LINESTRING ZM(3 4 5 6,7 8 9 0))',
-            ],
-        ];
+        // WKTWriter always writes the canonical form.
+        self::assertSame($canonicalWKT, $wktWriter->write($canonical));
+        self::assertSame($canonicalWKT, $wktWriter->write($alternative));
     }
 
     /**

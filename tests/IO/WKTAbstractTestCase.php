@@ -239,4 +239,27 @@ abstract class WKTAbstractTestCase extends AbstractTestCase
             ['TIN ZM(((0 0 0 2,0 0 1 2,0 1 0 2,0 0 0 2)),((0 0 0 3,0 1 0 3,1 1 0 3,0 0 0 3)))', [[[[0, 0, 0, 2], [0, 0, 1, 2], [0, 1, 0, 2], [0, 0, 0, 2]]], [[[0, 0, 0, 3], [0, 1, 0, 3], [1, 1, 0, 3], [0, 0, 0, 3]]]], true, true],
         ];
     }
+
+    /**
+     * Some geometries, like CompoundCurve and MultiPoint, accept two different syntaxes.
+     * This test ensures that WKT readers can handle both.
+     */
+    final public static function providerAlternativeSyntaxWKT() : array
+    {
+        return [
+            [
+                'COMPOUNDCURVE((1 2,3 4),CIRCULARSTRING(3 4,5 6,7 8))',
+                'COMPOUNDCURVE(LINESTRING(1 2,3 4),CIRCULARSTRING(3 4,5 6,7 8))',
+            ], [
+                'COMPOUNDCURVE Z((1 2 3,4 5 6),CIRCULARSTRING Z(4 5 6,5 6 7,6 7 8))',
+                'COMPOUNDCURVE Z(LINESTRING Z(1 2 3,4 5 6),CIRCULARSTRING Z(4 5 6,5 6 7,6 7 8))',
+            ], [
+                'COMPOUNDCURVE M((1 2 3,2 3 4),CIRCULARSTRING M(2 3 4,5 6 7,8 9 0))',
+                'COMPOUNDCURVE M(LINESTRING M(1 2 3,2 3 4),CIRCULARSTRING M(2 3 4,5 6 7,8 9 0))',
+            ], [
+                'COMPOUNDCURVE ZM(CIRCULARSTRING ZM(1 2 3 4,2 3 4 5,3 4 5 6),(3 4 5 6,7 8 9 0))',
+                'COMPOUNDCURVE ZM(CIRCULARSTRING ZM(1 2 3 4,2 3 4 5,3 4 5 6),LINESTRING ZM(3 4 5 6,7 8 9 0))',
+            ],
+        ];
+    }
 }
