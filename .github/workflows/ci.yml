@@ -80,7 +80,7 @@ jobs:
 
       - name: Run PHPUnit with coverage
         run: |
-          mkdir -p mkdir -p build/logs
+          mkdir -p build/logs
           vendor/bin/phpunit --coverage-clover build/logs/clover.xml
         env:
           ENGINE: PDO_MYSQL
@@ -135,7 +135,7 @@ jobs:
 
       - name: Run PHPUnit with coverage
         run: |
-          mkdir -p mkdir -p build/logs
+          mkdir -p build/logs
           vendor/bin/phpunit --coverage-clover build/logs/clover.xml
         env:
           ENGINE: PDO_MYSQL
@@ -183,7 +183,7 @@ jobs:
 
       - name: Run PHPUnit with coverage
         run: |
-          mkdir -p mkdir -p build/logs
+          mkdir -p build/logs
           vendor/bin/phpunit --coverage-clover build/logs/clover.xml
         env:
           ENGINE: PDO_PGSQL
@@ -225,7 +225,7 @@ jobs:
 
       - name: Run PHPUnit with coverage
         run: |
-          mkdir -p mkdir -p build/logs
+          mkdir -p build/logs
           vendor/bin/phpunit --coverage-clover build/logs/clover.xml
         env:
           ENGINE: SQLite3
@@ -260,7 +260,7 @@ jobs:
 
       - name: Run PHPUnit with coverage
         run: |
-          mkdir -p mkdir -p build/logs
+          mkdir -p build/logs
           vendor/bin/phpunit --coverage-clover build/logs/clover.xml
         env:
           ENGINE: GEOS
