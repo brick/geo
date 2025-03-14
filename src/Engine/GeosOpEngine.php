@@ -418,7 +418,7 @@ final class GeosOpEngine implements GeometryEngine
         try {
             return $geometryClass::fromText($output);
         } catch (GeometryException $e) {
-            throw new GeometryEngineException('Failed to parse geosop output as geometry: ' . $output, 0, $e);
+            throw new GeometryEngineException('Failed to parse geosop output as geometry: ' . $output, $e);
         }
     }
 

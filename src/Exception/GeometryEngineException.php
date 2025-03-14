@@ -13,7 +13,7 @@ final class GeometryEngineException extends GeometryException
 {
     public static function wrap(\Exception $e) : GeometryEngineException
     {
-        return new self('The engine returned an exception: ' . $e->getMessage(), 0, $e);
+        return new self('The engine returned an exception: ' . $e->getMessage(), $e);
     }
 
     public static function unimplementedMethod(string $methodName) : GeometryEngineException

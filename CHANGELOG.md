@@ -8,6 +8,7 @@
 - `DatabaseEngine::executeQuery()` implementations must now accept `bool` parameters
 - `DatabaseEngine::getParameterPlaceholder()` signature has changed to accept `bool` parameters
 - `DatabaseEngine::queryGeometry()` is now `final`
+- `GeometryException` constructor signature has changed
 
 These breaking changes will likely not affect you, unless you're writing your own geometry engine.
 
