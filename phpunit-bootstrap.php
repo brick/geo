@@ -94,7 +94,7 @@ function getRequiredEnv(string $name): string
 
                 echo 'PostgreSQL version: ', $version, PHP_EOL;
 
-                $statement = $pdo->query('SELECT PostGIS_Version()');
+                $statement = $pdo->query('SELECT PostGIS_Full_Version()');
                 $version = $statement->fetchColumn();
 
                 echo 'PostGIS version: ', $version, PHP_EOL;
