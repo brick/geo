@@ -160,7 +160,7 @@ jobs:
 
     services:
       postgis:
-        image: "postgis/postgis:17-3.5"
+        image: "postgis/postgis:17-3.5-alpine"
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
