@@ -1,5 +1,12 @@
 # Changelog
 
+## UNRELEASED
+
+🐛 **Bug fixes**
+
+- `WKTParser` and `EWKTParser` now accept both `MULTIPOINT (1 2, 3 4)` and `MULTIPOINT((1 2), (3 4))` syntaxes;
+  this notably fixes interoperability issues with PostGIS
+
 ## [0.12.0](https://github.com/brick/geo/releases/tag/0.12.0) - 2025-03-09
 
 💥 **Breaking changes**
