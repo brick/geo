@@ -655,7 +655,18 @@ class GeometryEngineTest extends AbstractTestCase
             ['LINESTRING (1 2, 3 4)', 'LINESTRING (3 4, 1 2)', true],
             ['LINESTRING (1 2, 3 4)', 'LINESTRING (1 2, 3 3)', false],
             ['LINESTRING (1 2, 3 4)', 'LINESTRING (1 2, 4 4)', false],
-            ['POLYGON ((1 2, 1 3, 2 2, 1 2))', 'POLYGON ((1 3, 2 2, 1 2, 1 3))', true]
+            ['POLYGON ((1 2, 1 3, 2 2, 1 2))', 'POLYGON ((1 3, 2 2, 1 2, 1 3))', true],
+            ['POLYGON ((1 2, 1 3, 2 2, 1 2))', 'POLYGON ((1 3, 2 3, 1 2, 1 3))', false],
+            ['POLYGON ((1 2, 1 3, 2 2, 1 2))', 'GEOMETRYCOLLECTION(POLYGON ((1 3, 2 2, 1 2, 1 3)), LINESTRING (1 2, 2 2))', true],
+            ['POLYGON ((1 2, 1 3, 2 2, 1 2))', 'GEOMETRYCOLLECTION(POLYGON ((1 3, 2 2, 1 2, 1 3)), LINESTRING (1 2, 1 3))', true],
+            ['POLYGON ((1 2, 1 3, 2 2, 1 2))', 'GEOMETRYCOLLECTION(POLYGON ((1 3, 2 2, 1 2, 1 3)), LINESTRING (1 2, 0 2))', false],
+            ['POLYGON ((0 0, 0 2, 2 2, 2 0, 0 0))', 'GEOMETRYCOLLECTION(POLYGON ((2 2, 2 0, 0 0, 0 2, 2 2)), POINT (1 1))', true],
+            ['POLYGON ((0 0, 0 2, 2 2, 2 0, 0 0))', 'GEOMETRYCOLLECTION(POLYGON ((2 2, 2 0, 0 0, 0 2, 2 2)), POINT (1 2))', true],
+            ['POLYGON ((0 0, 0 2, 2 2, 2 0, 0 0))', 'GEOMETRYCOLLECTION(POLYGON ((2 2, 2 0, 0 0, 0 2, 2 2)), POINT (1 3))', false],
+            ['POLYGON ((0 0, 0 4, 4 4, 4 0, 0 0), (1 1, 1 3, 3 3, 3 1, 1 1))', 'GEOMETRYCOLLECTION(POLYGON ((0 4, 4 4, 4 0, 0 0, 0 4), (3 3, 3 1, 1 1, 1 3, 3 3)), POINT (2 2))', false],
+            ['POLYGON ((0 0, 0 4, 4 4, 4 0, 0 0), (1 1, 1 3, 3 3, 3 1, 1 1))', 'GEOMETRYCOLLECTION(POLYGON ((0 4, 4 4, 4 0, 0 0, 0 4), (3 3, 3 1, 1 1, 1 3, 3 3)), POINT (3 2))', true],
+            ['POLYGON ((0 0, 0 4, 4 4, 4 0, 0 0), (1 1, 1 3, 3 3, 3 1, 1 1))', 'GEOMETRYCOLLECTION(POLYGON ((0 4, 4 4, 4 0, 0 0, 0 4), (3 3, 3 1, 1 1, 1 3, 3 3)), POINT (4 2))', true],
+            ['POLYGON ((0 0, 0 4, 4 4, 4 0, 0 0), (1 1, 1 3, 3 3, 3 1, 1 1))', 'GEOMETRYCOLLECTION(POLYGON ((0 4, 4 4, 4 0, 0 0, 0 4), (3 3, 3 1, 1 1, 1 3, 3 3)), POINT (5 2))', false],
         ];
     }
 
