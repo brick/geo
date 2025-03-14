@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Brick\Geo\IO;
 
-use Brick\Geo\Geometry;
 use Brick\Geo\Exception\GeometryIOException;
+use Brick\Geo\Geometry;
+use Brick\Geo\IO\Internal\AbstractWKTReader;
+use Brick\Geo\IO\Internal\WKTParser;
 
 /**
  * Reads geometries from the Extended WKT format designed by PostGIS.

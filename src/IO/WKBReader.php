@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace Brick\Geo\IO;
 
-use Brick\Geo\Geometry;
 use Brick\Geo\Exception\GeometryIOException;
+use Brick\Geo\Geometry;
+use Brick\Geo\IO\Internal\AbstractWKBReader;
+use Brick\Geo\IO\Internal\WKBBuffer;
+use Brick\Geo\IO\Internal\WKBGeometryHeader;
 use Brick\Geo\Proxy;
 use Override;
 

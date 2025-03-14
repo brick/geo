@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Brick\Geo\IO;
+namespace Brick\Geo\IO\Internal;
 
 /**
- * Represents an (E)WKT token.
+ * Represents an (E)WKT token type.
  *
  * @internal
  */

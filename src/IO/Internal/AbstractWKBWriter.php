@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Brick\Geo\IO;
+namespace Brick\Geo\IO\Internal;
 
-use Brick\Geo\Exception\GeometryIOException;
 use Brick\Geo\CircularString;
 use Brick\Geo\CompoundCurve;
 use Brick\Geo\Curve;
 use Brick\Geo\CurvePolygon;
+use Brick\Geo\Exception\GeometryIOException;
 use Brick\Geo\Geometry;
 use Brick\Geo\GeometryCollection;
 use Brick\Geo\LineString;

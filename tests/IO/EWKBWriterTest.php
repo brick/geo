@@ -7,7 +7,7 @@ namespace Brick\Geo\Tests\IO;
 use Brick\Geo\Exception\GeometryIOException;
 use Brick\Geo\IO\EWKBWriter;
 use Brick\Geo\IO\EWKTReader;
-use Brick\Geo\IO\WKBByteOrder;
+use Brick\Geo\IO\Internal\WKBByteOrder;
 use Brick\Geo\Point;
 use PHPUnit\Framework\Attributes\DataProvider;
 

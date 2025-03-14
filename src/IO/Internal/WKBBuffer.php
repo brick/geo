@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Brick\Geo\IO;
+namespace Brick\Geo\IO\Internal;
 
 use Brick\Geo\Exception\GeometryIOException;
 

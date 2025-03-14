@@ -2,13 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Brick\Geo\IO;
+namespace Brick\Geo\IO\Internal;
 
 use Brick\Geo\CircularString;
 use Brick\Geo\CompoundCurve;
 use Brick\Geo\CoordinateSystem;
 use Brick\Geo\Curve;
 use Brick\Geo\CurvePolygon;
+use Brick\Geo\Exception\GeometryIOException;
 use Brick\Geo\Geometry;
 use Brick\Geo\GeometryCollection;
 use Brick\Geo\LineString;
@@ -20,8 +21,6 @@ use Brick\Geo\Polygon;
 use Brick\Geo\PolyhedralSurface;
 use Brick\Geo\TIN;
 use Brick\Geo\Triangle;
-
-use Brick\Geo\Exception\GeometryIOException;
 
 /**
  * Base class for WKBReader and EWKBReader.

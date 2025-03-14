@@ -6,6 +6,8 @@ namespace Brick\Geo\IO;
 
 use Brick\Geo\Exception\GeometryIOException;
 use Brick\Geo\Geometry;
+use Brick\Geo\IO\Internal\AbstractWKTReader;
+use Brick\Geo\IO\Internal\WKTParser;
 
 /**
  * Builds geometries out of Well-Known Text strings.

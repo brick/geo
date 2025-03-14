@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Brick\Geo\IO;
 
 use Brick\Geo\Geometry;
+use Brick\Geo\IO\Internal\AbstractWKBWriter;
+use Brick\Geo\IO\Internal\EWKBTools;
 use Override;
 
 /**

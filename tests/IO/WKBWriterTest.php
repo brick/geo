@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Brick\Geo\Tests\IO;
 
 use Brick\Geo\Exception\GeometryIOException;
-use Brick\Geo\IO\WKBByteOrder;
+use Brick\Geo\IO\Internal\WKBByteOrder;
 use Brick\Geo\IO\WKBWriter;
 use Brick\Geo\IO\WKTReader;
 use Brick\Geo\Point;
