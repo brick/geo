@@ -271,6 +271,18 @@ abstract class WKTAbstractTestCase extends AbstractTestCase
             ], [
                 'MULTIPOINT ZM(1 2 3 4,5 6 7 8)',
                 'MULTIPOINT ZM((1 2 3 4),(5 6 7 8))',
+            ], [
+                'MULTIPOINT(1 2,3 4)',
+                'MULTIPOINT(1 2,(3 4))',
+            ], [
+                'MULTIPOINT Z(1 2 3,4 5 6)',
+                'MULTIPOINT Z(1 2 3,(4 5 6))',
+            ], [
+                'MULTIPOINT M(1 2 3,4 5 6)',
+                'MULTIPOINT M((1 2 3),4 5 6)',
+            ], [
+                'MULTIPOINT ZM(1 2 3 4,5 6 7 8)',
+                'MULTIPOINT ZM((1 2 3 4),5 6 7 8)',
             ],
         ];
     }
