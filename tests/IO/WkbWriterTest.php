@@ -38,11 +38,11 @@ class WkbWriterTest extends WkbAbstractTestCase
     public static function providerWrite() : \Generator
     {
         foreach (self::providerLittleEndianWkb() as [$wkt, $wkb]) {
-            yield [$wkt, $wkb, WkbByteOrder::LITTLE_ENDIAN];
+            yield [$wkt, $wkb, WkbByteOrder::LittleEndian];
         }
 
         foreach (self::providerBigEndianWkb() as [$wkt, $wkb]) {
-            yield [$wkt, $wkb, WkbByteOrder::BIG_ENDIAN];
+            yield [$wkt, $wkb, WkbByteOrder::BigEndian];
         }
     }
 

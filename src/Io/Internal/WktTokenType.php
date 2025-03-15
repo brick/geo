@@ -11,7 +11,7 @@ namespace Brick\Geo\Io\Internal;
  */
 enum WktTokenType
 {
-    case SRID; // EWKT only
+    case Srid; // EWKT only
     case Word;
     case Number;
     case Other;

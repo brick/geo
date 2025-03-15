@@ -71,8 +71,8 @@ class GeometryTest extends AbstractTestCase
         $machineByteOrder = WkbTools::getMachineByteOrder();
 
         $binary = match ($machineByteOrder) {
-            WkbByteOrder::BIG_ENDIAN => $bigEndianBinary,
-            WkbByteOrder::LITTLE_ENDIAN => $littleEndianBinary,
+            WkbByteOrder::BigEndian => $bigEndianBinary,
+            WkbByteOrder::LittleEndian => $littleEndianBinary,
         };
 
         self::assertSame($binary, bin2hex(Geometry::fromText($text)->asBinary()));
