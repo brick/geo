@@ -16,8 +16,6 @@ use Brick\Geo\MultiPoint;
 use Brick\Geo\MultiSurface;
 use Brick\Geo\Point;
 use Brick\Geo\Surface;
-use Brick\Geo\MultiPolygon;
-use Brick\Geo\Polygon;
 use GEOSWKBReader;
 use GEOSWKBWriter;
 use GEOSWKTReader;
@@ -27,7 +25,7 @@ use Override;
 /**
  * GeometryEngine implementation based on the GEOS PHP bindings.
  */
-final class GEOSEngine implements GeometryEngine
+final class GeosEngine implements GeometryEngine
 {
     private readonly GEOSWKBReader $geosWkbReader;
     private readonly GEOSWKBWriter $geosWkbWriter;

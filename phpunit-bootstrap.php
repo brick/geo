@@ -1,9 +1,9 @@
 <?php
 
 use Brick\Geo\Engine\GeosOpEngine;
-use Brick\Geo\Engine\PDOEngine;
-use Brick\Geo\Engine\SQLite3Engine;
-use Brick\Geo\Engine\GEOSEngine;
+use Brick\Geo\Engine\PdoEngine;
+use Brick\Geo\Engine\Sqlite3Engine;
+use Brick\Geo\Engine\GeosEngine;
 
 function getOptionalEnv(string $name): ?string
 {
@@ -46,7 +46,7 @@ function getRequiredEnv(string $name): string
             case 'pdo_mysql':
                 $emulatePrepares = getOptionalEnv('EMULATE_PREPARES') === 'ON';
 
-                echo 'Using PDOEngine for MySQL', PHP_EOL;
+                echo 'Using PdoEngine for MySQL', PHP_EOL;
                 echo 'with emulated prepares ', ($emulatePrepares ? 'ON' : 'OFF'), PHP_EOL;
 
                 $host = getRequiredEnv('MYSQL_HOST');
@@ -68,11 +68,11 @@ function getRequiredEnv(string $name): string
 
                 echo 'MySQL version: ', $version, PHP_EOL;
 
-                $engine = new PDOEngine($pdo);
+                $engine = new PdoEngine($pdo);
                 break;
 
             case 'pdo_pgsql':
-                echo 'Using PDOEngine for PostgreSQL', PHP_EOL;
+                echo 'Using PdoEngine for PostgreSQL', PHP_EOL;
 
                 $host = getRequiredEnv('POSTGRES_HOST');
                 $port = getOptionalEnvOrDefault('POSTGRES_PORT', '5432');
@@ -99,11 +99,11 @@ function getRequiredEnv(string $name): string
 
                 echo 'PostGIS version: ', $version, PHP_EOL;
 
-                $engine = new PDOEngine($pdo);
+                $engine = new PdoEngine($pdo);
                 break;
 
             case 'sqlite3':
-                echo 'Using SQLite3Engine', PHP_EOL;
+                echo 'Using Sqlite3Engine', PHP_EOL;
 
                 $sqlite3 = new SQLite3(':memory:');
                 $sqlite3->enableExceptions(true);
@@ -118,14 +118,14 @@ function getRequiredEnv(string $name): string
 
                 $sqlite3->exec('SELECT InitSpatialMetaData()');
 
-                $engine = new SQLite3Engine($sqlite3);
+                $engine = new Sqlite3Engine($sqlite3);
                 break;
 
             case 'geos':
-                echo 'Using GEOSEngine', PHP_EOL;
+                echo 'Using GeosEngine', PHP_EOL;
                 echo 'GEOS version: ', GEOSVersion(), PHP_EOL;
 
-                $engine = new GEOSEngine();
+                $engine = new GeosEngine();
                 break;
 
             case 'geosop':

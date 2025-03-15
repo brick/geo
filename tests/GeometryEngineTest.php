@@ -9,10 +9,10 @@ use Brick\Geo\CompoundCurve;
 use Brick\Geo\Curve;
 use Brick\Geo\CurvePolygon;
 use Brick\Geo\Engine\GeometryEngine;
-use Brick\Geo\Engine\GEOSEngine;
+use Brick\Geo\Engine\GeosEngine;
 use Brick\Geo\Engine\GeosOpEngine;
-use Brick\Geo\Engine\PDOEngine;
-use Brick\Geo\Engine\SQLite3Engine;
+use Brick\Geo\Engine\PdoEngine;
+use Brick\Geo\Engine\Sqlite3Engine;
 use Brick\Geo\Exception\GeometryEngineException;
 use Brick\Geo\Geometry;
 use Brick\Geo\GeometryCollection;
@@ -1466,7 +1466,7 @@ class GeometryEngineTest extends AbstractTestCase
     {
         $engine = $this->getGeometryEngine();
 
-        if ($engine instanceof SQLite3Engine) {
+        if ($engine instanceof Sqlite3Engine) {
             if ($operatorAndVersion === null) {
                 return true;
             }
@@ -1483,7 +1483,7 @@ class GeometryEngineTest extends AbstractTestCase
     {
         $engine = $this->getGeometryEngine();
 
-        if ($engine instanceof GEOSEngine) {
+        if ($engine instanceof GeosEngine) {
             if ($operatorAndVersion === null) {
                 return true;
             }
@@ -1664,7 +1664,7 @@ class GeometryEngineTest extends AbstractTestCase
     {
         $engine = $this->getGeometryEngine();
 
-        if ($engine instanceof PDOEngine) {
+        if ($engine instanceof PdoEngine) {
             if ($engine->getPDO()->getAttribute(\PDO::ATTR_DRIVER_NAME) === $name) {
                 return true;
             }
@@ -1680,7 +1680,7 @@ class GeometryEngineTest extends AbstractTestCase
     {
         $engine = $this->getGeometryEngine();
 
-        if ($engine instanceof PDOEngine) {
+        if ($engine instanceof PdoEngine) {
             $pdo = $engine->getPDO();
 
             if ($pdo->getAttribute(\PDO::ATTR_DRIVER_NAME) === 'mysql') {

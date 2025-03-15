@@ -10,7 +10,7 @@ use Brick\Geo\Geometry;
  * Represents a geometry parameter sent to the database engine.
  *
  * This object is used to carry a representation of the geometry from the abstract DatabaseEngine to one of its
- * concrete implementations, like PDOEngine or SQLite3Engine.
+ * concrete implementations, like PdoEngine or Sqlite3Engine.
  *
  * @internal
  */

@@ -17,7 +17,7 @@ use SQLite3Stmt;
  *
  * The spatialite extension must be loaded in this driver.
  */
-final class SQLite3Engine extends DatabaseEngine
+final class Sqlite3Engine extends DatabaseEngine
 {
     /**
      * The database connection.

@@ -14,7 +14,7 @@ use PDOStatement;
 /**
  * Database engine based on a PDO driver.
  */
-final class PDOEngine extends DatabaseEngine
+final class PdoEngine extends DatabaseEngine
 {
     /**
      * The database connection.

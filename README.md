@@ -94,13 +94,13 @@ Configuration
 
 Advanced calculations are available through the `GeometryEngine` interface. The library ships with the following implementations:
 
-- `PDOEngine`: communicates with a GIS-compatible database over a `PDO` connection.  
+- `PdoEngine`: communicates with a GIS-compatible database over a `PDO` connection.  
   This engine currently supports the following databases:
   - [MySQL](http://php.net/manual/en/ref.pdo-mysql.php) version 5.6 or greater (*2D geometries only*)
   - MariaDB version 5.5 or greater
   - [PostgreSQL](http://php.net/manual/en/ref.pdo-pgsql.php) with the [PostGIS](http://postgis.net/) extension
-- `SQLite3Engine`: communicates with an [SQLite3](http://php.net/manual/en/book.sqlite3.php) database with the [SpatiaLite](https://www.gaia-gis.it/fossil/libspatialite/index) extension
-- `GEOSEngine`: uses the [GEOS](https://git.osgeo.org/gitea/geos/php-geos) PHP extension
+- `Sqlite3Engine`: communicates with an [SQLite3](http://php.net/manual/en/book.sqlite3.php) database with the [SpatiaLite](https://www.gaia-gis.it/fossil/libspatialite/index) extension
+- `GeosEngine`: uses the [GEOS](https://git.osgeo.org/gitea/geos/php-geos) PHP extension
 - `GeosOpEngine`: uses the [geosop](https://libgeos.org/usage/tools/#geosop) command-line tool
 
 Your choice for the right implementation should be guided by two criteria:
@@ -123,10 +123,10 @@ Click on one of the following configurations to see the setup instructions:
 - Use this bootstrap code in your project:
 
     ```php
-    use Brick\Geo\Engine\PDOEngine;
+    use Brick\Geo\Engine\PdoEngine;
     
     $pdo = new PDO('mysql:host=localhost', 'root', '');
-    $geometryEngine = new PDOEngine($pdo);
+    $geometryEngine = new PdoEngine($pdo);
     ```
 
 Update the code with your own connection parameters, or use an existing `PDO` connection if you have one (recommended).
@@ -150,10 +150,10 @@ Update the code with your own connection parameters, or use an existing `PDO` co
 - Use this bootstrap code in your project:
 
     ```php
-    use Brick\Geo\Engine\PDOEngine;
+    use Brick\Geo\Engine\PdoEngine;
     
     $pdo = new PDO('pgsql:host=localhost', 'postgres', '');
-    $geometryEngine = new PDOEngine($pdo);
+    $geometryEngine = new PdoEngine($pdo);
     ```
 
 Update the code with your own connection parameters, or use an existing `PDO` connection if you have one (recommended).
@@ -187,11 +187,11 @@ all you need to do is create an additional in-memory SQLite3 database just to po
 - Use this bootstrap code in your project:
 
     ```php
-    use Brick\Geo\Engine\SQLite3Engine;
+    use Brick\Geo\Engine\Sqlite3Engine;
     
     $sqlite3 = new SQLite3(':memory:');
     $sqlite3->loadExtension('mod_spatialite.so');
-    $geometryEngine = new SQLite3Engine($sqlite3);
+    $geometryEngine = new Sqlite3Engine($sqlite3);
     ```
 
 - Depending on the functions you use, you will probably need to initialize the spatial metadata by running this query:
@@ -216,9 +216,9 @@ In this example we have created an in-memory database for our GIS calculations, 
 - Use this bootstrap code in your project:
 
     ```php
-    use Brick\Geo\Engine\GEOSEngine;
+    use Brick\Geo\Engine\GeosEngine;
     
-    $geometryEngine = new GEOSEngine();
+    $geometryEngine = new GeosEngine();
     ```
 </details>
 
