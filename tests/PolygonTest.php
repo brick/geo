@@ -26,7 +26,7 @@ class PolygonTest extends AbstractTestCase
         self::assertTrue($polygon->isEmpty());
         self::assertSame($is3D, $polygon->is3D());
         self::assertSame($isMeasured, $polygon->isMeasured());
-        self::assertSame($srid, $polygon->SRID());
+        self::assertSame($srid, $polygon->srid());
     }
 
     public static function providerConstructorEmpty() : array

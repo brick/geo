@@ -95,7 +95,7 @@ class SurfaceProxy extends Surface implements ProxyInterface
         return new self($wkb, true, $srid);
     }
 
-    public function SRID() : int
+    public function srid() : int
     {
         return $this->proxySRID;
     }
@@ -199,22 +199,22 @@ class SurfaceProxy extends Surface implements ProxyInterface
         return $this->proxyGeometry->coordinateSystem();
     }
 
-    public function withSRID(int $srid): \Brick\Geo\Geometry
+    public function withSrid(int $srid): \Brick\Geo\Geometry
     {
         if ($this->proxyGeometry === null) {
             $this->load();
         }
 
-        return $this->proxyGeometry->withSRID($srid);
+        return $this->proxyGeometry->withSrid($srid);
     }
 
-    public function toXY(): \Brick\Geo\Geometry
+    public function toXy(): \Brick\Geo\Geometry
     {
         if ($this->proxyGeometry === null) {
             $this->load();
         }
 
-        return $this->proxyGeometry->toXY();
+        return $this->proxyGeometry->toXy();
     }
 
     public function withoutZ(): \Brick\Geo\Geometry
@@ -253,13 +253,13 @@ class SurfaceProxy extends Surface implements ProxyInterface
         return $this->proxyGeometry->toArray();
     }
 
-    public function swapXY(): \Brick\Geo\Geometry
+    public function swapXy(): \Brick\Geo\Geometry
     {
         if ($this->proxyGeometry === null) {
             $this->load();
         }
 
-        return $this->proxyGeometry->swapXY();
+        return $this->proxyGeometry->swapXy();
     }
 
     public function project(\Brick\Geo\Projector\Projector $projector): \Brick\Geo\Geometry

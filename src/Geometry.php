@@ -182,9 +182,9 @@ abstract class Geometry implements \Stringable
      * @return int The SRID, zero if not set.
      */
     #[NoProxy]
-    public function SRID() : int
+    public function srid() : int
     {
-        return $this->coordinateSystem->SRID();
+        return $this->coordinateSystem->srid();
     }
 
     /**
@@ -261,9 +261,9 @@ abstract class Geometry implements \Stringable
      *
      * @return static
      */
-    public function withSRID(int $srid) : Geometry
+    public function withSrid(int $srid) : Geometry
     {
-        if ($srid === $this->SRID()) {
+        if ($srid === $this->srid()) {
             return $this;
         }
 
@@ -275,7 +275,7 @@ abstract class Geometry implements \Stringable
      *
      * @return static
      */
-    public function toXY(): Geometry
+    public function toXy(): Geometry
     {
         if ($this->coordinateDimension() === 2) {
             return $this;
@@ -338,7 +338,7 @@ abstract class Geometry implements \Stringable
      *
      * @return static
      */
-    public function swapXY() : Geometry
+    public function swapXy() : Geometry
     {
         return $this->project(new SwapXyProjector());
     }
@@ -359,7 +359,7 @@ abstract class Geometry implements \Stringable
      */
     public function isIdenticalTo(Geometry $that) : bool
     {
-        return $this->SRID() === $that->SRID() && $this->asText() === $that->asText();
+        return $this->srid() === $that->srid() && $this->asText() === $that->asText();
     }
 
     /**

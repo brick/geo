@@ -21,12 +21,12 @@ final class SridProjector implements Projector
     #[Override]
     public function project(Point $point): Point
     {
-        return new Point($point->coordinateSystem()->withSRID($this->targetSRID), ...$point->toArray());
+        return new Point($point->coordinateSystem()->withSrid($this->targetSRID), ...$point->toArray());
     }
 
     #[Override]
     public function getTargetCoordinateSystem(CoordinateSystem $sourceCoordinateSystem): CoordinateSystem
     {
-        return $sourceCoordinateSystem->withSRID($this->targetSRID);
+        return $sourceCoordinateSystem->withSrid($this->targetSRID);
     }
 }

@@ -23,7 +23,7 @@ class WkbReaderTest extends WkbAbstractTestCase
         $geometry = $reader->read(hex2bin($wkb), 4326);
 
         self::assertSame($wkt, $geometry->asText());
-        self::assertSame(4326, $geometry->SRID());
+        self::assertSame(4326, $geometry->srid());
     }
 
     public static function providerRead() : \Generator

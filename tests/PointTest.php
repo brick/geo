@@ -74,7 +74,7 @@ class PointTest extends AbstractTestCase
         self::assertSame($y, $point->y());
         self::assertSame($z, $point->z());
         self::assertSame($m, $point->m());
-        self::assertSame($srid, $point->SRID());
+        self::assertSame($srid, $point->srid());
         self::assertFalse($point->isEmpty());
     }
 
@@ -84,7 +84,7 @@ class PointTest extends AbstractTestCase
         $this->assertPointFactoryMethodAndAccessors($point, 1.2, 3.4, null, null, 0);
     }
 
-    public function testXyWithSRID() : void
+    public function testXyWithSrid() : void
     {
         $point = Point::xy(1.2, 3.4, 123);
         $this->assertPointFactoryMethodAndAccessors($point, 1.2, 3.4, null, null, 123);
@@ -96,7 +96,7 @@ class PointTest extends AbstractTestCase
         $this->assertPointFactoryMethodAndAccessors($point, 2.3, 3.4, 4.5, null, 0);
     }
 
-    public function testXyzWithSRID() : void
+    public function testXyzWithSrid() : void
     {
         $point = Point::xyz(2.3, 3.4, 4.5, 123);
         $this->assertPointFactoryMethodAndAccessors($point, 2.3, 3.4, 4.5, null, 123);
@@ -108,7 +108,7 @@ class PointTest extends AbstractTestCase
         $this->assertPointFactoryMethodAndAccessors($point, 3.4, 4.5, null, 5.6, 0);
     }
 
-    public function testXymWithSRID() : void
+    public function testXymWithSrid() : void
     {
         $point = Point::xym(3.4, 4.5, 5.6, 123);
         $this->assertPointFactoryMethodAndAccessors($point, 3.4, 4.5, null, 5.6, 123);
@@ -120,7 +120,7 @@ class PointTest extends AbstractTestCase
         $this->assertPointFactoryMethodAndAccessors($point, 4.5, 5.6, 6.7, 7.8, 0);
     }
 
-    public function testXyzmWithSRID() : void
+    public function testXyzmWithSrid() : void
     {
         $point = Point::xyzm(4.5, 5.6, 6.7, 7.8, 123);
         $this->assertPointFactoryMethodAndAccessors($point, 4.5, 5.6, 6.7, 7.8, 123);
@@ -135,7 +135,7 @@ class PointTest extends AbstractTestCase
         self::assertNull($point->m());
         self::assertSame($is3D, $point->is3D());
         self::assertSame($isMeasured, $point->isMeasured());
-        self::assertSame($srid, $point->SRID());
+        self::assertSame($srid, $point->srid());
     }
 
     public function testXyEmpty() : void
@@ -143,7 +143,7 @@ class PointTest extends AbstractTestCase
         $this->assertPointEmptyFactoryMethod(Point::xyEmpty(), false, false, 0);
     }
 
-    public function testXyEmptyWithSRID() : void
+    public function testXyEmptyWithSrid() : void
     {
         $this->assertPointEmptyFactoryMethod(Point::xyEmpty(123), false, false, 123);
     }
@@ -153,7 +153,7 @@ class PointTest extends AbstractTestCase
         $this->assertPointEmptyFactoryMethod(Point::xyzEmpty(), true, false, 0);
     }
 
-    public function testXyzEmptyWithSRID() : void
+    public function testXyzEmptyWithSrid() : void
     {
         $this->assertPointEmptyFactoryMethod(Point::xyzEmpty(123), true, false, 123);
     }
@@ -163,7 +163,7 @@ class PointTest extends AbstractTestCase
         $this->assertPointEmptyFactoryMethod(Point::xymEmpty(), false, true, 0);
     }
 
-    public function testXymEmptyWithSRID() : void
+    public function testXymEmptyWithSrid() : void
     {
         $this->assertPointEmptyFactoryMethod(Point::xymEmpty(123), false, true, 123);
     }
@@ -173,7 +173,7 @@ class PointTest extends AbstractTestCase
         $this->assertPointEmptyFactoryMethod(Point::xyzmEmpty(), true, true, 0);
     }
 
-    public function testXyzmEmptyWithSRID() : void
+    public function testXyzmEmptyWithSrid() : void
     {
         $this->assertPointEmptyFactoryMethod(Point::xyzmEmpty(123), true, true, 123);
     }

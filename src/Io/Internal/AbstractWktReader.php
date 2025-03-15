@@ -151,7 +151,7 @@ abstract class AbstractWktReader
                     return new Tin($cs);
                 }
 
-                return $this->readTINText($parser, $cs);
+                return $this->readTinText($parser, $cs);
 
             case 'TRIANGLE':
                 if ($isEmpty) {
@@ -247,7 +247,7 @@ abstract class AbstractWktReader
             if ($parser->isNextOpenerOrWord()) {
                 $curves[] = $this->readLineStringText($parser, $cs);
             } else {
-                $curve = $this->readGeometry($parser, $cs->SRID());
+                $curve = $this->readGeometry($parser, $cs->srid());
 
                 if (! $curve instanceof LineString && ! $curve instanceof CircularString) {
                     throw new GeometryIoException('Expected LineString|CircularString, got ' . $curve->geometryType());
@@ -312,7 +312,7 @@ abstract class AbstractWktReader
             if ($parser->isNextOpenerOrWord()) {
                 $curves[] = $this->readLineStringText($parser, $cs);
             } else {
-                $curve = $this->readGeometry($parser, $cs->SRID());
+                $curve = $this->readGeometry($parser, $cs->srid());
 
                 if (! $curve instanceof Curve) {
                     throw new GeometryIoException('Expected Curve, got ' . $curve->geometryType());
@@ -369,7 +369,7 @@ abstract class AbstractWktReader
         $geometries = [];
 
         do {
-            $geometries[] = $this->readGeometry($parser, $cs->SRID());
+            $geometries[] = $this->readGeometry($parser, $cs->srid());
             $nextToken = $parser->getNextCloserOrComma();
         } while ($nextToken === ',');
 
@@ -389,7 +389,7 @@ abstract class AbstractWktReader
         return new PolyhedralSurface($cs, ...$patches);
     }
 
-    private function readTINText(WktParser $parser, CoordinateSystem $cs) : Tin
+    private function readTinText(WktParser $parser, CoordinateSystem $cs) : Tin
     {
         $parser->matchOpener();
         $patches = [];

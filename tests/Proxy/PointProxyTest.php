@@ -47,7 +47,7 @@ class PointProxyTest extends AbstractTestCase
 
             self::assertSame('Point', $pointProxy->geometryType());
             self::assertSame($coords, $pointProxy->toArray());
-            self::assertSame($srid, $pointProxy->SRID());
+            self::assertSame($srid, $pointProxy->srid());
 
             self::assertSame(0, $pointProxy->dimension());
             self::assertSame($spatialDimension, $pointProxy->spatialDimension());
