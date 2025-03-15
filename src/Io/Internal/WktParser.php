@@ -54,7 +54,7 @@ final class WktParser
         }
 
         $matchKeyToType = $this->ewkt ? [
-            1 => WktTokenType::SRID,
+            1 => WktTokenType::Srid,
             2 => WktTokenType::Word,
             3 => WktTokenType::Number,
             4 => WktTokenType::Other,
@@ -256,7 +256,7 @@ final class WktParser
             return 0;
         }
 
-        if ($token[0] !== WktTokenType::SRID) {
+        if ($token[0] !== WktTokenType::Srid) {
             return 0;
         }
 

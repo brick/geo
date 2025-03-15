@@ -9,6 +9,6 @@ namespace Brick\Geo\Io\Internal;
  */
 enum WkbByteOrder: int
 {
-    case BIG_ENDIAN = 0;
-    case LITTLE_ENDIAN = 1;
+    case BigEndian = 0;
+    case LittleEndian = 1;
 }

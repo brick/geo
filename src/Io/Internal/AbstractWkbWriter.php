@@ -105,8 +105,8 @@ abstract class AbstractWkbWriter
     protected function packUnsignedInteger(int $uint) : string
     {
         return pack(match ($this->byteOrder) {
-            WkbByteOrder::BIG_ENDIAN => 'N',
-            WkbByteOrder::LITTLE_ENDIAN => 'V'
+            WkbByteOrder::BigEndian => 'N',
+            WkbByteOrder::LittleEndian => 'V'
         }, $uint);
     }
 

@@ -38,19 +38,19 @@ class EwkbWriterTest extends EwkbAbstractTestCase
     public static function providerWrite() : \Generator
     {
         foreach (self::providerLittleEndianEwkb() as [$wkt, $ewkb]) {
-            yield [$wkt, $ewkb, WkbByteOrder::LITTLE_ENDIAN];
+            yield [$wkt, $ewkb, WkbByteOrder::LittleEndian];
         }
 
         foreach (self::providerLittleEndianEwkbWithSrid() as [$wkt, $ewkb]) {
-            yield [$wkt, $ewkb, WkbByteOrder::LITTLE_ENDIAN];
+            yield [$wkt, $ewkb, WkbByteOrder::LittleEndian];
         }
 
         foreach (self::providerBigEndianEwkb() as [$wkt, $ewkb]) {
-            yield [$wkt, $ewkb, WkbByteOrder::BIG_ENDIAN];
+            yield [$wkt, $ewkb, WkbByteOrder::BigEndian];
         }
 
         foreach (self::providerBigEndianEwkbWithSrid() as [$wkt, $ewkb]) {
-            yield [$wkt, $ewkb, WkbByteOrder::BIG_ENDIAN];
+            yield [$wkt, $ewkb, WkbByteOrder::BigEndian];
         }
     }
 

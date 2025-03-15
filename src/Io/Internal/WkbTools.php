@@ -37,8 +37,8 @@ abstract class WkbTools
             self::checkDoubleIs64Bit();
 
             $byteOrder = match (pack('L', 0x61626364)) {
-                'abcd' => WkbByteOrder::BIG_ENDIAN,
-                'dcba' => WkbByteOrder::LITTLE_ENDIAN,
+                'abcd' => WkbByteOrder::BigEndian,
+                'dcba' => WkbByteOrder::LittleEndian,
                 default => throw GeometryIoException::unsupportedEndianness(),
             };
         }
