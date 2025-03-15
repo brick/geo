@@ -8,14 +8,14 @@ use Brick\Geo\BoundingBox;
 use Brick\Geo\Exception\GeometryIOException;
 use Brick\Geo\Geometry;
 use Brick\Geo\GeometryCollection;
-use Brick\Geo\IO\GeoJSON\Feature;
-use Brick\Geo\IO\GeoJSON\FeatureCollection;
+use Brick\Geo\IO\GeoJson\Feature;
+use Brick\Geo\IO\GeoJson\FeatureCollection;
 use stdClass;
 
 /**
  * Converter class from Geometry to GeoJSON.
  */
-final class GeoJSONWriter
+final class GeoJsonWriter
 {
     private readonly bool $prettyPrint;
 

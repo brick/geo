@@ -440,21 +440,21 @@ GeoJSON is an open standard format designed for representing simple geographical
 standardized in [RFC 7946](https://tools.ietf.org/html/rfc7946).
 
 This library supports importing geometries from, and exporting them to GeoJSON documents using the
-[GeoJSONReader](https://github.com/brick/geo/blob/master/src/IO/GeoJSONReader.php) and
-[GeoJSONWriter](https://github.com/brick/geo/blob/master/src/IO/GeoJSONWriter.php) classes:
+[GeoJsonReader](https://github.com/brick/geo/blob/master/src/IO/GeoJsonReader.php) and
+[GeoJsonWriter](https://github.com/brick/geo/blob/master/src/IO/GeoJsonWriter.php) classes:
 
 ```php
 use Brick\Geo\Point;
-use Brick\Geo\IO\GeoJSONReader;
-use Brick\Geo\IO\GeoJSONWriter;
+use Brick\Geo\IO\GeoJsonReader;
+use Brick\Geo\IO\GeoJsonWriter;
 
-$reader = new GeoJSONReader();
+$reader = new GeoJsonReader();
 $point = $reader->read('{ "type": "Point", "coordinates": [1, 2] }');
 
 echo $point->asText(); // POINT (1 2)
 echo $point->SRID(); // 4326
 
-$writer = new GeoJSONWriter();
+$writer = new GeoJsonWriter();
 echo $writer->write($point); // {"type":"Point","coordinates":[1,2]}
 ```
 

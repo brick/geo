@@ -9,32 +9,32 @@ use Brick\Geo\Tests\AbstractTestCase;
 /**
  * Base class for GeoJSON reader/writer tests.
  */
-abstract class GeoJSONAbstractTestCase extends AbstractTestCase
+abstract class GeoJsonAbstractTestCase extends AbstractTestCase
 {
-    final public static function providerGeometryGeoJSON() : array
+    final public static function providerGeometryGeoJson() : array
     {
         return array_merge(
-            self::providerGeometryPointGeoJSON(),
-            self::providerGeometryMultiPointGeoJSON(),
-            self::providerGeometryLineStringGeoJSON(),
-            self::providerGeometryMultiLineStringGeoJSON(),
-            self::providerGeometryPolygonGeoJSON(),
-            self::providerGeometryMultiPolygonGeoJSON(),
-            self::providerGeometryCollectionGeoJSON()
+            self::providerGeometryPointGeoJson(),
+            self::providerGeometryMultiPointGeoJson(),
+            self::providerGeometryLineStringGeoJson(),
+            self::providerGeometryMultiLineStringGeoJson(),
+            self::providerGeometryPolygonGeoJson(),
+            self::providerGeometryMultiPolygonGeoJson(),
+            self::providerGeometryCollectionGeoJson()
         );
     }
 
-    final public static function providerFeatureGeoJSON() : array
+    final public static function providerFeatureGeoJson() : array
     {
         return array_merge(
             self::providerFeatureNoGeometry(),
-            self::providerFeaturePointGeoJSON(),
-            self::providerFeatureMultiPointGeoJSON(),
-            self::providerFeatureLineStringGeoJSON(),
-            self::providerFeatureMultiLineStringGeoJSON(),
-            self::providerFeaturePolygonGeoJSON(),
-            self::providerFeatureMultiPolygonGeoJSON(),
-            self::providerFeatureGeometryCollectionGeoJSON(),
+            self::providerFeaturePointGeoJson(),
+            self::providerFeatureMultiPointGeoJson(),
+            self::providerFeatureLineStringGeoJson(),
+            self::providerFeatureMultiLineStringGeoJson(),
+            self::providerFeaturePolygonGeoJson(),
+            self::providerFeatureMultiPolygonGeoJson(),
+            self::providerFeatureGeometryCollectionGeoJson(),
         );
     }
 
@@ -56,7 +56,7 @@ abstract class GeoJSONAbstractTestCase extends AbstractTestCase
         ];
     }
 
-    final public static function providerFeatureCollectionGeoJSON() : array
+    final public static function providerFeatureCollectionGeoJson() : array
     {
         return [
             [
@@ -74,7 +74,7 @@ abstract class GeoJSONAbstractTestCase extends AbstractTestCase
         ];
     }
 
-    final public static function providerGeometryPointGeoJSON() : array
+    final public static function providerGeometryPointGeoJson() : array
     {
         return [
             [
@@ -95,7 +95,7 @@ abstract class GeoJSONAbstractTestCase extends AbstractTestCase
         ];
     }
 
-    final public static function providerFeaturePointGeoJSON() : array
+    final public static function providerFeaturePointGeoJson() : array
     {
         return [
             [
@@ -119,7 +119,7 @@ abstract class GeoJSONAbstractTestCase extends AbstractTestCase
         ];
     }
 
-    final public static function providerGeometryMultiPointGeoJSON() : array
+    final public static function providerGeometryMultiPointGeoJson() : array
     {
         return [
             [
@@ -140,7 +140,7 @@ abstract class GeoJSONAbstractTestCase extends AbstractTestCase
         ];
     }
 
-    final public static function providerFeatureMultiPointGeoJSON() : array
+    final public static function providerFeatureMultiPointGeoJson() : array
     {
         return [
             [
@@ -164,7 +164,7 @@ abstract class GeoJSONAbstractTestCase extends AbstractTestCase
         ];
     }
 
-    final public static function providerGeometryLineStringGeoJSON() : array
+    final public static function providerGeometryLineStringGeoJson() : array
     {
         return [
             [
@@ -185,7 +185,7 @@ abstract class GeoJSONAbstractTestCase extends AbstractTestCase
         ];
     }
 
-    final public static function providerFeatureLineStringGeoJSON() : array
+    final public static function providerFeatureLineStringGeoJson() : array
     {
         return [
             [
@@ -209,7 +209,7 @@ abstract class GeoJSONAbstractTestCase extends AbstractTestCase
         ];
     }
 
-    final public static function providerGeometryMultiLineStringGeoJSON() : array
+    final public static function providerGeometryMultiLineStringGeoJson() : array
     {
         return [
             [
@@ -230,7 +230,7 @@ abstract class GeoJSONAbstractTestCase extends AbstractTestCase
         ];
     }
 
-    final public static function providerFeatureMultiLineStringGeoJSON() : array
+    final public static function providerFeatureMultiLineStringGeoJson() : array
     {
         return [
             [
@@ -248,7 +248,7 @@ abstract class GeoJSONAbstractTestCase extends AbstractTestCase
         ];
     }
 
-    final public static function providerGeometryPolygonGeoJSON() : array
+    final public static function providerGeometryPolygonGeoJson() : array
     {
         return [
             [
@@ -285,7 +285,7 @@ abstract class GeoJSONAbstractTestCase extends AbstractTestCase
         ];
     }
 
-    final public static function providerFeaturePolygonGeoJSON() : array
+    final public static function providerFeaturePolygonGeoJson() : array
     {
         return [
             [
@@ -327,7 +327,7 @@ abstract class GeoJSONAbstractTestCase extends AbstractTestCase
         ];
     }
 
-    final public static function providerGeometryMultiPolygonGeoJSON() : array
+    final public static function providerGeometryMultiPolygonGeoJson() : array
     {
         return [
             [
@@ -364,7 +364,7 @@ abstract class GeoJSONAbstractTestCase extends AbstractTestCase
         ];
     }
 
-    final public static function providerFeatureMultiPolygonGeoJSON() : array
+    final public static function providerFeatureMultiPolygonGeoJson() : array
     {
         return [
             [
@@ -404,7 +404,7 @@ abstract class GeoJSONAbstractTestCase extends AbstractTestCase
         ];
     }
 
-    final public static function providerGeometryCollectionGeoJSON() : array
+    final public static function providerGeometryCollectionGeoJson() : array
     {
         return [
             [
@@ -461,7 +461,7 @@ abstract class GeoJSONAbstractTestCase extends AbstractTestCase
         ];
     }
 
-    final public static function providerFeatureGeometryCollectionGeoJSON() : array
+    final public static function providerFeatureGeometryCollectionGeoJson() : array
     {
         return [
             [

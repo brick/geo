@@ -500,13 +500,13 @@ Improvements to GeoJSON reader and writer classes:
 - `GeoJSONReader` can now be lenient with documents containing wrong case types, such as `POINT` instead of `Point`:
 
 ```php
-$reader = new GeoJSONReader(true); // case-insensitive
+$reader = new GeoJsonReader(true); // case-insensitive
 ```
 
 - `GeoJSONWriter` can now pretty-print the JSON output:
 
 ```php
-$writer = new GeoJSONWriter(true); // pretty-print
+$writer = new GeoJsonWriter(true); // pretty-print
 ```
 
 ## [0.2.2](https://github.com/brick/geo/releases/tag/0.2.2) - 2019-01-24
