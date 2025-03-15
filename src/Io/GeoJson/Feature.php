@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Brick\Geo\Io\GeoJson;
 
 use Brick\Geo\Geometry;
-use Brick\Geo\Internal\Cloner;
+use Brick\Geo\Io\Internal\Cloner;
 use stdClass;
 
 /**
