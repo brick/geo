@@ -17,7 +17,7 @@ use Brick\Geo\MultiPolygon;
 use Brick\Geo\Point;
 use Brick\Geo\Polygon;
 use Brick\Geo\PolyhedralSurface;
-use Brick\Geo\TIN;
+use Brick\Geo\Tin;
 use Brick\Geo\Triangle;
 
 /**
@@ -107,7 +107,7 @@ abstract class AbstractWKTWriter
             $data = $this->writeMultiPolygon($geometry);
         } elseif ($geometry instanceof GeometryCollection) {
             $data = $this->writeGeometryCollection($geometry);
-        } elseif ($geometry instanceof TIN) {
+        } elseif ($geometry instanceof Tin) {
             /** @psalm-suppress InvalidArgument Not sure how to fix this. */
             $data = $this->writePolyhedralSurface($geometry);
         } elseif ($geometry instanceof PolyhedralSurface) {

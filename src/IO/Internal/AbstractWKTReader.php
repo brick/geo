@@ -19,7 +19,7 @@ use Brick\Geo\MultiPolygon;
 use Brick\Geo\Point;
 use Brick\Geo\Polygon;
 use Brick\Geo\PolyhedralSurface;
-use Brick\Geo\TIN;
+use Brick\Geo\Tin;
 use Brick\Geo\Triangle;
 
 /**
@@ -148,7 +148,7 @@ abstract class AbstractWKTReader
 
             case 'TIN':
                 if ($isEmpty) {
-                    return new TIN($cs);
+                    return new Tin($cs);
                 }
 
                 return $this->readTINText($parser, $cs);
@@ -389,7 +389,7 @@ abstract class AbstractWKTReader
         return new PolyhedralSurface($cs, ...$patches);
     }
 
-    private function readTINText(WKTParser $parser, CoordinateSystem $cs) : TIN
+    private function readTINText(WKTParser $parser, CoordinateSystem $cs) : Tin
     {
         $parser->matchOpener();
         $patches = [];
@@ -399,6 +399,6 @@ abstract class AbstractWKTReader
             $nextToken = $parser->getNextCloserOrComma();
         } while ($nextToken === ',');
 
-        return new TIN($cs, ...$patches);
+        return new Tin($cs, ...$patches);
     }
 }

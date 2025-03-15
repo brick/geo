@@ -17,7 +17,7 @@ use Brick\Geo\CompoundCurve;
 use Brick\Geo\Polygon;
 use Brick\Geo\CurvePolygon;
 use Brick\Geo\PolyhedralSurface;
-use Brick\Geo\TIN;
+use Brick\Geo\Tin;
 use Brick\Geo\Triangle;
 use Closure;
 use PHPUnit\Framework\TestCase;
@@ -328,7 +328,7 @@ class AbstractTestCase extends TestCase
         return new PolyhedralSurface($cs, ...$patches);
     }
 
-    final protected function createTIN(array $coords, CoordinateSystem $cs) : TIN
+    final protected function createTin(array $coords, CoordinateSystem $cs) : Tin
     {
         $patches = [];
 
@@ -336,7 +336,7 @@ class AbstractTestCase extends TestCase
             $patches[] = $this->createTriangle($patch, $cs);
         }
 
-        return new TIN($cs, ...$patches);
+        return new Tin($cs, ...$patches);
     }
 
     /**

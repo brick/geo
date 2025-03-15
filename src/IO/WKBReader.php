@@ -63,7 +63,7 @@ final class WKBReader extends AbstractWKBReader
             Geometry::MULTIPOLYGON => new Proxy\MultiPolygonProxy($wkb, true, $srid),
             Geometry::GEOMETRYCOLLECTION => new Proxy\GeometryCollectionProxy($wkb, true, $srid),
             Geometry::POLYHEDRALSURFACE => new Proxy\PolyhedralSurfaceProxy($wkb, true, $srid),
-            Geometry::TIN => new Proxy\TINProxy($wkb, true, $srid),
+            Geometry::TIN => new Proxy\TinProxy($wkb, true, $srid),
             Geometry::TRIANGLE => new Proxy\TriangleProxy($wkb, true, $srid),
             default => throw GeometryIOException::unsupportedWKBType($geometryHeader->geometryType),
         };

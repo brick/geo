@@ -9,15 +9,15 @@ use Brick\Geo\Exception\CoordinateSystemException;
 use Brick\Geo\Exception\InvalidGeometryException;
 use Brick\Geo\Exception\UnexpectedGeometryException;
 use Brick\Geo\Geometry;
-use Brick\Geo\TIN;
+use Brick\Geo\Tin;
 
 /**
- * Proxy class for TIN.
+ * Proxy class for Tin.
  *
  * @internal This class is not part of the public API and can change at any time.
- *           Please type-hint against Brick\Geo\TIN in your projects.
+ *           Please type-hint against Brick\Geo\Tin in your projects.
  */
-class TINProxy extends TIN implements ProxyInterface
+class TinProxy extends Tin implements ProxyInterface
 {
     /**
      * The WKT or WKB data.
@@ -37,7 +37,7 @@ class TINProxy extends TIN implements ProxyInterface
     /**
      * The underlying geometry, or NULL if not yet loaded.
      */
-    private ?TIN $proxyGeometry = null;
+    private ?Tin $proxyGeometry = null;
 
     /**
      * @param string $data     The WKT or WKB data.
@@ -62,8 +62,8 @@ class TINProxy extends TIN implements ProxyInterface
     private function load() : void
     {
         $this->proxyGeometry = $this->isProxyBinary
-            ? TIN::fromBinary($this->proxyData, $this->proxySRID)
-            : TIN::fromText($this->proxyData, $this->proxySRID);
+            ? Tin::fromBinary($this->proxyData, $this->proxySRID)
+            : Tin::fromText($this->proxyData, $this->proxySRID);
     }
 
     public function isLoaded() : bool
@@ -127,7 +127,7 @@ class TINProxy extends TIN implements ProxyInterface
     }
 
 
-    public function project(\Brick\Geo\Projector\Projector $projector): \Brick\Geo\TIN
+    public function project(\Brick\Geo\Projector\Projector $projector): \Brick\Geo\Tin
     {
         if ($this->proxyGeometry === null) {
             $this->load();
