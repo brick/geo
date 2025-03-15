@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Brick\Geo\IO;
+namespace Brick\Geo\Io;
 
 use Brick\Geo\Geometry;
-use Brick\Geo\IO\Internal\AbstractWkbWriter;
-use Brick\Geo\IO\Internal\EwkbTools;
+use Brick\Geo\Io\Internal\AbstractWkbWriter;
+use Brick\Geo\Io\Internal\EwkbTools;
 use Override;
 
 /**

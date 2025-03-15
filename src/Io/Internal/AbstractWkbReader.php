@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Brick\Geo\IO\Internal;
+namespace Brick\Geo\Io\Internal;
 
 use Brick\Geo\CircularString;
 use Brick\Geo\CompoundCurve;
 use Brick\Geo\CoordinateSystem;
 use Brick\Geo\Curve;
 use Brick\Geo\CurvePolygon;
-use Brick\Geo\Exception\GeometryIOException;
+use Brick\Geo\Exception\GeometryIoException;
 use Brick\Geo\Geometry;
 use Brick\Geo\GeometryCollection;
 use Brick\Geo\LineString;
@@ -30,12 +30,12 @@ use Brick\Geo\Triangle;
 abstract class AbstractWkbReader
 {
     /**
-     * @throws GeometryIOException
+     * @throws GeometryIoException
      */
     abstract protected function readGeometryHeader(WkbBuffer $buffer) : WkbGeometryHeader;
 
     /**
-     * @throws GeometryIOException
+     * @throws GeometryIoException
      */
     protected function readGeometry(WkbBuffer $buffer, int $srid) : Geometry
     {
@@ -63,7 +63,7 @@ abstract class AbstractWkbReader
             Geometry::POLYHEDRALSURFACE => $this->readPolyhedralSurface($buffer, $cs),
             Geometry::TIN => $this->readTin($buffer, $cs),
             Geometry::TRIANGLE => $this->readTriangle($buffer, $cs),
-            default => throw GeometryIOException::unsupportedWkbType($geometryHeader->geometryType),
+            default => throw GeometryIoException::unsupportedWkbType($geometryHeader->geometryType),
         };
     }
 
@@ -101,7 +101,7 @@ abstract class AbstractWkbReader
     }
 
     /**
-     * @throws GeometryIOException
+     * @throws GeometryIoException
      */
     private function readCompoundCurve(WkbBuffer $buffer, CoordinateSystem $cs) : CompoundCurve
     {
@@ -112,7 +112,7 @@ abstract class AbstractWkbReader
             $curve = $this->readGeometry($buffer, $cs->SRID());
 
             if (! $curve instanceof LineString && ! $curve instanceof CircularString) {
-                throw new GeometryIOException('Expected LineString|CircularString, got ' . $curve->geometryType());
+                throw new GeometryIoException('Expected LineString|CircularString, got ' . $curve->geometryType());
             }
 
             $curves[] = $curve;
@@ -135,7 +135,7 @@ abstract class AbstractWkbReader
     }
 
     /**
-     * @throws GeometryIOException
+     * @throws GeometryIoException
      */
     private function readCurvePolygon(WkbBuffer $buffer, CoordinateSystem $cs) : CurvePolygon
     {
@@ -147,7 +147,7 @@ abstract class AbstractWkbReader
             $ring = $this->readGeometry($buffer, $cs->SRID());
 
             if (! $ring instanceof Curve) {
-                throw new GeometryIOException('Expected Curve, got ' . $ring->geometryType());
+                throw new GeometryIoException('Expected Curve, got ' . $ring->geometryType());
             }
 
             $rings[] = $ring;
@@ -157,7 +157,7 @@ abstract class AbstractWkbReader
     }
 
     /**
-     * @throws GeometryIOException
+     * @throws GeometryIoException
      */
     private function readMultiPoint(WkbBuffer $buffer, CoordinateSystem $cs) : MultiPoint
     {
@@ -168,7 +168,7 @@ abstract class AbstractWkbReader
             $point = $this->readGeometry($buffer, $cs->SRID());
 
             if (! $point instanceof Point) {
-                throw new GeometryIOException('Expected Point, got ' . $point->geometryType());
+                throw new GeometryIoException('Expected Point, got ' . $point->geometryType());
             }
 
             $points[] = $point;
@@ -178,7 +178,7 @@ abstract class AbstractWkbReader
     }
 
     /**
-     * @throws GeometryIOException
+     * @throws GeometryIoException
      */
     private function readMultiLineString(WkbBuffer $buffer, CoordinateSystem $cs) : MultiLineString
     {
@@ -189,7 +189,7 @@ abstract class AbstractWkbReader
             $lineString = $this->readGeometry($buffer, $cs->SRID());
 
             if (! $lineString instanceof LineString) {
-                throw new GeometryIOException('Expected LineString, got ' . $lineString->geometryType());
+                throw new GeometryIoException('Expected LineString, got ' . $lineString->geometryType());
             }
 
             $lineStrings[] = $lineString;
@@ -199,7 +199,7 @@ abstract class AbstractWkbReader
     }
 
     /**
-     * @throws GeometryIOException
+     * @throws GeometryIoException
      */
     private function readMultiPolygon(WkbBuffer $buffer, CoordinateSystem $cs) : MultiPolygon
     {
@@ -210,7 +210,7 @@ abstract class AbstractWkbReader
             $polygon = $this->readGeometry($buffer, $cs->SRID());
 
             if (! $polygon instanceof Polygon) {
-                throw new GeometryIOException('Expected Polygon, got ' . $polygon->geometryType());
+                throw new GeometryIoException('Expected Polygon, got ' . $polygon->geometryType());
             }
 
             $polygons[] = $polygon;
@@ -232,7 +232,7 @@ abstract class AbstractWkbReader
     }
 
     /**
-     * @throws GeometryIOException
+     * @throws GeometryIoException
      */
     private function readPolyhedralSurface(WkbBuffer $buffer, CoordinateSystem $cs) : PolyhedralSurface
     {
@@ -243,7 +243,7 @@ abstract class AbstractWkbReader
             $patch = $this->readGeometry($buffer, $cs->SRID());
 
             if (! $patch instanceof Polygon) {
-                throw new GeometryIOException('Expected Polygon, got ' . $patch->geometryType());
+                throw new GeometryIoException('Expected Polygon, got ' . $patch->geometryType());
             }
 
             $patches[] = $patch;
@@ -253,7 +253,7 @@ abstract class AbstractWkbReader
     }
 
     /**
-     * @throws GeometryIOException
+     * @throws GeometryIoException
      */
     private function readTin(WkbBuffer $buffer, CoordinateSystem $cs) : Tin
     {
@@ -264,7 +264,7 @@ abstract class AbstractWkbReader
             $patch = $this->readGeometry($buffer, $cs->SRID());
 
             if (! $patch instanceof Triangle) {
-                throw new GeometryIOException('Expected Triangle, got ' . $patch->geometryType());
+                throw new GeometryIoException('Expected Triangle, got ' . $patch->geometryType());
             }
 
             $patches[] = $patch;

@@ -6,8 +6,8 @@ namespace Brick\Geo\Tests;
 
 use Brick\Geo\Exception\UnexpectedGeometryException;
 use Brick\Geo\Geometry;
-use Brick\Geo\IO\Internal\WkbByteOrder;
-use Brick\Geo\IO\Internal\WkbTools;
+use Brick\Geo\Io\Internal\WkbByteOrder;
+use Brick\Geo\Io\Internal\WkbTools;
 use Brick\Geo\Point;
 use PHPUnit\Framework\Attributes\DataProvider;
 

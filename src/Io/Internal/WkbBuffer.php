@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Brick\Geo\IO\Internal;
+namespace Brick\Geo\Io\Internal;
 
-use Brick\Geo\Exception\GeometryIOException;
+use Brick\Geo\Exception\GeometryIoException;
 
 /**
  * Buffer class for reading binary data out of a WKB binary string.
@@ -32,14 +32,14 @@ final class WkbBuffer
      * @param int $words      The number of words to read.
      * @param int $wordLength The word length in bytes.
      *
-     * @throws GeometryIOException
+     * @throws GeometryIoException
      */
     private function read(int $words, int $wordLength) : string
     {
         $length = $words * $wordLength;
 
         if ($this->position + $length > $this->length) {
-            throw GeometryIOException::invalidWkb('unexpected end of stream');
+            throw GeometryIoException::invalidWkb('unexpected end of stream');
         }
 
         if ($length === 1) {
@@ -101,7 +101,7 @@ final class WkbBuffer
     /**
      * Reads the machine byte order from the buffer and stores the result to act accordingly.
      *
-     * @throws GeometryIOException
+     * @throws GeometryIoException
      */
     public function readByteOrder() : void
     {
@@ -109,7 +109,7 @@ final class WkbBuffer
         $wkbByteOrder = WkbByteOrder::tryFrom($byteOrder);
 
         if ($wkbByteOrder === null) {
-            throw GeometryIOException::invalidWkb('unknown byte order: ' . $byteOrder);
+            throw GeometryIoException::invalidWkb('unknown byte order: ' . $byteOrder);
         }
 
         $this->invert = ($wkbByteOrder !== $this->machineByteOrder);

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Brick\Geo\IO\Internal;
+namespace Brick\Geo\Io\Internal;
 
 /**
  * @internal

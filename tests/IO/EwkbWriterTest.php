@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Brick\Geo\Tests\IO;
 
-use Brick\Geo\Exception\GeometryIOException;
-use Brick\Geo\IO\EwkbWriter;
-use Brick\Geo\IO\EwktReader;
-use Brick\Geo\IO\Internal\WkbByteOrder;
+use Brick\Geo\Exception\GeometryIoException;
+use Brick\Geo\Io\EwkbWriter;
+use Brick\Geo\Io\EwktReader;
+use Brick\Geo\Io\Internal\WkbByteOrder;
 use Brick\Geo\Point;
 use PHPUnit\Framework\Attributes\DataProvider;
 
@@ -59,7 +59,7 @@ class EwkbWriterTest extends EwkbAbstractTestCase
     {
         $writer = new EwkbWriter();
 
-        $this->expectException(GeometryIOException::class);
+        $this->expectException(GeometryIoException::class);
         $writer->write($point);
     }
 

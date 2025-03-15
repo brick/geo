@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Brick\Geo\Proxy;
 
-use Brick\Geo\Exception\GeometryIOException;
+use Brick\Geo\Exception\GeometryIoException;
 use Brick\Geo\Exception\CoordinateSystemException;
 use Brick\Geo\Exception\InvalidGeometryException;
 use Brick\Geo\Exception\UnexpectedGeometryException;
@@ -53,7 +53,7 @@ class GeometryProxy extends Geometry implements ProxyInterface
     /**
      * Loads the underlying geometry.
      *
-     * @throws GeometryIOException         If the proxy data is not valid.
+     * @throws GeometryIoException         If the proxy data is not valid.
      * @throws CoordinateSystemException   If the resulting geometry contains mixed coordinate systems.
      * @throws InvalidGeometryException    If the resulting geometry is not valid.
      * @throws UnexpectedGeometryException If the resulting geometry is not an instance of the proxied class.

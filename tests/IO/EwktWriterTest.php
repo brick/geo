@@ -6,7 +6,7 @@ namespace Brick\Geo\Tests\IO;
 
 use Brick\Geo\CoordinateSystem;
 use Brick\Geo\GeometryCollection;
-use Brick\Geo\IO\EwktWriter;
+use Brick\Geo\Io\EwktWriter;
 use PHPUnit\Framework\Attributes\DataProvider;
 
 /**

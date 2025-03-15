@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Brick\Geo\IO;
+namespace Brick\Geo\Io;
 
-use Brick\Geo\Exception\GeometryIOException;
+use Brick\Geo\Exception\GeometryIoException;
 use Brick\Geo\Geometry;
-use Brick\Geo\IO\Internal\AbstractWkbReader;
-use Brick\Geo\IO\Internal\EwkbTools;
-use Brick\Geo\IO\Internal\WkbBuffer;
-use Brick\Geo\IO\Internal\WkbGeometryHeader;
+use Brick\Geo\Io\Internal\AbstractWkbReader;
+use Brick\Geo\Io\Internal\EwkbTools;
+use Brick\Geo\Io\Internal\WkbBuffer;
+use Brick\Geo\Io\Internal\WkbGeometryHeader;
 use Override;
 
 /**
@@ -18,7 +18,7 @@ use Override;
 final class EwkbReader extends AbstractWkbReader
 {
     /**
-     * @throws GeometryIOException
+     * @throws GeometryIoException
      */
     public function read(string $ewkb) : Geometry
     {
@@ -26,7 +26,7 @@ final class EwkbReader extends AbstractWkbReader
         $geometry = $this->readGeometry($buffer, 0);
 
         if (! $buffer->isEndOfStream()) {
-            throw GeometryIOException::invalidWkb('unexpected data at end of stream');
+            throw GeometryIoException::invalidWkb('unexpected data at end of stream');
         }
 
         return $geometry;

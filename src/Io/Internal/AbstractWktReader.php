@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Brick\Geo\IO\Internal;
+namespace Brick\Geo\Io\Internal;
 
 use Brick\Geo\CircularString;
 use Brick\Geo\CompoundCurve;
 use Brick\Geo\CoordinateSystem;
 use Brick\Geo\Curve;
 use Brick\Geo\CurvePolygon;
-use Brick\Geo\Exception\GeometryIOException;
+use Brick\Geo\Exception\GeometryIoException;
 use Brick\Geo\Geometry;
 use Brick\Geo\GeometryCollection;
 use Brick\Geo\LineString;
@@ -30,7 +30,7 @@ use Brick\Geo\Triangle;
 abstract class AbstractWktReader
 {
     /**
-     * @throws GeometryIOException
+     * @throws GeometryIoException
      */
     protected function readGeometry(WktParser $parser, int $srid) : Geometry
     {
@@ -52,7 +52,7 @@ abstract class AbstractWktReader
             } elseif ($word === 'EMPTY') {
                 $isEmpty = true;
             } else {
-                throw new GeometryIOException('Unexpected word in WKT: ' . $word);
+                throw new GeometryIoException('Unexpected word in WKT: ' . $word);
             }
 
             if (! $isEmpty) {
@@ -61,7 +61,7 @@ abstract class AbstractWktReader
                 if ($word === 'EMPTY') {
                     $isEmpty = true;
                 } elseif ($word !== null) {
-                    throw new GeometryIOException('Unexpected word in WKT: ' . $word);
+                    throw new GeometryIoException('Unexpected word in WKT: ' . $word);
                 }
             }
         }
@@ -161,7 +161,7 @@ abstract class AbstractWktReader
             return $this->readTriangleText($parser, $cs);
         }
 
-        throw new GeometryIOException('Unknown geometry type: ' . $geometryType);
+        throw new GeometryIoException('Unknown geometry type: ' . $geometryType);
     }
 
     /**
@@ -236,7 +236,7 @@ abstract class AbstractWktReader
     }
 
     /**
-     * @throws GeometryIOException
+     * @throws GeometryIoException
      */
     private function readCompoundCurveText(WktParser $parser, CoordinateSystem $cs) : CompoundCurve
     {
@@ -250,7 +250,7 @@ abstract class AbstractWktReader
                 $curve = $this->readGeometry($parser, $cs->SRID());
 
                 if (! $curve instanceof LineString && ! $curve instanceof CircularString) {
-                    throw new GeometryIOException('Expected LineString|CircularString, got ' . $curve->geometryType());
+                    throw new GeometryIoException('Expected LineString|CircularString, got ' . $curve->geometryType());
                 }
 
                 $curves[] = $curve;
@@ -301,7 +301,7 @@ abstract class AbstractWktReader
     }
 
     /**
-     * @throws GeometryIOException
+     * @throws GeometryIoException
      */
     private function readCurvePolygonText(WktParser $parser, CoordinateSystem $cs) : CurvePolygon
     {
@@ -315,7 +315,7 @@ abstract class AbstractWktReader
                 $curve = $this->readGeometry($parser, $cs->SRID());
 
                 if (! $curve instanceof Curve) {
-                    throw new GeometryIOException('Expected Curve, got ' . $curve->geometryType());
+                    throw new GeometryIoException('Expected Curve, got ' . $curve->geometryType());
                 }
 
                 $curves[] = $curve;

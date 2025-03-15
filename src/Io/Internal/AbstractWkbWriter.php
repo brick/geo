@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Brick\Geo\IO\Internal;
+namespace Brick\Geo\Io\Internal;
 
 use Brick\Geo\CircularString;
 use Brick\Geo\CompoundCurve;
 use Brick\Geo\Curve;
 use Brick\Geo\CurvePolygon;
-use Brick\Geo\Exception\GeometryIOException;
+use Brick\Geo\Exception\GeometryIoException;
 use Brick\Geo\Geometry;
 use Brick\Geo\GeometryCollection;
 use Brick\Geo\LineString;
@@ -28,7 +28,7 @@ abstract class AbstractWkbWriter
     private WkbByteOrder $machineByteOrder;
 
     /**
-     * @throws GeometryIOException
+     * @throws GeometryIoException
      */
     public function __construct()
     {
@@ -45,7 +45,7 @@ abstract class AbstractWkbWriter
      *
      * @return string The WKB representation of the given geometry.
      *
-     * @throws GeometryIOException If the given geometry cannot be exported as WKB.
+     * @throws GeometryIoException If the given geometry cannot be exported as WKB.
      */
     public function write(Geometry $geometry) : string
     {
@@ -58,7 +58,7 @@ abstract class AbstractWkbWriter
      *
      * @return string The WKB representation of the given geometry.
      *
-     * @throws GeometryIOException If the given geometry cannot be exported as WKT.
+     * @throws GeometryIoException If the given geometry cannot be exported as WKT.
      */
     protected function doWrite(Geometry $geometry, bool $outer) : string
     {
@@ -94,7 +94,7 @@ abstract class AbstractWkbWriter
             return $this->writeComposedGeometry($geometry, $outer);
         }
 
-        throw GeometryIOException::unsupportedGeometryType($geometry->geometryType());
+        throw GeometryIoException::unsupportedGeometryType($geometry->geometryType());
     }
 
     private function packByteOrder() : string
@@ -122,12 +122,12 @@ abstract class AbstractWkbWriter
     }
 
     /**
-     * @throws GeometryIOException
+     * @throws GeometryIoException
      */
     private function packPoint(Point $point) : string
     {
         if ($point->isEmpty()) {
-            throw new GeometryIOException('Empty points have no WKB representation.');
+            throw new GeometryIoException('Empty points have no WKB representation.');
         }
 
         /** @psalm-suppress PossiblyNullArgument */
@@ -144,14 +144,14 @@ abstract class AbstractWkbWriter
     }
 
     /**
-     * @throws GeometryIOException
+     * @throws GeometryIoException
      */
     private function packCurve(Curve $curve) : string
     {
         if (! $curve instanceof LineString && ! $curve instanceof CircularString) {
             // CompoundCurve is not a list of Points, not sure if WKB supports it!
             // For now, let's just not support it ourselves.
-            throw new GeometryIOException(sprintf('Writing a %s as WKB is not supported.', $curve->geometryType()));
+            throw new GeometryIoException(sprintf('Writing a %s as WKB is not supported.', $curve->geometryType()));
         }
 
         $wkb = $this->packUnsignedInteger($curve->count());
