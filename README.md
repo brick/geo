@@ -277,10 +277,10 @@ Here is a list of all exceptions:
 - `CoordinateSystemException` is thrown when mixing objects with different SRID or dimensionality (e.g. XY with XYZ)
 - `EmptyGeometryException` is thrown when trying to access a non-existent property on an empty geometry
 - `GeometryEngineException` is thrown when a functionality is not supported by the current geometry engine
-- `GeometryIoException` is thrown when an error occurs while reading or writing (E)WKB/T data
+- `GeometryIoException` is thrown when an error occurs while reading or writing (E)WKB/T or GeoJSON data
 - `InvalidGeometryException` is thrown when creating an invalid geometry, such as a `LineString` with only one `Point`
 - `NoSuchGeometryException` is thrown when attempting to get a geometry at a non-existing index in a collection
-- `UnexpectedGeometryException` is thrown when a geometry is not an instance of the expected sub-type, for example when
+- `UnexpectedGeometryException` is thrown when a geometry is not an instance of the expected subtype, for example when
 calling `Point::fromText()` with a `LineString` WKT.
 
 GeometryEngine methods reference
