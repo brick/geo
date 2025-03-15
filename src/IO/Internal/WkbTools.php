@@ -11,7 +11,7 @@ use Brick\Geo\Exception\GeometryIOException;
  *
  * @internal
  */
-abstract class WKBTools
+abstract class WkbTools
 {
     /**
      * @throws GeometryIOException
@@ -28,17 +28,17 @@ abstract class WKBTools
      *
      * @throws GeometryIOException
      */
-    public static function getMachineByteOrder() : WKBByteOrder
+    public static function getMachineByteOrder() : WkbByteOrder
     {
-        /** @var WKBByteOrder|null $byteOrder */
+        /** @var WkbByteOrder|null $byteOrder */
         static $byteOrder;
 
         if ($byteOrder === null) {
             self::checkDoubleIs64Bit();
 
             $byteOrder = match (pack('L', 0x61626364)) {
-                'abcd' => WKBByteOrder::BIG_ENDIAN,
-                'dcba' => WKBByteOrder::LITTLE_ENDIAN,
+                'abcd' => WkbByteOrder::BIG_ENDIAN,
+                'dcba' => WkbByteOrder::LITTLE_ENDIAN,
                 default => throw GeometryIOException::unsupportedEndianness(),
             };
         }

@@ -5,29 +5,29 @@ declare(strict_types=1);
 namespace Brick\Geo\Tests\IO;
 
 use Brick\Geo\Exception\GeometryIOException;
-use Brick\Geo\IO\EWKBWriter;
-use Brick\Geo\IO\EWKTReader;
-use Brick\Geo\IO\Internal\WKBByteOrder;
+use Brick\Geo\IO\EwkbWriter;
+use Brick\Geo\IO\EwktReader;
+use Brick\Geo\IO\Internal\WkbByteOrder;
 use Brick\Geo\Point;
 use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
- * Unit tests for class EWKBWriter.
+ * Unit tests for class EwkbWriter.
  */
-class EWKBWriterTest extends EWKBAbstractTestCase
+class EwkbWriterTest extends EwkbAbstractTestCase
 {
     /**
      * @param string       $ewkt      The EWKT to read.
      * @param string       $ewkb      The expected EWKB output, hex-encoded.
-     * @param WKBByteOrder $byteOrder The byte order to use.
+     * @param WkbByteOrder $byteOrder The byte order to use.
      */
     #[DataProvider('providerWrite')]
-    public function testWrite(string $ewkt, string $ewkb, WKBByteOrder $byteOrder) : void
+    public function testWrite(string $ewkt, string $ewkb, WkbByteOrder $byteOrder) : void
     {
-        $writer = new EWKBWriter();
+        $writer = new EwkbWriter();
         $writer->setByteOrder($byteOrder);
 
-        $reader = new EWKTReader();
+        $reader = new EwktReader();
 
         $geometry = $reader->read($ewkt);
         $output = $writer->write($geometry);
@@ -37,27 +37,27 @@ class EWKBWriterTest extends EWKBAbstractTestCase
 
     public static function providerWrite() : \Generator
     {
-        foreach (self::providerLittleEndianEWKB() as [$wkt, $ewkb]) {
-            yield [$wkt, $ewkb, WKBByteOrder::LITTLE_ENDIAN];
+        foreach (self::providerLittleEndianEwkb() as [$wkt, $ewkb]) {
+            yield [$wkt, $ewkb, WkbByteOrder::LITTLE_ENDIAN];
         }
 
-        foreach (self::providerLittleEndianEWKB_SRID() as [$wkt, $ewkb]) {
-            yield [$wkt, $ewkb, WKBByteOrder::LITTLE_ENDIAN];
+        foreach (self::providerLittleEndianEwkbWithSrid() as [$wkt, $ewkb]) {
+            yield [$wkt, $ewkb, WkbByteOrder::LITTLE_ENDIAN];
         }
 
-        foreach (self::providerBigEndianEWKB() as [$wkt, $ewkb]) {
-            yield [$wkt, $ewkb, WKBByteOrder::BIG_ENDIAN];
+        foreach (self::providerBigEndianEwkb() as [$wkt, $ewkb]) {
+            yield [$wkt, $ewkb, WkbByteOrder::BIG_ENDIAN];
         }
 
-        foreach (self::providerBigEndianEWKB_SRID() as [$wkt, $ewkb]) {
-            yield [$wkt, $ewkb, WKBByteOrder::BIG_ENDIAN];
+        foreach (self::providerBigEndianEwkbWithSrid() as [$wkt, $ewkb]) {
+            yield [$wkt, $ewkb, WkbByteOrder::BIG_ENDIAN];
         }
     }
 
     #[DataProvider('providerWriteEmptyPointThrowsException')]
     public function testWriteEmptyPointThrowsException(Point $point) : void
     {
-        $writer = new EWKBWriter();
+        $writer = new EwkbWriter();
 
         $this->expectException(GeometryIOException::class);
         $writer->write($point);

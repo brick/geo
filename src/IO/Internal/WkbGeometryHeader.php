@@ -7,7 +7,7 @@ namespace Brick\Geo\IO\Internal;
 /**
  * @internal
  */
-final class WKBGeometryHeader
+final class WkbGeometryHeader
 {
     public function __construct(
         public readonly int $geometryType,

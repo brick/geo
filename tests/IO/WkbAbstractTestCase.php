@@ -9,9 +9,9 @@ use Brick\Geo\Tests\AbstractTestCase;
 /**
  * Base class for WKB reader/writer tests.
  */
-abstract class WKBAbstractTestCase extends AbstractTestCase
+abstract class WkbAbstractTestCase extends AbstractTestCase
 {
-    final public static function providerBigEndianWKB() : array
+    final public static function providerBigEndianWkb() : array
     {
         return [
             // Point
@@ -178,7 +178,7 @@ abstract class WKBAbstractTestCase extends AbstractTestCase
         ];
     }
 
-    final public static function providerLittleEndianWKB() : array
+    final public static function providerLittleEndianWkb() : array
     {
         return [
             // Point

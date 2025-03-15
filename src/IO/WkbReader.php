@@ -6,16 +6,16 @@ namespace Brick\Geo\IO;
 
 use Brick\Geo\Exception\GeometryIOException;
 use Brick\Geo\Geometry;
-use Brick\Geo\IO\Internal\AbstractWKBReader;
-use Brick\Geo\IO\Internal\WKBBuffer;
-use Brick\Geo\IO\Internal\WKBGeometryHeader;
+use Brick\Geo\IO\Internal\AbstractWkbReader;
+use Brick\Geo\IO\Internal\WkbBuffer;
+use Brick\Geo\IO\Internal\WkbGeometryHeader;
 use Brick\Geo\Proxy;
 use Override;
 
 /**
  * Builds geometries out of Well-Known Binary strings.
  */
-final class WKBReader extends AbstractWKBReader
+final class WkbReader extends AbstractWkbReader
 {
     /**
      * @param string $wkb  The WKB to read.
@@ -25,11 +25,11 @@ final class WKBReader extends AbstractWKBReader
      */
     public function read(string $wkb, int $srid = 0) : Geometry
     {
-        $buffer = new WKBBuffer($wkb);
+        $buffer = new WkbBuffer($wkb);
         $geometry = $this->readGeometry($buffer, $srid);
 
         if (! $buffer->isEndOfStream()) {
-            throw GeometryIOException::invalidWKB('unexpected data at end of stream');
+            throw GeometryIOException::invalidWkb('unexpected data at end of stream');
         }
 
         return $geometry;
@@ -47,7 +47,7 @@ final class WKBReader extends AbstractWKBReader
      */
     public function readAsProxy(string $wkb, int $srid = 0) : Geometry
     {
-        $buffer = new WKBBuffer($wkb);
+        $buffer = new WkbBuffer($wkb);
         $buffer->readByteOrder();
         $geometryHeader = $this->readGeometryHeader($buffer);
 
@@ -65,17 +65,17 @@ final class WKBReader extends AbstractWKBReader
             Geometry::POLYHEDRALSURFACE => new Proxy\PolyhedralSurfaceProxy($wkb, true, $srid),
             Geometry::TIN => new Proxy\TinProxy($wkb, true, $srid),
             Geometry::TRIANGLE => new Proxy\TriangleProxy($wkb, true, $srid),
-            default => throw GeometryIOException::unsupportedWKBType($geometryHeader->geometryType),
+            default => throw GeometryIOException::unsupportedWkbType($geometryHeader->geometryType),
         };
     }
 
     #[Override]
-    protected function readGeometryHeader(WKBBuffer $buffer) : WKBGeometryHeader
+    protected function readGeometryHeader(WkbBuffer $buffer) : WkbGeometryHeader
     {
         $wkbType = $buffer->readUnsignedLong();
 
         if ($wkbType < 0 || $wkbType >= 4000) {
-            throw GeometryIOException::unsupportedWKBType($wkbType);
+            throw GeometryIOException::unsupportedWkbType($wkbType);
         }
 
         $geometryType = $wkbType % 1000;
@@ -84,6 +84,6 @@ final class WKBReader extends AbstractWKBReader
         $hasZ = ($dimension === 1 || $dimension === 3);
         $hasM = ($dimension === 2 || $dimension === 3);
 
-        return new WKBGeometryHeader($geometryType, $hasZ, $hasM);
+        return new WkbGeometryHeader($geometryType, $hasZ, $hasM);
     }
 }

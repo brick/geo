@@ -11,7 +11,7 @@ use Brick\Geo\Exception\GeometryIOException;
  *
  * @internal
  */
-final class WKTParser
+final class WktParser
 {
     private const REGEX_CAPTURE_WORD   = '([a-z]+)';
     private const REGEX_CAPTURE_NUMBER = '(\-?[0-9]+(?:\.[0-9]+)?(?:e[\+\-]?[0-9]+)?)';
@@ -24,7 +24,7 @@ final class WKTParser
      *
      * The first element of each token is the token type, the second element is the token value.
      *
-     * @var list<array{WKTTokenType, string}>
+     * @var list<array{WktTokenType, string}>
      */
     private array $tokens = [];
 
@@ -54,14 +54,14 @@ final class WKTParser
         }
 
         $matchKeyToType = $this->ewkt ? [
-            1 => WKTTokenType::SRID,
-            2 => WKTTokenType::Word,
-            3 => WKTTokenType::Number,
-            4 => WKTTokenType::Other,
+            1 => WktTokenType::SRID,
+            2 => WktTokenType::Word,
+            3 => WktTokenType::Number,
+            4 => WktTokenType::Other,
         ] : [
-            1 => WKTTokenType::Word,
-            2 => WKTTokenType::Number,
-            3 => WKTTokenType::Other,
+            1 => WktTokenType::Word,
+            2 => WktTokenType::Number,
+            3 => WktTokenType::Other,
         ];
 
         $regex = '/' . implode('|', $regexPatterns) . '/i';
@@ -84,7 +84,7 @@ final class WKTParser
     }
 
     /**
-     * @return array{WKTTokenType, string}|null The next token, or null if there are no more tokens.
+     * @return array{WktTokenType, string}|null The next token, or null if there are no more tokens.
      */
     private function peekToken(): ?array
     {
@@ -92,7 +92,7 @@ final class WKTParser
     }
 
     /**
-     * @return array{WKTTokenType, string}|null The next token, or null if there are no more tokens.
+     * @return array{WktTokenType, string}|null The next token, or null if there are no more tokens.
      */
     private function nextToken() : ?array
     {
@@ -147,7 +147,7 @@ final class WKTParser
         if ($token === null) {
             throw new GeometryIOException("Expected word but encountered end of stream");
         }
-        if ($token[0] !== WKTTokenType::Word) {
+        if ($token[0] !== WktTokenType::Word) {
             throw new GeometryIOException("Expected word but encountered '" . $token[1] . "'");
         }
 
@@ -165,7 +165,7 @@ final class WKTParser
             return null;
         }
 
-        if ($token[0] !== WKTTokenType::Word) {
+        if ($token[0] !== WktTokenType::Word) {
             return null;
         }
 
@@ -206,7 +206,7 @@ final class WKTParser
             return true;
         }
 
-        if ($token[0] === WKTTokenType::Word) {
+        if ($token[0] === WktTokenType::Word) {
             return false;
         }
 
@@ -224,7 +224,7 @@ final class WKTParser
             throw new GeometryIOException("Expected number but encountered end of stream");
         }
 
-        if ($token[0] !== WKTTokenType::Number) {
+        if ($token[0] !== WktTokenType::Number) {
             throw new GeometryIOException("Expected number but encountered '" . $token[1] . "'");
         }
 
@@ -256,7 +256,7 @@ final class WKTParser
             return 0;
         }
 
-        if ($token[0] !== WKTTokenType::SRID) {
+        if ($token[0] !== WktTokenType::SRID) {
             return 0;
         }
 

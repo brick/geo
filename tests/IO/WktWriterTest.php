@@ -6,14 +6,14 @@ namespace Brick\Geo\Tests\IO;
 
 use Brick\Geo\CoordinateSystem;
 use Brick\Geo\GeometryCollection;
-use Brick\Geo\IO\WKTWriter;
+use Brick\Geo\IO\WktWriter;
 use Brick\Geo\MultiLineString;
 use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
- * Unit tests for class WKTWriter.
+ * Unit tests for class WktWriter.
  */
-class WKTWriterTest extends WKTAbstractTestCase
+class WktWriterTest extends WktAbstractTestCase
 {
     /**
      * @param bool   $is3D        Whether to use Z coordinates.
@@ -23,7 +23,7 @@ class WKTWriterTest extends WKTAbstractTestCase
     #[DataProvider('providerPrettyPrint')]
     public function testPrettyPrint(bool $is3D, bool $prettyPrint, string $wkt) : void
     {
-        $writer = new WKTWriter();
+        $writer = new WktWriter();
         $writer->setPrettyPrint($prettyPrint);
 
         $cs = new CoordinateSystem($is3D, false);
@@ -59,10 +59,10 @@ class WKTWriterTest extends WKTAbstractTestCase
      * @param bool   $is3D       Whether the Point has a Z coordinate.
      * @param bool   $isMeasured Whether the Point has a M coordinate.
      */
-    #[DataProvider('providerPointWKT')]
+    #[DataProvider('providerPointWkt')]
     public function testWritePoint(string $wkt, array $coords, bool $is3D, bool $isMeasured) : void
     {
-        $writer = new WKTWriter();
+        $writer = new WktWriter();
         $writer->setPrettyPrint(false);
 
         $cs = new CoordinateSystem($is3D, $isMeasured);
@@ -77,10 +77,10 @@ class WKTWriterTest extends WKTAbstractTestCase
      * @param bool   $is3D       Whether the LineString has Z coordinates.
      * @param bool   $isMeasured Whether the LineString has M coordinates.
      */
-    #[DataProvider('providerLineStringWKT')]
+    #[DataProvider('providerLineStringWkt')]
     public function testWriteLineString(string $wkt, array $coords, bool $is3D, bool $isMeasured) : void
     {
-        $writer = new WKTWriter();
+        $writer = new WktWriter();
         $writer->setPrettyPrint(false);
 
         $cs = new CoordinateSystem($is3D, $isMeasured);
@@ -95,10 +95,10 @@ class WKTWriterTest extends WKTAbstractTestCase
      * @param bool   $is3D       Whether the CircularString has Z coordinates.
      * @param bool   $isMeasured Whether the CircularString has M coordinates.
      */
-    #[DataProvider('providerCircularStringWKT')]
+    #[DataProvider('providerCircularStringWkt')]
     public function testWriteCircularString(string $wkt, array $coords, bool $is3D, bool $isMeasured) : void
     {
-        $writer = new WKTWriter();
+        $writer = new WktWriter();
         $writer->setPrettyPrint(false);
 
         $cs = new CoordinateSystem($is3D, $isMeasured);
@@ -113,10 +113,10 @@ class WKTWriterTest extends WKTAbstractTestCase
      * @param bool   $is3D       Whether the CompoundCurve has Z coordinates.
      * @param bool   $isMeasured Whether the CompoundCurve has M coordinates.
      */
-    #[DataProvider('providerCompoundCurveWKT')]
+    #[DataProvider('providerCompoundCurveWkt')]
     public function testWriteCompoundCurve(string $wkt, array $coords, bool $is3D, bool $isMeasured) : void
     {
-        $writer = new WKTWriter();
+        $writer = new WktWriter();
         $writer->setPrettyPrint(false);
 
         $cs = new CoordinateSystem($is3D, $isMeasured);
@@ -131,10 +131,10 @@ class WKTWriterTest extends WKTAbstractTestCase
      * @param bool   $is3D       Whether the Polygon has Z coordinates.
      * @param bool   $isMeasured Whether the Polygon has M coordinates.
      */
-    #[DataProvider('providerPolygonWKT')]
+    #[DataProvider('providerPolygonWkt')]
     public function testWritePolygon(string $wkt, array $coords, bool $is3D, bool $isMeasured) : void
     {
-        $writer = new WKTWriter();
+        $writer = new WktWriter();
         $writer->setPrettyPrint(false);
 
         $cs = new CoordinateSystem($is3D, $isMeasured);
@@ -149,10 +149,10 @@ class WKTWriterTest extends WKTAbstractTestCase
      * @param bool   $is3D       Whether the Triangle has Z coordinates.
      * @param bool   $isMeasured Whether the Triangle has M coordinates.
      */
-    #[DataProvider('providerTriangleWKT')]
+    #[DataProvider('providerTriangleWkt')]
     public function testWriteTriangle(string $wkt, array $coords, bool $is3D, bool $isMeasured) : void
     {
-        $writer = new WKTWriter();
+        $writer = new WktWriter();
         $writer->setPrettyPrint(false);
 
         $cs = new CoordinateSystem($is3D, $isMeasured);
@@ -167,10 +167,10 @@ class WKTWriterTest extends WKTAbstractTestCase
      * @param bool   $is3D       Whether the Polygon has Z coordinates.
      * @param bool   $isMeasured Whether the Polygon has M coordinates.
      */
-    #[DataProvider('providerCurvePolygonWKT')]
+    #[DataProvider('providerCurvePolygonWkt')]
     public function testWriteCurvePolygon(string $wkt, array $coords, bool $is3D, bool $isMeasured) : void
     {
-        $writer = new WKTWriter();
+        $writer = new WktWriter();
         $writer->setPrettyPrint(false);
 
         $cs = new CoordinateSystem($is3D, $isMeasured);
@@ -185,10 +185,10 @@ class WKTWriterTest extends WKTAbstractTestCase
      * @param bool   $is3D       Whether the PolyhedralSurface has Z coordinates.
      * @param bool   $isMeasured Whether the PolyhedralSurface has M coordinates.
      */
-    #[DataProvider('providerPolyhedralSurfaceWKT')]
+    #[DataProvider('providerPolyhedralSurfaceWkt')]
     public function testWritePolyhedralSurface(string $wkt, array $coords, bool $is3D, bool $isMeasured) : void
     {
-        $writer = new WKTWriter();
+        $writer = new WktWriter();
         $writer->setPrettyPrint(false);
 
         $cs = new CoordinateSystem($is3D, $isMeasured);
@@ -203,10 +203,10 @@ class WKTWriterTest extends WKTAbstractTestCase
      * @param bool   $is3D       Whether the TIN has Z coordinates.
      * @param bool   $isMeasured Whether the TIN has M coordinates.
      */
-    #[DataProvider('providerTinWKT')]
+    #[DataProvider('providerTinWkt')]
     public function testWriteTin(string $wkt, array $coords, bool $is3D, bool $isMeasured) : void
     {
-        $writer = new WKTWriter();
+        $writer = new WktWriter();
         $writer->setPrettyPrint(false);
 
         $cs = new CoordinateSystem($is3D, $isMeasured);
@@ -221,10 +221,10 @@ class WKTWriterTest extends WKTAbstractTestCase
      * @param bool   $is3D       Whether the MultiPoint has Z coordinates.
      * @param bool   $isMeasured Whether the MultiPoint has M coordinates.
      */
-    #[DataProvider('providerMultiPointWKT')]
+    #[DataProvider('providerMultiPointWkt')]
     public function testWriteMultiPoint(string $wkt, array $coords, bool $is3D, bool $isMeasured) : void
     {
-        $writer = new WKTWriter();
+        $writer = new WktWriter();
         $writer->setPrettyPrint(false);
 
         $cs = new CoordinateSystem($is3D, $isMeasured);
@@ -239,10 +239,10 @@ class WKTWriterTest extends WKTAbstractTestCase
      * @param bool   $is3D       Whether the MultiLineString has Z coordinates.
      * @param bool   $isMeasured Whether the MultiLineString has M coordinates.
      */
-    #[DataProvider('providerMultiLineStringWKT')]
+    #[DataProvider('providerMultiLineStringWkt')]
     public function testWriteMultiLineString(string $wkt, array $coords, bool $is3D, bool $isMeasured) : void
     {
-        $writer = new WKTWriter();
+        $writer = new WktWriter();
         $writer->setPrettyPrint(false);
 
         $cs = new CoordinateSystem($is3D, $isMeasured);
@@ -257,10 +257,10 @@ class WKTWriterTest extends WKTAbstractTestCase
      * @param bool   $is3D       Whether the MultiPolygon has Z coordinates.
      * @param bool   $isMeasured Whether the MultiPolygon has M coordinates.
      */
-    #[DataProvider('providerMultiPolygonWKT')]
+    #[DataProvider('providerMultiPolygonWkt')]
     public function testWriteMultiPolygon(string $wkt, array $coords, bool $is3D, bool $isMeasured) : void
     {
-        $writer = new WKTWriter();
+        $writer = new WktWriter();
         $writer->setPrettyPrint(false);
 
         $cs = new CoordinateSystem($is3D, $isMeasured);
@@ -275,10 +275,10 @@ class WKTWriterTest extends WKTAbstractTestCase
      * @param bool   $is3D       Whether the GeometryCollection has Z coordinates.
      * @param bool   $isMeasured Whether the GeometryCollection has M coordinates.
      */
-    #[DataProvider('providerGeometryCollectionWKT')]
+    #[DataProvider('providerGeometryCollectionWkt')]
     public function testWriteGeometryCollection(string $wkt, array $coords, bool $is3D, bool $isMeasured) : void
     {
-        $writer = new WKTWriter();
+        $writer = new WktWriter();
         $writer->setPrettyPrint(false);
 
         $cs = new CoordinateSystem($is3D, $isMeasured);
@@ -298,7 +298,7 @@ class WKTWriterTest extends WKTAbstractTestCase
     #[DataProvider('providerWriteEmptyGeometryCollection')]
     public function testWriteEmptyGeometryCollection(string $wkt) : void
     {
-        $writer = new WKTWriter();
+        $writer = new WktWriter();
         $geometry = GeometryCollection::fromText($wkt);
 
         self::assertSame($wkt, $writer->write($geometry));

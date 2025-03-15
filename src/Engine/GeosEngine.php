@@ -7,8 +7,8 @@ namespace Brick\Geo\Engine;
 use Brick\Geo\Curve;
 use Brick\Geo\Engine\Internal\TypeChecker;
 use Brick\Geo\Exception\GeometryEngineException;
-use Brick\Geo\IO\EWKBReader;
-use Brick\Geo\IO\EWKBWriter;
+use Brick\Geo\IO\EwkbReader;
+use Brick\Geo\IO\EwkbWriter;
 use Brick\Geo\Geometry;
 use Brick\Geo\LineString;
 use Brick\Geo\MultiCurve;
@@ -32,8 +32,8 @@ final class GeosEngine implements GeometryEngine
     private readonly GEOSWKTReader $geosWktReader;
     private readonly GEOSWKTWriter $geosWktWriter;
 
-    private readonly EWKBReader $ewkbReader;
-    private readonly EWKBWriter $ewkbWriter;
+    private readonly EwkbReader $ewkbReader;
+    private readonly EwkbWriter $ewkbWriter;
 
     /**
      * Whether the GEOS version in use has support for binary read() and write() methods.
@@ -50,8 +50,8 @@ final class GeosEngine implements GeometryEngine
         $this->geosWktReader = new \GEOSWKTReader();
         $this->geosWktWriter = new \GEOSWKTWriter();
 
-        $this->ewkbReader = new EWKBReader();
-        $this->ewkbWriter = new EWKBWriter();
+        $this->ewkbReader = new EwkbReader();
+        $this->ewkbWriter = new EwkbWriter();
 
         /** @psalm-suppress RedundantCondition These methods are not available before GEOS 3.5.0 */
         $this->hasBinaryReadWrite =

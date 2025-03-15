@@ -360,8 +360,8 @@ Geometries can be converted to WKT using the convenience method `asText()`:
 echo $point->asText(); // POINT (1.5 2.5)
 ```
 
-You can alternatively use the [WKTReader](https://github.com/brick/geo/blob/master/src/IO/WKTReader.php) and
-[WKTWriter](https://github.com/brick/geo/blob/master/src/IO/WKTWriter.php) classes directly; the latter allows you to
+You can alternatively use the [WktReader](https://github.com/brick/geo/blob/master/src/IO/WktReader.php) and
+[WktWriter](https://github.com/brick/geo/blob/master/src/IO/WktWriter.php) classes directly; the latter allows you to
 pretty-print the output.
 
 ### WKB
@@ -386,29 +386,29 @@ Geometries can be converted to WKB using the convenience method `asBinary()`:
 echo bin2hex($point->asBinary()); // 0101000000000000000000f83f0000000000000440
 ```
 
-You can alternatively use the [WKBReader](https://github.com/brick/geo/blob/master/src/IO/WKBReader.php) and
-[WKBWriter](https://github.com/brick/geo/blob/master/src/IO/WKBWriter.php) classes directly; the latter allows you to
+You can alternatively use the [WkbReader](https://github.com/brick/geo/blob/master/src/IO/WkbReader.php) and
+[WkbWriter](https://github.com/brick/geo/blob/master/src/IO/WkbWriter.php) classes directly; the latter allows you to
 choose the endianness of the output (big endian or little endian).
 
 ### EWKT
 
 Extended WKT is a PostGIS-specific text format that includes the SRID of the geometry object, which is missing from the
 standard WKT format. You can import from and export to this format using the
-[EWKTReader](https://github.com/brick/geo/blob/master/src/IO/EWKTReader.php) and
-[EWKTWriter](https://github.com/brick/geo/blob/master/src/IO/EWKTWriter.php) classes:
+[EwktReader](https://github.com/brick/geo/blob/master/src/IO/EwktReader.php) and
+[EwktWriter](https://github.com/brick/geo/blob/master/src/IO/EwktWriter.php) classes:
 
 ```php
 use Brick\Geo\Point;
-use Brick\Geo\IO\EWKTReader;
-use Brick\Geo\IO\EWKTWriter;
+use Brick\Geo\IO\EwktReader;
+use Brick\Geo\IO\EwktWriter;
 
-$reader = new EWKTReader();
+$reader = new EwktReader();
 $point = $reader->read('SRID=4326; POINT (1.5 2.5)');
 
 echo $point->asText(); // POINT (1.5 2.5)
 echo $point->SRID(); // 4326
 
-$writer = new EWKTWriter();
+$writer = new EwktWriter();
 echo $writer->write($point); // SRID=4326; POINT (1.5 2.5)
 ```
 
@@ -416,21 +416,21 @@ echo $writer->write($point); // SRID=4326; POINT (1.5 2.5)
 
 Extended WKB is a PostGIS-specific binary format that includes the SRID of the geometry object, which is missing from
 the standard WKB format. You can import from and export to this format using the
-[EWKBReader](https://github.com/brick/geo/blob/master/src/IO/EWKBReader.php) and
-[EWKBWriter](https://github.com/brick/geo/blob/master/src/IO/EWKBWriter.php) classes:
+[EwkbReader](https://github.com/brick/geo/blob/master/src/IO/EwkbReader.php) and
+[EwkbWriter](https://github.com/brick/geo/blob/master/src/IO/EwkbWriter.php) classes:
 
 ```php
 use Brick\Geo\Point;
-use Brick\Geo\IO\EWKBReader;
-use Brick\Geo\IO\EWKBWriter;
+use Brick\Geo\IO\EwkbReader;
+use Brick\Geo\IO\EwkbWriter;
 
-$reader = new EWKBReader();
+$reader = new EwkbReader();
 $point = $reader->read(hex2bin('0101000020e6100000000000000000f83f0000000000000440'));
 
 echo $point->asText(); // POINT (1.5 2.5)
 echo $point->SRID(); // 4326
 
-$writer = new EWKBWriter();
+$writer = new EwkbWriter();
 echo bin2hex($writer->write($point)); // 0101000020e6100000000000000000f83f0000000000000440
 ```
 

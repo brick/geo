@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace Brick\Geo\IO;
 
 use Brick\Geo\Geometry;
-use Brick\Geo\IO\Internal\AbstractWKBWriter;
+use Brick\Geo\IO\Internal\AbstractWkbWriter;
 use Override;
 
 /**
  * Writes geometries in the WKB format.
  */
-final class WKBWriter extends AbstractWKBWriter
+final class WkbWriter extends AbstractWkbWriter
 {
     #[Override]
     protected function packHeader(Geometry $geometry, bool $outer) : string

@@ -5,29 +5,29 @@ declare(strict_types=1);
 namespace Brick\Geo\Tests\IO;
 
 use Brick\Geo\Exception\GeometryIOException;
-use Brick\Geo\IO\Internal\WKBByteOrder;
-use Brick\Geo\IO\WKBWriter;
-use Brick\Geo\IO\WKTReader;
+use Brick\Geo\IO\Internal\WkbByteOrder;
+use Brick\Geo\IO\WkbWriter;
+use Brick\Geo\IO\WktReader;
 use Brick\Geo\Point;
 use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
- * Unit tests for class WKBWriter.
+ * Unit tests for class WkbWriter.
  */
-class WKBWriterTest extends WKBAbstractTestCase
+class WkbWriterTest extends WkbAbstractTestCase
 {
     /**
      * @param string       $wkt       The WKT to read.
      * @param string       $wkb       The expected WKB output, hex-encoded.
-     * @param WKBByteOrder $byteOrder The byte order to use.
+     * @param WkbByteOrder $byteOrder The byte order to use.
      */
     #[DataProvider('providerWrite')]
-    public function testWrite(string $wkt, string $wkb, WKBByteOrder $byteOrder) : void
+    public function testWrite(string $wkt, string $wkb, WkbByteOrder $byteOrder) : void
     {
-        $writer = new WKBWriter();
+        $writer = new WkbWriter();
         $writer->setByteOrder($byteOrder);
 
-        $reader = new WKTReader();
+        $reader = new WktReader();
 
         $geometry = $reader->read($wkt);
         $output = $writer->write($geometry);
@@ -37,19 +37,19 @@ class WKBWriterTest extends WKBAbstractTestCase
 
     public static function providerWrite() : \Generator
     {
-        foreach (self::providerLittleEndianWKB() as [$wkt, $wkb]) {
-            yield [$wkt, $wkb, WKBByteOrder::LITTLE_ENDIAN];
+        foreach (self::providerLittleEndianWkb() as [$wkt, $wkb]) {
+            yield [$wkt, $wkb, WkbByteOrder::LITTLE_ENDIAN];
         }
 
-        foreach (self::providerBigEndianWKB() as [$wkt, $wkb]) {
-            yield [$wkt, $wkb, WKBByteOrder::BIG_ENDIAN];
+        foreach (self::providerBigEndianWkb() as [$wkt, $wkb]) {
+            yield [$wkt, $wkb, WkbByteOrder::BIG_ENDIAN];
         }
     }
 
     #[DataProvider('providerWriteEmptyPointThrowsException')]
     public function testWriteEmptyPointThrowsException(Point $point) : void
     {
-        $writer = new WKBWriter();
+        $writer = new WkbWriter();
 
         $this->expectException(GeometryIOException::class);
         $writer->write($point);

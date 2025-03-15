@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Brick\Geo\Tests\IO;
 
-use Brick\Geo\IO\EWKTReader;
-use Brick\Geo\IO\EWKTWriter;
+use Brick\Geo\IO\EwktReader;
+use Brick\Geo\IO\EwktWriter;
 use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
- * Unit tests for class EWKTReader.
+ * Unit tests for class EwktReader.
  */
-class EWKTReaderTest extends EWKTAbstractTestCase
+class EwktReaderTest extends EwktAbstractTestCase
 {
     /**
      * @param string $ewkt       The EWKT to read.
@@ -23,23 +23,23 @@ class EWKTReaderTest extends EWKTAbstractTestCase
     #[DataProvider('providerRead')]
     public function testRead(string $ewkt, array $coords, bool $is3D, bool $isMeasured, int $srid) : void
     {
-        $geometry = (new EWKTReader())->read($ewkt);
+        $geometry = (new EwktReader())->read($ewkt);
         $this->assertGeometryContents($geometry, $coords, $is3D, $isMeasured, $srid);
     }
 
     public static function providerRead() : \Generator
     {
-        foreach (self::providerWKT() as [$wkt, $coords, $is3D, $isMeasured]) {
+        foreach (self::providerWkt() as [$wkt, $coords, $is3D, $isMeasured]) {
             yield [$wkt, $coords, $is3D, $isMeasured, 0];
-            yield [self::toEWKT($wkt, 4326), $coords, $is3D, $isMeasured, 4326];
+            yield [self::toEwkt($wkt, 4326), $coords, $is3D, $isMeasured, 4326];
         }
     }
 
     #[DataProvider('providerAlternativeSyntax')]
     public function testAlternativeSyntax(string $canonicalEWKT, string $alternativeEWKT): void
     {
-        $wktReader = new EWKTReader();
-        $wktWriter = new EWKTWriter();
+        $wktReader = new EwktReader();
+        $wktWriter = new EwktWriter();
         $wktWriter->setPrettyPrint(false);
 
         $canonical = $wktReader->read($canonicalEWKT);
@@ -52,9 +52,9 @@ class EWKTReaderTest extends EWKTAbstractTestCase
 
     public static function providerAlternativeSyntax(): \Generator
     {
-        foreach (self::providerAlternativeSyntaxWKT() as [$canonicalWKT, $alternativeWKT]) {
+        foreach (self::providerAlternativeSyntaxWkt() as [$canonicalWKT, $alternativeWKT]) {
             yield [$canonicalWKT, $alternativeWKT];
-            yield [self::toEWKT($canonicalWKT, 4326), self::toEWKT($alternativeWKT, 4326)];
+            yield [self::toEwkt($canonicalWKT, 4326), self::toEwkt($alternativeWKT, 4326)];
         }
     }
 }

@@ -17,25 +17,25 @@ use Brick\Geo\Polygon;
 use Brick\Geo\PolyhedralSurface;
 
 /**
- * Base class for WKBWriter and EWKBWriter.
+ * Base class for WkbWriter and EwkbWriter.
  *
  * @internal
  */
-abstract class AbstractWKBWriter
+abstract class AbstractWkbWriter
 {
-    private WKBByteOrder $byteOrder;
+    private WkbByteOrder $byteOrder;
 
-    private WKBByteOrder $machineByteOrder;
+    private WkbByteOrder $machineByteOrder;
 
     /**
      * @throws GeometryIOException
      */
     public function __construct()
     {
-        $this->byteOrder = $this->machineByteOrder = WKBTools::getMachineByteOrder();
+        $this->byteOrder = $this->machineByteOrder = WkbTools::getMachineByteOrder();
     }
 
-    public function setByteOrder(WKBByteOrder $byteOrder) : void
+    public function setByteOrder(WkbByteOrder $byteOrder) : void
     {
         $this->byteOrder = $byteOrder;
     }
@@ -105,8 +105,8 @@ abstract class AbstractWKBWriter
     protected function packUnsignedInteger(int $uint) : string
     {
         return pack(match ($this->byteOrder) {
-            WKBByteOrder::BIG_ENDIAN => 'N',
-            WKBByteOrder::LITTLE_ENDIAN => 'V'
+            WkbByteOrder::BIG_ENDIAN => 'N',
+            WkbByteOrder::LITTLE_ENDIAN => 'V'
         }, $uint);
     }
 

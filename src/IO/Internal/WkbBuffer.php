@@ -11,19 +11,19 @@ use Brick\Geo\Exception\GeometryIOException;
  *
  * @internal
  */
-final class WKBBuffer
+final class WkbBuffer
 {
     private readonly string $wkb;
     private readonly int $length;
     private int $position = 0;
-    private readonly WKBByteOrder $machineByteOrder;
+    private readonly WkbByteOrder $machineByteOrder;
     private bool $invert = false;
 
     public function __construct(string $wkb)
     {
         $this->wkb = $wkb;
         $this->length = strlen($wkb);
-        $this->machineByteOrder = WKBTools::getMachineByteOrder();
+        $this->machineByteOrder = WkbTools::getMachineByteOrder();
     }
 
     /**
@@ -39,7 +39,7 @@ final class WKBBuffer
         $length = $words * $wordLength;
 
         if ($this->position + $length > $this->length) {
-            throw GeometryIOException::invalidWKB('unexpected end of stream');
+            throw GeometryIOException::invalidWkb('unexpected end of stream');
         }
 
         if ($length === 1) {
@@ -106,10 +106,10 @@ final class WKBBuffer
     public function readByteOrder() : void
     {
         $byteOrder = $this->readUnsignedChar();
-        $wkbByteOrder = WKBByteOrder::tryFrom($byteOrder);
+        $wkbByteOrder = WkbByteOrder::tryFrom($byteOrder);
 
         if ($wkbByteOrder === null) {
-            throw GeometryIOException::invalidWKB('unknown byte order: ' . $byteOrder);
+            throw GeometryIOException::invalidWkb('unknown byte order: ' . $byteOrder);
         }
 
         $this->invert = ($wkbByteOrder !== $this->machineByteOrder);

@@ -9,7 +9,7 @@ namespace Brick\Geo\IO\Internal;
  *
  * @internal
  */
-enum WKTTokenType
+enum WktTokenType
 {
     case SRID; // EWKT only
     case Word;

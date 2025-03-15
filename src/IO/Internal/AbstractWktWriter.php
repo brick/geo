@@ -21,11 +21,11 @@ use Brick\Geo\Tin;
 use Brick\Geo\Triangle;
 
 /**
- * Base class for WKTWriter and EWKTWriter.
+ * Base class for WktWriter and EwktWriter.
  *
  * @internal
  */
-abstract class AbstractWKTWriter
+abstract class AbstractWktWriter
 {
     /**
      * A space if prettyPrint is true, an empty string otherwise.

@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace Brick\Geo\IO;
 
 use Brick\Geo\Geometry;
-use Brick\Geo\IO\Internal\AbstractWKBWriter;
-use Brick\Geo\IO\Internal\EWKBTools;
+use Brick\Geo\IO\Internal\AbstractWkbWriter;
+use Brick\Geo\IO\Internal\EwkbTools;
 use Override;
 
 /**
  * Writes geometries in the Extended WKB format designed by PostGIS.
  */
-final class EWKBWriter extends AbstractWKBWriter
+final class EwkbWriter extends AbstractWkbWriter
 {
     #[Override]
     protected function packHeader(Geometry $geometry, bool $outer) : string
@@ -22,17 +22,17 @@ final class EWKBWriter extends AbstractWKBWriter
         $cs = $geometry->coordinateSystem();
 
         if ($cs->hasZ()) {
-            $geometryType |= EWKBTools::Z;
+            $geometryType |= EwkbTools::Z;
         }
 
         if ($cs->hasM()) {
-            $geometryType |= EWKBTools::M;
+            $geometryType |= EwkbTools::M;
         }
 
         $srid = $cs->SRID();
 
         if ($srid !== 0 && $outer) {
-            $geometryType |= EWKBTools::S;
+            $geometryType |= EwkbTools::S;
         }
 
         $header = $this->packUnsignedInteger($geometryType);

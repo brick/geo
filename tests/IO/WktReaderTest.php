@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Brick\Geo\Tests\IO;
 
-use Brick\Geo\IO\WKTReader;
-use Brick\Geo\IO\WKTWriter;
+use Brick\Geo\IO\WktReader;
+use Brick\Geo\IO\WktWriter;
 use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
- * Unit tests for class WKTReader.
+ * Unit tests for class WktReader.
  */
-class WKTReaderTest extends WKTAbstractTestCase
+class WktReaderTest extends WktAbstractTestCase
 {
     /**
      * @param string $wkt        The WKT to read.
@@ -23,23 +23,23 @@ class WKTReaderTest extends WKTAbstractTestCase
     #[DataProvider('providerRead')]
     public function testRead(string $wkt, array $coords, bool $is3D, bool $isMeasured, int $srid) : void
     {
-        $geometry = (new WKTReader())->read($wkt, $srid);
+        $geometry = (new WktReader())->read($wkt, $srid);
         $this->assertGeometryContents($geometry, $coords, $is3D, $isMeasured, $srid);
     }
 
     public static function providerRead() : \Generator
     {
-        foreach (self::providerWKT() as [$wkt, $coords, $is3D, $isMeasured]) {
+        foreach (self::providerWkt() as [$wkt, $coords, $is3D, $isMeasured]) {
             yield [$wkt, $coords, $is3D, $isMeasured, 0];
             yield [self::alter($wkt), $coords, $is3D, $isMeasured, 4326];
         }
     }
 
-    #[DataProvider('providerAlternativeSyntaxWKT')]
+    #[DataProvider('providerAlternativeSyntaxWkt')]
     public function testAlternativeSyntax(string $canonicalWKT, string $alternativeWKT): void
     {
-        $wktReader = new WKTReader();
-        $wktWriter = new WKTWriter();
+        $wktReader = new WktReader();
+        $wktWriter = new WktWriter();
         $wktWriter->setPrettyPrint(false);
 
         $canonical = $wktReader->read($canonicalWKT);

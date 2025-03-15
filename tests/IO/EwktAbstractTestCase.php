@@ -7,12 +7,12 @@ namespace Brick\Geo\Tests\IO;
 /**
  * Base class for EWKT tests.
  */
-abstract class EWKTAbstractTestCase extends WKTAbstractTestCase
+abstract class EwktAbstractTestCase extends WktAbstractTestCase
 {
     /**
      * Prepends the SRID to a WKT string, making it an EWKT.
      */
-    final protected static function toEWKT(string $wkt, int $srid) : string
+    final protected static function toEwkt(string $wkt, int $srid) : string
     {
         return 'SRID=' . $srid . ';' . $wkt;
     }

@@ -11,17 +11,17 @@ use JsonException;
  */
 final class GeometryIOException extends GeometryException
 {
-    public static function invalidWKB(string $message) : GeometryIOException
+    public static function invalidWkb(string $message) : GeometryIOException
     {
         return new self('Invalid WKB: ' . $message);
     }
 
-    public static function invalidWKT() : GeometryIOException
+    public static function invalidWkt() : GeometryIOException
     {
         return new self('Invalid WKT.');
     }
 
-    public static function invalidEWKT() : GeometryIOException
+    public static function invalidEwkt() : GeometryIOException
     {
         return new self('Invalid EWKT.');
     }
@@ -33,7 +33,7 @@ final class GeometryIOException extends GeometryException
         return new self($message, $e);
     }
 
-    public static function unsupportedWKBType(int $wkbType) : GeometryIOException
+    public static function unsupportedWkbType(int $wkbType) : GeometryIOException
     {
         $message = sprintf('Unsupported WKB type: %d.', $wkbType);
 
