@@ -1523,11 +1523,11 @@ class GeometryEngineTest extends AbstractTestCase
      *
      * Example: ['MySQL', 'MariaDB', 'PostGIS']
      *
-     * @param list<'MySQL'|'MariaDB'|'SpatiaLite'|'PostGIS'|'GEOS'> $supportedEngines
+     * @param list<'MySQL'|'MariaDB'|'SpatiaLite'|'PostGIS'|'GEOS'|'GeosOp'> $supportedEngines
      */
     private function requireEngine(array $supportedEngines): void
     {
-        $diff = array_values(array_diff($supportedEngines, ['MySQL', 'MariaDB', 'SpatiaLite', 'PostGIS', 'GEOS']));
+        $diff = array_values(array_diff($supportedEngines, ['MySQL', 'MariaDB', 'SpatiaLite', 'PostGIS', 'GEOS', 'GeosOp']));
 
         if ($diff) {
             throw new LogicException("Unsupported engine: {$diff[0]}");
@@ -1550,6 +1550,10 @@ class GeometryEngineTest extends AbstractTestCase
         }
 
         if (in_array('GEOS', $supportedEngines) && $this->isGEOS()) {
+            return;
+        }
+
+        if (in_array('GeosOp', $supportedEngines) && $this->isGeosOp()) {
             return;
         }
 
