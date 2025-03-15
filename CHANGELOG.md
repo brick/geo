@@ -4,13 +4,36 @@
 
 💥 **Breaking changes**
 
+The case of the following class names and namespaces has changed:
+
+- `GEOSEngine` => `GeosEngine`
+- `PDOEngine` => `PdoEngine`
+- `SQLite3Engine` => `Sqlite3Engine`
+- `RemoveZMProjector` => `RemoveZmProjector`
+- `SRIDProjector` => `SridProjector`
+- `SwapXYProjector` => `SwapXyProjector`
+- `TIN` => `Tin`
+- `GeometryIOException` => `GeometryIoException`
+- `IO\EWKBReader` => `Io\EwkbReader`
+- `IO\EWKBWriter` => `Io\EwkbWriter`
+- `IO\EWKTReader` => `Io\EwktReader`
+- `IO\EWKTWriter` => `Io\EwktWriter`
+- `IO\WKBReader` => `Io\WkbReader`
+- `IO\WKBWriter` => `Io\WkbWriter`
+- `IO\WKTReader` => `Io\WktReader`
+- `IO\WKTWriter` => `Io\WktWriter`
+- `IO\GeoJSONReader` => `Io\GeoJsonReader`
+- `IO\GeoJSONWriter` => `Io\GeoJsonWriter`
+- `IO\GeoJSON\Feature` => `Io\GeoJson\Feature`
+- `IO\GeoJSON\FeatureCollection` => `Io\GeoJson\FeatureCollection`
+
+The following breaking changes will likely not affect you, unless you're writing your own geometry engine:
+
 - `GeometryEngine` interface has a new method: `concaveHull()`
 - `DatabaseEngine::executeQuery()` implementations must now accept `bool` parameters
 - `DatabaseEngine::getParameterPlaceholder()` signature has changed to accept `bool` parameters
 - `DatabaseEngine::queryGeometry()` is now `final`
 - `GeometryException` constructor signature has changed
-
-These breaking changes will likely not affect you, unless you're writing your own geometry engine.
 
 ✨ **New features**
 
