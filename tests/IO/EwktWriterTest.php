@@ -188,7 +188,7 @@ class EwktWriterTest extends EwktAbstractTestCase
      * @param bool   $isMeasured Whether the TIN has M coordinates.
      */
     #[DataProvider('providerTinWkt')]
-    public function testWriteTIN(string $wkt, array $coords, bool $is3D, bool $isMeasured) : void
+    public function testWriteTin(string $wkt, array $coords, bool $is3D, bool $isMeasured) : void
     {
         $writer = new EwktWriter();
         $writer->setPrettyPrint(false);

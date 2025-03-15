@@ -25,12 +25,12 @@ class GeometryTest extends AbstractTestCase
         $geometry = Geometry::fromText($text);
 
         self::assertSame($text, $geometry->asText());
-        self::assertSame(0, $geometry->SRID());
+        self::assertSame(0, $geometry->srid());
 
         $geometry = Geometry::fromText($text, 4326);
 
         self::assertSame($text, $geometry->asText());
-        self::assertSame(4326, $geometry->SRID());
+        self::assertSame(4326, $geometry->srid());
     }
 
     public function testFromTextOnWrongSubclassThrowsException() : void
@@ -51,12 +51,12 @@ class GeometryTest extends AbstractTestCase
             $geometry = Geometry::fromBinary(hex2bin($binary));
 
             self::assertSame($text, $geometry->asText());
-            self::assertSame(0, $geometry->SRID());
+            self::assertSame(0, $geometry->srid());
 
             $geometry = Geometry::fromBinary(hex2bin($binary), 4326);
 
             self::assertSame($text, $geometry->asText());
-            self::assertSame(4326, $geometry->SRID());
+            self::assertSame(4326, $geometry->srid());
         }
     }
 
@@ -267,13 +267,13 @@ class GeometryTest extends AbstractTestCase
         ];
     }
 
-    #[DataProvider('providerSRID')]
-    public function testSRID(int $srid) : void
+    #[DataProvider('providerSrid')]
+    public function testSrid(int $srid) : void
     {
-        self::assertSame($srid, Geometry::fromText('POINT EMPTY', $srid)->SRID());
+        self::assertSame($srid, Geometry::fromText('POINT EMPTY', $srid)->srid());
     }
 
-    public static function providerSRID() : array
+    public static function providerSrid() : array
     {
         return [
             [4326],
@@ -330,27 +330,27 @@ class GeometryTest extends AbstractTestCase
         ];
     }
 
-    #[DataProvider('providerWithSRID')]
-    public function testWithSRID(string $wkt): void
+    #[DataProvider('providerWithSrid')]
+    public function testWithSrid(string $wkt): void
     {
-        $geometry = Geometry::fromText($wkt)->withSRID(4326);
+        $geometry = Geometry::fromText($wkt)->withSrid(4326);
 
-        $this->assertSRID(4326, $geometry);
+        $this->assertSrid(4326, $geometry);
         self::assertSame($wkt, $geometry->asText());
     }
 
-    private function assertSRID(int $expectedSRID, Geometry $geometry): void
+    private function assertSrid(int $expectedSRID, Geometry $geometry): void
     {
-        self::assertSame($expectedSRID, $geometry->SRID());
+        self::assertSame($expectedSRID, $geometry->srid());
 
         foreach ($geometry as $value) {
             if ($value instanceof Geometry) {
-                $this->assertSRID($expectedSRID, $value);
+                $this->assertSrid($expectedSRID, $value);
             }
         }
     }
 
-    public static function providerWithSRID(): array
+    public static function providerWithSrid(): array
     {
         return [
             ['POINT (1 2)'],
@@ -428,7 +428,7 @@ class GeometryTest extends AbstractTestCase
     }
 
     #[DataProvider('providerIsIdenticalTo')]
-    public function testIsIdenticalToDifferentSRIDs(string $wkt1, string $wkt2) : void
+    public function testIsIdenticalToDifferentSrids(string $wkt1, string $wkt2) : void
     {
         $geometry1 = Geometry::fromText($wkt1, 1);
         $geometry2 = Geometry::fromText($wkt2, 2);

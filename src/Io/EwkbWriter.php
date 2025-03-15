@@ -29,7 +29,7 @@ final class EwkbWriter extends AbstractWkbWriter
             $geometryType |= EwkbTools::M;
         }
 
-        $srid = $cs->SRID();
+        $srid = $cs->srid();
 
         if ($srid !== 0 && $outer) {
             $geometryType |= EwkbTools::S;

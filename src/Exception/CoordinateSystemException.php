@@ -26,9 +26,9 @@ final class CoordinateSystemException extends GeometryException
         return new CoordinateSystemException(sprintf(
             'SRID mix: %s with SRID %d cannot contain %s with SRID %d.',
             $reference->geometryType(),
-            $reference->SRID(),
+            $reference->srid(),
             $culprit->geometryType(),
-            $culprit->SRID()
+            $culprit->srid()
         ));
     }
 

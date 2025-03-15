@@ -248,7 +248,7 @@ final class WktParser
         return $token[1];
     }
 
-    public function getOptionalSRID() : int
+    public function getOptionalSrid() : int
     {
         $token = $this->tokens[$this->current] ?? null;
 

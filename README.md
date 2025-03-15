@@ -377,7 +377,7 @@ use Brick\Geo\Point;
 $point = Point::fromBinary(hex2bin('0101000000000000000000f83f0000000000000440'), 4326);
 
 echo $point->asText(); // POINT (1.5 2.5)
-echo $point->SRID(); // 4326
+echo $point->srid(); // 4326
 ```
 
 Geometries can be converted to WKB using the convenience method `asBinary()`:
@@ -406,7 +406,7 @@ $reader = new EwktReader();
 $point = $reader->read('SRID=4326; POINT (1.5 2.5)');
 
 echo $point->asText(); // POINT (1.5 2.5)
-echo $point->SRID(); // 4326
+echo $point->srid(); // 4326
 
 $writer = new EwktWriter();
 echo $writer->write($point); // SRID=4326; POINT (1.5 2.5)
@@ -428,7 +428,7 @@ $reader = new EwkbReader();
 $point = $reader->read(hex2bin('0101000020e6100000000000000000f83f0000000000000440'));
 
 echo $point->asText(); // POINT (1.5 2.5)
-echo $point->SRID(); // 4326
+echo $point->srid(); // 4326
 
 $writer = new EwkbWriter();
 echo bin2hex($writer->write($point)); // 0101000020e6100000000000000000f83f0000000000000440
@@ -452,7 +452,7 @@ $reader = new GeoJsonReader();
 $point = $reader->read('{ "type": "Point", "coordinates": [1, 2] }');
 
 echo $point->asText(); // POINT (1 2)
-echo $point->SRID(); // 4326
+echo $point->srid(); // 4326
 
 $writer = new GeoJsonWriter();
 echo $writer->write($point); // {"type":"Point","coordinates":[1,2]}

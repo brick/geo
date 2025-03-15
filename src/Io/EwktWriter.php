@@ -16,12 +16,12 @@ final class EwktWriter extends AbstractWktWriter
     #[Override]
     public function write(Geometry $geometry) : string
     {
-        $srid = $geometry->SRID();
+        $srid = $geometry->srid();
 
         if ($srid === 0) {
             return $this->doWrite($geometry);
         }
 
-        return 'SRID=' . $geometry->SRID() . ';' . $this->prettyPrintSpace . $this->doWrite($geometry);
+        return 'SRID=' . $geometry->srid() . ';' . $this->prettyPrintSpace . $this->doWrite($geometry);
     }
 }

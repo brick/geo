@@ -32,6 +32,6 @@ final class GeometryParameter
     {
         $this->data     = $isBinary ? $geometry->asBinary() : $geometry->asText();
         $this->isBinary = $isBinary;
-        $this->srid     = $geometry->SRID();
+        $this->srid     = $geometry->srid();
     }
 }

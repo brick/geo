@@ -23,7 +23,7 @@ class RoundCoordinatesProjectorTest extends AbstractTestCase
         $point = Point::xy($x, $y, $srid);
         $projected = $projector->project($point);
 
-        $this->assertPointXYEquals($expectedX, $expectedY, $srid, $projected);
+        $this->assertPointXyEquals($expectedX, $expectedY, $srid, $projected);
     }
 
     public static function providerProject(): array

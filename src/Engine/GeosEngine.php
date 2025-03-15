@@ -59,11 +59,11 @@ final class GeosEngine implements GeometryEngine
             method_exists($this->geosWkbWriter, 'write');
     }
 
-    private function toGEOS(Geometry $geometry) : \GEOSGeometry
+    private function toGeos(Geometry $geometry) : \GEOSGeometry
     {
         if ($geometry->isEmpty()) {
             $geosGeometry = $this->geosWktReader->read($geometry->asText());
-            $geosGeometry->setSRID($geometry->SRID());
+            $geosGeometry->setSRID($geometry->srid());
 
             return $geosGeometry;
         }
@@ -75,7 +75,7 @@ final class GeosEngine implements GeometryEngine
         return $this->geosWkbReader->readHEX(bin2hex($this->ewkbWriter->write($geometry)));
     }
 
-    private function fromGEOS(\GEOSGeometry $geometry) : Geometry
+    private function fromGeos(\GEOSGeometry $geometry) : Geometry
     {
         if ($geometry->isEmpty()) {
             return Geometry::fromText($this->geosWktWriter->write($geometry), $geometry->getSRID());
@@ -95,7 +95,7 @@ final class GeosEngine implements GeometryEngine
     public function union(Geometry $a, Geometry $b) : Geometry
     {
         return $this->execute(
-            fn() => $this->fromGEOS($this->toGEOS($a)->union($this->toGEOS($b))),
+            fn() => $this->fromGeos($this->toGeos($a)->union($this->toGeos($b))),
         );
     }
 
@@ -103,7 +103,7 @@ final class GeosEngine implements GeometryEngine
     public function difference(Geometry $a, Geometry $b) : Geometry
     {
         return $this->execute(
-            fn() => $this->fromGEOS($this->toGEOS($a)->difference($this->toGEOS($b))),
+            fn() => $this->fromGeos($this->toGeos($a)->difference($this->toGeos($b))),
         );
     }
 
@@ -111,7 +111,7 @@ final class GeosEngine implements GeometryEngine
     public function envelope(Geometry $g) : Geometry
     {
         return $this->execute(
-            fn() => $this->fromGEOS($this->toGEOS($g)->envelope()),
+            fn() => $this->fromGeos($this->toGeos($g)->envelope()),
         );
     }
 
@@ -119,7 +119,7 @@ final class GeosEngine implements GeometryEngine
     public function length(Curve|MultiCurve $g) : float
     {
         return $this->execute(
-            fn() => $this->toGEOS($g)->length(),
+            fn() => $this->toGeos($g)->length(),
         );
     }
 
@@ -127,7 +127,7 @@ final class GeosEngine implements GeometryEngine
     public function area(Surface|MultiSurface $g) : float
     {
         return $this->execute(
-            fn() => $this->toGEOS($g)->area(),
+            fn() => $this->toGeos($g)->area(),
         );
     }
 
@@ -141,7 +141,7 @@ final class GeosEngine implements GeometryEngine
     public function centroid(Geometry $g) : Point
     {
         $centroid = $this->execute(
-            fn() => $this->fromGEOS($this->toGEOS($g)->centroid()),
+            fn() => $this->fromGeos($this->toGeos($g)->centroid()),
         );
 
         TypeChecker::check($centroid, Point::class);
@@ -153,7 +153,7 @@ final class GeosEngine implements GeometryEngine
     public function pointOnSurface(Surface|MultiSurface $g) : Point
     {
         $pointOnSurface = $this->execute(
-            fn() => $this->fromGEOS($this->toGEOS($g)->pointOnSurface()),
+            fn() => $this->fromGeos($this->toGeos($g)->pointOnSurface()),
         );
 
         TypeChecker::check($pointOnSurface, Point::class);
@@ -165,7 +165,7 @@ final class GeosEngine implements GeometryEngine
     public function boundary(Geometry $g) : Geometry
     {
         return $this->execute(
-            fn() => $this->fromGEOS($this->toGEOS($g)->boundary()),
+            fn() => $this->fromGeos($this->toGeos($g)->boundary()),
         );
     }
 
@@ -173,7 +173,7 @@ final class GeosEngine implements GeometryEngine
     public function isValid(Geometry $g) : bool
     {
         return $this->execute(
-            fn() => $this->toGEOS($g)->checkValidity()['valid'],
+            fn() => $this->toGeos($g)->checkValidity()['valid'],
         );
     }
 
@@ -181,7 +181,7 @@ final class GeosEngine implements GeometryEngine
     public function isClosed(Geometry $g) : bool
     {
         return $this->execute(
-            fn() => $this->toGEOS($g)->isClosed(),
+            fn() => $this->toGeos($g)->isClosed(),
         );
     }
 
@@ -189,7 +189,7 @@ final class GeosEngine implements GeometryEngine
     public function isSimple(Geometry $g) : bool
     {
         return $this->execute(
-            fn() => $this->toGEOS($g)->isSimple(),
+            fn() => $this->toGeos($g)->isSimple(),
         );
     }
 
@@ -197,7 +197,7 @@ final class GeosEngine implements GeometryEngine
     public function isRing(Curve $curve) : bool
     {
         return $this->execute(
-            fn() => $this->toGEOS($curve)->isRing(),
+            fn() => $this->toGeos($curve)->isRing(),
         );
     }
 
@@ -211,7 +211,7 @@ final class GeosEngine implements GeometryEngine
     public function equals(Geometry $a, Geometry $b) : bool
     {
         return $this->execute(
-            fn() => $this->toGEOS($a)->equals($this->toGEOS($b)),
+            fn() => $this->toGeos($a)->equals($this->toGeos($b)),
         );
     }
 
@@ -219,7 +219,7 @@ final class GeosEngine implements GeometryEngine
     public function disjoint(Geometry $a, Geometry $b) : bool
     {
         return $this->execute(
-            fn() => $this->toGEOS($a)->disjoint($this->toGEOS($b)),
+            fn() => $this->toGeos($a)->disjoint($this->toGeos($b)),
         );
     }
 
@@ -227,7 +227,7 @@ final class GeosEngine implements GeometryEngine
     public function intersects(Geometry $a, Geometry $b) : bool
     {
         return $this->execute(
-            fn() => $this->toGEOS($a)->intersects($this->toGEOS($b)),
+            fn() => $this->toGeos($a)->intersects($this->toGeos($b)),
         );
     }
 
@@ -235,7 +235,7 @@ final class GeosEngine implements GeometryEngine
     public function touches(Geometry $a, Geometry $b) : bool
     {
         return $this->execute(
-            fn() => $this->toGEOS($a)->touches($this->toGEOS($b)),
+            fn() => $this->toGeos($a)->touches($this->toGeos($b)),
         );
     }
 
@@ -243,7 +243,7 @@ final class GeosEngine implements GeometryEngine
     public function crosses(Geometry $a, Geometry $b) : bool
     {
         return $this->execute(
-            fn() => $this->toGEOS($a)->crosses($this->toGEOS($b)),
+            fn() => $this->toGeos($a)->crosses($this->toGeos($b)),
         );
     }
 
@@ -251,7 +251,7 @@ final class GeosEngine implements GeometryEngine
     public function within(Geometry $a, Geometry $b) : bool
     {
         return $this->execute(
-            fn() => $this->toGEOS($a)->within($this->toGEOS($b)),
+            fn() => $this->toGeos($a)->within($this->toGeos($b)),
         );
     }
 
@@ -259,7 +259,7 @@ final class GeosEngine implements GeometryEngine
     public function contains(Geometry $a, Geometry $b) : bool
     {
         return $this->execute(
-            fn() => $this->toGEOS($a)->contains($this->toGEOS($b)),
+            fn() => $this->toGeos($a)->contains($this->toGeos($b)),
         );
     }
 
@@ -267,7 +267,7 @@ final class GeosEngine implements GeometryEngine
     public function overlaps(Geometry $a, Geometry $b) : bool
     {
         return $this->execute(
-            fn() => $this->toGEOS($a)->overlaps($this->toGEOS($b)),
+            fn() => $this->toGeos($a)->overlaps($this->toGeos($b)),
         );
     }
 
@@ -275,7 +275,7 @@ final class GeosEngine implements GeometryEngine
     public function relate(Geometry $a, Geometry $b, string $matrix) : bool
     {
         $result = $this->execute(
-            fn() => $this->toGEOS($a)->relate($this->toGEOS($b), $matrix),
+            fn() => $this->toGeos($a)->relate($this->toGeos($b), $matrix),
         );
 
         // giving a matrix should always return a boolean
@@ -300,7 +300,7 @@ final class GeosEngine implements GeometryEngine
     public function distance(Geometry $a, Geometry $b) : float
     {
         return $this->execute(
-            fn() => $this->toGEOS($a)->distance($this->toGEOS($b)),
+            fn() => $this->toGeos($a)->distance($this->toGeos($b)),
         );
     }
 
@@ -308,7 +308,7 @@ final class GeosEngine implements GeometryEngine
     public function buffer(Geometry $g, float $distance) : Geometry
     {
         return $this->execute(
-            fn() => $this->fromGEOS($this->toGEOS($g)->buffer($distance)),
+            fn() => $this->fromGeos($this->toGeos($g)->buffer($distance)),
         );
     }
 
@@ -316,7 +316,7 @@ final class GeosEngine implements GeometryEngine
     public function convexHull(Geometry $g) : Geometry
     {
         return $this->execute(
-            fn() => $this->fromGEOS($this->toGEOS($g)->convexHull()),
+            fn() => $this->fromGeos($this->toGeos($g)->convexHull()),
         );
     }
 
@@ -330,7 +330,7 @@ final class GeosEngine implements GeometryEngine
     public function intersection(Geometry $a, Geometry $b) : Geometry
     {
         return $this->execute(
-            fn() => $this->fromGEOS($this->toGEOS($a)->intersection($this->toGEOS($b))),
+            fn() => $this->fromGeos($this->toGeos($a)->intersection($this->toGeos($b))),
         );
     }
 
@@ -338,7 +338,7 @@ final class GeosEngine implements GeometryEngine
     public function symDifference(Geometry $a, Geometry $b) : Geometry
     {
         return $this->execute(
-            fn() => $this->fromGEOS($this->toGEOS($a)->symDifference($this->toGEOS($b))),
+            fn() => $this->fromGeos($this->toGeos($a)->symDifference($this->toGeos($b))),
         );
     }
 
@@ -352,7 +352,7 @@ final class GeosEngine implements GeometryEngine
     public function simplify(Geometry $g, float $tolerance) : Geometry
     {
         return $this->execute(
-            fn() => $this->fromGEOS($this->toGEOS($g)->simplify($tolerance)),
+            fn() => $this->fromGeos($this->toGeos($g)->simplify($tolerance)),
         );
     }
 
@@ -378,7 +378,7 @@ final class GeosEngine implements GeometryEngine
     public function lineInterpolatePoint(LineString $lineString, float $fraction) : Point
     {
         $result = $this->execute(
-            fn() => $this->fromGEOS($this->toGEOS($lineString)->interpolate($fraction, true)),
+            fn() => $this->fromGeos($this->toGeos($lineString)->interpolate($fraction, true)),
         );
 
         if (! $result instanceof Point) {

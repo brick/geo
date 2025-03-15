@@ -31,7 +31,7 @@ class AbstractTestCase extends TestCase
     final protected function assertWktEquals(Geometry $geometry, string $wkt, int $srid = 0) : void
     {
         self::assertSame($wkt, $geometry->asText());
-        self::assertSame($srid, $geometry->SRID());
+        self::assertSame($srid, $geometry->srid());
     }
 
     /**
@@ -41,7 +41,7 @@ class AbstractTestCase extends TestCase
     final protected function assertWktEqualsMultiple(array $geometries, array $wkts, int $srid = 0) : void
     {
         foreach ($geometries as $geometry) {
-            self::assertSame($srid, $geometry->SRID());
+            self::assertSame($srid, $geometry->srid());
         }
 
         self::assertSame(
@@ -87,7 +87,7 @@ class AbstractTestCase extends TestCase
         self::assertSame($coords, $g->toArray());
         self::assertSame($hasZ, $g->is3D());
         self::assertSame($hasM, $g->isMeasured());
-        self::assertSame($srid, $g->SRID());
+        self::assertSame($srid, $g->srid());
     }
 
     /**
@@ -104,15 +104,15 @@ class AbstractTestCase extends TestCase
         self::assertSame($coords, $point->toArray());
         self::assertSame($is3D, $point->is3D());
         self::assertSame($isMeasured, $point->isMeasured());
-        self::assertSame($srid, $point->SRID());
+        self::assertSame($srid, $point->srid());
     }
 
-    final protected function assertPointXYEquals(float $x, float $y, int $srid, Point $point) : void
+    final protected function assertPointXyEquals(float $x, float $y, int $srid, Point $point) : void
     {
         $this->assertPointEquals([$x, $y], false, false, $srid, $point);
     }
 
-    final protected function assertPointXYZEquals(float $x, float $y, float $z, int $srid, Point $point) : void
+    final protected function assertPointXyzEquals(float $x, float $y, float $z, int $srid, Point $point) : void
     {
         $this->assertPointEquals([$x, $y, $z], true, false, $srid, $point);
     }

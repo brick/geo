@@ -95,7 +95,7 @@ class _CLASSNAME_Proxy extends _CLASSNAME_ implements ProxyInterface
         return new self($wkb, true, $srid);
     }
 
-    public function SRID() : int
+    public function srid() : int
     {
         return $this->proxySRID;
     }

@@ -30,7 +30,7 @@ class BoundingBoxTest extends AbstractTestCase
         $bbox->getNorthEast();
     }
 
-    public function testSRIDMix(): void
+    public function testSridMix(): void
     {
         $bbox = BoundingBox::new();
         $bbox = $bbox->extendedWithPoint(Point::xy(0, 0));
@@ -48,81 +48,81 @@ class BoundingBoxTest extends AbstractTestCase
         $bbox->extendedWithPoint(Point::xyz(0, 0, 0));
     }
 
-    public function testExtendedWithPointXY(): void
+    public function testExtendedWithPointXy(): void
     {
         $bbox = BoundingBox::new();
 
         $bbox = $bbox->extendedWithPoint(Point::xy(1, 2, 4326));
-        $this->assertPointXYEquals(1, 2, 4326, $bbox->getSouthWest());
-        $this->assertPointXYEquals(1, 2, 4326, $bbox->getNorthEast());
+        $this->assertPointXyEquals(1, 2, 4326, $bbox->getSouthWest());
+        $this->assertPointXyEquals(1, 2, 4326, $bbox->getNorthEast());
 
         // -x
         $bbox = $bbox->extendedWithPoint(Point::xy(-1, 3, 4326));
-        $this->assertPointXYEquals(-1, 2, 4326, $bbox->getSouthWest());
-        $this->assertPointXYEquals(1, 3, 4326, $bbox->getNorthEast());
+        $this->assertPointXyEquals(-1, 2, 4326, $bbox->getSouthWest());
+        $this->assertPointXyEquals(1, 3, 4326, $bbox->getNorthEast());
 
         // noop
         $bbox = $bbox->extendedWithPoint(Point::xy(0, 2, 4326));
-        $this->assertPointXYEquals(-1, 2, 4326, $bbox->getSouthWest());
-        $this->assertPointXYEquals(1, 3, 4326, $bbox->getNorthEast());
+        $this->assertPointXyEquals(-1, 2, 4326, $bbox->getSouthWest());
+        $this->assertPointXyEquals(1, 3, 4326, $bbox->getNorthEast());
 
         // +x
         $bbox = $bbox->extendedWithPoint(Point::xy(3, 2, 4326));
-        $this->assertPointXYEquals(-1, 2, 4326, $bbox->getSouthWest());
-        $this->assertPointXYEquals(3, 3, 4326, $bbox->getNorthEast());
+        $this->assertPointXyEquals(-1, 2, 4326, $bbox->getSouthWest());
+        $this->assertPointXyEquals(3, 3, 4326, $bbox->getNorthEast());
 
         // -y
         $bbox = $bbox->extendedWithPoint(Point::xy(3, -1, 4326));
-        $this->assertPointXYEquals(-1, -1, 4326, $bbox->getSouthWest());
-        $this->assertPointXYEquals(3, 3, 4326, $bbox->getNorthEast());
+        $this->assertPointXyEquals(-1, -1, 4326, $bbox->getSouthWest());
+        $this->assertPointXyEquals(3, 3, 4326, $bbox->getNorthEast());
 
         // noop
         $bbox = $bbox->extendedWithPoint(Point::xy(0, 0, 4326));
-        $this->assertPointXYEquals(-1, -1, 4326, $bbox->getSouthWest());
-        $this->assertPointXYEquals(3, 3, 4326, $bbox->getNorthEast());
+        $this->assertPointXyEquals(-1, -1, 4326, $bbox->getSouthWest());
+        $this->assertPointXyEquals(3, 3, 4326, $bbox->getNorthEast());
 
         // +y
         $bbox = $bbox->extendedWithPoint(Point::xy(0, 7, 4326));
-        $this->assertPointXYEquals(-1, -1, 4326, $bbox->getSouthWest());
-        $this->assertPointXYEquals(3, 7, 4326, $bbox->getNorthEast());
+        $this->assertPointXyEquals(-1, -1, 4326, $bbox->getSouthWest());
+        $this->assertPointXyEquals(3, 7, 4326, $bbox->getNorthEast());
     }
 
-    public function testExtendedWithPointXYZ(): void
+    public function testExtendedWithPointXyz(): void
     {
         $bbox = BoundingBox::new();
 
         $bbox = $bbox->extendedWithPoint(Point::xyz(1, 2, 3, 4326));
-        $this->assertPointXYZEquals(1, 2, 3, 4326, $bbox->getSouthWest());
-        $this->assertPointXYZEquals(1, 2, 3, 4326, $bbox->getNorthEast());
+        $this->assertPointXyzEquals(1, 2, 3, 4326, $bbox->getSouthWest());
+        $this->assertPointXyzEquals(1, 2, 3, 4326, $bbox->getNorthEast());
 
         // -x, +y
         $bbox = $bbox->extendedWithPoint(Point::xyz(-1, 3, 3, 4326));
-        $this->assertPointXYZEquals(-1, 2, 3, 4326, $bbox->getSouthWest());
-        $this->assertPointXYZEquals(1, 3, 3, 4326, $bbox->getNorthEast());
+        $this->assertPointXyzEquals(-1, 2, 3, 4326, $bbox->getSouthWest());
+        $this->assertPointXyzEquals(1, 3, 3, 4326, $bbox->getNorthEast());
 
         // -z
         $bbox = $bbox->extendedWithPoint(Point::xyz(0, 2, 2, 4326));
-        $this->assertPointXYZEquals(-1, 2, 2, 4326, $bbox->getSouthWest());
-        $this->assertPointXYZEquals(1, 3, 3, 4326, $bbox->getNorthEast());
+        $this->assertPointXyzEquals(-1, 2, 2, 4326, $bbox->getSouthWest());
+        $this->assertPointXyzEquals(1, 3, 3, 4326, $bbox->getNorthEast());
 
         // +x
         $bbox = $bbox->extendedWithPoint(Point::xyz(3, 2, 2.5, 4326));
-        $this->assertPointXYZEquals(-1, 2, 2, 4326, $bbox->getSouthWest());
-        $this->assertPointXYZEquals(3, 3, 3, 4326, $bbox->getNorthEast());
+        $this->assertPointXyzEquals(-1, 2, 2, 4326, $bbox->getSouthWest());
+        $this->assertPointXyzEquals(3, 3, 3, 4326, $bbox->getNorthEast());
 
         // -y
         $bbox = $bbox->extendedWithPoint(Point::xyz(3, -1, 2, 4326));
-        $this->assertPointXYZEquals(-1, -1, 2, 4326, $bbox->getSouthWest());
-        $this->assertPointXYZEquals(3, 3, 3, 4326, $bbox->getNorthEast());
+        $this->assertPointXyzEquals(-1, -1, 2, 4326, $bbox->getSouthWest());
+        $this->assertPointXyzEquals(3, 3, 3, 4326, $bbox->getNorthEast());
 
         // +z
         $bbox = $bbox->extendedWithPoint(Point::xyz(0, 0, 4, 4326));
-        $this->assertPointXYZEquals(-1, -1, 2, 4326, $bbox->getSouthWest());
-        $this->assertPointXYZEquals(3, 3, 4, 4326, $bbox->getNorthEast());
+        $this->assertPointXyzEquals(-1, -1, 2, 4326, $bbox->getSouthWest());
+        $this->assertPointXyzEquals(3, 3, 4, 4326, $bbox->getNorthEast());
 
         // +y, -z
         $bbox = $bbox->extendedWithPoint(Point::xyz(0, 7, -5, 4326));
-        $this->assertPointXYZEquals(-1, -1, -5, 4326, $bbox->getSouthWest());
-        $this->assertPointXYZEquals(3, 7, 4, 4326, $bbox->getNorthEast());
+        $this->assertPointXyzEquals(-1, -1, -5, 4326, $bbox->getSouthWest());
+        $this->assertPointXyzEquals(3, 7, 4, 4326, $bbox->getNorthEast());
     }
 }

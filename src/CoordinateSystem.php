@@ -91,7 +91,7 @@ final class CoordinateSystem
     /**
      * Returns the Spatial Reference System Identifier of this coordinate system.
      */
-    public function SRID() : int
+    public function srid() : int
     {
         return $this->srid;
     }
@@ -183,7 +183,7 @@ final class CoordinateSystem
     /**
      * Returns a copy of this CoordinateSystem with the SRID altered.
      */
-    public function withSRID(int $srid) : CoordinateSystem
+    public function withSrid(int $srid) : CoordinateSystem
     {
         if ($srid === $this->srid) {
             return $this;
