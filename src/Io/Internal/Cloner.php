@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Brick\Geo\Internal;
+namespace Brick\Geo\Io\Internal;
 
 use InvalidArgumentException;
 use stdClass;
