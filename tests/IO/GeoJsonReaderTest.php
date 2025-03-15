@@ -6,14 +6,14 @@ namespace Brick\Geo\Tests\IO;
 
 use Brick\Geo\Exception\GeometryIOException;
 use Brick\Geo\GeometryCollection;
-use Brick\Geo\IO\GeoJSON\Feature;
-use Brick\Geo\IO\GeoJSON\FeatureCollection;
-use Brick\Geo\IO\GeoJSONReader;
+use Brick\Geo\IO\GeoJson\Feature;
+use Brick\Geo\IO\GeoJson\FeatureCollection;
+use Brick\Geo\IO\GeoJsonReader;
 use Brick\Geo\Point;
 use PHPUnit\Framework\Attributes\DataProvider;
 use stdClass;
 
-class GeoJSONReaderTest extends GeoJSONAbstractTestCase
+class GeoJsonReaderTest extends GeoJsonAbstractTestCase
 {
     /**
      * @param string $geojson The GeoJSON to read.
@@ -24,13 +24,13 @@ class GeoJSONReaderTest extends GeoJSONAbstractTestCase
     #[DataProvider('providerReadGeometry')]
     public function testReadGeometry(string $geojson, array $coords, bool $is3D, bool $lenient) : void
     {
-        $geometry = (new GeoJSONReader($lenient))->read($geojson);
+        $geometry = (new GeoJsonReader($lenient))->read($geojson);
         $this->assertGeometryContents($geometry, $coords, $is3D, false, 4326);
     }
 
     public static function providerReadGeometry() : \Generator
     {
-        foreach (self::providerGeometryGeoJSON() as [$geojson, $coords, $is3D]) {
+        foreach (self::providerGeometryGeoJson() as [$geojson, $coords, $is3D]) {
             yield [$geojson, $coords, $is3D, false];
             yield [self::alterCase($geojson), $coords, $is3D, true];
         }
@@ -46,7 +46,7 @@ class GeoJSONReaderTest extends GeoJSONAbstractTestCase
     #[DataProvider('providerReadFeature')]
     public function testReadFeature(string $geojson, ?stdClass $properties, ?array $coords, bool $is3D, bool $lenient) : void
     {
-        $feature = (new GeoJSONReader($lenient))->read($geojson);
+        $feature = (new GeoJsonReader($lenient))->read($geojson);
 
         self::assertInstanceOf(Feature::class, $feature);
         self::assertEquals($properties, $feature->getProperties());
@@ -62,7 +62,7 @@ class GeoJSONReaderTest extends GeoJSONAbstractTestCase
 
     public static function providerReadFeature() : \Generator
     {
-        foreach (self::providerFeatureGeoJSON() as [$geojson, $properties, $coords, $is3D]) {
+        foreach (self::providerFeatureGeoJson() as [$geojson, $properties, $coords, $is3D]) {
             yield [$geojson, $properties, $coords, $is3D, false];
             yield [self::alterCase($geojson), $properties, $coords, $is3D, true];
         }
@@ -77,7 +77,7 @@ class GeoJSONReaderTest extends GeoJSONAbstractTestCase
     #[DataProvider('providerReadFeatureCollection')]
     public function testReadFeatureCollection(string $geojson, array $properties, array $coords, array $is3D, bool $lenient) : void
     {
-        $featureCollection = (new GeoJSONReader($lenient))->read($geojson);
+        $featureCollection = (new GeoJsonReader($lenient))->read($geojson);
 
         self::assertInstanceOf(FeatureCollection::class, $featureCollection);
 
@@ -90,7 +90,7 @@ class GeoJSONReaderTest extends GeoJSONAbstractTestCase
 
     public static function providerReadFeatureCollection() : \Generator
     {
-        foreach (self::providerFeatureCollectionGeoJSON() as [$geojson, $properties, $coords, $is3D]) {
+        foreach (self::providerFeatureCollectionGeoJson() as [$geojson, $properties, $coords, $is3D]) {
             yield [$geojson, $properties, $coords, $is3D, false];
             yield [self::alterCase($geojson), $properties, $coords, $is3D, true];
         }
@@ -98,7 +98,7 @@ class GeoJSONReaderTest extends GeoJSONAbstractTestCase
 
     public function testReadFeatureWithMissingGeometry() : void
     {
-        $reader = new GeoJSONReader();
+        $reader = new GeoJsonReader();
 
         $geoJSON = <<<'EOF'
         {
@@ -120,7 +120,7 @@ class GeoJSONReaderTest extends GeoJSONAbstractTestCase
 
     public function testReadFeatureWithMissingGeometryInLenientMode() : void
     {
-        $reader = new GeoJSONReader(lenient: true);
+        $reader = new GeoJsonReader(lenient: true);
 
         $geoJSON = <<<'EOF'
         {
@@ -141,7 +141,7 @@ class GeoJSONReaderTest extends GeoJSONAbstractTestCase
 
     public function testReadFeatureWithMissingProperties() : void
     {
-        $reader = new GeoJSONReader();
+        $reader = new GeoJsonReader();
 
         $geoJSON = <<<'EOF'
         {
@@ -164,7 +164,7 @@ class GeoJSONReaderTest extends GeoJSONAbstractTestCase
 
     public function testReadFeatureWithMissingPropertiesInLenientMode() : void
     {
-        $reader = new GeoJSONReader(lenient: true);
+        $reader = new GeoJsonReader(lenient: true);
 
         $geoJSON = <<<'EOF'
         {
@@ -186,7 +186,7 @@ class GeoJSONReaderTest extends GeoJSONAbstractTestCase
 
     public function testNestedGeometryCollection(): void
     {
-        $reader = new GeoJSONReader();
+        $reader = new GeoJsonReader();
 
         $geoJSON = <<<'EOF'
         {
@@ -216,7 +216,7 @@ class GeoJSONReaderTest extends GeoJSONAbstractTestCase
 
     public function testNestedGeometryCollectionInLenientMode(): void
     {
-        $reader = new GeoJSONReader(lenient: true);
+        $reader = new GeoJsonReader(lenient: true);
 
         $geoJSON = <<<'EOF'
         {
@@ -250,7 +250,7 @@ class GeoJSONReaderTest extends GeoJSONAbstractTestCase
     #[DataProvider('providerWrongCaseTypeInNonLenientMode')]
     public function testWrongCaseTypeInNonLenientMode(string $geojson, string $expectedExceptionMessage) : void
     {
-        $reader = new GeoJSONReader();
+        $reader = new GeoJsonReader();
 
         $this->expectException(GeometryIOException::class);
         $this->expectExceptionMessage($expectedExceptionMessage);
@@ -261,15 +261,15 @@ class GeoJSONReaderTest extends GeoJSONAbstractTestCase
     public static function providerWrongCaseTypeInNonLenientMode() : \Generator
     {
         $tests = [
-            [self::providerGeometryPointGeoJSON(), 'POINT', 'Point'],
-            [self::providerGeometryLineStringGeoJSON(), 'LINESTRING', 'LineString'],
-            [self::providerGeometryPolygonGeoJSON(), 'POLYGON', 'Polygon'],
-            [self::providerGeometryMultiPointGeoJSON(), 'MULTIPOINT', 'MultiPoint'],
-            [self::providerGeometryMultiLineStringGeoJSON(), 'MULTILINESTRING', 'MultiLineString'],
-            [self::providerGeometryMultiPolygonGeoJSON(), 'MULTIPOLYGON', 'MultiPolygon'],
-            [self::providerGeometryCollectionGeoJSON(), 'GEOMETRYCOLLECTION', 'GeometryCollection'],
-            [self::providerFeaturePointGeoJSON(), 'FEATURE', 'Feature'],
-            [self::providerFeatureCollectionGeoJSON(), 'FEATURECOLLECTION', 'FeatureCollection'],
+            [self::providerGeometryPointGeoJson(), 'POINT', 'Point'],
+            [self::providerGeometryLineStringGeoJson(), 'LINESTRING', 'LineString'],
+            [self::providerGeometryPolygonGeoJson(), 'POLYGON', 'Polygon'],
+            [self::providerGeometryMultiPointGeoJson(), 'MULTIPOINT', 'MultiPoint'],
+            [self::providerGeometryMultiLineStringGeoJson(), 'MULTILINESTRING', 'MultiLineString'],
+            [self::providerGeometryMultiPolygonGeoJson(), 'MULTIPOLYGON', 'MultiPolygon'],
+            [self::providerGeometryCollectionGeoJson(), 'GEOMETRYCOLLECTION', 'GeometryCollection'],
+            [self::providerFeaturePointGeoJson(), 'FEATURE', 'Feature'],
+            [self::providerFeatureCollectionGeoJson(), 'FEATURECOLLECTION', 'FeatureCollection'],
         ];
 
         foreach ($tests as [$provider, $wrongCase, $correctCase]) {

@@ -26,7 +26,7 @@ final class GeometryIOException extends GeometryException
         return new self('Invalid EWKT.');
     }
 
-    public static function invalidGeoJSON(string $context, ?JsonException $e = null) : GeometryIOException
+    public static function invalidGeoJson(string $context, ?JsonException $e = null) : GeometryIOException
     {
         $message = sprintf('Invalid GeoJSON: %s', $context);
 
@@ -40,14 +40,14 @@ final class GeometryIOException extends GeometryException
         return new self($message);
     }
 
-    public static function unsupportedGeoJSONType(string $geojsonType) : GeometryIOException
+    public static function unsupportedGeoJsonType(string $geoJsonType) : GeometryIOException
     {
-        $message = sprintf('Unsupported GeoJSON type: %s.', $geojsonType);
+        $message = sprintf('Unsupported GeoJSON type: %s.', $geoJsonType);
 
         return new self($message);
     }
 
-    public static function unsupportedGeoJSONTypeWrongCase(string $wrongCase, string $correctCase) : GeometryIOException
+    public static function unsupportedGeoJsonTypeWrongCase(string $wrongCase, string $correctCase) : GeometryIOException
     {
         $message = sprintf(
             'Unsupported GeoJSON type: %s. The correct case is %s. ' .

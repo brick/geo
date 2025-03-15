@@ -6,28 +6,28 @@ namespace Brick\Geo\Tests\IO;
 
 use Brick\Geo\Exception\GeometryIOException;
 use Brick\Geo\GeometryCollection;
-use Brick\Geo\IO\GeoJSONReader;
-use Brick\Geo\IO\GeoJSONWriter;
+use Brick\Geo\IO\GeoJsonReader;
+use Brick\Geo\IO\GeoJsonWriter;
 use Brick\Geo\Point;
 use Brick\Geo\Polygon;
 use PHPUnit\Framework\Attributes\DataProvider;
 
-class GeoJSONWriterTest extends GeoJSONAbstractTestCase
+class GeoJsonWriterTest extends GeoJsonAbstractTestCase
 {
-    #[DataProvider('providerGeometryGeoJSON')]
-    #[DataProvider('providerFeatureGeoJSON')]
-    #[DataProvider('providerFeatureCollectionGeoJSON')]
+    #[DataProvider('providerGeometryGeoJson')]
+    #[DataProvider('providerFeatureGeoJson')]
+    #[DataProvider('providerFeatureCollectionGeoJson')]
     public function testWriteGeometry(string $geojson) : void
     {
-        $geometry = (new GeoJSONReader())->read($geojson);
-        $geometryGeoJSON = (new GeoJSONWriter())->write($geometry);
+        $geometry = (new GeoJsonReader())->read($geojson);
+        $geometryGeoJSON = (new GeoJsonWriter())->write($geometry);
 
         self::assertSame($geojson, $geometryGeoJSON);
     }
 
     public function testPrettyPrint() : void
     {
-        $writer = new GeoJSONWriter(prettyPrint: true);
+        $writer = new GeoJsonWriter(prettyPrint: true);
         $geoJSONOutput = $writer->write(Point::xyz(1, 2, 3));
 
         $expectedGeoJSON = <<<'EOF'
@@ -46,7 +46,7 @@ class GeoJSONWriterTest extends GeoJSONAbstractTestCase
 
     public function testWriteGeometryWithM() : void
     {
-        $writer = new GeoJSONWriter(prettyPrint: true);
+        $writer = new GeoJsonWriter(prettyPrint: true);
 
         // the M coordinate must be ignored
         $geoJSONOutput = $writer->write(Point::xym(1, 2, 3));
@@ -66,7 +66,7 @@ class GeoJSONWriterTest extends GeoJSONAbstractTestCase
 
     public function testWriteGeometryWithBbox() : void
     {
-        $writer = new GeoJSONWriter(prettyPrint: true, setBbox: true);
+        $writer = new GeoJsonWriter(prettyPrint: true, setBbox: true);
 
         $polygon = Polygon::fromText('POLYGON((2 2, 1 5, 2 8, 3 5, 2 2))');
         $geoJSONOutput = $writer->write($polygon);
@@ -112,7 +112,7 @@ class GeoJSONWriterTest extends GeoJSONAbstractTestCase
 
     public function testNestedGeometryCollection(): void
     {
-        $writer = new GeoJSONWriter(prettyPrint: true, lenient: false);
+        $writer = new GeoJsonWriter(prettyPrint: true, lenient: false);
 
         $geometry = GeometryCollection::of(
             GeometryCollection::of(
@@ -128,7 +128,7 @@ class GeoJSONWriterTest extends GeoJSONAbstractTestCase
 
     public function testNestedGeometryCollectionInLenientMode(): void
     {
-        $writer = new GeoJSONWriter(prettyPrint: true, lenient: true);
+        $writer = new GeoJsonWriter(prettyPrint: true, lenient: true);
 
         $geometry = GeometryCollection::of(
             GeometryCollection::of(
