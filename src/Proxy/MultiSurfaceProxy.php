@@ -32,7 +32,7 @@ class MultiSurfaceProxy extends MultiSurface implements ProxyInterface
     /**
      * The SRID of the underlying geometry.
      */
-    private readonly int $proxySRID;
+    private readonly int $proxySrid;
 
     /**
      * The underlying geometry, or NULL if not yet loaded.
@@ -48,7 +48,7 @@ class MultiSurfaceProxy extends MultiSurface implements ProxyInterface
     {
         $this->proxyData     = $data;
         $this->isProxyBinary = $isBinary;
-        $this->proxySRID     = $srid;
+        $this->proxySrid     = $srid;
     }
 
     /**
@@ -62,8 +62,8 @@ class MultiSurfaceProxy extends MultiSurface implements ProxyInterface
     private function load() : void
     {
         $this->proxyGeometry = $this->isProxyBinary
-            ? MultiSurface::fromBinary($this->proxyData, $this->proxySRID)
-            : MultiSurface::fromText($this->proxyData, $this->proxySRID);
+            ? MultiSurface::fromBinary($this->proxyData, $this->proxySrid)
+            : MultiSurface::fromText($this->proxyData, $this->proxySrid);
     }
 
     public function isLoaded() : bool
@@ -97,7 +97,7 @@ class MultiSurfaceProxy extends MultiSurface implements ProxyInterface
 
     public function srid() : int
     {
-        return $this->proxySRID;
+        return $this->proxySrid;
     }
 
     public function asText() : string

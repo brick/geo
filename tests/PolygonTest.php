@@ -44,20 +44,20 @@ class PolygonTest extends AbstractTestCase
     }
 
     /**
-     * @param string[] $ringsWKT
+     * @param string[] $ringsWkt
      */
     #[DataProvider('providerConstructor')]
-    public function testConstructor(array $ringsWKT, string $polygonWKT, bool $hasZ, bool $hasM, int $srid) : void
+    public function testConstructor(array $ringsWkt, string $polygonWkt, bool $hasZ, bool $hasM, int $srid) : void
     {
         $rings = [];
 
-        foreach ($ringsWKT as $lineStringWKT) {
-            $rings[] = LineString::fromText($lineStringWKT, $srid);
+        foreach ($ringsWkt as $lineStringWkt) {
+            $rings[] = LineString::fromText($lineStringWkt, $srid);
         }
 
         $cs = new CoordinateSystem($hasZ, $hasM, $srid);
         $polygon = new Polygon($cs, ...$rings);
-        $this->assertWktEquals($polygon, $polygonWKT, $srid);
+        $this->assertWktEquals($polygon, $polygonWkt, $srid);
     }
 
     public static function providerConstructor() : \Generator
@@ -77,15 +77,15 @@ class PolygonTest extends AbstractTestCase
     }
 
     /**
-     * @param string  $ringWKT  The WKT of the outer ring of the polygon.
-     * @param int     $ringSRID The SRID of the outer ring of the polygon.
+     * @param string  $ringWkt  The WKT of the outer ring of the polygon.
+     * @param int     $ringSrid The SRID of the outer ring of the polygon.
      * @param bool    $hasZ     Whether the coordinate system has Z coordinates.
      * @param bool    $hasM     Whether the coordinate system has M coordinates.
      * @param int     $srid     The SRID of the coordinate system.
      * @param string  $message  The expected exception message, optional.
      */
     #[DataProvider('providerConstructorWithCoordinateSystemMix')]
-    public function testConstructorWithCoordinateSystemMix(string $ringWKT, int $ringSRID, bool $hasZ, bool $hasM, int $srid, string $message = '') : void
+    public function testConstructorWithCoordinateSystemMix(string $ringWkt, int $ringSrid, bool $hasZ, bool $hasM, int $srid, string $message = '') : void
     {
         $this->expectException(CoordinateSystemException::class);
 
@@ -94,7 +94,7 @@ class PolygonTest extends AbstractTestCase
         }
 
         $cs = new CoordinateSystem($hasZ, $hasM, $srid);
-        $ring = LineString::fromText($ringWKT, $ringSRID);
+        $ring = LineString::fromText($ringWkt, $ringSrid);
         new Polygon($cs, $ring);
     }
 
@@ -124,19 +124,19 @@ class PolygonTest extends AbstractTestCase
     }
 
     /**
-     * @param string[] $ringsWKT
+     * @param string[] $ringsWkt
      */
     #[DataProvider('providerOf')]
-    public function testOf(array $ringsWKT, string $polygonWKT, int $srid) : void
+    public function testOf(array $ringsWkt, string $polygonWkt, int $srid) : void
     {
         $rings = [];
 
-        foreach ($ringsWKT as $ringWKT) {
-            $rings[] = LineString::fromText($ringWKT, $srid);
+        foreach ($ringsWkt as $ringWkt) {
+            $rings[] = LineString::fromText($ringWkt, $srid);
         }
 
         $polygon = Polygon::of(...$rings);
-        $this->assertWktEquals($polygon, $polygonWKT, $srid);
+        $this->assertWktEquals($polygon, $polygonWkt, $srid);
     }
 
     public static function providerOf() : \Generator
@@ -156,10 +156,10 @@ class PolygonTest extends AbstractTestCase
     }
 
     #[DataProvider('providerOfWithCoordinateSystemMix')]
-    public function testOfWithCoordinateSystemMix(string $outerRingWKT, string $innerRingWKT, int $outerRingSRID, int $innerRingSRID) : void
+    public function testOfWithCoordinateSystemMix(string $outerRingWkt, string $innerRingWkt, int $outerRingSrid, int $innerRingSrid) : void
     {
-        $outerRing = LineString::fromText($outerRingWKT, $outerRingSRID);
-        $innerRing = LineString::fromText($innerRingWKT, $innerRingSRID);
+        $outerRing = LineString::fromText($outerRingWkt, $outerRingSrid);
+        $innerRing = LineString::fromText($innerRingWkt, $innerRingSrid);
 
         $this->expectException(CoordinateSystemException::class);
         Polygon::of($outerRing, $innerRing);
@@ -180,38 +180,38 @@ class PolygonTest extends AbstractTestCase
     }
 
     /**
-     * @param string      $polygonWKT       The WKT of the Polygon to test.
-     * @param string|null $exteriorRingWKT  The WKT of the exterior ring, or null if the Polygon is empty.
-     * @param string[]    $interiorRingWKTs The WKT of the interior rings.
+     * @param string      $polygonWkt       The WKT of the Polygon to test.
+     * @param string|null $exteriorRingWkt  The WKT of the exterior ring, or null if the Polygon is empty.
+     * @param string[]    $interiorRingWkts The WKT of the interior rings.
      * @param int         $srid             The SRID of the geometries.
      */
     #[DataProvider('providerRings')]
-    public function testRings(string $polygonWKT, ?string $exteriorRingWKT, array $interiorRingWKTs, int $srid) : void
+    public function testRings(string $polygonWkt, ?string $exteriorRingWkt, array $interiorRingWkts, int $srid) : void
     {
-        $polygon = Polygon::fromText($polygonWKT, $srid);
+        $polygon = Polygon::fromText($polygonWkt, $srid);
 
-        $ringWKTs = array_merge($exteriorRingWKT === null ? [] : [$exteriorRingWKT], $interiorRingWKTs);
+        $ringWkts = array_merge($exteriorRingWkt === null ? [] : [$exteriorRingWkt], $interiorRingWkts);
 
-        self::assertWktEqualsMultiple($polygon->rings(), $ringWKTs, $srid);
+        self::assertWktEqualsMultiple($polygon->rings(), $ringWkts, $srid);
 
-        if ($exteriorRingWKT !== null) {
-            $this->assertWktEquals($polygon->exteriorRing(), $exteriorRingWKT, $srid);
+        if ($exteriorRingWkt !== null) {
+            $this->assertWktEquals($polygon->exteriorRing(), $exteriorRingWkt, $srid);
         } else {
             $this->expectExceptionIn(function () use ($polygon) {
                 $polygon->exteriorRing();
             }, EmptyGeometryException::class);
         }
 
-        self::assertWktEqualsMultiple($polygon->interiorRings(), $interiorRingWKTs, $srid);
-        self::assertSame(count($interiorRingWKTs), $polygon->numInteriorRings());
+        self::assertWktEqualsMultiple($polygon->interiorRings(), $interiorRingWkts, $srid);
+        self::assertSame(count($interiorRingWkts), $polygon->numInteriorRings());
 
         $this->expectExceptionIn(function () use ($polygon) {
             $polygon->interiorRingN(0);
         }, NoSuchGeometryException::class);
 
         $index = 1;
-        foreach ($interiorRingWKTs as $interiorRingWKT) {
-            $this->assertWktEquals($polygon->interiorRingN($index), $interiorRingWKT, $srid);
+        foreach ($interiorRingWkts as $interiorRingWkt) {
+            $this->assertWktEquals($polygon->interiorRingN($index), $interiorRingWkt, $srid);
             $index++;
         }
 

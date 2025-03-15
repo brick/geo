@@ -32,7 +32,7 @@ class GeometryCollectionProxy extends GeometryCollection implements ProxyInterfa
     /**
      * The SRID of the underlying geometry.
      */
-    private readonly int $proxySRID;
+    private readonly int $proxySrid;
 
     /**
      * The underlying geometry, or NULL if not yet loaded.
@@ -48,7 +48,7 @@ class GeometryCollectionProxy extends GeometryCollection implements ProxyInterfa
     {
         $this->proxyData     = $data;
         $this->isProxyBinary = $isBinary;
-        $this->proxySRID     = $srid;
+        $this->proxySrid     = $srid;
     }
 
     /**
@@ -62,8 +62,8 @@ class GeometryCollectionProxy extends GeometryCollection implements ProxyInterfa
     private function load() : void
     {
         $this->proxyGeometry = $this->isProxyBinary
-            ? GeometryCollection::fromBinary($this->proxyData, $this->proxySRID)
-            : GeometryCollection::fromText($this->proxyData, $this->proxySRID);
+            ? GeometryCollection::fromBinary($this->proxyData, $this->proxySrid)
+            : GeometryCollection::fromText($this->proxyData, $this->proxySrid);
     }
 
     public function isLoaded() : bool
@@ -97,7 +97,7 @@ class GeometryCollectionProxy extends GeometryCollection implements ProxyInterfa
 
     public function srid() : int
     {
-        return $this->proxySRID;
+        return $this->proxySrid;
     }
 
     public function asText() : string

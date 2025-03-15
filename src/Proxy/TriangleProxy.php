@@ -32,7 +32,7 @@ class TriangleProxy extends Triangle implements ProxyInterface
     /**
      * The SRID of the underlying geometry.
      */
-    private readonly int $proxySRID;
+    private readonly int $proxySrid;
 
     /**
      * The underlying geometry, or NULL if not yet loaded.
@@ -48,7 +48,7 @@ class TriangleProxy extends Triangle implements ProxyInterface
     {
         $this->proxyData     = $data;
         $this->isProxyBinary = $isBinary;
-        $this->proxySRID     = $srid;
+        $this->proxySrid     = $srid;
     }
 
     /**
@@ -62,8 +62,8 @@ class TriangleProxy extends Triangle implements ProxyInterface
     private function load() : void
     {
         $this->proxyGeometry = $this->isProxyBinary
-            ? Triangle::fromBinary($this->proxyData, $this->proxySRID)
-            : Triangle::fromText($this->proxyData, $this->proxySRID);
+            ? Triangle::fromBinary($this->proxyData, $this->proxySrid)
+            : Triangle::fromText($this->proxyData, $this->proxySrid);
     }
 
     public function isLoaded() : bool
@@ -97,7 +97,7 @@ class TriangleProxy extends Triangle implements ProxyInterface
 
     public function srid() : int
     {
-        return $this->proxySRID;
+        return $this->proxySrid;
     }
 
     public function asText() : string

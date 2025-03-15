@@ -18,20 +18,20 @@ use PHPUnit\Framework\Attributes\DataProvider;
 class CircularStringTest extends AbstractTestCase
 {
     /**
-     * @param string[] $pointsWKT        The WKT of the Points that compose the CircularString.
+     * @param string[] $pointsWkt         The WKT of the Points that compose the CircularString.
      * @param bool     $is3D              Whether the points have Z coordinates.
      * @param bool     $isMeasured        Whether the points have M coordinates.
-     * @param string   $circularStringWKT The WKT of the expected CircularString.
+     * @param string   $circularStringWkt The WKT of the expected CircularString.
      */
     #[DataProvider('providerCreate')]
-    public function testCreate(array $pointsWKT, bool $is3D, bool $isMeasured, string $circularStringWKT) : void
+    public function testCreate(array $pointsWkt, bool $is3D, bool $isMeasured, string $circularStringWkt) : void
     {
         foreach ([0, 1] as $srid) {
             $instantiatePoint = fn(string $point) => Point::fromText($point, $srid);
 
             $cs = new CoordinateSystem($is3D, $isMeasured, $srid);
-            $circularString = new CircularString($cs, ...array_map($instantiatePoint, $pointsWKT));
-            $this->assertWktEquals($circularString, $circularStringWKT, $srid);
+            $circularString = new CircularString($cs, ...array_map($instantiatePoint, $pointsWkt));
+            $this->assertWktEquals($circularString, $circularStringWkt, $srid);
         }
     }
 

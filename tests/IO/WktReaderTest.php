@@ -36,18 +36,18 @@ class WktReaderTest extends WktAbstractTestCase
     }
 
     #[DataProvider('providerAlternativeSyntaxWkt')]
-    public function testAlternativeSyntax(string $canonicalWKT, string $alternativeWKT): void
+    public function testAlternativeSyntax(string $canonicalWkt, string $alternativeWkt): void
     {
         $wktReader = new WktReader();
         $wktWriter = new WktWriter();
         $wktWriter->setPrettyPrint(false);
 
-        $canonical = $wktReader->read($canonicalWKT);
-        $alternative = $wktReader->read($alternativeWKT);
+        $canonical = $wktReader->read($canonicalWkt);
+        $alternative = $wktReader->read($alternativeWkt);
 
         // WKTWriter always writes the canonical form.
-        self::assertSame($canonicalWKT, $wktWriter->write($canonical));
-        self::assertSame($canonicalWKT, $wktWriter->write($alternative));
+        self::assertSame($canonicalWkt, $wktWriter->write($canonical));
+        self::assertSame($canonicalWkt, $wktWriter->write($alternative));
     }
 
     /**

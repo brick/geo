@@ -31,7 +31,7 @@ class GeometryProxy extends Geometry implements ProxyInterface
     /**
      * The SRID of the underlying geometry.
      */
-    private readonly int $proxySRID;
+    private readonly int $proxySrid;
 
     /**
      * The underlying geometry, or NULL if not yet loaded.
@@ -47,7 +47,7 @@ class GeometryProxy extends Geometry implements ProxyInterface
     {
         $this->proxyData     = $data;
         $this->isProxyBinary = $isBinary;
-        $this->proxySRID     = $srid;
+        $this->proxySrid     = $srid;
     }
 
     /**
@@ -61,8 +61,8 @@ class GeometryProxy extends Geometry implements ProxyInterface
     private function load() : void
     {
         $this->proxyGeometry = $this->isProxyBinary
-            ? Geometry::fromBinary($this->proxyData, $this->proxySRID)
-            : Geometry::fromText($this->proxyData, $this->proxySRID);
+            ? Geometry::fromBinary($this->proxyData, $this->proxySrid)
+            : Geometry::fromText($this->proxyData, $this->proxySrid);
     }
 
     public function isLoaded() : bool
@@ -96,7 +96,7 @@ class GeometryProxy extends Geometry implements ProxyInterface
 
     public function srid() : int
     {
-        return $this->proxySRID;
+        return $this->proxySrid;
     }
 
     public function asText() : string

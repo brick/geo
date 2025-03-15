@@ -16,20 +16,20 @@ use PHPUnit\Framework\Attributes\DataProvider;
 class PolyhedralSurfaceTest extends AbstractTestCase
 {
     /**
-     * @param string[] $patchesWKT           The WKT of the patches (polygons) that compose the PolyhedralSurface.
+     * @param string[] $patchesWkt           The WKT of the patches (polygons) that compose the PolyhedralSurface.
      * @param bool     $is3D                 Whether the patches have Z coordinates.
      * @param bool     $isMeasured           Whether the patches have M coordinates.
-     * @param string   $polyhedralSurfaceWKT The WKT of the expected PolyhedralSurface.
+     * @param string   $polyhedralSurfaceWkt The WKT of the expected PolyhedralSurface.
      */
     #[DataProvider('providerCreate')]
-    public function testCreate(array $patchesWKT, bool $is3D, bool $isMeasured, string $polyhedralSurfaceWKT) : void
+    public function testCreate(array $patchesWkt, bool $is3D, bool $isMeasured, string $polyhedralSurfaceWkt) : void
     {
         foreach ([0, 1] as $srid) {
             $instantiatePolygon = fn(string $patch) => Polygon::fromText($patch, $srid);
 
             $cs = new CoordinateSystem($is3D, $isMeasured, $srid);
-            $polyhedralSurface = new PolyhedralSurface($cs, ...array_map($instantiatePolygon, $patchesWKT));
-            $this->assertWktEquals($polyhedralSurface, $polyhedralSurfaceWKT, $srid);
+            $polyhedralSurface = new PolyhedralSurface($cs, ...array_map($instantiatePolygon, $patchesWkt));
+            $this->assertWktEquals($polyhedralSurface, $polyhedralSurfaceWkt, $srid);
         }
     }
 

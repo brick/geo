@@ -14,19 +14,19 @@ use Override;
 final class SridProjector implements Projector
 {
     public function __construct(
-        private readonly int $targetSRID,
+        private readonly int $targetSrid,
     ) {
     }
 
     #[Override]
     public function project(Point $point): Point
     {
-        return new Point($point->coordinateSystem()->withSrid($this->targetSRID), ...$point->toArray());
+        return new Point($point->coordinateSystem()->withSrid($this->targetSrid), ...$point->toArray());
     }
 
     #[Override]
     public function getTargetCoordinateSystem(CoordinateSystem $sourceCoordinateSystem): CoordinateSystem
     {
-        return $sourceCoordinateSystem->withSrid($this->targetSRID);
+        return $sourceCoordinateSystem->withSrid($this->targetSrid);
     }
 }

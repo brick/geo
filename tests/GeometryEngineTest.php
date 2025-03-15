@@ -423,11 +423,11 @@ class GeometryEngineTest extends AbstractTestCase
     }
 
     /**
-     * @param string $geometryWKT The WKT of the geometry to test.
-     * @param string $validGeometryWKT The WKT of the expected geometry.
+     * @param string $geometryWkt The WKT of the geometry to test.
+     * @param string $validGeometryWkt The WKT of the expected geometry.
      */
     #[DataProvider('providerMakeValid')]
-    public function testMakeValid(string $geometryWKT, string $validGeometryWKT) : void
+    public function testMakeValid(string $geometryWkt, string $validGeometryWkt) : void
     {
         $geometryEngine = $this->getGeometryEngine();
 
@@ -435,18 +435,18 @@ class GeometryEngineTest extends AbstractTestCase
         $this->failsOnMariadb();
         $this->failsOnGeos();
 
-        $geometry = Geometry::fromText($geometryWKT);
-        $validGeometry = Geometry::fromText($validGeometryWKT);
+        $geometry = Geometry::fromText($geometryWkt);
+        $validGeometry = Geometry::fromText($validGeometryWkt);
 
         $makeValidGeometry = $geometryEngine->makeValid($geometry);
 
         // ensure that our tests are valid
         self::assertTrue($geometryEngine->isValid($validGeometry));
-        self::assertSame($geometryWKT === $validGeometryWKT, $geometryEngine->isValid($geometry));
+        self::assertSame($geometryWkt === $validGeometryWkt, $geometryEngine->isValid($geometry));
 
-        if ($geometryWKT === $validGeometryWKT) {
+        if ($geometryWkt === $validGeometryWkt) {
             // valid geometries should be returned as is
-            self::assertSame($geometryWKT, $makeValidGeometry->asText());
+            self::assertSame($geometryWkt, $makeValidGeometry->asText());
         } else {
             $this->assertGeometryEquals($validGeometry, $makeValidGeometry);
             self::assertTrue($geometryEngine->isValid($makeValidGeometry));
@@ -1227,7 +1227,7 @@ class GeometryEngineTest extends AbstractTestCase
     }
 
     #[DataProvider('providerTransform')]
-    public function testTransform(string $originalWKT, int $originalSRID, int $targetSRID, string $expectedWKT) : void
+    public function testTransform(string $originalWkt, int $originalSrid, int $targetSrid, string $expectedWkt) : void
     {
         $geometryEngine = $this->getGeometryEngine();
 
@@ -1235,14 +1235,14 @@ class GeometryEngineTest extends AbstractTestCase
         $this->failsOnGeos();
         $this->failsOnGeosOp();
 
-        $originalGeometry = Geometry::fromText($originalWKT, $originalSRID);
-        $expectedGeometry = Geometry::fromText($expectedWKT, $targetSRID);
+        $originalGeometry = Geometry::fromText($originalWkt, $originalSrid);
+        $expectedGeometry = Geometry::fromText($expectedWkt, $targetSrid);
 
         if ($this->isMysql()) {
             $expectedGeometry = $expectedGeometry->swapXy();
         }
 
-        $transformedGeometry = $geometryEngine->transform($originalGeometry, $targetSRID);
+        $transformedGeometry = $geometryEngine->transform($originalGeometry, $targetSrid);
 
         $this->assertGeometryEqualsWithDelta($expectedGeometry, $transformedGeometry, 0.02);
     }
@@ -1261,10 +1261,10 @@ class GeometryEngineTest extends AbstractTestCase
     }
 
     /**
-     * @param string|string[] $expectedWKT
+     * @param string|string[] $expectedWkt
      */
     #[DataProvider('providerSplit')]
-    public function testSplit(string $originalWKT, string $bladeWKT, string|array $expectedWKT) : void
+    public function testSplit(string $originalWkt, string $bladeWkt, string|array $expectedWkt) : void
     {
         $geometryEngine = $this->getGeometryEngine();
 
@@ -1273,15 +1273,15 @@ class GeometryEngineTest extends AbstractTestCase
         $this->failsOnGeos();
         $this->failsOnGeosOp();
 
-        $originalGeometry = Geometry::fromText($originalWKT);
-        $bladeGeometry = Geometry::fromText($bladeWKT);
+        $originalGeometry = Geometry::fromText($originalWkt);
+        $bladeGeometry = Geometry::fromText($bladeWkt);
 
         $splitGeometry = $geometryEngine->split($originalGeometry, $bladeGeometry);
 
-        if (is_array($expectedWKT)) {
-            self::assertContains($splitGeometry->asText(), $expectedWKT);
+        if (is_array($expectedWkt)) {
+            self::assertContains($splitGeometry->asText(), $expectedWkt);
         } else {
-            $this->assertSame($expectedWKT, $splitGeometry->asText());
+            $this->assertSame($expectedWkt, $splitGeometry->asText());
         }
     }
 
@@ -1309,17 +1309,17 @@ class GeometryEngineTest extends AbstractTestCase
     }
 
     #[DataProvider('providerLineInterpolatePoint')]
-    public function testLineInterpolatePoint(string $originalWKT, float $fraction, string $expectedWKT) : void
+    public function testLineInterpolatePoint(string $originalWkt, float $fraction, string $expectedWkt) : void
     {
         $geometryEngine = $this->getGeometryEngine();
 
         $this->failsOnMariadb();
         $this->failsOnGeosOp();
 
-        $lineString = LineString::fromText($originalWKT);
+        $lineString = LineString::fromText($originalWkt);
         $resultGeometry = $geometryEngine->lineInterpolatePoint($lineString, $fraction);
 
-        $this->assertSame($expectedWKT, $resultGeometry->asText());
+        $this->assertSame($expectedWkt, $resultGeometry->asText());
     }
 
     public static function providerLineInterpolatePoint() : array
@@ -1350,7 +1350,7 @@ class GeometryEngineTest extends AbstractTestCase
     }
 
     #[DataProvider('providerLineInterpolatePoints')]
-    public function testLineInterpolatePoints(string $originalWKT, float $fraction, string $expectedWKT) : void
+    public function testLineInterpolatePoints(string $originalWkt, float $fraction, string $expectedWkt) : void
     {
         $geometryEngine = $this->getGeometryEngine();
 
@@ -1359,12 +1359,12 @@ class GeometryEngineTest extends AbstractTestCase
         $this->failsOnGeos();
         $this->failsOnGeosOp();
 
-        $lineString = LineString::fromText($originalWKT);
+        $lineString = LineString::fromText($originalWkt);
         $this->skipIfUnsupportedGeometry($lineString);
 
         $resultGeometry = $geometryEngine->lineInterpolatePoints($lineString, $fraction);
 
-        $this->assertSame($expectedWKT, $resultGeometry->asText());
+        $this->assertSame($expectedWkt, $resultGeometry->asText());
     }
 
     public static function providerLineInterpolatePoints() : array
@@ -1610,10 +1610,10 @@ class GeometryEngineTest extends AbstractTestCase
      */
     private function assertGeometryEquals(Geometry $expected, Geometry $actual) : void
     {
-        $expectedWKT = $expected->asText();
-        $actualWKT = $actual->asText();
+        $expectedWkt = $expected->asText();
+        $actualWkt = $actual->asText();
 
-        if ($expectedWKT === $actualWKT) {
+        if ($expectedWkt === $actualWkt) {
             // Some engines do not consider empty geometries to be equal, so we test for WKT equality first.
             $this->addToAssertionCount(1);
 
@@ -1624,8 +1624,8 @@ class GeometryEngineTest extends AbstractTestCase
             '---Expected',
             '+++Actual',
             '@@ @@',
-            '-' . $expectedWKT,
-            '+' . $actualWKT,
+            '-' . $expectedWkt,
+            '+' . $actualWkt,
         ];
 
         $debug = "\n" . implode("\n", $debug);
@@ -1673,10 +1673,10 @@ class GeometryEngineTest extends AbstractTestCase
         return false;
     }
     /**
-     * @param bool        $testMariaDB        False to check for MYSQL, true to check for MariaDB.
+     * @param bool        $testMariadb        False to check for MYSQL, true to check for MariaDB.
      * @param string|null $operatorAndVersion An optional comparison operator and version number to test against.
      */
-    private function isMysqlOrMariadb(bool $testMariaDB, ?string $operatorAndVersion = null) : bool
+    private function isMysqlOrMariadb(bool $testMariadb, ?string $operatorAndVersion = null) : bool
     {
         $engine = $this->getGeometryEngine();
 
@@ -1688,13 +1688,13 @@ class GeometryEngineTest extends AbstractTestCase
                 $version = $statement->fetchColumn();
 
                 $pos = strpos($version, '-MariaDB');
-                $isMariaDB = ($pos !== false);
+                $isMariadb = ($pos !== false);
 
-                if ($isMariaDB) {
+                if ($isMariadb) {
                     $version = substr($version, 0, $pos);
                 }
 
-                if ($testMariaDB !== $isMariaDB) {
+                if ($testMariadb !== $isMariadb) {
                     return false;
                 }
 

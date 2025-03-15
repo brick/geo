@@ -36,25 +36,25 @@ class EwktReaderTest extends EwktAbstractTestCase
     }
 
     #[DataProvider('providerAlternativeSyntax')]
-    public function testAlternativeSyntax(string $canonicalEWKT, string $alternativeEWKT): void
+    public function testAlternativeSyntax(string $canonicalEwkt, string $alternativeEwkt): void
     {
         $wktReader = new EwktReader();
         $wktWriter = new EwktWriter();
         $wktWriter->setPrettyPrint(false);
 
-        $canonical = $wktReader->read($canonicalEWKT);
-        $alternative = $wktReader->read($alternativeEWKT);
+        $canonical = $wktReader->read($canonicalEwkt);
+        $alternative = $wktReader->read($alternativeEwkt);
 
         // EWKTWriter always writes the canonical form.
-        self::assertSame($canonicalEWKT, $wktWriter->write($canonical));
-        self::assertSame($canonicalEWKT, $wktWriter->write($alternative));
+        self::assertSame($canonicalEwkt, $wktWriter->write($canonical));
+        self::assertSame($canonicalEwkt, $wktWriter->write($alternative));
     }
 
     public static function providerAlternativeSyntax(): \Generator
     {
-        foreach (self::providerAlternativeSyntaxWkt() as [$canonicalWKT, $alternativeWKT]) {
-            yield [$canonicalWKT, $alternativeWKT];
-            yield [self::toEwkt($canonicalWKT, 4326), self::toEwkt($alternativeWKT, 4326)];
+        foreach (self::providerAlternativeSyntaxWkt() as [$canonicalWkt, $alternativeWkt]) {
+            yield [$canonicalWkt, $alternativeWkt];
+            yield [self::toEwkt($canonicalWkt, 4326), self::toEwkt($alternativeWkt, 4326)];
         }
     }
 }
