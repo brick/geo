@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Brick\Geo\IO\GeoJson;
+namespace Brick\Geo\Io\GeoJson;
 
 use Brick\Geo\Geometry;
 use Brick\Geo\Internal\Cloner;

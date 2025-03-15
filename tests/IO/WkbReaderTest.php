@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Brick\Geo\Tests\IO;
 
-use Brick\Geo\IO\WkbReader;
+use Brick\Geo\Io\WkbReader;
 use PHPUnit\Framework\Attributes\DataProvider;
 
 /**

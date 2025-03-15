@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Brick\Geo\Tests\IO;
 
-use Brick\Geo\Exception\GeometryIOException;
+use Brick\Geo\Exception\GeometryIoException;
 use Brick\Geo\GeometryCollection;
-use Brick\Geo\IO\GeoJsonReader;
-use Brick\Geo\IO\GeoJsonWriter;
+use Brick\Geo\Io\GeoJsonReader;
+use Brick\Geo\Io\GeoJsonWriter;
 use Brick\Geo\Point;
 use Brick\Geo\Polygon;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -120,7 +120,7 @@ class GeoJsonWriterTest extends GeoJsonAbstractTestCase
             ),
         );
 
-        $this->expectException(GeometryIOException::class);
+        $this->expectException(GeometryIoException::class);
         $this->expectExceptionMessage('GeoJSON does not allow nested GeometryCollections. You can allow this by setting the $lenient flag to true.');
 
         $writer->write($geometry);

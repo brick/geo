@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Brick\Geo\IO\Internal;
+namespace Brick\Geo\Io\Internal;
 
 use Brick\Geo\CircularString;
 use Brick\Geo\CompoundCurve;
 use Brick\Geo\CurvePolygon;
-use Brick\Geo\Exception\GeometryIOException;
+use Brick\Geo\Exception\GeometryIoException;
 use Brick\Geo\Geometry;
 use Brick\Geo\GeometryCollection;
 use Brick\Geo\LineString;
@@ -42,7 +42,7 @@ abstract class AbstractWktWriter
      *
      * @return string The WKT representation of the given geometry.
      *
-     * @throws GeometryIOException If the given geometry cannot be exported as WKT.
+     * @throws GeometryIoException If the given geometry cannot be exported as WKT.
      */
     abstract public function write(Geometry $geometry) : string;
 
@@ -51,7 +51,7 @@ abstract class AbstractWktWriter
      *
      * @return string The WKT representation of the given geometry.
      *
-     * @throws GeometryIOException If the given geometry cannot be exported as WKT.
+     * @throws GeometryIoException If the given geometry cannot be exported as WKT.
      */
     protected function doWrite(Geometry $geometry) : string
     {
@@ -113,7 +113,7 @@ abstract class AbstractWktWriter
         } elseif ($geometry instanceof PolyhedralSurface) {
             $data = $this->writePolyhedralSurface($geometry);
         } else {
-            throw GeometryIOException::unsupportedGeometryType($geometry->geometryType());
+            throw GeometryIoException::unsupportedGeometryType($geometry->geometryType());
         }
 
         return $type . $dimensionality . $this->prettyPrintSpace . '(' . $data . ')';
@@ -161,7 +161,7 @@ abstract class AbstractWktWriter
     }
 
     /**
-     * @throws GeometryIOException
+     * @throws GeometryIoException
      */
     private function writeCompoundCurve(CompoundCurve $compoundCurve) : string
     {

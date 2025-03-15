@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Brick\Geo\IO;
+namespace Brick\Geo\Io;
 
 use Brick\Geo\Geometry;
-use Brick\Geo\IO\Internal\AbstractWktWriter;
+use Brick\Geo\Io\Internal\AbstractWktWriter;
 use Override;
 
 /**

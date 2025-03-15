@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Brick\Geo\IO\GeoJson;
+namespace Brick\Geo\Io\GeoJson;
 
 /**
  * A GeoJSON FeatureCollection. This class is immutable.

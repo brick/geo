@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Brick\Geo\Tests\IO;
 
-use Brick\Geo\Exception\GeometryIOException;
+use Brick\Geo\Exception\GeometryIoException;
 use Brick\Geo\GeometryCollection;
-use Brick\Geo\IO\GeoJson\Feature;
-use Brick\Geo\IO\GeoJson\FeatureCollection;
-use Brick\Geo\IO\GeoJsonReader;
+use Brick\Geo\Io\GeoJson\Feature;
+use Brick\Geo\Io\GeoJson\FeatureCollection;
+use Brick\Geo\Io\GeoJsonReader;
 use Brick\Geo\Point;
 use PHPUnit\Framework\Attributes\DataProvider;
 use stdClass;
@@ -109,7 +109,7 @@ class GeoJsonReaderTest extends GeoJsonAbstractTestCase
         }
         EOF;
 
-        $this->expectException(GeometryIOException::class);
+        $this->expectException(GeometryIoException::class);
         $this->expectExceptionMessage(
             'Missing "Feature.geometry" attribute. Features without geometry should use an explicit null value for ' .
             'this field. You can ignore this error by setting the $lenient flag to true.',
@@ -153,7 +153,7 @@ class GeoJsonReaderTest extends GeoJsonAbstractTestCase
         }
         EOF;
 
-        $this->expectException(GeometryIOException::class);
+        $this->expectException(GeometryIoException::class);
         $this->expectExceptionMessage(
             'Missing "Feature.properties" attribute. Features without properties should use an explicit null value for ' .
             'this field. You can ignore this error by setting the $lenient flag to true.',
@@ -205,7 +205,7 @@ class GeoJsonReaderTest extends GeoJsonAbstractTestCase
         }
         EOF;
 
-        $this->expectException(GeometryIOException::class);
+        $this->expectException(GeometryIoException::class);
         $this->expectExceptionMessage(
             'Invalid GeoJSON: GeoJSON does not allow nested GeometryCollections. You can allow this by setting the ' .
             '$lenient flag to true.',
@@ -252,7 +252,7 @@ class GeoJsonReaderTest extends GeoJsonAbstractTestCase
     {
         $reader = new GeoJsonReader();
 
-        $this->expectException(GeometryIOException::class);
+        $this->expectException(GeometryIoException::class);
         $this->expectExceptionMessage($expectedExceptionMessage);
 
         $reader->read($geojson);

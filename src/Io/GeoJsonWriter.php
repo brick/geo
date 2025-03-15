@@ -2,14 +2,14 @@
 
 declare(strict_types = 1);
 
-namespace Brick\Geo\IO;
+namespace Brick\Geo\Io;
 
 use Brick\Geo\BoundingBox;
-use Brick\Geo\Exception\GeometryIOException;
+use Brick\Geo\Exception\GeometryIoException;
 use Brick\Geo\Geometry;
 use Brick\Geo\GeometryCollection;
-use Brick\Geo\IO\GeoJson\Feature;
-use Brick\Geo\IO\GeoJson\FeatureCollection;
+use Brick\Geo\Io\GeoJson\Feature;
+use Brick\Geo\Io\GeoJson\FeatureCollection;
 use stdClass;
 
 /**
@@ -42,7 +42,7 @@ final class GeoJsonWriter
      *
      * @return string The GeoJSON representation of the given object.
      *
-     * @throws GeometryIOException If the given geometry cannot be exported as GeoJSON.
+     * @throws GeometryIoException If the given geometry cannot be exported as GeoJSON.
      */
     public function write(Geometry|Feature|FeatureCollection $object) : string
     {
@@ -62,7 +62,7 @@ final class GeoJsonWriter
      *
      * @return stdClass An object to be JSON-encoded.
      *
-     * @throws GeometryIOException
+     * @throws GeometryIoException
      */
     public function writeRaw(Geometry|Feature|FeatureCollection $object): stdClass
     {
@@ -82,7 +82,7 @@ final class GeoJsonWriter
      * @psalm-suppress LessSpecificReturnStatement
      * @see https://github.com/vimeo/psalm/issues/8187
      *
-     * @throws GeometryIOException
+     * @throws GeometryIoException
      */
     private function writeFeature(Feature $feature): stdClass
     {
@@ -115,7 +115,7 @@ final class GeoJsonWriter
      * @psalm-suppress LessSpecificReturnStatement
      * @see https://github.com/vimeo/psalm/issues/8187
      *
-     * @throws GeometryIOException
+     * @throws GeometryIoException
      */
     private function writeFeatureCollection(FeatureCollection $featureCollection): stdClass
     {
@@ -151,7 +151,7 @@ final class GeoJsonWriter
      * @psalm-suppress LessSpecificReturnStatement
      * @see https://github.com/vimeo/psalm/issues/8187
      *
-     * @throws GeometryIOException
+     * @throws GeometryIoException
      */
     private function writeGeometry(Geometry $geometry): stdClass
     {
@@ -175,7 +175,7 @@ final class GeoJsonWriter
         ];
 
         if (! in_array($geometryType, $validGeometries, true)) {
-            throw GeometryIOException::unsupportedGeometryType($geometry->geometryType());
+            throw GeometryIoException::unsupportedGeometryType($geometry->geometryType());
         }
 
         $result = [
@@ -199,7 +199,7 @@ final class GeoJsonWriter
      * @psalm-suppress LessSpecificReturnStatement
      * @see https://github.com/vimeo/psalm/issues/8187
      *
-     * @throws GeometryIOException
+     * @throws GeometryIoException
      */
     private function writeGeometryCollection(GeometryCollection $geometryCollection): stdClass
     {
@@ -207,7 +207,7 @@ final class GeoJsonWriter
 
         $geometries = array_map(function(Geometry $geometry) {
             if ($geometry::class === GeometryCollection::class && ! $this->lenient) {
-                throw new GeometryIOException(
+                throw new GeometryIoException(
                     'GeoJSON does not allow nested GeometryCollections. ' .
                     'You can allow this by setting the $lenient flag to true.',
                 );

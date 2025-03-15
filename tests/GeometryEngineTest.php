@@ -1428,7 +1428,7 @@ class GeometryEngineTest extends AbstractTestCase
 
     private function failsOnGEOS(?string $operatorAndVersion = null) : void
     {
-        if ($this->isGEOS($operatorAndVersion)) {
+        if ($this->isGeos($operatorAndVersion)) {
             $this->expectException(GeometryEngineException::class);
         }
     }
@@ -1479,7 +1479,7 @@ class GeometryEngineTest extends AbstractTestCase
         return false;
     }
 
-    private function isGEOS(?string $operatorAndVersion = null) : bool
+    private function isGeos(?string $operatorAndVersion = null) : bool
     {
         $engine = $this->getGeometryEngine();
 
@@ -1549,7 +1549,7 @@ class GeometryEngineTest extends AbstractTestCase
             return;
         }
 
-        if (in_array('GEOS', $supportedEngines) && $this->isGEOS()) {
+        if (in_array('GEOS', $supportedEngines) && $this->isGeos()) {
             return;
         }
 
@@ -1569,7 +1569,7 @@ class GeometryEngineTest extends AbstractTestCase
         }
 
         if ($geometry->isMeasured()) {
-            if ($this->isGEOS()) {
+            if ($this->isGeos()) {
                 self::markTestSkipped('GEOS does not support M coordinates in WKB.');
             }
         }

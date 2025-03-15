@@ -2,15 +2,15 @@
 
 declare(strict_types = 1);
 
-namespace Brick\Geo\IO;
+namespace Brick\Geo\Io;
 
 use Brick\Geo\CoordinateSystem;
 use Brick\Geo\Exception\GeometryException;
-use Brick\Geo\Exception\GeometryIOException;
+use Brick\Geo\Exception\GeometryIoException;
 use Brick\Geo\Geometry;
 use Brick\Geo\GeometryCollection;
-use Brick\Geo\IO\GeoJson\Feature;
-use Brick\Geo\IO\GeoJson\FeatureCollection;
+use Brick\Geo\Io\GeoJson\Feature;
+use Brick\Geo\Io\GeoJson\FeatureCollection;
 use Brick\Geo\LineString;
 use Brick\Geo\MultiLineString;
 use Brick\Geo\MultiPoint;
@@ -62,11 +62,11 @@ final class GeoJsonReader
         try {
             $geoJsonObject = json_decode($geoJson, flags: JSON_THROW_ON_ERROR);
         } catch (JsonException $e) {
-            throw GeometryIOException::invalidGeoJson('Unable to parse GeoJSON string.', $e);
+            throw GeometryIoException::invalidGeoJson('Unable to parse GeoJSON string.', $e);
         }
 
         if (! is_object($geoJsonObject)) {
-            throw GeometryIOException::invalidGeoJson('GeoJSON string does not represent an object.');
+            throw GeometryIoException::invalidGeoJson('GeoJSON string does not represent an object.');
         }
 
         /** @var stdClass $geoJsonObject */
@@ -79,7 +79,7 @@ final class GeoJsonReader
     private function readAsObject(stdClass $geoJsonObject): Geometry|Feature|FeatureCollection
     {
         if (! isset($geoJsonObject->type) || ! is_string($geoJsonObject->type)) {
-            throw GeometryIOException::invalidGeoJson('Missing or malformed "type" attribute.');
+            throw GeometryIoException::invalidGeoJson('Missing or malformed "type" attribute.');
         }
 
         $geoType = $this->normalizeGeoJsonType($geoJsonObject->type);
@@ -101,7 +101,7 @@ final class GeoJsonReader
                 return $this->readGeometry($geoJsonObject);
 
             default:
-                throw GeometryIOException::unsupportedGeoJsonType($geoJsonObject->type);
+                throw GeometryIoException::unsupportedGeoJsonType($geoJsonObject->type);
         }
     }
 
@@ -117,14 +117,14 @@ final class GeoJsonReader
         if (property_exists($geoJsonFeature, 'geometry')) {
             if ($geoJsonFeature->geometry !== null) {
                 if (! is_object($geoJsonFeature->geometry)) {
-                    throw GeometryIOException::invalidGeoJson('Malformed "Feature.geometry" attribute.');
+                    throw GeometryIoException::invalidGeoJson('Malformed "Feature.geometry" attribute.');
                 }
 
                 /** @var stdClass $geoJsonFeature->geometry */
                 $geometry = $this->readGeometry($geoJsonFeature->geometry);
             }
         } elseif (! $this->lenient) {
-            throw GeometryIOException::invalidGeoJson(
+            throw GeometryIoException::invalidGeoJson(
                 'Missing "Feature.geometry" attribute. ' .
                 'Features without geometry should use an explicit null value for this field. ' .
                 'You can ignore this error by setting the $lenient flag to true.',
@@ -136,14 +136,14 @@ final class GeoJsonReader
         if (property_exists($geoJsonFeature, 'properties')) {
             if ($geoJsonFeature->properties !== null) {
                 if (! is_object($geoJsonFeature->properties)) {
-                    throw GeometryIOException::invalidGeoJson('Malformed "Feature.properties" attribute.');
+                    throw GeometryIoException::invalidGeoJson('Malformed "Feature.properties" attribute.');
                 }
 
                 /** @var stdClass $properties */
                 $properties = $geoJsonFeature->properties;
             }
         } elseif (! $this->lenient) {
-            throw GeometryIOException::invalidGeoJson(
+            throw GeometryIoException::invalidGeoJson(
                 'Missing "Feature.properties" attribute. ' .
                 'Features without properties should use an explicit null value for this field. ' .
                 'You can ignore this error by setting the $lenient flag to true.',
@@ -161,18 +161,18 @@ final class GeoJsonReader
         $this->verifyType($geoJsonFeatureCollection, 'FeatureCollection');
 
         if (! property_exists($geoJsonFeatureCollection, 'features')) {
-            throw GeometryIOException::invalidGeoJson('Missing "FeatureCollection.features" attribute.');
+            throw GeometryIoException::invalidGeoJson('Missing "FeatureCollection.features" attribute.');
         }
 
         if (! is_array($geoJsonFeatureCollection->features)) {
-            throw GeometryIOException::invalidGeoJson('Malformed "FeatureCollection.features" attribute.');
+            throw GeometryIoException::invalidGeoJson('Malformed "FeatureCollection.features" attribute.');
         }
 
         $features = [];
 
         foreach ($geoJsonFeatureCollection->features as $feature) {
             if (! is_object($feature)) {
-                throw GeometryIOException::invalidGeoJson(sprintf(
+                throw GeometryIoException::invalidGeoJson(sprintf(
                     'Unexpected data of type %s in "FeatureCollection.features" attribute.',
                     get_debug_type($features)
                 ));
@@ -191,7 +191,7 @@ final class GeoJsonReader
     private function readGeometry(stdClass $geoJsonGeometry) : Geometry
     {
         if (! isset($geoJsonGeometry->type) || ! is_string($geoJsonGeometry->type)) {
-            throw GeometryIOException::invalidGeoJson('Missing or malformed "Geometry.type" attribute.');
+            throw GeometryIoException::invalidGeoJson('Missing or malformed "Geometry.type" attribute.');
         }
 
         $geoType = $this->normalizeGeoJsonType($geoJsonGeometry->type);
@@ -201,7 +201,7 @@ final class GeoJsonReader
         }
 
         if (! isset($geoJsonGeometry->coordinates) || ! is_array($geoJsonGeometry->coordinates)) {
-            throw GeometryIOException::invalidGeoJson(sprintf('Missing or malformed "%s.coordinates" attribute.', $geoType));
+            throw GeometryIoException::invalidGeoJson(sprintf('Missing or malformed "%s.coordinates" attribute.', $geoType));
         }
 
         /*
@@ -243,7 +243,7 @@ final class GeoJsonReader
                 return $this->genMultiPolygon($cs, $coordinates);
         }
 
-        throw GeometryIOException::unsupportedGeoJsonType($geoType);
+        throw GeometryIoException::unsupportedGeoJsonType($geoType);
     }
 
     /**
@@ -254,25 +254,25 @@ final class GeoJsonReader
         $this->verifyType($jsonGeometryCollection, 'GeometryCollection');
 
         if (! isset($jsonGeometryCollection->geometries)) {
-            throw GeometryIOException::invalidGeoJson('Missing "GeometryCollection.geometries" attribute.');
+            throw GeometryIoException::invalidGeoJson('Missing "GeometryCollection.geometries" attribute.');
         }
 
         if (! is_array($jsonGeometryCollection->geometries)) {
-            throw GeometryIOException::invalidGeoJson('Malformed "GeometryCollection.geometries" attribute.');
+            throw GeometryIoException::invalidGeoJson('Malformed "GeometryCollection.geometries" attribute.');
         }
 
         $geometries = [];
 
         foreach ($jsonGeometryCollection->geometries as $geometry) {
             if (! is_object($geometry)) {
-                throw GeometryIOException::invalidGeoJson(sprintf(
+                throw GeometryIoException::invalidGeoJson(sprintf(
                     'Unexpected data of type %s in "GeometryCollection.geometries" attribute.',
                     get_debug_type($geometry)
                 ));
             }
 
             if (isset($geometry->type) && $geometry->type === 'GeometryCollection' && ! $this->lenient) {
-                throw GeometryIOException::invalidGeoJson(
+                throw GeometryIoException::invalidGeoJson(
                     'GeoJSON does not allow nested GeometryCollections. ' .
                     'You can allow this by setting the $lenient flag to true.',
                 );
@@ -418,7 +418,7 @@ final class GeoJsonReader
     }
 
     /**
-     * @throws GeometryIOException
+     * @throws GeometryIoException
      */
     private function verifyType(stdClass $geoJsonObject, string $type): void
     {
@@ -428,7 +428,7 @@ final class GeoJsonReader
             }
         }
 
-        throw GeometryIOException::invalidGeoJson(sprintf('Missing or malformed "%s.type" attribute.', $type));
+        throw GeometryIoException::invalidGeoJson(sprintf('Missing or malformed "%s.type" attribute.', $type));
     }
 
     /**
@@ -453,7 +453,7 @@ final class GeoJsonReader
                 return $correctCase;
             }
 
-            throw GeometryIOException::unsupportedGeoJsonTypeWrongCase($type, $correctCase);
+            throw GeometryIoException::unsupportedGeoJsonTypeWrongCase($type, $correctCase);
         }
 
         return $type;

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Brick\Geo\Tests\IO;
 
-use Brick\Geo\IO\EwktReader;
-use Brick\Geo\IO\EwktWriter;
+use Brick\Geo\Io\EwktReader;
+use Brick\Geo\Io\EwktWriter;
 use PHPUnit\Framework\Attributes\DataProvider;
 
 /**

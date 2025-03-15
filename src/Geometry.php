@@ -6,13 +6,13 @@ namespace Brick\Geo;
 
 use Brick\Geo\Attribute\NoProxy;
 use Brick\Geo\Exception\CoordinateSystemException;
-use Brick\Geo\Exception\GeometryIOException;
+use Brick\Geo\Exception\GeometryIoException;
 use Brick\Geo\Exception\InvalidGeometryException;
 use Brick\Geo\Exception\UnexpectedGeometryException;
-use Brick\Geo\IO\WktReader;
-use Brick\Geo\IO\WktWriter;
-use Brick\Geo\IO\WkbReader;
-use Brick\Geo\IO\WkbWriter;
+use Brick\Geo\Io\WktReader;
+use Brick\Geo\Io\WktWriter;
+use Brick\Geo\Io\WkbReader;
+use Brick\Geo\Io\WkbWriter;
 use Brick\Geo\Projector\Projector;
 use Brick\Geo\Projector\RemoveZmProjector;
 use Brick\Geo\Projector\SridProjector;
@@ -74,7 +74,7 @@ abstract class Geometry implements \Stringable
      *
      * @return static
      *
-     * @throws GeometryIOException         If the given string is not a valid WKT representation.
+     * @throws GeometryIoException         If the given string is not a valid WKT representation.
      * @throws CoordinateSystemException   If the WKT contains mixed coordinate systems.
      * @throws InvalidGeometryException    If the WKT represents an invalid geometry.
      * @throws UnexpectedGeometryException If the resulting geometry is not an instance of the current class.
@@ -108,7 +108,7 @@ abstract class Geometry implements \Stringable
      *
      * @return static
      *
-     * @throws GeometryIOException         If the given string is not a valid WKB representation.
+     * @throws GeometryIoException         If the given string is not a valid WKB representation.
      * @throws CoordinateSystemException   If the WKB contains mixed coordinate systems.
      * @throws InvalidGeometryException    If the WKB represents an invalid geometry.
      * @throws UnexpectedGeometryException If the resulting geometry is not an instance of the current class.

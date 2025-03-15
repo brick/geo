@@ -277,7 +277,7 @@ Here is a list of all exceptions:
 - `CoordinateSystemException` is thrown when mixing objects with different SRID or dimensionality (e.g. XY with XYZ)
 - `EmptyGeometryException` is thrown when trying to access a non-existent property on an empty geometry
 - `GeometryEngineException` is thrown when a functionality is not supported by the current geometry engine
-- `GeometryIOException` is thrown when an error occurs while reading or writing (E)WKB/T data
+- `GeometryIoException` is thrown when an error occurs while reading or writing (E)WKB/T data
 - `InvalidGeometryException` is thrown when creating an invalid geometry, such as a `LineString` with only one `Point`
 - `NoSuchGeometryException` is thrown when attempting to get a geometry at a non-existing index in a collection
 - `UnexpectedGeometryException` is thrown when a geometry is not an instance of the expected sub-type, for example when
@@ -360,8 +360,8 @@ Geometries can be converted to WKT using the convenience method `asText()`:
 echo $point->asText(); // POINT (1.5 2.5)
 ```
 
-You can alternatively use the [WktReader](https://github.com/brick/geo/blob/master/src/IO/WktReader.php) and
-[WktWriter](https://github.com/brick/geo/blob/master/src/IO/WktWriter.php) classes directly; the latter allows you to
+You can alternatively use the [WktReader](https://github.com/brick/geo/blob/master/src/Io/WktReader.php) and
+[WktWriter](https://github.com/brick/geo/blob/master/src/Io/WktWriter.php) classes directly; the latter allows you to
 pretty-print the output.
 
 ### WKB
@@ -386,21 +386,21 @@ Geometries can be converted to WKB using the convenience method `asBinary()`:
 echo bin2hex($point->asBinary()); // 0101000000000000000000f83f0000000000000440
 ```
 
-You can alternatively use the [WkbReader](https://github.com/brick/geo/blob/master/src/IO/WkbReader.php) and
-[WkbWriter](https://github.com/brick/geo/blob/master/src/IO/WkbWriter.php) classes directly; the latter allows you to
+You can alternatively use the [WkbReader](https://github.com/brick/geo/blob/master/src/Io/WkbReader.php) and
+[WkbWriter](https://github.com/brick/geo/blob/master/src/Io/WkbWriter.php) classes directly; the latter allows you to
 choose the endianness of the output (big endian or little endian).
 
 ### EWKT
 
 Extended WKT is a PostGIS-specific text format that includes the SRID of the geometry object, which is missing from the
 standard WKT format. You can import from and export to this format using the
-[EwktReader](https://github.com/brick/geo/blob/master/src/IO/EwktReader.php) and
-[EwktWriter](https://github.com/brick/geo/blob/master/src/IO/EwktWriter.php) classes:
+[EwktReader](https://github.com/brick/geo/blob/master/src/Io/EwktReader.php) and
+[EwktWriter](https://github.com/brick/geo/blob/master/src/Io/EwktWriter.php) classes:
 
 ```php
 use Brick\Geo\Point;
-use Brick\Geo\IO\EwktReader;
-use Brick\Geo\IO\EwktWriter;
+use Brick\Geo\Io\EwktReader;
+use Brick\Geo\Io\EwktWriter;
 
 $reader = new EwktReader();
 $point = $reader->read('SRID=4326; POINT (1.5 2.5)');
@@ -416,13 +416,13 @@ echo $writer->write($point); // SRID=4326; POINT (1.5 2.5)
 
 Extended WKB is a PostGIS-specific binary format that includes the SRID of the geometry object, which is missing from
 the standard WKB format. You can import from and export to this format using the
-[EwkbReader](https://github.com/brick/geo/blob/master/src/IO/EwkbReader.php) and
-[EwkbWriter](https://github.com/brick/geo/blob/master/src/IO/EwkbWriter.php) classes:
+[EwkbReader](https://github.com/brick/geo/blob/master/src/Io/EwkbReader.php) and
+[EwkbWriter](https://github.com/brick/geo/blob/master/src/Io/EwkbWriter.php) classes:
 
 ```php
 use Brick\Geo\Point;
-use Brick\Geo\IO\EwkbReader;
-use Brick\Geo\IO\EwkbWriter;
+use Brick\Geo\Io\EwkbReader;
+use Brick\Geo\Io\EwkbWriter;
 
 $reader = new EwkbReader();
 $point = $reader->read(hex2bin('0101000020e6100000000000000000f83f0000000000000440'));
@@ -440,13 +440,13 @@ GeoJSON is an open standard format designed for representing simple geographical
 standardized in [RFC 7946](https://tools.ietf.org/html/rfc7946).
 
 This library supports importing geometries from, and exporting them to GeoJSON documents using the
-[GeoJsonReader](https://github.com/brick/geo/blob/master/src/IO/GeoJsonReader.php) and
-[GeoJsonWriter](https://github.com/brick/geo/blob/master/src/IO/GeoJsonWriter.php) classes:
+[GeoJsonReader](https://github.com/brick/geo/blob/master/src/Io/GeoJsonReader.php) and
+[GeoJsonWriter](https://github.com/brick/geo/blob/master/src/Io/GeoJsonWriter.php) classes:
 
 ```php
 use Brick\Geo\Point;
-use Brick\Geo\IO\GeoJsonReader;
-use Brick\Geo\IO\GeoJsonWriter;
+use Brick\Geo\Io\GeoJsonReader;
+use Brick\Geo\Io\GeoJsonWriter;
 
 $reader = new GeoJsonReader();
 $point = $reader->read('{ "type": "Point", "coordinates": [1, 2] }');
