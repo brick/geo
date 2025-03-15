@@ -58,8 +58,8 @@ class AbstractTestCase extends TestCase
      */
     final protected function assertGeometryEqualsWithDelta(Geometry $expected, Geometry $actual, float $delta = 0.0) : void
     {
-        $expectedWKT = $expected->asText();
-        $actualWKT = $actual->asText();
+        $expectedWkt = $expected->asText();
+        $actualWkt = $actual->asText();
 
         self::assertSame($expected->geometryType(), $actual->geometryType());
 
@@ -68,8 +68,8 @@ class AbstractTestCase extends TestCase
             . "\n---Expected"
             . "\n+++Actual"
             . "\n@@ @@"
-            . "\n-" . $expectedWKT
-            . "\n+" . $actualWKT
+            . "\n-" . $expectedWkt
+            . "\n+" . $actualWkt
         );
     }
 

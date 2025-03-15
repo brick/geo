@@ -18,20 +18,20 @@ use PHPUnit\Framework\Attributes\DataProvider;
 class CompoundCurveTest extends AbstractTestCase
 {
     /**
-     * @param string[] $curvesWKT        The WKT of the Curves that compose the CompoundCurve.
+     * @param string[] $curvesWkt        The WKT of the Curves that compose the CompoundCurve.
      * @param bool     $is3D             Whether the curves have Z coordinates.
      * @param bool     $isMeasured       Whether the curves have M coordinates.
-     * @param string   $compoundCurveWKT The WKT of the expected CompoundCurve.
+     * @param string   $compoundCurveWkt The WKT of the expected CompoundCurve.
      */
     #[DataProvider('providerCreate')]
-    public function testCreate(array $curvesWKT, bool $is3D, bool $isMeasured, string $compoundCurveWKT) : void
+    public function testCreate(array $curvesWkt, bool $is3D, bool $isMeasured, string $compoundCurveWkt) : void
     {
         foreach ([0, 1] as $srid) {
             $instantiateCurve = fn(string $curve) => Curve::fromText($curve, $srid);
 
             $cs = new CoordinateSystem($is3D, $isMeasured, $srid);
-            $compoundCurve = new CompoundCurve($cs, ...array_map($instantiateCurve, $curvesWKT));
-            $this->assertWktEquals($compoundCurve, $compoundCurveWKT, $srid);
+            $compoundCurve = new CompoundCurve($cs, ...array_map($instantiateCurve, $curvesWkt));
+            $this->assertWktEquals($compoundCurve, $compoundCurveWkt, $srid);
         }
     }
 

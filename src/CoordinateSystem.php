@@ -207,16 +207,16 @@ final class CoordinateSystem
      */
     public static function check(Geometry $reference, Geometry ...$geometries) : void
     {
-        $referenceCS = $reference->coordinateSystem();
+        $referenceCs = $reference->coordinateSystem();
 
         foreach ($geometries as $geometry) {
-            $geometryCS = $geometry->coordinateSystem();
+            $geometryCs = $geometry->coordinateSystem();
 
-            if ($geometryCS->isEqualTo($referenceCS)) {
+            if ($geometryCs->isEqualTo($referenceCs)) {
                 continue;
             }
 
-            if ($geometryCS->srid !== $referenceCS->srid) {
+            if ($geometryCs->srid !== $referenceCs->srid) {
                 throw CoordinateSystemException::sridCompositionMix($reference, $geometry);
             }
 

@@ -339,13 +339,13 @@ class GeometryTest extends AbstractTestCase
         self::assertSame($wkt, $geometry->asText());
     }
 
-    private function assertSrid(int $expectedSRID, Geometry $geometry): void
+    private function assertSrid(int $expectedSrid, Geometry $geometry): void
     {
-        self::assertSame($expectedSRID, $geometry->srid());
+        self::assertSame($expectedSrid, $geometry->srid());
 
         foreach ($geometry as $value) {
             if ($value instanceof Geometry) {
-                $this->assertSrid($expectedSRID, $value);
+                $this->assertSrid($expectedSrid, $value);
             }
         }
     }

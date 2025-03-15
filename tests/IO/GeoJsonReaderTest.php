@@ -100,7 +100,7 @@ class GeoJsonReaderTest extends GeoJsonAbstractTestCase
     {
         $reader = new GeoJsonReader();
 
-        $geoJSON = <<<'EOF'
+        $geoJson = <<<'EOF'
         {
             "type": "Feature",
             "properties": {
@@ -115,14 +115,14 @@ class GeoJsonReaderTest extends GeoJsonAbstractTestCase
             'this field. You can ignore this error by setting the $lenient flag to true.',
         );
 
-        $reader->read($geoJSON);
+        $reader->read($geoJson);
     }
 
     public function testReadFeatureWithMissingGeometryInLenientMode() : void
     {
         $reader = new GeoJsonReader(lenient: true);
 
-        $geoJSON = <<<'EOF'
+        $geoJson = <<<'EOF'
         {
             "type": "Feature",
             "properties": {
@@ -131,7 +131,7 @@ class GeoJsonReaderTest extends GeoJsonAbstractTestCase
         }
         EOF;
 
-        $feature = $reader->read($geoJSON);
+        $feature = $reader->read($geoJson);
 
         self::assertInstanceOf(Feature::class, $feature);
         self::assertNull($feature->getGeometry());
@@ -143,7 +143,7 @@ class GeoJsonReaderTest extends GeoJsonAbstractTestCase
     {
         $reader = new GeoJsonReader();
 
-        $geoJSON = <<<'EOF'
+        $geoJson = <<<'EOF'
         {
             "type": "Feature",
             "geometry": {
@@ -159,14 +159,14 @@ class GeoJsonReaderTest extends GeoJsonAbstractTestCase
             'this field. You can ignore this error by setting the $lenient flag to true.',
         );
 
-        $reader->read($geoJSON);
+        $reader->read($geoJson);
     }
 
     public function testReadFeatureWithMissingPropertiesInLenientMode() : void
     {
         $reader = new GeoJsonReader(lenient: true);
 
-        $geoJSON = <<<'EOF'
+        $geoJson = <<<'EOF'
         {
             "type": "Feature",
             "geometry": {
@@ -176,7 +176,7 @@ class GeoJsonReaderTest extends GeoJsonAbstractTestCase
         }
         EOF;
 
-        $feature = $reader->read($geoJSON);
+        $feature = $reader->read($geoJson);
 
         self::assertInstanceOf(Feature::class, $feature);
         self::assertNull($feature->getProperties());
@@ -188,7 +188,7 @@ class GeoJsonReaderTest extends GeoJsonAbstractTestCase
     {
         $reader = new GeoJsonReader();
 
-        $geoJSON = <<<'EOF'
+        $geoJson = <<<'EOF'
         {
             "type": "GeometryCollection",
             "geometries": [
@@ -211,14 +211,14 @@ class GeoJsonReaderTest extends GeoJsonAbstractTestCase
             '$lenient flag to true.',
         );
 
-        $reader->read($geoJSON);
+        $reader->read($geoJson);
     }
 
     public function testNestedGeometryCollectionInLenientMode(): void
     {
         $reader = new GeoJsonReader(lenient: true);
 
-        $geoJSON = <<<'EOF'
+        $geoJson = <<<'EOF'
         {
             "type": "GeometryCollection",
             "geometries": [
@@ -235,7 +235,7 @@ class GeoJsonReaderTest extends GeoJsonAbstractTestCase
         }
         EOF;
 
-        $geometryCollection = $reader->read($geoJSON);
+        $geometryCollection = $reader->read($geoJson);
 
         self::assertInstanceOf(GeometryCollection::class, $geometryCollection);
         $geometries = $geometryCollection->geometries();
@@ -273,9 +273,9 @@ class GeoJsonReaderTest extends GeoJsonAbstractTestCase
         ];
 
         foreach ($tests as [$provider, $wrongCase, $correctCase]) {
-            foreach ($provider as [$geoJSON]) {
+            foreach ($provider as [$geoJson]) {
                 yield [
-                    self::alterCase($geoJSON),
+                    self::alterCase($geoJson),
                     "Unsupported GeoJSON type: $wrongCase. The correct case is $correctCase. You can allow incorrect cases by setting the \$lenient flag to true.",
                 ];
             }

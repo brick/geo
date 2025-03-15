@@ -20,17 +20,17 @@ class GeoJsonWriterTest extends GeoJsonAbstractTestCase
     public function testWriteGeometry(string $geojson) : void
     {
         $geometry = (new GeoJsonReader())->read($geojson);
-        $geometryGeoJSON = (new GeoJsonWriter())->write($geometry);
+        $geometryGeoJson = (new GeoJsonWriter())->write($geometry);
 
-        self::assertSame($geojson, $geometryGeoJSON);
+        self::assertSame($geojson, $geometryGeoJson);
     }
 
     public function testPrettyPrint() : void
     {
         $writer = new GeoJsonWriter(prettyPrint: true);
-        $geoJSONOutput = $writer->write(Point::xyz(1, 2, 3));
+        $geoJsonOutput = $writer->write(Point::xyz(1, 2, 3));
 
-        $expectedGeoJSON = <<<'EOF'
+        $expectedGeoJson = <<<'EOF'
         {
             "type": "Point",
             "coordinates": [
@@ -41,7 +41,7 @@ class GeoJsonWriterTest extends GeoJsonAbstractTestCase
         }
         EOF;
 
-        self::assertSame($expectedGeoJSON, $geoJSONOutput);
+        self::assertSame($expectedGeoJson, $geoJsonOutput);
     }
 
     public function testWriteGeometryWithM() : void
@@ -49,9 +49,9 @@ class GeoJsonWriterTest extends GeoJsonAbstractTestCase
         $writer = new GeoJsonWriter(prettyPrint: true);
 
         // the M coordinate must be ignored
-        $geoJSONOutput = $writer->write(Point::xym(1, 2, 3));
+        $geoJsonOutput = $writer->write(Point::xym(1, 2, 3));
 
-        $expectedGeoJSON = <<<'EOF'
+        $expectedGeoJson = <<<'EOF'
         {
             "type": "Point",
             "coordinates": [
@@ -61,7 +61,7 @@ class GeoJsonWriterTest extends GeoJsonAbstractTestCase
         }
         EOF;
 
-        self::assertSame($expectedGeoJSON, $geoJSONOutput);
+        self::assertSame($expectedGeoJson, $geoJsonOutput);
     }
 
     public function testWriteGeometryWithBbox() : void
@@ -69,9 +69,9 @@ class GeoJsonWriterTest extends GeoJsonAbstractTestCase
         $writer = new GeoJsonWriter(prettyPrint: true, setBbox: true);
 
         $polygon = Polygon::fromText('POLYGON((2 2, 1 5, 2 8, 3 5, 2 2))');
-        $geoJSONOutput = $writer->write($polygon);
+        $geoJsonOutput = $writer->write($polygon);
 
-        $expectedGeoJSON = <<<'EOF'
+        $expectedGeoJson = <<<'EOF'
         {
             "type": "Polygon",
             "coordinates": [
@@ -107,7 +107,7 @@ class GeoJsonWriterTest extends GeoJsonAbstractTestCase
         }
         EOF;
 
-        self::assertSame($expectedGeoJSON, $geoJSONOutput);
+        self::assertSame($expectedGeoJson, $geoJsonOutput);
     }
 
     public function testNestedGeometryCollection(): void
@@ -136,9 +136,9 @@ class GeoJsonWriterTest extends GeoJsonAbstractTestCase
             ),
         );
 
-        $geoJSONOutput = $writer->write($geometry);
+        $geoJsonOutput = $writer->write($geometry);
 
-        $expectedGeoJSON = <<<'EOF'
+        $expectedGeoJson = <<<'EOF'
         {
             "type": "GeometryCollection",
             "geometries": [
@@ -158,6 +158,6 @@ class GeoJsonWriterTest extends GeoJsonAbstractTestCase
         }
         EOF;
 
-        self::assertSame($expectedGeoJSON, $geoJSONOutput);
+        self::assertSame($expectedGeoJson, $geoJsonOutput);
     }
 }

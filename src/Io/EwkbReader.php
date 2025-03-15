@@ -50,9 +50,9 @@ final class EwkbReader extends AbstractWkbReader
 
             $hasZ    = (($header & EwkbTools::Z) !== 0);
             $hasM    = (($header & EwkbTools::M) !== 0);
-            $hasSRID = (($header & EwkbTools::S) !== 0);
+            $hasSrid = (($header & EwkbTools::S) !== 0);
 
-            if ($hasSRID) {
+            if ($hasSrid) {
                 $srid = $buffer->readUnsignedLong();
             }
         }
