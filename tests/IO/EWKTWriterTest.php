@@ -187,14 +187,14 @@ class EWKTWriterTest extends EWKTAbstractTestCase
      * @param bool   $is3D       Whether the TIN has Z coordinates.
      * @param bool   $isMeasured Whether the TIN has M coordinates.
      */
-    #[DataProvider('providerTINWKT')]
-    public function testWriteTIN(string $wkt, array $coords, bool $is3D, bool $isMeasured) : void
+    #[DataProvider('providerTinWKT')]
+    public function testWriteTin(string $wkt, array $coords, bool $is3D, bool $isMeasured) : void
     {
         $writer = new EWKTWriter();
         $writer->setPrettyPrint(false);
 
         $cs = new CoordinateSystem($is3D, $isMeasured, 4326);
-        $tin = $this->createTIN($coords, $cs);
+        $tin = $this->createTin($coords, $cs);
 
         self::assertSame($this->toEWKT($wkt, 4326), $writer->write($tin));
     }

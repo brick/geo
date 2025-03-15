@@ -26,7 +26,7 @@ abstract class WKTAbstractTestCase extends AbstractTestCase
             self::providerGeometryCollectionWKT(),
             self::providerPolyhedralSurfaceWKT(),
             self::providerTriangleWKT(),
-            self::providerTINWKT()
+            self::providerTinWKT()
         );
     }
 
@@ -225,7 +225,7 @@ abstract class WKTAbstractTestCase extends AbstractTestCase
         ];
     }
 
-    final public static function providerTINWKT() : array
+    final public static function providerTinWKT() : array
     {
         return [
             ['TIN EMPTY', [], false, false],

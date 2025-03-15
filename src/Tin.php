@@ -15,7 +15,7 @@ use Override;
  * @template-extends PolyhedralSurface<Triangle>
  * @final
  */
-class TIN extends PolyhedralSurface
+class Tin extends PolyhedralSurface
 {
     #[Override]
     protected function patchType() : string
@@ -36,9 +36,9 @@ class TIN extends PolyhedralSurface
     }
 
     #[Override]
-    public function project(Projector $projector): TIN
+    public function project(Projector $projector): Tin
     {
-        return new TIN(
+        return new Tin(
             $projector->getTargetCoordinateSystem($this->coordinateSystem),
             ...array_map(
                 fn (Polygon $patch) => $patch->project($projector),

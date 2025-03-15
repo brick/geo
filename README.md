@@ -256,7 +256,7 @@ All geometry objects reside in the `Brick\Geo` namespace, and extend a base `Geo
       - [Triangle](https://github.com/brick/geo/blob/master/src/Triangle.php)
     - [CurvePolygon](https://github.com/brick/geo/blob/master/src/CurvePolygon.php)
     - [PolyhedralSurface](https://github.com/brick/geo/blob/master/src/PolyhedralSurface.php)
-      - [TIN](https://github.com/brick/geo/blob/master/src/TIN.php)
+      - [Tin](https://github.com/brick/geo/blob/master/src/Tin.php)
   - [GeometryCollection](https://github.com/brick/geo/blob/master/src/GeometryCollection.php)
     - [MultiPoint](https://github.com/brick/geo/blob/master/src/MultiPoint.php)
     - [MultiCurve](https://github.com/brick/geo/blob/master/src/MultiCurve.php) `abstract`

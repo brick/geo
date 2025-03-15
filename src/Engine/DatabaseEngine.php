@@ -242,7 +242,7 @@ abstract class DatabaseEngine implements GeometryEngine
             'POLYGON'            => Proxy\PolygonProxy::class,
             'POLYHEDRALSURFACE'  => Proxy\PolyhedralSurfaceProxy::class,
             'SURFACE'            => Proxy\SurfaceProxy::class,
-            'TIN'                => Proxy\TINProxy::class,
+            'TIN'                => Proxy\TinProxy::class,
             'TRIANGLE'           => Proxy\TriangleProxy::class
         ];
 

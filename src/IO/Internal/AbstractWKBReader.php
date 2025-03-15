@@ -19,7 +19,7 @@ use Brick\Geo\MultiPolygon;
 use Brick\Geo\Point;
 use Brick\Geo\Polygon;
 use Brick\Geo\PolyhedralSurface;
-use Brick\Geo\TIN;
+use Brick\Geo\Tin;
 use Brick\Geo\Triangle;
 
 /**
@@ -61,7 +61,7 @@ abstract class AbstractWKBReader
             Geometry::MULTIPOLYGON => $this->readMultiPolygon($buffer, $cs),
             Geometry::GEOMETRYCOLLECTION => $this->readGeometryCollection($buffer, $cs),
             Geometry::POLYHEDRALSURFACE => $this->readPolyhedralSurface($buffer, $cs),
-            Geometry::TIN => $this->readTIN($buffer, $cs),
+            Geometry::TIN => $this->readTin($buffer, $cs),
             Geometry::TRIANGLE => $this->readTriangle($buffer, $cs),
             default => throw GeometryIOException::unsupportedWKBType($geometryHeader->geometryType),
         };
@@ -255,7 +255,7 @@ abstract class AbstractWKBReader
     /**
      * @throws GeometryIOException
      */
-    private function readTIN(WKBBuffer $buffer, CoordinateSystem $cs) : TIN
+    private function readTin(WKBBuffer $buffer, CoordinateSystem $cs) : Tin
     {
         $numPatches = $buffer->readUnsignedLong();
         $patches = [];
@@ -270,7 +270,7 @@ abstract class AbstractWKBReader
             $patches[] = $patch;
         }
 
-        return new TIN($cs, ...$patches);
+        return new Tin($cs, ...$patches);
     }
 
     private function readTriangle(WKBBuffer $buffer, CoordinateSystem $cs) : Triangle
