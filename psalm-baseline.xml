@@ -7,11 +7,11 @@
   </file>
   <file src="src/Geometry.php">
     <LessSpecificReturnStatement>
-      <code><![CDATA[$this->project(new RemoveZMProjector(removeM: true))]]></code>
-      <code><![CDATA[$this->project(new RemoveZMProjector(removeZ: true))]]></code>
-      <code><![CDATA[$this->project(new RemoveZMProjector(removeZ: true, removeM: true))]]></code>
-      <code><![CDATA[$this->project(new SRIDProjector($srid))]]></code>
-      <code><![CDATA[$this->project(new SwapXYProjector())]]></code>
+      <code><![CDATA[$this->project(new RemoveZmProjector(removeM: true))]]></code>
+      <code><![CDATA[$this->project(new RemoveZmProjector(removeZ: true))]]></code>
+      <code><![CDATA[$this->project(new RemoveZmProjector(removeZ: true, removeM: true))]]></code>
+      <code><![CDATA[$this->project(new SridProjector($srid))]]></code>
+      <code><![CDATA[$this->project(new SwapXyProjector())]]></code>
     </LessSpecificReturnStatement>
     <MoreSpecificReturnType>
       <code><![CDATA[static]]></code>

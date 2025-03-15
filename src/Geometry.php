@@ -14,9 +14,9 @@ use Brick\Geo\IO\WKTWriter;
 use Brick\Geo\IO\WKBReader;
 use Brick\Geo\IO\WKBWriter;
 use Brick\Geo\Projector\Projector;
-use Brick\Geo\Projector\RemoveZMProjector;
-use Brick\Geo\Projector\SRIDProjector;
-use Brick\Geo\Projector\SwapXYProjector;
+use Brick\Geo\Projector\RemoveZmProjector;
+use Brick\Geo\Projector\SridProjector;
+use Brick\Geo\Projector\SwapXyProjector;
 use Override;
 
 /**
@@ -267,7 +267,7 @@ abstract class Geometry implements \Stringable
             return $this;
         }
 
-        return $this->project(new SRIDProjector($srid));
+        return $this->project(new SridProjector($srid));
     }
 
     /**
@@ -281,7 +281,7 @@ abstract class Geometry implements \Stringable
             return $this;
         }
 
-        return $this->project(new RemoveZMProjector(removeZ: true, removeM: true));
+        return $this->project(new RemoveZmProjector(removeZ: true, removeM: true));
     }
 
     /**
@@ -295,7 +295,7 @@ abstract class Geometry implements \Stringable
             return $this;
         }
 
-        return $this->project(new RemoveZMProjector(removeZ: true));
+        return $this->project(new RemoveZmProjector(removeZ: true));
     }
 
     /**
@@ -309,7 +309,7 @@ abstract class Geometry implements \Stringable
             return $this;
         }
 
-        return $this->project(new RemoveZMProjector(removeM: true));
+        return $this->project(new RemoveZmProjector(removeM: true));
     }
 
     /**
@@ -340,7 +340,7 @@ abstract class Geometry implements \Stringable
      */
     public function swapXY() : Geometry
     {
-        return $this->project(new SwapXYProjector());
+        return $this->project(new SwapXyProjector());
     }
 
     /**

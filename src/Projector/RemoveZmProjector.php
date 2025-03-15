@@ -11,7 +11,7 @@ use Override;
 /**
  * Removes the Z and/or M coordinates of a geometry.
  */
-final class RemoveZMProjector implements Projector
+final class RemoveZmProjector implements Projector
 {
     public function __construct(
         private readonly bool $removeZ = false,

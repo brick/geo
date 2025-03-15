@@ -11,7 +11,7 @@ use Override;
 /**
  * Swaps the X and Y coordinates of a Geometry, while keeping the same SRID.
  */
-final class SwapXYProjector implements Projector
+final class SwapXyProjector implements Projector
 {
     #[Override]
     public function project(Point $point): Point
