@@ -6,13 +6,13 @@ namespace Brick\Geo\Tests\IO;
 
 use Brick\Geo\CoordinateSystem;
 use Brick\Geo\GeometryCollection;
-use Brick\Geo\IO\EWKTWriter;
+use Brick\Geo\IO\EwktWriter;
 use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
- * Unit tests for class EWKTWriter.
+ * Unit tests for class EwktWriter.
  */
-class EWKTWriterTest extends EWKTAbstractTestCase
+class EwktWriterTest extends EwktAbstractTestCase
 {
     /**
      * @param bool   $prettyPrint Whether to set the prettyPrint parameter.
@@ -21,7 +21,7 @@ class EWKTWriterTest extends EWKTAbstractTestCase
     #[DataProvider('providerPrettyPrint')]
     public function testPrettyPrint(bool $prettyPrint, string $ewkt) : void
     {
-        $writer = new EWKTWriter();
+        $writer = new EwktWriter();
         $writer->setPrettyPrint($prettyPrint);
 
         $lineString = $this->createLineString([[1, 2, 3, 4], [5, 6, 7, 8]], CoordinateSystem::xyzm(4326));
@@ -43,16 +43,16 @@ class EWKTWriterTest extends EWKTAbstractTestCase
      * @param bool   $is3D       Whether the Point has a Z coordinate.
      * @param bool   $isMeasured Whether the Point has a M coordinate.
      */
-    #[DataProvider('providerPointWKT')]
+    #[DataProvider('providerPointWkt')]
     public function testWritePoint(string $wkt, array $coords, bool $is3D, bool $isMeasured) : void
     {
-        $writer = new EWKTWriter();
+        $writer = new EwktWriter();
         $writer->setPrettyPrint(false);
 
         $cs = new CoordinateSystem($is3D, $isMeasured, 4326);
         $point = $this->createPoint($coords, $cs);
 
-        self::assertSame($this->toEWKT($wkt, 4326), $writer->write($point));
+        self::assertSame($this->toEwkt($wkt, 4326), $writer->write($point));
     }
 
     /**
@@ -61,16 +61,16 @@ class EWKTWriterTest extends EWKTAbstractTestCase
      * @param bool   $is3D       Whether the LineString has Z coordinates.
      * @param bool   $isMeasured Whether the LineString has M coordinates.
      */
-    #[DataProvider('providerLineStringWKT')]
+    #[DataProvider('providerLineStringWkt')]
     public function testWriteLineString(string $wkt, array $coords, bool $is3D, bool $isMeasured) : void
     {
-        $writer = new EWKTWriter();
+        $writer = new EwktWriter();
         $writer->setPrettyPrint(false);
 
         $cs = new CoordinateSystem($is3D, $isMeasured, 4326);
         $lineString = $this->createLineString($coords, $cs);
 
-        self::assertSame($this->toEWKT($wkt, 4326), $writer->write($lineString));
+        self::assertSame($this->toEwkt($wkt, 4326), $writer->write($lineString));
     }
 
     /**
@@ -79,16 +79,16 @@ class EWKTWriterTest extends EWKTAbstractTestCase
      * @param bool   $is3D       Whether the CircularString has Z coordinates.
      * @param bool   $isMeasured Whether the CircularString has M coordinates.
      */
-    #[DataProvider('providerCircularStringWKT')]
+    #[DataProvider('providerCircularStringWkt')]
     public function testWriteCircularString(string $wkt, array $coords, bool $is3D, bool $isMeasured) : void
     {
-        $writer = new EWKTWriter();
+        $writer = new EwktWriter();
         $writer->setPrettyPrint(false);
 
         $cs = new CoordinateSystem($is3D, $isMeasured, 4326);
         $lineString = $this->createCircularString($coords, $cs);
 
-        self::assertSame($this->toEWKT($wkt, 4326), $writer->write($lineString));
+        self::assertSame($this->toEwkt($wkt, 4326), $writer->write($lineString));
     }
 
     /**
@@ -97,16 +97,16 @@ class EWKTWriterTest extends EWKTAbstractTestCase
      * @param bool   $is3D       Whether the CompoundCurve has Z coordinates.
      * @param bool   $isMeasured Whether the CompoundCurve has M coordinates.
      */
-    #[DataProvider('providerCompoundCurveWKT')]
+    #[DataProvider('providerCompoundCurveWkt')]
     public function testWriteCompoundCurve(string $wkt, array $coords, bool $is3D, bool $isMeasured) : void
     {
-        $writer = new EWKTWriter();
+        $writer = new EwktWriter();
         $writer->setPrettyPrint(false);
 
         $cs = new CoordinateSystem($is3D, $isMeasured, 4326);
         $compoundCurve = $this->createCompoundCurve($coords, $cs);
 
-        self::assertSame($this->toEWKT($wkt, 4326), $writer->write($compoundCurve));
+        self::assertSame($this->toEwkt($wkt, 4326), $writer->write($compoundCurve));
     }
 
     /**
@@ -115,16 +115,16 @@ class EWKTWriterTest extends EWKTAbstractTestCase
      * @param bool   $is3D       Whether the Polygon has Z coordinates.
      * @param bool   $isMeasured Whether the Polygon has M coordinates.
      */
-    #[DataProvider('providerPolygonWKT')]
+    #[DataProvider('providerPolygonWkt')]
     public function testWritePolygon(string $wkt, array $coords, bool $is3D, bool $isMeasured) : void
     {
-        $writer = new EWKTWriter();
+        $writer = new EwktWriter();
         $writer->setPrettyPrint(false);
 
         $cs = new CoordinateSystem($is3D, $isMeasured, 4326);
         $polygon = $this->createPolygon($coords, $cs);
 
-        self::assertSame($this->toEWKT($wkt, 4326), $writer->write($polygon));
+        self::assertSame($this->toEwkt($wkt, 4326), $writer->write($polygon));
     }
 
     /**
@@ -133,16 +133,16 @@ class EWKTWriterTest extends EWKTAbstractTestCase
      * @param bool   $is3D       Whether the Triangle has Z coordinates.
      * @param bool   $isMeasured Whether the Triangle has M coordinates.
      */
-    #[DataProvider('providerTriangleWKT')]
+    #[DataProvider('providerTriangleWkt')]
     public function testWriteTriangle(string $wkt, array $coords, bool $is3D, bool $isMeasured) : void
     {
-        $writer = new EWKTWriter();
+        $writer = new EwktWriter();
         $writer->setPrettyPrint(false);
 
         $cs = new CoordinateSystem($is3D, $isMeasured, 4326);
         $triangle = $this->createTriangle($coords, $cs);
 
-        self::assertSame($this->toEWKT($wkt, 4326), $writer->write($triangle));
+        self::assertSame($this->toEwkt($wkt, 4326), $writer->write($triangle));
     }
 
     /**
@@ -151,16 +151,16 @@ class EWKTWriterTest extends EWKTAbstractTestCase
      * @param bool   $is3D       Whether the Polygon has Z coordinates.
      * @param bool   $isMeasured Whether the Polygon has M coordinates.
      */
-    #[DataProvider('providerCurvePolygonWKT')]
+    #[DataProvider('providerCurvePolygonWkt')]
     public function testWriteCurvePolygon(string $wkt, array $coords, bool $is3D, bool $isMeasured) : void
     {
-        $writer = new EWKTWriter();
+        $writer = new EwktWriter();
         $writer->setPrettyPrint(false);
 
         $cs = new CoordinateSystem($is3D, $isMeasured, 4326);
         $polygon = $this->createCurvePolygon($coords, $cs);
 
-        self::assertSame($this->toEWKT($wkt, 4326), $writer->write($polygon));
+        self::assertSame($this->toEwkt($wkt, 4326), $writer->write($polygon));
     }
 
     /**
@@ -169,16 +169,16 @@ class EWKTWriterTest extends EWKTAbstractTestCase
      * @param bool   $is3D       Whether the PolyhedralSurface has Z coordinates.
      * @param bool   $isMeasured Whether the PolyhedralSurface has M coordinates.
      */
-    #[DataProvider('providerPolyhedralSurfaceWKT')]
+    #[DataProvider('providerPolyhedralSurfaceWkt')]
     public function testWritePolyhedralSurface(string $wkt, array $coords, bool $is3D, bool $isMeasured) : void
     {
-        $writer = new EWKTWriter();
+        $writer = new EwktWriter();
         $writer->setPrettyPrint(false);
 
         $cs = new CoordinateSystem($is3D, $isMeasured, 4326);
         $polyhedralSurface = $this->createPolyhedralSurface($coords, $cs);
 
-        self::assertSame($this->toEWKT($wkt, 4326), $writer->write($polyhedralSurface));
+        self::assertSame($this->toEwkt($wkt, 4326), $writer->write($polyhedralSurface));
     }
 
     /**
@@ -187,16 +187,16 @@ class EWKTWriterTest extends EWKTAbstractTestCase
      * @param bool   $is3D       Whether the TIN has Z coordinates.
      * @param bool   $isMeasured Whether the TIN has M coordinates.
      */
-    #[DataProvider('providerTinWKT')]
-    public function testWriteTin(string $wkt, array $coords, bool $is3D, bool $isMeasured) : void
+    #[DataProvider('providerTinWkt')]
+    public function testWriteTIN(string $wkt, array $coords, bool $is3D, bool $isMeasured) : void
     {
-        $writer = new EWKTWriter();
+        $writer = new EwktWriter();
         $writer->setPrettyPrint(false);
 
         $cs = new CoordinateSystem($is3D, $isMeasured, 4326);
         $tin = $this->createTin($coords, $cs);
 
-        self::assertSame($this->toEWKT($wkt, 4326), $writer->write($tin));
+        self::assertSame($this->toEwkt($wkt, 4326), $writer->write($tin));
     }
 
     /**
@@ -205,16 +205,16 @@ class EWKTWriterTest extends EWKTAbstractTestCase
      * @param bool   $is3D       Whether the MultiPoint has Z coordinates.
      * @param bool   $isMeasured Whether the MultiPoint has M coordinates.
      */
-    #[DataProvider('providerMultiPointWKT')]
+    #[DataProvider('providerMultiPointWkt')]
     public function testWriteMultiPoint(string $wkt, array $coords, bool $is3D, bool $isMeasured) : void
     {
-        $writer = new EWKTWriter();
+        $writer = new EwktWriter();
         $writer->setPrettyPrint(false);
 
         $cs = new CoordinateSystem($is3D, $isMeasured, 4326);
         $multiPoint = $this->createMultiPoint($coords, $cs);
 
-        self::assertSame($this->toEWKT($wkt, 4326), $writer->write($multiPoint));
+        self::assertSame($this->toEwkt($wkt, 4326), $writer->write($multiPoint));
     }
 
     /**
@@ -223,16 +223,16 @@ class EWKTWriterTest extends EWKTAbstractTestCase
      * @param bool   $is3D       Whether the MultiLineString has Z coordinates.
      * @param bool   $isMeasured Whether the MultiLineString has M coordinates.
      */
-    #[DataProvider('providerMultiLineStringWKT')]
+    #[DataProvider('providerMultiLineStringWkt')]
     public function testWriteMultiLineString(string $wkt, array $coords, bool $is3D, bool $isMeasured) : void
     {
-        $writer = new EWKTWriter();
+        $writer = new EwktWriter();
         $writer->setPrettyPrint(false);
 
         $cs = new CoordinateSystem($is3D, $isMeasured, 4326);
         $multiLineString = $this->createMultiLineString($coords, $cs);
 
-        self::assertSame($this->toEWKT($wkt, 4326), $writer->write($multiLineString));
+        self::assertSame($this->toEwkt($wkt, 4326), $writer->write($multiLineString));
     }
 
     /**
@@ -241,16 +241,16 @@ class EWKTWriterTest extends EWKTAbstractTestCase
      * @param bool   $is3D       Whether the MultiPolygon has Z coordinates.
      * @param bool   $isMeasured Whether the MultiPolygon has M coordinates.
      */
-    #[DataProvider('providerMultiPolygonWKT')]
+    #[DataProvider('providerMultiPolygonWkt')]
     public function testWriteMultiPolygon(string $wkt, array $coords, bool $is3D, bool $isMeasured) : void
     {
-        $writer = new EWKTWriter();
+        $writer = new EwktWriter();
         $writer->setPrettyPrint(false);
 
         $cs = new CoordinateSystem($is3D, $isMeasured, 4326);
         $multiPolygon = $this->createMultiPolygon($coords, $cs);
 
-        self::assertSame($this->toEWKT($wkt, 4326), $writer->write($multiPolygon));
+        self::assertSame($this->toEwkt($wkt, 4326), $writer->write($multiPolygon));
     }
 
     /**
@@ -259,10 +259,10 @@ class EWKTWriterTest extends EWKTAbstractTestCase
      * @param bool   $is3D       Whether the GeometryCollection has Z coordinates.
      * @param bool   $isMeasured Whether the GeometryCollection has M coordinates.
      */
-    #[DataProvider('providerGeometryCollectionWKT')]
+    #[DataProvider('providerGeometryCollectionWkt')]
     public function testWriteGeometryCollection(string $wkt, array $coords, bool $is3D, bool $isMeasured) : void
     {
-        $writer = new EWKTWriter();
+        $writer = new EwktWriter();
         $writer->setPrettyPrint(false);
 
         $cs = new CoordinateSystem($is3D, $isMeasured, 4326);
@@ -276,6 +276,6 @@ class EWKTWriterTest extends EWKTAbstractTestCase
         }
 
         $geometryCollection = new GeometryCollection($cs, ...$geometries);
-        self::assertSame($this->toEWKT($wkt, 4326), $writer->write($geometryCollection));
+        self::assertSame($this->toEwkt($wkt, 4326), $writer->write($geometryCollection));
     }
 }

@@ -9,10 +9,10 @@ use Brick\Geo\Exception\CoordinateSystemException;
 use Brick\Geo\Exception\GeometryIOException;
 use Brick\Geo\Exception\InvalidGeometryException;
 use Brick\Geo\Exception\UnexpectedGeometryException;
-use Brick\Geo\IO\WKTReader;
-use Brick\Geo\IO\WKTWriter;
-use Brick\Geo\IO\WKBReader;
-use Brick\Geo\IO\WKBWriter;
+use Brick\Geo\IO\WktReader;
+use Brick\Geo\IO\WktWriter;
+use Brick\Geo\IO\WkbReader;
+use Brick\Geo\IO\WkbWriter;
 use Brick\Geo\Projector\Projector;
 use Brick\Geo\Projector\RemoveZmProjector;
 use Brick\Geo\Projector\SridProjector;
@@ -81,11 +81,11 @@ abstract class Geometry implements \Stringable
      */
     public static function fromText(string $wkt, int $srid = 0) : Geometry
     {
-        /** @var WKTReader|null $wktReader */
+        /** @var WktReader|null $wktReader */
         static $wktReader;
 
         if ($wktReader === null) {
-            $wktReader = new WKTReader();
+            $wktReader = new WktReader();
         }
 
         $geometry = $wktReader->read($wkt, $srid);
@@ -115,11 +115,11 @@ abstract class Geometry implements \Stringable
      */
     public static function fromBinary(string $wkb, int $srid = 0) : Geometry
     {
-        /** @var WKBReader|null $wkbReader */
+        /** @var WkbReader|null $wkbReader */
         static $wkbReader;
 
         if ($wkbReader === null) {
-            $wkbReader = new WKBReader();
+            $wkbReader = new WkbReader();
         }
 
         $geometry = $wkbReader->read($wkb, $srid);
@@ -193,11 +193,11 @@ abstract class Geometry implements \Stringable
     #[NoProxy]
     public function asText() : string
     {
-        /** @var WKTWriter|null $wktWriter */
+        /** @var WktWriter|null $wktWriter */
         static $wktWriter;
 
         if ($wktWriter === null) {
-            $wktWriter = new WKTWriter();
+            $wktWriter = new WktWriter();
         }
 
         return $wktWriter->write($this);
@@ -209,11 +209,11 @@ abstract class Geometry implements \Stringable
     #[NoProxy]
     public function asBinary() : string
     {
-        /** @var WKBWriter|null $wkbWriter */
+        /** @var WkbWriter|null $wkbWriter */
         static $wkbWriter;
 
         if ($wkbWriter === null) {
-            $wkbWriter = new WKBWriter();
+            $wkbWriter = new WkbWriter();
         }
 
         return $wkbWriter->write($this);

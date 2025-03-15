@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace Brick\Geo\IO;
 
 use Brick\Geo\Geometry;
-use Brick\Geo\IO\Internal\AbstractWKTWriter;
+use Brick\Geo\IO\Internal\AbstractWktWriter;
 use Override;
 
 /**
  * Writes geometries in the Extended WKT format designed by PostGIS.
  */
-final class EWKTWriter extends AbstractWKTWriter
+final class EwktWriter extends AbstractWktWriter
 {
     #[Override]
     public function write(Geometry $geometry) : string

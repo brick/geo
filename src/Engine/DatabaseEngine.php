@@ -61,7 +61,7 @@ abstract class DatabaseEngine implements GeometryEngine
      *
      * This method may be overridden if necessary.
      */
-    protected function getGeomFromWKBSyntax(): string
+    protected function getGeomFromWkbSyntax(): string
     {
         return 'ST_GeomFromWKB(?, ?)';
     }
@@ -101,7 +101,7 @@ abstract class DatabaseEngine implements GeometryEngine
                 }
 
                 $queryParameters[] = $sendAsBinary
-                    ? $this->getGeomFromWKBSyntax()
+                    ? $this->getGeomFromWkbSyntax()
                     : $this->getGeomFromTextSyntax();
 
                 $queryValues[] = new GeometryParameter($parameter, $sendAsBinary);

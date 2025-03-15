@@ -9,7 +9,7 @@ namespace Brick\Geo\IO\Internal;
  *
  * @internal
  */
-final class EWKBTools extends WKBTools
+final class EwkbTools extends WkbTools
 {
     final public const Z = 0x80000000;
     final public const M = 0x40000000;

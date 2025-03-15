@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Brick\Geo\Tests\IO;
 
-use Brick\Geo\IO\EWKBReader;
-use Brick\Geo\IO\EWKTWriter;
+use Brick\Geo\IO\EwkbReader;
+use Brick\Geo\IO\EwktWriter;
 use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
- * Unit tests for class EWKBReader.
+ * Unit tests for class EwkbReader.
  */
-class EWKBReaderTest extends EWKBAbstractTestCase
+class EwkbReaderTest extends EwkbAbstractTestCase
 {
     /**
      * @param string $ewkb The EWKB to read, hex-encoded.
@@ -20,8 +20,8 @@ class EWKBReaderTest extends EWKBAbstractTestCase
     #[DataProvider('providerRead')]
     public function testRead(string $ewkb, string $ewkt) : void
     {
-        $reader = new EWKBReader();
-        $writer = new EWKTWriter();
+        $reader = new EwkbReader();
+        $writer = new EwktWriter();
 
         $geometry = $reader->read(hex2bin($ewkb));
         self::assertSame($ewkt, $writer->write($geometry));
@@ -29,29 +29,29 @@ class EWKBReaderTest extends EWKBAbstractTestCase
 
     public static function providerRead() : \Generator
     {
-        foreach (self::providerBigEndianEWKB() as [$ewkt, $ewkb]) {
+        foreach (self::providerBigEndianEwkb() as [$ewkt, $ewkb]) {
             yield [$ewkb, $ewkt];
         }
 
-        foreach (self::providerBigEndianEWKB_SRID() as [$ewkt, $ewkb]) {
+        foreach (self::providerBigEndianEwkbWithSrid() as [$ewkt, $ewkb]) {
             yield [$ewkb, $ewkt];
         }
 
-        foreach (self::providerLittleEndianEWKB() as [$ewkt, $ewkb]) {
+        foreach (self::providerLittleEndianEwkb() as [$ewkt, $ewkb]) {
             yield [$ewkb, $ewkt];
         }
 
-        foreach (self::providerLittleEndianEWKB_SRID() as [$ewkt, $ewkb]) {
+        foreach (self::providerLittleEndianEwkbWithSrid() as [$ewkt, $ewkb]) {
             yield [$ewkb, $ewkt];
         }
 
         /* WKB being valid EWKB, we test the reader against WKB as well */
 
-        foreach (self::providerBigEndianWKB() as [$wkt, $wkb]) {
+        foreach (self::providerBigEndianWkb() as [$wkt, $wkb]) {
             yield [$wkb, $wkt];
         }
 
-        foreach (self::providerLittleEndianWKB() as [$wkt, $wkb]) {
+        foreach (self::providerLittleEndianWkb() as [$wkt, $wkb]) {
             yield [$wkb, $wkt];
         }
     }

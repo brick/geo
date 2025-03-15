@@ -6,34 +6,34 @@ namespace Brick\Geo\IO;
 
 use Brick\Geo\Exception\GeometryIOException;
 use Brick\Geo\Geometry;
-use Brick\Geo\IO\Internal\AbstractWKBReader;
-use Brick\Geo\IO\Internal\EWKBTools;
-use Brick\Geo\IO\Internal\WKBBuffer;
-use Brick\Geo\IO\Internal\WKBGeometryHeader;
+use Brick\Geo\IO\Internal\AbstractWkbReader;
+use Brick\Geo\IO\Internal\EwkbTools;
+use Brick\Geo\IO\Internal\WkbBuffer;
+use Brick\Geo\IO\Internal\WkbGeometryHeader;
 use Override;
 
 /**
  * Reads geometries out of the Extended WKB format designed by PostGIS.
  */
-final class EWKBReader extends AbstractWKBReader
+final class EwkbReader extends AbstractWkbReader
 {
     /**
      * @throws GeometryIOException
      */
     public function read(string $ewkb) : Geometry
     {
-        $buffer = new WKBBuffer($ewkb);
+        $buffer = new WkbBuffer($ewkb);
         $geometry = $this->readGeometry($buffer, 0);
 
         if (! $buffer->isEndOfStream()) {
-            throw GeometryIOException::invalidWKB('unexpected data at end of stream');
+            throw GeometryIOException::invalidWkb('unexpected data at end of stream');
         }
 
         return $geometry;
     }
 
     #[Override]
-    protected function readGeometryHeader(WKBBuffer $buffer) : WKBGeometryHeader
+    protected function readGeometryHeader(WkbBuffer $buffer) : WkbGeometryHeader
     {
         $header = $buffer->readUnsignedLong();
 
@@ -48,15 +48,15 @@ final class EWKBReader extends AbstractWKBReader
         } else {
             $geometryType = $header & 0xFFF;
 
-            $hasZ    = (($header & EWKBTools::Z) !== 0);
-            $hasM    = (($header & EWKBTools::M) !== 0);
-            $hasSRID = (($header & EWKBTools::S) !== 0);
+            $hasZ    = (($header & EwkbTools::Z) !== 0);
+            $hasM    = (($header & EwkbTools::M) !== 0);
+            $hasSRID = (($header & EwkbTools::S) !== 0);
 
             if ($hasSRID) {
                 $srid = $buffer->readUnsignedLong();
             }
         }
 
-        return new WKBGeometryHeader($geometryType, $hasZ, $hasM, $srid);
+        return new WkbGeometryHeader($geometryType, $hasZ, $hasM, $srid);
     }
 }
