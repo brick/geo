@@ -27,18 +27,23 @@ The case of the following class names and namespaces has changed:
 - `IO\GeoJSON\Feature` => `Io\GeoJson\Feature`
 - `IO\GeoJSON\FeatureCollection` => `Io\GeoJson\FeatureCollection`
 
-The following breaking changes will likely not affect you, unless you're writing your own geometry engine:
+The following breaking changes will only affect you if you're writing your own geometry engine:
 
 - `GeometryEngine` interface has a new method: `concaveHull()`
 - `DatabaseEngine::executeQuery()` implementations must now accept `bool` parameters
 - `DatabaseEngine::getParameterPlaceholder()` signature has changed to accept `bool` parameters
 - `DatabaseEngine::queryGeometry()` is now `final`
+
+The following breaking changes may only affect you if you're writing your own engine or geometry classes:
+
 - `GeometryException` constructor signature has changed
+- `Geometry` has a new method: `withRoundedCoordinates()`
 
 ✨ **New features**
 
 - New geometry engine: `GeosOpEngine` uses the `geosop` binary to perform geometry operations
 - New engine method: `GeometryEngine::concaveHull()`
+- New `Geometry` method: `withRoundedCoordinates()`
 
 ✨ **Improvements**
 

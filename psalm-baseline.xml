@@ -10,10 +10,12 @@
       <code><![CDATA[$this->project(new RemoveZmProjector(removeM: true))]]></code>
       <code><![CDATA[$this->project(new RemoveZmProjector(removeZ: true))]]></code>
       <code><![CDATA[$this->project(new RemoveZmProjector(removeZ: true, removeM: true))]]></code>
+      <code><![CDATA[$this->project(new RoundCoordinatesProjector($precision))]]></code>
       <code><![CDATA[$this->project(new SridProjector($srid))]]></code>
       <code><![CDATA[$this->project(new SwapXyProjector())]]></code>
     </LessSpecificReturnStatement>
     <MoreSpecificReturnType>
+      <code><![CDATA[static]]></code>
       <code><![CDATA[static]]></code>
       <code><![CDATA[static]]></code>
       <code><![CDATA[static]]></code>

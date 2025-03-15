@@ -15,6 +15,7 @@ use Brick\Geo\Io\WkbReader;
 use Brick\Geo\Io\WkbWriter;
 use Brick\Geo\Projector\Projector;
 use Brick\Geo\Projector\RemoveZmProjector;
+use Brick\Geo\Projector\RoundCoordinatesProjector;
 use Brick\Geo\Projector\SridProjector;
 use Brick\Geo\Projector\SwapXyProjector;
 use Override;
@@ -310,6 +311,16 @@ abstract class Geometry implements \Stringable
         }
 
         return $this->project(new RemoveZmProjector(removeM: true));
+    }
+
+    /**
+     * Returns a copy of this Geometry, with coordinates rounded to the given precision.
+     *
+     * @return static
+     */
+    public function withRoundedCoordinates(int $precision): Geometry
+    {
+        return $this->project(new RoundCoordinatesProjector($precision));
     }
 
     /**

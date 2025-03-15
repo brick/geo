@@ -465,18 +465,16 @@ GeoJSON aims to support WGS84 only, and as such all Geometries are imported usin
 ## Reducing coordinate precision
 
 Before exporting geometries in a text format, you may need to reduce the precision of the coordinates to keep the output small, while retaining a sufficient precision.
-You can use the `RoundCoordinatesProjector` for this:
+You can use the `withRoundedCoordinates()` method for this:
 
 ```php
 use Brick\Geo\Point;
 use Brick\Geo\Projector\RoundCoordinatesProjector;
 
-$roundProjector = new RoundCoordinatesProjector(2);
-
 $point = Point::xy(1.2345678, 2.3456789);
 echo $point->asText(); // POINT (1.2345678 2.3456789)
 
-$roundedPoint = $point->project($roundProjector);
+$roundedPoint = $point->withRoundedCoordinates(2);
 echo $roundedPoint->asText(); // POINT (1.23 2.35)
 ```
 

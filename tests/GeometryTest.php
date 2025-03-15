@@ -384,6 +384,28 @@ class GeometryTest extends AbstractTestCase
         ];
     }
 
+    #[DataProvider('providerWithRoundedCoordinates')]
+    public function testWithRoundedCoordinates(string $geometryWkt, int $precision, string $expectedWkt) : void
+    {
+        $geometry = Geometry::fromText($geometryWkt)->withRoundedCoordinates($precision);
+        self::assertSame($expectedWkt, $geometry->asText());
+    }
+
+    public static function providerWithRoundedCoordinates() : array
+    {
+        return [
+            ['POINT (1 2)', 0, 'POINT (1 2)'],
+            ['POINT (1 2)', 1, 'POINT (1 2)'],
+            ['POINT (1.234 2.345)', 0, 'POINT (1 2)'],
+            ['POINT (1.234 2.345)', 1, 'POINT (1.2 2.3)'],
+            ['POINT (1.234 2.345)', 2, 'POINT (1.23 2.35)'],
+            ['POINT (1.234 2.345)', 3, 'POINT (1.234 2.345)'],
+            ['POINT (1.234 2.345)', 4, 'POINT (1.234 2.345)'],
+            ['LINESTRING (1.234 5.678, 2.345 6.789)', 1, 'LINESTRING (1.2 5.7, 2.3 6.8)'],
+            ['POLYGON ((1.234 5.678, 2.345 6.789, 3.456 7.890, 1.234 5.678))', 1, 'POLYGON ((1.2 5.7, 2.3 6.8, 3.5 7.9, 1.2 5.7))'],
+        ];
+    }
+
     /**
      * @param string $geometry The WKT of the geometry to test.
      * @param array  $array    The expected result array.
