@@ -37,23 +37,23 @@ Inside the `php` container:
 # Run tests without a geometry engine
 vendor/bin/phpunit
 
-# Run tests with GEOS
-ENGINE=GEOS vendor/bin/phpunit
+# Run tests with the GEOS extension
+ENGINE=geos vendor/bin/phpunit
 
-# Run tests with geosop
+# Run tests with the geosop binary
 ENGINE=geosop vendor/bin/phpunit
 
 # Run tests with Postgres + PostGIS
-ENGINE=PDO_PGSQL vendor/bin/phpunit
+ENGINE=pdo_pgsql vendor/bin/phpunit
 
 # Run tests with MySQL
-ENGINE=PDO_MYSQL MYSQL_HOST=mysql vendor/bin/phpunit
+ENGINE=pdo_mysql MYSQL_HOST=mysql vendor/bin/phpunit
 
 # Run tests with MariaDB
-ENGINE=PDO_MYSQL MYSQL_HOST=mariadb vendor/bin/phpunit
+ENGINE=pdo_mysql MYSQL_HOST=mariadb vendor/bin/phpunit
 
 # Run tests with SQLite + SpatiaLite
-ENGINE=SQLite3 vendor/bin/phpunit
+ENGINE=sqlite3 vendor/bin/phpunit
 ````
 
 ## Shutdown

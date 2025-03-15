@@ -40,10 +40,10 @@ function getRequiredEnv(string $name): string
         echo 'WARNING: running tests without a geometry engine.', PHP_EOL;
         echo 'All tests requiring a geometry engine will be skipped.', PHP_EOL;
         echo 'To run tests with a geometry engine, use: ENGINE={engine} vendor/bin/phpunit', PHP_EOL;
-        echo 'Available engines: PDO_MYSQL, PDO_PGSQL, SQLite3, GEOS', PHP_EOL;
+        echo 'Available engines: pdo_mysql, pdo_pgsql, sqlite3, geos, geosop', PHP_EOL;
     } else {
         switch ($engine) {
-            case 'PDO_MYSQL':
+            case 'pdo_mysql':
                 $emulatePrepares = getOptionalEnv('EMULATE_PREPARES') === 'ON';
 
                 echo 'Using PDOEngine for MySQL', PHP_EOL;
@@ -71,7 +71,7 @@ function getRequiredEnv(string $name): string
                 $engine = new PDOEngine($pdo);
                 break;
 
-            case 'PDO_PGSQL':
+            case 'pdo_pgsql':
                 echo 'Using PDOEngine for PostgreSQL', PHP_EOL;
 
                 $host = getRequiredEnv('POSTGRES_HOST');
@@ -102,7 +102,7 @@ function getRequiredEnv(string $name): string
                 $engine = new PDOEngine($pdo);
                 break;
 
-            case 'SQLite3':
+            case 'sqlite3':
                 echo 'Using SQLite3Engine', PHP_EOL;
 
                 $sqlite3 = new SQLite3(':memory:');
@@ -121,7 +121,7 @@ function getRequiredEnv(string $name): string
                 $engine = new SQLite3Engine($sqlite3);
                 break;
 
-            case 'GEOS':
+            case 'geos':
                 echo 'Using GEOSEngine', PHP_EOL;
                 echo 'GEOS version: ', GEOSVersion(), PHP_EOL;
 

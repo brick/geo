@@ -71,7 +71,7 @@ jobs:
       - name: Run PHPUnit
         run: vendor/bin/phpunit
         env:
-          ENGINE: PDO_MYSQL
+          ENGINE: pdo_mysql
           MYSQL_HOST: 127.0.0.1
           MYSQL_USER: root
           MYSQL_PASSWORD: password
@@ -83,7 +83,7 @@ jobs:
           mkdir -p build/logs
           vendor/bin/phpunit --coverage-clover build/logs/clover.xml
         env:
-          ENGINE: PDO_MYSQL
+          ENGINE: pdo_mysql
           MYSQL_HOST: 127.0.0.1
           MYSQL_USER: root
           MYSQL_PASSWORD: password
@@ -138,7 +138,7 @@ jobs:
           mkdir -p build/logs
           vendor/bin/phpunit --coverage-clover build/logs/clover.xml
         env:
-          ENGINE: PDO_MYSQL
+          ENGINE: pdo_mysql
           MYSQL_HOST: 127.0.0.1
           MYSQL_USER: root
           MYSQL_PASSWORD: password
@@ -186,7 +186,7 @@ jobs:
           mkdir -p build/logs
           vendor/bin/phpunit --coverage-clover build/logs/clover.xml
         env:
-          ENGINE: PDO_PGSQL
+          ENGINE: pdo_pgsql
           POSTGRES_HOST: 127.0.0.1
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
@@ -228,7 +228,7 @@ jobs:
           mkdir -p build/logs
           vendor/bin/phpunit --coverage-clover build/logs/clover.xml
         env:
-          ENGINE: SQLite3
+          ENGINE: sqlite3
 
       - name: Upload coverage report to Coveralls
         run: vendor/bin/php-coveralls --coverage_clover=build/logs/clover.xml -v
@@ -263,7 +263,7 @@ jobs:
           mkdir -p build/logs
           vendor/bin/phpunit --coverage-clover build/logs/clover.xml
         env:
-          ENGINE: GEOS
+          ENGINE: geos
 
       - name: Upload coverage report to Coveralls
         run: vendor/bin/php-coveralls --coverage_clover=build/logs/clover.xml -v
