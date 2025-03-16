@@ -46,6 +46,9 @@ EOF
 
 FROM php:${PHP_VERSION}-cli
 
+ARG UID
+ARG GID
+
 SHELL ["/bin/sh", "-e", "-c"]
 
 RUN <<EOF
@@ -69,5 +72,10 @@ COPY --from=geosop-builder /usr/local/bin/geosop /usr/local/bin/geosop
 
 # Composer
 COPY --from=composer /usr/bin/composer /usr/bin/composer
+
+RUN groupadd -g ${GID} user
+RUN useradd -u ${UID} -g ${GID} -m -s /bin/bash user
+
+USER user
 
 CMD sleep infinity

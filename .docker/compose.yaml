@@ -6,6 +6,8 @@ services:
             args:
                 - PHP_VERSION
                 - GEOSOP_VERSION
+                - UID
+                - GID
         volumes:
             - ..:${SOURCES_PATH}
             - ${SOURCES_PATH}/.git # Do not expose .git directory
