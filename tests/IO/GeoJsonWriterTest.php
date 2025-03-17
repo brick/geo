@@ -17,12 +17,12 @@ class GeoJsonWriterTest extends GeoJsonAbstractTestCase
     #[DataProvider('providerGeometryGeoJson')]
     #[DataProvider('providerFeatureGeoJson')]
     #[DataProvider('providerFeatureCollectionGeoJson')]
-    public function testWriteGeometry(string $geojson) : void
+    public function testWriteGeometry(string $geoJson) : void
     {
-        $geometry = (new GeoJsonReader())->read($geojson);
+        $geometry = (new GeoJsonReader())->read($geoJson);
         $geometryGeoJson = (new GeoJsonWriter())->write($geometry);
 
-        self::assertSame($geojson, $geometryGeoJson);
+        self::assertSame($geoJson, $geometryGeoJson);
     }
 
     public function testPrettyPrint() : void

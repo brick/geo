@@ -16,37 +16,37 @@ use stdClass;
 class GeoJsonReaderTest extends GeoJsonAbstractTestCase
 {
     /**
-     * @param string $geojson The GeoJSON to read.
+     * @param string $geoJson The GeoJSON to read.
      * @param array  $coords  The expected Geometry coordinates.
      * @param bool   $is3D    Whether the resulting Geometry has a Z coordinate.
      * @param bool   $lenient Whether to be lenient about case-sensitivity.
      */
     #[DataProvider('providerReadGeometry')]
-    public function testReadGeometry(string $geojson, array $coords, bool $is3D, bool $lenient) : void
+    public function testReadGeometry(string $geoJson, array $coords, bool $is3D, bool $lenient) : void
     {
-        $geometry = (new GeoJsonReader($lenient))->read($geojson);
+        $geometry = (new GeoJsonReader($lenient))->read($geoJson);
         $this->assertGeometryContents($geometry, $coords, $is3D, false, 4326);
     }
 
     public static function providerReadGeometry() : \Generator
     {
-        foreach (self::providerGeometryGeoJson() as [$geojson, $coords, $is3D]) {
-            yield [$geojson, $coords, $is3D, false];
-            yield [self::alterCase($geojson), $coords, $is3D, true];
+        foreach (self::providerGeometryGeoJson() as [$geoJson, $coords, $is3D]) {
+            yield [$geoJson, $coords, $is3D, false];
+            yield [self::alterCase($geoJson), $coords, $is3D, true];
         }
     }
 
     /**
-     * @param string        $geojson    The GeoJSON to read.
+     * @param string        $geoJson    The GeoJSON to read.
      * @param stdClass|null $properties The contained properties.
      * @param array|null    $coords     The expected Geometry coordinates, or null if the Feature has no geometry.
      * @param bool          $is3D       Whether the resulting Geometry has a Z coordinate.
      * @param bool          $lenient    Whether to be lenient about case-sensitivity.
      */
     #[DataProvider('providerReadFeature')]
-    public function testReadFeature(string $geojson, ?stdClass $properties, ?array $coords, bool $is3D, bool $lenient) : void
+    public function testReadFeature(string $geoJson, ?stdClass $properties, ?array $coords, bool $is3D, bool $lenient) : void
     {
-        $feature = (new GeoJsonReader($lenient))->read($geojson);
+        $feature = (new GeoJsonReader($lenient))->read($geoJson);
 
         self::assertInstanceOf(Feature::class, $feature);
         self::assertEquals($properties, $feature->getProperties());
@@ -62,22 +62,22 @@ class GeoJsonReaderTest extends GeoJsonAbstractTestCase
 
     public static function providerReadFeature() : \Generator
     {
-        foreach (self::providerFeatureGeoJson() as [$geojson, $properties, $coords, $is3D]) {
-            yield [$geojson, $properties, $coords, $is3D, false];
-            yield [self::alterCase($geojson), $properties, $coords, $is3D, true];
+        foreach (self::providerFeatureGeoJson() as [$geoJson, $properties, $coords, $is3D]) {
+            yield [$geoJson, $properties, $coords, $is3D, false];
+            yield [self::alterCase($geoJson), $properties, $coords, $is3D, true];
         }
     }
 
     /**
-     * @param string  $geojson The GeoJSON to read.
+     * @param string  $geoJson The GeoJSON to read.
      * @param array[] $coords  The expected Point coordinates.
      * @param bool[]  $is3D    Whether the resulting Point has a Z coordinate.
      * @param bool    $lenient Whether to be lenient about case-sensitivity.
      */
     #[DataProvider('providerReadFeatureCollection')]
-    public function testReadFeatureCollection(string $geojson, array $properties, array $coords, array $is3D, bool $lenient) : void
+    public function testReadFeatureCollection(string $geoJson, array $properties, array $coords, array $is3D, bool $lenient) : void
     {
-        $featureCollection = (new GeoJsonReader($lenient))->read($geojson);
+        $featureCollection = (new GeoJsonReader($lenient))->read($geoJson);
 
         self::assertInstanceOf(FeatureCollection::class, $featureCollection);
 
@@ -90,9 +90,9 @@ class GeoJsonReaderTest extends GeoJsonAbstractTestCase
 
     public static function providerReadFeatureCollection() : \Generator
     {
-        foreach (self::providerFeatureCollectionGeoJson() as [$geojson, $properties, $coords, $is3D]) {
-            yield [$geojson, $properties, $coords, $is3D, false];
-            yield [self::alterCase($geojson), $properties, $coords, $is3D, true];
+        foreach (self::providerFeatureCollectionGeoJson() as [$geoJson, $properties, $coords, $is3D]) {
+            yield [$geoJson, $properties, $coords, $is3D, false];
+            yield [self::alterCase($geoJson), $properties, $coords, $is3D, true];
         }
     }
 
@@ -248,14 +248,14 @@ class GeoJsonReaderTest extends GeoJsonAbstractTestCase
     }
 
     #[DataProvider('providerWrongCaseTypeInNonLenientMode')]
-    public function testWrongCaseTypeInNonLenientMode(string $geojson, string $expectedExceptionMessage) : void
+    public function testWrongCaseTypeInNonLenientMode(string $geoJson, string $expectedExceptionMessage) : void
     {
         $reader = new GeoJsonReader();
 
         $this->expectException(GeometryIoException::class);
         $this->expectExceptionMessage($expectedExceptionMessage);
 
-        $reader->read($geojson);
+        $reader->read($geoJson);
     }
 
     public static function providerWrongCaseTypeInNonLenientMode() : \Generator
@@ -285,10 +285,10 @@ class GeoJsonReaderTest extends GeoJsonAbstractTestCase
     /**
      * Changes the case of type attributes.
      */
-    private static function alterCase(string $geojson) : string
+    private static function alterCase(string $geoJson) : string
     {
         $callback = fn(array $matches): string => $matches[1] . strtoupper($matches[2]);
 
-        return preg_replace_callback('/("type"\s*\:\s*)("[^"]+")/', $callback, $geojson);
+        return preg_replace_callback('/("type"\s*\:\s*)("[^"]+")/', $callback, $geoJson);
     }
 }
