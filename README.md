@@ -28,7 +28,8 @@ together with implementations that delegate these operations to a third-party GI
 Requirements and installation
 -----------------------------
 
-This library requires PHP 8.1.
+This library requires PHP 8.2.
+For PHP 8.1, you can use version `0.13`.
 For PHP 8.0, you can use version `0.9`.
 For PHP 7.4, you can use version `0.7`.
 
