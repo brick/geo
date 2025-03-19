@@ -39,8 +39,7 @@ class WktReaderTest extends WktAbstractTestCase
     public function testAlternativeSyntax(string $canonicalWkt, string $alternativeWkt): void
     {
         $wktReader = new WktReader();
-        $wktWriter = new WktWriter();
-        $wktWriter->setPrettyPrint(false);
+        $wktWriter = new WktWriter(prettyPrint: false);
 
         $canonical = $wktReader->read($canonicalWkt);
         $alternative = $wktReader->read($alternativeWkt);

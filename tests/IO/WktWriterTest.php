@@ -23,8 +23,7 @@ class WktWriterTest extends WktAbstractTestCase
     #[DataProvider('providerPrettyPrint')]
     public function testPrettyPrint(bool $is3D, bool $prettyPrint, string $wkt) : void
     {
-        $writer = new WktWriter();
-        $writer->setPrettyPrint($prettyPrint);
+        $writer = new WktWriter(prettyPrint: $prettyPrint);
 
         $cs = new CoordinateSystem($is3D, false);
 
@@ -62,8 +61,7 @@ class WktWriterTest extends WktAbstractTestCase
     #[DataProvider('providerPointWkt')]
     public function testWritePoint(string $wkt, array $coords, bool $is3D, bool $isMeasured) : void
     {
-        $writer = new WktWriter();
-        $writer->setPrettyPrint(false);
+        $writer = new WktWriter(prettyPrint: false);
 
         $cs = new CoordinateSystem($is3D, $isMeasured);
         $point = $this->createPoint($coords, $cs);
@@ -80,8 +78,7 @@ class WktWriterTest extends WktAbstractTestCase
     #[DataProvider('providerLineStringWkt')]
     public function testWriteLineString(string $wkt, array $coords, bool $is3D, bool $isMeasured) : void
     {
-        $writer = new WktWriter();
-        $writer->setPrettyPrint(false);
+        $writer = new WktWriter(prettyPrint: false);
 
         $cs = new CoordinateSystem($is3D, $isMeasured);
         $lineString = $this->createLineString($coords, $cs);
@@ -98,8 +95,7 @@ class WktWriterTest extends WktAbstractTestCase
     #[DataProvider('providerCircularStringWkt')]
     public function testWriteCircularString(string $wkt, array $coords, bool $is3D, bool $isMeasured) : void
     {
-        $writer = new WktWriter();
-        $writer->setPrettyPrint(false);
+        $writer = new WktWriter(prettyPrint: false);
 
         $cs = new CoordinateSystem($is3D, $isMeasured);
         $lineString = $this->createCircularString($coords, $cs);
@@ -116,8 +112,7 @@ class WktWriterTest extends WktAbstractTestCase
     #[DataProvider('providerCompoundCurveWkt')]
     public function testWriteCompoundCurve(string $wkt, array $coords, bool $is3D, bool $isMeasured) : void
     {
-        $writer = new WktWriter();
-        $writer->setPrettyPrint(false);
+        $writer = new WktWriter(prettyPrint: false);
 
         $cs = new CoordinateSystem($is3D, $isMeasured);
         $compoundCurve = $this->createCompoundCurve($coords, $cs);
@@ -134,8 +129,7 @@ class WktWriterTest extends WktAbstractTestCase
     #[DataProvider('providerPolygonWkt')]
     public function testWritePolygon(string $wkt, array $coords, bool $is3D, bool $isMeasured) : void
     {
-        $writer = new WktWriter();
-        $writer->setPrettyPrint(false);
+        $writer = new WktWriter(prettyPrint: false);
 
         $cs = new CoordinateSystem($is3D, $isMeasured);
         $polygon = $this->createPolygon($coords, $cs);
@@ -152,8 +146,7 @@ class WktWriterTest extends WktAbstractTestCase
     #[DataProvider('providerTriangleWkt')]
     public function testWriteTriangle(string $wkt, array $coords, bool $is3D, bool $isMeasured) : void
     {
-        $writer = new WktWriter();
-        $writer->setPrettyPrint(false);
+        $writer = new WktWriter(prettyPrint: false);
 
         $cs = new CoordinateSystem($is3D, $isMeasured);
         $triangle = $this->createTriangle($coords, $cs);
@@ -170,8 +163,7 @@ class WktWriterTest extends WktAbstractTestCase
     #[DataProvider('providerCurvePolygonWkt')]
     public function testWriteCurvePolygon(string $wkt, array $coords, bool $is3D, bool $isMeasured) : void
     {
-        $writer = new WktWriter();
-        $writer->setPrettyPrint(false);
+        $writer = new WktWriter(prettyPrint: false);
 
         $cs = new CoordinateSystem($is3D, $isMeasured);
         $polygon = $this->createCurvePolygon($coords, $cs);
@@ -188,8 +180,7 @@ class WktWriterTest extends WktAbstractTestCase
     #[DataProvider('providerPolyhedralSurfaceWkt')]
     public function testWritePolyhedralSurface(string $wkt, array $coords, bool $is3D, bool $isMeasured) : void
     {
-        $writer = new WktWriter();
-        $writer->setPrettyPrint(false);
+        $writer = new WktWriter(prettyPrint: false);
 
         $cs = new CoordinateSystem($is3D, $isMeasured);
         $polyhedralSurface = $this->createPolyhedralSurface($coords, $cs);
@@ -206,8 +197,7 @@ class WktWriterTest extends WktAbstractTestCase
     #[DataProvider('providerTinWkt')]
     public function testWriteTin(string $wkt, array $coords, bool $is3D, bool $isMeasured) : void
     {
-        $writer = new WktWriter();
-        $writer->setPrettyPrint(false);
+        $writer = new WktWriter(prettyPrint: false);
 
         $cs = new CoordinateSystem($is3D, $isMeasured);
         $tin = $this->createTin($coords, $cs);
@@ -224,8 +214,7 @@ class WktWriterTest extends WktAbstractTestCase
     #[DataProvider('providerMultiPointWkt')]
     public function testWriteMultiPoint(string $wkt, array $coords, bool $is3D, bool $isMeasured) : void
     {
-        $writer = new WktWriter();
-        $writer->setPrettyPrint(false);
+        $writer = new WktWriter(prettyPrint: false);
 
         $cs = new CoordinateSystem($is3D, $isMeasured);
         $multiPoint = $this->createMultiPoint($coords, $cs);
@@ -242,8 +231,7 @@ class WktWriterTest extends WktAbstractTestCase
     #[DataProvider('providerMultiLineStringWkt')]
     public function testWriteMultiLineString(string $wkt, array $coords, bool $is3D, bool $isMeasured) : void
     {
-        $writer = new WktWriter();
-        $writer->setPrettyPrint(false);
+        $writer = new WktWriter(prettyPrint: false);
 
         $cs = new CoordinateSystem($is3D, $isMeasured);
         $multiLineString = $this->createMultiLineString($coords, $cs);
@@ -260,8 +248,7 @@ class WktWriterTest extends WktAbstractTestCase
     #[DataProvider('providerMultiPolygonWkt')]
     public function testWriteMultiPolygon(string $wkt, array $coords, bool $is3D, bool $isMeasured) : void
     {
-        $writer = new WktWriter();
-        $writer->setPrettyPrint(false);
+        $writer = new WktWriter(prettyPrint: false);
 
         $cs = new CoordinateSystem($is3D, $isMeasured);
         $multiPolygon = $this->createMultiPolygon($coords, $cs);
@@ -278,8 +265,7 @@ class WktWriterTest extends WktAbstractTestCase
     #[DataProvider('providerGeometryCollectionWkt')]
     public function testWriteGeometryCollection(string $wkt, array $coords, bool $is3D, bool $isMeasured) : void
     {
-        $writer = new WktWriter();
-        $writer->setPrettyPrint(false);
+        $writer = new WktWriter(prettyPrint: false);
 
         $cs = new CoordinateSystem($is3D, $isMeasured);
 

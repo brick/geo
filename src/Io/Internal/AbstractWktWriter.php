@@ -25,14 +25,14 @@ use Brick\Geo\Triangle;
  *
  * @internal
  */
-abstract class AbstractWktWriter
+abstract readonly class AbstractWktWriter
 {
     /**
      * A space if prettyPrint is true, an empty string otherwise.
      */
-    protected string $prettyPrintSpace = ' ';
+    protected string $prettyPrintSpace;
 
-    public function setPrettyPrint(bool $prettyPrint) : void
+    public function __construct(bool $prettyPrint = true)
     {
         $this->prettyPrintSpace = $prettyPrint ? ' ' : '';
     }

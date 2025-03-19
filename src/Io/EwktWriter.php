@@ -11,7 +11,7 @@ use Override;
 /**
  * Writes geometries in the Extended WKT format designed by PostGIS.
  */
-final class EwktWriter extends AbstractWktWriter
+final readonly class EwktWriter extends AbstractWktWriter
 {
     #[Override]
     public function write(Geometry $geometry) : string

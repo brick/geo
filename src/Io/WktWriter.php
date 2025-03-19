@@ -11,7 +11,7 @@ use Override;
 /**
  * Converter class from Geometry to WKT.
  */
-final class WktWriter extends AbstractWktWriter
+final readonly class WktWriter extends AbstractWktWriter
 {
     #[Override]
     public function write(Geometry $geometry) : string

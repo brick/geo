@@ -7,6 +7,7 @@
 - Minimum PHP version is now `8.2`
 - `Geometry` classes are now `readonly`
 - `WkbWriter::setByteOrder()` & `EwkbWriter::setByteOrder()` have been removed, pass `$byteOrder` to the constructor instead
+- `WktWriter::setPrettyPrint()` & `EwktWriter::setPrettyPrint()` have been removed, pass `$prettyPrint` to the constructor instead
 
 ## [0.13.1](https://github.com/brick/geo/releases/tag/0.13.1) - 2025-03-20
 
