@@ -21,23 +21,18 @@ use Brick\Geo\PolyhedralSurface;
  *
  * @internal
  */
-abstract class AbstractWkbWriter
+abstract readonly class AbstractWkbWriter
 {
     private WkbByteOrder $byteOrder;
-
     private WkbByteOrder $machineByteOrder;
 
     /**
      * @throws GeometryIoException
      */
-    public function __construct()
+    public function __construct(?WkbByteOrder $byteOrder = null)
     {
-        $this->byteOrder = $this->machineByteOrder = WkbTools::getMachineByteOrder();
-    }
-
-    public function setByteOrder(WkbByteOrder $byteOrder) : void
-    {
-        $this->byteOrder = $byteOrder;
+        $this->machineByteOrder = WkbTools::getMachineByteOrder();
+        $this->byteOrder = $byteOrder ?? $this->machineByteOrder;
     }
 
     /**

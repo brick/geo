@@ -11,7 +11,7 @@ use Override;
 /**
  * Writes geometries in the WKB format.
  */
-final class WkbWriter extends AbstractWkbWriter
+final readonly class WkbWriter extends AbstractWkbWriter
 {
     #[Override]
     protected function packHeader(Geometry $geometry, bool $outer) : string

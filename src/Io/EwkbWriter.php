@@ -12,7 +12,7 @@ use Override;
 /**
  * Writes geometries in the Extended WKB format designed by PostGIS.
  */
-final class EwkbWriter extends AbstractWkbWriter
+final readonly class EwkbWriter extends AbstractWkbWriter
 {
     #[Override]
     protected function packHeader(Geometry $geometry, bool $outer) : string

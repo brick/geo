@@ -24,9 +24,7 @@ class WkbWriterTest extends WkbAbstractTestCase
     #[DataProvider('providerWrite')]
     public function testWrite(string $wkt, string $wkb, WkbByteOrder $byteOrder) : void
     {
-        $writer = new WkbWriter();
-        $writer->setByteOrder($byteOrder);
-
+        $writer = new WkbWriter(byteOrder: $byteOrder);
         $reader = new WktReader();
 
         $geometry = $reader->read($wkt);
