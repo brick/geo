@@ -6,7 +6,7 @@ namespace Brick\Geo\Io;
 
 use Brick\Geo\Geometry;
 use Brick\Geo\Io\Internal\AbstractWkbWriter;
-use Brick\Geo\Io\Internal\EwkbTools;
+use Brick\Geo\Io\Internal\WkbTools;
 use Override;
 
 /**
@@ -22,17 +22,17 @@ final class EwkbWriter extends AbstractWkbWriter
         $cs = $geometry->coordinateSystem();
 
         if ($cs->hasZ()) {
-            $geometryType |= EwkbTools::Z;
+            $geometryType |= WkbTools::Z;
         }
 
         if ($cs->hasM()) {
-            $geometryType |= EwkbTools::M;
+            $geometryType |= WkbTools::M;
         }
 
         $srid = $cs->srid();
 
         if ($srid !== 0 && $outer) {
-            $geometryType |= EwkbTools::S;
+            $geometryType |= WkbTools::S;
         }
 
         $header = $this->packUnsignedInteger($geometryType);

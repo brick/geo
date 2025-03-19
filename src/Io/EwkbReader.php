@@ -7,9 +7,9 @@ namespace Brick\Geo\Io;
 use Brick\Geo\Exception\GeometryIoException;
 use Brick\Geo\Geometry;
 use Brick\Geo\Io\Internal\AbstractWkbReader;
-use Brick\Geo\Io\Internal\EwkbTools;
 use Brick\Geo\Io\Internal\WkbBuffer;
 use Brick\Geo\Io\Internal\WkbGeometryHeader;
+use Brick\Geo\Io\Internal\WkbTools;
 use Override;
 
 /**
@@ -48,9 +48,9 @@ final readonly class EwkbReader extends AbstractWkbReader
         } else {
             $geometryType = $header & 0xFFF;
 
-            $hasZ    = (($header & EwkbTools::Z) !== 0);
-            $hasM    = (($header & EwkbTools::M) !== 0);
-            $hasSrid = (($header & EwkbTools::S) !== 0);
+            $hasZ    = (($header & WkbTools::Z) !== 0);
+            $hasM    = (($header & WkbTools::M) !== 0);
+            $hasSrid = (($header & WkbTools::S) !== 0);
 
             if ($hasSrid) {
                 $srid = $buffer->readUnsignedLong();

@@ -13,7 +13,7 @@ final readonly class WkbGeometryHeader
         public int $geometryType,
         public bool $hasZ,
         public bool $hasM,
-        public ?int $srid = null,
+        public ?int $srid = null, // EWKB only
     ) {
     }
 }
