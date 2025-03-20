@@ -262,6 +262,15 @@ class CurveProxy extends Curve implements ProxyInterface
         return $this->proxyGeometry->withoutM();
     }
 
+    public function withRoundedCoordinates(int $precision): \Brick\Geo\Geometry
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->withRoundedCoordinates($precision);
+    }
+
     public function getBoundingBox(): \Brick\Geo\BoundingBox
     {
         if ($this->proxyGeometry === null) {

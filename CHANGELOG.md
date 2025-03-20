@@ -1,5 +1,11 @@
 # Changelog
 
+## UNRELEASED
+
+🐛 **Bug fixes**
+
+- Uninitialized proxies would be broken when calling `withRoundedCoordinates()`
+
 ## [0.13.0](https://github.com/brick/geo/releases/tag/0.13.0) - 2025-03-17
 
 💥 **Breaking changes**

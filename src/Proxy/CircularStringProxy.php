@@ -316,6 +316,15 @@ class CircularStringProxy extends CircularString implements ProxyInterface
         return $this->proxyGeometry->withoutM();
     }
 
+    public function withRoundedCoordinates(int $precision): \Brick\Geo\Geometry
+    {
+        if ($this->proxyGeometry === null) {
+            $this->load();
+        }
+
+        return $this->proxyGeometry->withRoundedCoordinates($precision);
+    }
+
     public function swapXy(): \Brick\Geo\Geometry
     {
         if ($this->proxyGeometry === null) {
