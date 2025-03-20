@@ -12,17 +12,17 @@ final readonly class FeatureCollection
     /**
      * The contained features.
      *
-     * @var Feature[]
+     * @var list<Feature>
      */
     private array $features;
 
     public function __construct(Feature ...$features)
     {
-        $this->features = $features;
+        $this->features = array_values($features);
     }
 
     /**
-     * @return Feature[]
+     * @return list<Feature>
      */
     public function getFeatures(): array
     {

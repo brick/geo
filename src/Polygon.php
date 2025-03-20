@@ -157,7 +157,7 @@ readonly class Polygon extends Surface implements \Countable, \IteratorAggregate
     /**
      * Returns the interior rings in this Polygon.
      *
-     * @return LineString[]
+     * @return list<LineString>
      */
     public function interiorRings() : array
     {

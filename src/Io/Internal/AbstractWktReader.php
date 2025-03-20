@@ -195,7 +195,7 @@ abstract readonly class AbstractWktReader
      * (x y, ...)
      * ((x, y), ...)
      *
-     * @return Point[]
+     * @return list<Point>
      */
     private function readMultiPoint(WktParser $parser, CoordinateSystem $cs) : array
     {
@@ -275,7 +275,7 @@ abstract readonly class AbstractWktReader
     /**
      * ((x y, ...), ...)
      *
-     * @return LineString[]
+     * @return list<LineString>
      */
     private function readMultiLineString(WktParser $parser, CoordinateSystem $cs) : array
     {
