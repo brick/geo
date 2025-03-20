@@ -10,6 +10,8 @@ use Brick\Geo\Exception\InvalidGeometryException;
 use Brick\Geo\Exception\UnexpectedGeometryException;
 use Brick\Geo\Geometry;
 use Brick\Geo\_CLASSNAME_;
+use Brick\Geo\Internal\ProxyRegistry;
+use Override;
 
 /**
  * Proxy class for _CLASSNAME_.
@@ -35,11 +37,6 @@ class _CLASSNAME_Proxy extends _CLASSNAME_ implements ProxyInterface
     private readonly int $proxySrid;
 
     /**
-     * The underlying geometry, or NULL if not yet loaded.
-     */
-    private ?_CLASSNAME_ $proxyGeometry = null;
-
-    /**
      * @param string $data     The WKT or WKB data.
      * @param bool   $isBinary Whether the data is binary (true) or text (false).
      * @param int    $srid     The SRID of the geometry.
@@ -59,81 +56,83 @@ class _CLASSNAME_Proxy extends _CLASSNAME_ implements ProxyInterface
      * @throws InvalidGeometryException    If the resulting geometry is not valid.
      * @throws UnexpectedGeometryException If the resulting geometry is not an instance of the proxied class.
      */
-    private function load() : void
+    private function load() : _CLASSNAME_
     {
-        $this->proxyGeometry = $this->isProxyBinary
+        return $this->isProxyBinary
             ? _CLASSNAME_::fromBinary($this->proxyData, $this->proxySrid)
             : _CLASSNAME_::fromText($this->proxyData, $this->proxySrid);
     }
 
+    #[Override]
     public function isLoaded() : bool
     {
-        return $this->proxyGeometry !== null;
+        return ProxyRegistry::hasProxiedGeometry($this);
     }
 
-    public function getGeometry() : Geometry
+    #[Override]
+    public function getGeometry() : _CLASSNAME_
     {
-        if ($this->proxyGeometry === null) {
-            $this->load();
+        $geometry = ProxyRegistry::getProxiedGeometry($this);
+
+        if ($geometry !== null) {
+            return $geometry;
         }
 
-        return $this->proxyGeometry;
+        $geometry = $this->load();
+        ProxyRegistry::setProxiedGeometry($this, $geometry);
+
+        return $geometry;
     }
 
+    #[Override]
     public function isProxyBinary() : bool
     {
         return $this->isProxyBinary;
     }
 
+    #[Override]
     public static function fromText(string $wkt, int $srid = 0) : Geometry
     {
         return new self($wkt, false, $srid);
     }
 
+    #[Override]
     public static function fromBinary(string $wkb, int $srid = 0) : Geometry
     {
         return new self($wkb, true, $srid);
     }
 
+    #[Override]
     public function srid() : int
     {
         return $this->proxySrid;
     }
 
+    #[Override]
     public function asText() : string
     {
         if (! $this->isProxyBinary) {
             return $this->proxyData;
         }
 
-        if ($this->proxyGeometry === null) {
-            $this->load();
-        }
-
-        return $this->proxyGeometry->asText();
+        return $this->getGeometry()->asText();
     }
 
+    #[Override]
     public function asBinary() : string
     {
         if ($this->isProxyBinary) {
             return $this->proxyData;
         }
 
-        if ($this->proxyGeometry === null) {
-            $this->load();
-        }
-
-        return $this->proxyGeometry->asBinary();
+        return $this->getGeometry()->asBinary();
     }
 
 // BEGIN METHOD TEMPLATE
+    #[Override]
     function _TEMPLATE_()
     {
-        if ($this->proxyGeometry === null) {
-            $this->load();
-        }
-
-        return $this->proxyGeometry->_METHOD_();
+        return $this->getGeometry()->_METHOD_();
     }
 // END METHOD TEMPLATE
 }

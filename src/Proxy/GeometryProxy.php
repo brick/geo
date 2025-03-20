@@ -9,6 +9,8 @@ use Brick\Geo\Exception\CoordinateSystemException;
 use Brick\Geo\Exception\InvalidGeometryException;
 use Brick\Geo\Exception\UnexpectedGeometryException;
 use Brick\Geo\Geometry;
+use Brick\Geo\Internal\ProxyRegistry;
+use Override;
 
 /**
  * Proxy class for Geometry.
@@ -34,11 +36,6 @@ class GeometryProxy extends Geometry implements ProxyInterface
     private readonly int $proxySrid;
 
     /**
-     * The underlying geometry, or NULL if not yet loaded.
-     */
-    private ?Geometry $proxyGeometry = null;
-
-    /**
      * @param string $data     The WKT or WKB data.
      * @param bool   $isBinary Whether the data is binary (true) or text (false).
      * @param int    $srid     The SRID of the geometry.
@@ -58,243 +55,191 @@ class GeometryProxy extends Geometry implements ProxyInterface
      * @throws InvalidGeometryException    If the resulting geometry is not valid.
      * @throws UnexpectedGeometryException If the resulting geometry is not an instance of the proxied class.
      */
-    private function load() : void
+    private function load() : Geometry
     {
-        $this->proxyGeometry = $this->isProxyBinary
+        return $this->isProxyBinary
             ? Geometry::fromBinary($this->proxyData, $this->proxySrid)
             : Geometry::fromText($this->proxyData, $this->proxySrid);
     }
 
+    #[Override]
     public function isLoaded() : bool
     {
-        return $this->proxyGeometry !== null;
+        return ProxyRegistry::hasProxiedGeometry($this);
     }
 
+    #[Override]
     public function getGeometry() : Geometry
     {
-        if ($this->proxyGeometry === null) {
-            $this->load();
+        $geometry = ProxyRegistry::getProxiedGeometry($this);
+
+        if ($geometry !== null) {
+            return $geometry;
         }
 
-        return $this->proxyGeometry;
+        $geometry = $this->load();
+        ProxyRegistry::setProxiedGeometry($this, $geometry);
+
+        return $geometry;
     }
 
+    #[Override]
     public function isProxyBinary() : bool
     {
         return $this->isProxyBinary;
     }
 
+    #[Override]
     public static function fromText(string $wkt, int $srid = 0) : Geometry
     {
         return new self($wkt, false, $srid);
     }
 
+    #[Override]
     public static function fromBinary(string $wkb, int $srid = 0) : Geometry
     {
         return new self($wkb, true, $srid);
     }
 
+    #[Override]
     public function srid() : int
     {
         return $this->proxySrid;
     }
 
+    #[Override]
     public function asText() : string
     {
         if (! $this->isProxyBinary) {
             return $this->proxyData;
         }
 
-        if ($this->proxyGeometry === null) {
-            $this->load();
-        }
-
-        return $this->proxyGeometry->asText();
+        return $this->getGeometry()->asText();
     }
 
+    #[Override]
     public function asBinary() : string
     {
         if ($this->isProxyBinary) {
             return $this->proxyData;
         }
 
-        if ($this->proxyGeometry === null) {
-            $this->load();
-        }
-
-        return $this->proxyGeometry->asBinary();
+        return $this->getGeometry()->asBinary();
     }
 
 
+    #[Override]
     public function dimension(): int
     {
-        if ($this->proxyGeometry === null) {
-            $this->load();
-        }
-
-        return $this->proxyGeometry->dimension();
+        return $this->getGeometry()->dimension();
     }
 
+    #[Override]
     public function coordinateDimension(): int
     {
-        if ($this->proxyGeometry === null) {
-            $this->load();
-        }
-
-        return $this->proxyGeometry->coordinateDimension();
+        return $this->getGeometry()->coordinateDimension();
     }
 
+    #[Override]
     public function spatialDimension(): int
     {
-        if ($this->proxyGeometry === null) {
-            $this->load();
-        }
-
-        return $this->proxyGeometry->spatialDimension();
+        return $this->getGeometry()->spatialDimension();
     }
 
+    #[Override]
     public function geometryType(): string
     {
-        if ($this->proxyGeometry === null) {
-            $this->load();
-        }
-
-        return $this->proxyGeometry->geometryType();
+        return $this->getGeometry()->geometryType();
     }
 
+    #[Override]
     public function geometryTypeBinary(): int
     {
-        if ($this->proxyGeometry === null) {
-            $this->load();
-        }
-
-        return $this->proxyGeometry->geometryTypeBinary();
+        return $this->getGeometry()->geometryTypeBinary();
     }
 
+    #[Override]
     public function isEmpty(): bool
     {
-        if ($this->proxyGeometry === null) {
-            $this->load();
-        }
-
-        return $this->proxyGeometry->isEmpty();
+        return $this->getGeometry()->isEmpty();
     }
 
+    #[Override]
     public function is3D(): bool
     {
-        if ($this->proxyGeometry === null) {
-            $this->load();
-        }
-
-        return $this->proxyGeometry->is3D();
+        return $this->getGeometry()->is3D();
     }
 
+    #[Override]
     public function isMeasured(): bool
     {
-        if ($this->proxyGeometry === null) {
-            $this->load();
-        }
-
-        return $this->proxyGeometry->isMeasured();
+        return $this->getGeometry()->isMeasured();
     }
 
+    #[Override]
     public function coordinateSystem(): \Brick\Geo\CoordinateSystem
     {
-        if ($this->proxyGeometry === null) {
-            $this->load();
-        }
-
-        return $this->proxyGeometry->coordinateSystem();
+        return $this->getGeometry()->coordinateSystem();
     }
 
+    #[Override]
     public function withSrid(int $srid): \Brick\Geo\Geometry
     {
-        if ($this->proxyGeometry === null) {
-            $this->load();
-        }
-
-        return $this->proxyGeometry->withSrid($srid);
+        return $this->getGeometry()->withSrid($srid);
     }
 
+    #[Override]
     public function toXy(): \Brick\Geo\Geometry
     {
-        if ($this->proxyGeometry === null) {
-            $this->load();
-        }
-
-        return $this->proxyGeometry->toXy();
+        return $this->getGeometry()->toXy();
     }
 
+    #[Override]
     public function withoutZ(): \Brick\Geo\Geometry
     {
-        if ($this->proxyGeometry === null) {
-            $this->load();
-        }
-
-        return $this->proxyGeometry->withoutZ();
+        return $this->getGeometry()->withoutZ();
     }
 
+    #[Override]
     public function withoutM(): \Brick\Geo\Geometry
     {
-        if ($this->proxyGeometry === null) {
-            $this->load();
-        }
-
-        return $this->proxyGeometry->withoutM();
+        return $this->getGeometry()->withoutM();
     }
 
+    #[Override]
     public function withRoundedCoordinates(int $precision): \Brick\Geo\Geometry
     {
-        if ($this->proxyGeometry === null) {
-            $this->load();
-        }
-
-        return $this->proxyGeometry->withRoundedCoordinates($precision);
+        return $this->getGeometry()->withRoundedCoordinates($precision);
     }
 
+    #[Override]
     public function getBoundingBox(): \Brick\Geo\BoundingBox
     {
-        if ($this->proxyGeometry === null) {
-            $this->load();
-        }
-
-        return $this->proxyGeometry->getBoundingBox();
+        return $this->getGeometry()->getBoundingBox();
     }
 
+    #[Override]
     public function toArray(): array
     {
-        if ($this->proxyGeometry === null) {
-            $this->load();
-        }
-
-        return $this->proxyGeometry->toArray();
+        return $this->getGeometry()->toArray();
     }
 
+    #[Override]
     public function swapXy(): \Brick\Geo\Geometry
     {
-        if ($this->proxyGeometry === null) {
-            $this->load();
-        }
-
-        return $this->proxyGeometry->swapXy();
+        return $this->getGeometry()->swapXy();
     }
 
+    #[Override]
     public function project(\Brick\Geo\Projector\Projector $projector): \Brick\Geo\Geometry
     {
-        if ($this->proxyGeometry === null) {
-            $this->load();
-        }
-
-        return $this->proxyGeometry->project($projector);
+        return $this->getGeometry()->project($projector);
     }
 
+    #[Override]
     public function isIdenticalTo(\Brick\Geo\Geometry $that): bool
     {
-        if ($this->proxyGeometry === null) {
-            $this->load();
-        }
-
-        return $this->proxyGeometry->isIdenticalTo($that);
+        return $this->getGeometry()->isIdenticalTo($that);
     }
 
 }
