@@ -29,7 +29,7 @@ use Override;
  * @template T of Geometry
  * @template-implements \IteratorAggregate<int<0, max>, T>
  */
-class GeometryCollection extends Geometry implements \Countable, \IteratorAggregate
+readonly class GeometryCollection extends Geometry implements \Countable, \IteratorAggregate
 {
     /**
      * The geometries that compose this GeometryCollection.
@@ -38,7 +38,7 @@ class GeometryCollection extends Geometry implements \Countable, \IteratorAggreg
      *
      * @var list<T>
      */
-    protected array $geometries = [];
+    protected array $geometries;
 
     /**
      * @param T ...$geometries
@@ -58,6 +58,8 @@ class GeometryCollection extends Geometry implements \Countable, \IteratorAggreg
         }
 
         parent::__construct($cs, $isEmpty);
+
+        $this->geometries = array_values($geometries);
 
         if (! $geometries) {
             return;
@@ -81,8 +83,6 @@ class GeometryCollection extends Geometry implements \Countable, \IteratorAggreg
                 ));
             }
         }
-
-        $this->geometries = array_values($geometries);
     }
 
     /**

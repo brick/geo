@@ -19,7 +19,7 @@ use Override;
  * @internal This class is not part of the public API and can change at any time.
  *           Please type-hint against Brick\Geo\Curve in your projects.
  */
-class CurveProxy extends Curve implements ProxyInterface
+final readonly class CurveProxy extends Curve implements ProxyInterface
 {
     /**
      * The WKT or WKB data.

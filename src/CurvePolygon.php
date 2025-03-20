@@ -21,7 +21,7 @@ use Override;
  * @template-implements \IteratorAggregate<int<0, max>, Curve>
  * @final
  */
-class CurvePolygon extends Surface implements \Countable, \IteratorAggregate
+readonly class CurvePolygon extends Surface implements \Countable, \IteratorAggregate
 {
     /**
      * The rings that compose this CurvePolygon.
@@ -33,7 +33,7 @@ class CurvePolygon extends Surface implements \Countable, \IteratorAggregate
      *
      * @var list<Curve>
      */
-    protected array $rings = [];
+    protected array $rings;
 
     /**
      * The coordinate system of each of the rings must match the one of the CurvePolygon.
@@ -45,15 +45,16 @@ class CurvePolygon extends Surface implements \Countable, \IteratorAggregate
      */
     public function __construct(CoordinateSystem $cs, Curve ...$rings)
     {
-        parent::__construct($cs, ! $rings);
+        $isEmpty = (count($rings) === 0);
+        parent::__construct($cs, $isEmpty);
 
-        if (! $rings) {
+        $this->rings = array_values($rings);
+
+        if ($isEmpty) {
             return;
         }
 
         CoordinateSystem::check($this, ...$rings);
-
-        $this->rings = array_values($rings);
     }
 
     /**

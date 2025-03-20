@@ -19,7 +19,7 @@ use Override;
  * @internal This class is not part of the public API and can change at any time.
  *           Please type-hint against Brick\Geo\CircularString in your projects.
  */
-class CircularStringProxy extends CircularString implements ProxyInterface
+final readonly class CircularStringProxy extends CircularString implements ProxyInterface
 {
     /**
      * The WKT or WKB data.

@@ -19,7 +19,7 @@ use Override;
  * @internal This class is not part of the public API and can change at any time.
  *           Please type-hint against Brick\Geo\Polygon in your projects.
  */
-class PolygonProxy extends Polygon implements ProxyInterface
+final readonly class PolygonProxy extends Polygon implements ProxyInterface
 {
     /**
      * The WKT or WKB data.

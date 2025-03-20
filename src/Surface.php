@@ -24,7 +24,7 @@ use Override;
  * The boundary of a simple Surface is the set of closed Curves corresponding to its "exterior" and "interior"
  * boundaries.
  */
-abstract class Surface extends Geometry
+abstract readonly class Surface extends Geometry
 {
     /**
      * A Surface is a 2-dimensional geometric object.

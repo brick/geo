@@ -19,7 +19,7 @@ use Override;
  * @template-implements \IteratorAggregate<int<0, max>, LineString|CircularString>
  * @final
  */
-class CompoundCurve extends Curve implements \Countable, \IteratorAggregate
+readonly class CompoundCurve extends Curve implements \Countable, \IteratorAggregate
 {
     /**
      * The Curves that compose this CompoundCurve.
@@ -28,7 +28,7 @@ class CompoundCurve extends Curve implements \Countable, \IteratorAggregate
      *
      * @var list<LineString|CircularString>
      */
-    protected array $curves = [];
+    protected array $curves;
 
     /**
      * The coordinate system of each of the curves must match the one of the CompoundCurve.
@@ -42,9 +42,12 @@ class CompoundCurve extends Curve implements \Countable, \IteratorAggregate
      */
     public function __construct(CoordinateSystem $cs, LineString|CircularString ...$curves)
     {
-        parent::__construct($cs, ! $curves);
+        $isEmpty = (count($curves) === 0);
+        parent::__construct($cs, $isEmpty);
 
-        if (! $curves) {
+        $this->curves = array_values($curves);
+
+        if ($isEmpty) {
             return;
         }
 
@@ -64,8 +67,6 @@ class CompoundCurve extends Curve implements \Countable, \IteratorAggregate
 
             $previousCurve = $curve;
         }
-
-        $this->curves = array_values($curves);
     }
 
     /**

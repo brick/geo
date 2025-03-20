@@ -18,7 +18,7 @@ use Override;
  * @internal This class is not part of the public API and can change at any time.
  *           Please type-hint against Brick\Geo\Geometry in your projects.
  */
-class GeometryProxy extends Geometry implements ProxyInterface
+final readonly class GeometryProxy extends Geometry implements ProxyInterface
 {
     /**
      * The WKT or WKB data.

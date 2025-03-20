@@ -19,7 +19,7 @@ use Override;
  * @internal This class is not part of the public API and can change at any time.
  *           Please type-hint against Brick\Geo\CompoundCurve in your projects.
  */
-class CompoundCurveProxy extends CompoundCurve implements ProxyInterface
+final readonly class CompoundCurveProxy extends CompoundCurve implements ProxyInterface
 {
     /**
      * The WKT or WKB data.

@@ -15,7 +15,7 @@ use Override;
  * @template-extends PolyhedralSurface<Triangle>
  * @final
  */
-class Tin extends PolyhedralSurface
+readonly class Tin extends PolyhedralSurface
 {
     #[Override]
     protected function patchType() : string

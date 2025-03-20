@@ -5,6 +5,7 @@
 💥 **Breaking changes**
 
 - Minimum PHP version is now `8.2`
+- `Geometry` classes are now `readonly`
 
 ## [0.13.1](https://github.com/brick/geo/releases/tag/0.13.1) - 2025-03-20
 

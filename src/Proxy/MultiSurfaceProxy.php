@@ -19,7 +19,7 @@ use Override;
  * @internal This class is not part of the public API and can change at any time.
  *           Please type-hint against Brick\Geo\MultiSurface in your projects.
  */
-class MultiSurfaceProxy extends MultiSurface implements ProxyInterface
+final readonly class MultiSurfaceProxy extends MultiSurface implements ProxyInterface
 {
     /**
      * The WKT or WKB data.

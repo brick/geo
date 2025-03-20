@@ -23,7 +23,7 @@ use Override;
 /**
  * Geometry is the root class of the hierarchy.
  */
-abstract class Geometry implements \Stringable
+abstract readonly class Geometry implements \Stringable
 {
     final public const GEOMETRY           = 0;
     final public const POINT              = 1;

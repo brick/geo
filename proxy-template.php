@@ -19,7 +19,7 @@ use Override;
  * @internal This class is not part of the public API and can change at any time.
  *           Please type-hint against _FQCN_ in your projects.
  */
-class _CLASSNAME_Proxy extends _CLASSNAME_ implements ProxyInterface
+final readonly class _CLASSNAME_Proxy extends _CLASSNAME_ implements ProxyInterface
 {
     /**
      * The WKT or WKB data.

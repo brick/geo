@@ -19,7 +19,7 @@ use Override;
  * @internal This class is not part of the public API and can change at any time.
  *           Please type-hint against Brick\Geo\LineString in your projects.
  */
-class LineStringProxy extends LineString implements ProxyInterface
+final readonly class LineStringProxy extends LineString implements ProxyInterface
 {
     /**
      * The WKT or WKB data.

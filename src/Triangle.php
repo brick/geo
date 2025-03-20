@@ -14,7 +14,7 @@ use Override;
  *
  * @final
  */
-class Triangle extends Polygon
+readonly class Triangle extends Polygon
 {
     #[Override]
     protected function validate(): void

@@ -19,7 +19,7 @@ use Override;
  * @internal This class is not part of the public API and can change at any time.
  *           Please type-hint against Brick\Geo\Point in your projects.
  */
-class PointProxy extends Point implements ProxyInterface
+final readonly class PointProxy extends Point implements ProxyInterface
 {
     /**
      * The WKT or WKB data.

@@ -20,7 +20,7 @@ use Override;
  * @extends GeometryCollection<Point>
  * @final
  */
-class MultiPoint extends GeometryCollection
+readonly class MultiPoint extends GeometryCollection
 {
     /**
      * @return list<list<float>>

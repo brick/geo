@@ -24,7 +24,7 @@ use Override;
  * @template T of Surface
  * @extends GeometryCollection<T>
  */
-abstract class MultiSurface extends GeometryCollection
+abstract readonly class MultiSurface extends GeometryCollection
 {
     #[Override]
     public function project(Projector $projector): MultiSurface

@@ -27,7 +27,7 @@ use Override;
  * @template T of Curve
  * @extends GeometryCollection<T>
  */
-abstract class MultiCurve extends GeometryCollection
+abstract readonly class MultiCurve extends GeometryCollection
 {
     #[Override]
     public function project(Projector $projector): MultiCurve

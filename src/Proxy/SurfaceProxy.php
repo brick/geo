@@ -19,7 +19,7 @@ use Override;
  * @internal This class is not part of the public API and can change at any time.
  *           Please type-hint against Brick\Geo\Surface in your projects.
  */
-class SurfaceProxy extends Surface implements ProxyInterface
+final readonly class SurfaceProxy extends Surface implements ProxyInterface
 {
     /**
      * The WKT or WKB data.

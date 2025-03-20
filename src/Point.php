@@ -20,27 +20,27 @@ use Override;
  *
  * @final
  */
-class Point extends Geometry
+readonly class Point extends Geometry
 {
     /**
      * The x-coordinate value for this Point, or NULL if the point is empty.
      */
-    private ?float $x = null;
+    private ?float $x;
 
     /**
      * The y-coordinate value for this Point, or NULL if the point is empty.
      */
-    private ?float $y = null;
+    private ?float $y;
 
     /**
      * The z-coordinate value for this Point, or NULL if it does not have one.
      */
-    private ?float $z = null;
+    private ?float $z;
 
     /**
      * The m-coordinate value for this Point, or NULL if it does not have one.
      */
-    private ?float $m = null;
+    private ?float $m;
 
     /**
      * @param CoordinateSystem $cs        The coordinate system.
@@ -57,6 +57,11 @@ class Point extends Geometry
         parent::__construct($cs, $isEmpty);
 
         if ($isEmpty) {
+            $this->x = null;
+            $this->y = null;
+            $this->z = null;
+            $this->m = null;
+
             return;
         }
 
@@ -95,13 +100,8 @@ class Point extends Geometry
         $hasZ = $cs->hasZ();
         $hasM = $cs->hasM();
 
-        if ($hasZ) {
-            $this->z = $coords[2];
-        }
-
-        if ($hasM) {
-            $this->m = $coords[$hasZ ? 3 : 2];
-        }
+        $this->z = $hasZ ? $coords[2] : null;
+        $this->m = $hasM ? $coords[$hasZ ? 3 : 2] : null;
     }
 
     /**
