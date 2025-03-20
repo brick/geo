@@ -232,7 +232,7 @@ class PolygonProxy extends Polygon implements ProxyInterface
             $this->load();
         }
 
-        return $this->proxyGeometry->withInteriorRings($interiorRings);
+        return $this->proxyGeometry->withInteriorRings(...$interiorRings);
     }
 
     public function withAddedInteriorRings(\Brick\Geo\LineString ...$interiorRings): \Brick\Geo\Polygon
@@ -241,7 +241,7 @@ class PolygonProxy extends Polygon implements ProxyInterface
             $this->load();
         }
 
-        return $this->proxyGeometry->withAddedInteriorRings($interiorRings);
+        return $this->proxyGeometry->withAddedInteriorRings(...$interiorRings);
     }
 
     public function coordinateDimension(): int

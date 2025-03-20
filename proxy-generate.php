@@ -90,6 +90,10 @@ foreach ($classes as $class) {
                 $parameterCode .= ', ';
             }
 
+            if ($method->isVariadic()) {
+                $parameterCode .= '...';
+            }
+
             $parameterCode .= '$' . $parameter->getName();
         }
 

@@ -205,7 +205,7 @@ class TinProxy extends Tin implements ProxyInterface
             $this->load();
         }
 
-        return $this->proxyGeometry->withAddedPatches($patches);
+        return $this->proxyGeometry->withAddedPatches(...$patches);
     }
 
     public function coordinateDimension(): int

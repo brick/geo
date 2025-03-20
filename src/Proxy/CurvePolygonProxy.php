@@ -223,7 +223,7 @@ class CurvePolygonProxy extends CurvePolygon implements ProxyInterface
             $this->load();
         }
 
-        return $this->proxyGeometry->withInteriorRings($interiorRings);
+        return $this->proxyGeometry->withInteriorRings(...$interiorRings);
     }
 
     public function withAddedInteriorRings(\Brick\Geo\Curve ...$interiorRings): \Brick\Geo\CurvePolygon
@@ -232,7 +232,7 @@ class CurvePolygonProxy extends CurvePolygon implements ProxyInterface
             $this->load();
         }
 
-        return $this->proxyGeometry->withAddedInteriorRings($interiorRings);
+        return $this->proxyGeometry->withAddedInteriorRings(...$interiorRings);
     }
 
     public function coordinateDimension(): int

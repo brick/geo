@@ -214,7 +214,7 @@ class GeometryCollectionProxy extends GeometryCollection implements ProxyInterfa
             $this->load();
         }
 
-        return $this->proxyGeometry->withAddedGeometries($geometries);
+        return $this->proxyGeometry->withAddedGeometries(...$geometries);
     }
 
     public function coordinateDimension(): int

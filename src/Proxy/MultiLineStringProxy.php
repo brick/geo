@@ -214,7 +214,7 @@ class MultiLineStringProxy extends MultiLineString implements ProxyInterface
             $this->load();
         }
 
-        return $this->proxyGeometry->withAddedGeometries($geometries);
+        return $this->proxyGeometry->withAddedGeometries(...$geometries);
     }
 
     public function coordinateDimension(): int

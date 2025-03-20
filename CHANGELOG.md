@@ -5,6 +5,7 @@
 🐛 **Bug fixes**
 
 - Uninitialized proxies would be broken when calling `withRoundedCoordinates()`
+- `with*()` proxy methods using variadic parameters were broken
 
 ## [0.13.0](https://github.com/brick/geo/releases/tag/0.13.0) - 2025-03-17
 

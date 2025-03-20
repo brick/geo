@@ -223,7 +223,7 @@ class LineStringProxy extends LineString implements ProxyInterface
             $this->load();
         }
 
-        return $this->proxyGeometry->withAddedPoints($points);
+        return $this->proxyGeometry->withAddedPoints(...$points);
     }
 
     public function coordinateDimension(): int

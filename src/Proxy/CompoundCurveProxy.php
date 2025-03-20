@@ -223,7 +223,7 @@ class CompoundCurveProxy extends CompoundCurve implements ProxyInterface
             $this->load();
         }
 
-        return $this->proxyGeometry->withAddedCurves($curves);
+        return $this->proxyGeometry->withAddedCurves(...$curves);
     }
 
     public function coordinateDimension(): int

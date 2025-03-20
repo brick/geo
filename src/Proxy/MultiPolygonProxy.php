@@ -214,7 +214,7 @@ class MultiPolygonProxy extends MultiPolygon implements ProxyInterface
             $this->load();
         }
 
-        return $this->proxyGeometry->withAddedGeometries($geometries);
+        return $this->proxyGeometry->withAddedGeometries(...$geometries);
     }
 
     public function coordinateDimension(): int
