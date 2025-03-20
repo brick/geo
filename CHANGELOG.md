@@ -1,6 +1,6 @@
 # Changelog
 
-## UNRELEASED
+## [0.13.1](https://github.com/brick/geo/releases/tag/0.13.1) - 2025-03-20
 
 🐛 **Bug fixes**
 
