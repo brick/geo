@@ -30,6 +30,19 @@ use Brick\Geo\Triangle;
 abstract readonly class AbstractWkbReader
 {
     /**
+     * Whether to support PostGIS-style empty points with NaN coordinates.
+     * This is not part of the WKB standard.
+     * This will be disabled by default in WKB, but enabled by default in EWKB.
+     */
+    private bool $supportEmptyPointWithNan;
+
+    public function __construct(
+        bool $supportEmptyPointWithNan,
+    ) {
+        $this->supportEmptyPointWithNan = $supportEmptyPointWithNan;
+    }
+
+    /**
      * @throws GeometryIoException
      */
     abstract protected function readGeometryHeader(WkbBuffer $buffer) : WkbGeometryHeader;
@@ -71,7 +84,33 @@ abstract readonly class AbstractWkbReader
     {
         $coords = $buffer->readDoubles($cs->coordinateDimension());
 
+        if ($this->onlyNan($coords)) {
+            if (! $this->supportEmptyPointWithNan) {
+                throw new GeometryIoException(
+                    'Points with NaN (not-a-number) coordinates are not supported. ' .
+                    'If you want to read points with NaN coordinates as empty points (PostGIS-style), ' .
+                    'enable the $supportEmptyPointWithNan option.',
+                );
+            }
+
+            return new Point($cs);
+        }
+
         return new Point($cs, ...$coords);
+    }
+
+    /**
+     * @param non-empty-list<float> $coords
+     */
+    private function onlyNan(array $coords) : bool
+    {
+        foreach ($coords as $coord) {
+            if (!is_nan($coord)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     private function readLineString(WkbBuffer $buffer, CoordinateSystem $cs) : LineString
