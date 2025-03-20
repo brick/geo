@@ -2,6 +2,10 @@
 
 ## UNRELEASED
 
+✨ **New features**
+
+- Support for PostGIS-style empty points with `NaN` in WKB and EWKB
+
 💥 **Breaking changes**
 
 - Minimum PHP version is now `8.2`

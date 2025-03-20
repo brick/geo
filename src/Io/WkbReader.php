@@ -17,6 +17,12 @@ use Override;
  */
 final readonly class WkbReader extends AbstractWkbReader
 {
+    public function __construct(
+        bool $supportEmptyPointWithNan = false,
+    ) {
+        parent::__construct($supportEmptyPointWithNan);
+    }
+
     /**
      * @param string $wkb  The WKB to read.
      * @param int    $srid The optional SRID of the geometry.

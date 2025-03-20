@@ -17,6 +17,12 @@ use Override;
  */
 final readonly class EwkbReader extends AbstractWkbReader
 {
+    public function __construct(
+        bool $supportEmptyPointWithNan = true,
+    ) {
+        parent::__construct($supportEmptyPointWithNan);
+    }
+
     /**
      * @throws GeometryIoException
      */

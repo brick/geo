@@ -27,12 +27,22 @@ abstract readonly class AbstractWkbWriter
     private WkbByteOrder $machineByteOrder;
 
     /**
+     * Whether to support PostGIS-style empty points with NaN coordinates.
+     * This is not part of the WKB standard.
+     * This will be disabled by default in WKB, but enabled by default in EWKB.
+     */
+    private bool $supportEmptyPointWithNan;
+
+    /**
      * @throws GeometryIoException
      */
-    public function __construct(?WkbByteOrder $byteOrder = null)
-    {
+    public function __construct(
+        ?WkbByteOrder $byteOrder,
+        bool $supportEmptyPointWithNan,
+    ) {
         $this->machineByteOrder = WkbTools::getMachineByteOrder();
         $this->byteOrder = $byteOrder ?? $this->machineByteOrder;
+        $this->supportEmptyPointWithNan = $supportEmptyPointWithNan;
     }
 
     /**
@@ -121,18 +131,22 @@ abstract readonly class AbstractWkbWriter
      */
     private function packPoint(Point $point) : string
     {
-        if ($point->isEmpty()) {
-            throw new GeometryIoException('Empty points have no WKB representation.');
+        if ($point->isEmpty() && ! $this->supportEmptyPointWithNan) {
+            throw new GeometryIoException(
+                'Empty points have no WKB representation. ' .
+                'If you want to output empty points with NaN coordinates (PostGIS-style), ' .
+                'enable the $supportEmptyPointWithNan option.',
+            );
         }
 
-        /** @psalm-suppress PossiblyNullArgument */
-        $binary = $this->packDouble($point->x()) . $this->packDouble($point->y());
+        $binary = $this->packDouble($point->x() ?? NAN) . $this->packDouble($point->y() ?? NAN);
 
-        if (null !== $z = $point->z()) {
-            $binary .= $this->packDouble($z);
+        if ($point->coordinateSystem()->hasZ()) {
+            $binary .= $this->packDouble($point->z() ?? NAN);
         }
-        if (null !== $m = $point->m()) {
-            $binary .= $this->packDouble($m);
+
+        if ($point->coordinateSystem()->hasM()) {
+            $binary .= $this->packDouble($point->m() ?? NAN);
         }
 
         return $binary;

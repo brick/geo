@@ -86,13 +86,13 @@ final class WkbBuffer
     /**
      * Reads double-precision floating point numbers from the buffer.
      *
-     * @param int $count The number of doubles to read.
+     * @param int<1, max> $count The number of doubles to read.
      *
-     * @return float[] A list of floating point numbers.
+     * @return non-empty-list<float>
      */
     public function readDoubles(int $count) : array
     {
-        /** @var float[] $doubles */
+        /** @var non-empty-array<float> $doubles */
         $doubles = unpack('d' . $count, $this->read($count, 8));
 
         return array_values($doubles);

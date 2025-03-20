@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Brick\Geo\Io;
 
+use Brick\Geo\Exception\GeometryIoException;
 use Brick\Geo\Geometry;
 use Brick\Geo\Io\Internal\AbstractWkbWriter;
+use Brick\Geo\Io\Internal\WkbByteOrder;
 use Override;
 
 /**
@@ -13,6 +15,18 @@ use Override;
  */
 final readonly class WkbWriter extends AbstractWkbWriter
 {
+    /**
+     * @param bool $supportEmptyPointWithNan Whether to support PostGIS-style empty points with NaN coordinates.
+     *
+     * @throws GeometryIoException
+     */
+    public function __construct(
+        ?WkbByteOrder $byteOrder = null,
+        bool $supportEmptyPointWithNan = false,
+    ) {
+        parent::__construct($byteOrder, $supportEmptyPointWithNan);
+    }
+
     #[Override]
     protected function packHeader(Geometry $geometry, bool $outer) : string
     {
