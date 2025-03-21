@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Brick\Geo\Tests\IO;
+namespace Brick\Geo\Tests\Io;
 
 use Brick\Geo\Exception\GeometryIoException;
 use Brick\Geo\Io\WkbReader;

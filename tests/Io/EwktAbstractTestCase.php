@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Brick\Geo\Tests\IO;
+namespace Brick\Geo\Tests\Io;
 
 /**
  * Base class for EWKT tests.
