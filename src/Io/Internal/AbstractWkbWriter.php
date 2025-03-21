@@ -11,6 +11,7 @@ use Brick\Geo\CurvePolygon;
 use Brick\Geo\Exception\GeometryIoException;
 use Brick\Geo\Geometry;
 use Brick\Geo\GeometryCollection;
+use Brick\Geo\Io\ByteOrder;
 use Brick\Geo\LineString;
 use Brick\Geo\Point;
 use Brick\Geo\Polygon;
@@ -23,8 +24,8 @@ use Brick\Geo\PolyhedralSurface;
  */
 abstract readonly class AbstractWkbWriter
 {
-    private WkbByteOrder $byteOrder;
-    private WkbByteOrder $machineByteOrder;
+    private ByteOrder $byteOrder;
+    private ByteOrder $machineByteOrder;
 
     /**
      * Whether to support PostGIS-style empty points with NaN coordinates.
@@ -37,7 +38,7 @@ abstract readonly class AbstractWkbWriter
      * @throws GeometryIoException
      */
     public function __construct(
-        ?WkbByteOrder $byteOrder,
+        ?ByteOrder $byteOrder,
         bool $supportEmptyPointWithNan,
     ) {
         $this->machineByteOrder = WkbTools::getMachineByteOrder();
@@ -110,8 +111,8 @@ abstract readonly class AbstractWkbWriter
     protected function packUnsignedInteger(int $uint) : string
     {
         return pack(match ($this->byteOrder) {
-            WkbByteOrder::BigEndian => 'N',
-            WkbByteOrder::LittleEndian => 'V'
+            ByteOrder::BigEndian => 'N',
+            ByteOrder::LittleEndian => 'V'
         }, $uint);
     }
 

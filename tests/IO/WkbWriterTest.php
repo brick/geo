@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Brick\Geo\Tests\IO;
 
 use Brick\Geo\Exception\GeometryIoException;
-use Brick\Geo\Io\Internal\WkbByteOrder;
+use Brick\Geo\Io\ByteOrder;
 use Brick\Geo\Io\WkbWriter;
 use Brick\Geo\Io\WktReader;
 use Brick\Geo\Point;
@@ -17,12 +17,12 @@ use PHPUnit\Framework\Attributes\DataProvider;
 class WkbWriterTest extends WkbAbstractTestCase
 {
     /**
-     * @param string       $wkt       The WKT to read.
-     * @param string       $wkb       The expected WKB output, hex-encoded.
-     * @param WkbByteOrder $byteOrder The byte order to use.
+     * @param string    $wkt       The WKT to read.
+     * @param string    $wkb       The expected WKB output, hex-encoded.
+     * @param ByteOrder $byteOrder The byte order to use.
      */
     #[DataProvider('providerWrite')]
-    public function testWrite(string $wkt, string $wkb, WkbByteOrder $byteOrder) : void
+    public function testWrite(string $wkt, string $wkb, ByteOrder $byteOrder) : void
     {
         $writer = new WkbWriter(byteOrder: $byteOrder);
         $reader = new WktReader();
@@ -36,11 +36,11 @@ class WkbWriterTest extends WkbAbstractTestCase
     public static function providerWrite() : \Generator
     {
         foreach (self::providerLittleEndianWkb() as [$wkt, $wkb]) {
-            yield [$wkt, $wkb, WkbByteOrder::LittleEndian];
+            yield [$wkt, $wkb, ByteOrder::LittleEndian];
         }
 
         foreach (self::providerBigEndianWkb() as [$wkt, $wkb]) {
-            yield [$wkt, $wkb, WkbByteOrder::BigEndian];
+            yield [$wkt, $wkb, ByteOrder::BigEndian];
         }
     }
 
@@ -69,7 +69,7 @@ class WkbWriterTest extends WkbAbstractTestCase
     }
 
     #[DataProvider('providerWriteEmptyPointWithNanSupport')]
-    public function testWriteEmptyPointWithNanSupport(Point $point, WkbByteOrder $byteOrder, string $expectedHex) : void
+    public function testWriteEmptyPointWithNanSupport(Point $point, ByteOrder $byteOrder, string $expectedHex) : void
     {
         $writer = new WkbWriter(
             byteOrder: $byteOrder,
@@ -83,14 +83,14 @@ class WkbWriterTest extends WkbAbstractTestCase
     public static function providerWriteEmptyPointWithNanSupport() : array
     {
         return [
-            [Point::xyEmpty(), WkbByteOrder::BigEndian, '00000000017ff80000000000007ff8000000000000'],
-            [Point::xyEmpty(), WkbByteOrder::LittleEndian, '0101000000000000000000f87f000000000000f87f'],
-            [Point::xyzEmpty(), WkbByteOrder::BigEndian, '00000003e97ff80000000000007ff80000000000007ff8000000000000'],
-            [Point::xyzEmpty(), WkbByteOrder::LittleEndian, '01e9030000000000000000f87f000000000000f87f000000000000f87f'],
-            [Point::xymEmpty(), WkbByteOrder::BigEndian, '00000007d17ff80000000000007ff80000000000007ff8000000000000'],
-            [Point::xymEmpty(), WkbByteOrder::LittleEndian, '01d1070000000000000000f87f000000000000f87f000000000000f87f'],
-            [Point::xyzmEmpty(), WkbByteOrder::BigEndian, '0000000bb97ff80000000000007ff80000000000007ff80000000000007ff8000000000000'],
-            [Point::xyzmEmpty(), WkbByteOrder::LittleEndian, '01b90b0000000000000000f87f000000000000f87f000000000000f87f000000000000f87f'],
+            [Point::xyEmpty(), ByteOrder::BigEndian, '00000000017ff80000000000007ff8000000000000'],
+            [Point::xyEmpty(), ByteOrder::LittleEndian, '0101000000000000000000f87f000000000000f87f'],
+            [Point::xyzEmpty(), ByteOrder::BigEndian, '00000003e97ff80000000000007ff80000000000007ff8000000000000'],
+            [Point::xyzEmpty(), ByteOrder::LittleEndian, '01e9030000000000000000f87f000000000000f87f000000000000f87f'],
+            [Point::xymEmpty(), ByteOrder::BigEndian, '00000007d17ff80000000000007ff80000000000007ff8000000000000'],
+            [Point::xymEmpty(), ByteOrder::LittleEndian, '01d1070000000000000000f87f000000000000f87f000000000000f87f'],
+            [Point::xyzmEmpty(), ByteOrder::BigEndian, '0000000bb97ff80000000000007ff80000000000007ff80000000000007ff8000000000000'],
+            [Point::xyzmEmpty(), ByteOrder::LittleEndian, '01b90b0000000000000000f87f000000000000f87f000000000000f87f000000000000f87f'],
         ];
     }
 }

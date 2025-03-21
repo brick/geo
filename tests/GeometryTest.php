@@ -6,7 +6,7 @@ namespace Brick\Geo\Tests;
 
 use Brick\Geo\Exception\UnexpectedGeometryException;
 use Brick\Geo\Geometry;
-use Brick\Geo\Io\Internal\WkbByteOrder;
+use Brick\Geo\Io\ByteOrder;
 use Brick\Geo\Io\Internal\WkbTools;
 use Brick\Geo\Point;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -71,8 +71,8 @@ class GeometryTest extends AbstractTestCase
         $machineByteOrder = WkbTools::getMachineByteOrder();
 
         $binary = match ($machineByteOrder) {
-            WkbByteOrder::BigEndian => $bigEndianBinary,
-            WkbByteOrder::LittleEndian => $littleEndianBinary,
+            ByteOrder::BigEndian => $bigEndianBinary,
+            ByteOrder::LittleEndian => $littleEndianBinary,
         };
 
         self::assertSame($binary, bin2hex(Geometry::fromText($text)->asBinary()));

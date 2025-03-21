@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Brick\Geo\Io\Internal;
 
 use Brick\Geo\Exception\GeometryIoException;
+use Brick\Geo\Io\ByteOrder;
 
 /**
  * Buffer class for reading binary data out of a WKB binary string.
@@ -16,7 +17,7 @@ final class WkbBuffer
     private readonly string $wkb;
     private readonly int $length;
     private int $position = 0;
-    private readonly WkbByteOrder $machineByteOrder;
+    private readonly ByteOrder $machineByteOrder;
     private bool $invert = false;
 
     public function __construct(string $wkb)
@@ -106,13 +107,13 @@ final class WkbBuffer
     public function readByteOrder() : void
     {
         $byteOrder = $this->readUnsignedChar();
-        $wkbByteOrder = WkbByteOrder::tryFrom($byteOrder);
+        $byteOrderEnum = ByteOrder::tryFrom($byteOrder);
 
-        if ($wkbByteOrder === null) {
+        if ($byteOrderEnum === null) {
             throw GeometryIoException::invalidWkb('unknown byte order: ' . $byteOrder);
         }
 
-        $this->invert = ($wkbByteOrder !== $this->machineByteOrder);
+        $this->invert = ($byteOrderEnum !== $this->machineByteOrder);
     }
 
     public function rewind(int $bytes) : void

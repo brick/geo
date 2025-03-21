@@ -7,7 +7,6 @@ namespace Brick\Geo\Io;
 use Brick\Geo\Exception\GeometryIoException;
 use Brick\Geo\Geometry;
 use Brick\Geo\Io\Internal\AbstractWkbWriter;
-use Brick\Geo\Io\Internal\WkbByteOrder;
 use Override;
 
 /**
@@ -21,7 +20,7 @@ final readonly class WkbWriter extends AbstractWkbWriter
      * @throws GeometryIoException
      */
     public function __construct(
-        ?WkbByteOrder $byteOrder = null,
+        ?ByteOrder $byteOrder = null,
         bool $supportEmptyPointWithNan = false,
     ) {
         parent::__construct($byteOrder, $supportEmptyPointWithNan);

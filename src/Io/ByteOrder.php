@@ -2,12 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Brick\Geo\Io\Internal;
+namespace Brick\Geo\Io;
 
-/**
- * @internal
- */
-enum WkbByteOrder: int
+enum ByteOrder: int
 {
     case BigEndian = 0;
     case LittleEndian = 1;

@@ -11,6 +11,10 @@
 - Type of `FeatureCollection::getFeatures()` has been refined to `list<Feature>`
 - Type of `Polygon::interiorRings()` has been refined to `list<LineString>`
 
+🐛 **Bug fixes**
+
+- `WkbByteOrder` is no longer `@internal`, and has been moved to `Io\ByteOrder`
+
 💥 **Breaking changes**
 
 - Minimum PHP version is now `8.2`
