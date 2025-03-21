@@ -24,11 +24,11 @@ class EwkbWriterTest extends EwkbAbstractTestCase
     #[DataProvider('providerWrite')]
     public function testWrite(string $ewkt, string $ewkb, ByteOrder $byteOrder) : void
     {
-        $writer = new EwkbWriter(byteOrder: $byteOrder);
-        $reader = new EwktReader();
+        $ewkbWriter = new EwkbWriter(byteOrder: $byteOrder);
+        $ewktReader = new EwktReader();
 
-        $geometry = $reader->read($ewkt);
-        $output = $writer->write($geometry);
+        $geometry = $ewktReader->read($ewkt);
+        $output = $ewkbWriter->write($geometry);
 
         self::assertSame($ewkb, bin2hex($output));
     }
@@ -55,7 +55,7 @@ class EwkbWriterTest extends EwkbAbstractTestCase
     #[DataProvider('providerWriteEmptyPointWithoutNanSupportThrowsException')]
     public function testWriteEmptyPointWithoutNanSupportThrowsException(Point $point) : void
     {
-        $writer = new EwkbWriter(supportEmptyPointWithNan: false);
+        $ewkbWriter = new EwkbWriter(supportEmptyPointWithNan: false);
 
         $this->expectException(GeometryIoException::class);
         $this->expectExceptionMessage(
@@ -63,7 +63,7 @@ class EwkbWriterTest extends EwkbAbstractTestCase
             '(PostGIS-style), enable the $supportEmptyPointWithNan option.',
         );
 
-        $writer->write($point);
+        $ewkbWriter->write($point);
     }
 
     public static function providerWriteEmptyPointWithoutNanSupportThrowsException() : array
@@ -79,9 +79,9 @@ class EwkbWriterTest extends EwkbAbstractTestCase
     #[DataProvider('providerWriteEmptyPointWithNanSupport')]
     public function testWriteEmptyPointWithNanSupport(Point $point, ByteOrder $byteOrder, string $expectedHex) : void
     {
-        $writer = new EwkbWriter(byteOrder: $byteOrder);
+        $ewkbWriter = new EwkbWriter(byteOrder: $byteOrder);
 
-        $actualHex = bin2hex($writer->write($point));
+        $actualHex = bin2hex($ewkbWriter->write($point));
         self::assertSame($expectedHex, $actualHex);
     }
 

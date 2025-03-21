@@ -15,18 +15,14 @@ use PHPUnit\Framework\Attributes\DataProvider;
  */
 class EwkbReaderTest extends EwkbAbstractTestCase
 {
-    /**
-     * @param string $ewkb The EWKB to read, hex-encoded.
-     * @param string $ewkt The expected EWKT output.
-     */
     #[DataProvider('providerRead')]
-    public function testRead(string $ewkb, string $ewkt) : void
+    public function testRead(string $ewkbHex, string $expectedEwkt) : void
     {
-        $reader = new EwkbReader();
-        $writer = new EwktWriter();
+        $ewkbReader = new EwkbReader();
+        $ewktWriter = new EwktWriter();
 
-        $geometry = $reader->read(hex2bin($ewkb));
-        self::assertSame($ewkt, $writer->write($geometry));
+        $geometry = $ewkbReader->read(hex2bin($ewkbHex));
+        self::assertSame($expectedEwkt, $ewktWriter->write($geometry));
     }
 
     public static function providerRead() : \Generator

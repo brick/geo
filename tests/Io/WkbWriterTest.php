@@ -24,11 +24,11 @@ class WkbWriterTest extends WkbAbstractTestCase
     #[DataProvider('providerWrite')]
     public function testWrite(string $wkt, string $wkb, ByteOrder $byteOrder) : void
     {
-        $writer = new WkbWriter(byteOrder: $byteOrder);
-        $reader = new WktReader();
+        $wkbWriter = new WkbWriter(byteOrder: $byteOrder);
+        $wktReader = new WktReader();
 
-        $geometry = $reader->read($wkt);
-        $output = $writer->write($geometry);
+        $geometry = $wktReader->read($wkt);
+        $output = $wkbWriter->write($geometry);
 
         self::assertSame($wkb, bin2hex($output));
     }
@@ -47,7 +47,7 @@ class WkbWriterTest extends WkbAbstractTestCase
     #[DataProvider('providerWriteEmptyPointWithoutNanSupportThrowsException')]
     public function testWriteEmptyPointWithoutNanSupportThrowsException(Point $point) : void
     {
-        $writer = new WkbWriter();
+        $wkbWriter = new WkbWriter();
 
         $this->expectException(GeometryIoException::class);
         $this->expectExceptionMessage(
@@ -55,7 +55,7 @@ class WkbWriterTest extends WkbAbstractTestCase
             '(PostGIS-style), enable the $supportEmptyPointWithNan option.',
         );
 
-        $writer->write($point);
+        $wkbWriter->write($point);
     }
 
     public static function providerWriteEmptyPointWithoutNanSupportThrowsException() : array
@@ -71,12 +71,12 @@ class WkbWriterTest extends WkbAbstractTestCase
     #[DataProvider('providerWriteEmptyPointWithNanSupport')]
     public function testWriteEmptyPointWithNanSupport(Point $point, ByteOrder $byteOrder, string $expectedHex) : void
     {
-        $writer = new WkbWriter(
+        $wkbWriter = new WkbWriter(
             byteOrder: $byteOrder,
             supportEmptyPointWithNan: true,
         );
 
-        $actualHex = bin2hex($writer->write($point));
+        $actualHex = bin2hex($wkbWriter->write($point));
         self::assertSame($expectedHex, $actualHex);
     }
 

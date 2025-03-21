@@ -23,7 +23,7 @@ class WktWriterTest extends WktAbstractTestCase
     #[DataProvider('providerPrettyPrint')]
     public function testPrettyPrint(bool $is3D, bool $prettyPrint, string $wkt) : void
     {
-        $writer = new WktWriter(prettyPrint: $prettyPrint);
+        $wktWriter = new WktWriter(prettyPrint: $prettyPrint);
 
         $cs = new CoordinateSystem($is3D, false);
 
@@ -38,7 +38,7 @@ class WktWriterTest extends WktAbstractTestCase
         $multiLineString = MultiLineString::of($lineString1, $lineString2);
         $geometryCollection = GeometryCollection::of($point, $multiLineString);
 
-        self::assertSame($wkt, $writer->write($geometryCollection));
+        self::assertSame($wkt, $wktWriter->write($geometryCollection));
     }
 
     public static function providerPrettyPrint() : array
@@ -61,12 +61,12 @@ class WktWriterTest extends WktAbstractTestCase
     #[DataProvider('providerPointWkt')]
     public function testWritePoint(string $wkt, array $coords, bool $is3D, bool $isMeasured) : void
     {
-        $writer = new WktWriter(prettyPrint: false);
+        $wktWriter = new WktWriter(prettyPrint: false);
 
         $cs = new CoordinateSystem($is3D, $isMeasured);
         $point = $this->createPoint($coords, $cs);
 
-        self::assertSame($wkt, $writer->write($point));
+        self::assertSame($wkt, $wktWriter->write($point));
     }
 
     /**
@@ -78,12 +78,12 @@ class WktWriterTest extends WktAbstractTestCase
     #[DataProvider('providerLineStringWkt')]
     public function testWriteLineString(string $wkt, array $coords, bool $is3D, bool $isMeasured) : void
     {
-        $writer = new WktWriter(prettyPrint: false);
+        $wktWriter = new WktWriter(prettyPrint: false);
 
         $cs = new CoordinateSystem($is3D, $isMeasured);
         $lineString = $this->createLineString($coords, $cs);
 
-        self::assertSame($wkt, $writer->write($lineString));
+        self::assertSame($wkt, $wktWriter->write($lineString));
     }
 
     /**
@@ -95,12 +95,12 @@ class WktWriterTest extends WktAbstractTestCase
     #[DataProvider('providerCircularStringWkt')]
     public function testWriteCircularString(string $wkt, array $coords, bool $is3D, bool $isMeasured) : void
     {
-        $writer = new WktWriter(prettyPrint: false);
+        $wktWriter = new WktWriter(prettyPrint: false);
 
         $cs = new CoordinateSystem($is3D, $isMeasured);
         $lineString = $this->createCircularString($coords, $cs);
 
-        self::assertSame($wkt, $writer->write($lineString));
+        self::assertSame($wkt, $wktWriter->write($lineString));
     }
 
     /**
@@ -112,12 +112,12 @@ class WktWriterTest extends WktAbstractTestCase
     #[DataProvider('providerCompoundCurveWkt')]
     public function testWriteCompoundCurve(string $wkt, array $coords, bool $is3D, bool $isMeasured) : void
     {
-        $writer = new WktWriter(prettyPrint: false);
+        $wktWriter = new WktWriter(prettyPrint: false);
 
         $cs = new CoordinateSystem($is3D, $isMeasured);
         $compoundCurve = $this->createCompoundCurve($coords, $cs);
 
-        self::assertSame($wkt, $writer->write($compoundCurve));
+        self::assertSame($wkt, $wktWriter->write($compoundCurve));
     }
 
     /**
@@ -129,12 +129,12 @@ class WktWriterTest extends WktAbstractTestCase
     #[DataProvider('providerPolygonWkt')]
     public function testWritePolygon(string $wkt, array $coords, bool $is3D, bool $isMeasured) : void
     {
-        $writer = new WktWriter(prettyPrint: false);
+        $wktWriter = new WktWriter(prettyPrint: false);
 
         $cs = new CoordinateSystem($is3D, $isMeasured);
         $polygon = $this->createPolygon($coords, $cs);
 
-        self::assertSame($wkt, $writer->write($polygon));
+        self::assertSame($wkt, $wktWriter->write($polygon));
     }
 
     /**
@@ -146,12 +146,12 @@ class WktWriterTest extends WktAbstractTestCase
     #[DataProvider('providerTriangleWkt')]
     public function testWriteTriangle(string $wkt, array $coords, bool $is3D, bool $isMeasured) : void
     {
-        $writer = new WktWriter(prettyPrint: false);
+        $wktWriter = new WktWriter(prettyPrint: false);
 
         $cs = new CoordinateSystem($is3D, $isMeasured);
         $triangle = $this->createTriangle($coords, $cs);
 
-        self::assertSame($wkt, $writer->write($triangle));
+        self::assertSame($wkt, $wktWriter->write($triangle));
     }
 
     /**
@@ -163,12 +163,12 @@ class WktWriterTest extends WktAbstractTestCase
     #[DataProvider('providerCurvePolygonWkt')]
     public function testWriteCurvePolygon(string $wkt, array $coords, bool $is3D, bool $isMeasured) : void
     {
-        $writer = new WktWriter(prettyPrint: false);
+        $wktWriter = new WktWriter(prettyPrint: false);
 
         $cs = new CoordinateSystem($is3D, $isMeasured);
         $polygon = $this->createCurvePolygon($coords, $cs);
 
-        self::assertSame($wkt, $writer->write($polygon));
+        self::assertSame($wkt, $wktWriter->write($polygon));
     }
 
     /**
@@ -180,12 +180,12 @@ class WktWriterTest extends WktAbstractTestCase
     #[DataProvider('providerPolyhedralSurfaceWkt')]
     public function testWritePolyhedralSurface(string $wkt, array $coords, bool $is3D, bool $isMeasured) : void
     {
-        $writer = new WktWriter(prettyPrint: false);
+        $wktWriter = new WktWriter(prettyPrint: false);
 
         $cs = new CoordinateSystem($is3D, $isMeasured);
         $polyhedralSurface = $this->createPolyhedralSurface($coords, $cs);
 
-        self::assertSame($wkt, $writer->write($polyhedralSurface));
+        self::assertSame($wkt, $wktWriter->write($polyhedralSurface));
     }
 
     /**
@@ -197,12 +197,12 @@ class WktWriterTest extends WktAbstractTestCase
     #[DataProvider('providerTinWkt')]
     public function testWriteTin(string $wkt, array $coords, bool $is3D, bool $isMeasured) : void
     {
-        $writer = new WktWriter(prettyPrint: false);
+        $wktWriter = new WktWriter(prettyPrint: false);
 
         $cs = new CoordinateSystem($is3D, $isMeasured);
         $tin = $this->createTin($coords, $cs);
 
-        self::assertSame($wkt, $writer->write($tin));
+        self::assertSame($wkt, $wktWriter->write($tin));
     }
 
     /**
@@ -214,12 +214,12 @@ class WktWriterTest extends WktAbstractTestCase
     #[DataProvider('providerMultiPointWkt')]
     public function testWriteMultiPoint(string $wkt, array $coords, bool $is3D, bool $isMeasured) : void
     {
-        $writer = new WktWriter(prettyPrint: false);
+        $wktWriter = new WktWriter(prettyPrint: false);
 
         $cs = new CoordinateSystem($is3D, $isMeasured);
         $multiPoint = $this->createMultiPoint($coords, $cs);
 
-        self::assertSame($wkt, $writer->write($multiPoint));
+        self::assertSame($wkt, $wktWriter->write($multiPoint));
     }
 
     /**
@@ -231,12 +231,12 @@ class WktWriterTest extends WktAbstractTestCase
     #[DataProvider('providerMultiLineStringWkt')]
     public function testWriteMultiLineString(string $wkt, array $coords, bool $is3D, bool $isMeasured) : void
     {
-        $writer = new WktWriter(prettyPrint: false);
+        $wktWriter = new WktWriter(prettyPrint: false);
 
         $cs = new CoordinateSystem($is3D, $isMeasured);
         $multiLineString = $this->createMultiLineString($coords, $cs);
 
-        self::assertSame($wkt, $writer->write($multiLineString));
+        self::assertSame($wkt, $wktWriter->write($multiLineString));
     }
 
     /**
@@ -248,12 +248,12 @@ class WktWriterTest extends WktAbstractTestCase
     #[DataProvider('providerMultiPolygonWkt')]
     public function testWriteMultiPolygon(string $wkt, array $coords, bool $is3D, bool $isMeasured) : void
     {
-        $writer = new WktWriter(prettyPrint: false);
+        $wktWriter = new WktWriter(prettyPrint: false);
 
         $cs = new CoordinateSystem($is3D, $isMeasured);
         $multiPolygon = $this->createMultiPolygon($coords, $cs);
 
-        self::assertSame($wkt, $writer->write($multiPolygon));
+        self::assertSame($wkt, $wktWriter->write($multiPolygon));
     }
 
     /**
@@ -265,7 +265,7 @@ class WktWriterTest extends WktAbstractTestCase
     #[DataProvider('providerGeometryCollectionWkt')]
     public function testWriteGeometryCollection(string $wkt, array $coords, bool $is3D, bool $isMeasured) : void
     {
-        $writer = new WktWriter(prettyPrint: false);
+        $wktWriter = new WktWriter(prettyPrint: false);
 
         $cs = new CoordinateSystem($is3D, $isMeasured);
 
@@ -278,16 +278,16 @@ class WktWriterTest extends WktAbstractTestCase
         }
 
         $geometryCollection = new GeometryCollection($cs, ...$geometries);
-        self::assertSame($wkt, $writer->write($geometryCollection));
+        self::assertSame($wkt, $wktWriter->write($geometryCollection));
     }
 
     #[DataProvider('providerWriteEmptyGeometryCollection')]
     public function testWriteEmptyGeometryCollection(string $wkt) : void
     {
-        $writer = new WktWriter();
+        $wktWriter = new WktWriter();
         $geometry = GeometryCollection::fromText($wkt);
 
-        self::assertSame($wkt, $writer->write($geometry));
+        self::assertSame($wkt, $wktWriter->write($geometry));
     }
 
     public static function providerWriteEmptyGeometryCollection() : array

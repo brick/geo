@@ -23,7 +23,8 @@ class EwktReaderTest extends EwktAbstractTestCase
     #[DataProvider('providerRead')]
     public function testRead(string $ewkt, array $coords, bool $is3D, bool $isMeasured, int $srid) : void
     {
-        $geometry = (new EwktReader())->read($ewkt);
+        $ewktReader = new EwktReader();
+        $geometry = $ewktReader->read($ewkt);
         $this->assertGeometryContents($geometry, $coords, $is3D, $isMeasured, $srid);
     }
 

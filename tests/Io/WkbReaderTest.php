@@ -13,17 +13,13 @@ use PHPUnit\Framework\Attributes\DataProvider;
  */
 class WkbReaderTest extends WkbAbstractTestCase
 {
-    /**
-     * @param string $wkb The WKB to read, hex-encoded.
-     * @param string $wkt The expected WKT output.
-     */
     #[DataProvider('providerRead')]
-    public function testRead(string $wkb, string $wkt) : void
+    public function testRead(string $wkbHex, string $expectedWkt) : void
     {
-        $reader = new WkbReader();
-        $geometry = $reader->read(hex2bin($wkb), 4326);
+        $wkbReader = new WkbReader();
+        $geometry = $wkbReader->read(hex2bin($wkbHex), 4326);
 
-        self::assertSame($wkt, $geometry->asText());
+        self::assertSame($expectedWkt, $geometry->asText());
         self::assertSame(4326, $geometry->srid());
     }
 
@@ -41,7 +37,7 @@ class WkbReaderTest extends WkbAbstractTestCase
     #[DataProvider('providerReadEmptyPointWithoutNanSupportThrowsException')]
     public function testReadEmptyPointWithoutNanSupportThrowsException(string $wkbHex) : void
     {
-        $reader = new WkbReader();
+        $wkbReader = new WkbReader();
 
         $this->expectException(GeometryIoException::class);
         $this->expectExceptionMessage(
@@ -49,7 +45,7 @@ class WkbReaderTest extends WkbAbstractTestCase
             'coordinates as empty points (PostGIS-style), enable the $supportEmptyPointWithNan option.',
         );
 
-        $reader->read(hex2bin($wkbHex));
+        $wkbReader->read(hex2bin($wkbHex));
     }
 
     public static function providerReadEmptyPointWithoutNanSupportThrowsException() : array
@@ -69,9 +65,9 @@ class WkbReaderTest extends WkbAbstractTestCase
     #[DataProvider('providerReadEmptyPointWithNanSupport')]
     public function testReadEmptyPointWithNanSupport(string $wkbHex, string $expectedWkt) : void
     {
-        $reader = new WkbReader(supportEmptyPointWithNan: true);
+        $wkbReader = new WkbReader(supportEmptyPointWithNan: true);
 
-        $point = $reader->read(hex2bin($wkbHex));
+        $point = $wkbReader->read(hex2bin($wkbHex));
         self::assertSame($expectedWkt, $point->asText());
     }
 
