@@ -58,10 +58,11 @@ function getRequiredEnv(string $name): string
                     sprintf('mysql:host=%s;port=%d', $host, $port),
                     $username,
                     $password,
+                    [
+                        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                        PDO::ATTR_EMULATE_PREPARES => $emulatePrepares,
+                    ],
                 );
-
-                $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, $emulatePrepares);
 
                 $statement = $pdo->query('SELECT VERSION()');
                 $version = $statement->fetchColumn();
@@ -83,9 +84,10 @@ function getRequiredEnv(string $name): string
                     sprintf('pgsql:host=%s;port=%d', $host, $port),
                     $username,
                     $password,
+                    [
+                        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                    ],
                 );
-
-                $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
                 $pdo->exec('CREATE EXTENSION IF NOT EXISTS postgis;');
 
