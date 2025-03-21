@@ -10,6 +10,7 @@
 
 - Type of `FeatureCollection::getFeatures()` has been refined to `list<Feature>`
 - Type of `Polygon::interiorRings()` has been refined to `list<LineString>`
+- Exception messages for invalid (E)WKB now explicitly mention WKB or EWKB
 
 🐛 **Bug fixes**
 

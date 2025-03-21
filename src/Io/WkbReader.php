@@ -31,11 +31,11 @@ final readonly class WkbReader extends AbstractWkbReader
      */
     public function read(string $wkb, int $srid = 0) : Geometry
     {
-        $buffer = new WkbBuffer($wkb);
+        $buffer = new WkbBuffer($wkb, isEwkb: false);
         $geometry = $this->readGeometry($buffer, $srid);
 
         if (! $buffer->isEndOfStream()) {
-            throw GeometryIoException::invalidWkb('unexpected data at end of stream');
+            throw GeometryIoException::invalidWkb(false, 'unexpected data at end of stream');
         }
 
         return $geometry;
@@ -53,7 +53,7 @@ final readonly class WkbReader extends AbstractWkbReader
      */
     public function readAsProxy(string $wkb, int $srid = 0) : Geometry
     {
-        $buffer = new WkbBuffer($wkb);
+        $buffer = new WkbBuffer($wkb, isEwkb: false);
         $buffer->readByteOrder();
         $geometryHeader = $this->readGeometryHeader($buffer);
 

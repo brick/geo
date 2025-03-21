@@ -23,6 +23,17 @@ class WkbReaderTest extends WkbAbstractTestCase
         self::assertSame(4326, $geometry->srid());
     }
 
+    #[DataProvider('providerRead')]
+    public function testReadWithExtraBytes(string $ewkbHex)
+    {
+        $wkbReader = new WkbReader();
+
+        $this->expectException(GeometryIoException::class);
+        $this->expectExceptionMessage('Invalid WKB: unexpected data at end of stream');
+
+        $wkbReader->read(hex2bin($ewkbHex) . "\x00");
+    }
+
     public static function providerRead() : \Generator
     {
         foreach (self::providerLittleEndianWkb() as [$wkt, $wkb]) {

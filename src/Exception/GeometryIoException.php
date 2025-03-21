@@ -11,9 +11,9 @@ use JsonException;
  */
 final class GeometryIoException extends GeometryException
 {
-    public static function invalidWkb(string $message) : GeometryIoException
+    public static function invalidWkb(bool $isEwkb, string $message) : GeometryIoException
     {
-        return new self('Invalid WKB: ' . $message);
+        return new self(sprintf('Invalid %s: %s', $isEwkb ? 'EWKB' : 'WKB', $message));
     }
 
     public static function invalidWkt() : GeometryIoException

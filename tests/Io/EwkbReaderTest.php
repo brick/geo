@@ -25,6 +25,17 @@ class EwkbReaderTest extends EwkbAbstractTestCase
         self::assertSame($expectedEwkt, $ewktWriter->write($geometry));
     }
 
+    #[DataProvider('providerRead')]
+    public function testReadWithExtraBytes(string $ewkbHex)
+    {
+        $ewkbReader = new EwkbReader();
+
+        $this->expectException(GeometryIoException::class);
+        $this->expectExceptionMessage('Invalid EWKB: unexpected data at end of stream');
+
+        $ewkbReader->read(hex2bin($ewkbHex) . "\x00");
+    }
+
     public static function providerRead() : \Generator
     {
         foreach (self::providerBigEndianEwkb() as [$ewkt, $ewkb]) {

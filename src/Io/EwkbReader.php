@@ -28,11 +28,11 @@ final readonly class EwkbReader extends AbstractWkbReader
      */
     public function read(string $ewkb) : Geometry
     {
-        $buffer = new WkbBuffer($ewkb);
+        $buffer = new WkbBuffer($ewkb, isEwkb: true);
         $geometry = $this->readGeometry($buffer, 0);
 
         if (! $buffer->isEndOfStream()) {
-            throw GeometryIoException::invalidWkb('unexpected data at end of stream');
+            throw GeometryIoException::invalidWkb(true, 'unexpected data at end of stream');
         }
 
         return $geometry;

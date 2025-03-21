@@ -15,14 +15,16 @@ use Brick\Geo\Io\ByteOrder;
 final class WkbBuffer
 {
     private readonly string $wkb;
+    private bool $isEwkb;
     private readonly int $length;
     private int $position = 0;
     private readonly ByteOrder $machineByteOrder;
     private bool $invert = false;
 
-    public function __construct(string $wkb)
+    public function __construct(string $wkb, bool $isEwkb)
     {
         $this->wkb = $wkb;
+        $this->isEwkb = $isEwkb;
         $this->length = strlen($wkb);
         $this->machineByteOrder = WkbTools::getMachineByteOrder();
     }
@@ -40,7 +42,7 @@ final class WkbBuffer
         $length = $words * $wordLength;
 
         if ($this->position + $length > $this->length) {
-            throw GeometryIoException::invalidWkb('unexpected end of stream');
+            throw GeometryIoException::invalidWkb($this->isEwkb, 'unexpected end of stream');
         }
 
         if ($length === 1) {
@@ -110,7 +112,7 @@ final class WkbBuffer
         $byteOrderEnum = ByteOrder::tryFrom($byteOrder);
 
         if ($byteOrderEnum === null) {
-            throw GeometryIoException::invalidWkb('unknown byte order: ' . $byteOrder);
+            throw GeometryIoException::invalidWkb($this->isEwkb, 'unknown byte order: ' . $byteOrder);
         }
 
         $this->invert = ($byteOrderEnum !== $this->machineByteOrder);
