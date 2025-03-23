@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Brick\Geo\Exception;
 
+use Brick\Geo\Geometry;
+
 /**
  * Exception thrown by geometry engines.
  *
@@ -28,6 +30,10 @@ final class GeometryEngineException extends GeometryException
         return new self('This operation yielded no result on the target database.');
     }
 
+    /**
+     * @param class-string<Geometry> $expectedClassName
+     * @param class-string<Geometry> $actualClassName
+     */
     public static function unexpectedReturnType(
         string $expectedClassName,
         string $actualClassName,
