@@ -2,6 +2,7 @@
 
 use Brick\Geo\Engine\Database\Driver\PdoMysqlDriver;
 use Brick\Geo\Engine\Database\Driver\PdoPgsqlDriver;
+use Brick\Geo\Engine\Database\Driver\PgsqlDriver;
 use Brick\Geo\Engine\Database\Driver\Sqlite3Driver;
 use Brick\Geo\Engine\GeosEngine;
 use Brick\Geo\Engine\GeosOpEngine;
@@ -45,7 +46,7 @@ function getRequiredEnv(string $name): string
         echo 'WARNING: running tests without a geometry engine.', PHP_EOL;
         echo 'All tests requiring a geometry engine will be skipped.', PHP_EOL;
         echo 'To run tests with a geometry engine, use: ENGINE={engine} vendor/bin/phpunit', PHP_EOL;
-        echo 'Available engines: geos, geosop, mysql_pdo, mariadb_pdo, postgis_pdo, spatialite_sqlite3', PHP_EOL;
+        echo 'Available engines: geos, geosop, mysql_pdo, mariadb_pdo, postgis_pdo, postgis_pgsql, spatialite_sqlite3', PHP_EOL;
     } else {
         $driver = null;
 
@@ -136,6 +137,36 @@ function getRequiredEnv(string $name): string
                 $pdo->exec('CREATE EXTENSION IF NOT EXISTS postgis;');
 
                 $driver = new PdoPgsqlDriver($pdo);
+                $engine = new PostgisEngine($driver);
+
+                $version = $driver->executeQuery('SELECT version()')->get(0)->asString();
+                echo 'PostgreSQL version: ', $version, PHP_EOL;
+
+                $version = $driver->executeQuery('SELECT PostGIS_Version()')->get(0)->asString();
+                echo 'PostGIS version: ', $version, PHP_EOL;
+
+                $version = $driver->executeQuery('SELECT PostGIS_GEOS_Version()')->get(0)->asString();
+                echo 'PostGIS GEOS version: ', $version, PHP_EOL;
+
+                break;
+
+            case 'postgis_pgsql':
+                echo 'Using PostgisEngine with PgsqlDriver', PHP_EOL;
+
+                $host = getRequiredEnv('POSTGRES_HOST');
+                $port = getOptionalEnvOrDefault('POSTGRES_PORT', '5432');
+                $username = getRequiredEnv('POSTGRES_USER');
+                $password = getRequiredEnv('POSTGRES_PASSWORD');
+
+                $connection = pg_connect(sprintf(
+                    'host=%s port=%d user=%s password=%s',
+                    $host,
+                    $port,
+                    $username,
+                    $password,
+                ));
+
+                $driver = new PgsqlDriver($connection);
                 $engine = new PostgisEngine($driver);
 
                 $version = $driver->executeQuery('SELECT version()')->get(0)->asString();

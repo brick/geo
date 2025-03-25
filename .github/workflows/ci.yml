@@ -270,6 +270,53 @@ jobs:
         env:
           COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+  phpunit-postgis-pgsql:
+    name: PHPUnit PostGIS / pgsql
+    runs-on: ubuntu-22.04
+
+    strategy:
+      matrix:
+        php-version:
+          - "8.2"
+
+    services:
+      postgis:
+        image: "postgis/postgis:17-3.5-alpine"
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - "5432:5432"
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          extensions: pgsql
+          coverage: xdebug
+
+      - name: Install composer dependencies
+        uses: ramsey/composer-install@v3
+
+      - name: Run PHPUnit with coverage
+        run: |
+          mkdir -p build/logs
+          vendor/bin/phpunit --coverage-clover build/logs/clover.xml
+        env:
+          ENGINE: postgis_pgsql
+          POSTGRES_HOST: 127.0.0.1
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+
+      - name: Upload coverage report to Coveralls
+        run: vendor/bin/php-coveralls --coverage_clover=build/logs/clover.xml -v
+        env:
+          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
   phpunit-sqlite:
     name: PHPUnit SpatiaLite / SQLite3
     runs-on: ubuntu-22.04

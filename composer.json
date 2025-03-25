@@ -15,7 +15,7 @@
     },
     "require-dev": {
         "ext-pdo": "*",
-        "ext-json": "*",
+        "ext-pgsql": "*",
         "ext-sqlite3": "*",
         "brick/reflection": "~0.5.0",
         "phpunit/phpunit": "^11.0",

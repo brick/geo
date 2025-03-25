@@ -57,7 +57,7 @@ apt install --yes git sqlite3 libzip-dev libpq-dev libsqlite3-mod-spatialite
 rm -rf /var/lib/apt/lists/*
 EOF
 
-RUN docker-php-ext-install opcache zip pdo pdo_pgsql pdo_mysql
+RUN docker-php-ext-install opcache zip pdo pdo_pgsql pdo_mysql pgsql
 
 # SQLite3 configuration
 RUN echo "[sqlite3]\nsqlite3.extension_dir = /usr/lib/x86_64-linux-gnu"> /usr/local/etc/php/conf.d/sqlite3.ini
