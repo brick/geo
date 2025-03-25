@@ -30,6 +30,15 @@ final class GeometryEngineException extends GeometryException
         return new self('This operation yielded no result on the target database.');
     }
 
+    public static function unexpectedDatabaseReturnType(string $expectedType, mixed $actualValue) : GeometryEngineException
+    {
+        return new self(sprintf(
+            'The database returned an unexpected type: expected %s, got %s.',
+            $expectedType,
+            get_debug_type($actualValue),
+        ));
+    }
+
     /**
      * @param class-string<Geometry> $expectedClassName
      * @param class-string<Geometry> $actualClassName

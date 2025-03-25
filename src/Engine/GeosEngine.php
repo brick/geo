@@ -394,6 +394,17 @@ final readonly class GeosEngine implements GeometryEngine
         throw GeometryEngineException::unimplementedMethod(__METHOD__);
     }
 
+    public function getGeosVersion() : string
+    {
+        $version = GEOSVersion();
+
+        if (false !== $pos = strpos($version, '-')) {
+            return substr($version, 0, $pos);
+        }
+
+        return $version;
+    }
+
     /**
      * @template T
      *

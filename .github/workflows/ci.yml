@@ -28,212 +28,6 @@ jobs:
       - name: Run Psalm
         run: vendor/bin/psalm --show-info=false --no-progress
 
-  phpunit-mysql:
-    name: PHPUnit MySQL
-    runs-on: ubuntu-22.04
-
-    strategy:
-      fail-fast: false
-      matrix:
-        php-version:
-          - "8.2"
-          - "8.3"
-          - "8.4"
-        emulate-prepares:
-          - "ON"
-          - "OFF"
-
-    services:
-      mysql:
-        image: "mysql:8.4"
-        ports:
-          - "3306:3306"
-        options: >-
-          --health-cmd "mysqladmin ping --silent"
-        env:
-          MYSQL_ROOT_PASSWORD: password
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: ${{ matrix.php-version }}
-          extensions: pdo_mysql
-          coverage: xdebug
-
-      - name: Install composer dependencies
-        uses: ramsey/composer-install@v3
-
-      - name: Run PHPUnit
-        run: vendor/bin/phpunit
-        env:
-          ENGINE: pdo_mysql
-          MYSQL_HOST: 127.0.0.1
-          MYSQL_USER: root
-          MYSQL_PASSWORD: password
-          EMULATE_PREPARES: ${{ matrix.emulate-prepares }}
-        if: ${{ matrix.php-version != env.COVERAGE_PHP_VERSION }}
-
-      - name: Run PHPUnit with coverage
-        run: |
-          mkdir -p build/logs
-          vendor/bin/phpunit --coverage-clover build/logs/clover.xml
-        env:
-          ENGINE: pdo_mysql
-          MYSQL_HOST: 127.0.0.1
-          MYSQL_USER: root
-          MYSQL_PASSWORD: password
-          EMULATE_PREPARES: ${{ matrix.emulate-prepares }}
-        if: ${{ matrix.php-version == env.COVERAGE_PHP_VERSION }}
-
-      - name: Upload coverage report to Coveralls
-        run: vendor/bin/php-coveralls --coverage_clover=build/logs/clover.xml -v
-        env:
-          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        if: ${{ matrix.php-version == env.COVERAGE_PHP_VERSION }}
-
-  phpunit-mariadb:
-    name: PHPUnit MariaDB
-    runs-on: ubuntu-22.04
-
-    strategy:
-      fail-fast: false
-      matrix:
-        php-version:
-          - "8.2"
-        emulate-prepares:
-          - "ON"
-          - "OFF"
-
-    services:
-      mariadb:
-        image: "mariadb:11.4"
-        env:
-          MARIADB_ROOT_PASSWORD: password
-        options: >-
-          --health-cmd "mariadb-admin ping --silent --user=root --password=password"
-        ports:
-          - "3306:3306"
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: ${{ matrix.php-version }}
-          extensions: pdo_mysql
-          coverage: xdebug
-
-      - name: Install composer dependencies
-        uses: ramsey/composer-install@v3
-
-      - name: Run PHPUnit with coverage
-        run: |
-          mkdir -p build/logs
-          vendor/bin/phpunit --coverage-clover build/logs/clover.xml
-        env:
-          ENGINE: pdo_mysql
-          MYSQL_HOST: 127.0.0.1
-          MYSQL_USER: root
-          MYSQL_PASSWORD: password
-          EMULATE_PREPARES: ${{ matrix.emulate-prepares }}
-
-      - name: Upload coverage report to Coveralls
-        run: vendor/bin/php-coveralls --coverage_clover=build/logs/clover.xml -v
-        env:
-          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-  phpunit-postgres:
-    name: PHPUnit PostgreSQL
-    runs-on: ubuntu-22.04
-
-    strategy:
-      matrix:
-        php-version:
-          - "8.2"
-
-    services:
-      postgis:
-        image: "postgis/postgis:17-3.5-alpine"
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-        ports:
-          - "5432:5432"
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: ${{ matrix.php-version }}
-          extensions: pdo_pgsql
-          coverage: xdebug
-
-      - name: Install composer dependencies
-        uses: ramsey/composer-install@v3
-
-      - name: Run PHPUnit with coverage
-        run: |
-          mkdir -p build/logs
-          vendor/bin/phpunit --coverage-clover build/logs/clover.xml
-        env:
-          ENGINE: pdo_pgsql
-          POSTGRES_HOST: 127.0.0.1
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-
-      - name: Upload coverage report to Coveralls
-        run: vendor/bin/php-coveralls --coverage_clover=build/logs/clover.xml -v
-        env:
-          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-  phpunit-sqlite:
-    name: PHPUnit SQLite
-    runs-on: ubuntu-22.04
-
-    strategy:
-      matrix:
-        php-version:
-          - "8.2"
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: ${{ matrix.php-version }}
-          extensions: sqlite3
-          ini-values: sqlite3.extension_dir=/usr/lib/x86_64-linux-gnu
-          coverage: xdebug
-
-      - name: Install SpatiaLite
-        run: sudo apt install libsqlite3-mod-spatialite
-
-      - name: Install composer dependencies
-        uses: ramsey/composer-install@v3
-
-      - name: Run PHPUnit with coverage
-        run: |
-          mkdir -p build/logs
-          vendor/bin/phpunit --coverage-clover build/logs/clover.xml
-        env:
-          ENGINE: sqlite3
-
-      - name: Upload coverage report to Coveralls
-        run: vendor/bin/php-coveralls --coverage_clover=build/logs/clover.xml -v
-        env:
-          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
   phpunit-geos:
     name: PHPUnit GEOS
     runs-on: ubuntu-22.04
@@ -303,6 +97,212 @@ jobs:
         env:
           ENGINE: geosop
           GEOSOP_PATH: /usr/bin/geosop
+
+      - name: Upload coverage report to Coveralls
+        run: vendor/bin/php-coveralls --coverage_clover=build/logs/clover.xml -v
+        env:
+          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  phpunit-mysql-pdo:
+    name: PHPUnit MySQL / PDO
+    runs-on: ubuntu-22.04
+
+    strategy:
+      fail-fast: false
+      matrix:
+        php-version:
+          - "8.2"
+          - "8.3"
+          - "8.4"
+        emulate-prepares:
+          - "ON"
+          - "OFF"
+
+    services:
+      mysql:
+        image: "mysql:8.4"
+        ports:
+          - "3306:3306"
+        options: >-
+          --health-cmd "mysqladmin ping --silent"
+        env:
+          MYSQL_ROOT_PASSWORD: password
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          extensions: pdo_mysql
+          coverage: xdebug
+
+      - name: Install composer dependencies
+        uses: ramsey/composer-install@v3
+
+      - name: Run PHPUnit
+        run: vendor/bin/phpunit
+        env:
+          ENGINE: mysql_pdo
+          MYSQL_HOST: 127.0.0.1
+          MYSQL_USER: root
+          MYSQL_PASSWORD: password
+          EMULATE_PREPARES: ${{ matrix.emulate-prepares }}
+        if: ${{ matrix.php-version != env.COVERAGE_PHP_VERSION }}
+
+      - name: Run PHPUnit with coverage
+        run: |
+          mkdir -p build/logs
+          vendor/bin/phpunit --coverage-clover build/logs/clover.xml
+        env:
+          ENGINE: mysql_pdo
+          MYSQL_HOST: 127.0.0.1
+          MYSQL_USER: root
+          MYSQL_PASSWORD: password
+          EMULATE_PREPARES: ${{ matrix.emulate-prepares }}
+        if: ${{ matrix.php-version == env.COVERAGE_PHP_VERSION }}
+
+      - name: Upload coverage report to Coveralls
+        run: vendor/bin/php-coveralls --coverage_clover=build/logs/clover.xml -v
+        env:
+          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        if: ${{ matrix.php-version == env.COVERAGE_PHP_VERSION }}
+
+  phpunit-mariadb-pdo:
+    name: PHPUnit MariaDB / PDO
+    runs-on: ubuntu-22.04
+
+    strategy:
+      fail-fast: false
+      matrix:
+        php-version:
+          - "8.2"
+        emulate-prepares:
+          - "ON"
+          - "OFF"
+
+    services:
+      mariadb:
+        image: "mariadb:11.4"
+        env:
+          MARIADB_ROOT_PASSWORD: password
+        options: >-
+          --health-cmd "mariadb-admin ping --silent --user=root --password=password"
+        ports:
+          - "3306:3306"
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          extensions: pdo_mysql
+          coverage: xdebug
+
+      - name: Install composer dependencies
+        uses: ramsey/composer-install@v3
+
+      - name: Run PHPUnit with coverage
+        run: |
+          mkdir -p build/logs
+          vendor/bin/phpunit --coverage-clover build/logs/clover.xml
+        env:
+          ENGINE: mariadb_pdo
+          MARIADB_HOST: 127.0.0.1
+          MARIADB_USER: root
+          MARIADB_PASSWORD: password
+          EMULATE_PREPARES: ${{ matrix.emulate-prepares }}
+
+      - name: Upload coverage report to Coveralls
+        run: vendor/bin/php-coveralls --coverage_clover=build/logs/clover.xml -v
+        env:
+          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  phpunit-postgis-pdo:
+    name: PHPUnit PostGIS / PDO
+    runs-on: ubuntu-22.04
+
+    strategy:
+      matrix:
+        php-version:
+          - "8.2"
+
+    services:
+      postgis:
+        image: "postgis/postgis:17-3.5-alpine"
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - "5432:5432"
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          extensions: pdo_pgsql
+          coverage: xdebug
+
+      - name: Install composer dependencies
+        uses: ramsey/composer-install@v3
+
+      - name: Run PHPUnit with coverage
+        run: |
+          mkdir -p build/logs
+          vendor/bin/phpunit --coverage-clover build/logs/clover.xml
+        env:
+          ENGINE: postgis_pdo
+          POSTGRES_HOST: 127.0.0.1
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+
+      - name: Upload coverage report to Coveralls
+        run: vendor/bin/php-coveralls --coverage_clover=build/logs/clover.xml -v
+        env:
+          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  phpunit-sqlite:
+    name: PHPUnit SpatiaLite / SQLite3
+    runs-on: ubuntu-22.04
+
+    strategy:
+      matrix:
+        php-version:
+          - "8.2"
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          extensions: sqlite3
+          ini-values: sqlite3.extension_dir=/usr/lib/x86_64-linux-gnu
+          coverage: xdebug
+
+      - name: Install SpatiaLite
+        run: sudo apt install libsqlite3-mod-spatialite
+
+      - name: Install composer dependencies
+        uses: ramsey/composer-install@v3
+
+      - name: Run PHPUnit with coverage
+        run: |
+          mkdir -p build/logs
+          vendor/bin/phpunit --coverage-clover build/logs/clover.xml
+        env:
+          ENGINE: spatialite_sqlite3
 
       - name: Upload coverage report to Coveralls
         run: vendor/bin/php-coveralls --coverage_clover=build/logs/clover.xml -v

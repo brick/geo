@@ -188,11 +188,11 @@ all you need to do is create an additional in-memory SQLite3 database just to po
 - Use this bootstrap code in your project:
 
     ```php
-    use Brick\Geo\Engine\Sqlite3Engine;
+    use Brick\Geo\Engine\SpatialiteEngine;
     
     $sqlite3 = new SQLite3(':memory:');
     $sqlite3->loadExtension('mod_spatialite.so');
-    $geometryEngine = new Sqlite3Engine($sqlite3);
+    $geometryEngine = new SpatialiteEngine($sqlite3);
     ```
 
 - Depending on the functions you use, you will probably need to initialize the spatial metadata by running this query:

@@ -20,6 +20,10 @@ services:
             - MYSQL_PORT
             - MYSQL_USER
             - MYSQL_PASSWORD
+            - MARIADB_HOST
+            - MARIADB_PORT
+            - MARIADB_USER
+            - MARIADB_PASSWORD
             - GEOSOP_PATH
         working_dir: ${SOURCES_PATH}
         cap_drop:

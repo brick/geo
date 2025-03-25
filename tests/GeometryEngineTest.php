@@ -11,8 +11,10 @@ use Brick\Geo\CurvePolygon;
 use Brick\Geo\Engine\GeometryEngine;
 use Brick\Geo\Engine\GeosEngine;
 use Brick\Geo\Engine\GeosOpEngine;
-use Brick\Geo\Engine\PdoEngine;
-use Brick\Geo\Engine\Sqlite3Engine;
+use Brick\Geo\Engine\MariadbEngine;
+use Brick\Geo\Engine\MysqlEngine;
+use Brick\Geo\Engine\PostgisEngine;
+use Brick\Geo\Engine\SpatialiteEngine;
 use Brick\Geo\Exception\GeometryEngineException;
 use Brick\Geo\Geometry;
 use Brick\Geo\GeometryCollection;
@@ -1449,31 +1451,55 @@ class GeometryEngineTest extends AbstractTestCase
 
     private function isMysql(?string $operatorAndVersion = null) : bool
     {
-        return $this->isMysqlOrMariadb(false, $operatorAndVersion);
+        $engine = $this->getGeometryEngine();
+
+        if ($engine instanceof MysqlEngine) {
+            if ($operatorAndVersion === null) {
+                return true;
+            }
+
+            $mysqlVersion = $engine->getMysqlVersion();
+
+            return $this->isVersion($mysqlVersion, $operatorAndVersion);
+        }
+
+        return false;
     }
 
     private function isMariadb(?string $operatorAndVersion = null) : bool
     {
-        return $this->isMysqlOrMariadb(true, $operatorAndVersion);
+        $engine = $this->getGeometryEngine();
+
+        if ($engine instanceof MariadbEngine) {
+            if ($operatorAndVersion === null) {
+                return true;
+            }
+
+            $mariadbVersion = $engine->getMariadbVersion();
+
+            return $this->isVersion($mariadbVersion, $operatorAndVersion);
+        }
+
+        return false;
     }
 
     private function isPostgis() : bool
     {
-        return $this->isPdoDriver('pgsql');
+        return $this->getGeometryEngine() instanceof PostgisEngine;
     }
 
     private function isSpatialite(?string $operatorAndVersion = null) : bool
     {
         $engine = $this->getGeometryEngine();
 
-        if ($engine instanceof Sqlite3Engine) {
+        if ($engine instanceof SpatialiteEngine) {
             if ($operatorAndVersion === null) {
                 return true;
             }
 
-            $version = $engine->getSQLite3()->querySingle('SELECT spatialite_version()');
+            $spatialiteVersion = $engine->getSpatialiteVersion();
 
-            return $this->isVersion($version, $operatorAndVersion);
+            return $this->isVersion($spatialiteVersion, $operatorAndVersion);
         }
 
         return false;
@@ -1488,12 +1514,7 @@ class GeometryEngineTest extends AbstractTestCase
                 return true;
             }
 
-            $version = GEOSVersion();
-            $dashPos = strpos($version, '-');
-
-            if ($dashPos !== false) {
-                $version = substr($version, 0, $dashPos);
-            }
+            $version = $engine->getGeosVersion();
 
             return $this->isVersion($version, $operatorAndVersion);
         }
@@ -1658,54 +1679,5 @@ class GeometryEngineTest extends AbstractTestCase
         }
 
         return version_compare($version, $testVersion, $operator);
-    }
-
-    private function isPdoDriver(string $name) : bool
-    {
-        $engine = $this->getGeometryEngine();
-
-        if ($engine instanceof PdoEngine) {
-            if ($engine->getPDO()->getAttribute(\PDO::ATTR_DRIVER_NAME) === $name) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-    /**
-     * @param bool        $testMariadb        False to check for MYSQL, true to check for MariaDB.
-     * @param string|null $operatorAndVersion An optional comparison operator and version number to test against.
-     */
-    private function isMysqlOrMariadb(bool $testMariadb, ?string $operatorAndVersion = null) : bool
-    {
-        $engine = $this->getGeometryEngine();
-
-        if ($engine instanceof PdoEngine) {
-            $pdo = $engine->getPDO();
-
-            if ($pdo->getAttribute(\PDO::ATTR_DRIVER_NAME) === 'mysql') {
-                $statement = $pdo->query('SELECT VERSION()');
-                $version = $statement->fetchColumn();
-
-                $pos = strpos($version, '-MariaDB');
-                $isMariadb = ($pos !== false);
-
-                if ($isMariadb) {
-                    $version = substr($version, 0, $pos);
-                }
-
-                if ($testMariadb !== $isMariadb) {
-                    return false;
-                }
-
-                if ($operatorAndVersion === null) {
-                    return true;
-                }
-
-                return $this->isVersion($version, $operatorAndVersion);
-            }
-        }
-
-        return false;
     }
 }

@@ -1,9 +1,14 @@
 <?php
 
-use Brick\Geo\Engine\GeosOpEngine;
-use Brick\Geo\Engine\PdoEngine;
-use Brick\Geo\Engine\Sqlite3Engine;
+use Brick\Geo\Engine\Database\Driver\PdoMysqlDriver;
+use Brick\Geo\Engine\Database\Driver\PdoPgsqlDriver;
+use Brick\Geo\Engine\Database\Driver\Sqlite3Driver;
 use Brick\Geo\Engine\GeosEngine;
+use Brick\Geo\Engine\GeosOpEngine;
+use Brick\Geo\Engine\MariadbEngine;
+use Brick\Geo\Engine\MysqlEngine;
+use Brick\Geo\Engine\PostgisEngine;
+use Brick\Geo\Engine\SpatialiteEngine;
 
 function getOptionalEnv(string $name): ?string
 {
@@ -40,13 +45,31 @@ function getRequiredEnv(string $name): string
         echo 'WARNING: running tests without a geometry engine.', PHP_EOL;
         echo 'All tests requiring a geometry engine will be skipped.', PHP_EOL;
         echo 'To run tests with a geometry engine, use: ENGINE={engine} vendor/bin/phpunit', PHP_EOL;
-        echo 'Available engines: pdo_mysql, pdo_pgsql, sqlite3, geos, geosop', PHP_EOL;
+        echo 'Available engines: geos, geosop, mysql_pdo, mariadb_pdo, postgis_pdo, spatialite_sqlite3', PHP_EOL;
     } else {
+        $driver = null;
+
         switch ($engine) {
-            case 'pdo_mysql':
+            case 'geos':
+                echo 'Using GeosEngine', PHP_EOL;
+                echo 'GEOS version: ', GEOSVersion(), PHP_EOL;
+
+                $engine = new GeosEngine();
+                break;
+
+            case 'geosop':
+                echo 'Using GeosOpEngine', PHP_EOL;
+
+                $geosopPath = getRequiredEnv('GEOSOP_PATH');
+                $engine = new GeosOpEngine($geosopPath);
+
+                echo 'geosop version: ', $engine->getGeosOpVersion(), PHP_EOL;
+                break;
+
+            case 'mysql_pdo':
                 $emulatePrepares = getOptionalEnv('EMULATE_PREPARES') === 'ON';
 
-                echo 'Using PdoEngine for MySQL', PHP_EOL;
+                echo 'Using MysqlEngine with PdoMysqlDriver', PHP_EOL;
                 echo 'with emulated prepares ', ($emulatePrepares ? 'ON' : 'OFF'), PHP_EOL;
 
                 $host = getRequiredEnv('MYSQL_HOST');
@@ -54,26 +77,47 @@ function getRequiredEnv(string $name): string
                 $username = getRequiredEnv('MYSQL_USER');
                 $password = getRequiredEnv('MYSQL_PASSWORD');
 
-                $pdo = new PDO(
-                    sprintf('mysql:host=%s;port=%d', $host, $port),
-                    $username,
-                    $password,
-                    [
-                        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-                        PDO::ATTR_EMULATE_PREPARES => $emulatePrepares,
-                    ],
-                );
+                $dsn = sprintf('mysql:host=%s;port=%d', $host, $port);
+                $pdo = new PDO($dsn, $username, $password, [
+                    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                    PDO::ATTR_EMULATE_PREPARES => $emulatePrepares,
+                ]);
 
-                $statement = $pdo->query('SELECT VERSION()');
-                $version = $statement->fetchColumn();
+                $driver = new PdoMysqlDriver($pdo);
+                $engine = new MysqlEngine($driver);
 
+                $version = $driver->executeQuery('SELECT VERSION()')->get(0)->asString();
                 echo 'MySQL version: ', $version, PHP_EOL;
 
-                $engine = new PdoEngine($pdo);
                 break;
 
-            case 'pdo_pgsql':
-                echo 'Using PdoEngine for PostgreSQL', PHP_EOL;
+            case 'mariadb_pdo':
+                $emulatePrepares = getOptionalEnv('EMULATE_PREPARES') === 'ON';
+
+                echo 'Using MariadbEngine with PdoMysqlDriver', PHP_EOL;
+                echo 'with emulated prepares ', ($emulatePrepares ? 'ON' : 'OFF'), PHP_EOL;
+
+                $host = getRequiredEnv('MARIADB_HOST');
+                $port = getOptionalEnvOrDefault('MARIADB_PORT', '3306');
+                $username = getRequiredEnv('MARIADB_USER');
+                $password = getRequiredEnv('MARIADB_PASSWORD');
+
+                $dsn = sprintf('mysql:host=%s;port=%d', $host, $port);
+                $pdo = new PDO($dsn, $username, $password, [
+                    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                    PDO::ATTR_EMULATE_PREPARES => $emulatePrepares,
+                ]);
+
+                $driver = new PdoMysqlDriver($pdo);
+                $engine = new MariadbEngine($driver);
+
+                $version = $driver->executeQuery('SELECT VERSION()')->get(0)->asString();
+                echo 'MariaDB version: ', $version, PHP_EOL;
+
+                break;
+
+            case 'postgis_pdo':
+                echo 'Using PostgisEngine with PdoPgsqlDriver', PHP_EOL;
 
                 $host = getRequiredEnv('POSTGRES_HOST');
                 $port = getOptionalEnvOrDefault('POSTGRES_PORT', '5432');
@@ -91,52 +135,39 @@ function getRequiredEnv(string $name): string
 
                 $pdo->exec('CREATE EXTENSION IF NOT EXISTS postgis;');
 
-                $statement = $pdo->query('SELECT version()');
-                $version = $statement->fetchColumn();
+                $driver = new PdoPgsqlDriver($pdo);
+                $engine = new PostgisEngine($driver);
 
+                $version = $driver->executeQuery('SELECT version()')->get(0)->asString();
                 echo 'PostgreSQL version: ', $version, PHP_EOL;
 
-                $statement = $pdo->query('SELECT PostGIS_Full_Version()');
-                $version = $statement->fetchColumn();
-
+                $version = $driver->executeQuery('SELECT PostGIS_Version()')->get(0)->asString();
                 echo 'PostGIS version: ', $version, PHP_EOL;
 
-                $engine = new PdoEngine($pdo);
+                $version = $driver->executeQuery('SELECT PostGIS_GEOS_Version()')->get(0)->asString();
+                echo 'PostGIS GEOS version: ', $version, PHP_EOL;
+
                 break;
 
-            case 'sqlite3':
-                echo 'Using Sqlite3Engine', PHP_EOL;
+            case 'spatialite_sqlite3':
+                echo 'Using SpatialiteEngine with Sqlite3Driver', PHP_EOL;
 
                 $sqlite3 = new SQLite3(':memory:');
                 $sqlite3->enableExceptions(true);
 
-                $sqliteVersion = $sqlite3->querySingle('SELECT sqlite_version()');
+                $driver = new Sqlite3Driver($sqlite3);
+
+                $sqliteVersion = $driver->executeQuery('SELECT sqlite_version()')->get(0)->asString();
                 echo 'SQLite version: ', $sqliteVersion, PHP_EOL;
 
                 $sqlite3->loadExtension('mod_spatialite.so');
 
-                $spatialiteVersion = $sqlite3->querySingle('SELECT spatialite_version()');
+                $spatialiteVersion = $driver->executeQuery('SELECT spatialite_version()')->get(0)->asString();
                 echo 'SpatiaLite version: ', $spatialiteVersion, PHP_EOL;
 
                 $sqlite3->exec('SELECT InitSpatialMetaData()');
 
-                $engine = new Sqlite3Engine($sqlite3);
-                break;
-
-            case 'geos':
-                echo 'Using GeosEngine', PHP_EOL;
-                echo 'GEOS version: ', GEOSVersion(), PHP_EOL;
-
-                $engine = new GeosEngine();
-                break;
-
-            case 'geosop':
-                echo 'Using GeosOpEngine', PHP_EOL;
-
-                $geosopPath = getRequiredEnv('GEOSOP_PATH');
-                $engine = new GeosOpEngine($geosopPath);
-
-                echo 'geosop version: ', $engine->getGeosOpVersion(), PHP_EOL;
+                $engine = new SpatialiteEngine($driver);
                 break;
 
             default:
@@ -145,5 +176,9 @@ function getRequiredEnv(string $name): string
         }
 
         $GLOBALS['GEOMETRY_ENGINE'] = $engine;
+
+        if ($driver !== null) {
+            $GLOBALS['DATABASE_DRIVER'] = $driver;
+        }
     }
 })();
