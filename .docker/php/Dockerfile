@@ -53,7 +53,7 @@ SHELL ["/bin/sh", "-e", "-c"]
 
 RUN <<EOF
 apt update
-apt install --yes git libzip-dev libpq-dev libsqlite3-mod-spatialite
+apt install --yes git sqlite3 libzip-dev libpq-dev libsqlite3-mod-spatialite
 rm -rf /var/lib/apt/lists/*
 EOF
 
