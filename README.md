@@ -10,6 +10,7 @@ A GIS geometry library for PHP.
 [![Latest Stable Version](https://poser.pugx.org/brick/geo/v/stable)](https://packagist.org/packages/brick/geo)
 [![Total Downloads](https://poser.pugx.org/brick/geo/downloads)](https://packagist.org/packages/brick/geo)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](http://opensource.org/licenses/MIT)
+[![libs.tech recommends](https://libs.tech/project/24073859/badge.svg)](https://libs.tech/project/24073859/geo)
 
 Introduction
 ------------
