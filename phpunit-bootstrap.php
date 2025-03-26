@@ -134,8 +134,6 @@ function getRequiredEnv(string $name): string
                     ],
                 );
 
-                $pdo->exec('CREATE EXTENSION IF NOT EXISTS postgis;');
-
                 $driver = new PdoPgsqlDriver($pdo);
                 $engine = new PostgisEngine($driver);
 

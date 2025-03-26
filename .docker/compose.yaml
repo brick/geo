@@ -32,11 +32,7 @@ services:
             - no-new-privileges
     postgres:
         container_name: ${COMPOSE_PROJECT_NAME}-postgres
-        build:
-            context: postgres
-            args:
-                - POSTGRES_VERSION
-                - POSTGIS_VERSION
+        image: postgis/postgis:${POSTGRES_POSTGIS_VERSION}-alpine
         environment:
             - POSTGRES_USER=${POSTGRES_USER}
             - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
@@ -44,6 +40,7 @@ services:
         cap_drop:
             - ALL
         cap_add:
+            - CHOWN
             - DAC_OVERRIDE
             - SETGID
             - SETUID
