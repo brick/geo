@@ -231,6 +231,9 @@ jobs:
       matrix:
         php-version:
           - "8.2"
+        emulate-prepares:
+          - "ON"
+          - "OFF"
 
     services:
       postgis:
@@ -264,6 +267,7 @@ jobs:
           POSTGRES_HOST: 127.0.0.1
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
+          EMULATE_PREPARES: ${{ matrix.emulate-prepares }}
 
       - name: Upload coverage report to Coveralls
         run: vendor/bin/php-coveralls --coverage_clover=build/logs/clover.xml -v

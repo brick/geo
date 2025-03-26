@@ -118,7 +118,10 @@ function getRequiredEnv(string $name): string
                 break;
 
             case 'postgis_pdo':
+                $emulatePrepares = getOptionalEnv('EMULATE_PREPARES') === 'ON';
+
                 echo 'Using PostgisEngine with PdoPgsqlDriver', PHP_EOL;
+                echo 'with emulated prepares ', ($emulatePrepares ? 'ON' : 'OFF'), PHP_EOL;
 
                 $host = getRequiredEnv('POSTGRES_HOST');
                 $port = getOptionalEnvOrDefault('POSTGRES_PORT', '5432');
@@ -131,6 +134,7 @@ function getRequiredEnv(string $name): string
                     $password,
                     [
                         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                        PDO::ATTR_EMULATE_PREPARES => $emulatePrepares,
                     ],
                 );
 
