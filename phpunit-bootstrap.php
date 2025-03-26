@@ -37,6 +37,34 @@ function getRequiredEnv(string $name): string
     return $value;
 }
 
+function getPdoEmulatePreparesEnv() : bool
+{
+    $emulatePrepares = getOptionalEnv('PDO_EMULATE_PREPARES') ?? 'OFF';
+
+    echo 'with emulate prepares: ', $emulatePrepares, PHP_EOL;
+
+    return match ($emulatePrepares) {
+        'ON' => true,
+        'OFF' => false,
+    };
+}
+
+/**
+ * @return PDO::ERRMODE_*
+ */
+function getPdoErrmodeEnv() : int
+{
+    $errmode = getOptionalEnv('PDO_ERRMODE') ?? 'EXCEPTION';
+
+    echo 'with errmode: ', $errmode, PHP_EOL;
+
+    return match ($errmode) {
+        'SILENT' => PDO::ERRMODE_SILENT,
+        'WARNING' => PDO::ERRMODE_WARNING,
+        'EXCEPTION' => PDO::ERRMODE_EXCEPTION,
+    };
+}
+
 (function() {
     require 'vendor/autoload.php';
 
@@ -68,10 +96,10 @@ function getRequiredEnv(string $name): string
                 break;
 
             case 'mysql_pdo':
-                $emulatePrepares = getOptionalEnv('EMULATE_PREPARES') === 'ON';
-
                 echo 'Using MysqlEngine with PdoMysqlDriver', PHP_EOL;
-                echo 'with emulated prepares ', ($emulatePrepares ? 'ON' : 'OFF'), PHP_EOL;
+
+                $emulatePrepares = getPdoEmulatePreparesEnv();
+                $errmode = getPdoErrmodeEnv();
 
                 $host = getRequiredEnv('MYSQL_HOST');
                 $port = getOptionalEnvOrDefault('MYSQL_PORT', '3306');
@@ -80,7 +108,7 @@ function getRequiredEnv(string $name): string
 
                 $dsn = sprintf('mysql:host=%s;port=%d', $host, $port);
                 $pdo = new PDO($dsn, $username, $password, [
-                    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                    PDO::ATTR_ERRMODE => $errmode,
                     PDO::ATTR_EMULATE_PREPARES => $emulatePrepares,
                 ]);
 
@@ -93,10 +121,10 @@ function getRequiredEnv(string $name): string
                 break;
 
             case 'mariadb_pdo':
-                $emulatePrepares = getOptionalEnv('EMULATE_PREPARES') === 'ON';
-
                 echo 'Using MariadbEngine with PdoMysqlDriver', PHP_EOL;
-                echo 'with emulated prepares ', ($emulatePrepares ? 'ON' : 'OFF'), PHP_EOL;
+
+                $emulatePrepares = getPdoEmulatePreparesEnv();
+                $errmode = getPdoErrmodeEnv();
 
                 $host = getRequiredEnv('MARIADB_HOST');
                 $port = getOptionalEnvOrDefault('MARIADB_PORT', '3306');
@@ -105,7 +133,7 @@ function getRequiredEnv(string $name): string
 
                 $dsn = sprintf('mysql:host=%s;port=%d', $host, $port);
                 $pdo = new PDO($dsn, $username, $password, [
-                    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                    PDO::ATTR_ERRMODE => $errmode,
                     PDO::ATTR_EMULATE_PREPARES => $emulatePrepares,
                 ]);
 
@@ -118,10 +146,10 @@ function getRequiredEnv(string $name): string
                 break;
 
             case 'postgis_pdo':
-                $emulatePrepares = getOptionalEnv('EMULATE_PREPARES') === 'ON';
-
                 echo 'Using PostgisEngine with PdoPgsqlDriver', PHP_EOL;
-                echo 'with emulated prepares ', ($emulatePrepares ? 'ON' : 'OFF'), PHP_EOL;
+
+                $emulatePrepares = getPdoEmulatePreparesEnv();
+                $errmode = getPdoErrmodeEnv();
 
                 $host = getRequiredEnv('POSTGRES_HOST');
                 $port = getOptionalEnvOrDefault('POSTGRES_PORT', '5432');
@@ -133,7 +161,7 @@ function getRequiredEnv(string $name): string
                     $username,
                     $password,
                     [
-                        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                        PDO::ATTR_ERRMODE => $errmode,
                         PDO::ATTR_EMULATE_PREPARES => $emulatePrepares,
                     ],
                 );

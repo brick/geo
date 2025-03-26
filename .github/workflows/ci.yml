@@ -114,9 +114,18 @@ jobs:
           - "8.2"
           - "8.3"
           - "8.4"
-        emulate-prepares:
-          - "ON"
+        pdo-emulate-prepares:
           - "OFF"
+          - "ON"
+        pdo-errmode:
+          - "EXCEPTION"
+        include:
+          - php-version: "8.2"
+            pdo-emulate-prepares: "OFF"
+            pdo-errmode: "SILENT"
+          - php-version: "8.2"
+            pdo-emulate-prepares: "OFF"
+            pdo-errmode: "WARNING"
 
     services:
       mysql:
@@ -149,7 +158,8 @@ jobs:
           MYSQL_HOST: 127.0.0.1
           MYSQL_USER: root
           MYSQL_PASSWORD: password
-          EMULATE_PREPARES: ${{ matrix.emulate-prepares }}
+          PDO_EMULATE_PREPARES: ${{ matrix.pdo-emulate-prepares }}
+          PDO_ERRMODE: ${{ matrix.pdo-errmode }}
         if: ${{ matrix.php-version != env.COVERAGE_PHP_VERSION }}
 
       - name: Run PHPUnit with coverage
@@ -161,7 +171,7 @@ jobs:
           MYSQL_HOST: 127.0.0.1
           MYSQL_USER: root
           MYSQL_PASSWORD: password
-          EMULATE_PREPARES: ${{ matrix.emulate-prepares }}
+          PDO_EMULATE_PREPARES: ${{ matrix.pdo-emulate-prepares }}
         if: ${{ matrix.php-version == env.COVERAGE_PHP_VERSION }}
 
       - name: Upload coverage report to Coveralls
@@ -179,7 +189,7 @@ jobs:
       matrix:
         php-version:
           - "8.2"
-        emulate-prepares:
+        pdo-emulate-prepares:
           - "ON"
           - "OFF"
 
@@ -216,7 +226,7 @@ jobs:
           MARIADB_HOST: 127.0.0.1
           MARIADB_USER: root
           MARIADB_PASSWORD: password
-          EMULATE_PREPARES: ${{ matrix.emulate-prepares }}
+          PDO_EMULATE_PREPARES: ${{ matrix.pdo-emulate-prepares }}
 
       - name: Upload coverage report to Coveralls
         run: vendor/bin/php-coveralls --coverage_clover=build/logs/clover.xml -v
@@ -231,7 +241,7 @@ jobs:
       matrix:
         php-version:
           - "8.2"
-        emulate-prepares:
+        pdo-emulate-prepares:
           - "ON"
           - "OFF"
 
@@ -267,7 +277,7 @@ jobs:
           POSTGRES_HOST: 127.0.0.1
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
-          EMULATE_PREPARES: ${{ matrix.emulate-prepares }}
+          PDO_EMULATE_PREPARES: ${{ matrix.pdo-emulate-prepares }}
 
       - name: Upload coverage report to Coveralls
         run: vendor/bin/php-coveralls --coverage_clover=build/logs/clover.xml -v
