@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Brick\Geo\Tests;
+namespace Brick\Geo\Tests\Engine;
 
 use Brick\Geo\CircularString;
 use Brick\Geo\CompoundCurve;
@@ -24,6 +24,7 @@ use Brick\Geo\MultiSurface;
 use Brick\Geo\Point;
 use Brick\Geo\Polygon;
 use Brick\Geo\Surface;
+use Brick\Geo\Tests\AbstractTestCase;
 use LogicException;
 use PHPUnit\Framework\Attributes\DataProvider;
 
