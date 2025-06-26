@@ -23,7 +23,11 @@ together with implementations that delegate these operations to a third-party GI
 
 - the [**GEOS**](https://git.osgeo.org/gitea/geos/php-geos) extension,
 - the [**geosop**](https://libgeos.org/usage/tools/#geosop) command-line tool,
-- or a GIS-enabled database: **MySQL**, **MariaDB**, **PostgreSQL** with PostGIS, or **SQLite** with SpatiaLite.
+- or a GIS-enabled database:
+  - **MySQL**
+  - **MariaDB**
+  - **PostgreSQL** with the **PostGIS** extension
+  - **SQLite** with the **SpatiaLite** extension
 
 Requirements and installation
 -----------------------------
