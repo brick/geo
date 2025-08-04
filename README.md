@@ -230,7 +230,7 @@ In this example we have created an in-memory database for our GIS calculations, 
 <summary>Using the <strong><code>geosop</code></strong> command-line tool</summary>
 
 - Ensure that [geosop](https://libgeos.org/usage/tools/#geosop) is installed on your server.
-  You can install it on Fedora with the `geos` package, or on Ubuntu / Debian with the `geos-bin` package.
+  You can install it on Fedora / RHEL (with EPEL) with the `geos` package, or on Ubuntu / Debian with the `geos-bin` package.
 - Use this bootstrap code in your project:
 
     ```php
