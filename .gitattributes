@@ -1,6 +1,7 @@
 .gitattributes        export-ignore
 .gitignore            export-ignore
 .github/              export-ignore
+.docker/              export-ignore
 phpunit.xml           export-ignore
 phpunit-bootstrap.php export-ignore
 proxy-generate.php    export-ignore
