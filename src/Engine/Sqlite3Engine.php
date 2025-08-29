@@ -8,9 +8,20 @@ use Brick\Geo\Engine\Internal\TypeChecker;
 use Brick\Geo\Exception\GeometryEngineException;
 use Brick\Geo\LineString;
 use Brick\Geo\Point;
+use Exception;
 use Override;
 use SQLite3;
 use SQLite3Stmt;
+
+use function assert;
+use function is_float;
+use function is_int;
+
+use const SQLITE3_BLOB;
+use const SQLITE3_FLOAT;
+use const SQLITE3_INTEGER;
+use const SQLITE3_NUM;
+use const SQLITE3_TEXT;
 
 /**
  * Database engine based on a SQLite3 driver.
@@ -38,13 +49,22 @@ final class Sqlite3Engine extends DatabaseEngine
         $this->sqlite3 = $sqlite3;
     }
 
-    public function getSQLite3() : SQLite3
+    public function getSQLite3(): SQLite3
     {
         return $this->sqlite3;
     }
 
     #[Override]
-    protected function executeQuery(string $query, array $parameters) : array
+    public function lineInterpolatePoint(LineString $lineString, float $fraction): Point
+    {
+        $result = $this->queryGeometry('ST_Line_Interpolate_Point', $lineString, $fraction);
+        TypeChecker::check($result, Point::class);
+
+        return $result;
+    }
+
+    #[Override]
+    protected function executeQuery(string $query, array $parameters): array
     {
         $enableExceptions = $this->sqlite3->enableExceptions(true);
 
@@ -80,22 +100,13 @@ final class Sqlite3Engine extends DatabaseEngine
 
             /** @var list<mixed>|false $result */
             $result = $sqlite3Result->fetchArray(SQLITE3_NUM);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             throw GeometryEngineException::wrap($e);
         } finally {
             $this->sqlite3->enableExceptions($enableExceptions);
         }
 
         assert($result !== false);
-
-        return $result;
-    }
-
-    #[Override]
-    public function lineInterpolatePoint(LineString $lineString, float $fraction) : Point
-    {
-        $result = $this->queryGeometry('ST_Line_Interpolate_Point', $lineString, $fraction);
-        TypeChecker::check($result, Point::class);
 
         return $result;
     }

@@ -9,7 +9,10 @@ use Brick\Geo\Io\Internal\WkbByteOrder;
 use Brick\Geo\Io\WkbWriter;
 use Brick\Geo\Io\WktReader;
 use Brick\Geo\Point;
+use Generator;
 use PHPUnit\Framework\Attributes\DataProvider;
+
+use function bin2hex;
 
 /**
  * Unit tests for class WkbWriter.
@@ -22,7 +25,7 @@ class WkbWriterTest extends WkbAbstractTestCase
      * @param WkbByteOrder $byteOrder The byte order to use.
      */
     #[DataProvider('providerWrite')]
-    public function testWrite(string $wkt, string $wkb, WkbByteOrder $byteOrder) : void
+    public function testWrite(string $wkt, string $wkb, WkbByteOrder $byteOrder): void
     {
         $writer = new WkbWriter();
         $writer->setByteOrder($byteOrder);
@@ -35,7 +38,7 @@ class WkbWriterTest extends WkbAbstractTestCase
         self::assertSame($wkb, bin2hex($output));
     }
 
-    public static function providerWrite() : \Generator
+    public static function providerWrite(): Generator
     {
         foreach (self::providerLittleEndianWkb() as [$wkt, $wkb]) {
             yield [$wkt, $wkb, WkbByteOrder::LittleEndian];
@@ -47,7 +50,7 @@ class WkbWriterTest extends WkbAbstractTestCase
     }
 
     #[DataProvider('providerWriteEmptyPointThrowsException')]
-    public function testWriteEmptyPointThrowsException(Point $point) : void
+    public function testWriteEmptyPointThrowsException(Point $point): void
     {
         $writer = new WkbWriter();
 
@@ -55,13 +58,13 @@ class WkbWriterTest extends WkbAbstractTestCase
         $writer->write($point);
     }
 
-    public static function providerWriteEmptyPointThrowsException() : array
+    public static function providerWriteEmptyPointThrowsException(): array
     {
         return [
             [Point::xyEmpty()],
             [Point::xyzEmpty()],
             [Point::xymEmpty()],
-            [Point::xyzmEmpty()]
+            [Point::xyzmEmpty()],
         ];
     }
 }

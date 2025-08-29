@@ -19,7 +19,7 @@ class CurveTest extends AbstractTestCase
      * @param string $endPoint   The WKT of the expected end point.
      */
     #[DataProvider('providerStartPointEndPoint')]
-    public function testStartPointEndPoint(string $lineString, string $startPoint, string $endPoint) : void
+    public function testStartPointEndPoint(string $lineString, string $startPoint, string $endPoint): void
     {
         foreach ([0, 1] as $srid) {
             $ls = Curve::fromText($lineString, $srid);
@@ -29,7 +29,7 @@ class CurveTest extends AbstractTestCase
         }
     }
 
-    public static function providerStartPointEndPoint() : array
+    public static function providerStartPointEndPoint(): array
     {
         return [
             ['LINESTRING (1 2, 3 4, 5 6)', 'POINT (1 2)', 'POINT (5 6)'],
@@ -50,20 +50,20 @@ class CurveTest extends AbstractTestCase
     }
 
     #[DataProvider('providerEmptyCurve')]
-    public function testStartPointOfEmptyCurveThrowsException(string $lineString) : void
+    public function testStartPointOfEmptyCurveThrowsException(string $lineString): void
     {
         $this->expectException(EmptyGeometryException::class);
         Curve::fromText($lineString)->startPoint();
     }
 
     #[DataProvider('providerEmptyCurve')]
-    public function testEndPointOfEmptyCurveThrowsException(string $lineString) : void
+    public function testEndPointOfEmptyCurveThrowsException(string $lineString): void
     {
         $this->expectException(EmptyGeometryException::class);
         Curve::fromText($lineString)->endPoint();
     }
 
-    public static function providerEmptyCurve() : array
+    public static function providerEmptyCurve(): array
     {
         return [
             ['LINESTRING EMPTY'],

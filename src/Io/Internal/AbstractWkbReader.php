@@ -32,12 +32,12 @@ abstract class AbstractWkbReader
     /**
      * @throws GeometryIoException
      */
-    abstract protected function readGeometryHeader(WkbBuffer $buffer) : WkbGeometryHeader;
+    abstract protected function readGeometryHeader(WkbBuffer $buffer): WkbGeometryHeader;
 
     /**
      * @throws GeometryIoException
      */
-    protected function readGeometry(WkbBuffer $buffer, int $srid) : Geometry
+    protected function readGeometry(WkbBuffer $buffer, int $srid): Geometry
     {
         $buffer->readByteOrder();
 
@@ -46,7 +46,7 @@ abstract class AbstractWkbReader
         $cs = new CoordinateSystem(
             $geometryHeader->hasZ,
             $geometryHeader->hasM,
-            $geometryHeader->srid ?? $srid
+            $geometryHeader->srid ?? $srid,
         );
 
         return match ($geometryHeader->geometryType) {
@@ -67,14 +67,14 @@ abstract class AbstractWkbReader
         };
     }
 
-    private function readPoint(WkbBuffer $buffer, CoordinateSystem $cs) : Point
+    private function readPoint(WkbBuffer $buffer, CoordinateSystem $cs): Point
     {
         $coords = $buffer->readDoubles($cs->coordinateDimension());
 
         return new Point($cs, ...$coords);
     }
 
-    private function readLineString(WkbBuffer $buffer, CoordinateSystem $cs) : LineString
+    private function readLineString(WkbBuffer $buffer, CoordinateSystem $cs): LineString
     {
         $numPoints = $buffer->readUnsignedLong();
 
@@ -87,7 +87,7 @@ abstract class AbstractWkbReader
         return new LineString($cs, ...$points);
     }
 
-    private function readCircularString(WkbBuffer $buffer, CoordinateSystem $cs) : CircularString
+    private function readCircularString(WkbBuffer $buffer, CoordinateSystem $cs): CircularString
     {
         $numPoints = $buffer->readUnsignedLong();
 
@@ -103,7 +103,7 @@ abstract class AbstractWkbReader
     /**
      * @throws GeometryIoException
      */
-    private function readCompoundCurve(WkbBuffer $buffer, CoordinateSystem $cs) : CompoundCurve
+    private function readCompoundCurve(WkbBuffer $buffer, CoordinateSystem $cs): CompoundCurve
     {
         $numCurves = $buffer->readUnsignedLong();
         $curves = [];
@@ -121,7 +121,7 @@ abstract class AbstractWkbReader
         return new CompoundCurve($cs, ...$curves);
     }
 
-    private function readPolygon(WkbBuffer $buffer, CoordinateSystem $cs) : Polygon
+    private function readPolygon(WkbBuffer $buffer, CoordinateSystem $cs): Polygon
     {
         $numRings = $buffer->readUnsignedLong();
 
@@ -137,7 +137,7 @@ abstract class AbstractWkbReader
     /**
      * @throws GeometryIoException
      */
-    private function readCurvePolygon(WkbBuffer $buffer, CoordinateSystem $cs) : CurvePolygon
+    private function readCurvePolygon(WkbBuffer $buffer, CoordinateSystem $cs): CurvePolygon
     {
         $numRings = $buffer->readUnsignedLong();
 
@@ -159,7 +159,7 @@ abstract class AbstractWkbReader
     /**
      * @throws GeometryIoException
      */
-    private function readMultiPoint(WkbBuffer $buffer, CoordinateSystem $cs) : MultiPoint
+    private function readMultiPoint(WkbBuffer $buffer, CoordinateSystem $cs): MultiPoint
     {
         $numPoints = $buffer->readUnsignedLong();
         $points = [];
@@ -180,7 +180,7 @@ abstract class AbstractWkbReader
     /**
      * @throws GeometryIoException
      */
-    private function readMultiLineString(WkbBuffer $buffer, CoordinateSystem $cs) : MultiLineString
+    private function readMultiLineString(WkbBuffer $buffer, CoordinateSystem $cs): MultiLineString
     {
         $numLineStrings = $buffer->readUnsignedLong();
         $lineStrings = [];
@@ -201,7 +201,7 @@ abstract class AbstractWkbReader
     /**
      * @throws GeometryIoException
      */
-    private function readMultiPolygon(WkbBuffer $buffer, CoordinateSystem $cs) : MultiPolygon
+    private function readMultiPolygon(WkbBuffer $buffer, CoordinateSystem $cs): MultiPolygon
     {
         $numPolygons = $buffer->readUnsignedLong();
         $polygons = [];
@@ -219,7 +219,7 @@ abstract class AbstractWkbReader
         return new MultiPolygon($cs, ...$polygons);
     }
 
-    private function readGeometryCollection(WkbBuffer $buffer, CoordinateSystem $cs) : GeometryCollection
+    private function readGeometryCollection(WkbBuffer $buffer, CoordinateSystem $cs): GeometryCollection
     {
         $numGeometries = $buffer->readUnsignedLong();
         $geometries = [];
@@ -234,7 +234,7 @@ abstract class AbstractWkbReader
     /**
      * @throws GeometryIoException
      */
-    private function readPolyhedralSurface(WkbBuffer $buffer, CoordinateSystem $cs) : PolyhedralSurface
+    private function readPolyhedralSurface(WkbBuffer $buffer, CoordinateSystem $cs): PolyhedralSurface
     {
         $numPatches = $buffer->readUnsignedLong();
         $patches = [];
@@ -255,7 +255,7 @@ abstract class AbstractWkbReader
     /**
      * @throws GeometryIoException
      */
-    private function readTin(WkbBuffer $buffer, CoordinateSystem $cs) : Tin
+    private function readTin(WkbBuffer $buffer, CoordinateSystem $cs): Tin
     {
         $numPatches = $buffer->readUnsignedLong();
         $patches = [];
@@ -273,7 +273,7 @@ abstract class AbstractWkbReader
         return new Tin($cs, ...$patches);
     }
 
-    private function readTriangle(WkbBuffer $buffer, CoordinateSystem $cs) : Triangle
+    private function readTriangle(WkbBuffer $buffer, CoordinateSystem $cs): Triangle
     {
         $numRings = $buffer->readUnsignedLong();
 

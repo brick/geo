@@ -8,6 +8,9 @@ use Brick\Geo\CoordinateSystem;
 use Brick\Geo\Point;
 use Override;
 
+use function array_map;
+use function round;
+
 /**
  * Rounds coordinates to a given precision.
  * This projector is typically used to simplify the WKT representation of geometries.

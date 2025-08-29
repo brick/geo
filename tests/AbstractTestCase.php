@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 namespace Brick\Geo\Tests;
 
+use Brick\Geo\CircularString;
+use Brick\Geo\CompoundCurve;
 use Brick\Geo\CoordinateSystem;
+use Brick\Geo\Curve;
+use Brick\Geo\CurvePolygon;
 use Brick\Geo\Geometry;
+use Brick\Geo\LineString;
 use Brick\Geo\MultiLineString;
 use Brick\Geo\MultiPoint;
 use Brick\Geo\MultiPolygon;
 use Brick\Geo\Point;
-use Brick\Geo\Curve;
-use Brick\Geo\LineString;
-use Brick\Geo\CircularString;
-use Brick\Geo\CompoundCurve;
 use Brick\Geo\Polygon;
-use Brick\Geo\CurvePolygon;
 use Brick\Geo\PolyhedralSurface;
 use Brick\Geo\Tin;
 use Brick\Geo\Triangle;
@@ -23,12 +23,18 @@ use Closure;
 use PHPUnit\Framework\TestCase;
 use Throwable;
 
+use function array_map;
+use function array_walk_recursive;
+use function count;
+use function is_array;
+use function sprintf;
+
 /**
  * Base class for Geometry tests.
  */
 class AbstractTestCase extends TestCase
 {
-    final protected function assertWktEquals(Geometry $geometry, string $wkt, int $srid = 0) : void
+    final protected function assertWktEquals(Geometry $geometry, string $wkt, int $srid = 0): void
     {
         self::assertSame($wkt, $geometry->asText());
         self::assertSame($srid, $geometry->srid());
@@ -36,9 +42,9 @@ class AbstractTestCase extends TestCase
 
     /**
      * @param Geometry[] $geometries
-     * @param string[] $wkts
+     * @param string[]   $wkts
      */
-    final protected function assertWktEqualsMultiple(array $geometries, array $wkts, int $srid = 0) : void
+    final protected function assertWktEqualsMultiple(array $geometries, array $wkts, int $srid = 0): void
     {
         foreach ($geometries as $geometry) {
             self::assertSame($srid, $geometry->srid());
@@ -48,28 +54,31 @@ class AbstractTestCase extends TestCase
             $wkts,
             array_map(
                 fn (Geometry $geometry) => $geometry->asText(),
-                $geometries
-            )
+                $geometries,
+            ),
         );
     }
 
     /**
      * Asserts that two geometries' coordinates are equal with a given delta.
      */
-    final protected function assertGeometryEqualsWithDelta(Geometry $expected, Geometry $actual, float $delta = 0.0) : void
+    final protected function assertGeometryEqualsWithDelta(Geometry $expected, Geometry $actual, float $delta = 0.0): void
     {
         $expectedWkt = $expected->asText();
         $actualWkt = $actual->asText();
 
         self::assertSame($expected->geometryType(), $actual->geometryType());
 
-        self::assertEqualsWithDelta($expected->toArray(), $actual->toArray(), $delta,
+        self::assertEqualsWithDelta(
+            $expected->toArray(),
+            $actual->toArray(),
+            $delta,
             'Failed asserting that two geometries are equal with delta.'
             . "\n---Expected"
             . "\n+++Actual"
             . "\n@@ @@"
             . "\n-" . $expectedWkt
-            . "\n+" . $actualWkt
+            . "\n+" . $actualWkt,
         );
     }
 
@@ -80,7 +89,7 @@ class AbstractTestCase extends TestCase
      * @param bool     $hasM   Whether the geometry is expected to contain M coordinates.
      * @param int      $srid   The expected SRID of the geometry.
      */
-    final protected function assertGeometryContents(Geometry $g, array $coords, bool $hasZ = false, bool $hasM = false, int $srid = 0) : void
+    final protected function assertGeometryContents(Geometry $g, array $coords, bool $hasZ = false, bool $hasM = false, int $srid = 0): void
     {
         $this->castToFloat($coords);
 
@@ -91,13 +100,13 @@ class AbstractTestCase extends TestCase
     }
 
     /**
-     * @param array   $coords     The expected coordinates of the Point as returned by toArray().
-     * @param bool    $is3D       Whether the Point is expected to contain a Z coordinate.
-     * @param bool    $isMeasured Whether the Point is expected to contain a M coordinate.
-     * @param int     $srid       The expected SRID.
-     * @param Point   $point      The Point to test.
+     * @param array $coords     The expected coordinates of the Point as returned by toArray().
+     * @param bool  $is3D       Whether the Point is expected to contain a Z coordinate.
+     * @param bool  $isMeasured Whether the Point is expected to contain a M coordinate.
+     * @param int   $srid       The expected SRID.
+     * @param Point $point      The Point to test.
      */
-    final protected function assertPointEquals(array $coords, bool $is3D, bool $isMeasured, int $srid, Point $point) : void
+    final protected function assertPointEquals(array $coords, bool $is3D, bool $isMeasured, int $srid, Point $point): void
     {
         $this->castToFloat($coords);
 
@@ -107,12 +116,12 @@ class AbstractTestCase extends TestCase
         self::assertSame($srid, $point->srid());
     }
 
-    final protected function assertPointXyEquals(float $x, float $y, int $srid, Point $point) : void
+    final protected function assertPointXyEquals(float $x, float $y, int $srid, Point $point): void
     {
         $this->assertPointEquals([$x, $y], false, false, $srid, $point);
     }
 
-    final protected function assertPointXyzEquals(float $x, float $y, float $z, int $srid, Point $point) : void
+    final protected function assertPointXyzEquals(float $x, float $y, float $z, int $srid, Point $point): void
     {
         $this->assertPointEquals([$x, $y, $z], true, false, $srid, $point);
     }
@@ -123,7 +132,7 @@ class AbstractTestCase extends TestCase
      * @param bool       $isMeasured Whether the LineString is expected to contain M coordinates.
      * @param LineString $lineString The LineString to test.
      */
-    final protected function assertLineStringEquals(array $coords, bool $is3D, bool $isMeasured, LineString $lineString) : void
+    final protected function assertLineStringEquals(array $coords, bool $is3D, bool $isMeasured, LineString $lineString): void
     {
         $this->castToFloat($coords);
 
@@ -138,7 +147,7 @@ class AbstractTestCase extends TestCase
      * @param bool    $isMeasured Whether the Polygon is expected to contain M coordinates.
      * @param Polygon $polygon    The Polygon to test.
      */
-    final protected function assertPolygonEquals(array $coords, bool $is3D, bool $isMeasured, Polygon $polygon) : void
+    final protected function assertPolygonEquals(array $coords, bool $is3D, bool $isMeasured, Polygon $polygon): void
     {
         $this->castToFloat($coords);
 
@@ -153,7 +162,7 @@ class AbstractTestCase extends TestCase
      * @param bool       $isMeasured Whether the MultiPoint is expected to contain M coordinates.
      * @param MultiPoint $multiPoint The MultiPoint to test.
      */
-    final protected function assertMultiPointEquals(array $coords, bool $is3D, bool $isMeasured, MultiPoint $multiPoint) : void
+    final protected function assertMultiPointEquals(array $coords, bool $is3D, bool $isMeasured, MultiPoint $multiPoint): void
     {
         $this->castToFloat($coords);
 
@@ -168,7 +177,7 @@ class AbstractTestCase extends TestCase
      * @param bool            $isMeasured      Whether the MultiLineString is expected to contain M coordinates.
      * @param MultiLineString $multiLineString The MultiLineString to test.
      */
-    final protected function assertMultiLineStringEquals(array $coords, bool $is3D, bool $isMeasured, MultiLineString $multiLineString) : void
+    final protected function assertMultiLineStringEquals(array $coords, bool $is3D, bool $isMeasured, MultiLineString $multiLineString): void
     {
         $this->castToFloat($coords);
 
@@ -183,7 +192,7 @@ class AbstractTestCase extends TestCase
      * @param bool         $isMeasured   Whether the MultiPolygon is expected to contain M coordinates.
      * @param MultiPolygon $multiPolygon The MultiPolygon to test.
      */
-    final protected function assertMultiPolygonEquals(array $coords, bool $is3D, bool $isMeasured, MultiPolygon $multiPolygon) : void
+    final protected function assertMultiPolygonEquals(array $coords, bool $is3D, bool $isMeasured, MultiPolygon $multiPolygon): void
     {
         $this->castToFloat($coords);
 
@@ -192,12 +201,12 @@ class AbstractTestCase extends TestCase
         self::assertSame($isMeasured, $multiPolygon->isMeasured());
     }
 
-    final protected function createPoint(array $coords, CoordinateSystem $cs) : Point
+    final protected function createPoint(array $coords, CoordinateSystem $cs): Point
     {
         return new Point($cs, ...$coords);
     }
 
-    final protected function createLineString(array $coords, CoordinateSystem $cs) : LineString
+    final protected function createLineString(array $coords, CoordinateSystem $cs): LineString
     {
         $points = [];
 
@@ -208,12 +217,12 @@ class AbstractTestCase extends TestCase
         return new LineString($cs, ...$points);
     }
 
-    final protected function createCircularString(array $coords, CoordinateSystem $cs) : CircularString
+    final protected function createCircularString(array $coords, CoordinateSystem $cs): CircularString
     {
         $points = [];
 
         foreach ($coords as $point) {
-            $points[] = $this->createPoint($point,$cs);
+            $points[] = $this->createPoint($point, $cs);
         }
 
         return new CircularString($cs, ...$points);
@@ -225,7 +234,7 @@ class AbstractTestCase extends TestCase
      * For the purpose of these tests, it is assumed that a curve with an even number of points is
      * a LineString, and a curve with an odd number of points is a CircularString.
      */
-    final protected function createLineStringOrCircularString(array $coords, CoordinateSystem $cs) : Curve
+    final protected function createLineStringOrCircularString(array $coords, CoordinateSystem $cs): Curve
     {
         if (count($coords) % 2 === 0) {
             return $this->createLineString($coords, $cs);
@@ -234,7 +243,7 @@ class AbstractTestCase extends TestCase
         return $this->createCircularString($coords, $cs);
     }
 
-    final protected function createCompoundCurve(array $coords, CoordinateSystem $cs) : CompoundCurve
+    final protected function createCompoundCurve(array $coords, CoordinateSystem $cs): CompoundCurve
     {
         $curves = [];
 
@@ -245,7 +254,7 @@ class AbstractTestCase extends TestCase
         return new CompoundCurve($cs, ...$curves);
     }
 
-    final protected function createPolygon(array $coords, CoordinateSystem $cs) : Polygon
+    final protected function createPolygon(array $coords, CoordinateSystem $cs): Polygon
     {
         $rings = [];
 
@@ -256,7 +265,7 @@ class AbstractTestCase extends TestCase
         return new Polygon($cs, ...$rings);
     }
 
-    final protected function createTriangle(array $coords, CoordinateSystem $cs) : Triangle
+    final protected function createTriangle(array $coords, CoordinateSystem $cs): Triangle
     {
         $rings = [];
 
@@ -267,7 +276,7 @@ class AbstractTestCase extends TestCase
         return new Triangle($cs, ...$rings);
     }
 
-    final protected function createCurvePolygon(array $coords, CoordinateSystem $cs) : CurvePolygon
+    final protected function createCurvePolygon(array $coords, CoordinateSystem $cs): CurvePolygon
     {
         $rings = [];
 
@@ -284,7 +293,7 @@ class AbstractTestCase extends TestCase
         return new CurvePolygon($cs, ...$rings);
     }
 
-    final protected function createMultiPoint(array $coords, CoordinateSystem $cs) : MultiPoint
+    final protected function createMultiPoint(array $coords, CoordinateSystem $cs): MultiPoint
     {
         $points = [];
 
@@ -295,7 +304,7 @@ class AbstractTestCase extends TestCase
         return new MultiPoint($cs, ...$points);
     }
 
-    final protected function createMultiLineString(array $coords, CoordinateSystem $cs) : MultiLineString
+    final protected function createMultiLineString(array $coords, CoordinateSystem $cs): MultiLineString
     {
         $lineStrings = [];
 
@@ -306,7 +315,7 @@ class AbstractTestCase extends TestCase
         return new MultiLineString($cs, ...$lineStrings);
     }
 
-    final protected function createMultiPolygon(array $coords, CoordinateSystem $cs) : MultiPolygon
+    final protected function createMultiPolygon(array $coords, CoordinateSystem $cs): MultiPolygon
     {
         $polygons = [];
 
@@ -317,7 +326,7 @@ class AbstractTestCase extends TestCase
         return new MultiPolygon($cs, ...$polygons);
     }
 
-    final protected function createPolyhedralSurface(array $coords, CoordinateSystem $cs) : PolyhedralSurface
+    final protected function createPolyhedralSurface(array $coords, CoordinateSystem $cs): PolyhedralSurface
     {
         $patches = [];
 
@@ -328,7 +337,7 @@ class AbstractTestCase extends TestCase
         return new PolyhedralSurface($cs, ...$patches);
     }
 
-    final protected function createTin(array $coords, CoordinateSystem $cs) : Tin
+    final protected function createTin(array $coords, CoordinateSystem $cs): Tin
     {
         $patches = [];
 
@@ -345,15 +354,15 @@ class AbstractTestCase extends TestCase
      * This allows to write more concise data providers such as [1 2] instead of [1.0, 2.0]
      * while still strictly enforcing that the toArray() methods of the geometries return float values.
      */
-    final protected function castToFloat(array & $coords) : void
+    final protected function castToFloat(array &$coords): void
     {
-        array_walk_recursive($coords, function (& $value) {
+        array_walk_recursive($coords, function (&$value): void {
             $value = (float) $value;
         });
     }
 
     /**
-     * @param Closure():void $closure
+     * @param Closure():void          $closure
      * @param class-string<Throwable> $exceptionClass
      */
     final protected function expectExceptionIn(Closure $closure, string $exceptionClass): void
@@ -363,12 +372,13 @@ class AbstractTestCase extends TestCase
         } catch (Throwable $exception) {
             if ($exception::class === $exceptionClass) {
                 $this->addtoAssertionCount(1);
+
                 return;
             }
 
             throw $exception;
         }
 
-        $this->fail(sprintf('Failed asserting that exception of type "%s" is thrown.', $exceptionClass));
+        self::fail(sprintf('Failed asserting that exception of type "%s" is thrown.', $exceptionClass));
     }
 }

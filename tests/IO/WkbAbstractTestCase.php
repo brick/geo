@@ -11,7 +11,7 @@ use Brick\Geo\Tests\AbstractTestCase;
  */
 abstract class WkbAbstractTestCase extends AbstractTestCase
 {
-    final public static function providerBigEndianWkb() : array
+    final public static function providerBigEndianWkb(): array
     {
         return [
             // Point
@@ -178,7 +178,7 @@ abstract class WkbAbstractTestCase extends AbstractTestCase
         ];
     }
 
-    final public static function providerLittleEndianWkb() : array
+    final public static function providerLittleEndianWkb(): array
     {
         return [
             // Point

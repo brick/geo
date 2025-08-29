@@ -14,7 +14,7 @@ use Override;
 final class EwktWriter extends AbstractWktWriter
 {
     #[Override]
-    public function write(Geometry $geometry) : string
+    public function write(Geometry $geometry): string
     {
         $srid = $geometry->srid();
 

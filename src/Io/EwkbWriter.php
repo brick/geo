@@ -15,7 +15,7 @@ use Override;
 final class EwkbWriter extends AbstractWkbWriter
 {
     #[Override]
-    protected function packHeader(Geometry $geometry, bool $outer) : string
+    protected function packHeader(Geometry $geometry, bool $outer): string
     {
         $geometryType = $geometry->geometryTypeBinary();
 

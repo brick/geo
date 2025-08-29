@@ -8,6 +8,8 @@ use Brick\Geo\CoordinateSystem;
 use Brick\Geo\Point;
 use Override;
 
+use function assert;
+
 /**
  * Removes the Z and/or M coordinates of a geometry.
  */

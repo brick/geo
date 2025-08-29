@@ -6,7 +6,11 @@ namespace Brick\Geo\Tests\IO;
 
 use Brick\Geo\Io\WktReader;
 use Brick\Geo\Io\WktWriter;
+use Generator;
 use PHPUnit\Framework\Attributes\DataProvider;
+
+use function str_replace;
+use function strtolower;
 
 /**
  * Unit tests for class WktReader.
@@ -21,13 +25,13 @@ class WktReaderTest extends WktAbstractTestCase
      * @param int    $srid       The SRID to use.
      */
     #[DataProvider('providerRead')]
-    public function testRead(string $wkt, array $coords, bool $is3D, bool $isMeasured, int $srid) : void
+    public function testRead(string $wkt, array $coords, bool $is3D, bool $isMeasured, int $srid): void
     {
         $geometry = (new WktReader())->read($wkt, $srid);
         $this->assertGeometryContents($geometry, $coords, $is3D, $isMeasured, $srid);
     }
 
-    public static function providerRead() : \Generator
+    public static function providerRead(): Generator
     {
         foreach (self::providerWkt() as [$wkt, $coords, $is3D, $isMeasured]) {
             yield [$wkt, $coords, $is3D, $isMeasured, 0];
@@ -55,7 +59,7 @@ class WktReaderTest extends WktAbstractTestCase
      *
      * The result is still a valid WKT string, that the reader should be able to handle.
      */
-    private static function alter(string $wkt) : string
+    private static function alter(string $wkt): string
     {
         $search = [' ', '(', ')', ','];
         $replace = [];

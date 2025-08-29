@@ -6,6 +6,7 @@ namespace Brick\Geo\Tests\IO;
 
 use Brick\Geo\Io\EwktReader;
 use Brick\Geo\Io\EwktWriter;
+use Generator;
 use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
@@ -21,13 +22,13 @@ class EwktReaderTest extends EwktAbstractTestCase
      * @param int    $srid       The expected SRID.
      */
     #[DataProvider('providerRead')]
-    public function testRead(string $ewkt, array $coords, bool $is3D, bool $isMeasured, int $srid) : void
+    public function testRead(string $ewkt, array $coords, bool $is3D, bool $isMeasured, int $srid): void
     {
         $geometry = (new EwktReader())->read($ewkt);
         $this->assertGeometryContents($geometry, $coords, $is3D, $isMeasured, $srid);
     }
 
-    public static function providerRead() : \Generator
+    public static function providerRead(): Generator
     {
         foreach (self::providerWkt() as [$wkt, $coords, $is3D, $isMeasured]) {
             yield [$wkt, $coords, $is3D, $isMeasured, 0];
@@ -50,7 +51,7 @@ class EwktReaderTest extends EwktAbstractTestCase
         self::assertSame($canonicalEwkt, $wktWriter->write($alternative));
     }
 
-    public static function providerAlternativeSyntax(): \Generator
+    public static function providerAlternativeSyntax(): Generator
     {
         foreach (self::providerAlternativeSyntaxWkt() as [$canonicalWkt, $alternativeWkt]) {
             yield [$canonicalWkt, $alternativeWkt];

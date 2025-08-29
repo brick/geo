@@ -8,6 +8,8 @@ use Brick\Geo\Geometry;
 use Brick\Geo\Io\Internal\Cloner;
 use stdClass;
 
+use function property_exists;
+
 /**
  * A GeoJSON Feature. This class is immutable.
  */
@@ -15,8 +17,6 @@ final class Feature
 {
     /**
      * The contained geometry, or null if this feature is not associated with a geometry.
-     *
-     * @var Geometry|null
      */
     private readonly ?Geometry $geometry;
 
@@ -25,10 +25,6 @@ final class Feature
      */
     private readonly ?stdClass $properties;
 
-    /**
-     * @param Geometry|null $geometry
-     * @param stdClass|null $properties
-     */
     public function __construct(?Geometry $geometry = null, ?stdClass $properties = null)
     {
         $this->geometry = $geometry;

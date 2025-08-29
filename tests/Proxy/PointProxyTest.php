@@ -9,13 +9,15 @@ use Brick\Geo\Proxy\PointProxy;
 use Brick\Geo\Tests\AbstractTestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
 
+use function hex2bin;
+
 /**
  * Unit tests for class PointProxy.
  */
 class PointProxyTest extends AbstractTestCase
 {
     #[DataProvider('providerProxy')]
-    public function testProxy(string $data, bool $isBinary, bool $is3D, bool $isMeasured, array $coords) : void
+    public function testProxy(string $data, bool $isBinary, bool $is3D, bool $isMeasured, array $coords): void
     {
         if ($isBinary) {
             $data = hex2bin($data);
@@ -65,7 +67,7 @@ class PointProxyTest extends AbstractTestCase
         }
     }
 
-    public static function providerProxy() : array
+    public static function providerProxy(): array
     {
         return [
             ['POINT EMPTY', false, false, false, []],
@@ -75,7 +77,7 @@ class PointProxyTest extends AbstractTestCase
         ];
     }
 
-    public function testLoading() : void
+    public function testLoading(): void
     {
         $pointProxy = new PointProxy('POINT(1 2)', false);
 

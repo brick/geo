@@ -4,11 +4,17 @@ declare(strict_types=1);
 
 namespace Brick\Geo\Tests;
 
-use Brick\Geo\Exception\NoSuchGeometryException;
 use Brick\Geo\CoordinateSystem;
+use Brick\Geo\Exception\NoSuchGeometryException;
 use Brick\Geo\Polygon;
 use Brick\Geo\PolyhedralSurface;
+use Countable;
+use Generator;
 use PHPUnit\Framework\Attributes\DataProvider;
+use Traversable;
+
+use function array_map;
+use function iterator_to_array;
 
 /**
  * Unit tests for class PolyhedralSurface.
@@ -22,10 +28,10 @@ class PolyhedralSurfaceTest extends AbstractTestCase
      * @param string   $polyhedralSurfaceWkt The WKT of the expected PolyhedralSurface.
      */
     #[DataProvider('providerCreate')]
-    public function testCreate(array $patchesWkt, bool $is3D, bool $isMeasured, string $polyhedralSurfaceWkt) : void
+    public function testCreate(array $patchesWkt, bool $is3D, bool $isMeasured, string $polyhedralSurfaceWkt): void
     {
         foreach ([0, 1] as $srid) {
-            $instantiatePolygon = fn(string $patch) => Polygon::fromText($patch, $srid);
+            $instantiatePolygon = fn (string $patch) => Polygon::fromText($patch, $srid);
 
             $cs = new CoordinateSystem($is3D, $isMeasured, $srid);
             $polyhedralSurface = new PolyhedralSurface($cs, ...array_map($instantiatePolygon, $patchesWkt));
@@ -33,7 +39,7 @@ class PolyhedralSurfaceTest extends AbstractTestCase
         }
     }
 
-    public static function providerCreate() : array
+    public static function providerCreate(): array
     {
         return [
             [['POLYGON ((0 0, 0 1, 1 1, 1 0, 0 0))', 'POLYGON ((1 0, 1 1, 2 1, 2 0, 1 0))'], false, false, 'POLYHEDRALSURFACE (((0 0, 0 1, 1 1, 1 0, 0 0)), ((1 0, 1 1, 2 1, 2 0, 1 0)))'],
@@ -48,12 +54,12 @@ class PolyhedralSurfaceTest extends AbstractTestCase
      * @param int    $numPatches        The expected number of patches.
      */
     #[DataProvider('providerNumPatches')]
-    public function testNumPatches(string $polyhedralSurface, int $numPatches) : void
+    public function testNumPatches(string $polyhedralSurface, int $numPatches): void
     {
         self::assertSame($numPatches, PolyhedralSurface::fromText($polyhedralSurface)->numPatches());
     }
 
-    public static function providerNumPatches() : array
+    public static function providerNumPatches(): array
     {
         return [
             ['POLYHEDRALSURFACE EMPTY', 0],
@@ -74,7 +80,7 @@ class PolyhedralSurfaceTest extends AbstractTestCase
      * @param int         $srid              The SRID of the geometries.
      */
     #[DataProvider('providerPatchN')]
-    public function testPatchN(string $polyhedralSurface, int $n, ?string $patchN, int $srid) : void
+    public function testPatchN(string $polyhedralSurface, int $n, ?string $patchN, int $srid): void
     {
         if ($patchN === null) {
             $this->expectException(NoSuchGeometryException::class);
@@ -84,7 +90,7 @@ class PolyhedralSurfaceTest extends AbstractTestCase
         $this->assertWktEquals($patch, $patchN, $srid);
     }
 
-    public static function providerPatchN() : \Generator
+    public static function providerPatchN(): Generator
     {
         $tests = [
             ['POLYHEDRALSURFACE EMPTY', [
@@ -141,18 +147,18 @@ class PolyhedralSurfaceTest extends AbstractTestCase
     /**
      * Tests Countable and Traversable interfaces.
      */
-    public function testInterfaces() : void
+    public function testInterfaces(): void
     {
         $polyhedralSurface = PolyhedralSurface::fromText('POLYHEDRALSURFACE(((0 0, 0 1, 1 1, 1 0, 0 0)), ((1 0, 1 1, 2 1, 2 0, 1 0)), ((2 0, 2 1, 3 1, 3 0, 2 0)))');
 
-        self::assertInstanceOf(\Countable::class, $polyhedralSurface);
+        self::assertInstanceOf(Countable::class, $polyhedralSurface);
         self::assertCount(3, $polyhedralSurface);
 
-        self::assertInstanceOf(\Traversable::class, $polyhedralSurface);
+        self::assertInstanceOf(Traversable::class, $polyhedralSurface);
         self::assertSame([
             $polyhedralSurface->patchN(1),
             $polyhedralSurface->patchN(2),
-            $polyhedralSurface->patchN(3)
+            $polyhedralSurface->patchN(3),
         ], iterator_to_array($polyhedralSurface));
     }
 
@@ -164,9 +170,11 @@ class PolyhedralSurfaceTest extends AbstractTestCase
     {
         $polyhedralSurface = PolyhedralSurface::fromText($polyhedralSurfaceWkt, 1234);
         $actual = $polyhedralSurface->withAddedPatches(
-            ...array_map(fn (string $wkt) => Polygon::fromText($wkt, 1234),
-            $addedPatchesWkt,
-        ));
+            ...array_map(
+                fn (string $wkt) => Polygon::fromText($wkt, 1234),
+                $addedPatchesWkt,
+            ),
+        );
 
         $this->assertWktEquals($polyhedralSurface, $polyhedralSurfaceWkt, 1234); // ensure immutability
         $this->assertWktEquals($actual, $expectedWkt, 1234);

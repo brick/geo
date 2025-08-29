@@ -11,7 +11,14 @@ use Brick\Geo\Exception\EmptyGeometryException;
 use Brick\Geo\Exception\InvalidGeometryException;
 use Brick\Geo\Exception\NoSuchGeometryException;
 use Brick\Geo\Projector\Projector;
+use Countable;
+use IteratorAggregate;
 use Override;
+
+use function array_map;
+use function array_reduce;
+use function array_values;
+use function count;
 
 /**
  * A CircularString is a Curve made of zero or more connected circular arc segments.
@@ -19,10 +26,11 @@ use Override;
  * A circular arc segment is a curved segment defined by three points in a two-dimensional plane;
  * the first point cannot be the same as the third point.
  *
- * @template-implements \IteratorAggregate<int<0, max>, Point>
+ * @template-implements IteratorAggregate<int<0, max>, Point>
+ *
  * @final
  */
-class CircularString extends Curve implements \Countable, \IteratorAggregate
+class CircularString extends Curve implements Countable, IteratorAggregate
 {
     /**
      * The Points that compose this CircularString.
@@ -63,19 +71,19 @@ class CircularString extends Curve implements \Countable, \IteratorAggregate
     /**
      * Creates a non-empty CircularString composed of the given points.
      *
-     * @param Point    $point1 The first point.
+     * @param Point $point1    The first point.
      * @param Point ...$pointN The subsequent points.
      *
      * @throws InvalidGeometryException  If the number of points is invalid.
      * @throws CoordinateSystemException If the points use different coordinate systems.
      */
-    public static function of(Point $point1, Point ...$pointN) : CircularString
+    public static function of(Point $point1, Point ...$pointN): CircularString
     {
         return new CircularString($point1->coordinateSystem(), $point1, ...$pointN);
     }
 
     #[Override]
-    public function startPoint() : Point
+    public function startPoint(): Point
     {
         if (count($this->points) === 0) {
             throw new EmptyGeometryException('The CircularString is empty and has no start point.');
@@ -85,7 +93,7 @@ class CircularString extends Curve implements \Countable, \IteratorAggregate
     }
 
     #[Override]
-    public function endPoint() : Point
+    public function endPoint(): Point
     {
         $count = count($this->points);
 
@@ -99,7 +107,7 @@ class CircularString extends Curve implements \Countable, \IteratorAggregate
     /**
      * Returns the number of Points in this CircularString.
      */
-    public function numPoints() : int
+    public function numPoints(): int
     {
         return count($this->points);
     }
@@ -111,7 +119,7 @@ class CircularString extends Curve implements \Countable, \IteratorAggregate
      *
      * @throws NoSuchGeometryException If there is no Point at this index.
      */
-    public function pointN(int $n) : Point
+    public function pointN(int $n): Point
     {
         if (! isset($this->points[$n - 1])) {
             throw new NoSuchGeometryException('There is no Point in this CircularString at index ' . $n);
@@ -125,25 +133,25 @@ class CircularString extends Curve implements \Countable, \IteratorAggregate
      *
      * @return list<Point>
      */
-    public function points() : array
+    public function points(): array
     {
         return $this->points;
     }
 
     #[NoProxy, Override]
-    public function geometryType() : string
+    public function geometryType(): string
     {
         return 'CircularString';
     }
 
     #[NoProxy, Override]
-    public function geometryTypeBinary() : int
+    public function geometryTypeBinary(): int
     {
         return Geometry::CIRCULARSTRING;
     }
 
     #[Override]
-    public function getBoundingBox() : BoundingBox
+    public function getBoundingBox(): BoundingBox
     {
         return array_reduce(
             $this->points,
@@ -156,7 +164,7 @@ class CircularString extends Curve implements \Countable, \IteratorAggregate
      * @return list<list<float>>
      */
     #[Override]
-    public function toArray() : array
+    public function toArray(): array
     {
         return array_map(
             fn (Point $point) => $point->toArray(),
@@ -180,7 +188,7 @@ class CircularString extends Curve implements \Countable, \IteratorAggregate
      * Returns the number of points in this CircularString.
      */
     #[Override]
-    public function count() : int
+    public function count(): int
     {
         return count($this->points);
     }
@@ -191,7 +199,7 @@ class CircularString extends Curve implements \Countable, \IteratorAggregate
      * @return ArrayIterator<int<0, max>, Point>
      */
     #[Override]
-    public function getIterator() : ArrayIterator
+    public function getIterator(): ArrayIterator
     {
         return new ArrayIterator($this->points);
     }

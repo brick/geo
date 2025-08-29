@@ -20,7 +20,7 @@ final class EwkbReader extends AbstractWkbReader
     /**
      * @throws GeometryIoException
      */
-    public function read(string $ewkb) : Geometry
+    public function read(string $ewkb): Geometry
     {
         $buffer = new WkbBuffer($ewkb);
         $geometry = $this->readGeometry($buffer, 0);
@@ -33,7 +33,7 @@ final class EwkbReader extends AbstractWkbReader
     }
 
     #[Override]
-    protected function readGeometryHeader(WkbBuffer $buffer) : WkbGeometryHeader
+    protected function readGeometryHeader(WkbBuffer $buffer): WkbGeometryHeader
     {
         $header = $buffer->readUnsignedLong();
 
@@ -48,8 +48,8 @@ final class EwkbReader extends AbstractWkbReader
         } else {
             $geometryType = $header & 0xFFF;
 
-            $hasZ    = (($header & EwkbTools::Z) !== 0);
-            $hasM    = (($header & EwkbTools::M) !== 0);
+            $hasZ = (($header & EwkbTools::Z) !== 0);
+            $hasM = (($header & EwkbTools::M) !== 0);
             $hasSrid = (($header & EwkbTools::S) !== 0);
 
             if ($hasSrid) {

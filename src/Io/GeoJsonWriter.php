@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Brick\Geo\Io;
 
@@ -11,6 +11,14 @@ use Brick\Geo\GeometryCollection;
 use Brick\Geo\Io\GeoJson\Feature;
 use Brick\Geo\Io\GeoJson\FeatureCollection;
 use stdClass;
+
+use function array_map;
+use function array_merge;
+use function in_array;
+use function json_encode;
+
+use const JSON_PRETTY_PRINT;
+use const JSON_THROW_ON_ERROR;
 
 /**
  * Converter class from Geometry to GeoJSON.
@@ -44,7 +52,7 @@ final class GeoJsonWriter
      *
      * @throws GeometryIoException If the given geometry cannot be exported as GeoJSON.
      */
-    public function write(Geometry|Feature|FeatureCollection $object) : string
+    public function write(Geometry|Feature|FeatureCollection $object): string
     {
         $flags = JSON_THROW_ON_ERROR;
 
@@ -57,8 +65,6 @@ final class GeoJsonWriter
 
     /**
      * Writes the given object as a raw stdClass object that can be JSON-encoded.
-     *
-     * @param Geometry|Feature|FeatureCollection $object
      *
      * @return stdClass An object to be JSON-encoded.
      *
@@ -78,11 +84,12 @@ final class GeoJsonWriter
     }
 
     /**
-     * @psalm-suppress MoreSpecificReturnType
-     * @psalm-suppress LessSpecificReturnStatement
      * @see https://github.com/vimeo/psalm/issues/8187
      *
      * @throws GeometryIoException
+     *
+     * @psalm-suppress MoreSpecificReturnType
+     * @psalm-suppress LessSpecificReturnStatement
      */
     private function writeFeature(Feature $feature): stdClass
     {
@@ -100,7 +107,7 @@ final class GeoJsonWriter
         $result = [
             'type' => 'Feature',
             'properties' => $feature->getProperties(),
-            'geometry' => $geometry
+            'geometry' => $geometry,
         ];
 
         if ($boundingBox !== null && ! $boundingBox->isEmpty()) {
@@ -111,20 +118,21 @@ final class GeoJsonWriter
     }
 
     /**
-     * @psalm-suppress MoreSpecificReturnType
-     * @psalm-suppress LessSpecificReturnStatement
      * @see https://github.com/vimeo/psalm/issues/8187
      *
      * @throws GeometryIoException
+     *
+     * @psalm-suppress MoreSpecificReturnType
+     * @psalm-suppress LessSpecificReturnStatement
      */
     private function writeFeatureCollection(FeatureCollection $featureCollection): stdClass
     {
         $features = $featureCollection->getFeatures();
-        $features = array_map(fn(Feature $feature) => $this->writeFeature($feature), $features);
+        $features = array_map(fn (Feature $feature) => $this->writeFeature($feature), $features);
 
         $result = [
             'type' => 'FeatureCollection',
-            'features' => $features
+            'features' => $features,
         ];
 
         if ($this->setBbox) {
@@ -147,11 +155,12 @@ final class GeoJsonWriter
     }
 
     /**
-     * @psalm-suppress MoreSpecificReturnType
-     * @psalm-suppress LessSpecificReturnStatement
      * @see https://github.com/vimeo/psalm/issues/8187
      *
      * @throws GeometryIoException
+     *
+     * @psalm-suppress MoreSpecificReturnType
+     * @psalm-suppress LessSpecificReturnStatement
      */
     private function writeGeometry(Geometry $geometry): stdClass
     {
@@ -171,7 +180,7 @@ final class GeoJsonWriter
             'Polygon',
             'MultiPoint',
             'MultiLineString',
-            'MultiPolygon'
+            'MultiPolygon',
         ];
 
         if (! in_array($geometryType, $validGeometries, true)) {
@@ -180,7 +189,7 @@ final class GeoJsonWriter
 
         $result = [
             'type' => $geometryType,
-            'coordinates' => $geometry->toArray()
+            'coordinates' => $geometry->toArray(),
         ];
 
         if ($this->setBbox) {
@@ -195,17 +204,18 @@ final class GeoJsonWriter
     }
 
     /**
-     * @psalm-suppress MoreSpecificReturnType
-     * @psalm-suppress LessSpecificReturnStatement
      * @see https://github.com/vimeo/psalm/issues/8187
      *
      * @throws GeometryIoException
+     *
+     * @psalm-suppress MoreSpecificReturnType
+     * @psalm-suppress LessSpecificReturnStatement
      */
     private function writeGeometryCollection(GeometryCollection $geometryCollection): stdClass
     {
         $geometries = $geometryCollection->geometries();
 
-        $geometries = array_map(function(Geometry $geometry) {
+        $geometries = array_map(function (Geometry $geometry) {
             if ($geometry::class === GeometryCollection::class && ! $this->lenient) {
                 throw new GeometryIoException(
                     'GeoJSON does not allow nested GeometryCollections. ' .
@@ -218,7 +228,7 @@ final class GeoJsonWriter
 
         $result = [
             'type' => 'GeometryCollection',
-            'geometries' => $geometries
+            'geometries' => $geometries,
         ];
 
         if ($this->setBbox) {
@@ -236,7 +246,7 @@ final class GeoJsonWriter
     {
         return array_merge(
             $boundingBox->getSouthWest()->toArray(),
-            $boundingBox->getNorthEast()->toArray()
+            $boundingBox->getNorthEast()->toArray(),
         );
     }
 }

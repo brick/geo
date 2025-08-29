@@ -17,7 +17,7 @@ class GeoJsonWriterTest extends GeoJsonAbstractTestCase
     #[DataProvider('providerGeometryGeoJson')]
     #[DataProvider('providerFeatureGeoJson')]
     #[DataProvider('providerFeatureCollectionGeoJson')]
-    public function testWriteGeometry(string $geoJson) : void
+    public function testWriteGeometry(string $geoJson): void
     {
         $geometry = (new GeoJsonReader())->read($geoJson);
         $geometryGeoJson = (new GeoJsonWriter())->write($geometry);
@@ -25,7 +25,7 @@ class GeoJsonWriterTest extends GeoJsonAbstractTestCase
         self::assertSame($geoJson, $geometryGeoJson);
     }
 
-    public function testPrettyPrint() : void
+    public function testPrettyPrint(): void
     {
         $writer = new GeoJsonWriter(prettyPrint: true);
         $geoJsonOutput = $writer->write(Point::xyz(1, 2, 3));
@@ -44,7 +44,7 @@ class GeoJsonWriterTest extends GeoJsonAbstractTestCase
         self::assertSame($expectedGeoJson, $geoJsonOutput);
     }
 
-    public function testWriteGeometryWithM() : void
+    public function testWriteGeometryWithM(): void
     {
         $writer = new GeoJsonWriter(prettyPrint: true);
 
@@ -64,7 +64,7 @@ class GeoJsonWriterTest extends GeoJsonAbstractTestCase
         self::assertSame($expectedGeoJson, $geoJsonOutput);
     }
 
-    public function testWriteGeometryWithBbox() : void
+    public function testWriteGeometryWithBbox(): void
     {
         $writer = new GeoJsonWriter(prettyPrint: true, setBbox: true);
 

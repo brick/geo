@@ -30,8 +30,8 @@ final class GeometryParameter
 
     public function __construct(Geometry $geometry, bool $isBinary)
     {
-        $this->data     = $isBinary ? $geometry->asBinary() : $geometry->asText();
+        $this->data = $isBinary ? $geometry->asBinary() : $geometry->asText();
         $this->isBinary = $isBinary;
-        $this->srid     = $geometry->srid();
+        $this->srid = $geometry->srid();
     }
 }

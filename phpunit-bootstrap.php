@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
+use Brick\Geo\Engine\GeosEngine;
 use Brick\Geo\Engine\GeosOpEngine;
 use Brick\Geo\Engine\PdoEngine;
 use Brick\Geo\Engine\Sqlite3Engine;
-use Brick\Geo\Engine\GeosEngine;
 
 function getOptionalEnv(string $name): ?string
 {
@@ -31,7 +33,7 @@ function getRequiredEnv(string $name): string
     return $value;
 }
 
-(function() {
+(function (): void {
     require 'vendor/autoload.php';
 
     $engine = getOptionalEnv('ENGINE');
@@ -69,6 +71,7 @@ function getRequiredEnv(string $name): string
                 echo 'MySQL version: ', $version, PHP_EOL;
 
                 $engine = new PdoEngine($pdo);
+
                 break;
 
             case 'pdo_pgsql':
@@ -100,6 +103,7 @@ function getRequiredEnv(string $name): string
                 echo 'PostGIS version: ', $version, PHP_EOL;
 
                 $engine = new PdoEngine($pdo);
+
                 break;
 
             case 'sqlite3':
@@ -119,6 +123,7 @@ function getRequiredEnv(string $name): string
                 $sqlite3->exec('SELECT InitSpatialMetaData()');
 
                 $engine = new Sqlite3Engine($sqlite3);
+
                 break;
 
             case 'geos':
@@ -126,6 +131,7 @@ function getRequiredEnv(string $name): string
                 echo 'GEOS version: ', GEOSVersion(), PHP_EOL;
 
                 $engine = new GeosEngine();
+
                 break;
 
             case 'geosop':
@@ -135,6 +141,7 @@ function getRequiredEnv(string $name): string
                 $engine = new GeosOpEngine($geosopPath);
 
                 echo 'geosop version: ', $engine->getGeosOpVersion(), PHP_EOL;
+
                 break;
 
             default:

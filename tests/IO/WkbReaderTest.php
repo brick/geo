@@ -5,7 +5,10 @@ declare(strict_types=1);
 namespace Brick\Geo\Tests\IO;
 
 use Brick\Geo\Io\WkbReader;
+use Generator;
 use PHPUnit\Framework\Attributes\DataProvider;
+
+use function hex2bin;
 
 /**
  * Unit tests for class WkbReader.
@@ -17,7 +20,7 @@ class WkbReaderTest extends WkbAbstractTestCase
      * @param string $wkt The expected WKT output.
      */
     #[DataProvider('providerRead')]
-    public function testRead(string $wkb, string $wkt) : void
+    public function testRead(string $wkb, string $wkt): void
     {
         $reader = new WkbReader();
         $geometry = $reader->read(hex2bin($wkb), 4326);
@@ -26,7 +29,7 @@ class WkbReaderTest extends WkbAbstractTestCase
         self::assertSame(4326, $geometry->srid());
     }
 
-    public static function providerRead() : \Generator
+    public static function providerRead(): Generator
     {
         foreach (self::providerLittleEndianWkb() as [$wkt, $wkb]) {
             yield [$wkb, $wkt];

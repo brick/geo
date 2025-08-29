@@ -42,7 +42,7 @@ class RoundCoordinatesProjectorTest extends AbstractTestCase
         $projector = new RoundCoordinatesProjector(2);
         $targetCoordinateSystem = $projector->getTargetCoordinateSystem($sourceCoordinateSystem);
 
-        $this->assertSame($sourceCoordinateSystem, $targetCoordinateSystem);
+        self::assertSame($sourceCoordinateSystem, $targetCoordinateSystem);
     }
 
     public static function providerGetTargetCoordinateSystem(): array

@@ -23,7 +23,7 @@ final class WkbReader extends AbstractWkbReader
      *
      * @throws GeometryIoException
      */
-    public function read(string $wkb, int $srid = 0) : Geometry
+    public function read(string $wkb, int $srid = 0): Geometry
     {
         $buffer = new WkbBuffer($wkb);
         $geometry = $this->readGeometry($buffer, $srid);
@@ -45,7 +45,7 @@ final class WkbReader extends AbstractWkbReader
      *
      * @throws GeometryIoException
      */
-    public function readAsProxy(string $wkb, int $srid = 0) : Geometry
+    public function readAsProxy(string $wkb, int $srid = 0): Geometry
     {
         $buffer = new WkbBuffer($wkb);
         $buffer->readByteOrder();
@@ -70,7 +70,7 @@ final class WkbReader extends AbstractWkbReader
     }
 
     #[Override]
-    protected function readGeometryHeader(WkbBuffer $buffer) : WkbGeometryHeader
+    protected function readGeometryHeader(WkbBuffer $buffer): WkbGeometryHeader
     {
         $wkbType = $buffer->readUnsignedLong();
 

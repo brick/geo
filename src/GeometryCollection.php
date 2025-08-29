@@ -10,7 +10,14 @@ use Brick\Geo\Exception\CoordinateSystemException;
 use Brick\Geo\Exception\NoSuchGeometryException;
 use Brick\Geo\Exception\UnexpectedGeometryException;
 use Brick\Geo\Projector\Projector;
+use Countable;
+use IteratorAggregate;
 use Override;
+
+use function array_map;
+use function array_values;
+use function count;
+use function sprintf;
 
 /**
  * A GeometryCollection is a geometric object that is a collection of some number of geometric objects.
@@ -27,9 +34,10 @@ use Override;
  * geometric-defined operations.
  *
  * @template T of Geometry
- * @template-implements \IteratorAggregate<int<0, max>, T>
+ *
+ * @template-implements IteratorAggregate<int<0, max>, T>
  */
-class GeometryCollection extends Geometry implements \Countable, \IteratorAggregate
+class GeometryCollection extends Geometry implements Countable, IteratorAggregate
 {
     /**
      * The geometries that compose this GeometryCollection.
@@ -53,6 +61,7 @@ class GeometryCollection extends Geometry implements \Countable, \IteratorAggreg
         foreach ($geometries as $geometry) {
             if (! $geometry->isEmpty()) {
                 $isEmpty = false;
+
                 break;
             }
         }
@@ -77,7 +86,7 @@ class GeometryCollection extends Geometry implements \Countable, \IteratorAggreg
                     '%s expects instance of %s, instance of %s given.',
                     static::class,
                     $containedGeometryType,
-                    $geometry::class
+                    $geometry::class,
                 ));
             }
         }
@@ -88,17 +97,17 @@ class GeometryCollection extends Geometry implements \Countable, \IteratorAggreg
     /**
      * Creates a non-empty GeometryCollection composed of the given geometries.
      *
-     * @psalm-suppress UnsafeInstantiation
-     *
-     * @param Geometry    $geometry1 The first geometry.
+     * @param Geometry $geometry1    The first geometry.
      * @param Geometry ...$geometryN The subsequent geometries, if any.
      *
      * @return static
      *
      * @throws CoordinateSystemException   If the geometries use different coordinate systems.
      * @throws UnexpectedGeometryException If a geometry is not a valid type for a subclass of GeometryCollection.
+     *
+     * @psalm-suppress UnsafeInstantiation
      */
-    public static function of(Geometry $geometry1, Geometry ...$geometryN) : GeometryCollection
+    public static function of(Geometry $geometry1, Geometry ...$geometryN): GeometryCollection
     {
         return new static($geometry1->coordinateSystem(), $geometry1, ...$geometryN);
     }
@@ -106,7 +115,7 @@ class GeometryCollection extends Geometry implements \Countable, \IteratorAggreg
     /**
      * Returns the number of geometries in this GeometryCollection.
      */
-    public function numGeometries() : int
+    public function numGeometries(): int
     {
         return count($this->geometries);
     }
@@ -120,7 +129,7 @@ class GeometryCollection extends Geometry implements \Countable, \IteratorAggreg
      *
      * @throws NoSuchGeometryException If there is no Geometry at this index.
      */
-    public function geometryN(int $n) : Geometry
+    public function geometryN(int $n): Geometry
     {
         if (! isset($this->geometries[$n - 1])) {
             throw new NoSuchGeometryException('There is no Geometry in this GeometryCollection at index ' . $n);
@@ -134,25 +143,25 @@ class GeometryCollection extends Geometry implements \Countable, \IteratorAggreg
      *
      * @return list<T>
      */
-    public function geometries() : array
+    public function geometries(): array
     {
         return $this->geometries;
     }
 
     #[NoProxy, Override]
-    public function geometryType() : string
+    public function geometryType(): string
     {
         return 'GeometryCollection';
     }
 
     #[NoProxy, Override]
-    public function geometryTypeBinary() : int
+    public function geometryTypeBinary(): int
     {
         return Geometry::GEOMETRYCOLLECTION;
     }
 
     #[Override]
-    public function dimension() : int
+    public function dimension(): int
     {
         $dimension = 0;
 
@@ -168,7 +177,7 @@ class GeometryCollection extends Geometry implements \Countable, \IteratorAggreg
     }
 
     #[Override]
-    public function getBoundingBox() : BoundingBox
+    public function getBoundingBox(): BoundingBox
     {
         $boundingBox = BoundingBox::new();
 
@@ -180,7 +189,7 @@ class GeometryCollection extends Geometry implements \Countable, \IteratorAggreg
     }
 
     #[Override]
-    public function toArray() : array
+    public function toArray(): array
     {
         return array_map(
             fn (Geometry $geometry) => $geometry->toArray(),
@@ -204,7 +213,7 @@ class GeometryCollection extends Geometry implements \Countable, \IteratorAggreg
      * Returns the number of geometries in this GeometryCollection.
      */
     #[Override]
-    public function count() : int
+    public function count(): int
     {
         return count($this->geometries);
     }
@@ -215,9 +224,23 @@ class GeometryCollection extends Geometry implements \Countable, \IteratorAggreg
      * @return ArrayIterator<int<0, max>, T>
      */
     #[Override]
-    public function getIterator() : ArrayIterator
+    public function getIterator(): ArrayIterator
     {
         return new ArrayIterator($this->geometries);
+    }
+
+    /**
+     * Returns a copy of this GeometryCollection, with the given geometries added.
+     *
+     * @param T ...$geometries
+     *
+     * @return GeometryCollection<T>
+     *
+     * @psalm-suppress UnsafeInstantiation
+     */
+    public function withAddedGeometries(Geometry ...$geometries): GeometryCollection
+    {
+        return new static($this->coordinateSystem, ...$this->geometries, ...$geometries);
     }
 
     /**
@@ -225,22 +248,8 @@ class GeometryCollection extends Geometry implements \Countable, \IteratorAggreg
      *
      * @return class-string<T>
      */
-    protected function containedGeometryType() : string
+    protected function containedGeometryType(): string
     {
         return Geometry::class;
-    }
-
-    /**
-     * Returns a copy of this GeometryCollection, with the given geometries added.
-     *
-     * @psalm-suppress UnsafeInstantiation
-     *
-     * @param T ...$geometries
-     *
-     * @return GeometryCollection<T>
-     */
-    public function withAddedGeometries(Geometry ...$geometries): GeometryCollection
-    {
-        return new static($this->coordinateSystem, ...$this->geometries, ...$geometries);
     }
 }

@@ -9,40 +9,41 @@ use Brick\Geo\Exception\CoordinateSystemException;
 use Brick\Geo\Exception\GeometryIoException;
 use Brick\Geo\Exception\InvalidGeometryException;
 use Brick\Geo\Exception\UnexpectedGeometryException;
-use Brick\Geo\Io\WktReader;
-use Brick\Geo\Io\WktWriter;
 use Brick\Geo\Io\WkbReader;
 use Brick\Geo\Io\WkbWriter;
+use Brick\Geo\Io\WktReader;
+use Brick\Geo\Io\WktWriter;
 use Brick\Geo\Projector\Projector;
 use Brick\Geo\Projector\RemoveZmProjector;
 use Brick\Geo\Projector\RoundCoordinatesProjector;
 use Brick\Geo\Projector\SridProjector;
 use Brick\Geo\Projector\SwapXyProjector;
 use Override;
+use Stringable;
 
 /**
  * Geometry is the root class of the hierarchy.
  */
-abstract class Geometry implements \Stringable
+abstract class Geometry implements Stringable
 {
-    final public const GEOMETRY           = 0;
-    final public const POINT              = 1;
-    final public const LINESTRING         = 2;
-    final public const POLYGON            = 3;
-    final public const MULTIPOINT         = 4;
-    final public const MULTILINESTRING    = 5;
-    final public const MULTIPOLYGON       = 6;
+    final public const GEOMETRY = 0;
+    final public const POINT = 1;
+    final public const LINESTRING = 2;
+    final public const POLYGON = 3;
+    final public const MULTIPOINT = 4;
+    final public const MULTILINESTRING = 5;
+    final public const MULTIPOLYGON = 6;
     final public const GEOMETRYCOLLECTION = 7;
-    final public const CIRCULARSTRING     = 8;
-    final public const COMPOUNDCURVE      = 9;
-    final public const CURVEPOLYGON       = 10;
-    final public const MULTICURVE         = 11;
-    final public const MULTISURFACE       = 12;
-    final public const CURVE              = 13;
-    final public const SURFACE            = 14;
-    final public const POLYHEDRALSURFACE  = 15;
-    final public const TIN                = 16;
-    final public const TRIANGLE           = 17;
+    final public const CIRCULARSTRING = 8;
+    final public const COMPOUNDCURVE = 9;
+    final public const CURVEPOLYGON = 10;
+    final public const MULTICURVE = 11;
+    final public const MULTISURFACE = 12;
+    final public const CURVE = 13;
+    final public const SURFACE = 14;
+    final public const POLYHEDRALSURFACE = 15;
+    final public const TIN = 16;
+    final public const TRIANGLE = 17;
 
     /**
      * The coordinate system of this geometry.
@@ -61,7 +62,7 @@ abstract class Geometry implements \Stringable
     protected function __construct(CoordinateSystem $coordinateSystem, bool $isEmpty)
     {
         $this->coordinateSystem = $coordinateSystem;
-        $this->isEmpty          = $isEmpty;
+        $this->isEmpty = $isEmpty;
     }
 
     /**
@@ -80,7 +81,7 @@ abstract class Geometry implements \Stringable
      * @throws InvalidGeometryException    If the WKT represents an invalid geometry.
      * @throws UnexpectedGeometryException If the resulting geometry is not an instance of the current class.
      */
-    public static function fromText(string $wkt, int $srid = 0) : Geometry
+    public static function fromText(string $wkt, int $srid = 0): Geometry
     {
         /** @var WktReader|null $wktReader */
         static $wktReader;
@@ -114,7 +115,7 @@ abstract class Geometry implements \Stringable
      * @throws InvalidGeometryException    If the WKB represents an invalid geometry.
      * @throws UnexpectedGeometryException If the resulting geometry is not an instance of the current class.
      */
-    public static function fromBinary(string $wkb, int $srid = 0) : Geometry
+    public static function fromBinary(string $wkb, int $srid = 0): Geometry
     {
         /** @var WkbReader|null $wkbReader */
         static $wkbReader;
@@ -138,7 +139,7 @@ abstract class Geometry implements \Stringable
      * This dimension must be less than or equal to the coordinate dimension.
      * In non-homogeneous collections, this will return the largest topological dimension of the contained objects.
      */
-    abstract public function dimension() : int;
+    abstract public function dimension(): int;
 
     /**
      * Returns the coordinate dimension of this geometry.
@@ -150,7 +151,7 @@ abstract class Geometry implements \Stringable
      *
      * @return int<2, 4>
      */
-    public function coordinateDimension() : int
+    public function coordinateDimension(): int
     {
         return $this->coordinateSystem->coordinateDimension();
     }
@@ -165,7 +166,7 @@ abstract class Geometry implements \Stringable
      *
      * @return int<2, 3>
      */
-    public function spatialDimension() : int
+    public function spatialDimension(): int
     {
         return $this->coordinateSystem->spatialDimension();
     }
@@ -173,9 +174,9 @@ abstract class Geometry implements \Stringable
     /**
      * Returns the name of the instantiable subtype of Geometry of which this Geometry is an instantiable member.
      */
-    abstract public function geometryType() : string;
+    abstract public function geometryType(): string;
 
-    abstract public function geometryTypeBinary() : int;
+    abstract public function geometryTypeBinary(): int;
 
     /**
      * Returns the Spatial Reference System ID for this geometry.
@@ -183,7 +184,7 @@ abstract class Geometry implements \Stringable
      * @return int The SRID, zero if not set.
      */
     #[NoProxy]
-    public function srid() : int
+    public function srid(): int
     {
         return $this->coordinateSystem->srid();
     }
@@ -192,7 +193,7 @@ abstract class Geometry implements \Stringable
      * Returns the WKT representation of this geometry.
      */
     #[NoProxy]
-    public function asText() : string
+    public function asText(): string
     {
         /** @var WktWriter|null $wktWriter */
         static $wktWriter;
@@ -208,7 +209,7 @@ abstract class Geometry implements \Stringable
      * Returns the WKB representation of this geometry.
      */
     #[NoProxy]
-    public function asBinary() : string
+    public function asBinary(): string
     {
         /** @var WkbWriter|null $wkbWriter */
         static $wkbWriter;
@@ -225,7 +226,7 @@ abstract class Geometry implements \Stringable
      *
      * If true, then this geometry represents the empty point set for the coordinate space.
      */
-    public function isEmpty() : bool
+    public function isEmpty(): bool
     {
         return $this->isEmpty;
     }
@@ -233,7 +234,7 @@ abstract class Geometry implements \Stringable
     /**
      * Returns whether this geometry has z coordinate values.
      */
-    public function is3D() : bool
+    public function is3D(): bool
     {
         return $this->coordinateSystem->hasZ();
     }
@@ -241,7 +242,7 @@ abstract class Geometry implements \Stringable
     /**
      * Returns whether this geometry has m coordinate values.
      */
-    public function isMeasured() : bool
+    public function isMeasured(): bool
     {
         return $this->coordinateSystem->hasM();
     }
@@ -249,7 +250,7 @@ abstract class Geometry implements \Stringable
     /**
      * Returns the coordinate system of this geometry.
      */
-    public function coordinateSystem() : CoordinateSystem
+    public function coordinateSystem(): CoordinateSystem
     {
         return $this->coordinateSystem;
     }
@@ -262,7 +263,7 @@ abstract class Geometry implements \Stringable
      *
      * @return static
      */
-    public function withSrid(int $srid) : Geometry
+    public function withSrid(int $srid): Geometry
     {
         if ($srid === $this->srid()) {
             return $this;
@@ -290,7 +291,7 @@ abstract class Geometry implements \Stringable
      *
      * @return static
      */
-    public function withoutZ() : Geometry
+    public function withoutZ(): Geometry
     {
         if (! $this->coordinateSystem->hasZ()) {
             return $this;
@@ -304,7 +305,7 @@ abstract class Geometry implements \Stringable
      *
      * @return static
      */
-    public function withoutM() : Geometry
+    public function withoutM(): Geometry
     {
         if (! $this->coordinateSystem->hasM()) {
             return $this;
@@ -326,7 +327,7 @@ abstract class Geometry implements \Stringable
     /**
      * Returns the bounding box of the Geometry.
      */
-    abstract public function getBoundingBox() : BoundingBox;
+    abstract public function getBoundingBox(): BoundingBox;
 
     /**
      * Returns the raw coordinates of this geometry as an array.
@@ -342,14 +343,14 @@ abstract class Geometry implements \Stringable
      *
      * @return list<mixed>
      */
-    abstract public function toArray() : array;
+    abstract public function toArray(): array;
 
     /**
      * Returns a copy of this Geometry, with the X and Y coordinates swapped.
      *
      * @return static
      */
-    public function swapXy() : Geometry
+    public function swapXy(): Geometry
     {
         return $this->project(new SwapXyProjector());
     }
@@ -368,7 +369,7 @@ abstract class Geometry implements \Stringable
      * This is different from the concept of spatially equal; if you need to check for spatial equality,
      * please see `GeometryEngine::equals()` instead.
      */
-    public function isIdenticalTo(Geometry $that) : bool
+    public function isIdenticalTo(Geometry $that): bool
     {
         return $this->srid() === $that->srid() && $this->asText() === $that->asText();
     }
@@ -377,7 +378,7 @@ abstract class Geometry implements \Stringable
      * Returns a text representation of this geometry.
      */
     #[NoProxy, Override]
-    final public function __toString() : string
+    final public function __toString(): string
     {
         return $this->asText();
     }

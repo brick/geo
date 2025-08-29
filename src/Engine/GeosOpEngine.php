@@ -16,6 +16,19 @@ use Brick\Geo\Point;
 use Brick\Geo\Surface;
 use Override;
 
+use function error_reporting;
+use function explode;
+use function fclose;
+use function is_numeric;
+use function is_resource;
+use function is_string;
+use function preg_match;
+use function proc_close;
+use function proc_open;
+use function rtrim;
+use function sprintf;
+use function stream_get_contents;
+
 /**
  * GeometryEngine implementation based on the geosop binary.
  *
@@ -30,80 +43,80 @@ final class GeosOpEngine implements GeometryEngine
     }
 
     #[Override]
-    public function union(Geometry $a, Geometry $b) : Geometry
+    public function union(Geometry $a, Geometry $b): Geometry
     {
         return $this->queryGeometry('union', [$a, $b], Geometry::class);
     }
 
     #[Override]
-    public function difference(Geometry $a, Geometry $b) : Geometry
+    public function difference(Geometry $a, Geometry $b): Geometry
     {
         return $this->queryGeometry('difference', [$a, $b], Geometry::class);
     }
 
     #[Override]
-    public function envelope(Geometry $g) : Geometry
+    public function envelope(Geometry $g): Geometry
     {
         return $this->queryGeometry('envelope', [$g], Geometry::class);
     }
 
     #[Override]
-    public function length(Curve|MultiCurve $g) : float
+    public function length(Curve|MultiCurve $g): float
     {
         return $this->queryFloat('length', [$g]);
     }
 
     #[Override]
-    public function area(Surface|MultiSurface $g) : float
+    public function area(Surface|MultiSurface $g): float
     {
         // geosop does have an area operation, but it is broken (return a geometry).
         throw GeometryEngineException::unimplementedMethod(__METHOD__);
     }
 
     #[Override]
-    public function azimuth(Point $observer, Point $subject) : float
+    public function azimuth(Point $observer, Point $subject): float
     {
         throw GeometryEngineException::unimplementedMethod(__METHOD__);
     }
 
     #[Override]
-    public function centroid(Geometry $g) : Point
+    public function centroid(Geometry $g): Point
     {
         return $this->queryGeometry('centroid', [$g], Point::class);
     }
 
     #[Override]
-    public function pointOnSurface(Surface|MultiSurface $g) : Point
+    public function pointOnSurface(Surface|MultiSurface $g): Point
     {
         throw GeometryEngineException::unimplementedMethod(__METHOD__);
     }
 
     #[Override]
-    public function boundary(Geometry $g) : Geometry
+    public function boundary(Geometry $g): Geometry
     {
         return $this->queryGeometry('boundary', [$g], Geometry::class);
     }
 
     #[Override]
-    public function isValid(Geometry $g) : bool
+    public function isValid(Geometry $g): bool
     {
         return $this->queryBoolean('isValid', [$g]);
     }
 
     #[Override]
-    public function isClosed(Geometry $g) : bool
+    public function isClosed(Geometry $g): bool
     {
         throw GeometryEngineException::unimplementedMethod(__METHOD__);
     }
 
     #[Override]
-    public function isSimple(Geometry $g) : bool
+    public function isSimple(Geometry $g): bool
     {
         return $this->queryBoolean('isSimple', [$g]);
     }
 
     #[Override]
-    public function isRing(Curve $curve) : bool
+    public function isRing(Curve $curve): bool
     {
         throw GeometryEngineException::unimplementedMethod(__METHOD__);
     }
@@ -115,92 +128,92 @@ final class GeosOpEngine implements GeometryEngine
     }
 
     #[Override]
-    public function equals(Geometry $a, Geometry $b) : bool
+    public function equals(Geometry $a, Geometry $b): bool
     {
         return $this->queryBoolean('equals', [$a, $b]);
     }
 
     #[Override]
-    public function disjoint(Geometry $a, Geometry $b) : bool
+    public function disjoint(Geometry $a, Geometry $b): bool
     {
         return $this->queryBoolean('disjoint', [$a, $b]);
     }
 
     #[Override]
-    public function intersects(Geometry $a, Geometry $b) : bool
+    public function intersects(Geometry $a, Geometry $b): bool
     {
         return $this->queryBoolean('intersects', [$a, $b]);
     }
 
     #[Override]
-    public function touches(Geometry $a, Geometry $b) : bool
+    public function touches(Geometry $a, Geometry $b): bool
     {
         return $this->queryBoolean('touches', [$a, $b]);
     }
 
     #[Override]
-    public function crosses(Geometry $a, Geometry $b) : bool
+    public function crosses(Geometry $a, Geometry $b): bool
     {
         return $this->queryBoolean('crosses', [$a, $b]);
     }
 
     #[Override]
-    public function within(Geometry $a, Geometry $b) : bool
+    public function within(Geometry $a, Geometry $b): bool
     {
         return $this->queryBoolean('within', [$a, $b]);
     }
 
     #[Override]
-    public function contains(Geometry $a, Geometry $b) : bool
+    public function contains(Geometry $a, Geometry $b): bool
     {
         return $this->queryBoolean('contains', [$a, $b]);
     }
 
     #[Override]
-    public function overlaps(Geometry $a, Geometry $b) : bool
+    public function overlaps(Geometry $a, Geometry $b): bool
     {
         return $this->queryBoolean('overlaps', [$a, $b]);
     }
 
     #[Override]
-    public function relate(Geometry $a, Geometry $b, string $matrix) : bool
+    public function relate(Geometry $a, Geometry $b, string $matrix): bool
     {
         // geosop has a relate operation, but no support for matrix.
         throw GeometryEngineException::unimplementedMethod(__METHOD__);
     }
 
     #[Override]
-    public function locateAlong(Geometry $g, float $mValue) : Geometry
+    public function locateAlong(Geometry $g, float $mValue): Geometry
     {
         throw GeometryEngineException::unimplementedMethod(__METHOD__);
     }
 
     #[Override]
-    public function locateBetween(Geometry $g, float $mStart, float $mEnd) : Geometry
+    public function locateBetween(Geometry $g, float $mStart, float $mEnd): Geometry
     {
         throw GeometryEngineException::unimplementedMethod(__METHOD__);
     }
 
     #[Override]
-    public function distance(Geometry $a, Geometry $b) : float
+    public function distance(Geometry $a, Geometry $b): float
     {
         return $this->queryFloat('distance', [$a, $b]);
     }
 
     #[Override]
-    public function buffer(Geometry $g, float $distance) : Geometry
+    public function buffer(Geometry $g, float $distance): Geometry
     {
         return $this->queryGeometry('buffer', [$g, $distance], Geometry::class);
     }
 
     #[Override]
-    public function convexHull(Geometry $g) : Geometry
+    public function convexHull(Geometry $g): Geometry
     {
         return $this->queryGeometry('convexHull', [$g], Geometry::class);
     }
 
     #[Override]
-    public function concaveHull(Geometry $g, float $convexity, bool $allowHoles) : Geometry
+    public function concaveHull(Geometry $g, float $convexity, bool $allowHoles): Geometry
     {
         if ($allowHoles) {
             throw new GeometryEngineException('geosop does not support concaveHull with holes.');
@@ -210,56 +223,56 @@ final class GeosOpEngine implements GeometryEngine
     }
 
     #[Override]
-    public function intersection(Geometry $a, Geometry $b) : Geometry
+    public function intersection(Geometry $a, Geometry $b): Geometry
     {
         return $this->queryGeometry('intersection', [$a, $b], Geometry::class);
     }
 
     #[Override]
-    public function symDifference(Geometry $a, Geometry $b) : Geometry
+    public function symDifference(Geometry $a, Geometry $b): Geometry
     {
         return $this->queryGeometry('symDifference', [$a, $b], Geometry::class);
     }
 
     #[Override]
-    public function snapToGrid(Geometry $g, float $size) : Geometry
+    public function snapToGrid(Geometry $g, float $size): Geometry
     {
         throw GeometryEngineException::unimplementedMethod(__METHOD__);
     }
 
     #[Override]
-    public function simplify(Geometry $g, float $tolerance) : Geometry
+    public function simplify(Geometry $g, float $tolerance): Geometry
     {
         throw GeometryEngineException::unimplementedMethod(__METHOD__);
     }
 
     #[Override]
-    public function maxDistance(Geometry $a, Geometry $b) : float
+    public function maxDistance(Geometry $a, Geometry $b): float
     {
         throw GeometryEngineException::unimplementedMethod(__METHOD__);
     }
 
     #[Override]
-    public function transform(Geometry $g, int $srid) : Geometry
+    public function transform(Geometry $g, int $srid): Geometry
     {
         throw GeometryEngineException::unimplementedMethod(__METHOD__);
     }
 
     #[Override]
-    public function split(Geometry $g, Geometry $blade) : Geometry
+    public function split(Geometry $g, Geometry $blade): Geometry
     {
         throw GeometryEngineException::unimplementedMethod(__METHOD__);
     }
 
     #[Override]
-    public function lineInterpolatePoint(LineString $lineString, float $fraction) : Point
+    public function lineInterpolatePoint(LineString $lineString, float $fraction): Point
     {
         // Unlike the GEOS PHP extension, interpolate has no support normalized=true, which we need here.
         throw GeometryEngineException::unimplementedMethod(__METHOD__);
     }
 
     #[Override]
-    public function lineInterpolatePoints(LineString $lineString, float $fraction) : MultiPoint
+    public function lineInterpolatePoints(LineString $lineString, float $fraction): MultiPoint
     {
         throw GeometryEngineException::unimplementedMethod(__METHOD__);
     }
@@ -289,7 +302,7 @@ final class GeosOpEngine implements GeometryEngine
      *
      * @throws GeometryEngineException
      */
-    private function execute(array $arguments) : string
+    private function execute(array $arguments): string
     {
         $descriptors = [
             1 => ['pipe', 'w'], // stdout
@@ -303,7 +316,7 @@ final class GeosOpEngine implements GeometryEngine
             $command = [$this->geosopPath, ...$arguments];
             $process = proc_open($command, $descriptors, $pipes);
 
-            if (!is_resource($process)) {
+            if (! is_resource($process)) {
                 throw new GeometryEngineException("Failed to run geosop at path: $this->geosopPath");
             }
 
@@ -345,12 +358,12 @@ final class GeosOpEngine implements GeometryEngine
     }
 
     /**
-     * @param 'wkt'|'txt' $format
+     * @param 'wkt'|'txt'                 $format
      * @param list<Geometry|string|float> $arguments
      *
      * @throws GeometryEngineException
      */
-    private function query(string $operation, array $arguments, string $format) : string
+    private function query(string $operation, array $arguments, string $format): string
     {
         $arguments = $this->buildArguments($operation, $format, $arguments);
 
@@ -371,7 +384,7 @@ final class GeosOpEngine implements GeometryEngine
      * ('union', 'wkt', [Geometry, Geometry]) => ['-f', 'wkt', '-a', 'WKT of Geometry 1', '-b', 'WKT of Geometry 2', 'union']
      * ('buffer', 'txt', [Geometry, float]) => ['-f', 'txt', '-a', 'WKT of Geometry', 'buffer', 'float as string']
      *
-     * @param 'wkt'|'txt' $format
+     * @param 'wkt'|'txt'                 $format
      * @param list<Geometry|string|float> $arguments
      *
      * @return list<string>
@@ -405,13 +418,13 @@ final class GeosOpEngine implements GeometryEngine
      * @template T of Geometry
      *
      * @param list<Geometry|string|float> $arguments
-     * @param class-string<T> $geometryClass
+     * @param class-string<T>             $geometryClass
      *
      * @return T
      *
      * @throws GeometryEngineException
      */
-    private function queryGeometry(string $operation, array $arguments, string $geometryClass) : Geometry
+    private function queryGeometry(string $operation, array $arguments, string $geometryClass): Geometry
     {
         $output = $this->query($operation, $arguments, 'wkt');
 
@@ -427,7 +440,7 @@ final class GeosOpEngine implements GeometryEngine
      *
      * @throws GeometryEngineException
      */
-    private function queryBoolean(string $operation, array $arguments) : bool
+    private function queryBoolean(string $operation, array $arguments): bool
     {
         $output = $this->query($operation, $arguments, 'txt');
 
@@ -446,7 +459,7 @@ final class GeosOpEngine implements GeometryEngine
      *
      * @throws GeometryEngineException
      */
-    private function queryFloat(string $operation, array $arguments) : float
+    private function queryFloat(string $operation, array $arguments): float
     {
         $output = $this->query($operation, $arguments, 'txt');
 

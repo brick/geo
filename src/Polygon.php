@@ -11,7 +11,15 @@ use Brick\Geo\Exception\EmptyGeometryException;
 use Brick\Geo\Exception\InvalidGeometryException;
 use Brick\Geo\Exception\NoSuchGeometryException;
 use Brick\Geo\Projector\Projector;
+use Countable;
+use IteratorAggregate;
 use Override;
+
+use function array_map;
+use function array_reduce;
+use function array_slice;
+use function array_values;
+use function count;
 
 /**
  * A Polygon is a planar Surface defined by 1 exterior boundary and 0 or more interior boundaries.
@@ -36,9 +44,9 @@ use Override;
  * In the above assertions, interior, closure and exterior have the standard topological definitions. The combination
  * of (a) and (c) makes a Polygon a regular closed Point set. Polygons are simple geometric objects.
  *
- * @template-implements \IteratorAggregate<int<0, max>, LineString>
+ * @template-implements IteratorAggregate<int<0, max>, LineString>
  */
-class Polygon extends Surface implements \Countable, \IteratorAggregate
+class Polygon extends Surface implements Countable, IteratorAggregate
 {
     /**
      * The rings that compose this polygon.
@@ -77,24 +85,17 @@ class Polygon extends Surface implements \Countable, \IteratorAggregate
     }
 
     /**
-     * Can be overridden by subclasses to validate constraints.
-     */
-    protected function validate(): void
-    {
-    }
-
-    /**
      * Creates a non-empty Polygon composed of the given rings.
      *
-     * @psalm-suppress UnsafeInstantiation
-     *
-     * @param LineString    $exteriorRing  The exterior ring.
+     * @param LineString $exteriorRing     The exterior ring.
      * @param LineString ...$interiorRings The interior rings, if any.
      *
      * @throws InvalidGeometryException  If the resulting geometry is not valid for a sub-type of Polygon.
      * @throws CoordinateSystemException If the rings use different coordinate systems.
+     *
+     * @psalm-suppress UnsafeInstantiation
      */
-    public static function of(LineString $exteriorRing, LineString ...$interiorRings) : Polygon
+    public static function of(LineString $exteriorRing, LineString ...$interiorRings): Polygon
     {
         return new static($exteriorRing->coordinateSystem(), $exteriorRing, ...$interiorRings);
     }
@@ -116,7 +117,7 @@ class Polygon extends Surface implements \Countable, \IteratorAggregate
      *
      * @throws EmptyGeometryException
      */
-    public function exteriorRing() : LineString
+    public function exteriorRing(): LineString
     {
         if ($this->isEmpty) {
             throw new EmptyGeometryException('An empty Polygon has no exterior ring.');
@@ -128,7 +129,7 @@ class Polygon extends Surface implements \Countable, \IteratorAggregate
     /**
      * Returns the number of interior rings in this Polygon.
      */
-    public function numInteriorRings() : int
+    public function numInteriorRings(): int
     {
         if ($this->isEmpty) {
             return 0;
@@ -144,7 +145,7 @@ class Polygon extends Surface implements \Countable, \IteratorAggregate
      *
      * @throws NoSuchGeometryException If there is no interior ring at this index.
      */
-    public function interiorRingN(int $n) : LineString
+    public function interiorRingN(int $n): LineString
     {
         if ($n === 0 || ! isset($this->rings[$n])) {
             throw new NoSuchGeometryException('There is no interior ring in this Polygon at index ' . $n);
@@ -158,30 +159,30 @@ class Polygon extends Surface implements \Countable, \IteratorAggregate
      *
      * @return LineString[]
      */
-    public function interiorRings() : array
+    public function interiorRings(): array
     {
         return array_slice($this->rings, 1);
     }
 
     #[NoProxy, Override]
-    public function geometryType() : string
+    public function geometryType(): string
     {
         return 'Polygon';
     }
 
     #[NoProxy, Override]
-    public function geometryTypeBinary() : int
+    public function geometryTypeBinary(): int
     {
         return Geometry::POLYGON;
     }
 
     #[Override]
-    public function getBoundingBox() : BoundingBox
+    public function getBoundingBox(): BoundingBox
     {
         return array_reduce(
             $this->rings,
             fn (BoundingBox $boundingBox, LineString $ring) => $boundingBox->extendedWithBoundingBox($ring->getBoundingBox()),
-            BoundingBox::new()
+            BoundingBox::new(),
         );
     }
 
@@ -189,7 +190,7 @@ class Polygon extends Surface implements \Countable, \IteratorAggregate
      * @return list<list<list<float>>>
      */
     #[Override]
-    public function toArray() : array
+    public function toArray(): array
     {
         return array_map(
             fn (LineString $ring) => $ring->toArray(),
@@ -213,7 +214,7 @@ class Polygon extends Surface implements \Countable, \IteratorAggregate
      * Returns the number of rings (exterior + interior) in this Polygon.
      */
     #[Override]
-    public function count() : int
+    public function count(): int
     {
         return count($this->rings);
     }
@@ -224,7 +225,7 @@ class Polygon extends Surface implements \Countable, \IteratorAggregate
      * @return ArrayIterator<int<0, max>, LineString>
      */
     #[Override]
-    public function getIterator() : ArrayIterator
+    public function getIterator(): ArrayIterator
     {
         return new ArrayIterator($this->rings);
     }
@@ -234,7 +235,7 @@ class Polygon extends Surface implements \Countable, \IteratorAggregate
      *
      * @psalm-suppress UnsafeInstantiation
      */
-    public function withExteriorRing(LineString $exteriorRing) : Polygon
+    public function withExteriorRing(LineString $exteriorRing): Polygon
     {
         return new static($this->coordinateSystem, $exteriorRing, ...$this->interiorRings());
     }
@@ -244,7 +245,7 @@ class Polygon extends Surface implements \Countable, \IteratorAggregate
      *
      * @psalm-suppress UnsafeInstantiation
      */
-    public function withInteriorRings(LineString ...$interiorRings) : Polygon
+    public function withInteriorRings(LineString ...$interiorRings): Polygon
     {
         return new static($this->coordinateSystem, $this->exteriorRing(), ...$interiorRings);
     }
@@ -254,8 +255,15 @@ class Polygon extends Surface implements \Countable, \IteratorAggregate
      *
      * @psalm-suppress UnsafeInstantiation
      */
-    public function withAddedInteriorRings(LineString ...$interiorRings) : Polygon
+    public function withAddedInteriorRings(LineString ...$interiorRings): Polygon
     {
         return new static($this->coordinateSystem, $this->exteriorRing(), ...$this->interiorRings(), ...$interiorRings);
+    }
+
+    /**
+     * Can be overridden by subclasses to validate constraints.
+     */
+    protected function validate(): void
+    {
     }
 }

@@ -6,6 +6,9 @@ namespace Brick\Geo\Io\Internal;
 
 use Brick\Geo\Exception\GeometryIoException;
 
+use function pack;
+use function strlen;
+
 /**
  * Tools for WKB classes.
  *
@@ -14,21 +17,11 @@ use Brick\Geo\Exception\GeometryIoException;
 abstract class WkbTools
 {
     /**
-     * @throws GeometryIoException
-     */
-    private static function checkDoubleIs64Bit() : void
-    {
-        if (strlen(pack('d', 0.0)) !== 8) {
-            throw new GeometryIoException('The double type is not 64 bit on this platform.');
-        }
-    }
-
-    /**
      * Detects the machine byte order (big endian or little endian).
      *
      * @throws GeometryIoException
      */
-    public static function getMachineByteOrder() : WkbByteOrder
+    public static function getMachineByteOrder(): WkbByteOrder
     {
         /** @var WkbByteOrder|null $byteOrder */
         static $byteOrder;
@@ -44,5 +37,15 @@ abstract class WkbTools
         }
 
         return $byteOrder;
+    }
+
+    /**
+     * @throws GeometryIoException
+     */
+    private static function checkDoubleIs64Bit(): void
+    {
+        if (strlen(pack('d', 0.0)) !== 8) {
+            throw new GeometryIoException('The double type is not 64 bit on this platform.');
+        }
     }
 }

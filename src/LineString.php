@@ -11,17 +11,27 @@ use Brick\Geo\Exception\EmptyGeometryException;
 use Brick\Geo\Exception\InvalidGeometryException;
 use Brick\Geo\Exception\NoSuchGeometryException;
 use Brick\Geo\Projector\Projector;
+use Countable;
+use IteratorAggregate;
 use Override;
+
+use function array_map;
+use function array_reduce;
+use function array_values;
+use function count;
+use function max;
+use function min;
 
 /**
  * A LineString is a Curve with linear interpolation between Points.
  *
  * Each consecutive pair of Points defines a line segment.
  *
- * @template-implements \IteratorAggregate<int<0, max>, Point>
+ * @template-implements IteratorAggregate<int<0, max>, Point>
+ *
  * @final
  */
-class LineString extends Curve implements \Countable, \IteratorAggregate
+class LineString extends Curve implements Countable, IteratorAggregate
 {
     /**
      * The Points that compose this LineString.
@@ -65,13 +75,13 @@ class LineString extends Curve implements \Countable, \IteratorAggregate
     /**
      * Creates a non-empty LineString composed of the given points.
      *
-     * @param Point    $point1 The first point.
+     * @param Point $point1    The first point.
      * @param Point ...$pointN The subsequent points.
      *
      * @throws InvalidGeometryException  If only one point was given.
      * @throws CoordinateSystemException If the points use different coordinate systems.
      */
-    public static function of(Point $point1, Point ...$pointN) : LineString
+    public static function of(Point $point1, Point ...$pointN): LineString
     {
         return new LineString($point1->coordinateSystem(), $point1, ...$pointN);
     }
@@ -81,12 +91,12 @@ class LineString extends Curve implements \Countable, \IteratorAggregate
      *
      * The result is a linear ring (closed and simple).
      *
-     * @psalm-suppress PossiblyNullArgument
-     *
      * @throws EmptyGeometryException    If any of the points is empty.
      * @throws CoordinateSystemException If the points use different coordinate systems, or are not 2D.
+     *
+     * @psalm-suppress PossiblyNullArgument
      */
-    public static function rectangle(Point $a, Point $b) : LineString
+    public static function rectangle(Point $a, Point $b): LineString
     {
         $cs = $a->coordinateSystem();
 
@@ -117,7 +127,7 @@ class LineString extends Curve implements \Countable, \IteratorAggregate
     }
 
     #[Override]
-    public function startPoint() : Point
+    public function startPoint(): Point
     {
         if (count($this->points) === 0) {
             throw new EmptyGeometryException('The LineString is empty and has no start point.');
@@ -127,7 +137,7 @@ class LineString extends Curve implements \Countable, \IteratorAggregate
     }
 
     #[Override]
-    public function endPoint() : Point
+    public function endPoint(): Point
     {
         $count = count($this->points);
 
@@ -141,7 +151,7 @@ class LineString extends Curve implements \Countable, \IteratorAggregate
     /**
      * Returns the number of Points in this LineString.
      */
-    public function numPoints() : int
+    public function numPoints(): int
     {
         return count($this->points);
     }
@@ -153,7 +163,7 @@ class LineString extends Curve implements \Countable, \IteratorAggregate
      *
      * @throws NoSuchGeometryException If there is no Point at this index.
      */
-    public function pointN(int $n) : Point
+    public function pointN(int $n): Point
     {
         if (! isset($this->points[$n - 1])) {
             throw new NoSuchGeometryException('There is no Point in this LineString at index ' . $n);
@@ -167,30 +177,30 @@ class LineString extends Curve implements \Countable, \IteratorAggregate
      *
      * @return list<Point>
      */
-    public function points() : array
+    public function points(): array
     {
         return $this->points;
     }
 
     #[NoProxy, Override]
-    public function geometryType() : string
+    public function geometryType(): string
     {
         return 'LineString';
     }
 
     #[NoProxy, Override]
-    public function geometryTypeBinary() : int
+    public function geometryTypeBinary(): int
     {
         return Geometry::LINESTRING;
     }
 
     #[Override]
-    public function getBoundingBox() : BoundingBox
+    public function getBoundingBox(): BoundingBox
     {
         return array_reduce(
             $this->points,
             fn (BoundingBox $boundingBox, Point $point) => $boundingBox->extendedWithPoint($point),
-            BoundingBox::new()
+            BoundingBox::new(),
         );
     }
 
@@ -198,7 +208,7 @@ class LineString extends Curve implements \Countable, \IteratorAggregate
      * @return list<list<float>>
      */
     #[Override]
-    public function toArray() : array
+    public function toArray(): array
     {
         return array_map(
             fn (Point $point) => $point->toArray(),
@@ -222,7 +232,7 @@ class LineString extends Curve implements \Countable, \IteratorAggregate
      * Returns the number of points in this LineString.
      */
     #[Override]
-    public function count() : int
+    public function count(): int
     {
         return count($this->points);
     }
@@ -233,7 +243,7 @@ class LineString extends Curve implements \Countable, \IteratorAggregate
      * @return ArrayIterator<int<0, max>, Point>
      */
     #[Override]
-    public function getIterator() : ArrayIterator
+    public function getIterator(): ArrayIterator
     {
         return new ArrayIterator($this->points);
     }

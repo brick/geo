@@ -22,6 +22,7 @@ use Override;
  * MultiSurface.
  *
  * @template T of Surface
+ *
  * @extends GeometryCollection<T>
  */
 abstract class MultiSurface extends GeometryCollection
@@ -33,7 +34,7 @@ abstract class MultiSurface extends GeometryCollection
             'This exception should never be thrown. ' .
             'This method is here to ensure that MultiSurface::project() has the correct return type, ' .
             'and force concrete classes below MultiSurface to return a MultiSurface, too. ' .
-            'It cannot be made abstract because GeometryCollection::project() is not abstract.'
+            'It cannot be made abstract because GeometryCollection::project() is not abstract.',
         );
     }
 }

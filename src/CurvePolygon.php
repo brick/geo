@@ -10,7 +10,15 @@ use Brick\Geo\Exception\CoordinateSystemException;
 use Brick\Geo\Exception\EmptyGeometryException;
 use Brick\Geo\Exception\NoSuchGeometryException;
 use Brick\Geo\Projector\Projector;
+use Countable;
+use IteratorAggregate;
 use Override;
+
+use function array_map;
+use function array_reduce;
+use function array_slice;
+use function array_values;
+use function count;
 
 /**
  * A CurvePolygon is a planar Surface defined by 1 exterior boundary and 0 or more interior boundaries.
@@ -18,10 +26,11 @@ use Override;
  * A CurvePolygon instance differs from a Polygon instance in that a CurvePolygon instance may contain
  * the following circular arc segments: CircularString and CompoundCurve in addition to LineString.
  *
- * @template-implements \IteratorAggregate<int<0, max>, Curve>
+ * @template-implements IteratorAggregate<int<0, max>, Curve>
+ *
  * @final
  */
-class CurvePolygon extends Surface implements \Countable, \IteratorAggregate
+class CurvePolygon extends Surface implements Countable, IteratorAggregate
 {
     /**
      * The rings that compose this CurvePolygon.
@@ -59,12 +68,12 @@ class CurvePolygon extends Surface implements \Countable, \IteratorAggregate
     /**
      * Creates a non-empty CurvePolygon composed of the given rings.
      *
-     * @param Curve    $exteriorRing  The exterior ring.
+     * @param Curve $exteriorRing     The exterior ring.
      * @param Curve ...$interiorRings The interior rings, if any.
      *
      * @throws CoordinateSystemException If the rings use different coordinate systems.
      */
-    public static function of(Curve $exteriorRing, Curve ...$interiorRings) : CurvePolygon
+    public static function of(Curve $exteriorRing, Curve ...$interiorRings): CurvePolygon
     {
         return new static($exteriorRing->coordinateSystem(), $exteriorRing, ...$interiorRings);
     }
@@ -74,7 +83,7 @@ class CurvePolygon extends Surface implements \Countable, \IteratorAggregate
      *
      * @throws EmptyGeometryException
      */
-    public function exteriorRing() : Curve
+    public function exteriorRing(): Curve
     {
         if ($this->isEmpty) {
             throw new EmptyGeometryException('An empty CurvePolygon has no exterior ring.');
@@ -86,7 +95,7 @@ class CurvePolygon extends Surface implements \Countable, \IteratorAggregate
     /**
      * Returns the number of interior rings in this CurvePolygon.
      */
-    public function numInteriorRings() : int
+    public function numInteriorRings(): int
     {
         if ($this->isEmpty) {
             return 0;
@@ -102,7 +111,7 @@ class CurvePolygon extends Surface implements \Countable, \IteratorAggregate
      *
      * @throws NoSuchGeometryException If there is no interior ring at this index.
      */
-    public function interiorRingN(int $n) : Curve
+    public function interiorRingN(int $n): Curve
     {
         if ($n === 0 || ! isset($this->rings[$n])) {
             throw new NoSuchGeometryException('There is no interior ring in this CurvePolygon at index ' . $n);
@@ -116,25 +125,25 @@ class CurvePolygon extends Surface implements \Countable, \IteratorAggregate
      *
      * @return list<Curve>
      */
-    public function interiorRings() : array
+    public function interiorRings(): array
     {
         return array_slice($this->rings, 1);
     }
 
     #[NoProxy, Override]
-    public function geometryType() : string
+    public function geometryType(): string
     {
         return 'CurvePolygon';
     }
 
     #[NoProxy, Override]
-    public function geometryTypeBinary() : int
+    public function geometryTypeBinary(): int
     {
         return Geometry::CURVEPOLYGON;
     }
 
     #[Override]
-    public function getBoundingBox() : BoundingBox
+    public function getBoundingBox(): BoundingBox
     {
         return array_reduce(
             $this->rings,
@@ -144,7 +153,7 @@ class CurvePolygon extends Surface implements \Countable, \IteratorAggregate
     }
 
     #[Override]
-    public function toArray() : array
+    public function toArray(): array
     {
         return array_map(
             fn (Curve $ring) => $ring->toArray(),
@@ -168,7 +177,7 @@ class CurvePolygon extends Surface implements \Countable, \IteratorAggregate
      * Returns the number of rings (exterior + interior) in this CurvePolygon.
      */
     #[Override]
-    public function count() : int
+    public function count(): int
     {
         return count($this->rings);
     }
@@ -179,7 +188,7 @@ class CurvePolygon extends Surface implements \Countable, \IteratorAggregate
      * @return ArrayIterator<int<0, max>, Curve>
      */
     #[Override]
-    public function getIterator() : ArrayIterator
+    public function getIterator(): ArrayIterator
     {
         return new ArrayIterator($this->rings);
     }
@@ -187,7 +196,7 @@ class CurvePolygon extends Surface implements \Countable, \IteratorAggregate
     /**
      * Returns a copy of this CurvePolygon, with the exterior ring replaced with the given one.
      */
-    public function withExteriorRing(Curve $exteriorRing) : CurvePolygon
+    public function withExteriorRing(Curve $exteriorRing): CurvePolygon
     {
         return new CurvePolygon($this->coordinateSystem, $exteriorRing, ...$this->interiorRings());
     }
@@ -195,7 +204,7 @@ class CurvePolygon extends Surface implements \Countable, \IteratorAggregate
     /**
      * Returns a copy of this CurvePolygon, with the interior rings replaced with the given ones.
      */
-    public function withInteriorRings(Curve ...$interiorRings) : CurvePolygon
+    public function withInteriorRings(Curve ...$interiorRings): CurvePolygon
     {
         return new CurvePolygon($this->coordinateSystem, $this->exteriorRing(), ...$interiorRings);
     }
@@ -203,7 +212,7 @@ class CurvePolygon extends Surface implements \Countable, \IteratorAggregate
     /**
      * Returns a copy of this CurvePolygon, with the given interior rings added.
      */
-    public function withAddedInteriorRings(Curve ...$interiorRings) : CurvePolygon
+    public function withAddedInteriorRings(Curve ...$interiorRings): CurvePolygon
     {
         return new CurvePolygon($this->coordinateSystem, $this->exteriorRing(), ...$this->interiorRings(), ...$interiorRings);
     }

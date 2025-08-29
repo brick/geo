@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace Brick\Geo\Exception;
 
+use Exception;
+
+use function sprintf;
+
 /**
  * Exception thrown by geometry engines.
  *
@@ -11,19 +15,19 @@ namespace Brick\Geo\Exception;
  */
 final class GeometryEngineException extends GeometryException
 {
-    public static function wrap(\Exception $e) : GeometryEngineException
+    public static function wrap(Exception $e): GeometryEngineException
     {
         return new self('The engine returned an exception: ' . $e->getMessage(), $e);
     }
 
-    public static function unimplementedMethod(string $methodName) : GeometryEngineException
+    public static function unimplementedMethod(string $methodName): GeometryEngineException
     {
         $message = sprintf('%s() is currently not implemented.', $methodName);
 
         return new self($message);
     }
 
-    public static function operationYieldedNoResult() : GeometryEngineException
+    public static function operationYieldedNoResult(): GeometryEngineException
     {
         return new self('This operation yielded no result on the target database.');
     }
@@ -31,7 +35,7 @@ final class GeometryEngineException extends GeometryException
     public static function unexpectedReturnType(
         string $expectedClassName,
         string $actualClassName,
-    ) : GeometryEngineException {
+    ): GeometryEngineException {
         return new self(sprintf(
             'The geometry engine returned an unexpected type: expected %s, got %s.',
             $expectedClassName,

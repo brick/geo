@@ -7,17 +7,15 @@ namespace Brick\Geo\Io\Internal;
 use InvalidArgumentException;
 use stdClass;
 
+use function is_array;
+use function is_object;
+
 /**
  * @internal This class is not part of the public API and can change at any time.
  */
 final class Cloner
 {
     /**
-     * @psalm-suppress RawObjectIteration
-     * @psalm-suppress MixedAssignment
-     * @psalm-suppress InvalidReturnType
-     * @psalm-suppress InvalidReturnStatement
-     *
      * @template T
      *
      * @param T $variable
@@ -25,6 +23,11 @@ final class Cloner
      * @return T
      *
      * @throws InvalidArgumentException
+     *
+     * @psalm-suppress RawObjectIteration
+     * @psalm-suppress MixedAssignment
+     * @psalm-suppress InvalidReturnType
+     * @psalm-suppress InvalidReturnStatement
      */
     public static function clone(mixed $variable): mixed
     {

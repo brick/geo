@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Brick\Geo\Io;
 
@@ -20,6 +20,18 @@ use Brick\Geo\Polygon;
 use JsonException;
 use stdClass;
 
+use function count;
+use function get_debug_type;
+use function is_array;
+use function is_object;
+use function is_string;
+use function json_decode;
+use function property_exists;
+use function sprintf;
+use function strtolower;
+
+use const JSON_THROW_ON_ERROR;
+
 /**
  * Builds geometries out of GeoJSON text strings.
  */
@@ -29,14 +41,14 @@ final class GeoJsonReader
      * The GeoJSON types, in their correct case according to the standard, indexed by their lowercase counterpart.
      */
     private const TYPES = [
-        'feature'            => 'Feature',
-        'featurecollection'  => 'FeatureCollection',
-        'point'              => 'Point',
-        'linestring'         => 'LineString',
-        'polygon'            => 'Polygon',
-        'multipoint'         => 'MultiPoint',
-        'multilinestring'    => 'MultiLineString',
-        'multipolygon'       => 'MultiPolygon',
+        'feature' => 'Feature',
+        'featurecollection' => 'FeatureCollection',
+        'point' => 'Point',
+        'linestring' => 'LineString',
+        'polygon' => 'Polygon',
+        'multipoint' => 'MultiPoint',
+        'multilinestring' => 'MultiLineString',
+        'multipolygon' => 'MultiPolygon',
         'geometrycollection' => 'GeometryCollection',
     ];
 
@@ -45,9 +57,9 @@ final class GeoJsonReader
     /**
      * @param bool $lenient Whether to parse the GeoJSON in lenient mode.
      *                      This mode allows for some deviations from the GeoJSON spec:
-     *                        - wrong case for GeoJSON types, e.g. POINT instead of Point
-     *                        - missing "geometry" or "properties" attributes in Features
- *                            - nested GeometryCollections
+     *                      - wrong case for GeoJSON types, e.g. POINT instead of Point,
+     *                      - missing "geometry" or "properties" attributes in Features,
+     *                      - nested GeometryCollections.
      */
     public function __construct(bool $lenient = false)
     {
@@ -108,7 +120,7 @@ final class GeoJsonReader
     /**
      * @throws GeometryException
      */
-    private function readFeature(stdClass $geoJsonFeature) : Feature
+    private function readFeature(stdClass $geoJsonFeature): Feature
     {
         $this->verifyType($geoJsonFeature, 'Feature');
 
@@ -156,7 +168,7 @@ final class GeoJsonReader
     /**
      * @throws GeometryException
      */
-    private function readFeatureCollection(stdClass $geoJsonFeatureCollection) : FeatureCollection
+    private function readFeatureCollection(stdClass $geoJsonFeatureCollection): FeatureCollection
     {
         $this->verifyType($geoJsonFeatureCollection, 'FeatureCollection');
 
@@ -174,7 +186,7 @@ final class GeoJsonReader
             if (! is_object($feature)) {
                 throw GeometryIoException::invalidGeoJson(sprintf(
                     'Unexpected data of type %s in "FeatureCollection.features" attribute.',
-                    get_debug_type($features)
+                    get_debug_type($features),
                 ));
             }
 
@@ -188,7 +200,7 @@ final class GeoJsonReader
     /**
      * @throws GeometryException
      */
-    private function readGeometry(stdClass $geoJsonGeometry) : Geometry
+    private function readGeometry(stdClass $geoJsonGeometry): Geometry
     {
         if (! isset($geoJsonGeometry->type) || ! is_string($geoJsonGeometry->type)) {
             throw GeometryIoException::invalidGeoJson('Missing or malformed "Geometry.type" attribute.');
@@ -267,7 +279,7 @@ final class GeoJsonReader
             if (! is_object($geometry)) {
                 throw GeometryIoException::invalidGeoJson(sprintf(
                     'Unexpected data of type %s in "GeometryCollection.geometries" attribute.',
-                    get_debug_type($geometry)
+                    get_debug_type($geometry),
                 ));
             }
 
@@ -296,7 +308,7 @@ final class GeoJsonReader
      *
      * @throws GeometryException
      */
-    private function genPoint(CoordinateSystem $cs, array $coords) : Point
+    private function genPoint(CoordinateSystem $cs, array $coords): Point
     {
         return new Point($cs, ...$coords);
     }
@@ -308,7 +320,7 @@ final class GeoJsonReader
      *
      * @throws GeometryException
      */
-    private function genMultiPoint(CoordinateSystem $cs, array $coords) : MultiPoint
+    private function genMultiPoint(CoordinateSystem $cs, array $coords): MultiPoint
     {
         $points = [];
 
@@ -326,7 +338,7 @@ final class GeoJsonReader
      *
      * @throws GeometryException
      */
-    private function genLineString(CoordinateSystem $cs, array $coords) : LineString
+    private function genLineString(CoordinateSystem $cs, array $coords): LineString
     {
         $points = [];
 
@@ -344,7 +356,7 @@ final class GeoJsonReader
      *
      * @throws GeometryException
      */
-    private function genMultiLineString(CoordinateSystem $cs, array $coords) : MultiLineString
+    private function genMultiLineString(CoordinateSystem $cs, array $coords): MultiLineString
     {
         $lineStrings = [];
 
@@ -362,7 +374,7 @@ final class GeoJsonReader
      *
      * @throws GeometryException
      */
-    private function genPolygon(CoordinateSystem $cs, array $coords) : Polygon
+    private function genPolygon(CoordinateSystem $cs, array $coords): Polygon
     {
         $lineStrings = [];
 
@@ -380,7 +392,7 @@ final class GeoJsonReader
      *
      * @throws GeometryException
      */
-    private function genMultiPolygon(CoordinateSystem $cs, array $coords) : MultiPolygon
+    private function genMultiPolygon(CoordinateSystem $cs, array $coords): MultiPolygon
     {
         $polygons = [];
 
@@ -392,12 +404,12 @@ final class GeoJsonReader
     }
 
     /**
+     * @param array $coords A potentially nested list of floats.
+     *
      * @psalm-suppress MixedAssignment
      * @psalm-suppress MixedArgument
-     *
-     * @param array $coords A potentially nested list of floats.
      */
-    private function hasZ(array $coords) : bool
+    private function hasZ(array $coords): bool
     {
         if (empty($coords)) {
             return false;
@@ -422,7 +434,7 @@ final class GeoJsonReader
      */
     private function verifyType(stdClass $geoJsonObject, string $type): void
     {
-        if (isset($geoJsonObject->type) && is_string($geoJsonObject->type)){
+        if (isset($geoJsonObject->type) && is_string($geoJsonObject->type)) {
             if ($this->normalizeGeoJsonType($geoJsonObject->type) === $type) {
                 return;
             }
@@ -438,7 +450,7 @@ final class GeoJsonReader
      * If the type is recognized but in the wrong case, it is fixed in lenient mode,
      * and an exception is thrown otherwise.
      */
-    private function normalizeGeoJsonType(string $type) : string
+    private function normalizeGeoJsonType(string $type): string
     {
         $typeLower = strtolower($type);
 

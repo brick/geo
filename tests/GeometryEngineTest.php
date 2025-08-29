@@ -23,7 +23,20 @@ use Brick\Geo\Point;
 use Brick\Geo\Polygon;
 use Brick\Geo\Surface;
 use LogicException;
+use PDO;
 use PHPUnit\Framework\Attributes\DataProvider;
+
+use function array_diff;
+use function array_values;
+use function implode;
+use function in_array;
+use function is_array;
+use function pi;
+use function preg_match;
+use function sprintf;
+use function strpos;
+use function substr;
+use function version_compare;
 
 /**
  * Tests for GeometryEngine implementations.
@@ -36,13 +49,13 @@ class GeometryEngineTest extends AbstractTestCase
      * @param string $result    The WKT of the result geometry.
      */
     #[DataProvider('providerUnion')]
-    public function testUnion(string $geometry1, string $geometry2, string $result) : void
+    public function testUnion(string $geometry1, string $geometry2, string $result): void
     {
         $geometryEngine = $this->getGeometryEngine();
 
         $geometry1 = Geometry::fromText($geometry1);
         $geometry2 = Geometry::fromText($geometry2);
-        $result    = Geometry::fromText($result);
+        $result = Geometry::fromText($result);
 
         $this->skipIfUnsupportedGeometry($geometry1);
         $this->skipIfUnsupportedGeometry($geometry2);
@@ -60,13 +73,13 @@ class GeometryEngineTest extends AbstractTestCase
         $this->assertGeometryEquals($result, $union);
     }
 
-    public static function providerUnion() : array
+    public static function providerUnion(): array
     {
         return [
             ['POINT EMPTY', 'POINT (1 2)', 'POINT (1 2)'],
             ['POINT EMPTY', 'POINT EMPTY', 'POINT EMPTY'],
             ['POINT (1 2)', 'POINT (-2 3)', 'MULTIPOINT (1 2, -2 3)'],
-            ['POLYGON ((1 2, 1 3, 4 3, 4 2, 1 2))', 'POLYGON ((2 1, 2 4, 3 4, 3 1, 2 1))', 'POLYGON ((2 1, 2 2, 1 2, 1 3, 2 3, 2 4, 3 4, 3 3, 4 3, 4 2, 3 2, 3 1, 2 1))'] ,
+            ['POLYGON ((1 2, 1 3, 4 3, 4 2, 1 2))', 'POLYGON ((2 1, 2 4, 3 4, 3 1, 2 1))', 'POLYGON ((2 1, 2 2, 1 2, 1 3, 2 3, 2 4, 3 4, 3 3, 4 3, 4 2, 3 2, 3 1, 2 1))'],
         ];
     }
 
@@ -76,7 +89,7 @@ class GeometryEngineTest extends AbstractTestCase
      * @param string $result    The WKT of the result geometry.
      */
     #[DataProvider('providerDifference')]
-    public function testDifference(string $geometry1, string $geometry2, string $result) : void
+    public function testDifference(string $geometry1, string $geometry2, string $result): void
     {
         $geometryEngine = $this->getGeometryEngine();
 
@@ -85,13 +98,13 @@ class GeometryEngineTest extends AbstractTestCase
 
         $geometry1 = Geometry::fromText($geometry1);
         $geometry2 = Geometry::fromText($geometry2);
-        $result    = Geometry::fromText($result);
+        $result = Geometry::fromText($result);
 
         $difference = $geometryEngine->difference($geometry1, $geometry2);
         $this->assertGeometryEquals($result, $difference);
     }
 
-    public static function providerDifference() : array
+    public static function providerDifference(): array
     {
         return [
             ['MULTIPOINT (1 2, 3 4, 5 6)', 'MULTIPOINT (3 4)', 'MULTIPOINT (1 2, 5 6)'],
@@ -104,7 +117,7 @@ class GeometryEngineTest extends AbstractTestCase
      * @param string $envelope The WKT of the expected envelope.
      */
     #[DataProvider('providerEnvelope')]
-    public function testEnvelope(string $geometry, string $envelope) : void
+    public function testEnvelope(string $geometry, string $envelope): void
     {
         $geometryEngine = $this->getGeometryEngine();
 
@@ -118,12 +131,12 @@ class GeometryEngineTest extends AbstractTestCase
         $this->assertGeometryEquals($envelope, $geometryEngine->envelope($geometry));
     }
 
-    public static function providerEnvelope() : array
+    public static function providerEnvelope(): array
     {
         return [
             ['LINESTRING (0 0, 1 3)', 'POLYGON ((0 0, 0 3, 1 3, 1 0, 0 0))'],
             ['POLYGON ((0 0, 0 1, 1 1, 0 0))', 'POLYGON ((0 0, 0 1, 1 1, 1 0, 0 0))'],
-            ['MULTIPOINT (1 1, 2 2)', 'POLYGON ((1 1, 1 2, 2 2, 2 1, 1 1))']
+            ['MULTIPOINT (1 1, 2 2)', 'POLYGON ((1 1, 1 2, 2 2, 2 1, 1 1))'],
         ];
     }
 
@@ -132,7 +145,7 @@ class GeometryEngineTest extends AbstractTestCase
      * @param float  $length The expected length.
      */
     #[DataProvider('providerLength')]
-    public function testLength(string $wkt, float $length) : void
+    public function testLength(string $wkt, float $length): void
     {
         $geometryEngine = $this->getGeometryEngine();
 
@@ -145,7 +158,7 @@ class GeometryEngineTest extends AbstractTestCase
         self::assertEqualsWithDelta($length, $actualLength, 0.002);
     }
 
-    public static function providerLength() : array
+    public static function providerLength(): array
     {
         return [
             ['LINESTRING EMPTY', 0],
@@ -171,11 +184,11 @@ class GeometryEngineTest extends AbstractTestCase
     }
 
     /**
-     * @param string $wkt The WKT of the Surface to test.
-     * @param float  $area    The expected area.
+     * @param string $wkt  The WKT of the Surface to test.
+     * @param float  $area The expected area.
      */
     #[DataProvider('providerArea')]
-    public function testArea(string $wkt, float $area) : void
+    public function testArea(string $wkt, float $area): void
     {
         $geometryEngine = $this->getGeometryEngine();
 
@@ -191,7 +204,7 @@ class GeometryEngineTest extends AbstractTestCase
         self::assertEqualsWithDelta($area, $actualArea, 0.001);
     }
 
-    public static function providerArea() : array
+    public static function providerArea(): array
     {
         return [
             ['POLYGON ((1 1, 1 9, 9 1, 1 1))', 32],
@@ -256,7 +269,7 @@ class GeometryEngineTest extends AbstractTestCase
      * @param string[]|null $supportedEngines The engines that support this test, or null for all engines.
      */
     #[DataProvider('providerCentroid')]
-    public function testCentroid(string $wkt, float $centroidX, float $centroidY, ?array $supportedEngines) : void
+    public function testCentroid(string $wkt, float $centroidX, float $centroidY, ?array $supportedEngines): void
     {
         $geometryEngine = $this->getGeometryEngine();
 
@@ -268,14 +281,14 @@ class GeometryEngineTest extends AbstractTestCase
 
         $centroid = $geometryEngine->centroid($wkt);
 
-        $this->assertEqualsWithDelta($centroidX, $centroid->x(), 0.001);
-        $this->assertEqualsWithDelta($centroidY, $centroid->y(), 0.001);
+        self::assertEqualsWithDelta($centroidX, $centroid->x(), 0.001);
+        self::assertEqualsWithDelta($centroidY, $centroid->y(), 0.001);
     }
 
     /**
      * Note: centroid() on CurvePolygon is not currently supported by any geometry engine.
      */
-    public static function providerCentroid() : array
+    public static function providerCentroid(): array
     {
         return [
             ['POINT (42 42)', 42.0, 42.0, ['MySQL', 'SpatiaLite', 'PostGIS', 'GEOS']],
@@ -296,7 +309,7 @@ class GeometryEngineTest extends AbstractTestCase
      * @param string $wkt The WKT of the Surface or MultiSurface to test.
      */
     #[DataProvider('providerPointOnSurface')]
-    public function testPointOnSurface(string $wkt) : void
+    public function testPointOnSurface(string $wkt): void
     {
         $geometryEngine = $this->getGeometryEngine();
 
@@ -313,7 +326,7 @@ class GeometryEngineTest extends AbstractTestCase
         self::assertTrue($geometryEngine->contains($geometry, $pointOnSurface));
     }
 
-    public static function providerPointOnSurface() : array
+    public static function providerPointOnSurface(): array
     {
         return [
             ['POLYGON ((1 1, 1 3, 4 3, 4 6, 6 6, 6 1, 1 1))'],
@@ -335,7 +348,7 @@ class GeometryEngineTest extends AbstractTestCase
      *                           so we allow multiple possible values.
      */
     #[DataProvider('providerBoundary')]
-    public function testBoundary(string $geometry, array $boundary) : void
+    public function testBoundary(string $geometry, array $boundary): void
     {
         $geometryEngine = $this->getGeometryEngine();
 
@@ -357,7 +370,7 @@ class GeometryEngineTest extends AbstractTestCase
         self::assertContains($actualBoundary->asText(), $boundary);
     }
 
-    public static function providerBoundary() : array
+    public static function providerBoundary(): array
     {
         return [
             ['POINT (1 2)', [
@@ -396,7 +409,7 @@ class GeometryEngineTest extends AbstractTestCase
      * @param bool   $isValid  Whether the geometry is valid.
      */
     #[DataProvider('providerIsValid')]
-    public function testIsValid(string $geometry, bool $isValid) : void
+    public function testIsValid(string $geometry, bool $isValid): void
     {
         $geometryEngine = $this->getGeometryEngine();
 
@@ -410,7 +423,7 @@ class GeometryEngineTest extends AbstractTestCase
         self::assertSame($isValid, $geometryEngine->isValid($geometry));
     }
 
-    public static function providerIsValid() : array
+    public static function providerIsValid(): array
     {
         return [
             ['POINT (1 2)', true],
@@ -423,11 +436,11 @@ class GeometryEngineTest extends AbstractTestCase
     }
 
     /**
-     * @param string $geometryWkt The WKT of the geometry to test.
+     * @param string $geometryWkt      The WKT of the geometry to test.
      * @param string $validGeometryWkt The WKT of the expected geometry.
      */
     #[DataProvider('providerMakeValid')]
-    public function testMakeValid(string $geometryWkt, string $validGeometryWkt) : void
+    public function testMakeValid(string $geometryWkt, string $validGeometryWkt): void
     {
         $geometryEngine = $this->getGeometryEngine();
 
@@ -453,7 +466,7 @@ class GeometryEngineTest extends AbstractTestCase
         }
     }
 
-    public static function providerMakeValid() : array
+    public static function providerMakeValid(): array
     {
         return [
             // valid geometries, returned as is
@@ -473,7 +486,7 @@ class GeometryEngineTest extends AbstractTestCase
      * @param bool   $isClosed Whether the Curve is closed.
      */
     #[DataProvider('providerIsClosed')]
-    public function testIsClosed(string $wkt, bool $isClosed) : void
+    public function testIsClosed(string $wkt, bool $isClosed): void
     {
         $geometryEngine = $this->getGeometryEngine();
 
@@ -490,7 +503,7 @@ class GeometryEngineTest extends AbstractTestCase
         self::assertSame($isClosed, $geometryEngine->isClosed($geometry));
     }
 
-    public static function providerIsClosed() : array
+    public static function providerIsClosed(): array
     {
         return [
             ['LINESTRING (1 1, 2 2)', false],
@@ -528,7 +541,7 @@ class GeometryEngineTest extends AbstractTestCase
      * @param bool   $isSimple Whether the geometry is simple.
      */
     #[DataProvider('providerIsSimple')]
-    public function testIsSimple(string $geometry, bool $isSimple) : void
+    public function testIsSimple(string $geometry, bool $isSimple): void
     {
         $geometryEngine = $this->getGeometryEngine();
 
@@ -537,7 +550,7 @@ class GeometryEngineTest extends AbstractTestCase
         self::assertSame($isSimple, $geometryEngine->isSimple($geometry));
     }
 
-    public static function providerIsSimple() : array
+    public static function providerIsSimple(): array
     {
         return [
             ['POINT (1 2)', true],
@@ -555,7 +568,7 @@ class GeometryEngineTest extends AbstractTestCase
             ['MULTIPOINT M (1 2 3, 2 3 4)', true],
             ['MULTIPOINT M (1 2 3, 1 2 4)', false],
             ['MULTIPOINT ZM (1 2 3 4, 2 3 4 5)', true],
-            ['MULTIPOINT ZM (1 2 3 4, 1 2 4 3)', false]
+            ['MULTIPOINT ZM (1 2 3 4, 1 2 4 3)', false],
         ];
     }
 
@@ -564,7 +577,7 @@ class GeometryEngineTest extends AbstractTestCase
      * @param bool   $isRing Whether the Curve is a ring.
      */
     #[DataProvider('providerIsRing')]
-    public function testIsRing(string $wkt, bool $isRing) : void
+    public function testIsRing(string $wkt, bool $isRing): void
     {
         $geometryEngine = $this->getGeometryEngine();
 
@@ -582,7 +595,7 @@ class GeometryEngineTest extends AbstractTestCase
         self::assertSame($isRing, $geometryEngine->isRing($curve));
     }
 
-    public static function providerIsRing() : array
+    public static function providerIsRing(): array
     {
         return [
             ['LINESTRING (1 1, 2 2)', false],
@@ -625,7 +638,7 @@ class GeometryEngineTest extends AbstractTestCase
      * @param bool   $equals    Whether the geometries are spatially equal.
      */
     #[DataProvider('providerEquals')]
-    public function testEquals(string $geometry1, string $geometry2, bool $equals) : void
+    public function testEquals(string $geometry1, string $geometry2, bool $equals): void
     {
         $geometryEngine = $this->getGeometryEngine();
 
@@ -640,7 +653,7 @@ class GeometryEngineTest extends AbstractTestCase
         self::assertSame($equals, $geometryEngine->equals($geometry1, $geometry2));
     }
 
-    public static function providerEquals() : array
+    public static function providerEquals(): array
     {
         return [
             ['POINT (1 2)', 'POINT (1 2)', true],
@@ -676,7 +689,7 @@ class GeometryEngineTest extends AbstractTestCase
      * @param bool   $disjoint  Whether the geometries are spatially disjoint.
      */
     #[DataProvider('providerDisjoint')]
-    public function testDisjoint(string $geometry1, string $geometry2, bool $disjoint) : void
+    public function testDisjoint(string $geometry1, string $geometry2, bool $disjoint): void
     {
         $geometryEngine = $this->getGeometryEngine();
 
@@ -690,7 +703,7 @@ class GeometryEngineTest extends AbstractTestCase
         self::assertSame($disjoint, $geometryEngine->disjoint($geometry1, $geometry2));
     }
 
-    public static function providerDisjoint() : array
+    public static function providerDisjoint(): array
     {
         return [
             ['LINESTRING (2 1, 2 2)', 'LINESTRING (2 0, 0 2)', true],
@@ -708,7 +721,7 @@ class GeometryEngineTest extends AbstractTestCase
      * @param bool   $intersects Whether the geometries spatially intersect.
      */
     #[DataProvider('providerIntersects')]
-    public function testIntersects(string $geometry1, string $geometry2, bool $intersects) : void
+    public function testIntersects(string $geometry1, string $geometry2, bool $intersects): void
     {
         $geometryEngine = $this->getGeometryEngine();
 
@@ -720,7 +733,7 @@ class GeometryEngineTest extends AbstractTestCase
         self::assertSame($intersects, $geometryEngine->intersects($geometry1, $geometry2));
     }
 
-    public static function providerIntersects() : array
+    public static function providerIntersects(): array
     {
         return [
             ['LINESTRING (2 1, 2 2)', 'LINESTRING (2 0, 0 2)', false],
@@ -738,7 +751,7 @@ class GeometryEngineTest extends AbstractTestCase
      * @param bool   $touches   Whether the geometries spatially touch.
      */
     #[DataProvider('providerTouches')]
-    public function testTouches(string $geometry1, string $geometry2, bool $touches) : void
+    public function testTouches(string $geometry1, string $geometry2, bool $touches): void
     {
         $geometryEngine = $this->getGeometryEngine();
 
@@ -752,7 +765,7 @@ class GeometryEngineTest extends AbstractTestCase
         self::assertSame($touches, $geometryEngine->touches($geometry1, $geometry2));
     }
 
-    public static function providerTouches() : array
+    public static function providerTouches(): array
     {
         return [
             ['LINESTRING (1 1, 1 3)', 'LINESTRING (1 1, 3 1)', true],
@@ -772,7 +785,7 @@ class GeometryEngineTest extends AbstractTestCase
      * @param bool   $crosses   Whether the geometries spatially cross.
      */
     #[DataProvider('providerCrosses')]
-    public function testCrosses(string $geometry1, string $geometry2, bool $crosses) : void
+    public function testCrosses(string $geometry1, string $geometry2, bool $crosses): void
     {
         $geometryEngine = $this->getGeometryEngine();
 
@@ -786,7 +799,7 @@ class GeometryEngineTest extends AbstractTestCase
         self::assertSame($crosses, $geometryEngine->crosses($geometry1, $geometry2));
     }
 
-    public static function providerCrosses() : array
+    public static function providerCrosses(): array
     {
         return [
             ['MULTIPOINT (1 3, 2 2, 3 2)', 'LINESTRING (0 3, 1 1, 2 2, 2 0)', true],
@@ -806,7 +819,7 @@ class GeometryEngineTest extends AbstractTestCase
      * @param bool   $within    Whether the first geometry is within the second one.
      */
     #[DataProvider('providerWithin')]
-    public function testWithin(string $geometry1, string $geometry2, bool $within) : void
+    public function testWithin(string $geometry1, string $geometry2, bool $within): void
     {
         $geometryEngine = $this->getGeometryEngine();
 
@@ -818,7 +831,7 @@ class GeometryEngineTest extends AbstractTestCase
         self::assertSame($within, $geometryEngine->within($geometry1, $geometry2));
     }
 
-    public static function providerWithin() : array
+    public static function providerWithin(): array
     {
         return [
             ['POLYGON ((2 2, 4 3, 4 2, 2 2))', 'POLYGON ((1 1, 1 3, 4 4, 6 3, 5 1, 1 1))', true],
@@ -835,7 +848,7 @@ class GeometryEngineTest extends AbstractTestCase
      * @param bool   $contains  Whether the first geometry contains the second one.
      */
     #[DataProvider('providerContains')]
-    public function testContains(string $geometry1, string $geometry2, bool $contains) : void
+    public function testContains(string $geometry1, string $geometry2, bool $contains): void
     {
         $geometryEngine = $this->getGeometryEngine();
 
@@ -845,7 +858,7 @@ class GeometryEngineTest extends AbstractTestCase
         self::assertSame($contains, $geometryEngine->contains($geometry1, $geometry2));
     }
 
-    public static function providerContains() : array
+    public static function providerContains(): array
     {
         return [
             ['POLYGON ((1 1, 1 3, 4 4, 6 3, 5 1, 1 1))', 'POLYGON ((2 2, 4 3, 4 2, 2 2))', true],
@@ -862,7 +875,7 @@ class GeometryEngineTest extends AbstractTestCase
      * @param bool   $overlaps  Whether the first geometry overlaps the second one.
      */
     #[DataProvider('providerOverlaps')]
-    public function testOverlaps(string $geometry1, string $geometry2, bool $overlaps) : void
+    public function testOverlaps(string $geometry1, string $geometry2, bool $overlaps): void
     {
         $geometryEngine = $this->getGeometryEngine();
 
@@ -874,7 +887,7 @@ class GeometryEngineTest extends AbstractTestCase
         self::assertSame($overlaps, $geometryEngine->overlaps($geometry1, $geometry2));
     }
 
-    public static function providerOverlaps() : array
+    public static function providerOverlaps(): array
     {
         return [
             ['POLYGON ((1 2, 2 4, 3 3, 2 1, 1 2))', 'POLYGON ((2 2, 2 3, 4 2, 3 1, 2 2))', true],
@@ -889,7 +902,7 @@ class GeometryEngineTest extends AbstractTestCase
      * @param bool   $relate    Whether the first geometry is spatially related to the second one.
      */
     #[DataProvider('providerRelate')]
-    public function testRelate(string $geometry1, string $geometry2, string $matrix, bool $relate) : void
+    public function testRelate(string $geometry1, string $geometry2, string $matrix, bool $relate): void
     {
         $geometryEngine = $this->getGeometryEngine();
 
@@ -903,7 +916,7 @@ class GeometryEngineTest extends AbstractTestCase
         self::assertSame($relate, $geometryEngine->relate($geometry1, $geometry2, $matrix));
     }
 
-    public static function providerRelate() : array
+    public static function providerRelate(): array
     {
         return [
             ['POLYGON ((60 160, 220 160, 220 20, 60 20, 60 160))', 'POLYGON ((60 160, 20 200, 260 200, 140 80, 60 160))', '212101212', true],
@@ -919,7 +932,7 @@ class GeometryEngineTest extends AbstractTestCase
      * @param string $result   The WKT of the result geometry.
      */
     #[DataProvider('providerLocateAlong')]
-    public function testLocateAlong(string $geometry, float $measure, string $result) : void
+    public function testLocateAlong(string $geometry, float $measure, string $result): void
     {
         $geometryEngine = $this->getGeometryEngine();
 
@@ -931,7 +944,7 @@ class GeometryEngineTest extends AbstractTestCase
         self::assertSame($result, $geometryEngine->locateAlong(Geometry::fromText($geometry), $measure)->asText());
     }
 
-    public static function providerLocateAlong() : array
+    public static function providerLocateAlong(): array
     {
         return [
             ['MULTILINESTRING M((1 2 3, 3 4 2, 9 4 3), (1 2 3, 5 4 5))', 3.0, 'MULTIPOINT M (1 2 3, 9 4 3, 1 2 3)'],
@@ -946,7 +959,7 @@ class GeometryEngineTest extends AbstractTestCase
      * @param string $result   The WKT of the second geometry.
      */
     #[DataProvider('providerLocateBetween')]
-    public function testLocateBetween(string $geometry, float $mStart, float $mEnd, string $result) : void
+    public function testLocateBetween(string $geometry, float $mStart, float $mEnd, string $result): void
     {
         $geometryEngine = $this->getGeometryEngine();
 
@@ -958,7 +971,7 @@ class GeometryEngineTest extends AbstractTestCase
         self::assertSame($result, $geometryEngine->locateBetween(Geometry::fromText($geometry), $mStart, $mEnd)->asText());
     }
 
-    public static function providerLocateBetween() : array
+    public static function providerLocateBetween(): array
     {
         return [
             ['MULTIPOINT M(1 2 2)', 2.0, 5.0, 'MULTIPOINT M (1 2 2)'],
@@ -972,7 +985,7 @@ class GeometryEngineTest extends AbstractTestCase
      * @param float  $distance  The distance between the geometries.
      */
     #[DataProvider('providerDistance')]
-    public function testDistance(string $geometry1, string $geometry2, float $distance) : void
+    public function testDistance(string $geometry1, string $geometry2, float $distance): void
     {
         $geometryEngine = $this->getGeometryEngine();
 
@@ -982,7 +995,7 @@ class GeometryEngineTest extends AbstractTestCase
         self::assertEqualsWithDelta($distance, $geometryEngine->distance($geometry1, $geometry2), 1e-6);
     }
 
-    public static function providerDistance() : array
+    public static function providerDistance(): array
     {
         return [
             ['POINT(2 1)', 'LINESTRING (3 0, 3 3)', 1.0],
@@ -995,7 +1008,7 @@ class GeometryEngineTest extends AbstractTestCase
      * @param float  $distance The distance of the buffer.
      */
     #[DataProvider('providerBuffer')]
-    public function testBuffer(string $geometry, float $distance) : void
+    public function testBuffer(string $geometry, float $distance): void
     {
         $geometryEngine = $this->getGeometryEngine();
 
@@ -1013,7 +1026,7 @@ class GeometryEngineTest extends AbstractTestCase
         }
     }
 
-    public static function providerBuffer() : array
+    public static function providerBuffer(): array
     {
         return [
             ['POINT (1 2)', 3.0],
@@ -1027,7 +1040,7 @@ class GeometryEngineTest extends AbstractTestCase
      * @param string $result   The WKT of the result geometry.
      */
     #[DataProvider('providerConvexHull')]
-    public function testConvexHull(string $geometry, string $result) : void
+    public function testConvexHull(string $geometry, string $result): void
     {
         $geometryEngine = $this->getGeometryEngine();
 
@@ -1035,12 +1048,12 @@ class GeometryEngineTest extends AbstractTestCase
         $this->failsOnMariadb('< 10.1.2');
 
         $geometry = Geometry::fromText($geometry);
-        $result   = Geometry::fromText($result);
+        $result = Geometry::fromText($result);
 
         $this->assertGeometryEquals($result, $geometryEngine->convexHull($geometry));
     }
 
-    public static function providerConvexHull() : array
+    public static function providerConvexHull(): array
     {
         return [
             ['LINESTRING (20 20, 30 30, 20 40, 30 50)', 'POLYGON ((20 20, 20 40, 30 50, 30 30, 20 20))'],
@@ -1050,7 +1063,7 @@ class GeometryEngineTest extends AbstractTestCase
     }
 
     #[DataProvider('providerConcaveHull')]
-    public function testConcaveHull(string $geometry, float $convexity, bool $allowHoles, string $expected) : void
+    public function testConcaveHull(string $geometry, float $convexity, bool $allowHoles, string $expected): void
     {
         $this->failsOnMysql();
         $this->failsOnMariadb();
@@ -1070,7 +1083,7 @@ class GeometryEngineTest extends AbstractTestCase
         $this->assertGeometryEquals($expected, $actual);
     }
 
-    public static function providerConcaveHull() : array
+    public static function providerConcaveHull(): array
     {
         return [
             ['MULTIPOINT (5 0, 8 9, 0 15, 10 15, 13 25, 16 15, 26 15, 18 9, 21 0, 13 6)', 0.0, false, 'POLYGON ((8 9, 0 15, 10 15, 13 25, 16 15, 26 15, 18 9, 21 0, 13 6, 5 0, 8 9))'],
@@ -1087,20 +1100,20 @@ class GeometryEngineTest extends AbstractTestCase
      * @param string $result    The WKT of the result geometry.
      */
     #[DataProvider('providerIntersection')]
-    public function testIntersection(string $geometry1, string $geometry2, string $result) : void
+    public function testIntersection(string $geometry1, string $geometry2, string $result): void
     {
         $geometryEngine = $this->getGeometryEngine();
 
         $geometry1 = Geometry::fromText($geometry1);
         $geometry2 = Geometry::fromText($geometry2);
-        $result    = Geometry::fromText($result);
+        $result = Geometry::fromText($result);
 
         $this->skipIfUnsupportedByEngine($geometry1, $geometry2, 'intersection');
 
         $this->assertGeometryEquals($result, $geometryEngine->intersection($geometry1, $geometry2));
     }
 
-    public static function providerIntersection() : array
+    public static function providerIntersection(): array
     {
         return [
             ['POINT (0 0)', 'LINESTRING (0 0, 0 2)', 'POINT (0 0)'],
@@ -1114,20 +1127,20 @@ class GeometryEngineTest extends AbstractTestCase
      * @param string $result    The WKT of the result geometry.
      */
     #[DataProvider('providerSymDifference')]
-    public function testSymDifference(string $geometry1, string $geometry2, string $result) : void
+    public function testSymDifference(string $geometry1, string $geometry2, string $result): void
     {
         $geometryEngine = $this->getGeometryEngine();
 
         $geometry1 = Geometry::fromText($geometry1);
         $geometry2 = Geometry::fromText($geometry2);
-        $result    = Geometry::fromText($result);
+        $result = Geometry::fromText($result);
 
         $difference = $geometryEngine->symDifference($geometry1, $geometry2);
 
         $this->assertGeometryEquals($result, $difference);
     }
 
-    public static function providerSymDifference() : array
+    public static function providerSymDifference(): array
     {
         return [
             ['POLYGON ((1 1, 1 2, 2 2, 2 4, 4 4, 4 1, 1 1))', 'POLYGON ((3 0, 3 3, 5 3, 5 0, 3 0))', 'MULTIPOLYGON (((1 1, 1 2, 2 2, 2 4, 4 4, 4 3, 3 3, 3 1, 1 1)), ((3 1, 4 1, 4 3, 5 3, 5 0, 3 0, 3 1)))'],
@@ -1140,7 +1153,7 @@ class GeometryEngineTest extends AbstractTestCase
      * @param string $result   The WKT of the result geometry.
      */
     #[DataProvider('providerSnapToGrid')]
-    public function testSnapToGrid(string $geometry, float $size, string $result) : void
+    public function testSnapToGrid(string $geometry, float $size, string $result): void
     {
         $geometryEngine = $this->getGeometryEngine();
 
@@ -1150,14 +1163,14 @@ class GeometryEngineTest extends AbstractTestCase
         $this->failsOnGeosOp();
 
         $geometry = Geometry::fromText($geometry);
-        $result   = Geometry::fromText($result);
+        $result = Geometry::fromText($result);
 
         $snapToGrid = $geometryEngine->snapToGrid($geometry, $size);
 
         $this->assertGeometryEquals($result, $snapToGrid);
     }
 
-    public static function providerSnapToGrid() : array
+    public static function providerSnapToGrid(): array
     {
         return [
             ['POINT (1.23 4.56)', 1.0, 'POINT (1 5)'],
@@ -1173,7 +1186,7 @@ class GeometryEngineTest extends AbstractTestCase
      * @param string $result    The WKT of the result geometry.
      */
     #[DataProvider('providerSimplify')]
-    public function testSimplify(string$geometry, float $tolerance, string $result) : void
+    public function testSimplify(string $geometry, float $tolerance, string $result): void
     {
         $geometryEngine = $this->getGeometryEngine();
 
@@ -1183,12 +1196,12 @@ class GeometryEngineTest extends AbstractTestCase
         $this->failsOnGeosOp();
 
         $geometry = Geometry::fromText($geometry);
-        $result   = Geometry::fromText($result);
+        $result = Geometry::fromText($result);
 
         $this->assertGeometryEquals($result, $geometryEngine->simplify($geometry, $tolerance));
     }
 
-    public static function providerSimplify() : array
+    public static function providerSimplify(): array
     {
         return [
             ['POLYGON ((4 0, 2 1, 1 2, 0 4, 0 6, 1 8, 2 9, 4 10, 6 10, 8 9, 9 8, 10 6, 10 4, 9 2, 8 1, 6 0, 4 0))', 1, 'POLYGON ((4 0, 1 2, 0 6, 2 9, 6 10, 9 8, 10 4, 8 1, 4 0))'],
@@ -1202,7 +1215,7 @@ class GeometryEngineTest extends AbstractTestCase
      * @param float  $maxDistance The expected value.
      */
     #[DataProvider('providerMaxDistance')]
-    public function testMaxDistance(string $geometry1, string $geometry2, float $maxDistance) : void
+    public function testMaxDistance(string $geometry1, string $geometry2, float $maxDistance): void
     {
         $geometryEngine = $this->getGeometryEngine();
 
@@ -1217,7 +1230,7 @@ class GeometryEngineTest extends AbstractTestCase
         self::assertSame($maxDistance, $geometryEngine->maxDistance($geometry1, $geometry2));
     }
 
-    public static function providerMaxDistance() : array
+    public static function providerMaxDistance(): array
     {
         return [
             ['POINT (0 0)', 'LINESTRING (2 0, 0 2)', 2.0],
@@ -1227,7 +1240,7 @@ class GeometryEngineTest extends AbstractTestCase
     }
 
     #[DataProvider('providerTransform')]
-    public function testTransform(string $originalWkt, int $originalSrid, int $targetSrid, string $expectedWkt) : void
+    public function testTransform(string $originalWkt, int $originalSrid, int $targetSrid, string $expectedWkt): void
     {
         $geometryEngine = $this->getGeometryEngine();
 
@@ -1247,7 +1260,7 @@ class GeometryEngineTest extends AbstractTestCase
         $this->assertGeometryEqualsWithDelta($expectedGeometry, $transformedGeometry, 0.02);
     }
 
-    public static function providerTransform() : array
+    public static function providerTransform(): array
     {
         return [
             ['POINT (0 0)', 2154, 4326, 'POINT (-1.36 -5.98)'],
@@ -1264,7 +1277,7 @@ class GeometryEngineTest extends AbstractTestCase
      * @param string|string[] $expectedWkt
      */
     #[DataProvider('providerSplit')]
-    public function testSplit(string $originalWkt, string $bladeWkt, string|array $expectedWkt) : void
+    public function testSplit(string $originalWkt, string $bladeWkt, string|array $expectedWkt): void
     {
         $geometryEngine = $this->getGeometryEngine();
 
@@ -1281,11 +1294,11 @@ class GeometryEngineTest extends AbstractTestCase
         if (is_array($expectedWkt)) {
             self::assertContains($splitGeometry->asText(), $expectedWkt);
         } else {
-            $this->assertSame($expectedWkt, $splitGeometry->asText());
+            self::assertSame($expectedWkt, $splitGeometry->asText());
         }
     }
 
-    public static function providerSplit() : array
+    public static function providerSplit(): array
     {
         return [
             ['LINESTRING (1 1, 3 3)', 'POINT (2 2)', [
@@ -1309,7 +1322,7 @@ class GeometryEngineTest extends AbstractTestCase
     }
 
     #[DataProvider('providerLineInterpolatePoint')]
-    public function testLineInterpolatePoint(string $originalWkt, float $fraction, string $expectedWkt) : void
+    public function testLineInterpolatePoint(string $originalWkt, float $fraction, string $expectedWkt): void
     {
         $geometryEngine = $this->getGeometryEngine();
 
@@ -1319,10 +1332,10 @@ class GeometryEngineTest extends AbstractTestCase
         $lineString = LineString::fromText($originalWkt);
         $resultGeometry = $geometryEngine->lineInterpolatePoint($lineString, $fraction);
 
-        $this->assertSame($expectedWkt, $resultGeometry->asText());
+        self::assertSame($expectedWkt, $resultGeometry->asText());
     }
 
-    public static function providerLineInterpolatePoint() : array
+    public static function providerLineInterpolatePoint(): array
     {
         return [
             ['LINESTRING(0 0, 10 10, 20 20, 30 10, 40 20)', 0, 'POINT (0 0)'],
@@ -1350,7 +1363,7 @@ class GeometryEngineTest extends AbstractTestCase
     }
 
     #[DataProvider('providerLineInterpolatePoints')]
-    public function testLineInterpolatePoints(string $originalWkt, float $fraction, string $expectedWkt) : void
+    public function testLineInterpolatePoints(string $originalWkt, float $fraction, string $expectedWkt): void
     {
         $geometryEngine = $this->getGeometryEngine();
 
@@ -1364,10 +1377,10 @@ class GeometryEngineTest extends AbstractTestCase
 
         $resultGeometry = $geometryEngine->lineInterpolatePoints($lineString, $fraction);
 
-        $this->assertSame($expectedWkt, $resultGeometry->asText());
+        self::assertSame($expectedWkt, $resultGeometry->asText());
     }
 
-    public static function providerLineInterpolatePoints() : array
+    public static function providerLineInterpolatePoints(): array
     {
         return [
             ['LINESTRING EMPTY', 0, 'MULTIPOINT EMPTY'],
@@ -1412,57 +1425,57 @@ class GeometryEngineTest extends AbstractTestCase
         return $GLOBALS['GEOMETRY_ENGINE'];
     }
 
-    private function failsOnMysql(?string $operatorAndVersion = null) : void
+    private function failsOnMysql(?string $operatorAndVersion = null): void
     {
         if ($this->isMysql($operatorAndVersion)) {
             $this->expectException(GeometryEngineException::class);
         }
     }
 
-    private function failsOnMariadb(?string $operatorAndVersion = null) : void
+    private function failsOnMariadb(?string $operatorAndVersion = null): void
     {
         if ($this->isMariadb($operatorAndVersion)) {
             $this->expectException(GeometryEngineException::class);
         }
     }
 
-    private function failsOnGeos(?string $operatorAndVersion = null) : void
+    private function failsOnGeos(?string $operatorAndVersion = null): void
     {
         if ($this->isGeos($operatorAndVersion)) {
             $this->expectException(GeometryEngineException::class);
         }
     }
 
-    private function failsOnGeosOp(?string $operatorAndVersion = null) : void
+    private function failsOnGeosOp(?string $operatorAndVersion = null): void
     {
         if ($this->isGeosOp($operatorAndVersion)) {
             $this->expectException(GeometryEngineException::class);
         }
     }
 
-    private function failsOnSpatialite(?string $operatorAndVersion = null) : void
+    private function failsOnSpatialite(?string $operatorAndVersion = null): void
     {
         if ($this->isSpatialite($operatorAndVersion)) {
             $this->expectException(GeometryEngineException::class);
         }
     }
 
-    private function isMysql(?string $operatorAndVersion = null) : bool
+    private function isMysql(?string $operatorAndVersion = null): bool
     {
         return $this->isMysqlOrMariadb(false, $operatorAndVersion);
     }
 
-    private function isMariadb(?string $operatorAndVersion = null) : bool
+    private function isMariadb(?string $operatorAndVersion = null): bool
     {
         return $this->isMysqlOrMariadb(true, $operatorAndVersion);
     }
 
-    private function isPostgis() : bool
+    private function isPostgis(): bool
     {
         return $this->isPdoDriver('pgsql');
     }
 
-    private function isSpatialite(?string $operatorAndVersion = null) : bool
+    private function isSpatialite(?string $operatorAndVersion = null): bool
     {
         $engine = $this->getGeometryEngine();
 
@@ -1479,7 +1492,7 @@ class GeometryEngineTest extends AbstractTestCase
         return false;
     }
 
-    private function isGeos(?string $operatorAndVersion = null) : bool
+    private function isGeos(?string $operatorAndVersion = null): bool
     {
         $engine = $this->getGeometryEngine();
 
@@ -1501,7 +1514,7 @@ class GeometryEngineTest extends AbstractTestCase
         return false;
     }
 
-    private function isGeosOp(?string $operatorAndVersion = null) : bool
+    private function isGeosOp(?string $operatorAndVersion = null): bool
     {
         $engine = $this->getGeometryEngine();
 
@@ -1560,7 +1573,7 @@ class GeometryEngineTest extends AbstractTestCase
         self::markTestSkipped('Not supported on this geometry engine.');
     }
 
-    private function skipIfUnsupportedGeometry(Geometry $geometry) : void
+    private function skipIfUnsupportedGeometry(Geometry $geometry): void
     {
         if ($geometry->is3D() || $geometry->isMeasured()) {
             // MySQL and MariaDB do not support Z and M coordinates.
@@ -1593,7 +1606,7 @@ class GeometryEngineTest extends AbstractTestCase
         }
     }
 
-    private function skipIfUnsupportedByEngine(Geometry $geometry1, Geometry $geometry2, string $methodName) : void
+    private function skipIfUnsupportedByEngine(Geometry $geometry1, Geometry $geometry2, string $methodName): void
     {
         $this->skipIfUnsupportedGeometry($geometry1);
         $this->skipIfUnsupportedGeometry($geometry2);
@@ -1608,7 +1621,7 @@ class GeometryEngineTest extends AbstractTestCase
     /**
      * Asserts that two geometries are spatially equal.
      */
-    private function assertGeometryEquals(Geometry $expected, Geometry $actual) : void
+    private function assertGeometryEquals(Geometry $expected, Geometry $actual): void
     {
         $expectedWkt = $expected->asText();
         $actualWkt = $actual->asText();
@@ -1645,7 +1658,7 @@ class GeometryEngineTest extends AbstractTestCase
      * @param string $version            The version of the software in use, such as "4.0.1".
      * @param string $operatorAndVersion The comparison operator and version to test against, such as ">= 4.0".
      */
-    private function isVersion(string $version, string $operatorAndVersion) : bool
+    private function isVersion(string $version, string $operatorAndVersion): bool
     {
         if (preg_match('/^([\<\>]?\=?) ?(.*)/', $operatorAndVersion, $matches) !== 1) {
             throw new LogicException("Invalid operator and version: $operatorAndVersion");
@@ -1660,30 +1673,31 @@ class GeometryEngineTest extends AbstractTestCase
         return version_compare($version, $testVersion, $operator);
     }
 
-    private function isPdoDriver(string $name) : bool
+    private function isPdoDriver(string $name): bool
     {
         $engine = $this->getGeometryEngine();
 
         if ($engine instanceof PdoEngine) {
-            if ($engine->getPDO()->getAttribute(\PDO::ATTR_DRIVER_NAME) === $name) {
+            if ($engine->getPDO()->getAttribute(PDO::ATTR_DRIVER_NAME) === $name) {
                 return true;
             }
         }
 
         return false;
     }
+
     /**
      * @param bool        $testMariadb        False to check for MYSQL, true to check for MariaDB.
      * @param string|null $operatorAndVersion An optional comparison operator and version number to test against.
      */
-    private function isMysqlOrMariadb(bool $testMariadb, ?string $operatorAndVersion = null) : bool
+    private function isMysqlOrMariadb(bool $testMariadb, ?string $operatorAndVersion = null): bool
     {
         $engine = $this->getGeometryEngine();
 
         if ($engine instanceof PdoEngine) {
             $pdo = $engine->getPDO();
 
-            if ($pdo->getAttribute(\PDO::ATTR_DRIVER_NAME) === 'mysql') {
+            if ($pdo->getAttribute(PDO::ATTR_DRIVER_NAME) === 'mysql') {
                 $statement = $pdo->query('SELECT VERSION()');
                 $version = $statement->fetchColumn();
 

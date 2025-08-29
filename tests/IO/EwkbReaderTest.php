@@ -6,7 +6,10 @@ namespace Brick\Geo\Tests\IO;
 
 use Brick\Geo\Io\EwkbReader;
 use Brick\Geo\Io\EwktWriter;
+use Generator;
 use PHPUnit\Framework\Attributes\DataProvider;
+
+use function hex2bin;
 
 /**
  * Unit tests for class EwkbReader.
@@ -18,7 +21,7 @@ class EwkbReaderTest extends EwkbAbstractTestCase
      * @param string $ewkt The expected EWKT output.
      */
     #[DataProvider('providerRead')]
-    public function testRead(string $ewkb, string $ewkt) : void
+    public function testRead(string $ewkb, string $ewkt): void
     {
         $reader = new EwkbReader();
         $writer = new EwktWriter();
@@ -27,7 +30,7 @@ class EwkbReaderTest extends EwkbAbstractTestCase
         self::assertSame($ewkt, $writer->write($geometry));
     }
 
-    public static function providerRead() : \Generator
+    public static function providerRead(): Generator
     {
         foreach (self::providerBigEndianEwkb() as [$ewkt, $ewkb]) {
             yield [$ewkb, $ewkt];
@@ -45,7 +48,7 @@ class EwkbReaderTest extends EwkbAbstractTestCase
             yield [$ewkb, $ewkt];
         }
 
-        /* WKB being valid EWKB, we test the reader against WKB as well */
+        // WKB being valid EWKB, we test the reader against WKB as well
 
         foreach (self::providerBigEndianWkb() as [$wkt, $wkb]) {
             yield [$wkb, $wkt];

@@ -10,8 +10,12 @@ use Brick\Geo\Io\GeoJson\Feature;
 use Brick\Geo\Io\GeoJson\FeatureCollection;
 use Brick\Geo\Io\GeoJsonReader;
 use Brick\Geo\Point;
+use Generator;
 use PHPUnit\Framework\Attributes\DataProvider;
 use stdClass;
+
+use function preg_replace_callback;
+use function strtoupper;
 
 class GeoJsonReaderTest extends GeoJsonAbstractTestCase
 {
@@ -22,13 +26,13 @@ class GeoJsonReaderTest extends GeoJsonAbstractTestCase
      * @param bool   $lenient Whether to be lenient about case-sensitivity.
      */
     #[DataProvider('providerReadGeometry')]
-    public function testReadGeometry(string $geoJson, array $coords, bool $is3D, bool $lenient) : void
+    public function testReadGeometry(string $geoJson, array $coords, bool $is3D, bool $lenient): void
     {
         $geometry = (new GeoJsonReader($lenient))->read($geoJson);
         $this->assertGeometryContents($geometry, $coords, $is3D, false, 4326);
     }
 
-    public static function providerReadGeometry() : \Generator
+    public static function providerReadGeometry(): Generator
     {
         foreach (self::providerGeometryGeoJson() as [$geoJson, $coords, $is3D]) {
             yield [$geoJson, $coords, $is3D, false];
@@ -44,7 +48,7 @@ class GeoJsonReaderTest extends GeoJsonAbstractTestCase
      * @param bool          $lenient    Whether to be lenient about case-sensitivity.
      */
     #[DataProvider('providerReadFeature')]
-    public function testReadFeature(string $geoJson, ?stdClass $properties, ?array $coords, bool $is3D, bool $lenient) : void
+    public function testReadFeature(string $geoJson, ?stdClass $properties, ?array $coords, bool $is3D, bool $lenient): void
     {
         $feature = (new GeoJsonReader($lenient))->read($geoJson);
 
@@ -60,7 +64,7 @@ class GeoJsonReaderTest extends GeoJsonAbstractTestCase
         }
     }
 
-    public static function providerReadFeature() : \Generator
+    public static function providerReadFeature(): Generator
     {
         foreach (self::providerFeatureGeoJson() as [$geoJson, $properties, $coords, $is3D]) {
             yield [$geoJson, $properties, $coords, $is3D, false];
@@ -75,7 +79,7 @@ class GeoJsonReaderTest extends GeoJsonAbstractTestCase
      * @param bool    $lenient Whether to be lenient about case-sensitivity.
      */
     #[DataProvider('providerReadFeatureCollection')]
-    public function testReadFeatureCollection(string $geoJson, array $properties, array $coords, array $is3D, bool $lenient) : void
+    public function testReadFeatureCollection(string $geoJson, array $properties, array $coords, array $is3D, bool $lenient): void
     {
         $featureCollection = (new GeoJsonReader($lenient))->read($geoJson);
 
@@ -88,7 +92,7 @@ class GeoJsonReaderTest extends GeoJsonAbstractTestCase
         }
     }
 
-    public static function providerReadFeatureCollection() : \Generator
+    public static function providerReadFeatureCollection(): Generator
     {
         foreach (self::providerFeatureCollectionGeoJson() as [$geoJson, $properties, $coords, $is3D]) {
             yield [$geoJson, $properties, $coords, $is3D, false];
@@ -96,7 +100,7 @@ class GeoJsonReaderTest extends GeoJsonAbstractTestCase
         }
     }
 
-    public function testReadFeatureWithMissingGeometry() : void
+    public function testReadFeatureWithMissingGeometry(): void
     {
         $reader = new GeoJsonReader();
 
@@ -118,7 +122,7 @@ class GeoJsonReaderTest extends GeoJsonAbstractTestCase
         $reader->read($geoJson);
     }
 
-    public function testReadFeatureWithMissingGeometryInLenientMode() : void
+    public function testReadFeatureWithMissingGeometryInLenientMode(): void
     {
         $reader = new GeoJsonReader(lenient: true);
 
@@ -139,7 +143,7 @@ class GeoJsonReaderTest extends GeoJsonAbstractTestCase
         self::assertSame(['name' => 'Foo'], (array) $feature->getProperties());
     }
 
-    public function testReadFeatureWithMissingProperties() : void
+    public function testReadFeatureWithMissingProperties(): void
     {
         $reader = new GeoJsonReader();
 
@@ -162,7 +166,7 @@ class GeoJsonReaderTest extends GeoJsonAbstractTestCase
         $reader->read($geoJson);
     }
 
-    public function testReadFeatureWithMissingPropertiesInLenientMode() : void
+    public function testReadFeatureWithMissingPropertiesInLenientMode(): void
     {
         $reader = new GeoJsonReader(lenient: true);
 
@@ -248,7 +252,7 @@ class GeoJsonReaderTest extends GeoJsonAbstractTestCase
     }
 
     #[DataProvider('providerWrongCaseTypeInNonLenientMode')]
-    public function testWrongCaseTypeInNonLenientMode(string $geoJson, string $expectedExceptionMessage) : void
+    public function testWrongCaseTypeInNonLenientMode(string $geoJson, string $expectedExceptionMessage): void
     {
         $reader = new GeoJsonReader();
 
@@ -258,7 +262,7 @@ class GeoJsonReaderTest extends GeoJsonAbstractTestCase
         $reader->read($geoJson);
     }
 
-    public static function providerWrongCaseTypeInNonLenientMode() : \Generator
+    public static function providerWrongCaseTypeInNonLenientMode(): Generator
     {
         $tests = [
             [self::providerGeometryPointGeoJson(), 'POINT', 'Point'],
@@ -285,9 +289,9 @@ class GeoJsonReaderTest extends GeoJsonAbstractTestCase
     /**
      * Changes the case of type attributes.
      */
-    private static function alterCase(string $geoJson) : string
+    private static function alterCase(string $geoJson): string
     {
-        $callback = fn(array $matches): string => $matches[1] . strtoupper($matches[2]);
+        $callback = fn (array $matches): string => $matches[1] . strtoupper($matches[2]);
 
         return preg_replace_callback('/("type"\s*\:\s*)("[^"]+")/', $callback, $geoJson);
     }

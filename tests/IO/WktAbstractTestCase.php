@@ -6,12 +6,14 @@ namespace Brick\Geo\Tests\IO;
 
 use Brick\Geo\Tests\AbstractTestCase;
 
+use function array_merge;
+
 /**
  * Base class for WKT reader/writer tests.
  */
 abstract class WktAbstractTestCase extends AbstractTestCase
 {
-    final public static function providerWkt() : array
+    final public static function providerWkt(): array
     {
         return array_merge(
             self::providerPointWkt(),
@@ -26,11 +28,11 @@ abstract class WktAbstractTestCase extends AbstractTestCase
             self::providerGeometryCollectionWkt(),
             self::providerPolyhedralSurfaceWkt(),
             self::providerTriangleWkt(),
-            self::providerTinWkt()
+            self::providerTinWkt(),
         );
     }
 
-    final public static function providerPointWkt() : array
+    final public static function providerPointWkt(): array
     {
         return [
             ['POINT EMPTY', [], false, false],
@@ -45,7 +47,7 @@ abstract class WktAbstractTestCase extends AbstractTestCase
         ];
     }
 
-    final public static function providerLineStringWkt() : array
+    final public static function providerLineStringWkt(): array
     {
         return [
             ['LINESTRING EMPTY', [], false, false],
@@ -60,7 +62,7 @@ abstract class WktAbstractTestCase extends AbstractTestCase
         ];
     }
 
-    final public static function providerCircularStringWkt() : array
+    final public static function providerCircularStringWkt(): array
     {
         return [
             ['CIRCULARSTRING EMPTY', [], false, false],
@@ -75,7 +77,7 @@ abstract class WktAbstractTestCase extends AbstractTestCase
         ];
     }
 
-    final public static function providerCompoundCurveWkt() : array
+    final public static function providerCompoundCurveWkt(): array
     {
         return [
             ['COMPOUNDCURVE EMPTY', [], false, false],
@@ -90,7 +92,7 @@ abstract class WktAbstractTestCase extends AbstractTestCase
         ];
     }
 
-    final public static function providerPolygonWkt() : array
+    final public static function providerPolygonWkt(): array
     {
         return [
             ['POLYGON EMPTY', [], false, false],
@@ -110,7 +112,7 @@ abstract class WktAbstractTestCase extends AbstractTestCase
         ];
     }
 
-    final public static function providerCurvePolygonWkt() : array
+    final public static function providerCurvePolygonWkt(): array
     {
         return [
             ['CURVEPOLYGON EMPTY', [], false, false],
@@ -125,7 +127,7 @@ abstract class WktAbstractTestCase extends AbstractTestCase
         ];
     }
 
-    final public static function providerMultiPointWkt() : array
+    final public static function providerMultiPointWkt(): array
     {
         return [
             ['MULTIPOINT EMPTY', [], false, false],
@@ -140,7 +142,7 @@ abstract class WktAbstractTestCase extends AbstractTestCase
         ];
     }
 
-    final public static function providerMultiLineStringWkt() : array
+    final public static function providerMultiLineStringWkt(): array
     {
         return [
             ['MULTILINESTRING EMPTY', [], false, false],
@@ -160,7 +162,7 @@ abstract class WktAbstractTestCase extends AbstractTestCase
         ];
     }
 
-    final public static function providerMultiPolygonWkt() : array
+    final public static function providerMultiPolygonWkt(): array
     {
         return [
             ['MULTIPOLYGON EMPTY', [], false, false],
@@ -180,7 +182,7 @@ abstract class WktAbstractTestCase extends AbstractTestCase
         ];
     }
 
-    final public static function providerGeometryCollectionWkt() : array
+    final public static function providerGeometryCollectionWkt(): array
     {
         return [
             ['GEOMETRYCOLLECTION EMPTY', [], false, false],
@@ -191,11 +193,11 @@ abstract class WktAbstractTestCase extends AbstractTestCase
             ['GEOMETRYCOLLECTION(POINT(1 2),LINESTRING(2 3,3 4))', [[1, 2], [[2, 3], [3, 4]]], false, false],
             ['GEOMETRYCOLLECTION Z(POINT Z(1 2 3),LINESTRING Z(2 3 4,3 4 5))', [[1, 2, 3], [[2, 3, 4], [3, 4, 5]]], true, false],
             ['GEOMETRYCOLLECTION M(POINT M(1 2 4),LINESTRING M(2 3 5,3 4 6))', [[1, 2, 4], [[2, 3, 5], [3, 4, 6]]], false, true],
-            ['GEOMETRYCOLLECTION ZM(POINT ZM(1 2 3 4),LINESTRING ZM(2 3 4 5,3 4 5 6))', [[1, 2, 3, 4], [[2, 3, 4, 5], [3, 4, 5, 6]]], true, true]
+            ['GEOMETRYCOLLECTION ZM(POINT ZM(1 2 3 4),LINESTRING ZM(2 3 4 5,3 4 5 6))', [[1, 2, 3, 4], [[2, 3, 4, 5], [3, 4, 5, 6]]], true, true],
         ];
     }
 
-    final public static function providerPolyhedralSurfaceWkt() : array
+    final public static function providerPolyhedralSurfaceWkt(): array
     {
         return [
             ['POLYHEDRALSURFACE EMPTY', [], false, false],
@@ -210,7 +212,7 @@ abstract class WktAbstractTestCase extends AbstractTestCase
         ];
     }
 
-    final public static function providerTriangleWkt() : array
+    final public static function providerTriangleWkt(): array
     {
         return [
             ['TRIANGLE EMPTY', [], false, false],
@@ -225,7 +227,7 @@ abstract class WktAbstractTestCase extends AbstractTestCase
         ];
     }
 
-    final public static function providerTinWkt() : array
+    final public static function providerTinWkt(): array
     {
         return [
             ['TIN EMPTY', [], false, false],
@@ -244,7 +246,7 @@ abstract class WktAbstractTestCase extends AbstractTestCase
      * Some geometries, like CompoundCurve and MultiPoint, accept two different syntaxes.
      * This test ensures that WKT readers can handle both.
      */
-    final public static function providerAlternativeSyntaxWkt() : array
+    final public static function providerAlternativeSyntaxWkt(): array
     {
         return [
             [

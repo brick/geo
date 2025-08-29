@@ -16,6 +16,10 @@ use Brick\Geo\Point;
 use Brick\Geo\Polygon;
 use Brick\Geo\PolyhedralSurface;
 
+use function pack;
+use function sprintf;
+use function strrev;
+
 /**
  * Base class for WkbWriter and EwkbWriter.
  *
@@ -35,7 +39,7 @@ abstract class AbstractWkbWriter
         $this->byteOrder = $this->machineByteOrder = WkbTools::getMachineByteOrder();
     }
 
-    public function setByteOrder(WkbByteOrder $byteOrder) : void
+    public function setByteOrder(WkbByteOrder $byteOrder): void
     {
         $this->byteOrder = $byteOrder;
     }
@@ -47,7 +51,7 @@ abstract class AbstractWkbWriter
      *
      * @throws GeometryIoException If the given geometry cannot be exported as WKB.
      */
-    public function write(Geometry $geometry) : string
+    public function write(Geometry $geometry): string
     {
         return $this->doWrite($geometry, true);
     }
@@ -60,7 +64,7 @@ abstract class AbstractWkbWriter
      *
      * @throws GeometryIoException If the given geometry cannot be exported as WKT.
      */
-    protected function doWrite(Geometry $geometry, bool $outer) : string
+    protected function doWrite(Geometry $geometry, bool $outer): string
     {
         if ($geometry instanceof Point) {
             return $this->writePoint($geometry, $outer);
@@ -97,12 +101,7 @@ abstract class AbstractWkbWriter
         throw GeometryIoException::unsupportedGeometryType($geometry->geometryType());
     }
 
-    private function packByteOrder() : string
-    {
-        return pack('C', $this->byteOrder->value);
-    }
-
-    protected function packUnsignedInteger(int $uint) : string
+    protected function packUnsignedInteger(int $uint): string
     {
         return pack(match ($this->byteOrder) {
             WkbByteOrder::BigEndian => 'N',
@@ -110,7 +109,14 @@ abstract class AbstractWkbWriter
         }, $uint);
     }
 
-    private function packDouble(float $double) : string
+    abstract protected function packHeader(Geometry $geometry, bool $outer): string;
+
+    private function packByteOrder(): string
+    {
+        return pack('C', $this->byteOrder->value);
+    }
+
+    private function packDouble(float $double): string
     {
         $binary = pack('d', $double);
 
@@ -124,7 +130,7 @@ abstract class AbstractWkbWriter
     /**
      * @throws GeometryIoException
      */
-    private function packPoint(Point $point) : string
+    private function packPoint(Point $point): string
     {
         if ($point->isEmpty()) {
             throw new GeometryIoException('Empty points have no WKB representation.');
@@ -146,7 +152,7 @@ abstract class AbstractWkbWriter
     /**
      * @throws GeometryIoException
      */
-    private function packCurve(Curve $curve) : string
+    private function packCurve(Curve $curve): string
     {
         if (! $curve instanceof LineString && ! $curve instanceof CircularString) {
             // CompoundCurve is not a list of Points, not sure if WKB supports it!
@@ -163,29 +169,29 @@ abstract class AbstractWkbWriter
         return $wkb;
     }
 
-    private function writePoint(Point $point, bool $outer) : string
+    private function writePoint(Point $point, bool $outer): string
     {
         $wkb = $this->packByteOrder();
-        $wkb.= $this->packHeader($point, $outer);
-        $wkb.= $this->packPoint($point);
+        $wkb .= $this->packHeader($point, $outer);
+        $wkb .= $this->packPoint($point);
 
         return $wkb;
     }
 
-    private function writeCurve(Curve $curve, bool $outer) : string
+    private function writeCurve(Curve $curve, bool $outer): string
     {
         $wkb = $this->packByteOrder();
-        $wkb.= $this->packHeader($curve, $outer);
-        $wkb.= $this->packCurve($curve);
+        $wkb .= $this->packHeader($curve, $outer);
+        $wkb .= $this->packCurve($curve);
 
         return $wkb;
     }
 
-    private function writePolygon(Polygon $polygon, bool $outer) : string
+    private function writePolygon(Polygon $polygon, bool $outer): string
     {
         $wkb = $this->packByteOrder();
-        $wkb.= $this->packHeader($polygon, $outer);
-        $wkb.= $this->packUnsignedInteger($polygon->count());
+        $wkb .= $this->packHeader($polygon, $outer);
+        $wkb .= $this->packUnsignedInteger($polygon->count());
 
         foreach ($polygon as $ring) {
             $wkb .= $this->packCurve($ring);
@@ -194,11 +200,11 @@ abstract class AbstractWkbWriter
         return $wkb;
     }
 
-    private function writeComposedGeometry(CompoundCurve|CurvePolygon|GeometryCollection|PolyhedralSurface $collection, bool $outer) : string
+    private function writeComposedGeometry(CompoundCurve|CurvePolygon|GeometryCollection|PolyhedralSurface $collection, bool $outer): string
     {
         $wkb = $this->packByteOrder();
-        $wkb.= $this->packHeader($collection, $outer);
-        $wkb.= $this->packUnsignedInteger($collection->count());
+        $wkb .= $this->packHeader($collection, $outer);
+        $wkb .= $this->packUnsignedInteger($collection->count());
 
         foreach ($collection as $geometry) {
             $wkb .= $this->doWrite($geometry, false);
@@ -206,6 +212,4 @@ abstract class AbstractWkbWriter
 
         return $wkb;
     }
-
-    abstract protected function packHeader(Geometry $geometry, bool $outer) : string;
 }

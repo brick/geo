@@ -9,8 +9,10 @@ use Brick\Geo\Curve;
 use Brick\Geo\CurvePolygon;
 use Brick\Geo\Exception\EmptyGeometryException;
 use Brick\Geo\Exception\NoSuchGeometryException;
-use Brick\Geo\LineString;
+use Generator;
 use PHPUnit\Framework\Attributes\DataProvider;
+
+use function array_map;
 
 /**
  * Unit tests for class CurvePolygon.
@@ -18,7 +20,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
 class CurvePolygonTest extends AbstractTestCase
 {
     #[DataProvider('providerEmptyFactoryMethod')]
-    public function testEmptyFactoryMethod(bool $is3D, bool $isMeasured, int $srid) : void
+    public function testEmptyFactoryMethod(bool $is3D, bool $isMeasured, int $srid): void
     {
         $cs = new CoordinateSystem($is3D, $isMeasured, $srid);
         $polygon = new CurvePolygon($cs);
@@ -29,17 +31,17 @@ class CurvePolygonTest extends AbstractTestCase
         self::assertSame($srid, $polygon->srid());
     }
 
-    public static function providerEmptyFactoryMethod() : array
+    public static function providerEmptyFactoryMethod(): array
     {
         return [
             [false, false, 0],
-            [true ,false, 0],
+            [true, false, 0],
             [false, true, 0],
             [true, true, 0],
             [false, false, 4326],
-            [true ,false, 4326],
+            [true, false, 4326],
             [false, true, 4326],
-            [true, true, 4326]
+            [true, true, 4326],
         ];
     }
 
@@ -48,7 +50,7 @@ class CurvePolygonTest extends AbstractTestCase
      * @param string $exteriorRing The WKT of the expected exterior ring.
      */
     #[DataProvider('providerExteriorRing')]
-    public function testExteriorRing(string $curvePolygon, string $exteriorRing) : void
+    public function testExteriorRing(string $curvePolygon, string $exteriorRing): void
     {
         foreach ([0, 1] as $srid) {
             $ring = CurvePolygon::fromText($curvePolygon, $srid)->exteriorRing();
@@ -56,7 +58,7 @@ class CurvePolygonTest extends AbstractTestCase
         }
     }
 
-    public static function providerExteriorRing() : array
+    public static function providerExteriorRing(): array
     {
         return [
             ['CURVEPOLYGON ((0 0, 0 9, 9 9, 0 0), COMPOUNDCURVE ((1 2, 3 4), CIRCULARSTRING (3 4, 5 6, 7 8, 9 0, 1 2)))', 'LINESTRING (0 0, 0 9, 9 9, 0 0)'],
@@ -70,13 +72,13 @@ class CurvePolygonTest extends AbstractTestCase
      * @param string $polygon The WKT of the CurvePolygon to test.
      */
     #[DataProvider('providerExteriorRingOfEmptyCurvePolygon')]
-    public function testExteriorRingOfEmptyCurvePolygon(string $polygon) : void
+    public function testExteriorRingOfEmptyCurvePolygon(string $polygon): void
     {
         $this->expectException(EmptyGeometryException::class);
         CurvePolygon::fromText($polygon)->exteriorRing();
     }
 
-    public static function providerExteriorRingOfEmptyCurvePolygon() : array
+    public static function providerExteriorRingOfEmptyCurvePolygon(): array
     {
         return [
             ['CURVEPOLYGON EMPTY'],
@@ -85,18 +87,19 @@ class CurvePolygonTest extends AbstractTestCase
             ['CURVEPOLYGON ZM EMPTY'],
         ];
     }
+
     /**
      * @param string $polygon          The WKT of the Polygon to test.
      * @param int    $numInteriorRings The expected number of interior rings.
      */
     #[DataProvider('providerNumInteriorRings')]
-    public function testNumInteriorRings(string $polygon, int $numInteriorRings) : void
+    public function testNumInteriorRings(string $polygon, int $numInteriorRings): void
     {
         $polygon = CurvePolygon::fromText($polygon);
         self::assertSame($numInteriorRings, $polygon->numInteriorRings());
     }
 
-    public static function providerNumInteriorRings() : array
+    public static function providerNumInteriorRings(): array
     {
         return [
             ['CURVEPOLYGON EMPTY', 0],
@@ -118,7 +121,7 @@ class CurvePolygonTest extends AbstractTestCase
      * @param int         $srid          The SRID of the geometries.
      */
     #[DataProvider('providerInteriorRingN')]
-    public function testInteriorRingN(string $curvePolygon, int $n, ?string $interiorRingN, int $srid) : void
+    public function testInteriorRingN(string $curvePolygon, int $n, ?string $interiorRingN, int $srid): void
     {
         if ($interiorRingN === null) {
             $this->expectException(NoSuchGeometryException::class);
@@ -128,7 +131,7 @@ class CurvePolygonTest extends AbstractTestCase
         $this->assertWktEquals($ring, $interiorRingN, $srid);
     }
 
-    public static function providerInteriorRingN() : \Generator
+    public static function providerInteriorRingN(): Generator
     {
         $tests = [
             ['CURVEPOLYGON EMPTY', [

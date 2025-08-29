@@ -9,7 +9,13 @@ use Brick\Geo\Geometry;
 use Brick\Geo\GeometryCollection;
 use Brick\Geo\LineString;
 use Brick\Geo\Point;
+use Countable;
+use Generator;
 use PHPUnit\Framework\Attributes\DataProvider;
+use Traversable;
+
+use function array_map;
+use function iterator_to_array;
 
 /**
  * Unit tests for class GeometryCollection.
@@ -21,13 +27,13 @@ class GeometryCollectionTest extends AbstractTestCase
      * @param int    $numGeometries The expected number of geometries.
      */
     #[DataProvider('providerNumGeometries')]
-    public function testNumGeometries(string $geometry, int $numGeometries) : void
+    public function testNumGeometries(string $geometry, int $numGeometries): void
     {
         $geometry = GeometryCollection::fromText($geometry);
         self::assertSame($numGeometries, $geometry->numGeometries());
     }
 
-    public static function providerNumGeometries() : array
+    public static function providerNumGeometries(): array
     {
         return [
             ['GEOMETRYCOLLECTION EMPTY', 0],
@@ -43,7 +49,7 @@ class GeometryCollectionTest extends AbstractTestCase
      * @param int         $srid      The SRID of the geometries.
      */
     #[DataProvider('providerGeometryN')]
-    public function testGeometryN(string $geometry, int $n, ?string $geometryN, int $srid) : void
+    public function testGeometryN(string $geometry, int $n, ?string $geometryN, int $srid): void
     {
         if ($geometryN === null) {
             $this->expectException(NoSuchGeometryException::class);
@@ -53,7 +59,7 @@ class GeometryCollectionTest extends AbstractTestCase
         $this->assertWktEquals($g->geometryN($n), $geometryN, $srid);
     }
 
-    public static function providerGeometryN() : \Generator
+    public static function providerGeometryN(): Generator
     {
         $tests = [
             ['GEOMETRYCOLLECTION EMPTY', 0, null],
@@ -64,7 +70,7 @@ class GeometryCollectionTest extends AbstractTestCase
             ['GEOMETRYCOLLECTION (LINESTRING (1 2, 3 4), POINT (5 6))', 0, null],
             ['GEOMETRYCOLLECTION (LINESTRING (1 2, 3 4), POINT (5 6))', 1, 'LINESTRING (1 2, 3 4)'],
             ['GEOMETRYCOLLECTION (LINESTRING (1 2, 3 4), POINT (5 6))', 2, 'POINT (5 6)'],
-            ['GEOMETRYCOLLECTION (LINESTRING (1 2, 3 4), POINT (5 6))', 3, null]
+            ['GEOMETRYCOLLECTION (LINESTRING (1 2, 3 4), POINT (5 6))', 3, null],
         ];
 
         foreach ($tests as [$geometryCollection, $n, $geometryN]) {
@@ -77,17 +83,17 @@ class GeometryCollectionTest extends AbstractTestCase
     /**
      * Tests Countable and Traversable interfaces.
      */
-    public function testInterfaces() : void
+    public function testInterfaces(): void
     {
         $point = Point::fromText('POINT (1 2)');
         $lineString = LineString::fromText('LINESTRING (1 2, 3 4)');
 
         $geometryCollection = GeometryCollection::of($point, $lineString);
 
-        self::assertInstanceOf(\Countable::class, $geometryCollection);
+        self::assertInstanceOf(Countable::class, $geometryCollection);
         self::assertCount(2, $geometryCollection);
 
-        self::assertInstanceOf(\Traversable::class, $geometryCollection);
+        self::assertInstanceOf(Traversable::class, $geometryCollection);
         self::assertSame([$point, $lineString], iterator_to_array($geometryCollection));
     }
 
@@ -99,9 +105,11 @@ class GeometryCollectionTest extends AbstractTestCase
     {
         $geometryCollection = GeometryCollection::fromText($geometryCollectionWkt, 1234);
         $actual = $geometryCollection->withAddedGeometries(
-            ...array_map(fn (string $wkt) => Geometry::fromText($wkt, 1234),
-            $addedGeometriesWkt,
-        ));
+            ...array_map(
+                fn (string $wkt) => Geometry::fromText($wkt, 1234),
+                $addedGeometriesWkt,
+            ),
+        );
 
         $this->assertWktEquals($geometryCollection, $geometryCollectionWkt, 1234); // ensure immutability
         $this->assertWktEquals($actual, $expectedWkt, 1234);

@@ -10,7 +10,15 @@ use Brick\Geo\Exception\CoordinateSystemException;
 use Brick\Geo\Exception\NoSuchGeometryException;
 use Brick\Geo\Exception\UnexpectedGeometryException;
 use Brick\Geo\Projector\Projector;
+use Countable;
+use IteratorAggregate;
 use Override;
+
+use function array_map;
+use function array_reduce;
+use function array_values;
+use function count;
+use function sprintf;
 
 /**
  * A PolyhedralSurface is a contiguous collection of polygons, which share common boundary segments.
@@ -33,9 +41,10 @@ use Override;
  * can thus be presented as one exterior boundary shell, and some number in interior boundary shells.
  *
  * @template T of Polygon
- * @template-implements \IteratorAggregate<int<0, max>, T>
+ *
+ * @template-implements IteratorAggregate<int<0, max>, T>
  */
-class PolyhedralSurface extends Surface implements \Countable, \IteratorAggregate
+class PolyhedralSurface extends Surface implements Countable, IteratorAggregate
 {
     /**
      * The polygons that compose this PolyhedralSurface.
@@ -76,7 +85,7 @@ class PolyhedralSurface extends Surface implements \Countable, \IteratorAggregat
                     '%s expects instance of %s, instance of %s given.',
                     static::class,
                     $patchType,
-                    $patch::class
+                    $patch::class,
                 ));
             }
         }
@@ -87,29 +96,19 @@ class PolyhedralSurface extends Surface implements \Countable, \IteratorAggregat
     /**
      * Creates a non-empty PolyhedralSurface composed of the given patches.
      *
-     * @psalm-suppress UnsafeInstantiation
-     *
-     * @param Polygon    $patch1 The first patch.
+     * @param Polygon $patch1    The first patch.
      * @param Polygon ...$patchN The subsequent patches, if any.
      *
      * @throws CoordinateSystemException If the patches use different coordinate systems.
+     *
+     * @psalm-suppress UnsafeInstantiation
      */
-    public static function of(Polygon $patch1, Polygon ...$patchN) : PolyhedralSurface
+    public static function of(Polygon $patch1, Polygon ...$patchN): PolyhedralSurface
     {
         return new static($patch1->coordinateSystem(), $patch1, ...$patchN);
     }
 
-    /**
-     * Returns the FQCN of the contained patch type.
-     *
-     * @return class-string<T>
-     */
-    protected function patchType() : string
-    {
-        return Polygon::class;
-    }
-
-    public function numPatches() : int
+    public function numPatches(): int
     {
         return count($this->patches);
     }
@@ -123,7 +122,7 @@ class PolyhedralSurface extends Surface implements \Countable, \IteratorAggregat
      *
      * @throws NoSuchGeometryException If there is no patch at this index.
      */
-    public function patchN(int $n) : Polygon
+    public function patchN(int $n): Polygon
     {
         if (! isset($this->patches[$n - 1])) {
             throw new NoSuchGeometryException('There is no patch in this PolyhedralSurface at index ' . $n);
@@ -137,25 +136,25 @@ class PolyhedralSurface extends Surface implements \Countable, \IteratorAggregat
      *
      * @return list<T>
      */
-    public function patches() : array
+    public function patches(): array
     {
         return $this->patches;
     }
 
     #[NoProxy, Override]
-    public function geometryType() : string
+    public function geometryType(): string
     {
         return 'PolyhedralSurface';
     }
 
     #[NoProxy, Override]
-    public function geometryTypeBinary() : int
+    public function geometryTypeBinary(): int
     {
         return Geometry::POLYHEDRALSURFACE;
     }
 
     #[Override]
-    public function getBoundingBox() : BoundingBox
+    public function getBoundingBox(): BoundingBox
     {
         return array_reduce(
             $this->patches,
@@ -168,7 +167,7 @@ class PolyhedralSurface extends Surface implements \Countable, \IteratorAggregat
      * @return list<list<list<list<float>>>>
      */
     #[Override]
-    public function toArray() : array
+    public function toArray(): array
     {
         return array_map(
             fn (Polygon $patch) => $patch->toArray(),
@@ -192,7 +191,7 @@ class PolyhedralSurface extends Surface implements \Countable, \IteratorAggregat
      * Returns the number of patches in this PolyhedralSurface.
      */
     #[Override]
-    public function count() : int
+    public function count(): int
     {
         return count($this->patches);
     }
@@ -203,7 +202,7 @@ class PolyhedralSurface extends Surface implements \Countable, \IteratorAggregat
      * @return ArrayIterator<int<0, max>, T>
      */
     #[Override]
-    public function getIterator() : ArrayIterator
+    public function getIterator(): ArrayIterator
     {
         return new ArrayIterator($this->patches);
     }
@@ -213,8 +212,18 @@ class PolyhedralSurface extends Surface implements \Countable, \IteratorAggregat
      *
      * @psalm-suppress UnsafeInstantiation
      */
-    public function withAddedPatches(Polygon ...$patches) : PolyhedralSurface
+    public function withAddedPatches(Polygon ...$patches): PolyhedralSurface
     {
         return new static($this->coordinateSystem, ...$this->patches, ...$patches);
+    }
+
+    /**
+     * Returns the FQCN of the contained patch type.
+     *
+     * @return class-string<T>
+     */
+    protected function patchType(): string
+    {
+        return Polygon::class;
     }
 }

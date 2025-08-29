@@ -25,6 +25,7 @@ use Override;
  * A MultiCurve is defined as topologically closed.
  *
  * @template T of Curve
+ *
  * @extends GeometryCollection<T>
  */
 abstract class MultiCurve extends GeometryCollection
@@ -36,7 +37,7 @@ abstract class MultiCurve extends GeometryCollection
             'This exception should never be thrown. ' .
             'This method is here to ensure that MultiCurve::project() has the correct return type, ' .
             'and force concrete classes below MultiCurve to return a MultiCurve, too. ' .
-            'It cannot be made abstract because GeometryCollection::project() is not abstract.'
+            'It cannot be made abstract because GeometryCollection::project() is not abstract.',
         );
     }
 }

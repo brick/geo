@@ -8,6 +8,8 @@ use Brick\Geo\Attribute\NoProxy;
 use Brick\Geo\Projector\Projector;
 use Override;
 
+use function array_map;
+
 /**
  * A MultiPolygon is a MultiSurface whose elements are Polygons.
  *
@@ -26,6 +28,7 @@ use Override;
  * Polygon, and every Curve in the boundary of an element Polygon is in the boundary of the MultiPolygon.
  *
  * @extends MultiSurface<Polygon>
+ *
  * @final
  */
 class MultiPolygon extends MultiSurface
@@ -34,36 +37,30 @@ class MultiPolygon extends MultiSurface
      * @return list<list<list<list<float>>>>
      */
     #[Override]
-    public function toArray() : array
+    public function toArray(): array
     {
         return array_map(
-            fn(Polygon $polygon) => $polygon->toArray(),
+            fn (Polygon $polygon) => $polygon->toArray(),
             $this->geometries,
         );
     }
 
     #[NoProxy, Override]
-    public function geometryType() : string
+    public function geometryType(): string
     {
         return 'MultiPolygon';
     }
 
     #[NoProxy, Override]
-    public function geometryTypeBinary() : int
+    public function geometryTypeBinary(): int
     {
         return Geometry::MULTIPOLYGON;
     }
 
     #[Override]
-    public function dimension() : int
+    public function dimension(): int
     {
         return 2;
-    }
-
-    #[Override]
-    protected function containedGeometryType() : string
-    {
-        return Polygon::class;
     }
 
     #[Override]
@@ -76,5 +73,11 @@ class MultiPolygon extends MultiSurface
                 $this->geometries,
             ),
         );
+    }
+
+    #[Override]
+    protected function containedGeometryType(): string
+    {
+        return Polygon::class;
     }
 }

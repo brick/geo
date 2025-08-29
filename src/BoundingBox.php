@@ -7,6 +7,10 @@ namespace Brick\Geo;
 use Brick\Geo\Exception\CoordinateSystemException;
 use Brick\Geo\Exception\EmptyGeometryException;
 
+use function assert;
+use function max;
+use function min;
+
 /**
  * Represents a 2D or 3D bounding box calculated from a set of points. M coordinates are ignored.
  * This class is immutable.
@@ -48,7 +52,7 @@ final class BoundingBox
      *
      * @throws CoordinateSystemException
      */
-    public function extendedWithPoint(Point $point) : BoundingBox
+    public function extendedWithPoint(Point $point): BoundingBox
     {
         if ($point->isEmpty()) {
             return $this;
@@ -106,7 +110,7 @@ final class BoundingBox
      *
      * @throws CoordinateSystemException
      */
-    public function extendedWithBoundingBox(BoundingBox $boundingBox) : BoundingBox
+    public function extendedWithBoundingBox(BoundingBox $boundingBox): BoundingBox
     {
         if ($boundingBox->isEmpty()) {
             return $this;
@@ -117,7 +121,7 @@ final class BoundingBox
             ->extendedWithPoint($boundingBox->getNorthEast());
     }
 
-    public function isEmpty() : bool
+    public function isEmpty(): bool
     {
         return $this->cs === null;
     }
@@ -127,7 +131,7 @@ final class BoundingBox
      *
      * @throws EmptyGeometryException
      */
-    public function getSouthWest() : Point
+    public function getSouthWest(): Point
     {
         if ($this->cs === null) {
             throw new EmptyGeometryException('The bounding box is empty.');
@@ -151,7 +155,7 @@ final class BoundingBox
      *
      * @throws EmptyGeometryException
      */
-    public function getNorthEast() : Point
+    public function getNorthEast(): Point
     {
         if ($this->cs === null) {
             throw new EmptyGeometryException('The bounding box is empty.');

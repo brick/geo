@@ -30,7 +30,7 @@ abstract class Surface extends Geometry
      * A Surface is a 2-dimensional geometric object.
      */
     #[NoProxy, Override]
-    public function dimension() : int
+    public function dimension(): int
     {
         return 2;
     }

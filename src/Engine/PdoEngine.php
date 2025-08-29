@@ -5,11 +5,14 @@ declare(strict_types=1);
 namespace Brick\Geo\Engine;
 
 use Brick\Geo\Exception\GeometryEngineException;
-use Brick\Geo\Geometry;
 use Override;
 use PDO;
 use PDOException;
 use PDOStatement;
+
+use function assert;
+use function is_bool;
+use function is_int;
 
 /**
  * Database engine based on a PDO driver.
@@ -35,13 +38,13 @@ final class PdoEngine extends DatabaseEngine
         $this->pdo = $pdo;
     }
 
-    public function getPDO() : PDO
+    public function getPDO(): PDO
     {
         return $this->pdo;
     }
 
     #[Override]
-    protected function executeQuery(string $query, array $parameters) : array
+    protected function executeQuery(string $query, array $parameters): array
     {
         /** @var int $errMode */
         $errMode = $this->pdo->getAttribute(PDO::ATTR_ERRMODE);

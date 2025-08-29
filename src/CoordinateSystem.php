@@ -43,7 +43,7 @@ final class CoordinateSystem
     /**
      * Returns a CoordinateSystem with X and Y coordinates, and an optional SRID.
      */
-    public static function xy(int $srid = 0) : CoordinateSystem
+    public static function xy(int $srid = 0): CoordinateSystem
     {
         return new self(false, false, $srid);
     }
@@ -51,7 +51,7 @@ final class CoordinateSystem
     /**
      * Returns a CoordinateSystem with X, Y and Z coordinates, and an optional SRID.
      */
-    public static function xyz(int $srid = 0) : CoordinateSystem
+    public static function xyz(int $srid = 0): CoordinateSystem
     {
         return new self(true, false, $srid);
     }
@@ -59,7 +59,7 @@ final class CoordinateSystem
     /**
      * Returns a CoordinateSystem with X, Y and M coordinates, and an optional SRID.
      */
-    public static function xym(int $srid = 0) : CoordinateSystem
+    public static function xym(int $srid = 0): CoordinateSystem
     {
         return new self(false, true, $srid);
     }
@@ -67,7 +67,7 @@ final class CoordinateSystem
     /**
      * Returns a CoordinateSystem with X, Y, Z and M coordinates, and an optional SRID.
      */
-    public static function xyzm(int $srid = 0) : CoordinateSystem
+    public static function xyzm(int $srid = 0): CoordinateSystem
     {
         return new self(true, true, $srid);
     }
@@ -75,7 +75,7 @@ final class CoordinateSystem
     /**
      * Returns whether this coordinate system has Z-coordinates.
      */
-    public function hasZ() : bool
+    public function hasZ(): bool
     {
         return $this->hasZ;
     }
@@ -83,7 +83,7 @@ final class CoordinateSystem
     /**
      * Returns whether this coordinate system has M-coordinates.
      */
-    public function hasM() : bool
+    public function hasM(): bool
     {
         return $this->hasM;
     }
@@ -91,7 +91,7 @@ final class CoordinateSystem
     /**
      * Returns the Spatial Reference System Identifier of this coordinate system.
      */
-    public function srid() : int
+    public function srid(): int
     {
         return $this->srid;
     }
@@ -101,7 +101,7 @@ final class CoordinateSystem
      *
      * @return 'XY'|'XYZ'|'XYM'|'XYZM'
      */
-    public function coordinateName() : string
+    public function coordinateName(): string
     {
         $name = 'XY';
 
@@ -129,7 +129,7 @@ final class CoordinateSystem
      *
      * @return int<2, 4>
      */
-    public function coordinateDimension() : int
+    public function coordinateDimension(): int
     {
         $coordinateDimension = 2;
 
@@ -151,7 +151,7 @@ final class CoordinateSystem
      *
      * @return int<2, 3>
      */
-    public function spatialDimension() : int
+    public function spatialDimension(): int
     {
         return $this->hasZ ? 3 : 2;
     }
@@ -159,7 +159,7 @@ final class CoordinateSystem
     /**
      * Returns a copy of this CoordinateSystem with the $hasZ altered.
      */
-    public function withZ(bool $hasZ) : CoordinateSystem
+    public function withZ(bool $hasZ): CoordinateSystem
     {
         if ($hasZ === $this->hasZ) {
             return $this;
@@ -171,7 +171,7 @@ final class CoordinateSystem
     /**
      * Returns a copy of this CoordinateSystem with the $hasM altered.
      */
-    public function withM(bool $hasM) : CoordinateSystem
+    public function withM(bool $hasM): CoordinateSystem
     {
         if ($hasM === $this->hasM) {
             return $this;
@@ -183,7 +183,7 @@ final class CoordinateSystem
     /**
      * Returns a copy of this CoordinateSystem with the SRID altered.
      */
-    public function withSrid(int $srid) : CoordinateSystem
+    public function withSrid(int $srid): CoordinateSystem
     {
         if ($srid === $this->srid) {
             return $this;
@@ -192,7 +192,7 @@ final class CoordinateSystem
         return new CoordinateSystem($this->hasZ, $this->hasM, $srid);
     }
 
-    public function isEqualTo(CoordinateSystem $that) : bool
+    public function isEqualTo(CoordinateSystem $that): bool
     {
         return $this->hasZ === $that->hasZ
             && $this->hasM === $that->hasM
@@ -200,12 +200,12 @@ final class CoordinateSystem
     }
 
     /**
-     * @param Geometry    $reference  The geometry holding the reference coordinate system.
+     * @param Geometry $reference     The geometry holding the reference coordinate system.
      * @param Geometry ...$geometries The geometries to check against this coordinate system.
      *
      * @throws CoordinateSystemException If the coordinate systems differ.
      */
-    public static function check(Geometry $reference, Geometry ...$geometries) : void
+    public static function check(Geometry $reference, Geometry ...$geometries): void
     {
         $referenceCs = $reference->coordinateSystem();
 

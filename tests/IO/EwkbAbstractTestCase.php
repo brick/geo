@@ -9,7 +9,7 @@ namespace Brick\Geo\Tests\IO;
  */
 abstract class EwkbAbstractTestCase extends WkbAbstractTestCase
 {
-    final public static function providerBigEndianEwkb() : array
+    final public static function providerBigEndianEwkb(): array
     {
         return [
             // Point
@@ -176,7 +176,7 @@ abstract class EwkbAbstractTestCase extends WkbAbstractTestCase
         ];
     }
 
-    final public static function providerBigEndianEwkbWithSrid() : array
+    final public static function providerBigEndianEwkbWithSrid(): array
     {
         return [
             // Point
@@ -343,7 +343,7 @@ abstract class EwkbAbstractTestCase extends WkbAbstractTestCase
         ];
     }
 
-    final public static function providerLittleEndianEwkb() : array
+    final public static function providerLittleEndianEwkb(): array
     {
         return [
             // Point
@@ -510,7 +510,7 @@ abstract class EwkbAbstractTestCase extends WkbAbstractTestCase
         ];
     }
 
-    final public static function providerLittleEndianEwkbWithSrid() : array
+    final public static function providerLittleEndianEwkbWithSrid(): array
     {
         return [
             // Point

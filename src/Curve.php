@@ -20,7 +20,7 @@ abstract class Curve extends Geometry
      * A Curve is a 1-dimensional geometric object.
      */
     #[NoProxy, Override]
-    public function dimension() : int
+    public function dimension(): int
     {
         return 1;
     }
@@ -30,14 +30,14 @@ abstract class Curve extends Geometry
      *
      * @throws EmptyGeometryException If the curve is empty.
      */
-    abstract public function startPoint() : Point;
+    abstract public function startPoint(): Point;
 
     /**
      * Returns the end Point of this Curve.
      *
      * @throws EmptyGeometryException If the curve is empty.
      */
-    abstract public function endPoint() : Point;
+    abstract public function endPoint(): Point;
 
     #[Override]
     abstract public function project(Projector $projector): Curve;

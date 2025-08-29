@@ -7,9 +7,9 @@ use Brick\Geo\BoundingBox;
 use Brick\Geo\CoordinateSystem;
 use Brick\Reflection\ReflectionTools;
 
-$proxyDir       = __DIR__ . '/src/Proxy/';
-$proxyTemplate  = __DIR__ . '/proxy-template.php';
-$classFiles     = __DIR__ . '/src/*.php';
+$proxyDir = __DIR__ . '/src/Proxy/';
+$proxyTemplate = __DIR__ . '/proxy-template.php';
+$classFiles = __DIR__ . '/src/*.php';
 $classNamespace = 'Brick\Geo';
 
 require __DIR__ . '/vendor/autoload.php';
@@ -58,7 +58,7 @@ $proxyTemplate = str_replace($matches[0], '// METHODS', $proxyTemplate);
 $reflectionTools = new ReflectionTools();
 
 foreach ($classes as $class) {
-    $class = new ReflectionClass($classNamespace . '\\' .  $class);
+    $class = new ReflectionClass($classNamespace . '\\' . $class);
 
     if ($class->getName() === CoordinateSystem::class || $class->getName() === BoundingBox::class) {
         continue;
@@ -76,7 +76,7 @@ foreach ($classes as $class) {
         }
 
         $methodCode = $methodTemplate;
-        $functionSignature = $reflectionTools->exportFunctionSignature($method, \ReflectionMethod::IS_ABSTRACT);
+        $functionSignature = $reflectionTools->exportFunctionSignature($method, ReflectionMethod::IS_ABSTRACT);
         // fix for abstract classes that only inherit from IteratorAggregate (GeometryProxy, CurveProxy, SurfaceProxy)
         if (str_ends_with($functionSignature, 'getIterator()')) {
             $functionSignature .= ' : \Traversable';

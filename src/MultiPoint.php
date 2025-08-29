@@ -8,6 +8,8 @@ use Brick\Geo\Attribute\NoProxy;
 use Brick\Geo\Projector\Projector;
 use Override;
 
+use function array_map;
+
 /**
  * A MultiPoint is a 0-dimensional GeometryCollection. The elements of a MultiPoint are restricted to Points.
  *
@@ -18,6 +20,7 @@ use Override;
  * The boundary of a MultiPoint is the empty set.
  *
  * @extends GeometryCollection<Point>
+ *
  * @final
  */
 class MultiPoint extends GeometryCollection
@@ -26,36 +29,30 @@ class MultiPoint extends GeometryCollection
      * @return list<list<float>>
      */
     #[Override]
-    public function toArray() : array
+    public function toArray(): array
     {
         return array_map(
-            fn(Point $point) => $point->toArray(),
+            fn (Point $point) => $point->toArray(),
             $this->geometries,
         );
     }
 
     #[NoProxy, Override]
-    public function geometryType() : string
+    public function geometryType(): string
     {
         return 'MultiPoint';
     }
 
     #[NoProxy, Override]
-    public function geometryTypeBinary() : int
+    public function geometryTypeBinary(): int
     {
         return Geometry::MULTIPOINT;
     }
 
     #[Override]
-    public function dimension() : int
+    public function dimension(): int
     {
         return 0;
-    }
-
-    #[Override]
-    protected function containedGeometryType() : string
-    {
-        return Point::class;
     }
 
     #[Override]
@@ -68,5 +65,11 @@ class MultiPoint extends GeometryCollection
                 $this->geometries,
             ),
         );
+    }
+
+    #[Override]
+    protected function containedGeometryType(): string
+    {
+        return Point::class;
     }
 }

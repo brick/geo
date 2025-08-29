@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Brick\Geo\Exception;
 
+use Exception;
 use Throwable;
 
 /**
@@ -11,7 +12,7 @@ use Throwable;
  *
  * This class is abstract to ensure that only fine-grained exceptions are thrown throughout the code.
  */
-abstract class GeometryException extends \Exception
+abstract class GeometryException extends Exception
 {
     public function __construct(string $message, ?Throwable $previous = null)
     {

@@ -4,11 +4,16 @@ declare(strict_types=1);
 
 namespace Brick\Geo;
 
-use ArrayIterator;
 use Brick\Geo\Attribute\NoProxy;
 use Brick\Geo\Exception\InvalidGeometryException;
 use Brick\Geo\Projector\Projector;
 use Override;
+
+use function array_values;
+use function count;
+use function is_finite;
+use function is_infinite;
+use function sprintf;
 
 /**
  * A Point is a 0-dimensional geometric object and represents a single location in coordinate space.
@@ -65,7 +70,7 @@ class Point extends Geometry
                 'Expected %d coordinates for Point %s, got %d.',
                 $cs->coordinateDimension(),
                 $cs->coordinateName(),
-                count($coords)
+                count($coords),
             ));
         }
 
@@ -79,6 +84,7 @@ class Point extends Geometry
                     2 => $cs->hasZ() ? 'Z' : 'M',
                     3 => 'M',
                 };
+
                 throw new InvalidGeometryException(sprintf(
                     'Coordinate #%d (%s) for Point %s is %s, this is not allowed.',
                     $i + 1,
@@ -107,7 +113,7 @@ class Point extends Geometry
     /**
      * Creates a point with X and Y coordinates.
      */
-    public static function xy(float $x, float $y, int $srid = 0) : Point
+    public static function xy(float $x, float $y, int $srid = 0): Point
     {
         return new Point(CoordinateSystem::xy($srid), $x, $y);
     }
@@ -115,7 +121,7 @@ class Point extends Geometry
     /**
      * Creates a point with X, Y and Z coordinates.
      */
-    public static function xyz(float $x, float $y, float $z, int $srid = 0) : Point
+    public static function xyz(float $x, float $y, float $z, int $srid = 0): Point
     {
         return new Point(CoordinateSystem::xyz($srid), $x, $y, $z);
     }
@@ -123,7 +129,7 @@ class Point extends Geometry
     /**
      * Creates a point with X, Y and M coordinates.
      */
-    public static function xym(float $x, float $y, float $m, int $srid = 0) : Point
+    public static function xym(float $x, float $y, float $m, int $srid = 0): Point
     {
         return new Point(CoordinateSystem::xym($srid), $x, $y, $m);
     }
@@ -131,7 +137,7 @@ class Point extends Geometry
     /**
      * Creates a point with X, Y, Z and M coordinates.
      */
-    public static function xyzm(float $x, float $y, float $z, float $m, int $srid = 0) : Point
+    public static function xyzm(float $x, float $y, float $z, float $m, int $srid = 0): Point
     {
         return new Point(CoordinateSystem::xyzm($srid), $x, $y, $z, $m);
     }
@@ -139,7 +145,7 @@ class Point extends Geometry
     /**
      * Creates an empty Point with XY dimensionality.
      */
-    public static function xyEmpty(int $srid = 0) : Point
+    public static function xyEmpty(int $srid = 0): Point
     {
         return new Point(CoordinateSystem::xy($srid));
     }
@@ -147,7 +153,7 @@ class Point extends Geometry
     /**
      * Creates an empty Point with XYZ dimensionality.
      */
-    public static function xyzEmpty(int $srid = 0) : Point
+    public static function xyzEmpty(int $srid = 0): Point
     {
         return new Point(CoordinateSystem::xyz($srid));
     }
@@ -155,7 +161,7 @@ class Point extends Geometry
     /**
      * Creates an empty Point with XYM dimensionality.
      */
-    public static function xymEmpty(int $srid = 0) : Point
+    public static function xymEmpty(int $srid = 0): Point
     {
         return new Point(CoordinateSystem::xym($srid));
     }
@@ -163,7 +169,7 @@ class Point extends Geometry
     /**
      * Creates an empty Point with XYZM dimensionality.
      */
-    public static function xyzmEmpty(int $srid = 0) : Point
+    public static function xyzmEmpty(int $srid = 0): Point
     {
         return new Point(CoordinateSystem::xyzm($srid));
     }
@@ -173,7 +179,7 @@ class Point extends Geometry
      *
      * Returns NULL if the Point is empty.
      */
-    public function x() : ?float
+    public function x(): ?float
     {
         return $this->x;
     }
@@ -183,7 +189,7 @@ class Point extends Geometry
      *
      * Returns NULL if the Point is empty.
      */
-    public function y() : ?float
+    public function y(): ?float
     {
         return $this->y;
     }
@@ -193,7 +199,7 @@ class Point extends Geometry
      *
      * Returns NULL if the Point is empty, or does not have a Z coordinate.
      */
-    public function z() : ?float
+    public function z(): ?float
     {
         return $this->z;
     }
@@ -203,31 +209,31 @@ class Point extends Geometry
      *
      * Returns NULL if the Point is empty, or does not have a M coordinate.
      */
-    public function m() : ?float
+    public function m(): ?float
     {
         return $this->m;
     }
 
     #[NoProxy, Override]
-    public function geometryType() : string
+    public function geometryType(): string
     {
         return 'Point';
     }
 
     #[NoProxy, Override]
-    public function geometryTypeBinary() : int
+    public function geometryTypeBinary(): int
     {
         return Geometry::POINT;
     }
 
     #[NoProxy, Override]
-    public function dimension() : int
+    public function dimension(): int
     {
         return 0;
     }
 
     #[Override]
-    public function getBoundingBox() : BoundingBox
+    public function getBoundingBox(): BoundingBox
     {
         return BoundingBox::new()->extendedWithPoint($this);
     }
@@ -236,7 +242,7 @@ class Point extends Geometry
      * @return list<float>
      */
     #[Override]
-    public function toArray() : array
+    public function toArray(): array
     {
         if ($this->isEmpty) {
             return [];
@@ -257,7 +263,7 @@ class Point extends Geometry
     }
 
     #[Override]
-    public function project(Projector $projector) : Point
+    public function project(Projector $projector): Point
     {
         return $projector->project($this);
     }
