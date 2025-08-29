@@ -27,7 +27,7 @@ use function min;
  *
  * Each consecutive pair of Points defines a line segment.
  *
- * @template-implements IteratorAggregate<int<0, max>, Point>
+ * @implements IteratorAggregate<int<0, max>, Point>
  *
  * @final
  */

@@ -26,7 +26,7 @@ use function count;
  * A circular arc segment is a curved segment defined by three points in a two-dimensional plane;
  * the first point cannot be the same as the third point.
  *
- * @template-implements IteratorAggregate<int<0, max>, Point>
+ * @implements IteratorAggregate<int<0, max>, Point>
  *
  * @final
  */

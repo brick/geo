@@ -42,7 +42,7 @@ use function sprintf;
  *
  * @template T of Polygon
  *
- * @template-implements IteratorAggregate<int<0, max>, T>
+ * @implements IteratorAggregate<int<0, max>, T>
  */
 class PolyhedralSurface extends Surface implements Countable, IteratorAggregate
 {

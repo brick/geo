@@ -26,7 +26,7 @@ use function count;
  * A CurvePolygon instance differs from a Polygon instance in that a CurvePolygon instance may contain
  * the following circular arc segments: CircularString and CompoundCurve in addition to LineString.
  *
- * @template-implements IteratorAggregate<int<0, max>, Curve>
+ * @implements IteratorAggregate<int<0, max>, Curve>
  *
  * @final
  */

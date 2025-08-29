@@ -44,7 +44,7 @@ use function count;
  * In the above assertions, interior, closure and exterior have the standard topological definitions. The combination
  * of (a) and (c) makes a Polygon a regular closed Point set. Polygons are simple geometric objects.
  *
- * @template-implements IteratorAggregate<int<0, max>, LineString>
+ * @implements IteratorAggregate<int<0, max>, LineString>
  */
 class Polygon extends Surface implements Countable, IteratorAggregate
 {

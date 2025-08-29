@@ -13,7 +13,7 @@ use function array_map;
 /**
  * A TIN (triangulated irregular network) is a PolyhedralSurface consisting only of Triangle patches.
  *
- * @template-extends PolyhedralSurface<Triangle>
+ * @extends PolyhedralSurface<Triangle>
  *
  * @final
  */

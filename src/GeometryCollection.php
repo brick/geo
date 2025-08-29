@@ -35,7 +35,7 @@ use function sprintf;
  *
  * @template T of Geometry
  *
- * @template-implements IteratorAggregate<int<0, max>, T>
+ * @implements IteratorAggregate<int<0, max>, T>
  */
 class GeometryCollection extends Geometry implements Countable, IteratorAggregate
 {
