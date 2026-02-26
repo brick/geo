@@ -69,7 +69,7 @@ jobs:
         with:
           php-version: ${{ matrix.php-version }}
           extensions: pdo_mysql
-          coverage: xdebug
+          coverage: pcov
 
       - name: Install composer dependencies
         uses: ramsey/composer-install@v3
@@ -85,9 +85,7 @@ jobs:
         if: ${{ matrix.php-version != env.COVERAGE_PHP_VERSION }}
 
       - name: Run PHPUnit with coverage
-        run: |
-          mkdir -p build/logs
-          vendor/bin/phpunit --coverage-clover build/logs/clover.xml
+        run: vendor/bin/phpunit --coverage-clover clover.xml
         env:
           ENGINE: pdo_mysql
           MYSQL_HOST: 127.0.0.1
@@ -96,10 +94,10 @@ jobs:
           EMULATE_PREPARES: ${{ matrix.emulate-prepares }}
         if: ${{ matrix.php-version == env.COVERAGE_PHP_VERSION }}
 
-      - name: Upload coverage report to Coveralls
-        run: vendor/bin/php-coveralls --coverage_clover=build/logs/clover.xml -v
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v5
         env:
-          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
         if: ${{ matrix.php-version == env.COVERAGE_PHP_VERSION }}
 
   phpunit-mariadb:
@@ -134,15 +132,13 @@ jobs:
         with:
           php-version: ${{ matrix.php-version }}
           extensions: pdo_mysql
-          coverage: xdebug
+          coverage: pcov
 
       - name: Install composer dependencies
         uses: ramsey/composer-install@v3
 
       - name: Run PHPUnit with coverage
-        run: |
-          mkdir -p build/logs
-          vendor/bin/phpunit --coverage-clover build/logs/clover.xml
+        run: vendor/bin/phpunit --coverage-clover clover.xml
         env:
           ENGINE: pdo_mysql
           MYSQL_HOST: 127.0.0.1
@@ -150,10 +146,10 @@ jobs:
           MYSQL_PASSWORD: password
           EMULATE_PREPARES: ${{ matrix.emulate-prepares }}
 
-      - name: Upload coverage report to Coveralls
-        run: vendor/bin/php-coveralls --coverage_clover=build/logs/clover.xml -v
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v5
         env:
-          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
   phpunit-postgres:
     name: PHPUnit PostgreSQL
@@ -182,25 +178,23 @@ jobs:
         with:
           php-version: ${{ matrix.php-version }}
           extensions: pdo_pgsql
-          coverage: xdebug
+          coverage: pcov
 
       - name: Install composer dependencies
         uses: ramsey/composer-install@v3
 
       - name: Run PHPUnit with coverage
-        run: |
-          mkdir -p build/logs
-          vendor/bin/phpunit --coverage-clover build/logs/clover.xml
+        run: vendor/bin/phpunit --coverage-clover clover.xml
         env:
           ENGINE: pdo_pgsql
           POSTGRES_HOST: 127.0.0.1
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
 
-      - name: Upload coverage report to Coveralls
-        run: vendor/bin/php-coveralls --coverage_clover=build/logs/clover.xml -v
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v5
         env:
-          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
   phpunit-sqlite:
     name: PHPUnit SQLite
@@ -221,7 +215,7 @@ jobs:
           php-version: ${{ matrix.php-version }}
           extensions: sqlite3
           ini-values: sqlite3.extension_dir=/usr/lib/x86_64-linux-gnu
-          coverage: xdebug
+          coverage: pcov
 
       - name: Install SpatiaLite
         run: sudo apt install libsqlite3-mod-spatialite
@@ -230,16 +224,14 @@ jobs:
         uses: ramsey/composer-install@v3
 
       - name: Run PHPUnit with coverage
-        run: |
-          mkdir -p build/logs
-          vendor/bin/phpunit --coverage-clover build/logs/clover.xml
+        run: vendor/bin/phpunit --coverage-clover clover.xml
         env:
           ENGINE: sqlite3
 
-      - name: Upload coverage report to Coveralls
-        run: vendor/bin/php-coveralls --coverage_clover=build/logs/clover.xml -v
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v5
         env:
-          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
   phpunit-geos:
     name: PHPUnit GEOS
@@ -259,22 +251,20 @@ jobs:
         with:
           php-version: ${{ matrix.php-version }}
           extensions: geos
-          coverage: xdebug
+          coverage: pcov
 
       - name: Install composer dependencies
         uses: ramsey/composer-install@v3
 
       - name: Run PHPUnit with coverage
-        run: |
-          mkdir -p build/logs
-          vendor/bin/phpunit --coverage-clover build/logs/clover.xml
+        run: vendor/bin/phpunit --coverage-clover clover.xml
         env:
           ENGINE: geos
 
-      - name: Upload coverage report to Coveralls
-        run: vendor/bin/php-coveralls --coverage_clover=build/logs/clover.xml -v
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v5
         env:
-          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
   phpunit-geosop:
     name: PHPUnit geosop
@@ -293,7 +283,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-version }}
-          coverage: xdebug
+          coverage: pcov
 
       - name: Install composer dependencies
         uses: ramsey/composer-install@v3
@@ -304,14 +294,12 @@ jobs:
           sudo apt install geos-bin
 
       - name: Run PHPUnit with coverage
-        run: |
-          mkdir -p build/logs
-          vendor/bin/phpunit --coverage-clover build/logs/clover.xml
+        run: vendor/bin/phpunit --coverage-clover clover.xml
         env:
           ENGINE: geosop
           GEOSOP_PATH: /usr/bin/geosop
 
-      - name: Upload coverage report to Coveralls
-        run: vendor/bin/php-coveralls --coverage_clover=build/logs/clover.xml -v
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v5
         env:
-          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
