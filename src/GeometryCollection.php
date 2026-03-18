@@ -77,10 +77,6 @@ class GeometryCollection extends Geometry implements Countable, IteratorAggregat
         $containedGeometryType = $this->containedGeometryType();
 
         foreach ($geometries as $geometry) {
-            /**
-             * @psalm-suppress DocblockTypeContradiction We do want to enforce this in code, as not everyone uses static analysis!
-             * @psalm-suppress MixedArgument It looks like due to this check, Psalm considers that $geometry no longer has a type.
-             */
             if (! $geometry instanceof $containedGeometryType) {
                 throw new UnexpectedGeometryException(sprintf(
                     '%s expects instance of %s, instance of %s given.',
@@ -104,8 +100,6 @@ class GeometryCollection extends Geometry implements Countable, IteratorAggregat
      *
      * @throws CoordinateSystemException   If the geometries use different coordinate systems.
      * @throws UnexpectedGeometryException If a geometry is not a valid type for a subclass of GeometryCollection.
-     *
-     * @psalm-suppress UnsafeInstantiation
      */
     public static function of(Geometry $geometry1, Geometry ...$geometryN): GeometryCollection
     {
@@ -235,8 +229,6 @@ class GeometryCollection extends Geometry implements Countable, IteratorAggregat
      * @param T ...$geometries
      *
      * @return GeometryCollection<T>
-     *
-     * @psalm-suppress UnsafeInstantiation
      */
     public function withAddedGeometries(Geometry ...$geometries): GeometryCollection
     {

@@ -52,8 +52,6 @@ class Point extends Geometry
      * @param float            ...$coords The point coordinates; can be empty for an empty point.
      *
      * @throws InvalidGeometryException If the number of coordinates does not match the coordinate system.
-     *
-     * @psalm-suppress PossiblyUndefinedArrayOffset
      */
     public function __construct(CoordinateSystem $cs, float ...$coords)
     {

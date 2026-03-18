@@ -23,7 +23,7 @@ final class TypeChecker
      *
      * @throws GeometryEngineException
      *
-     * @psalm-assert T $geometry
+     * @phpstan-assert T $geometry
      */
     public static function check(Geometry $geometry, string $className): void
     {

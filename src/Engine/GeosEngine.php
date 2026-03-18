@@ -66,9 +66,10 @@ final class GeosEngine implements GeometryEngine
         $this->ewkbReader = new EwkbReader();
         $this->ewkbWriter = new EwkbWriter();
 
-        /** @psalm-suppress RedundantCondition These methods are not available before GEOS 3.5.0 */
         $this->hasBinaryReadWrite =
+            /** @phpstan-ignore function.alreadyNarrowedType (This method is not available before GEOS 3.5.0) */
             method_exists($this->geosWkbReader, 'read') &&
+            /** @phpstan-ignore function.alreadyNarrowedType (This method is not available before GEOS 3.5.0) */
             method_exists($this->geosWkbWriter, 'write');
     }
 

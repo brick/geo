@@ -93,8 +93,6 @@ class LineString extends Curve implements Countable, IteratorAggregate
      *
      * @throws EmptyGeometryException    If any of the points is empty.
      * @throws CoordinateSystemException If the points use different coordinate systems, or are not 2D.
-     *
-     * @psalm-suppress PossiblyNullArgument
      */
     public static function rectangle(Point $a, Point $b): LineString
     {

@@ -76,10 +76,6 @@ class PolyhedralSurface extends Surface implements Countable, IteratorAggregate
         $patchType = $this->patchType();
 
         foreach ($patches as $patch) {
-            /**
-             * @psalm-suppress DocblockTypeContradiction We do want to enforce this in code, as not everyone uses static analysis!
-             * @psalm-suppress MixedArgument It looks like due to this check, Psalm considers that $geometry no longer has a type.
-             */
             if (! $patch instanceof $patchType) {
                 throw new UnexpectedGeometryException(sprintf(
                     '%s expects instance of %s, instance of %s given.',
@@ -100,8 +96,6 @@ class PolyhedralSurface extends Surface implements Countable, IteratorAggregate
      * @param Polygon ...$patchN The subsequent patches, if any.
      *
      * @throws CoordinateSystemException If the patches use different coordinate systems.
-     *
-     * @psalm-suppress UnsafeInstantiation
      */
     public static function of(Polygon $patch1, Polygon ...$patchN): PolyhedralSurface
     {
@@ -209,8 +203,6 @@ class PolyhedralSurface extends Surface implements Countable, IteratorAggregate
 
     /**
      * Returns a copy of this PolyhedralSurface, with the given patches added.
-     *
-     * @psalm-suppress UnsafeInstantiation
      */
     public function withAddedPatches(Polygon ...$patches): PolyhedralSurface
     {

@@ -405,9 +405,6 @@ final class GeoJsonReader
 
     /**
      * @param array $coords A potentially nested list of floats.
-     *
-     * @psalm-suppress MixedAssignment
-     * @psalm-suppress MixedArgument
      */
     private function hasZ(array $coords): bool
     {

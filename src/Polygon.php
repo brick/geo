@@ -92,8 +92,6 @@ class Polygon extends Surface implements Countable, IteratorAggregate
      *
      * @throws InvalidGeometryException  If the resulting geometry is not valid for a sub-type of Polygon.
      * @throws CoordinateSystemException If the rings use different coordinate systems.
-     *
-     * @psalm-suppress UnsafeInstantiation
      */
     public static function of(LineString $exteriorRing, LineString ...$interiorRings): Polygon
     {
@@ -232,8 +230,6 @@ class Polygon extends Surface implements Countable, IteratorAggregate
 
     /**
      * Returns a copy of this Polygon, with the exterior ring replaced with the given one.
-     *
-     * @psalm-suppress UnsafeInstantiation
      */
     public function withExteriorRing(LineString $exteriorRing): Polygon
     {
@@ -242,8 +238,6 @@ class Polygon extends Surface implements Countable, IteratorAggregate
 
     /**
      * Returns a copy of this Polygon, with the interior rings replaced with the given ones.
-     *
-     * @psalm-suppress UnsafeInstantiation
      */
     public function withInteriorRings(LineString ...$interiorRings): Polygon
     {
@@ -252,8 +246,6 @@ class Polygon extends Surface implements Countable, IteratorAggregate
 
     /**
      * Returns a copy of this Polygon, with the given interior rings added.
-     *
-     * @psalm-suppress UnsafeInstantiation
      */
     public function withAddedInteriorRings(LineString ...$interiorRings): Polygon
     {

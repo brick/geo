@@ -111,7 +111,6 @@ abstract class AbstractWktWriter
         } elseif ($geometry instanceof GeometryCollection) {
             $data = $this->writeGeometryCollection($geometry);
         } elseif ($geometry instanceof Tin) {
-            /** @psalm-suppress InvalidArgument Not sure how to fix this. */
             $data = $this->writePolyhedralSurface($geometry);
         } elseif ($geometry instanceof PolyhedralSurface) {
             $data = $this->writePolyhedralSurface($geometry);
@@ -127,7 +126,6 @@ abstract class AbstractWktWriter
      */
     private function writePoint(Point $point): string
     {
-        /** @psalm-suppress PossiblyNullOperand */
         $result = $point->x() . ' ' . $point->y();
 
         if (null !== $z = $point->z()) {

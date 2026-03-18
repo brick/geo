@@ -22,7 +22,6 @@ final class SwapXyProjector implements Projector
 
         $coordinates = $point->toArray();
 
-        /** @psalm-suppress PossiblyUndefinedArrayOffset */
         [$x, $y] = $coordinates;
 
         $coordinates[0] = $y;

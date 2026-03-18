@@ -61,18 +61,6 @@ parameters:
 			path: src/Engine/GeometryEngine.php
 
 		-
-			message: '#^Call to function method_exists\(\) with GEOSWKBReader and ''read'' will always evaluate to true\.$#'
-			identifier: function.alreadyNarrowedType
-			count: 1
-			path: src/Engine/GeosEngine.php
-
-		-
-			message: '#^Call to function method_exists\(\) with GEOSWKBWriter and ''write'' will always evaluate to true\.$#'
-			identifier: function.alreadyNarrowedType
-			count: 1
-			path: src/Engine/GeosEngine.php
-
-		-
 			message: '#^Method Brick\\Geo\\Engine\\GeosEngine\:\:area\(\) has parameter \$g with generic class Brick\\Geo\\MultiSurface but does not specify its types\: T$#'
 			identifier: missingType.generics
 			count: 1

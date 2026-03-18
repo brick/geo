@@ -23,11 +23,6 @@ final class Cloner
      * @return T
      *
      * @throws InvalidArgumentException
-     *
-     * @psalm-suppress RawObjectIteration
-     * @psalm-suppress MixedAssignment
-     * @psalm-suppress InvalidReturnType
-     * @psalm-suppress InvalidReturnStatement
      */
     public static function clone(mixed $variable): mixed
     {
