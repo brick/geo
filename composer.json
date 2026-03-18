@@ -19,7 +19,7 @@
         "ext-sqlite3": "*",
         "brick/reflection": "~0.5.0",
         "phpunit/phpunit": "^10.0",
-        "vimeo/psalm": "6.8.8"
+        "phpstan/phpstan": "2.1.42"
     },
     "autoload": {
         "psr-4": {

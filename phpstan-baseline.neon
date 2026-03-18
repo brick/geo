@@ -1,0 +1,403 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Method Brick\\Geo\\CircularString\:\:getIterator\(\) should return ArrayIterator\<int\<0, max\>, Brick\\Geo\\Point\> but returns ArrayIterator\<int, Brick\\Geo\\Point\>\.$#'
+			identifier: return.type
+			count: 1
+			path: src/CircularString.php
+
+		-
+			message: '#^Method Brick\\Geo\\CompoundCurve\:\:getIterator\(\) should return ArrayIterator\<int\<0, max\>, Brick\\Geo\\CircularString\|Brick\\Geo\\LineString\> but returns ArrayIterator\<int, Brick\\Geo\\CircularString\|Brick\\Geo\\LineString\>\.$#'
+			identifier: return.type
+			count: 1
+			path: src/CompoundCurve.php
+
+		-
+			message: '#^Method Brick\\Geo\\CurvePolygon\:\:getIterator\(\) should return ArrayIterator\<int\<0, max\>, Brick\\Geo\\Curve\> but returns ArrayIterator\<int, Brick\\Geo\\Curve\>\.$#'
+			identifier: return.type
+			count: 1
+			path: src/CurvePolygon.php
+
+		-
+			message: '#^Method Brick\\Geo\\Engine\\DatabaseEngine\:\:area\(\) has parameter \$g with generic class Brick\\Geo\\MultiSurface but does not specify its types\: T$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Engine/DatabaseEngine.php
+
+		-
+			message: '#^Method Brick\\Geo\\Engine\\DatabaseEngine\:\:length\(\) has parameter \$g with generic class Brick\\Geo\\MultiCurve but does not specify its types\: T$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Engine/DatabaseEngine.php
+
+		-
+			message: '#^Method Brick\\Geo\\Engine\\DatabaseEngine\:\:pointOnSurface\(\) has parameter \$g with generic class Brick\\Geo\\MultiSurface but does not specify its types\: T$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Engine/DatabaseEngine.php
+
+		-
+			message: '#^Parameter \#1 \$wkb of static method Brick\\Geo\\Geometry\:\:fromBinary\(\) expects string, resource\|string\|false given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Engine/DatabaseEngine.php
+
+		-
+			message: '#^Method Brick\\Geo\\Engine\\GeometryEngine\:\:area\(\) has parameter \$g with generic class Brick\\Geo\\MultiSurface but does not specify its types\: T$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Engine/GeometryEngine.php
+
+		-
+			message: '#^Method Brick\\Geo\\Engine\\GeometryEngine\:\:length\(\) has parameter \$g with generic class Brick\\Geo\\MultiCurve but does not specify its types\: T$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Engine/GeometryEngine.php
+
+		-
+			message: '#^Method Brick\\Geo\\Engine\\GeometryEngine\:\:pointOnSurface\(\) has parameter \$g with generic class Brick\\Geo\\MultiSurface but does not specify its types\: T$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Engine/GeometryEngine.php
+
+		-
+			message: '#^Call to function method_exists\(\) with GEOSWKBReader and ''read'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: src/Engine/GeosEngine.php
+
+		-
+			message: '#^Call to function method_exists\(\) with GEOSWKBWriter and ''write'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: src/Engine/GeosEngine.php
+
+		-
+			message: '#^Method Brick\\Geo\\Engine\\GeosEngine\:\:area\(\) has parameter \$g with generic class Brick\\Geo\\MultiSurface but does not specify its types\: T$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Engine/GeosEngine.php
+
+		-
+			message: '#^Method Brick\\Geo\\Engine\\GeosEngine\:\:isValid\(\) should return bool but returns mixed\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Engine/GeosEngine.php
+
+		-
+			message: '#^Method Brick\\Geo\\Engine\\GeosEngine\:\:length\(\) has parameter \$g with generic class Brick\\Geo\\MultiCurve but does not specify its types\: T$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Engine/GeosEngine.php
+
+		-
+			message: '#^Method Brick\\Geo\\Engine\\GeosEngine\:\:pointOnSurface\(\) has parameter \$g with generic class Brick\\Geo\\MultiSurface but does not specify its types\: T$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Engine/GeosEngine.php
+
+		-
+			message: '#^Match expression does not handle remaining value\: int\<3, max\>$#'
+			identifier: match.unhandled
+			count: 1
+			path: src/Engine/GeosOpEngine.php
+
+		-
+			message: '#^Method Brick\\Geo\\Engine\\GeosOpEngine\:\:area\(\) has parameter \$g with generic class Brick\\Geo\\MultiSurface but does not specify its types\: T$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Engine/GeosOpEngine.php
+
+		-
+			message: '#^Method Brick\\Geo\\Engine\\GeosOpEngine\:\:length\(\) has parameter \$g with generic class Brick\\Geo\\MultiCurve but does not specify its types\: T$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Engine/GeosOpEngine.php
+
+		-
+			message: '#^Method Brick\\Geo\\Engine\\GeosOpEngine\:\:pointOnSurface\(\) has parameter \$g with generic class Brick\\Geo\\MultiSurface but does not specify its types\: T$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Engine/GeosOpEngine.php
+
+		-
+			message: '#^Cannot call method bindValue\(\) on SQLite3Stmt\|false\.$#'
+			identifier: method.nonObject
+			count: 3
+			path: src/Engine/Sqlite3Engine.php
+
+		-
+			message: '#^Cannot call method execute\(\) on SQLite3Stmt\|false\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: src/Engine/Sqlite3Engine.php
+
+		-
+			message: '#^Cannot call method fetchArray\(\) on SQLite3Result\|false\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: src/Engine/Sqlite3Engine.php
+
+		-
+			message: '#^Property Brick\\Geo\\Engine\\Sqlite3Engine\:\:\$statements \(array\<string, SQLite3Stmt\>\) does not accept array\<string, bool\|SQLite3Stmt\>\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: src/Engine/Sqlite3Engine.php
+
+		-
+			message: '#^Method Brick\\Geo\\Geometry\:\:swapXy\(\) should return static\(Brick\\Geo\\Geometry\) but returns Brick\\Geo\\Geometry\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Geometry.php
+
+		-
+			message: '#^Method Brick\\Geo\\Geometry\:\:toXy\(\) should return static\(Brick\\Geo\\Geometry\) but returns Brick\\Geo\\Geometry\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Geometry.php
+
+		-
+			message: '#^Method Brick\\Geo\\Geometry\:\:withRoundedCoordinates\(\) should return static\(Brick\\Geo\\Geometry\) but returns Brick\\Geo\\Geometry\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Geometry.php
+
+		-
+			message: '#^Method Brick\\Geo\\Geometry\:\:withSrid\(\) should return static\(Brick\\Geo\\Geometry\) but returns Brick\\Geo\\Geometry\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Geometry.php
+
+		-
+			message: '#^Method Brick\\Geo\\Geometry\:\:withoutM\(\) should return static\(Brick\\Geo\\Geometry\) but returns Brick\\Geo\\Geometry\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Geometry.php
+
+		-
+			message: '#^Method Brick\\Geo\\Geometry\:\:withoutZ\(\) should return static\(Brick\\Geo\\Geometry\) but returns Brick\\Geo\\Geometry\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Geometry.php
+
+		-
+			message: '#^Method Brick\\Geo\\GeometryCollection\:\:containedGeometryType\(\) should return class\-string\<T of Brick\\Geo\\Geometry\> but returns string\.$#'
+			identifier: return.type
+			count: 1
+			path: src/GeometryCollection.php
+
+		-
+			message: '#^Method Brick\\Geo\\GeometryCollection\:\:getIterator\(\) should return ArrayIterator\<int\<0, max\>, T of Brick\\Geo\\Geometry\> but returns ArrayIterator\<int, T of Brick\\Geo\\Geometry\>\.$#'
+			identifier: return.type
+			count: 1
+			path: src/GeometryCollection.php
+
+		-
+			message: '#^Method Brick\\Geo\\GeometryCollection\:\:of\(\) should return static\(Brick\\Geo\\GeometryCollection\<T of Brick\\Geo\\Geometry\>\) but returns static\(Brick\\Geo\\GeometryCollection\<Brick\\Geo\\Geometry\>\)\.$#'
+			identifier: return.type
+			count: 1
+			path: src/GeometryCollection.php
+
+		-
+			message: '#^Method Brick\\Geo\\GeometryCollection\:\:project\(\) return type with generic class Brick\\Geo\\GeometryCollection does not specify its types\: T$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/GeometryCollection.php
+
+		-
+			message: '#^Unsafe usage of new static\(\)\.$#'
+			identifier: new.static
+			count: 2
+			path: src/GeometryCollection.php
+
+		-
+			message: '#^Method Brick\\Geo\\Io\\GeoJsonReader\:\:hasZ\(\) has parameter \$coords with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Io/GeoJsonReader.php
+
+		-
+			message: '#^Method Brick\\Geo\\Io\\GeoJsonReader\:\:readGeometryCollection\(\) return type with generic class Brick\\Geo\\GeometryCollection does not specify its types\: T$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Io/GeoJsonReader.php
+
+		-
+			message: '#^Parameter \#1 \$coords of method Brick\\Geo\\Io\\GeoJsonReader\:\:hasZ\(\) expects array, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Io/GeoJsonReader.php
+
+		-
+			message: '#^Parameter \#1 \$geoJsonGeometry of method Brick\\Geo\\Io\\GeoJsonReader\:\:readGeometry\(\) expects stdClass, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Io/GeoJsonReader.php
+
+		-
+			message: '#^Method Brick\\Geo\\Io\\GeoJsonWriter\:\:bboxToCoordinateArray\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Io/GeoJsonWriter.php
+
+		-
+			message: '#^Method Brick\\Geo\\Io\\GeoJsonWriter\:\:writeGeometryCollection\(\) has parameter \$geometryCollection with generic class Brick\\Geo\\GeometryCollection but does not specify its types\: T$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Io/GeoJsonWriter.php
+
+		-
+			message: '#^Method Brick\\Geo\\Io\\Internal\\AbstractWkbReader\:\:readGeometryCollection\(\) return type with generic class Brick\\Geo\\GeometryCollection does not specify its types\: T$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Io/Internal/AbstractWkbReader.php
+
+		-
+			message: '#^Method Brick\\Geo\\Io\\Internal\\AbstractWkbReader\:\:readPolyhedralSurface\(\) return type with generic class Brick\\Geo\\PolyhedralSurface does not specify its types\: T$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Io/Internal/AbstractWkbReader.php
+
+		-
+			message: '#^Method Brick\\Geo\\Io\\Internal\\AbstractWkbWriter\:\:writeComposedGeometry\(\) has parameter \$collection with generic class Brick\\Geo\\GeometryCollection but does not specify its types\: T$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Io/Internal/AbstractWkbWriter.php
+
+		-
+			message: '#^Method Brick\\Geo\\Io\\Internal\\AbstractWkbWriter\:\:writeComposedGeometry\(\) has parameter \$collection with generic class Brick\\Geo\\PolyhedralSurface but does not specify its types\: T$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Io/Internal/AbstractWkbWriter.php
+
+		-
+			message: '#^Parameter \#1 \$double of method Brick\\Geo\\Io\\Internal\\AbstractWkbWriter\:\:packDouble\(\) expects float, float\|null given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/Io/Internal/AbstractWkbWriter.php
+
+		-
+			message: '#^Method Brick\\Geo\\Io\\Internal\\AbstractWktReader\:\:readGeometryCollectionText\(\) return type with generic class Brick\\Geo\\GeometryCollection does not specify its types\: T$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Io/Internal/AbstractWktReader.php
+
+		-
+			message: '#^Method Brick\\Geo\\Io\\Internal\\AbstractWktReader\:\:readPolyhedralSurfaceText\(\) return type with generic class Brick\\Geo\\PolyhedralSurface does not specify its types\: T$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Io/Internal/AbstractWktReader.php
+
+		-
+			message: '#^Method Brick\\Geo\\Io\\Internal\\AbstractWktWriter\:\:writeGeometryCollection\(\) has parameter \$collection with generic class Brick\\Geo\\GeometryCollection but does not specify its types\: T$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Io/Internal/AbstractWktWriter.php
+
+		-
+			message: '#^Method Brick\\Geo\\Io\\Internal\\AbstractWktWriter\:\:writePolyhedralSurface\(\) has parameter \$polyhedralSurface with generic class Brick\\Geo\\PolyhedralSurface but does not specify its types\: T$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Io/Internal/AbstractWktWriter.php
+
+		-
+			message: '#^Argument of an invalid type stdClass&T of mixed supplied for foreach, only iterables are supported\.$#'
+			identifier: foreach.nonIterable
+			count: 1
+			path: src/Io/Internal/Cloner.php
+
+		-
+			message: '#^Method Brick\\Geo\\Io\\Internal\\Cloner\:\:clone\(\) should return T but returns array\<mixed\>\|T of mixed\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Io/Internal/Cloner.php
+
+		-
+			message: '#^Offset int\<min, \-1\>\|int\<1, max\> might not exist on array\{1\: Brick\\Geo\\Io\\Internal\\WktTokenType\:\:Srid, 2\: Brick\\Geo\\Io\\Internal\\WktTokenType\:\:Word, 3\: Brick\\Geo\\Io\\Internal\\WktTokenType\:\:Number, 4\: Brick\\Geo\\Io\\Internal\\WktTokenType\:\:Other\}\|array\{1\: Brick\\Geo\\Io\\Internal\\WktTokenType\:\:Word, 2\: Brick\\Geo\\Io\\Internal\\WktTokenType\:\:Number, 3\: Brick\\Geo\\Io\\Internal\\WktTokenType\:\:Other\}\.$#'
+			identifier: offsetAccess.notFound
+			count: 1
+			path: src/Io/Internal/WktParser.php
+
+		-
+			message: '#^Method Brick\\Geo\\LineString\:\:getIterator\(\) should return ArrayIterator\<int\<0, max\>, Brick\\Geo\\Point\> but returns ArrayIterator\<int, Brick\\Geo\\Point\>\.$#'
+			identifier: return.type
+			count: 1
+			path: src/LineString.php
+
+		-
+			message: '#^Parameter \#2 \.\.\.\$coords of class Brick\\Geo\\Point constructor expects float, float\|null given\.$#'
+			identifier: argument.type
+			count: 4
+			path: src/LineString.php
+
+		-
+			message: '#^Parameter \#3 \.\.\.\$coords of class Brick\\Geo\\Point constructor expects float, float\|null given\.$#'
+			identifier: argument.type
+			count: 4
+			path: src/LineString.php
+
+		-
+			message: '#^Method Brick\\Geo\\MultiCurve\:\:project\(\) return type with generic class Brick\\Geo\\MultiCurve does not specify its types\: T$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/MultiCurve.php
+
+		-
+			message: '#^Method Brick\\Geo\\MultiSurface\:\:project\(\) return type with generic class Brick\\Geo\\MultiSurface does not specify its types\: T$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/MultiSurface.php
+
+		-
+			message: '#^Match expression does not handle remaining value\: int\<4, max\>$#'
+			identifier: match.unhandled
+			count: 1
+			path: src/Point.php
+
+		-
+			message: '#^Method Brick\\Geo\\Polygon\:\:getIterator\(\) should return ArrayIterator\<int\<0, max\>, Brick\\Geo\\LineString\> but returns ArrayIterator\<int, Brick\\Geo\\LineString\>\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Polygon.php
+
+		-
+			message: '#^Unsafe usage of new static\(\)\.$#'
+			identifier: new.static
+			count: 4
+			path: src/Polygon.php
+
+		-
+			message: '#^Method Brick\\Geo\\PolyhedralSurface\:\:getIterator\(\) should return ArrayIterator\<int\<0, max\>, T of Brick\\Geo\\Polygon\> but returns ArrayIterator\<int, T of Brick\\Geo\\Polygon\>\.$#'
+			identifier: return.type
+			count: 1
+			path: src/PolyhedralSurface.php
+
+		-
+			message: '#^Method Brick\\Geo\\PolyhedralSurface\:\:of\(\) return type with generic class Brick\\Geo\\PolyhedralSurface does not specify its types\: T$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/PolyhedralSurface.php
+
+		-
+			message: '#^Method Brick\\Geo\\PolyhedralSurface\:\:patchType\(\) should return class\-string\<T of Brick\\Geo\\Polygon\> but returns string\.$#'
+			identifier: return.type
+			count: 1
+			path: src/PolyhedralSurface.php
+
+		-
+			message: '#^Method Brick\\Geo\\PolyhedralSurface\:\:project\(\) return type with generic class Brick\\Geo\\PolyhedralSurface does not specify its types\: T$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/PolyhedralSurface.php
+
+		-
+			message: '#^Method Brick\\Geo\\PolyhedralSurface\:\:withAddedPatches\(\) return type with generic class Brick\\Geo\\PolyhedralSurface does not specify its types\: T$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/PolyhedralSurface.php
+
+		-
+			message: '#^Unsafe usage of new static\(\)\.$#'
+			identifier: new.static
+			count: 2
+			path: src/PolyhedralSurface.php

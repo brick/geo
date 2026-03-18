@@ -1,0 +1,11 @@
+includes:
+    - phpstan-baseline.neon
+
+parameters:
+    level: 10
+    checkUninitializedProperties: true
+    paths:
+        - src
+    excludePaths:
+        analyse:
+            - src/Proxy
