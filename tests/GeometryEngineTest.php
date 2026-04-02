@@ -65,7 +65,7 @@ class GeometryEngineTest extends AbstractTestCase
         if ($union->asText() === $result->asText()) {
             // GEOS does not consider POINT EMPTY to be equal to another POINT EMPTY;
             // a successful WKT comparison is a successful assertion for us here.
-            $this->addToAssertionCount(1);
+            $this->expectNotToPerformAssertions();
 
             return;
         }
@@ -1628,7 +1628,7 @@ class GeometryEngineTest extends AbstractTestCase
 
         if ($expectedWkt === $actualWkt) {
             // Some engines do not consider empty geometries to be equal, so we test for WKT equality first.
-            $this->addToAssertionCount(1);
+            $this->expectNotToPerformAssertions();
 
             return;
         }
