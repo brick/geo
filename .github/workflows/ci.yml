@@ -250,8 +250,23 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-version }}
-          extensions: geos
           coverage: pcov
+
+      # setup-php's "extensions: geos" compiles the 2016 php-geos 1.0.0 release with external patches,
+      # and silently skips the extension when the build fails; build a recent php-geos ourselves instead.
+      - name: Install GEOS extension
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libgeos-dev
+          curl -sSL "https://github.com/libgeos/php-geos/archive/$PHP_GEOS_COMMIT.tar.gz" | tar -xz
+          cd "php-geos-$PHP_GEOS_COMMIT"
+          phpize
+          ./configure
+          make -j"$(nproc)"
+          sudo make install
+          echo "extension=geos" | sudo tee "$(php-config --ini-dir)/20-geos.ini" > /dev/null
+        env:
+          PHP_GEOS_COMMIT: 889e2b1d9aa6f82995db4dab6891f48c3bacfb59
 
       - name: Install composer dependencies
         uses: ramsey/composer-install@v3
