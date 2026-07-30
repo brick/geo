@@ -473,7 +473,6 @@ You can use the `withRoundedCoordinates()` method for this:
 
 ```php
 use Brick\Geo\Point;
-use Brick\Geo\Projector\RoundCoordinatesProjector;
 
 $point = Point::xy(1.2345678, 2.3456789);
 echo $point->asText(); // POINT (1.2345678 2.3456789)
