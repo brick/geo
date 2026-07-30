@@ -796,6 +796,24 @@ class GeometryEngineTest extends AbstractTestCase
 
         $this->skipIfUnsupportedByEngine($geometry1, $geometry2, 'crosses');
 
+        /**
+         * A regression introduced by the interplay of MDEV-35765 and MDEV-36058 makes ST_Crosses() go through
+         * ST_Overlaps()'s same-dimension check, so it always returns false for geometries of different dimensions,
+         * while crosses is precisely defined for mixed dimensions.
+         *
+         * @see https://jira.mariadb.org/browse/MDEV-35765
+         * @see https://jira.mariadb.org/browse/MDEV-36058
+         */
+        $isMariadbWithBrokenMixedDimensionCrosses =
+            ($this->isMariadb('>= 10.11.17') && $this->isMariadb('< 10.12'))
+            || ($this->isMariadb('>= 11.4.11') && $this->isMariadb('< 11.5'))
+            || ($this->isMariadb('>= 11.8.7') && $this->isMariadb('< 11.9'))
+            || $this->isMariadb('>= 12.3.2');
+
+        if ($geometry1->dimension() !== $geometry2->dimension() && $isMariadbWithBrokenMixedDimensionCrosses) {
+            self::markTestSkipped('This MariaDB version returns wrong results for crosses() with geometries of different dimensions.');
+        }
+
         self::assertSame($crosses, $geometryEngine->crosses($geometry1, $geometry2));
     }
 
