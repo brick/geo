@@ -19,7 +19,8 @@
         "ext-sqlite3": "*",
         "brick/reflection": "~0.5.0",
         "phpunit/phpunit": "^10.0",
-        "phpstan/phpstan": "2.1.42"
+        "phpstan/phpstan": "2.1.42",
+        "composer/semver": "^3.4"
     },
     "autoload": {
         "psr-4": {

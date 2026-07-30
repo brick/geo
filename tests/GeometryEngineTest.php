@@ -22,21 +22,21 @@ use Brick\Geo\MultiSurface;
 use Brick\Geo\Point;
 use Brick\Geo\Polygon;
 use Brick\Geo\Surface;
+use Composer\Semver\Semver;
 use LogicException;
 use PDO;
 use PHPUnit\Framework\Attributes\DataProvider;
 
 use function array_diff;
 use function array_values;
+use function explode;
 use function implode;
 use function in_array;
 use function is_array;
 use function pi;
-use function preg_match;
 use function sprintf;
 use function strpos;
 use function substr;
-use function version_compare;
 
 /**
  * Tests for GeometryEngine implementations.
@@ -413,7 +413,7 @@ class GeometryEngineTest extends AbstractTestCase
     {
         $geometryEngine = $this->getGeometryEngine();
 
-        $this->failsOnMysql('< 5.7.6-m16');
+        $this->failsOnMysql('< 5.7.6');
         $this->failsOnMariadb('>= 10.0');
 
         $geometry = Geometry::fromText($geometry);
@@ -796,21 +796,15 @@ class GeometryEngineTest extends AbstractTestCase
 
         $this->skipIfUnsupportedByEngine($geometry1, $geometry2, 'crosses');
 
-        /**
-         * A regression introduced by the interplay of MDEV-35765 and MDEV-36058 makes ST_Crosses() go through
-         * ST_Overlaps()'s same-dimension check, so it always returns false for geometries of different dimensions,
-         * while crosses is precisely defined for mixed dimensions.
-         *
-         * @see https://jira.mariadb.org/browse/MDEV-35765
-         * @see https://jira.mariadb.org/browse/MDEV-36058
-         */
-        $isMariadbWithBrokenMixedDimensionCrosses =
-            ($this->isMariadb('>= 10.11.17') && $this->isMariadb('< 10.12'))
-            || ($this->isMariadb('>= 11.4.11') && $this->isMariadb('< 11.5'))
-            || ($this->isMariadb('>= 11.8.7') && $this->isMariadb('< 11.9'))
-            || $this->isMariadb('>= 12.3.2');
-
-        if ($geometry1->dimension() !== $geometry2->dimension() && $isMariadbWithBrokenMixedDimensionCrosses) {
+        if (
+            $geometry1->dimension() !== $geometry2->dimension()
+            && $this->isMariadb('>= 10.11.17 < 10.12 || >= 11.4.11 < 11.5 || >= 11.8.7 < 11.9 || >= 12.3.2')
+        ) {
+            // A regression introduced by the interplay of MDEV-35765 and MDEV-36058 makes ST_Crosses() go through
+            // ST_Overlaps()'s same-dimension check, so it always returns false for geometries of different
+            // dimensions, while crosses is precisely defined for mixed dimensions.
+            // @see https://jira.mariadb.org/browse/MDEV-35765
+            // @see https://jira.mariadb.org/browse/MDEV-36058
             self::markTestSkipped('This MariaDB version returns wrong results for crosses() with geometries of different dimensions.');
         }
 
@@ -1062,7 +1056,7 @@ class GeometryEngineTest extends AbstractTestCase
     {
         $geometryEngine = $this->getGeometryEngine();
 
-        $this->failsOnMysql('< 5.7.6-m16');
+        $this->failsOnMysql('< 5.7.6');
         $this->failsOnMariadb('< 10.1.2');
 
         $geometry = Geometry::fromText($geometry);
@@ -1208,7 +1202,7 @@ class GeometryEngineTest extends AbstractTestCase
     {
         $geometryEngine = $this->getGeometryEngine();
 
-        $this->failsOnMysql('< 5.7.6-m16');
+        $this->failsOnMysql('< 5.7.6');
         $this->failsOnMariadb('>= 10.0');
         $this->failsOnSpatialite('< 4.1.0');
         $this->failsOnGeosOp();
@@ -1443,49 +1437,49 @@ class GeometryEngineTest extends AbstractTestCase
         return $GLOBALS['GEOMETRY_ENGINE'];
     }
 
-    private function failsOnMysql(?string $operatorAndVersion = null): void
+    private function failsOnMysql(?string $versionConstraint = null): void
     {
-        if ($this->isMysql($operatorAndVersion)) {
+        if ($this->isMysql($versionConstraint)) {
             $this->expectException(GeometryEngineException::class);
         }
     }
 
-    private function failsOnMariadb(?string $operatorAndVersion = null): void
+    private function failsOnMariadb(?string $versionConstraint = null): void
     {
-        if ($this->isMariadb($operatorAndVersion)) {
+        if ($this->isMariadb($versionConstraint)) {
             $this->expectException(GeometryEngineException::class);
         }
     }
 
-    private function failsOnGeos(?string $operatorAndVersion = null): void
+    private function failsOnGeos(?string $versionConstraint = null): void
     {
-        if ($this->isGeos($operatorAndVersion)) {
+        if ($this->isGeos($versionConstraint)) {
             $this->expectException(GeometryEngineException::class);
         }
     }
 
-    private function failsOnGeosOp(?string $operatorAndVersion = null): void
+    private function failsOnGeosOp(?string $versionConstraint = null): void
     {
-        if ($this->isGeosOp($operatorAndVersion)) {
+        if ($this->isGeosOp($versionConstraint)) {
             $this->expectException(GeometryEngineException::class);
         }
     }
 
-    private function failsOnSpatialite(?string $operatorAndVersion = null): void
+    private function failsOnSpatialite(?string $versionConstraint = null): void
     {
-        if ($this->isSpatialite($operatorAndVersion)) {
+        if ($this->isSpatialite($versionConstraint)) {
             $this->expectException(GeometryEngineException::class);
         }
     }
 
-    private function isMysql(?string $operatorAndVersion = null): bool
+    private function isMysql(?string $versionConstraint = null): bool
     {
-        return $this->isMysqlOrMariadb(false, $operatorAndVersion);
+        return $this->isMysqlOrMariadb(false, $versionConstraint);
     }
 
-    private function isMariadb(?string $operatorAndVersion = null): bool
+    private function isMariadb(?string $versionConstraint = null): bool
     {
-        return $this->isMysqlOrMariadb(true, $operatorAndVersion);
+        return $this->isMysqlOrMariadb(true, $versionConstraint);
     }
 
     private function isPostgis(): bool
@@ -1493,29 +1487,29 @@ class GeometryEngineTest extends AbstractTestCase
         return $this->isPdoDriver('pgsql');
     }
 
-    private function isSpatialite(?string $operatorAndVersion = null): bool
+    private function isSpatialite(?string $versionConstraint = null): bool
     {
         $engine = $this->getGeometryEngine();
 
         if ($engine instanceof Sqlite3Engine) {
-            if ($operatorAndVersion === null) {
+            if ($versionConstraint === null) {
                 return true;
             }
 
             $version = $engine->getSQLite3()->querySingle('SELECT spatialite_version()');
 
-            return $this->isVersion($version, $operatorAndVersion);
+            return Semver::satisfies($version, $versionConstraint);
         }
 
         return false;
     }
 
-    private function isGeos(?string $operatorAndVersion = null): bool
+    private function isGeos(?string $versionConstraint = null): bool
     {
         $engine = $this->getGeometryEngine();
 
         if ($engine instanceof GeosEngine) {
-            if ($operatorAndVersion === null) {
+            if ($versionConstraint === null) {
                 return true;
             }
 
@@ -1526,24 +1520,24 @@ class GeometryEngineTest extends AbstractTestCase
                 $version = substr($version, 0, $dashPos);
             }
 
-            return $this->isVersion($version, $operatorAndVersion);
+            return Semver::satisfies($version, $versionConstraint);
         }
 
         return false;
     }
 
-    private function isGeosOp(?string $operatorAndVersion = null): bool
+    private function isGeosOp(?string $versionConstraint = null): bool
     {
         $engine = $this->getGeometryEngine();
 
         if ($engine instanceof GeosOpEngine) {
-            if ($operatorAndVersion === null) {
+            if ($versionConstraint === null) {
                 return true;
             }
 
             $version = $engine->getGeosOpVersion();
 
-            return $this->isVersion($version, $operatorAndVersion);
+            return Semver::satisfies($version, $versionConstraint);
         }
 
         return false;
@@ -1672,25 +1666,6 @@ class GeometryEngineTest extends AbstractTestCase
         self::assertTrue($geometryEngine->equals($actual, $expected), 'Failed asserting that two geometries are spatially equal.' . $debug);
     }
 
-    /**
-     * @param string $version            The version of the software in use, such as "4.0.1".
-     * @param string $operatorAndVersion The comparison operator and version to test against, such as ">= 4.0".
-     */
-    private function isVersion(string $version, string $operatorAndVersion): bool
-    {
-        if (preg_match('/^([\<\>]?\=?) ?(.*)/', $operatorAndVersion, $matches) !== 1) {
-            throw new LogicException("Invalid operator and version: $operatorAndVersion");
-        }
-
-        [, $operator, $testVersion] = $matches;
-
-        if ($operator === '') {
-            $operator = '=';
-        }
-
-        return version_compare($version, $testVersion, $operator);
-    }
-
     private function isPdoDriver(string $name): bool
     {
         $engine = $this->getGeometryEngine();
@@ -1705,10 +1680,10 @@ class GeometryEngineTest extends AbstractTestCase
     }
 
     /**
-     * @param bool        $testMariadb        False to check for MYSQL, true to check for MariaDB.
-     * @param string|null $operatorAndVersion An optional comparison operator and version number to test against.
+     * @param bool        $testMariadb       False to check for MYSQL, true to check for MariaDB.
+     * @param string|null $versionConstraint An optional version constraint to test against.
      */
-    private function isMysqlOrMariadb(bool $testMariadb, ?string $operatorAndVersion = null): bool
+    private function isMysqlOrMariadb(bool $testMariadb, ?string $versionConstraint = null): bool
     {
         $engine = $this->getGeometryEngine();
 
@@ -1719,22 +1694,21 @@ class GeometryEngineTest extends AbstractTestCase
                 $statement = $pdo->query('SELECT VERSION()');
                 $version = $statement->fetchColumn();
 
-                $pos = strpos($version, '-MariaDB');
-                $isMariadb = ($pos !== false);
+                $isMariadb = strpos($version, '-MariaDB') !== false;
 
-                if ($isMariadb) {
-                    $version = substr($version, 0, $pos);
-                }
+                // VERSION() may include a suffix such as "-MariaDB" or "-0ubuntu0.24.04.1",
+                // which is not a valid version string.
+                $version = explode('-', $version, 2)[0];
 
                 if ($testMariadb !== $isMariadb) {
                     return false;
                 }
 
-                if ($operatorAndVersion === null) {
+                if ($versionConstraint === null) {
                     return true;
                 }
 
-                return $this->isVersion($version, $operatorAndVersion);
+                return Semver::satisfies($version, $versionConstraint);
             }
         }
 
