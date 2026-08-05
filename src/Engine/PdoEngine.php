@@ -13,6 +13,7 @@ use PDOStatement;
 use function assert;
 use function is_bool;
 use function is_int;
+use function is_null;
 
 /**
  * Database engine based on a PDO driver.
@@ -31,11 +32,17 @@ final class PdoEngine extends DatabaseEngine
      */
     private array $statements = [];
 
-    public function __construct(PDO $pdo, bool $useProxy = true)
+    private readonly ?MysqlGeoAxisOrder $mysqlGeoAxisOrder;
+
+    /**
+     * @warning MysqlGeoAxisOrder is not supported by MariaDB
+     */
+    public function __construct(PDO $pdo, bool $useProxy = true, ?MysqlGeoAxisOrder $mysqlGeoAxisOrder = null)
     {
         parent::__construct($useProxy);
 
         $this->pdo = $pdo;
+        $this->mysqlGeoAxisOrder = $mysqlGeoAxisOrder;
     }
 
     public function getPDO(): PDO
@@ -93,7 +100,11 @@ final class PdoEngine extends DatabaseEngine
     protected function getGeomFromWkbSyntax(): string
     {
         if ($this->pdo->getAttribute(PDO::ATTR_DRIVER_NAME) === 'mysql') {
-            return 'ST_GeomFromWKB(BINARY ?, ?)';
+            if (is_null($this->mysqlGeoAxisOrder)) {
+                return 'ST_GeomFromWKB(BINARY ?, ?)';
+            }
+
+            return "ST_GeomFromWKB(BINARY ?, ?, 'axis-order={$this->mysqlGeoAxisOrder->value}')";
         }
 
         return parent::getGeomFromWkbSyntax();
