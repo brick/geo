@@ -13,6 +13,7 @@ use PDOStatement;
 use function assert;
 use function is_bool;
 use function is_int;
+use function is_null;
 
 /**
  * Database engine based on a PDO driver.
